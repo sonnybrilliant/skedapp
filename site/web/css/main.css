@@ -1,0 +1,11 @@
+body {
+    background-color: #ffffff;
+}
+
+.box_shadow_effect{
+    -moz-box-shadow: 0 0 5px #888;
+    -webkit-box-shadow: 0 0 5px#888;
+    box-shadow: 0 0 5px #888;
+    padding: 5px;
+}
+

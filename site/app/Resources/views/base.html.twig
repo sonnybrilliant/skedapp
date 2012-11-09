@@ -2,12 +2,68 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Welcome Zeus billing{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">        
+        <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/bootstrap-responsive.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/main.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
     </head>
     <body>
+        {% block header %} 
+            <div class="container">
+                <div class="span6">
+                    <div class="page-header">
+                        <h1>Sked App <small>locate services around you.</small></h1>
+                    </div>
+                </div>
+                <div class="span5 pull-right">
+                    <br />
+                    <ul class="nav nav-pills pull-right">
+                        <li class="active"><a href="{{ path('_security_login') }}">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endblock %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+        {% block footer %}
+            <!-- start of footer container -->
+            <div class="container">
+                <hr />    
+                <div class="span12">
+                    <footer>
+                        <p>© 2012 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+                    </footer>
+                </div>
+            </div>
+            <!-- end of footer container -->
+        {% endblock %}
+
+
+            <!-- Le javascript
+                    ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="{{ asset('/js/jquery.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-transition.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-alert.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-modal.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-dropdown.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-scrollspy.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-tab.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-tooltip.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-popover.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-button.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-collapse.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-carousel.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-typeahead.js') }}"></script>  
+            {% block javascripts %}{% endblock %}
+        </body>
+    </html>
