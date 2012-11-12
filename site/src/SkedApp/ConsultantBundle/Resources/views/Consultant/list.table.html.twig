@@ -1,0 +1,31 @@
+<table id="sortable" class="table table-striped table-condensed tablesorter">
+        <thead>
+          <tr>
+            <th>{{ pagination.sortable('#', 'c.id')|raw }}</th>
+            <th>{{ pagination.sortable('First Name', 'c.firstName')|raw }}</th>
+            <th>{{ pagination.sortable('Last Name', 'c.lastName')|raw }}</th>
+            <th>{{ pagination.sortable('Company', 'c.compnay')|raw }}</th>
+            <th>{{ pagination.sortable('Is Active', 'c.isActive')|raw }}</th>
+            <th>{{ pagination.sortable('Created At', 'c.createdAt')|raw }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for consultant in pagination %}
+          <tr>
+            <td>{{consultant.id}}</td>
+            <td>{{consultant.firstName}}</td>
+            <td>{{consultant.lastName}}</td>
+            <td>{{consultant.company.name}}</td>
+            <td>{{consultant.isActive}}</td>
+            <td>{{consultant.createdAt|date('M jS Y')}}</td>
+            <td><a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;<a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i></a> &nbsp;<a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to delete"><i class="icon-trash"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+ </table>
+<div class="navigation">
+    {{ pagination.render()|raw }}
+</div>
+
+

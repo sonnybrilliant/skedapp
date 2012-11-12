@@ -24,6 +24,11 @@ class LoadCompany extends AbstractFixture implements OrderedFixtureInterface
         $company->setName('Skedapp');
         $company->setDescription('this is a description');
         $manager->persist($company) ;
+        
+        $company_hair = new Company() ;
+        $company_hair->setName("Sonny's hair Palace");
+        $company_hair->setDescription('this is a description');
+        $manager->persist($company_hair) ;
 
         $manager->flush() ;
 

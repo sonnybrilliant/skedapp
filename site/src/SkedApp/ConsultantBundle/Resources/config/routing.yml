@@ -1,0 +1,35 @@
+sked_app_consultant_list:
+    pattern:  /consultant/list
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:list }
+
+sked_app_consultant_new:
+    pattern:  /consultant/new
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:new }
+
+sked_app_consultant_create:
+    pattern:  /consultant/create
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:create }
+
+sked_app_consultant_edit:
+    pattern:  /consultant/edit/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:edit }
+    requirements:
+        id:  \d+
+
+sked_app_consultant_update:
+    pattern:  /consultant/update/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:update }
+    requirements:
+        id:  \d+
+        
+sked_app_consultant_show:
+    pattern:  /consultant/show/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:show }
+    requirements:
+        id:  \d+    
+        
+sked_app_consultant_delete:
+    pattern:  /consultant/delete/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:delete }
+    requirements:
+        id:  \d+           

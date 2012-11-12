@@ -1,0 +1,24 @@
+
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}List consultants{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% block menu %}
+        <div class="span3 bs-docs-sidenav">
+           {% include "::menu.html.twig" %} 
+            </div>       
+    {% endblock menu %}    
+    {% block content %}
+            <div class="span7">
+                <h4>Manage consultants</h4>
+                <br />
+                <a href="{{ path('sked_app_consultant_new') }}" class="pull-right">Add Consultant</a>
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+            {% include "SkedAppConsultantBundle:Consultant:list.table.html.twig" %}
+            </div>  
+    {% endblock content %}   
+        </div>
+{% endblock body %}

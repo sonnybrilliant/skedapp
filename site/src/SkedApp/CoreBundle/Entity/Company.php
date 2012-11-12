@@ -49,6 +49,11 @@ class Company
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Member", mappedBy="company")
      */
     protected $members;    
+    
+    /**
+     * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Consultant", mappedBy="company")
+     */
+    protected $consultants;        
 
     /**
      * @var boolean $isActive
@@ -253,5 +258,38 @@ class Company
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Add consultants
+     *
+     * @param \SkedApp\CoreBundle\Entity\Consultant $consultants
+     * @return Company
+     */
+    public function addConsultant(\SkedApp\CoreBundle\Entity\Consultant $consultants)
+    {
+        $this->consultants[] = $consultants;
+    
+        return $this;
+    }
+
+    /**
+     * Remove consultants
+     *
+     * @param \SkedApp\CoreBundle\Entity\Consultant $consultants
+     */
+    public function removeConsultant(\SkedApp\CoreBundle\Entity\Consultant $consultants)
+    {
+        $this->consultants->removeElement($consultants);
+    }
+
+    /**
+     * Get consultants
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConsultants()
+    {
+        return $this->consultants;
     }
 }
