@@ -117,19 +117,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal",
-                "reference": "97801a74ba646d069c6674439ed74e75b34e80ca"
+                "reference": "292d5edd17e0a9b9a7ee9eb20d6ae1033059153f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/dbal/archive/97801a74ba646d069c6674439ed74e75b34e80ca.zip",
-                "reference": "97801a74ba646d069c6674439ed74e75b34e80ca",
+                "url": "https://github.com/doctrine/dbal/archive/292d5edd17e0a9b9a7ee9eb20d6ae1033059153f.zip",
+                "reference": "292d5edd17e0a9b9a7ee9eb20d6ae1033059153f",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "doctrine/common": "2.3.*"
             },
-            "time": "1352496774",
+            "time": "1352716871",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -302,12 +302,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "c6eb04de145b986d968be1ddb0e0a43cd8110b8e"
+                "reference": "d0698754b2c5ddc5e453a0b8fcdedd1ca92f9513"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/archive/c6eb04de145b986d968be1ddb0e0a43cd8110b8e.zip",
-                "reference": "c6eb04de145b986d968be1ddb0e0a43cd8110b8e",
+                "url": "https://github.com/doctrine/doctrine2/archive/d0698754b2c5ddc5e453a0b8fcdedd1ca92f9513.zip",
+                "reference": "d0698754b2c5ddc5e453a0b8fcdedd1ca92f9513",
                 "shasum": ""
             },
             "require": {
@@ -319,7 +319,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "1352495804",
+            "time": "1352719977",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -424,6 +424,53 @@
                 "nestedset",
                 "sortable",
                 "timestampable"
+            ]
+        },
+        {
+            "name": "jdorn/sql-formatter",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/jdorn/sql-formatter.git",
+                "reference": "v1.0.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/jdorn/sql-formatter/archive/v1.0.1.zip",
+                "reference": "v1.0.1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "time": "2012-10-04 22:10:16",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "lib"
+                ]
+            },
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Dorn",
+                    "email": "jeremy@jeremydorn.com",
+                    "homepage": "http://jeremydorn.com/"
+                }
+            ],
+            "description": "a PHP SQL highlighting library",
+            "homepage": "https://github.com/jdorn/sql-formatter/",
+            "keywords": [
+                "sql",
+                "highlight"
             ]
         },
         {
@@ -1484,12 +1531,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "d9b291b87878969dc64aca1c434e804f4f8dc9ff"
+                "reference": "d55d3b823d9256bb1649ae3ef8025f2424faa3ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/archive/d9b291b87878969dc64aca1c434e804f4f8dc9ff.zip",
-                "reference": "d9b291b87878969dc64aca1c434e804f4f8dc9ff",
+                "url": "https://github.com/symfony/symfony/archive/d55d3b823d9256bb1649ae3ef8025f2424faa3ae.zip",
+                "reference": "d55d3b823d9256bb1649ae3ef8025f2424faa3ae",
                 "shasum": ""
             },
             "require": {
@@ -1538,7 +1585,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "1.*"
             },
-            "time": "1352572826",
+            "time": "1352713810",
             "type": "library",
             "extra": {
                 "branch-alias": {
