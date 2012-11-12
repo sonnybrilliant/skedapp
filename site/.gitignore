@@ -7,3 +7,4 @@
 /app/config/parameters.yml
 /app/config/parameters.yml~
 /nbproject/
+composer.lock
