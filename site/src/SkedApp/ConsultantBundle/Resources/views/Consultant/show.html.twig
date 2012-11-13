@@ -1,0 +1,51 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}View consultant details{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% block menu %}
+        <div class="span3 bs-docs-sidenav">
+           {% include "::menu.html.twig" %} 
+            </div>       
+    {% endblock menu %}    
+    {% block content %}
+            <div class="span7">
+                <h4>Consultant profile</h4>                
+                <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+                <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Bookings</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="row">
+                                <div class="span2"><img src="http://lorempixel.com/g/150/120/people/" alt="profile picture" class="img-polaroid"></div>
+                                <div class="span4">
+                                    <p><strong>Fullname</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
+                                    <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
+                                    <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
+                                    <p>
+                                        <strong>Services</strong>: 
+                                        {% for service in consultant.consultantServices %}
+                                          <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>                                         
+                                        {% else %}
+                                         No listed services found.
+                                        {% endfor %}
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <p>Howdy, I'm in Section 2.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+    {% endblock content %}   
+        </div>
+{% endblock body %}

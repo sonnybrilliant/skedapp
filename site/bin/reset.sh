@@ -12,14 +12,14 @@ echo "Clearing cache on app/cache app/logs /app/spool "
 echo "==========================================="
 sudo rm -Rf app/cache/* app/logs/* 
 
-sudo ./app/console doctrine:database:drop --force
-sudo ./app/console doctrine:database:create
-sudo ./app/console doctrine:schema:update --force
-sudo ./app/console doctrine:fixtures:load
+sudo php app/console doctrine:database:drop --force
+sudo php app/console doctrine:database:create
+sudo php app/console doctrine:schema:update --force
+sudo php app/console doctrine:fixtures:load
 
 echo "Perfoming Cache warmup"
 echo "==========================================="
-sudo ./app/console cache:warmup
+sudo php app/console cache:warmup
 
 echo "Setting Permissions on app/cache app/logs /app/spool"
 echo "==========================================="

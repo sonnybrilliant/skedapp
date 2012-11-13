@@ -1,0 +1,23 @@
+sked_app_api_get_categories:
+    pattern:  /api/get/categories
+    defaults: { _controller: SkedAppApiBundle:Api:getCategories}
+
+sked_app_api_get_services:
+    pattern:  /api/get/services/{id}
+    defaults: { _controller: SkedAppApiBundle:Api:getServices , id: 1}
+    requirements:
+       id: \d+
+       
+sked_app_api_get_consultant:
+    pattern:  /api/get/consultant/{id}
+    defaults: { _controller: SkedAppApiBundle:Api:getConsultant , id: 1}
+    requirements:
+       serviceId: \d+       
+       
+sked_app_api_get_consultants:
+    pattern:  /api/get/consultants/{serviceId}
+    defaults: { _controller: SkedAppApiBundle:Api:getConsultants , serviceId: 1}
+    requirements:
+       serviceId: \d+
+       
+       

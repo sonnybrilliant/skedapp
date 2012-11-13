@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),            
             new SkedApp\CoreBundle\SkedAppCoreBundle(),
             new SkedApp\ConsultantBundle\SkedAppConsultantBundle(),
+            new SkedApp\ApiBundle\SkedAppApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

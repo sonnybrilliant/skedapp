@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class consultantRepository extends EntityRepository
 {
+    public function getByService($serviceId)
+    {
+        $qb = $this->createQueryBuilder('c')
+        ->innerJoin('c.consultantServices', 's')    
+        ->where('s.id = :serviceId')
+        ->setParameter('serviceId' , $serviceId ) ;
+        
+        return $qb->getQuery()->execute();
+  
+    }
 }

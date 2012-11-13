@@ -108,7 +108,22 @@ class ConsultantController extends Controller
      */
     public function showAction($id)
     {
-        
+        $this->get('logger')->info('view consultant');
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('logger')->warn('view consultant, access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+
+        if (!$consultant) {
+            $this->get('logger')->warn("consultant not found $id");
+            return $this->createNotFoundException();
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:show.html.twig', array('consultant' => $consultant));
     }
 
     /**
@@ -132,7 +147,7 @@ class ConsultantController extends Controller
     {
         
     }
-    
+
     /**
      * Delete consultant
      * 
@@ -142,7 +157,7 @@ class ConsultantController extends Controller
     public function deleteAction($id)
     {
         
-    }    
+    }
 
 }
 
