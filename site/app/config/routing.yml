@@ -1,3 +1,11 @@
+sked_app_company:
+    resource: "@SkedAppCompanyBundle/Resources/config/routing.yml"
+    prefix:   /
+
+sked_app_booking:
+    resource: "@SkedAppBookingBundle/Resources/config/routing.yml"
+    prefix:   /
+
 sked_app_api:
     resource: "@SkedAppApiBundle/Resources/config/routing.yml"
     prefix:   /

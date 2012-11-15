@@ -1,0 +1,35 @@
+sked_app_company_list:
+    pattern:  /company/list
+    defaults: { _controller: SkedAppCompanyBundle:Company:list }
+
+sked_app_company_new:
+    pattern:  /company/new
+    defaults: { _controller: SkedAppCompanyBundle:Company:new }
+
+sked_app_company_create:
+    pattern:  /company/create
+    defaults: { _controller: SkedAppCompanyBundle:Company:create }
+
+sked_app_company_edit:
+    pattern:  /company/edit/{id}
+    defaults: { _controller: SkedAppCompanyBundle:Company:edit }
+    requirements:
+        id:  \d+
+
+sked_app_company_update:
+    pattern:  /company/update/{id}
+    defaults: { _controller: SkedAppCompanyBundle:Company:update }
+    requirements:
+        id:  \d+
+        
+sked_app_company_show:
+    pattern:  /company/show/{id}
+    defaults: { _controller: SkedAppCompanyBundle:Company:show }
+    requirements:
+        id:  \d+    
+        
+sked_app_company_delete:
+    pattern:  /company/delete/{id}
+    defaults: { _controller: SkedAppCompanyBundle:Company:delete }
+    requirements:
+        id:  \d+      
