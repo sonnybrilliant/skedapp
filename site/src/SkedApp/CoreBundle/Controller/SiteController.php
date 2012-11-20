@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller ;
 /**
  * Site manager 
  * 
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Ronald Conco <ronald.conco@kaizania.co.za>
  * @package SkedAppCoreBundle
  * @subpackage Controller
  * @version 0.0.1

@@ -18,9 +18,9 @@
         </div>
         {% endif %}
         
-        <form class="form-horizontal" action="/app_dev.php/login_check" method="POST">
+        <form class="form-horizontal" action="{{ path('_security_check') }}" method="POST">
             <legend><span class="label label-info">Info</span> <small>All form fields are required.</small></legend>
-            <input type="hidden" name="_csrf_token" value="95e7b3983ef63219f2f4a855692f46ebe7307dfc" />
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <fieldset>
                 <div class="control-group">
                     <label class="control-label" for="username">Email address</label>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" name="submit" class="btn btn-primary" data-toggle="button">Login &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="/app_dev.php/" class="btn">Cancel</a>
+                    <a href="{{ path('_welcome')}}" class="btn">Cancel</a>
                 </div>
             </fieldset>
         </form>

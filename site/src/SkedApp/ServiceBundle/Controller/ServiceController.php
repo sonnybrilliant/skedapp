@@ -201,9 +201,12 @@ class ServiceController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $service = $em->getRepository('SkedAppCoreBundle:Service')->find($id);
 
+
         $service->setIsDeleted(true);
         $em->persist($service);
         $em->flush();
+
+
         $this->getRequest()->getSession()->setFlash(
             'success', 'Service was sucessfully deleted');
         return $this->redirect($this->generateUrl('sked_app_service_list'));
