@@ -244,8 +244,34 @@ class ServiceControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
 
 
+         //go to list view page
+        $crawler = $client->request('GET', '/service/new');
+
+        //we are at the list view page
+        $this->assertEquals(1, $crawler->filter('title:contains("Add a new service")')->count());
+
+        // select the add new service form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form with valid credentials
+        $crawler = $client->submit(
+            $form, array(
+            'Service[name]' => 'functional for deleting',
+            'Service[description]' => 'this is a description',
+            'Service[category]' => '1',
+            'Service[appointmentDuration]' => '1',
+            )
+        );
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //we are at the list view page
+        $this->assertEquals(1, $crawler->filter('title:contains("List services")')->count());
+        
         //delete service
-        $crawler = $client->request('GET', '/service/delete/12');
+        $crawler = $client->request('GET', '/service/delete/11');
         
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
