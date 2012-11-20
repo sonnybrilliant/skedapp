@@ -1,5 +1,5 @@
-{% extends "SkedAppCompanyBundle::layout.html.twig" %}
-{% block title %}List companies{% endblock %}
+{% extends "SkedAppServiceBundle::layout.html.twig" %}
+{% block title %}List services{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -10,13 +10,12 @@
     {% endblock menu %}    
     {% block content %}
             <div class="span7">
-                <h4>Manage companies</h4>
+                <h4>Manage services</h4>
                 <br />
-                <a href="{{ path('sked_app_company_new') }}" class="pull-right">Add Company</a>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %}
+            {% include "SkedAppServiceBundle:Service:list.table.html.twig" %}
             </div>  
     {% endblock content %}   
         </div>

@@ -21,18 +21,24 @@ class LoadCategory extends AbstractFixture implements OrderedFixtureInterface
 
     public function load( ObjectManager $manager )
     {
-        $category1 = new Category('Beauty');
+        $category1 = new Category('Hair');
         $manager->persist($category1) ;
 
-        $category2 = new Category('Law');
+        $category2 = new Category('Beauty');
         $manager->persist($category2) ;
 
-        $category3 = new Category('Dentistry');
+        $category3 = new Category('Health');
         $manager->persist($category3) ;
+
+        $category4 = new Category('Law');
+        $manager->persist($category4) ;
 
         $manager->flush() ;
 
-         $this->addReference('category-beauty' , $category1) ;
+         $this->addReference('category-hair' , $category1) ;
+         $this->addReference('category-beauty' , $category2) ;
+         $this->addReference('category-health' , $category3) ;
+         $this->addReference('category-law' , $category4) ;
 
     }
 

@@ -6,9 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller ;
 use Symfony\Component\Security\Core\SecurityContext ;
 use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 
+/**
+ * Sercurity manager 
+ * 
+ * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @package SkedAppCoreBundle
+ * @subpackage Controller
+ * @version 0.0.1
+ */
 class SecurityController extends Controller
 {
 
+    /**
+     * login action
+     * 
+     * @return Reponse
+     */    
     public function loginAction()
     {
         $error = null;

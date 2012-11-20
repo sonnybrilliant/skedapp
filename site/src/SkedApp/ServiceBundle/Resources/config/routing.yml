@@ -1,0 +1,35 @@
+sked_app_service_list:
+    pattern:  /service/list
+    defaults: { _controller: SkedAppServiceBundle:Service:list }
+
+sked_app_service_new:
+    pattern:  /service/new
+    defaults: { _controller: SkedAppServiceBundle:Service:new }
+
+sked_app_service_create:
+    pattern:  /service/create
+    defaults: { _controller: SkedAppServiceBundle:Service:create }
+
+sked_app_service_edit:
+    pattern:  /service/edit/{id}
+    defaults: { _controller: SkedAppServiceBundle:Service:edit }
+    requirements:
+        id:  \d+
+
+sked_app_service_update:
+    pattern:  /service/update/{id}
+    defaults: { _controller: SkedAppServiceBundle:Service:update }
+    requirements:
+        id:  \d+
+        
+sked_app_service_show:
+    pattern:  /service/show/{id}
+    defaults: { _controller: SkedAppServiceBundle:Service:show }
+    requirements:
+        id:  \d+    
+        
+sked_app_service_delete:
+    pattern:  /service/delete/{id}
+    defaults: { _controller: SkedAppServiceBundle:Service:delete }
+    requirements:
+        id:  \d+   

@@ -12,4 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class ServiceRepository extends EntityRepository
 {
+
+    /**
+     * Get all active services query
+     * 
+     * @author Ronald Conco <ronald.conco@kaizania.com>
+     * @return Resultset
+     */
+    public function getAllActiveServiceQuery($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 's.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+        
+        $objQueuryBuilder = $this->createQueryBuilder('s')->select('s');
+        $objQueuryBuilder->where('s.isDeleted =  :status')->setParameter('status', false);
+        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
+        return $objQueuryBuilder->getQuery()->execute();
+    }
+
 }
