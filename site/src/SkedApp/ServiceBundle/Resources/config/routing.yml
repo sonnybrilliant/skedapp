@@ -22,12 +22,6 @@ sked_app_service_update:
     requirements:
         id:  \d+
         
-sked_app_service_show:
-    pattern:  /service/show/{id}
-    defaults: { _controller: SkedAppServiceBundle:Service:show }
-    requirements:
-        id:  \d+    
-        
 sked_app_service_delete:
     pattern:  /service/delete/{id}
     defaults: { _controller: SkedAppServiceBundle:Service:delete }
