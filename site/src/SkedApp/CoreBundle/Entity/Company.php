@@ -1,7 +1,6 @@
 <?php
 namespace SkedApp\CoreBundle\Entity ;
 
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
