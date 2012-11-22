@@ -1,25 +1,26 @@
 <?php
 
-namespace SkedApp\CategoryBundle\Tests\Controller;
+namespace SkedApp\ConsultantBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Category controller test 
+ * Consultant controller test 
  * 
  * @author Ronald Conco <ronald.conco@kaizania.co.za>
- * @package SkedAppCategoryBundle
+ * @package SkedAppServiceBundle
  * @subpackage Tests/Controller
  * @version 0.0.1
  */
-class CategoryControllerTest extends WebTestCase
+class ConsultantControllerTest extends WebTestCase
 {
 
     /**
-     *  List view
+     * Show list view
      */
     public function testList()
     {
+
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -54,25 +55,23 @@ class CategoryControllerTest extends WebTestCase
 
 
         //go to list view page
-        $crawler = $client->request('GET', '/category/list');
+        $crawler = $client->request('GET', '/consultant/list');
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List categories")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("List consultants")')->count());
 
 
-        //test edit screen
-        $crawler = $client->request('GET', '/category/edit/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
     /**
-     *  Create category
+     * Create new consultant
      */
     public function testCreate()
     {
+
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -107,46 +106,21 @@ class CategoryControllerTest extends WebTestCase
 
 
         //go to list view page
-        $crawler = $client->request('GET', '/category/new');
+        $crawler = $client->request('GET', '/consultant/new');
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("Add a new category")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Add a new consultant")')->count());
 
-        // select the add new service form
-//        $form = $crawler->selectButton('submit')->form();
-//
-//        $photo = array(
-//            'tmp_name' => __DIR__.'/../../../../../web/test/test_upload.jpg',
-//            'name' => 'test_upload.jpg',
-//            'type' => 'image/jpeg',
-//            'size' => 31861,
-//            'error' => UPLOAD_ERR_OK
-//        );
-//
-//       
-//        
-//        // submit the form with valid credentials
-//        $crawler = $client->submit(
-//            $form, array(
-//            'Category[name]' => 'functional test',
-//            'Category[description]' => 'this is a description',
-//            'Category[picture]' => $photo,
-//            )
-//        );
-//
-//        // response should be success
-//        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-//        $this->assertTrue($client->getResponse()->isSuccessful());
-//
-//        //we are at the list view page
-//        $this->assertEquals(1, $crawler->filter('title:contains("List categories")')->count());
+        //TODO
+        //Investigating uploading a picture via functional test
     }
 
     /**
-     *  Edit category
+     * Update consultant
      */
-    public function testEdit()
+    public function testUpdate()
     {
+
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -180,22 +154,27 @@ class CategoryControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
 
 
-        //go to list view page
-        $crawler = $client->request('GET', '/category/edit/1');
+        //Edit service
+        $crawler = $client->request('GET', '/consultant/edit/1');
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("Edit category")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Edit consultant")')->count());
 
         // select the add new service form
         $form = $crawler->selectButton('submit')->form();
 
-
-
-        // submit the form with valid credentials
+                // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            'Category[name]' => 'functional test',
-            'Category[description]' => 'this is a description',
+            'Consultant[company]' => 1,
+            'Consultant[firstName]' => 'consultant first name',
+            'Consultant[lastName]' => 'consultant last name',
+            'Consultant[gender]' => '1',
+            'Consultant[professionalStatement]' => '<p>Hello world, fucntional testing</p>',
+            'Consultant[speciality]' => '<p>Hello world, fucntional testing</p>',
+            'Consultant[category]' => 1,
+            //'Consultant[consultantServices][]' => array(4,5)
+            
             )
         );
 
@@ -204,14 +183,15 @@ class CategoryControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List categories")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("List consultants")')->count());
     }
 
     /**
-     *  Delete category
+     * Delete service
      */
     public function testDelete()
     {
+
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -245,15 +225,15 @@ class CategoryControllerTest extends WebTestCase
         $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
 
 
-        //go to list view page
-        $crawler = $client->request('GET', '/category/delete/1');
-
+        //delete service
+        $crawler = $client->request('GET', '/consultant/delete/1');
+        
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List categories")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("List consultants")')->count());
     }
 
 }

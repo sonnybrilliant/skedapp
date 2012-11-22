@@ -1,6 +1,6 @@
-<form class="form-horizontal" action="{{ path('sked_app_consultant_create') }}" method="POST" {{ form_enctype(form) }}>
+<form class="form-horizontal" action="{{ path('sked_app_consultant_update',{id:id}) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <legend><span class="label label-info">Info</span> <small>Personal details.</small></legend>
+      <legend><span class="label label-info">Info</span> <small>Edit consultant details.</small></legend>
       <div class="control-group {% if form_errors(form.company) %} error {% endif %}">
         <label class="control-label" for="company">{{ form_label(form.company) }}</label>
         <div class="controls">
@@ -27,13 +27,6 @@
         <div class="controls">
           {{ form_widget(form.gender) }} 
           <span class="help-inline">{{form_errors(form.gender)}}</span>  
-        </div>
-      </div>
-      <div class="control-group {% if form_errors(form.picture) %} error {% endif %}">
-        <label class="control-label" for="picture">{{ form_label(form.picture) }}</label>
-        <div class="controls">
-          {{ form_widget(form.picture) }} 
-          <span class="help-inline">{{form_errors(form.picture)}}</span>  
         </div>
       </div>
       <div class="control-group {% if form_errors(form.professionalStatement) %} error {% endif %}">
@@ -65,7 +58,7 @@
         </div>
       </div> 
       <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-primary" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+          <button type="submit" name="submit" class="btn btn-primary" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_consultant_list') }}" class="btn">Cancel</a>
       </div> 
       {{ form_rest(form) }} 

@@ -32,4 +32,10 @@ sked_app_consultant_delete:
     pattern:  /consultant/delete/{id}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:delete }
     requirements:
-        id:  \d+           
+        id:  \d+    
+        
+sked_app_consultant_ajax_get_by_category:
+    pattern:  /consultant/ajaxGetByCategory/{categoryId}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
+    requirements:
+        id:  \d+          

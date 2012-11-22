@@ -1,20 +1,19 @@
 <?php
 
-namespace SkedApp\ServiceBundle\Services;
+namespace SkedApp\ConsultantBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
-use SkedApp\CoreBundle\Entity\Service;
 
 /**
- * Service manager 
+ * Consultant manager 
  * 
  * @author Ronald Conco <ronald.conco@kaizania.com>
  * @package SkedAppServiceBundle
- * @subpackage Services
+ * @subpackage Consultant
  * @version 0.0.1
  */
-final class ServiceManager
+final class ConsultantManager
 {
 
     /**
@@ -83,21 +82,40 @@ final class ServiceManager
     }
 
     /**
-     * Create and update service
+     * update consultant
      * 
-     * @param type $service
+     * @param type $consultant
      * @return void
      */
-    public function createAndUpdateService($service)
+    public function update($consultant)
     {
-        $this->logger->info('Save service');
-        $this->em->persist($service);
+        $this->logger->info('Save consultant');
+        $this->em->persist($consultant);
         $this->em->flush();
         return;
     }
 
     /**
-     * Get all services query
+     * update consultant
+     * 
+     * @param type $consultant
+     * @return void
+     */
+    public function delete($consultant)
+    {
+        $this->logger->info('delete consultant');
+
+        $consultant->setIsDeleted(true);
+        $consultant->setIsActive(false);
+        $consultant->setIsLocked(true);
+
+        $this->em->persist($consultant);
+        $this->em->flush();
+        return;
+    }
+
+    /**
+     * Get all consultants query
      * 
      * @param array $options
      * @return query
@@ -105,34 +123,8 @@ final class ServiceManager
     public function listAll($options = array())
     {
         return $this->em
-                ->getRepository('SkedAppCoreBundle:Service')
-                ->getAllActiveServiceQuery($options);
-    }
-
-    /**
-     * get services by category
-     * 
-     * @param type $category
-     * @return type
-     */
-    public function getServicesByCategory($category)
-    {
-        return $this->em
-                ->getRepository('SkedAppCoreBundle:Service')
-                ->getServicesByCategory($category);
-    }    
-    
-    /**
-     * Delete services by category
-     * 
-     * @param type $category
-     * @return type
-     */
-    public function deleteServicesByCategory($category)
-    {
-        return $this->em
-                ->getRepository('SkedAppCoreBundle:Service')
-                ->deleteServicesByCategory($category);
+                ->getRepository('SkedAppCoreBundle:Consultant')
+                ->getAllActiveConsultantsQuery($options);
     }
 
 }

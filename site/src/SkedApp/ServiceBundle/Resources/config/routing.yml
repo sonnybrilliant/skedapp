@@ -27,3 +27,5 @@ sked_app_service_delete:
     defaults: { _controller: SkedAppServiceBundle:Service:delete }
     requirements:
         id:  \d+   
+
+

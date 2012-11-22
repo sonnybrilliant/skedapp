@@ -9,14 +9,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 
 /**
- * SkedApp\ConsultantBundle\Form\ConsultantCreateType
+ * SkedApp\ConsultantBundle\Form\ConsultantUpdateType
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppConsultantBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class ConsultantCreateType extends AbstractType
+class ConsultantUpdateType extends AbstractType
 {
 
     /**
@@ -70,11 +70,6 @@ class ConsultantCreateType extends AbstractType
                 'label' => 'Professional Statement:',
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
-            ->add('picture', 'file', array(
-                'label' => 'Profile picture:',
-                'attr' => array('class' => 'span4')
-            ))
-
 
         ;
     }

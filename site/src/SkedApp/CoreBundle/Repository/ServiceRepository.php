@@ -46,10 +46,25 @@ class ServiceRepository extends EntityRepository
      */
     public function deleteServicesByCategory($category)
     {
-        $objQueuryBuilder = $this->createQueryBuilder('s')->update('SkedAppCoreBundle:Service','s');
-        $objQueuryBuilder->set('s.isDeleted',true)
-                         ->where('s.category =  :category')    
-                         ->setParameter('category',$category);
+        $objQueuryBuilder = $this->createQueryBuilder('s')->update('SkedAppCoreBundle:Service', 's');
+        $objQueuryBuilder->set('s.isDeleted', true)
+            ->where('s.category =  :category')
+            ->setParameter('category', $category);
+        return $objQueuryBuilder->getQuery()->execute();
+    }
+
+    /**
+     * Delete services by category
+     * 
+     * @author Ronald Conco <ronald.conco@kaizania.com>
+     * @return Resultset
+     */
+    public function getServicesByCategory($category)
+    {
+        $objQueuryBuilder = $this->createQueryBuilder('s')->select('s');
+        $objQueuryBuilder->where('s.isDeleted = :status')
+            ->andWhere('s.category =  :category')
+            ->setParameters(array('category' => $category,'status'=>false));
         return $objQueuryBuilder->getQuery()->execute();
     }
 

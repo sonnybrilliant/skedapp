@@ -12,14 +12,47 @@ use Doctrine\ORM\EntityRepository;
  */
 class consultantRepository extends EntityRepository
 {
+
+    /**
+     * Get all active consultants query
+     * 
+     * @author Ronald Conco <ronald.conco@kaizania.com>
+     * @return Resultset
+     */
+    public function  getAllActiveConsultantsQuery($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'c.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
+        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
+        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
+        return $objQueuryBuilder->getQuery()->execute();
+    }
+    
+    /**
+     * Get consultant by service
+     * 
+     * @param integer $serviceId
+     * @return type
+     */
     public function getByService($serviceId)
     {
         $qb = $this->createQueryBuilder('c')
-        ->innerJoin('c.consultantServices', 's')    
-        ->where('s.id = :serviceId')
-        ->setParameter('serviceId' , $serviceId ) ;
-        
+            ->innerJoin('c.consultantServices', 's')
+            ->where('s.id = :serviceId')
+            ->setParameter('serviceId', $serviceId);
+
         return $qb->getQuery()->execute();
-  
     }
+
+   
 }
