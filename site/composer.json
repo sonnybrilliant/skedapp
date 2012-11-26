@@ -22,7 +22,8 @@
         "stof/doctrine-extensions-bundle": "dev-master",
         "raulfraile/ladybug-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
-        "stfalcon/tinymce-bundle": "dev-master"
+        "stfalcon/tinymce-bundle": "dev-master",
+        "genemu/form-bundle": "2.1.*"
     },
     "scripts": {
         "post-install-cmd": [

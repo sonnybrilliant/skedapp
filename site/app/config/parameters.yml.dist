@@ -11,5 +11,8 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    recaptcha_public_key:
+    recaptcha_private_key:
+
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt

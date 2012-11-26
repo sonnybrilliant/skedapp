@@ -69,6 +69,12 @@ knp_paginator:
         pagination: SkedAppCoreBundle::sliding.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
 
+genemu_form:
+    recaptcha:
+        enabled: true
+        public_key:  %recaptcha_public_key%
+        private_key: %recaptcha_private_key%
+
 stfalcon_tinymce:
     include_jquery: true
     tinymce_jquery: true
@@ -123,5 +129,4 @@ stfalcon_tinymce:
             remove_linebreaks: false
             inline_styles: false
             convert_fonts_to_spans: false
- 
- 
+
