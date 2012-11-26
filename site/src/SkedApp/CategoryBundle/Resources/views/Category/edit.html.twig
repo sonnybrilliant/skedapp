@@ -1,6 +1,5 @@
-
-{% extends "SkedAppConsultantBundle::layout.html.twig" %}
-{% block title %}List consultants{% endblock %}
+{% extends "SkedAppServiceBundle::layout.html.twig" %}
+{% block title %}Edit category{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -11,12 +10,14 @@
     {% endblock menu %}    
     {% block content %}
             <div class="span7">
-                <h4>Manage consultants</h4>
+                <h4>Edit category</h4>
                 <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            {% include "SkedAppConsultantBundle:Consultant:list.table.html.twig" %}
+        {#start form display===============================#}
+            {% include "SkedAppCategoryBundle:Category:form.edit.html.twig" %}
+        {#end form display===============================#}   
             </div>  
     {% endblock content %}   
         </div>

@@ -1,0 +1,29 @@
+sked_app_category_list:
+    pattern:  /category/list
+    defaults: { _controller: SkedAppCategoryBundle:Category:list }
+
+sked_app_category_new:
+    pattern:  /category/new
+    defaults: { _controller: SkedAppCategoryBundle:Category:new }
+
+sked_app_category_create:
+    pattern:  /category/create
+    defaults: { _controller: SkedAppCategoryBundle:Category:create }
+
+sked_app_category_edit:
+    pattern:  /category/edit/{id}
+    defaults: { _controller: SkedAppCategoryBundle:Category:edit }
+    requirements:
+        id:  \d+
+
+sked_app_category_update:
+    pattern:  /category/update/{id}
+    defaults: { _controller: SkedAppCategoryBundle:Category:update }
+    requirements:
+        id:  \d+
+        
+sked_app_category_delete:
+    pattern:  /category/delete/{id}
+    defaults: { _controller: SkedAppCategoryBundle:Category:delete }
+    requirements:
+        id:  \d+   

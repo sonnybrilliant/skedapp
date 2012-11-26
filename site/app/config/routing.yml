@@ -1,3 +1,11 @@
+sked_app_member:
+    resource: "@SkedAppMemberBundle/Resources/config/routing.yml"
+    prefix:   /
+
+sked_app_category:
+    resource: "@SkedAppCategoryBundle/Resources/config/routing.yml"
+    prefix:   /
+
 sked_app_service:
     resource: "@SkedAppServiceBundle/Resources/config/routing.yml"
     prefix:   /

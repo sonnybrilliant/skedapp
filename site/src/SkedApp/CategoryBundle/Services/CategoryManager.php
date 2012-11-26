@@ -1,20 +1,20 @@
 <?php
 
-namespace SkedApp\ServiceBundle\Services;
+namespace SkedApp\CategoryBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
-use SkedApp\CoreBundle\Entity\Service;
+
 
 /**
- * Service manager 
+ * Category manager 
  * 
  * @author Ronald Conco <ronald.conco@kaizania.com>
- * @package SkedAppServiceBundle
+ * @package SkedAppCategoryBundle
  * @subpackage Services
  * @version 0.0.1
  */
-final class ServiceManager
+final class CategoryManager
 {
 
     /**
@@ -83,21 +83,23 @@ final class ServiceManager
     }
 
     /**
-     * Create and update service
+     * Create and update category
      * 
-     * @param type $service
+     * @param SkedApp\CoreBundle\Entity\Category $category
      * @return void
      */
-    public function createAndUpdateService($service)
+    public function createAndUpdateCategory($category)
     {
-        $this->logger->info('Save service');
-        $this->em->persist($service);
+        $this->logger->info('Save category');
+        $this->em->persist($category);
         $this->em->flush();
         return;
     }
 
+
+    
     /**
-     * Get all services query
+     * Get all category query
      * 
      * @param array $options
      * @return query
@@ -105,34 +107,8 @@ final class ServiceManager
     public function listAll($options = array())
     {
         return $this->em
-                ->getRepository('SkedAppCoreBundle:Service')
-                ->getAllActiveServiceQuery($options);
-    }
-
-    /**
-     * get services by category
-     * 
-     * @param type $category
-     * @return type
-     */
-    public function getServicesByCategory($category)
-    {
-        return $this->em
-                ->getRepository('SkedAppCoreBundle:Service')
-                ->getServicesByCategory($category);
-    }    
-    
-    /**
-     * Delete services by category
-     * 
-     * @param type $category
-     * @return type
-     */
-    public function deleteServicesByCategory($category)
-    {
-        return $this->em
-                ->getRepository('SkedAppCoreBundle:Service')
-                ->deleteServicesByCategory($category);
+                    ->getRepository('SkedAppCoreBundle:Category')
+                    ->getAllActiveCategoryQuery($options);
     }
 
 }

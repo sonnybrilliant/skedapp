@@ -34,16 +34,9 @@ sked_app_consultant_delete:
     requirements:
         id:  \d+
 
-sked_app_consultant_reset:
-    pattern:  /reset/password
-    defaults: { _controller: SkedAppConsultantBundle:Reset:resetPassword}
-
-sked_app_consultant_reset_sent:
-    pattern:  /reset/emailsent
-    defaults: { _controller: SkedAppConsultantBundle:Reset:resetPasswordSuccess}
-
-sked_app_consultant_reset_token:
-    pattern: /reset/token/{token}
-    defaults: { _controller: SkedAppConsultantBundle:Reset:resetToken}
+sked_app_consultant_ajax_get_by_category:
+    pattern:  /consultant/ajaxGetByCategory/{categoryId}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
     requirements:
-        _method: GET|POST
+        id:  \d+
+
