@@ -33,6 +33,13 @@ class Timeslots
      */
     protected $slot ;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="weight", type="integer", length=2)
+     */
+    protected $weight ;
+
     public function __construct( $slot )
     {
         $this->slot = $slot ;
@@ -74,5 +81,28 @@ class Timeslots
     public function getSlot()
     {
         return $this->slot;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return Timeslots
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer 
+     */
+    public function getWeight()
+    {
+        return $this->weight;
     }
 }

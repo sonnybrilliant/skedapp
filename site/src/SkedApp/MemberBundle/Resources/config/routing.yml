@@ -1,0 +1,3 @@
+sked_app_member_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: SkedAppMemberBundle:Default:index }
