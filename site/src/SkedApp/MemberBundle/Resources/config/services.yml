@@ -1,0 +1,7 @@
+parameters:
+#    sked_app_member.example.class: SkedApp\MemberBundle\Example
+
+services:
+#    sked_app_member.example:
+#        class: %sked_app_member.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
