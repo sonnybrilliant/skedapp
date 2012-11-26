@@ -112,13 +112,13 @@ class Consultant
      * @ORM\Column(name="is_active", type="boolean", nullable=false)
      */
     protected $isActive;
-    
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_deleted", type="boolean")
      */
-    protected $isDeleted;     
+    protected $isDeleted;
 
     /**
      * @var boolean $isLocked
@@ -126,6 +126,55 @@ class Consultant
      * @ORM\Column(name="is_locked", type="boolean", nullable=false)
      */
     protected $isLocked;
+
+    /**
+     * @var boolean $monday
+     *
+     * @ORM\Column(name="monday", type="boolean", nullable=false)
+     */
+    protected $monday;
+
+    /**
+     * @var boolean $tuesday
+     *
+     * @ORM\Column(name="tuesday", type="boolean", nullable=false)
+     */
+    protected $tuesday;
+
+    /**
+     * @var boolean $wednesday
+     *
+     * @ORM\Column(name="wednesday", type="boolean", nullable=false)
+     */
+    protected $wednesday;
+
+    /**
+     * @var boolean $thursday
+     *
+     * @ORM\Column(name="thursday", type="boolean", nullable=false)
+     */
+    protected $thursday;
+
+    /**
+     * @var boolean $friday
+     *
+     * @ORM\Column(name="friday", type="boolean", nullable=false)
+     */
+    protected $friday;
+
+    /**
+     * @var boolean $saturday
+     *
+     * @ORM\Column(name="saturday", type="boolean", nullable=false)
+     */
+    protected $saturday;
+    
+    /**
+     * @var boolean $sunday
+     *
+     * @ORM\Column(name="sunday", type="boolean", nullable=false)
+     */
+    protected $sunday;    
 
     /**
      * @var datetime $createdAt
@@ -158,8 +207,6 @@ class Consultant
      * )
      */
     public $picture;
-    
-    
     public $category = null;
 
     public function __construct()
@@ -508,7 +555,6 @@ class Consultant
         return $this->company;
     }
 
-
     /**
      * Set path
      *
@@ -518,7 +564,7 @@ class Consultant
     public function setPath($path)
     {
         $this->path = $path;
-    
+
         return $this;
     }
 
@@ -541,7 +587,7 @@ class Consultant
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
-    
+
         return $this;
     }
 
@@ -553,5 +599,167 @@ class Consultant
     public function getIsDeleted()
     {
         return $this->isDeleted;
+    }
+
+
+    /**
+     * Set monday
+     *
+     * @param boolean $monday
+     * @return Consultant
+     */
+    public function setMonday($monday)
+    {
+        $this->monday = $monday;
+    
+        return $this;
+    }
+
+    /**
+     * Get monday
+     *
+     * @return boolean 
+     */
+    public function getMonday()
+    {
+        return $this->monday;
+    }
+
+    /**
+     * Set tuesday
+     *
+     * @param boolean $tuesday
+     * @return Consultant
+     */
+    public function setTuesday($tuesday)
+    {
+        $this->tuesday = $tuesday;
+    
+        return $this;
+    }
+
+    /**
+     * Get tuesday
+     *
+     * @return boolean 
+     */
+    public function getTuesday()
+    {
+        return $this->tuesday;
+    }
+
+    /**
+     * Set wednesday
+     *
+     * @param boolean $wednesday
+     * @return Consultant
+     */
+    public function setWednesday($wednesday)
+    {
+        $this->wednesday = $wednesday;
+    
+        return $this;
+    }
+
+    /**
+     * Get wednesday
+     *
+     * @return boolean 
+     */
+    public function getWednesday()
+    {
+        return $this->wednesday;
+    }
+
+    /**
+     * Set thursday
+     *
+     * @param boolean $thursday
+     * @return Consultant
+     */
+    public function setThursday($thursday)
+    {
+        $this->thursday = $thursday;
+    
+        return $this;
+    }
+
+    /**
+     * Get thursday
+     *
+     * @return boolean 
+     */
+    public function getThursday()
+    {
+        return $this->thursday;
+    }
+
+    /**
+     * Set friday
+     *
+     * @param boolean $friday
+     * @return Consultant
+     */
+    public function setFriday($friday)
+    {
+        $this->friday = $friday;
+    
+        return $this;
+    }
+
+    /**
+     * Get friday
+     *
+     * @return boolean 
+     */
+    public function getFriday()
+    {
+        return $this->friday;
+    }
+
+    /**
+     * Set saturday
+     *
+     * @param boolean $saturday
+     * @return Consultant
+     */
+    public function setSaturday($saturday)
+    {
+        $this->saturday = $saturday;
+    
+        return $this;
+    }
+
+    /**
+     * Get saturday
+     *
+     * @return boolean 
+     */
+    public function getSaturday()
+    {
+        return $this->saturday;
+    }
+
+    /**
+     * Set sunday
+     *
+     * @param boolean $sunday
+     * @return Consultant
+     */
+    public function setSunday($sunday)
+    {
+        $this->sunday = $sunday;
+    
+        return $this;
+    }
+
+    /**
+     * Get sunday
+     *
+     * @return boolean 
+     */
+    public function getSunday()
+    {
+        return $this->sunday;
     }
 }

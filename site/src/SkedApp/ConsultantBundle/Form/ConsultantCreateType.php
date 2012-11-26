@@ -74,7 +74,34 @@ class ConsultantCreateType extends AbstractType
                 'label' => 'Profile picture:',
                 'attr' => array('class' => 'span4')
             ))
-
+            ->add('monday', 'checkbox', array(
+                'label' => 'M',
+                'required'  => false,
+            ))
+            ->add('tuesday', 'checkbox', array(
+                'label' => 'T',
+                'required'  => false,
+            ))
+            ->add('wednesday', 'checkbox', array(
+                'label' => 'W',
+                'required'  => false,
+            ))
+            ->add('thursday', 'checkbox', array(
+                'label' => 'T',
+                'required'  => false,
+            ))
+            ->add('friday', 'checkbox', array(
+                'label' => 'F',
+                'required'  => false,
+            ))
+            ->add('saturday', 'checkbox', array(
+                'label' => 'F',
+                'required'  => false,
+            ))
+            ->add('sunday', 'checkbox', array(
+                'label' => 'S',
+                'required'  => false,
+            ))
 
         ;
     }
