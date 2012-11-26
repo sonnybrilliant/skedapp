@@ -35,11 +35,11 @@ class Category
      * @ORM\Column(name="name", type="string", length=50)
      */
     protected $name ;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Service", mappedBy="category")
      */
-    protected $services;     
+    protected $services;
 
     public function __construct( $name )
     {
@@ -91,7 +91,7 @@ class Category
     public function addService(\SkedApp\CoreBundle\Entity\Service $services)
     {
         $this->services[] = $services;
-    
+
         return $this;
     }
 
@@ -108,7 +108,7 @@ class Category
     /**
      * Get services
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getServices()
     {
