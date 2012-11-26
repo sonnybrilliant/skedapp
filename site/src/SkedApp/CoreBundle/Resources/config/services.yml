@@ -1,5 +1,5 @@
 parameters:
-#    sked_app_core.example.class: SkedApp\CoreBundle\Example
+#    sked_app_member.example.class: SkedApp\CoreBundle\Example
 
 services:
 #    sked_app_core.example:
