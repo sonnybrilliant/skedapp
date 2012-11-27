@@ -194,7 +194,7 @@ class Member implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="confirmation_token", type="string" , length=25 ,nullable= true)
+     * @ORM\Column(name="confirmation_token", type="string" , length=100 ,nullable= true)
      */
     protected $confirmationToken;
 
@@ -207,13 +207,13 @@ class Member implements UserInterface
 
     /**
      * @var SkedApp\CoreBundle\Entity\Company
-     * 
+     *
      *
      * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="members")
      * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
-    protected $company;    
-    
+    protected $company;
+
     /**
      * @var datetime
      *
@@ -245,7 +245,7 @@ class Member implements UserInterface
     {
         return $this->firstName . ' ' .$this->lastName ;
     }
-    
+
     /**
      * Erases the user credentials.
      */
@@ -732,7 +732,7 @@ class Member implements UserInterface
     {
         return $this->email;
     }
-    
+
     /**
      * Set company
      *
@@ -752,7 +752,7 @@ class Member implements UserInterface
     {
         return $this->company;
     }
-    
+
 
     /**
      * Add memberRoles
@@ -763,7 +763,7 @@ class Member implements UserInterface
     public function addMemberRole(\SkedApp\CoreBundle\Entity\Role $memberRoles)
     {
         $this->memberRoles[] = $memberRoles;
-    
+
         return $this;
     }
 

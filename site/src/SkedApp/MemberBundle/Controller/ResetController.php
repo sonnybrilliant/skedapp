@@ -50,6 +50,10 @@ class ResetController extends Controller
                         ->getSession()
                         ->setFlash('error', "We couldn't find an account associated with $email.");
                 } else {
+
+                    //Get config parameters for e-mail
+                    //TO DO!! Can not get values to be read from app/config/config.yml
+
                     $token = $this->container->get('token.generator')->generateToken();
                     $member->setConfirmationToken($token);
                     $member->setPasswordRequestedAt(new \Datetime());
@@ -73,8 +77,8 @@ class ResetController extends Controller
                         )->getContent();
 
                     $message = \Swift_Message::newInstance()
-                        ->setSubject('Reset Your Zeus Password')
-                        ->setFrom(array('zeus.system@devbox.co.za' => 'Support'))
+                        ->setSubject('Reset Your SkedApp Password')
+                        ->setFrom(array('info@skedapp.co.za' => 'SkedApp Support'))
                         ->setTo(array($email => $member->getFirstName() . ' ' . $member->getLastName()))
                         ->setBody($emailBodyHtml, 'text/html')
                         ->addPart($emailBodyTxt, 'text/plain');
