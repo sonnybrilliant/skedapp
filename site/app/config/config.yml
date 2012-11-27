@@ -131,7 +131,6 @@ stfalcon_tinymce:
             convert_fonts_to_spans: false
 
 # Set parameters to be used when sending mails:
-# Having trouble implementing this. Hard coding in the code for now.
-# sked_app_member:
-#     mailer_from_mail: "info@skedapp.co.za"
-#     mailer_from_name: "SkedApp"
+parameters:
+    mailer_from_mail: "info@skedapp.co.za"
+    mailer_from_name: "SkedApp"
