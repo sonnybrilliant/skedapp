@@ -35,9 +35,9 @@ class Company
     /**
      * @var string $name
      *
-     * @Assert\NotBlank(message = "Company name cannot be blank!")
-     * @Assert\MinLength(limit= 2, message="Company name must have at least {{ limit }} characters.")
-     * @Assert\MaxLength(limit= 100, message="Company name has a limit of {{ limit }} characters.")
+     * @Assert\NotBlank(message = "Service provider name cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Service provider name must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Service provider name has a limit of {{ limit }} characters.")
      *
      * @ORM\Column(name="name", type="string", length=100, nullable=false)
      */
@@ -49,6 +49,61 @@ class Company
      * @ORM\Column(name="description", type="string", length=254, nullable=false)
      */
     protected $description;
+
+    /**
+     * @var string $address
+     *
+     * @Assert\NotBlank(message = "Service provider address cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Service provider address must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 150, message="Service provider address has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="address", type="string", length=150, nullable=false)
+     */
+    protected $address;
+
+    /**
+     * @var string $locality
+     *
+     * @Assert\NotBlank(message = "Service provider locality cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Service provider locality must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 150, message="Service provider locality has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="locality", type="string", length=150, nullable=false)
+     */
+    protected $locality;
+
+    /**
+     * @var string $country
+     *
+     * @Assert\NotBlank(message = "Service provider country cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Service provider country must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 150, message="Service provider country has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="country", type="string", length=150, nullable=false)
+     */
+    protected $country;
+
+    /**
+     * @var string $lat
+     *
+     * @Assert\NotBlank(message = "Service provider lat cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Service provider lat must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 50, message="Service provider lat has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="lat", type="string", length=50, nullable=false)
+     */
+    protected $lat;
+
+    /**
+     * @var string $lng
+     *
+     * @Assert\NotBlank(message = "Service provider lng cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Service provider lng must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 50, message="Service provider lng has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="lng", type="string", length=50, nullable=false)
+     */
+    protected $lng;
 
     /**
      * @Assert\File(
@@ -83,7 +138,7 @@ class Company
      *
      * @ORM\Column(name="is_deleted", type="boolean")
      */
-    protected $isDeleted;
+    protected $isDeleted = 0;
 
     /**
      * @var boolean $isLocked
@@ -215,6 +270,106 @@ class Company
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set locality
+     *
+     * @param string $locality
+     */
+    public function setLocality($locality)
+    {
+        $this->locality = $locality;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getLocality()
+    {
+        return $this->locality;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lng
+     *
+     * @param string $lng
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getLng()
+    {
+        return $this->lng;
     }
 
 
@@ -416,6 +571,10 @@ class Company
      */
     public function setIsDeleted($isDeleted)
     {
+
+        if (is_null ($isDeleted))
+                $isDeleted = 0;
+
         $this->isDeleted = $isDeleted;
 
         return $this;
@@ -428,6 +587,10 @@ class Company
      */
     public function getIsDeleted()
     {
+
+        if (is_null ($this->isDeleted))
+                $this->isDeleted = 0;
+
         return $this->isDeleted;
     }
 

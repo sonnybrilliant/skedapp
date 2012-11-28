@@ -42,6 +42,26 @@ class CompanyCreateType extends AbstractType
                 'label' => 'Description:',
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
+            ->add('address', null, array(
+                'label' => 'Type your address:',
+                'required'      => true,
+            ))
+            ->add('locality', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
+            ->add('country', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
+            ->add('lat', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
+            ->add('lng', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
 
         ;
     }

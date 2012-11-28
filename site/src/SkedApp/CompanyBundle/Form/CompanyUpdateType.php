@@ -36,11 +36,32 @@ class CompanyUpdateType extends AbstractType
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4'),
+                'required'      => false,
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+            ))
+            ->add('address', null, array(
+                'label' => 'Type your address:',
+                'required'      => true,
+            ))
+            ->add('locality', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
+            ->add('country', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
+            ->add('lat', null, array(
+                'required'      => false,
+                'read_only'      => true
+            ))
+            ->add('lng', null, array(
+                'required'      => false,
+                'read_only'      => true
             ))
 
         ;
