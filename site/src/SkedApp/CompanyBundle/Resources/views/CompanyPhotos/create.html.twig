@@ -1,0 +1,24 @@
+{% extends "SkedAppCompanyBundle::layout.html.twig" %}
+{% block title %}Add a new company{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% block menu %}
+        <div class="span3 bs-docs-sidenav">
+           {% include "::menu.html.twig" %}
+            </div>
+    {% endblock menu %}
+    {% block content %}
+            <div class="span7">
+                <h4>Add a new company</h4>
+                <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+        {#start form display===============================#}
+            {% include "SkedAppCompanyBundle:Company:form.create.html.twig" %}
+        {#end form display===============================#}
+            </div>
+    {% endblock content %}
+        </div>
+{% endblock body %}

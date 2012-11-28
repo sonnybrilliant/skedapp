@@ -1,0 +1,23 @@
+{% extends "SkedAppCompanyBundle::layout.html.twig" %}
+{% block title %}List service providers{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% block menu %}
+        <div class="span3 bs-docs-sidenav">
+           {% include "::menu.html.twig" %}
+            </div>
+    {% endblock menu %}
+    {% block content %}
+            <div class="span7">
+                <h4>Manage service providers</h4>
+                <br />
+                <a href="{{ path('sked_app_company_new') }}" class="pull-right">Add Service Provider</a>
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+            {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %}
+            </div>
+    {% endblock content %}
+        </div>
+{% endblock body %}

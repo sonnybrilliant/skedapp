@@ -1,17 +1,6 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
 {% block title %}Edit company{% endblock %}
 
-{% block stylesheets %}
-<link href="{{ asset('/css/googlemap.css') }}" rel="stylesheet">
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
-{% endblock %}
-
-{% block jquery_ui %}
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
-<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
-{% endblock jquery_ui %}
-
 {% block body %}
 <div class="container">
     {% block menu %}
@@ -41,13 +30,7 @@
 
                         </div>
                         <div class="tab-pane" id="tab2">
-                          <h4>Manage service provider photos</h4>
-                          <br />
-
-                          {% include "SkedAppCompanyBundle:CompanyPhotos:form.create.html.twig" %}
-
-                          {% include "SkedAppCompanyBundle:CompanyPhotos:list.table.html.twig" %}
-
+                            <p>Images here</p>
                         </div>
                     </div>
                 </div>

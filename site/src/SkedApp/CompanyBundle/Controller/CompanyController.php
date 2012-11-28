@@ -4,9 +4,12 @@ namespace SkedApp\CompanyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\CoreBundle\Entity\Company;
+use SkedApp\CoreBundle\Entity\CompanyPhotos;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SkedApp\CompanyBundle\Form\CompanyCreateType;
 use SkedApp\CompanyBundle\Form\CompanyUpdateType;
+use SkedApp\CompanyBundle\Form\CompanyPhotosCreateType;
+use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
 
 class CompanyController extends Controller
 {
@@ -148,9 +151,16 @@ class CompanyController extends Controller
 
         $form = $this->createForm(new CompanyUpdateType(), $company);
 
+        $company_photos = $this->container->get('company_photos.manager')->listAll (array ('company_id' => $company->getId (), 'sort' => 'c.caption', 'direction' => 'asc'));
+
+        $photo_form = $this->createForm(new CompanyPhotosCreateType(), new CompanyPhotos);
+
         return $this->render('SkedAppCompanyBundle:Company:edit.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $company->getId()
+                'id' => $company->getId(),
+                'company' => $company,
+                'company_photos' => $company_photos,
+                'photo_form' => $photo_form,
             ));
     }
 

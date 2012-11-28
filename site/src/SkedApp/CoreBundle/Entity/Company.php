@@ -128,6 +128,11 @@ class Company
     protected $consultants;
 
     /**
+     * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\CompanyPhotos", mappedBy="company")
+     */
+    protected $photos;
+
+    /**
      * @var boolean $isActive
      *
      * @ORM\Column(name="is_active", type="boolean", nullable=false)
@@ -539,6 +544,39 @@ class Company
     public function getConsultants()
     {
         return $this->consultants;
+    }
+
+    /**
+     * Add photos
+     *
+     * @param \SkedApp\CoreBundle\Entity\CompanyPhotos $photos
+     * @return Company
+     */
+    public function addPhoto (\SkedApp\CoreBundle\Entity\CompanyPhotos $photos)
+    {
+        $this->photos[] = $photos;
+
+        return $this;
+    }
+
+    /**
+     * Remove photos
+     *
+     * @param \SkedApp\CoreBundle\Entity\CompanyPhotos $photos
+     */
+    public function removePhoto (\SkedApp\CoreBundle\Entity\CompanyPhotos $photos)
+    {
+        $this->photos->removeElement($photos);
+    }
+
+    /**
+     * Get photos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
     }
 
     /**

@@ -21,15 +21,19 @@ sked_app_company_update:
     defaults: { _controller: SkedAppCompanyBundle:Company:update }
     requirements:
         id:  \d+
-        
+
 sked_app_company_show:
     pattern:  /company/show/{id}
     defaults: { _controller: SkedAppCompanyBundle:Company:show }
     requirements:
-        id:  \d+    
-        
+        id:  \d+
+
 sked_app_company_delete:
     pattern:  /company/delete/{id}
     defaults: { _controller: SkedAppCompanyBundle:Company:delete }
     requirements:
-        id:  \d+      
+        id:  \d+
+
+sked_app_company_photo_update:
+    pattern:  /company/photo_update/{company_id}/{id}
+    defaults: { _controller: SkedAppCompanyBundle:Company:photo_update }
