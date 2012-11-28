@@ -17,7 +17,9 @@
             <td>{{company.consultants.count}}</td>
             <td>{{company.isActive}}</td>
             <td>{{company.createdAt|date('M jS Y')}}</td>
-            <td><a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;<a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i></a> &nbsp;<a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to delete"><i class="icon-trash"></i></a></td>
+            <td><a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;
+              <a href='{{path('sked_app_company_edit', {'id': company.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i></a> &nbsp;
+              <a href='{{path('sked_app_company_delete', {'id': company.id }) }}' rel="tooltip" title="click to delete"><i class="icon-trash"></i></a></td>
           </tr>
           {% endfor %}
         </tbody>

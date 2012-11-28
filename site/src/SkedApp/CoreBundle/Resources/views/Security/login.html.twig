@@ -17,7 +17,7 @@
             Your username and password are invalid, please try again or contact support.
         </div>
         {% endif %}
-        
+
         <form class="form-horizontal" action="{{ path('_security_check') }}" method="POST">
             <legend><span class="label label-info">Info</span> <small>All form fields are required.</small></legend>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
@@ -40,22 +40,22 @@
                 </div>
             </fieldset>
         </form>
-    </div>    
+    </div>
     <div class="span3 pull-right">
         <div class="well emphasize-dark">
             <h4><i class="icon-info-sign"></i> Having login trouble? </h4>
             <br />
             <p class="pull-right">
-                Please provide the email address and password combination you used when creating the account.  
+                Please provide the email address and password combination you used when creating the account.
             </p>
             <br />
             <p>
-                <a href="#" >Create an account</a>  
+                <a href="#" >Create an account</a>
             </p>
             <p>
-                <a href="#" >Forgot password</a>
+                <a href="{{ path('sked_app_member_reset')}}" >Forgot password</a>
             </p>
-        </div> 
+        </div>
     </div>
 </div>
 {% endblock body %}

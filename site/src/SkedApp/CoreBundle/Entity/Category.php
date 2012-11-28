@@ -38,25 +38,24 @@ class Category
      * @Assert\NotBlank(message = "Category name cannot be blank!")
      * @Assert\MinLength(limit= 3, message="Category name must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 30, message="Category name has a limit of {{ limit }} characters.")
-     * 
+     *
      * @ORM\Column(name="name", type="string", length=30)
      */
-    protected $name;
+
+    protected $name ;
 
     /**
      * @var string $description
      * 
      * @Assert\MaxLength(limit= 100, message="Category description has a limit of {{ limit }} characters.")
-     * 
+     *
      * @ORM\Column(name="description", type="text", length=500, nullable=true)
      */
     protected $description;
-
     /**
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Service", mappedBy="category")
      */
     protected $services;
-
     /**
      * @var boolean
      *
@@ -66,7 +65,7 @@ class Category
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $path;
@@ -226,7 +225,7 @@ class Category
     /**
      * Get services
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getServices()
     {
@@ -249,7 +248,7 @@ class Category
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -272,7 +271,7 @@ class Category
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -295,7 +294,7 @@ class Category
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -318,7 +317,7 @@ class Category
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -341,7 +340,7 @@ class Category
     /**
      * Get path
      *
-     * @return string 
+     * @return string
      */
     public function getPath()
     {

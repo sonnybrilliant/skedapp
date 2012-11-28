@@ -1,3 +1,17 @@
 sked_app_member_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: SkedAppMemberBundle:Default:index }
+
+sked_app_member_reset:
+    pattern:  /reset/password
+    defaults: { _controller: SkedAppMemberBundle:Reset:resetPassword}
+
+sked_app_member_reset_sent:
+    pattern:  /reset/emailsent
+    defaults: { _controller: SkedAppMemberBundle:Reset:resetPasswordSuccess}
+
+sked_app_member_reset_token:
+    pattern: /reset/token/{token}
+    defaults: { _controller: SkedAppMemberBundle:Reset:resetToken}
+    requirements:
+        _method: GET|POST

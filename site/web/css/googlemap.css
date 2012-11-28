@@ -1,0 +1,9 @@
+#map {
+  border: 1px solid #DDD;
+  width:700px;
+  height: 300px;
+  margin: auto;
+  margin-top: 14px;
+  margin-bottom: 14px;
+  -webkit-box-shadow: #AAA 0px 0px 15px;
+}

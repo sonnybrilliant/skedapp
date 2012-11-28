@@ -41,9 +41,6 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $admin->setStatus($this->getReference('status-active'));
         $manager->persist($admin);
         
-        
-        
-        
         $adminOtto = new Member();
         $adminOtto->setFirstName("Otto");
         $adminOtto->setLastName("Saayman");
@@ -82,6 +79,7 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $adminRyan->setStatus($this->getReference('status-active'));
         $manager->persist($adminRyan); 
         
+
         $adminBernard = new Member();
         $adminBernard->setFirstName("Bernard");
         $adminBernard->setLastName("Brand");
@@ -119,7 +117,6 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $adminWynand->setGroup($this->getReference('group-admin'));
         $adminWynand->setStatus($this->getReference('status-active'));
         $manager->persist($adminWynand);         
-        
         
         $manager->flush() ;
 

@@ -11,5 +11,8 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    recaptcha_public_key: 6LebmNkSAAAAAF5dLAFEA7ubWy90gSY9dmzkbxEp
+    recaptcha_private_key: 6LebmNkSAAAAAJm2d08gynM-4ceqKq6Y5tUbMSrr
+
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt

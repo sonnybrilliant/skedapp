@@ -21,19 +21,19 @@ sked_app_consultant_update:
     defaults: { _controller: SkedAppConsultantBundle:Consultant:update }
     requirements:
         id:  \d+
-        
+
 sked_app_consultant_show:
     pattern:  /consultant/show/{id}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:show }
     requirements:
-        id:  \d+    
-        
+        id:  \d+
+
 sked_app_consultant_delete:
     pattern:  /consultant/delete/{id}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:delete }
     requirements:
-        id:  \d+    
-        
+        id:  \d+
+
 sked_app_consultant_ajax_get_by_category:
     pattern:  /consultant/ajaxGetByCategory/{categoryId}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
@@ -45,3 +45,4 @@ sked_app_consultant_ajax_get_by_consultant:
     defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByConsultant }
     requirements:
         consultantId:  \d+          
+
