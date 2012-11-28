@@ -44,43 +44,43 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         
         
         
-        $adminJustin = new Member();
-        $adminJustin->setFirstName("Justin");
-        $adminJustin->setLastName("Doyle");
-        $adminJustin->setEmail("justin.doyle@kaizania.co.za");
-        $adminJustin->setMobileNumber("27713264122");
-        $adminJustin->setPassword('654321');
+        $adminOtto = new Member();
+        $adminOtto->setFirstName("Otto");
+        $adminOtto->setLastName("Saayman");
+        $adminOtto->setEmail("otto.saayman@kaizania.co.za");
+        $adminOtto->setMobileNumber("27713264122");
+        $adminOtto->setPassword('654321');
 
-        $adminJustin->getMemberRoles()->add($this->getReference('role-admin'));
-        $adminJustin->getMemberRoles()->add($this->getReference('role-member'));
-        $adminJustin->getMemberRoles()->add($this->getReference('role-report'));
-        $adminJustin->getMemberRoles()->add($this->getReference('role-content'));
+        $adminOtto->getMemberRoles()->add($this->getReference('role-admin'));
+        $adminOtto->getMemberRoles()->add($this->getReference('role-member'));
+        $adminOtto->getMemberRoles()->add($this->getReference('role-report'));
+        $adminOtto->getMemberRoles()->add($this->getReference('role-content'));
 
-        $adminJustin->setCompany($this->getReference('company-default'));
-        $adminJustin->setTitle($this->getReference('title-mr'));
-        $adminJustin->setGender($this->getReference('gender-male'));
-        $adminJustin->setGroup($this->getReference('group-admin'));
-        $adminJustin->setStatus($this->getReference('status-active'));
-        $manager->persist($adminJustin);        
+        $adminOtto->setCompany($this->getReference('company-default'));
+        $adminOtto->setTitle($this->getReference('title-mr'));
+        $adminOtto->setGender($this->getReference('gender-male'));
+        $adminOtto->setGroup($this->getReference('group-admin'));
+        $adminOtto->setStatus($this->getReference('status-active'));
+        $manager->persist($adminOtto);        
         
-        $adminRoelf = new Member();
-        $adminRoelf->setFirstName("Roelf");
-        $adminRoelf->setLastName("Strydom");
-        $adminRoelf->setEmail("roelf.strydom@kaizania.co.za");
-        $adminRoelf->setMobileNumber("27713264121");
-        $adminRoelf->setPassword('654321');
+        $adminRyan = new Member();
+        $adminRyan->setFirstName("Ryan");
+        $adminRyan->setLastName("Webster");
+        $adminRyan->setEmail("ryan@skedapp.co.za");
+        $adminRyan->setMobileNumber("27713264121");
+        $adminRyan->setPassword('654321');
 
-        $adminRoelf->getMemberRoles()->add($this->getReference('role-admin'));
-        $adminRoelf->getMemberRoles()->add($this->getReference('role-member'));
-        $adminRoelf->getMemberRoles()->add($this->getReference('role-report'));
-        $adminRoelf->getMemberRoles()->add($this->getReference('role-content'));
+        $adminRyan->getMemberRoles()->add($this->getReference('role-admin'));
+        $adminRyan->getMemberRoles()->add($this->getReference('role-member'));
+        $adminRyan->getMemberRoles()->add($this->getReference('role-report'));
+        $adminRyan->getMemberRoles()->add($this->getReference('role-content'));
 
-        $adminRoelf->setCompany($this->getReference('company-default'));
-        $adminRoelf->setTitle($this->getReference('title-mr'));
-        $adminRoelf->setGender($this->getReference('gender-male'));
-        $adminRoelf->setGroup($this->getReference('group-admin'));
-        $adminRoelf->setStatus($this->getReference('status-active'));
-        $manager->persist($adminRoelf); 
+        $adminRyan->setCompany($this->getReference('company-default'));
+        $adminRyan->setTitle($this->getReference('title-mr'));
+        $adminRyan->setGender($this->getReference('gender-male'));
+        $adminRyan->setGroup($this->getReference('group-admin'));
+        $adminRyan->setStatus($this->getReference('status-active'));
+        $manager->persist($adminRyan); 
         
         $adminBernard = new Member();
         $adminBernard->setFirstName("Bernard");
@@ -99,7 +99,26 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $adminBernard->setGender($this->getReference('gender-male'));
         $adminBernard->setGroup($this->getReference('group-admin'));
         $adminBernard->setStatus($this->getReference('status-active'));
-        $manager->persist($adminBernard);         
+        $manager->persist($adminBernard); 
+        
+        $adminWynand = new Member();
+        $adminWynand->setFirstName("Wynand");
+        $adminWynand->setLastName("Wynand");
+        $adminWynand->setEmail("wynand@skedapp.co.za");
+        $adminWynand->setMobileNumber("27713264124");
+        $adminWynand->setPassword('654321');
+
+        $adminWynand->getMemberRoles()->add($this->getReference('role-admin'));
+        $adminWynand->getMemberRoles()->add($this->getReference('role-member'));
+        $adminWynand->getMemberRoles()->add($this->getReference('role-report'));
+        $adminWynand->getMemberRoles()->add($this->getReference('role-content'));
+
+        $adminWynand->setCompany($this->getReference('company-default'));
+        $adminWynand->setTitle($this->getReference('title-mr'));
+        $adminWynand->setGender($this->getReference('gender-male'));
+        $adminWynand->setGroup($this->getReference('group-admin'));
+        $adminWynand->setStatus($this->getReference('status-active'));
+        $manager->persist($adminWynand);         
         
         
         $manager->flush() ;

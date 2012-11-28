@@ -44,7 +44,7 @@ class ConsultantCreateType extends AbstractType
                 'attr' => array('class' => 'span4 chosen')
             ))
             ->add('gender', 'entity', array(
-                'class' => 'SkedAppCoreBundle:gender',
+                'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
                 'attr' => array('class' => 'span4 chosen')
             ))
@@ -102,7 +102,21 @@ class ConsultantCreateType extends AbstractType
                 'label' => 'S',
                 'required'  => false,
             ))
-
+            ->add('startTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'Time from:',
+                'attr' => array('class' => 'span1')
+            ))
+            ->add('endTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'Time to:',
+                'attr' => array('class' => 'span1')
+            ))
+            ->add('appointmentDuration', 'entity', array(
+                'class' => 'SkedAppCoreBundle:AppointmentDuration',
+                'label' => 'Session length:',
+                'attr' => array('class' => 'span1')
+            ))
         ;
     }
 

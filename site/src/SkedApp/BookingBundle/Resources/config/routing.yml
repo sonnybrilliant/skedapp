@@ -1,3 +1,15 @@
-sked_app_booking_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: SkedAppBookingBundle:Default:index }
+sked_app_booking_manager:
+    pattern:  /booking/manage
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking }
+    
+sked_app_booking_add:
+    pattern:  /booking/add
+    defaults: { _controller: SkedAppBookingBundle:Booking:add }
+    requirements:
+        #consultantId:  \d+  
+        
+sked_app_booking_ajax_get_by_consultant:
+    pattern:  /booking/ajaxGetByConsultant/{consultantId}
+    defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetByConsultant }
+    requirements:
+        consultantId:  \d+         

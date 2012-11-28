@@ -38,4 +38,10 @@ sked_app_consultant_ajax_get_by_category:
     pattern:  /consultant/ajaxGetByCategory/{categoryId}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
     requirements:
-        id:  \d+          
+        categoryId:  \d+   
+        
+sked_app_consultant_ajax_get_by_consultant:
+    pattern:  /consultant/ajaxGetByConsultant/{consultantId}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByConsultant }
+    requirements:
+        consultantId:  \d+          

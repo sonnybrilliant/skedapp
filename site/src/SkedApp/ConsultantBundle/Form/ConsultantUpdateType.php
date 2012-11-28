@@ -70,6 +70,50 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Professional Statement:',
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
+            ->add('monday', 'checkbox', array(
+                'label' => 'M',
+                'required'  => false,
+            ))
+            ->add('tuesday', 'checkbox', array(
+                'label' => 'T',
+                'required'  => false,
+            ))
+            ->add('wednesday', 'checkbox', array(
+                'label' => 'W',
+                'required'  => false,
+            ))
+            ->add('thursday', 'checkbox', array(
+                'label' => 'T',
+                'required'  => false,
+            ))
+            ->add('friday', 'checkbox', array(
+                'label' => 'F',
+                'required'  => false,
+            ))
+            ->add('saturday', 'checkbox', array(
+                'label' => 'F',
+                'required'  => false,
+            ))
+            ->add('sunday', 'checkbox', array(
+                'label' => 'S',
+                'required'  => false,
+            ))
+            ->add('startTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'Time from:',
+                'attr' => array('class' => 'span1')
+            ))
+            ->add('endTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'Time to:',
+                'attr' => array('class' => 'span1')
+            ))
+            ->add('appointmentDuration', 'entity', array(
+                'class' => 'SkedAppCoreBundle:AppointmentDuration',
+                'label' => 'Session length:',
+                'attr' => array('class' => 'span1')
+            ))
+            
 
         ;
     }

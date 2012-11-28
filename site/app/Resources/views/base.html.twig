@@ -17,6 +17,8 @@
         <!--[if lt IE 9]>
           <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+        {% block jquery_ui %}{% endblock jquery_ui %}
     </head>
     <body>
         {% block header %} 
@@ -59,7 +61,7 @@
             <!-- Le javascript
                     ================================================== -->
             <!-- Placed at the end of the document so the pages load faster -->
-            <script src="{{ asset('/js/jquery.js') }}"></script>
+            
             <script src="{{ asset('/js/bootstrap.js') }}"></script>            
             <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>

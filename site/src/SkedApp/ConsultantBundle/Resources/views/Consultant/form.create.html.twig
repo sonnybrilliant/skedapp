@@ -64,26 +64,36 @@
           <span class="help-inline">{{form_errors(form.consultantServices)}}</span>  
         </div>
       </div>
-      <div class="control-group ">
-          <div class="well">
-          Default time slots
-        <br />
-        <table>
-            <tr>
-                <td>
-                    Days:&nbsp;
-                    {{ form_widget(form.monday) }}M &nbsp;
-                    {{ form_widget(form.tuesday) }}T &nbsp;
-                    {{ form_widget(form.wednesday) }}W &nbsp;
-                    {{ form_widget(form.thursday) }}T &nbsp;
-                    {{ form_widget(form.friday) }}F &nbsp;
-                    {{ form_widget(form.saturday) }}S &nbsp;
-                    {{ form_widget(form.sunday) }}S &nbsp;
-                </td>
-            </tr>
-        </table>
-          </div>
-      </div> 
+      <div class="control-group">
+        <label class="control-label" for="time_slots">Default time slots</label>
+        <div class="controls">
+            <div style="border: 1px solid #ccc; padding: 5px;width: 75%;">
+                <table style="font-size: 12px;">
+                    <tr>
+                        <td>Days:<td>
+                        <td>&nbsp;{{ form_widget(form.monday) }}<strong>M</strong>&nbsp;<td>
+                        <td>&nbsp;{{ form_widget(form.tuesday) }}<strong>T</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.wednesday) }}<strong>W</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.thursday) }}<strong>T</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.friday) }}<strong>F</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.saturday) }}<strong>S</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.sunday) }}<strong>S</strong>&nbsp;</td>
+                    </tr>
+                </table>
+                <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
+                    Time from:{{ form_widget(form.startTimeslot) }} 
+                </div>
+                <div style="margin: 8px 8px 0 0;padding-top: 5px;">
+                    Time to:{{ form_widget(form.endTimeslot) }} 
+                </div>
+                <div style="margin-top: 13px;">
+                     Session length: {{ form_widget(form.appointmentDuration) }} 
+                </div>
+
+            </div>
+
+        </div>
+      </div>
       <div class="form-actions">
           <button type="submit" name="submit" class="btn btn-primary" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_consultant_list') }}" class="btn">Cancel</a>

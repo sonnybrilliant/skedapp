@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * SkedApp\CoreBundle\Entity\Company
  *
  * @ORM\Table(name="consultant")
- * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\consultantRepository")
+ * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\ConsultantRepository")
  * @ORM\HasLifecycleCallbacks
  * 
  * @author Ronald Conco <ronald.conco@gmail.com>
@@ -168,13 +168,43 @@ class Consultant
      * @ORM\Column(name="saturday", type="boolean", nullable=false)
      */
     protected $saturday;
-    
+
     /**
      * @var boolean $sunday
      *
      * @ORM\Column(name="sunday", type="boolean", nullable=false)
      */
-    protected $sunday;    
+    protected $sunday;
+
+    /**
+     * @var Timeslot
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Timeslots")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="start_time_slot_id", referencedColumnName="id")
+     * })
+     */
+    protected $startTimeslot;
+
+    /**
+     * @var Timeslot
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Timeslots")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="end_time_slot_id", referencedColumnName="id")
+     * })
+     */
+    protected $endTimeslot;
+
+    /**
+     * @var AppointmentDuration
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\AppointmentDuration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="appointment_duration_id", referencedColumnName="id")
+     * })
+     */
+    protected $appointmentDuration;
 
     /**
      * @var datetime $createdAt
@@ -601,7 +631,6 @@ class Consultant
         return $this->isDeleted;
     }
 
-
     /**
      * Set monday
      *
@@ -611,7 +640,7 @@ class Consultant
     public function setMonday($monday)
     {
         $this->monday = $monday;
-    
+
         return $this;
     }
 
@@ -634,7 +663,7 @@ class Consultant
     public function setTuesday($tuesday)
     {
         $this->tuesday = $tuesday;
-    
+
         return $this;
     }
 
@@ -657,7 +686,7 @@ class Consultant
     public function setWednesday($wednesday)
     {
         $this->wednesday = $wednesday;
-    
+
         return $this;
     }
 
@@ -680,7 +709,7 @@ class Consultant
     public function setThursday($thursday)
     {
         $this->thursday = $thursday;
-    
+
         return $this;
     }
 
@@ -703,7 +732,7 @@ class Consultant
     public function setFriday($friday)
     {
         $this->friday = $friday;
-    
+
         return $this;
     }
 
@@ -726,7 +755,7 @@ class Consultant
     public function setSaturday($saturday)
     {
         $this->saturday = $saturday;
-    
+
         return $this;
     }
 
@@ -749,7 +778,7 @@ class Consultant
     public function setSunday($sunday)
     {
         $this->sunday = $sunday;
-    
+
         return $this;
     }
 
@@ -761,5 +790,75 @@ class Consultant
     public function getSunday()
     {
         return $this->sunday;
+    }
+
+    /**
+     * Set startTimeslot
+     *
+     * @param \SkedApp\CoreBundle\Entity\Timeslots $startTimeslot
+     * @return Consultant
+     */
+    public function setStartTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $startTimeslot = null)
+    {
+        $this->startTimeslot = $startTimeslot;
+
+        return $this;
+    }
+
+    /**
+     * Get startTimeslot
+     *
+     * @return \SkedApp\CoreBundle\Entity\Timeslots 
+     */
+    public function getStartTimeslot()
+    {
+        return $this->startTimeslot;
+    }
+
+    /**
+     * Set endTimeslot
+     *
+     * @param \SkedApp\CoreBundle\Entity\Timeslots $endTimeslot
+     * @return Consultant
+     */
+    public function setEndTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $endTimeslot = null)
+    {
+        $this->endTimeslot = $endTimeslot;
+
+        return $this;
+    }
+
+    /**
+     * Get endTimeslot
+     *
+     * @return \SkedApp\CoreBundle\Entity\Timeslots 
+     */
+    public function getEndTimeslot()
+    {
+        return $this->endTimeslot;
+    }
+
+
+    /**
+     * Set appointmentDuration
+     *
+     * @param \SkedApp\CoreBundle\Entity\AppointmentDuration $appointmentDuration
+     * @return Consultant
+     */
+    public function setAppointmentDuration(\SkedApp\CoreBundle\Entity\AppointmentDuration $appointmentDuration = null)
+    {
+        $this->appointmentDuration = $appointmentDuration;
+    
+        return $this;
+    }
+
+    /**
+     * Get appointmentDuration
+     *
+     * @return \SkedApp\CoreBundle\Entity\AppointmentDuration 
+     */
+    public function getAppointmentDuration()
+    {
+        return $this->appointmentDuration;
     }
 }

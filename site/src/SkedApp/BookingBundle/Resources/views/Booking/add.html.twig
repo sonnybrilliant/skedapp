@@ -1,0 +1,32 @@
+
+{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% block title %}Add a booking{% endblock %}
+
+{% block stylesheets %}
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block jquery_ui %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock jquery_ui %}
+
+{% block body %}
+<div class="container">
+    {% block menu %}
+        <div class="span3 bs-docs-sidenav">
+           {% include "::menu.html.twig" %} 
+            </div>       
+    {% endblock menu %}    
+    {% block content %}
+            <div class="span8">
+                <h4>Add a booking</h4>
+                <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+            {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
+            </div>  
+    {% endblock content %}   
+        </div>
+{% endblock body %}

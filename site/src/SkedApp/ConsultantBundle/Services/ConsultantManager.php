@@ -80,6 +80,25 @@ final class ConsultantManager
     {
         $this->em = $em;
     }
+    
+    /**
+     * Get consultant by id
+     * @param integer $id
+     * @return SkedAppCoreBundle:Consultant
+     * @throws \Exception 
+     */
+    public function getById($id)
+    {
+        $consultant = $this->em->getRepository('SkedAppCoreBundle:Consultant')
+            ->find($id);
+
+        if (!$consultant) {
+            throw new \Exception('Consultant not found for id:' . $id);
+            $this->logger->err('Failed to find Consultant by id:' . $id);
+        }
+
+        return $consultant;
+    }    
 
     /**
      * update consultant
