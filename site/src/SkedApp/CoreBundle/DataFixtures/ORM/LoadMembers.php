@@ -40,35 +40,32 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $admin->setGroup($this->getReference('group-admin'));
         $admin->setStatus($this->getReference('status-active'));
         $manager->persist($admin);
-        
-        
-        
-        
-        $adminJustin = new Member();
-        $adminJustin->setFirstName("Justin");
-        $adminJustin->setLastName("Doyle");
-        $adminJustin->setEmail("justin.doyle@kaizania.co.za");
-        $adminJustin->setMobileNumber("27713264122");
-        $adminJustin->setPassword('654321');
 
-        $adminJustin->getMemberRoles()->add($this->getReference('role-admin'));
-        $adminJustin->getMemberRoles()->add($this->getReference('role-member'));
-        $adminJustin->getMemberRoles()->add($this->getReference('role-report'));
-        $adminJustin->getMemberRoles()->add($this->getReference('role-content'));
+//        $adminJustin = new Member();
+//        $adminJustin->setFirstName("Justin");
+//        $adminJustin->setLastName("Doyle");
+//        $adminJustin->setEmail("justin.doyle@kaizania.co.za");
+//        $adminJustin->setMobileNumber("27713264122");
+//        $adminJustin->setPassword('654321');
+//
+//        $adminJustin->getMemberRoles()->add($this->getReference('role-admin'));
+//        $adminJustin->getMemberRoles()->add($this->getReference('role-member'));
+//        $adminJustin->getMemberRoles()->add($this->getReference('role-report'));
+//        $adminJustin->getMemberRoles()->add($this->getReference('role-content'));
+//
+//        $adminJustin->setCompany($this->getReference('company-default'));
+//        $adminJustin->setTitle($this->getReference('title-mr'));
+//        $adminJustin->setGender($this->getReference('gender-male'));
+//        $adminJustin->setGroup($this->getReference('group-admin'));
+//        $adminJustin->setStatus($this->getReference('status-active'));
+//        $manager->persist($adminJustin);
 
-        $adminJustin->setCompany($this->getReference('company-default'));
-        $adminJustin->setTitle($this->getReference('title-mr'));
-        $adminJustin->setGender($this->getReference('gender-male'));
-        $adminJustin->setGroup($this->getReference('group-admin'));
-        $adminJustin->setStatus($this->getReference('status-active'));
-        $manager->persist($adminJustin);        
-        
         $adminRoelf = new Member();
-        $adminRoelf->setFirstName("Roelf");
-        $adminRoelf->setLastName("Strydom");
-        $adminRoelf->setEmail("roelf.strydom@kaizania.co.za");
-        $adminRoelf->setMobileNumber("27713264121");
-        $adminRoelf->setPassword('654321');
+        $adminRoelf->setFirstName("Otto");
+        $adminRoelf->setLastName("Saayman");
+        $adminRoelf->setEmail("otto.saayman@kaizania.co.za");
+        $adminRoelf->setMobileNumber("27828219119");
+        $adminRoelf->setPassword('gert');
 
         $adminRoelf->getMemberRoles()->add($this->getReference('role-admin'));
         $adminRoelf->getMemberRoles()->add($this->getReference('role-member'));
@@ -80,8 +77,8 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $adminRoelf->setGender($this->getReference('gender-male'));
         $adminRoelf->setGroup($this->getReference('group-admin'));
         $adminRoelf->setStatus($this->getReference('status-active'));
-        $manager->persist($adminRoelf); 
-        
+        $manager->persist($adminRoelf);
+
         $adminBernard = new Member();
         $adminBernard->setFirstName("Bernard");
         $adminBernard->setLastName("Brand");
@@ -99,9 +96,9 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $adminBernard->setGender($this->getReference('gender-male'));
         $adminBernard->setGroup($this->getReference('group-admin'));
         $adminBernard->setStatus($this->getReference('status-active'));
-        $manager->persist($adminBernard);         
-        
-        
+        $manager->persist($adminBernard);
+
+
         $manager->flush() ;
 
     }

@@ -12,4 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class CompanyRepository extends EntityRepository
 {
+
+    /**
+     * Get all active consultants query
+     *
+     * @author Ronald Conco <ronald.conco@kaizania.com>
+     * @return Resultset
+     */
+    public function  getAllActiveCompaniesQuery($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'c.name',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
+        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
+        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
+        return $objQueuryBuilder->getQuery()->execute();
+    }
+
 }
