@@ -19,10 +19,10 @@ class CompanyController extends Controller
     public function listAction($page = 1)
     {
 
-        $this->get('logger')->info('list companies');
+        $this->get('logger')->info('list service providers');
 
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list companies, access denied.');
+            $this->get('logger')->warn('list service providers, access denied.');
             throw new AccessDeniedException();
         }
 
@@ -191,7 +191,7 @@ class CompanyController extends Controller
                 return $this->redirect($this->generateUrl('sked_app_company_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
-                    'error', 'Failed to service provider company');
+                    'error', 'Failed to update service provider');
             }
         }
 
@@ -212,7 +212,7 @@ class CompanyController extends Controller
         $this->get('logger')->info('delete service provider id:' . $id);
 
         if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('delete company id:' . $id . ', access denied.');
+            $this->get('logger')->warn('delete  service provider id:' . $id . ', access denied.');
             throw new AccessDeniedException();
         }
 
