@@ -35,7 +35,7 @@ class CompanyPhotosCreateType extends AbstractType
                 'attr' => array('class' => 'span4')
             ))
             ->add('picture', 'file', array(
-                'label' => 'Profile picture:',
+                'label' => 'Upload Photo:',
                 'attr' => array('class' => 'span4')
             ))
 

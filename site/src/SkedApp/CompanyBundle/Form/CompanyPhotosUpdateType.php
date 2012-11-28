@@ -9,14 +9,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 
 /**
- * SkedApp\CompanyBundle\Form\CompanyUpdateType
+ * SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Otto Saayman <otto.saayman@kaizania.co.za>
  * @package SkedAppCompanyBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class CompanyUpdateType extends AbstractType
+class CompanyPhotosUpdateType extends AbstractType
 {
 
     /**
@@ -30,38 +30,13 @@ class CompanyUpdateType extends AbstractType
     {
 
         $builder
-            ->add('name', 'text', array(
-                'label' => 'Name:',
+            ->add('caption', 'text', array(
+                'label' => 'Caption:',
                 'attr' => array('class' => 'span4')
             ))
             ->add('picture', 'file', array(
-                'label' => 'Profile picture:',
-                'attr' => array('class' => 'span4'),
-                'required'      => false,
-            ))
-            ->add('description', 'textarea', array(
-                'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
-            ))
-            ->add('address', null, array(
-                'label' => 'Type your address:',
-                'required'      => true,
-            ))
-            ->add('locality', null, array(
-                'required'      => false,
-                'read_only'      => true
-            ))
-            ->add('country', null, array(
-                'required'      => false,
-                'read_only'      => true
-            ))
-            ->add('lat', null, array(
-                'required'      => false,
-                'read_only'      => true
-            ))
-            ->add('lng', null, array(
-                'required'      => false,
-                'read_only'      => true
+                'label' => 'Upload Photo:',
+                'attr' => array('class' => 'span4')
             ))
 
         ;
@@ -73,20 +48,20 @@ class CompanyUpdateType extends AbstractType
      */
     public function getName()
     {
-        return 'Company';
+        return 'CompanyPhotos';
     }
 
     public function getDefaultOptions(array $options)
     {
         return array(
-            'data_class' => 'SkedApp\CoreBundle\Entity\Company',
+            'data_class' => 'SkedApp\CoreBundle\Entity\CompanyPhotos',
         );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SkedApp\CoreBundle\Entity\Company',
+            'data_class' => 'SkedApp\CoreBundle\Entity\CompanyPhotos',
         ));
     }
 

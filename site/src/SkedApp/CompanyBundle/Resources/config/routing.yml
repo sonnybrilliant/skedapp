@@ -37,3 +37,7 @@ sked_app_company_delete:
 sked_app_company_photo_update:
     pattern:  /company/photo_update/{company_id}/{id}
     defaults: { _controller: SkedAppCompanyBundle:Company:photo_update }
+
+sked_app_company_photo_delete:
+    pattern:  /company/photo_delete/{company_id}/{id}
+    defaults: { _controller: SkedAppCompanyBundle:Company:photo_delete }
