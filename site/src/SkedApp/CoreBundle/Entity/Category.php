@@ -45,8 +45,8 @@ class Category
     protected $name ;
 
     /**
-     * @var string $speciality
-     *
+     * @var string $description
+     * 
      * @Assert\MaxLength(limit= 100, message="Category description has a limit of {{ limit }} characters.")
      *
      * @ORM\Column(name="description", type="text", length=500, nullable=true)

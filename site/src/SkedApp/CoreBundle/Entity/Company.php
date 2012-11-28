@@ -68,7 +68,7 @@ class Company
      * @Assert\MinLength(limit= 2, message="Service provider locality must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 150, message="Service provider locality has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="locality", type="string", length=150, nullable=false)
+     * @ORM\Column(name="locality", type="string", length=150, nullable=true)
      */
     protected $locality;
 
@@ -79,7 +79,7 @@ class Company
      * @Assert\MinLength(limit= 2, message="Service provider country must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 150, message="Service provider country has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="country", type="string", length=150, nullable=false)
+     * @ORM\Column(name="country", type="string", length=150, nullable=true)
      */
     protected $country;
 
@@ -90,7 +90,7 @@ class Company
      * @Assert\MinLength(limit= 2, message="Service provider lat must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 50, message="Service provider lat has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="lat", type="string", length=50, nullable=false)
+     * @ORM\Column(name="lat", type="string", length=50, nullable=true)
      */
     protected $lat;
 
@@ -101,7 +101,8 @@ class Company
      * @Assert\MinLength(limit= 2, message="Service provider lng must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 50, message="Service provider lng has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="lng", type="string", length=50, nullable=false)
+
+     * @ORM\Column(name="lng", type="string", length=50, nullable=true)
      */
     protected $lng;
 

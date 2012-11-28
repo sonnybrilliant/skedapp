@@ -241,7 +241,7 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        $this->container->get('consultant.manager')->delete($consultant);        
+        $this->container->get('consultant.manager')->delete($consultant);
         $this->getRequest()->getSession()->setFlash(
             'success', 'Deleted consultant sucessfully');
         return $this->redirect($this->generateUrl('sked_app_consultant_list'));

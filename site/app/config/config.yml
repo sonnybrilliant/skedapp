@@ -76,7 +76,7 @@ genemu_form:
         private_key: %recaptcha_private_key%
 
 stfalcon_tinymce:
-    include_jquery: true
+    include_jquery: false
     tinymce_jquery: true
     textarea_class: "tinymce"
     theme:
