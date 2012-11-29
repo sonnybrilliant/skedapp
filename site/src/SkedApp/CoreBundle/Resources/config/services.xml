@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="kernel_listener_login_redirect_class">SkedApp\CoreBundle\EventListener\SecurityListener</parameter>
+        <parameter key="status_manager.class">SkedApp\CoreBundle\Services\StatusManager</parameter>   
+    </parameters>
+    <services>
+        <service id="kernel.listener.login_redirect" class="%kernel_listener_login_redirect_class%">
+            <argument type="service" id="router" />
+            <argument type="service" id="security.context" />
+            <tag name="kernel.event_listener" event="security.interactive_login" method="onSecurityInteractiveLogin" />
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" />
+        </service> 
+        <service id="status.manager" class="%status_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>         
+    </services>
+</container>
