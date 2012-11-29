@@ -2,17 +2,17 @@ parameters:
     database_driver:   pdo_mysql
     database_host:     localhost
     database_port:     ~
-    database_name:     dev_skedapp_site
+    database_name:     skedapp 
     database_user:     root
-    database_password: G3rty.
+    database_password: root
 
     mailer_transport:  smtp
-    mailer_host:       mail.igotafrica.com:587
-    mailer_user:       devtest@igotafrica.com
-    mailer_password:   M$iLG67
+    mailer_host:       localhost
+    mailer_user:       ~
+    mailer_password:   ~
 
     recaptcha_public_key: 6LebmNkSAAAAAF5dLAFEA7ubWy90gSY9dmzkbxEp
     recaptcha_private_key: 6LebmNkSAAAAAJm2d08gynM-4ceqKq6Y5tUbMSrr
 
     locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            6LebmNkSAAAAAF5dLAFEA7ubWy90gSY9dmzkbxEp

@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class StatusRepository extends EntityRepository
 {
+
+    /**
+     * Get status
+     *
+     * @param string $status
+     * @return type
+     */
+    public function getStatus($status)
+    {
+        $objQueuryBuilder = $this->createQueryBuilder('s')
+            ->where('s.name = :status_name')
+            ->setParameter('status_name', $status);
+
+        return $objQueuryBuilder->getQuery()->getSingleResult();
+    }
+
 }

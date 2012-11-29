@@ -1,13 +1,12 @@
 <section>
-    <span><a href="{{ path('sked_app_service_new') }}" class="btn btn-primary btn-small pull-right">Add Service</a></span>
+    <span><a href="{{ path('sked_app_service_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Service</a></span>
     <table id="sortable" class="table table-striped table-condensed tablesorter">
             <thead>
               <tr>
                 <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Service name', 's.name')|raw }}</th>
                 <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Category', 's.category')|raw }}</th>
                 <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Length', 's.appointmentDuration')|raw }}</th>
-                <th>Actions</th>
-                <th></th>
+                <th><span class="pull-right">Actions</span></th>
               </tr>
             </thead>
             <tbody>
@@ -16,7 +15,7 @@
                 <td>{{service.name}}</td>
                 <td>{{service.category.name}}</td>
                 <td>{{service.appointmentDuration.name}}</td>
-                <td></a>&nbsp;&nbsp;<a href='{{path('sked_app_service_edit', {'id': service.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a> &nbsp;<a href='{{path('sked_app_service_delete', {'id': service.id }) }}' onclick="if(confirm('You are about to delete {{service.name}} service, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
+                <td><span class="pull-right"><a href='{{path('sked_app_service_edit', {'id': service.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a> &nbsp;<a href='{{path('sked_app_service_delete', {'id': service.id }) }}' onclick="if(confirm('You are about to delete {{service.name}} service, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></span></td>
               </tr>
               {% endfor %}
             </tbody>

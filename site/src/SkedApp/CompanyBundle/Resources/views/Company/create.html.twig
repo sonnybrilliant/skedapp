@@ -13,23 +13,57 @@
 {% endblock jquery_ui %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
+    <div class="span3 bs-docs-sidenav">
            {% include "::menu.html.twig" %}
-            </div>
+    </div>
     {% endblock menu %}
     {% block content %}
-            <div class="span7">
-                <h4>Add a new company</h4>
-                <br />
+    <div class="span9">
+        <h3>Add a new company</h3>
+        <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
         {#start form display===============================#}
             {% include "SkedAppCompanyBundle:Company:form.create.html.twig" %}
         {#end form display===============================#}
-            </div>
+    </div>
     {% endblock content %}
-        </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    if (blnAddress) {
+        var addresspickerMap = $( "#Company_address" ).addresspicker({
+            regionBias: "za",
+            mapOptions: {
+                zoom: 10
+            },
+            elements: {
+                map:      "#map",
+                lat:      "#Company_lat",
+                lng:      "#Company_lng",
+                locality: '#Company_locality',
+                //		    administrative_area_level_2: '#administrative_area_level_2',
+                //		    administrative_area_level_1: '#administrative_area_level_1',
+                country:  '#Company_country'
+            //		    postal_code: '#postal_code',
+            //        type:    '#type'
+            }
+        });
+
+        var gmarker = addresspickerMap.addresspicker( "marker");
+        gmarker.setVisible(true);
+
+        var image = new google.maps.MarkerImage("http://maps.google.com/mapfiles/marker.png",
+            // This marker is 20 pixels wide by 34 pixels tall.
+            new google.maps.Size(20, 34)
+            );
+
+        gmarker.setIcon (image);
+        addresspickerMap.addresspicker( "updatePosition");
+    }
+
+
+});
+</script>
 {% endblock body %}

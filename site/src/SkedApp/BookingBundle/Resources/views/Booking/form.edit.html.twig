@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="{{ path('sked_app_booking_create') }}" method="POST" {{ form_enctype(form) }}>
+<form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id }) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
       <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
       <div class="control-group">
@@ -46,7 +46,7 @@
         </div>
       </div>      
       <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn">Cancel</a>
       </div> 
       {{ form_rest(form) }} 

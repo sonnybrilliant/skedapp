@@ -1,7 +1,0 @@
-parameters:
-#    sked_app_member.example.class: SkedApp\CoreBundle\Example
-
-services:
-#    sked_app_core.example:
-#        class: %sked_app_core.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use SkedApp\BookingBundle\Form\BookingCreateType;
+use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\CoreBundle\Entity\Booking;
 
 /**
@@ -37,12 +38,12 @@ class BookingController extends Controller
     }
 
     /**
-     * Add booking
+     * new booking
      * 
      * @param type $agency
      * @return Reponse
      */
-    public function addAction($agency = 1)
+    public function newAction($agency = 1)
     {
         $this->get('logger')->info('add a new booking');
 
@@ -51,6 +52,93 @@ class BookingController extends Controller
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
+            ));
+    }
+
+    /**
+     * new booking
+     * 
+     * @param type $agency
+     * @return Reponse
+     */
+    public function createAction($agency = 1)
+    {
+        $this->get('logger')->info('add a new booking');
+
+        $booking = new Booking();
+        $form = $this->createForm(new BookingCreateType(), $booking);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $booking->setStatus($this->get('status.manager')->confirmed());
+                $this->get('booking.manager')->save($booking);
+                $this->getRequest()->getSession()->setFlash(
+                    'success', 'Created booking sucessfully');
+                return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Failed to create booking');
+            }
+        }
+
+
+        return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
+                'form' => $form->createView(),
+            ));
+    }
+
+    /**
+     * Edit booking
+     * 
+     * @param type $bookingId
+     * @return type
+     */
+    public function editAction($bookingId)
+    {
+        $this->get('logger')->info('edit booking id:' . $bookingId);
+
+        $booking = $this->get("booking.manager")->getById($bookingId);
+        $form = $this->createForm(new BookingUpdateType(), $booking);
+
+        return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
+                'form' => $form->createView(),
+                'id' => $booking->getId()
+            ));
+    }
+
+    /**
+     * update booking
+     * 
+     * @param type $bookingId
+     * @return type
+     */
+    public function updateAction($bookingId)
+    {
+        $this->get('logger')->info('update booking id:' . $bookingId);
+
+        $booking = $this->get("booking.manager")->getById($bookingId);
+        $form = $this->createForm(new BookingUpdateType(), $booking);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $this->get('booking.manager')->save($booking);
+                $this->getRequest()->getSession()->setFlash(
+                    'success', 'Updated booking sucessfully');
+                return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Failed to update booking');
+            }
+        }
+
+
+        return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
+                'form' => $form->createView(),
+                'id' => $booking->getId()
             ));
     }
 
@@ -91,6 +179,42 @@ class BookingController extends Controller
             $this->get('logger')->warn('not a valid request, expected ajax call');
             throw new AccessDeniedException();
         }
+    }
+
+    public function ajaxGetBookingsAction()
+    {
+        $this->get('logger')->info('get bookings');
+        $results = array();
+
+        $bookings = $this->get("booking.manager")->getAll();
+
+        if ($bookings) {
+            foreach ($bookings as $booking) {
+                $allDay = false;
+
+
+                if (true == $booking->getIsLeave()) {
+                    $allDay = true;
+                    $bookingName = "On leave";
+                } else {
+                    $bookingName = $booking->getService()->getName();
+                }
+
+                $results[] = array(
+                    'allDay' => $allDay,
+                    'title' => $bookingName,
+                    'start' => $booking->getAppointmentDate()->format("Y-m-d") . ' ' . $booking->getStartTimeslot()->getSlot(),
+                    'end' => $booking->getAppointmentDate()->format("Y-m-d") . ' ' . $booking->getEndTimeslot()->getSlot(),
+                    //'start' => "2012-11-29",
+                    'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
+                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId"=>$booking->getId()) )
+                );
+            }
+        }
+
+        $response = new Response(json_encode($results));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
 }

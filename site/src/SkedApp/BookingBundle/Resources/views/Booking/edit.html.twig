@@ -1,6 +1,6 @@
 
 {% extends "SkedAppBookingBundle::layout.html.twig" %}
-{% block title %}Add a booking{% endblock %}
+{% block title %}Edit booking{% endblock %}
 
 {% block stylesheets %}
 <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
@@ -20,12 +20,12 @@
     {% endblock menu %}    
     {% block content %}
     <div class="span9">
-        <h3>Add a booking</h3>
+        <h3>Edit booking</h3>
         <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
+            {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
     </div>  
     {% endblock content %}   
 <script type="text/javascript">

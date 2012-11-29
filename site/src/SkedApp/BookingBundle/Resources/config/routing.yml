@@ -2,14 +2,33 @@ sked_app_booking_manager:
     pattern:  /booking/manage
     defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking }
     
-sked_app_booking_add:
-    pattern:  /booking/add
-    defaults: { _controller: SkedAppBookingBundle:Booking:add }
+sked_app_booking_new:
+    pattern:  /booking/new
+    defaults: { _controller: SkedAppBookingBundle:Booking:new }
+    
+sked_app_booking_create:
+    pattern:  /booking/create
+    defaults: { _controller: SkedAppBookingBundle:Booking:create }
+
+sked_app_booking_edit:
+    pattern:  /booking/edit/{bookingId}
+    defaults: { _controller: SkedAppBookingBundle:Booking:edit }
     requirements:
-        #consultantId:  \d+  
+        bookingId:  \d+      
+        
+sked_app_booking_update:
+    pattern:  /booking/update/{bookingId}
+    defaults: { _controller: SkedAppBookingBundle:Booking:update }
+    requirements:
+        bookingId:  \d+              
         
 sked_app_booking_ajax_get_by_consultant:
     pattern:  /booking/ajaxGetByConsultant/{consultantId}
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetByConsultant }
     requirements:
         consultantId:  \d+         
+
+sked_app_booking_ajax_get_bookings:
+    pattern:  /booking/ajaxGetBookings
+    defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
+     

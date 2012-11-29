@@ -9,14 +9,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 
 /**
- * SkedApp\ConsultantBundle\Form\BookingCreateType
+ * SkedApp\ConsultantBundle\Form\BookingUpdateType
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppBookingBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class BookingCreateType extends AbstractType
+class BookingUpdateType extends AbstractType
 {
 
     /**

@@ -2,15 +2,14 @@
 {% block title %}Add a new service{% endblock %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
+    <div class="span3 bs-docs-sidenav">
            {% include "::menu.html.twig" %} 
-            </div>       
+    </div>       
     {% endblock menu %}    
     {% block content %}
-            <div class="span7">
-                <h4>Add a new service</h4>
+     <div class="span9">
+                <h3>Add a new service</h3>
                 <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
@@ -18,7 +17,6 @@
         {#start form display===============================#}
             {% include "SkedAppServiceBundle:Service:form.create.html.twig" %}
         {#end form display===============================#}   
-            </div>  
+    </div>  
     {% endblock content %}   
-        </div>
 {% endblock body %}
