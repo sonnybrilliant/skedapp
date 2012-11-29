@@ -2,23 +2,21 @@
 {% block title %}Add a new consultant{% endblock %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
+    <div class="span3 bs-docs-sidenav">
            {% include "::menu.html.twig" %} 
-            </div>       
+    </div>       
     {% endblock menu %}    
     {% block content %}
-            <div class="span7">
-                <h4>Add a new consultant</h4>
-                <br />
+    <div class="span9">
+        <h3>Add a new consultant</h3>
+        <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
         {#start form display===============================#}
             {% include "SkedAppConsultantBundle:Consultant:form.create.html.twig" %}
         {#end form display===============================#}   
-            </div>  
+    </div>  
     {% endblock content %}   
-        </div>
 {% endblock body %}

@@ -10,7 +10,7 @@ use Monolog\Logger;
  * 
  * @author Ronald Conco <ronald.conco@kaizania.com>
  * @package SkedAppBookingBundle
- * @subpackage Consultant
+ * @subpackage Services
  * @version 0.0.1
  */
 final class BookingManager
@@ -81,6 +81,51 @@ final class BookingManager
         $this->em = $em;
     }
 
+    /**
+     * Get consultant by id
+     * @param integer $id
+     * @return SkedAppCoreBundle:Booking
+     * @throws \Exception 
+     */
+    public function getById($id)
+    {
+        $booking = $this->em->getRepository('SkedAppCoreBundle:Booking')
+            ->find($id);
 
+        if (!$booking) {
+            throw new \Exception('Booking not found for id:' . $id);
+            $this->logger->err('Failed to find Booking by id:' . $id);
+        }
+
+        return $booking;
+    }    
+    
+    /**
+     * Save booking object
+     * 
+     * @param SkedAppCoreBundle:Booking $booking
+     * @return void
+     */
+    public function save($booking)
+    {
+        $this->logger->info("save booking");
+        $this->em->persist($booking);
+        $this->em->flush();
+        return;
+    }
+
+    /**
+     * Get all bookings
+     * 
+     * @return Array
+     */
+    public function getAll()
+    {
+        $this->logger->info("get all bookings");
+
+        $booking = $this->em->getRepository("SkedAppCoreBundle:Booking")->findAll();
+
+        return $booking;
+    }
 
 }

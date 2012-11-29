@@ -18,7 +18,7 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-09-20 05:55:18",
+            "time": "1348120518",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -87,7 +87,7 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-11-22 04:04:25",
+            "time": "1353557065",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -100,7 +100,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan Wage",
+                    "name": "Jonathan H. Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/"
                 }
@@ -129,7 +129,7 @@
                 "php": ">=5.3.2",
                 "doctrine/common": "2.3.*"
             },
-            "time": "2012-11-25 18:03:29",
+            "time": "1353866609",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -204,7 +204,7 @@
             "suggest": {
                 "doctrine/orm": "The Doctrine ORM integration is optional in the bundle."
             },
-            "time": "2012-11-21 09:23:38",
+            "time": "1353489818",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -264,7 +264,7 @@
                 "doctrine/doctrine-bundle": "1.0.*",
                 "symfony/doctrine-bridge": ">=2.1.0,<2.3-dev"
             },
-            "time": "2012-10-22 13:57:52",
+            "time": "1350914272",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -319,7 +319,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "2012-11-27 21:26:17",
+            "time": "1354051577",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -388,7 +388,7 @@
                 "doctrine/orm": ">=2.1",
                 "doctrine/mongodb-odm": "*"
             },
-            "time": "2012-11-25 17:31:56",
+            "time": "1353864716",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -460,7 +460,7 @@
                 "symfony/mongodb-odm-bundle": "2.*",
                 "propel/propel-bundle": "*"
             },
-            "time": "2012-11-25 11:27:05",
+            "time": "1353842825",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -509,7 +509,7 @@
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-11-17 22:31:58",
+            "time": "1353191518",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -659,7 +659,7 @@
                 "doctrine/doctrine-bundle": "*",
                 "doctrine/orm": "*"
             },
-            "time": "2012-09-21 08:56:32",
+            "time": "1348217792",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -674,7 +674,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -765,7 +765,7 @@
                 "symfony/form": "*",
                 "symfony/validator": "*"
             },
-            "time": "2012-09-06 16:12:23",
+            "time": "1346947943",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -811,7 +811,7 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-11-16 09:22:14",
+            "time": "1353057734",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -868,7 +868,7 @@
                 "twig/twig": ">=1.5",
                 "symfony/framework-bundle": "2.*,<2.3"
             },
-            "time": "2012-11-16 10:26:21",
+            "time": "1353061581",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -933,7 +933,7 @@
                 "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
                 "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin"
             },
-            "time": "2012-11-27 13:27:38",
+            "time": "1354022858",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -992,7 +992,7 @@
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server"
             },
-            "time": "2012-11-14 15:46:10",
+            "time": "1352907970",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1042,7 +1042,7 @@
                 "symfony/serializer": ">=2.0.4",
                 "symfony/yaml": ">=2.0.4"
             },
-            "time": "2012-11-17 09:12:48",
+            "time": "1353143568",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -1091,7 +1091,7 @@
             "replace": {
                 "raulfraile/ladybugbundle": "dev-master"
             },
-            "time": "2012-11-17 09:14:31",
+            "time": "1353143671",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -1136,7 +1136,7 @@
             "require": {
                 "symfony/framework-bundle": "2.1.*"
             },
-            "time": "2012-11-19 11:18:52",
+            "time": "1353323932",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1183,7 +1183,7 @@
                 "symfony/framework-bundle": "2.1.*",
                 "doctrine/common": ">=2.1,<2.4-dev"
             },
-            "time": "2012-10-17 04:38:27",
+            "time": "1350448707",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1235,7 +1235,7 @@
                 "doctrine/orm": ">=2.1,<2.4-dev",
                 "twig/twig": ">=1.8,<2.0-dev"
             },
-            "time": "2012-11-19 16:10:57",
+            "time": "1353341457",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1278,7 +1278,7 @@
                 "php": ">=5.3.0",
                 "symfony/symfony": ">=2.1"
             },
-            "time": "2012-11-21 11:02:53",
+            "time": "1353495773",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -1336,7 +1336,7 @@
                 "doctrine/doctrine-bundle": "*",
                 "doctrine/mongodb-odm-bundle": "2.1.*"
             },
-            "time": "2012-11-01 14:01:27",
+            "time": "1351778487",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1455,7 +1455,7 @@
             "suggest": {
                 "symfony/twig-bundle": ">=2.1.0,<2.3-dev"
             },
-            "time": "2012-11-07 10:47:48",
+            "time": "1352285268",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1512,7 +1512,7 @@
                 "symfony/yaml": ">=2.1.0,<2.3-dev",
                 "symfony/config": ">=2.1.0,<2.3-dev"
             },
-            "time": "2012-09-20 10:40:24",
+            "time": "1348137624",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1567,7 +1567,7 @@
                 "symfony/config": ">=2.1.0,<2.3-dev",
                 "symfony/yaml": ">=2.1.0,<2.3-dev"
             },
-            "time": "2012-10-17 04:18:11",
+            "time": "1350447491",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1656,7 +1656,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "1.*"
             },
-            "time": "2012-11-26 10:27:20",
+            "time": "1353925640",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1699,14 +1699,14 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig-extensions/archive/dcdff02fbac1282e6b8f4d0558cc7e9580105688.zip",
+                "url": "https://github.com/fabpot/Twig-extensions/zipball/dcdff02fbac1282e6b8f4d0558cc7e9580105688",
                 "reference": "dcdff02fbac1282e6b8f4d0558cc7e9580105688",
                 "shasum": ""
             },
             "require": {
                 "twig/twig": "1.*"
             },
-            "time": "2012-10-10 17:13:26",
+            "time": "1349889206",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1753,7 +1753,7 @@
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "2012-11-26 10:25:49",
+            "time": "1353925549",
             "type": "library",
             "extra": {
                 "branch-alias": {

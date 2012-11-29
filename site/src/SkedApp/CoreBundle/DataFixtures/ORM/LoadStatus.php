@@ -107,6 +107,11 @@ class LoadStatus extends AbstractFixture implements OrderedFixtureInterface
         $booked->setName('Booked') ;
         $booked->setCode(170) ;
         $manager->persist($booked) ;  
+    
+        $confirm = new Status() ;
+        $confirm->setName('Confirmed') ;
+        $confirm->setCode(180) ;
+        $manager->persist($confirm) ;
         
         $manager->flush() ;
 

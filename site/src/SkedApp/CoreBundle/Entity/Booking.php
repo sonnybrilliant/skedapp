@@ -38,7 +38,7 @@ class Booking
      * })
      */
     protected $consultant;
-    
+
     /**
      * @var Service
      *
@@ -48,7 +48,7 @@ class Booking
      * })
      */
     protected $service;
-    
+
     /**
      * @var string $description
      * 
@@ -56,8 +56,8 @@ class Booking
      * 
      * @ORM\Column(name="description", type="text", length=500, nullable=true)
      */
-    protected $description;    
-    
+    protected $description;
+
     /**
      * @var Timeslot
      *
@@ -76,8 +76,8 @@ class Booking
      *   @ORM\JoinColumn(name="end_time_slot_id", referencedColumnName="id")
      * })
      */
-    protected $endTimeslot;    
-    
+    protected $endTimeslot;
+
     /**
      * @var Status
      *
@@ -86,22 +86,29 @@ class Booking
      *   @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      * })
      */
-    protected $status;    
-    
+    protected $status;
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_deleted", type="boolean")
      */
-    protected $isDeleted;    
+    protected $isDeleted;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_leave", type="boolean")
+     */
+    protected $isLeave;    
 
     /**
      * @var datetime
      *
      * @ORM\Column(name="appointment_date", type="date")
      */
-    protected $appointmentDate;    
-    
+    protected $appointmentDate;
+
     /**
      * @var datetime
      *
@@ -116,6 +123,14 @@ class Booking
      */
     protected $updatedAt;
 
+    public function __construct()
+    {
+        $this->isDeleted = false;
+        $this->isLeave = false;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
     /**
      * Get id
      *
@@ -126,7 +141,6 @@ class Booking
         return $this->id;
     }
 
-
     /**
      * Set isDeleted
      *
@@ -136,7 +150,7 @@ class Booking
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
-    
+
         return $this;
     }
 
@@ -159,7 +173,7 @@ class Booking
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -182,7 +196,7 @@ class Booking
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
@@ -205,7 +219,7 @@ class Booking
     public function setConsultant(\SkedApp\CoreBundle\Entity\Consultant $consultant = null)
     {
         $this->consultant = $consultant;
-    
+
         return $this;
     }
 
@@ -228,7 +242,7 @@ class Booking
     public function setStartTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $startTimeslot = null)
     {
         $this->startTimeslot = $startTimeslot;
-    
+
         return $this;
     }
 
@@ -251,7 +265,7 @@ class Booking
     public function setEndTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $endTimeslot = null)
     {
         $this->endTimeslot = $endTimeslot;
-    
+
         return $this;
     }
 
@@ -274,7 +288,7 @@ class Booking
     public function setStatus(\SkedApp\CoreBundle\Entity\Status $status = null)
     {
         $this->status = $status;
-    
+
         return $this;
     }
 
@@ -297,7 +311,7 @@ class Booking
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -312,6 +326,29 @@ class Booking
     }
 
     /**
+     * Set appointmentDate
+     *
+     * @param \DateTime $appointmentDate
+     * @return Booking
+     */
+    public function setAppointmentDate($appointmentDate)
+    {
+        $this->appointmentDate = $appointmentDate;
+
+        return $this;
+    }
+
+    /**
+     * Get appointmentDate
+     *
+     * @return \DateTime 
+     */
+    public function getAppointmentDate()
+    {
+        return $this->appointmentDate;
+    }
+
+    /**
      * Set service
      *
      * @param \SkedApp\CoreBundle\Entity\Service $service
@@ -320,7 +357,7 @@ class Booking
     public function setService(\SkedApp\CoreBundle\Entity\Service $service = null)
     {
         $this->service = $service;
-    
+
         return $this;
     }
 
@@ -334,26 +371,27 @@ class Booking
         return $this->service;
     }
 
+
     /**
-     * Set appointmentDate
+     * Set isLeave
      *
-     * @param \DateTime $appointmentDate
+     * @param boolean $isLeave
      * @return Booking
      */
-    public function setAppointmentDate($appointmentDate)
+    public function setIsLeave($isLeave)
     {
-        $this->appointmentDate = $appointmentDate;
+        $this->isLeave = $isLeave;
     
         return $this;
     }
 
     /**
-     * Get appointmentDate
+     * Get isLeave
      *
-     * @return \DateTime 
+     * @return boolean 
      */
-    public function getAppointmentDate()
+    public function getIsLeave()
     {
-        return $this->appointmentDate;
+        return $this->isLeave;
     }
 }

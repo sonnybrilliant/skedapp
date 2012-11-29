@@ -1,14 +1,9 @@
 {% extends "SkedAppCoreBundle::security.layout.html.twig" %}
 {% block title %}Welcome, please sign in{% endblock %}
 
-{% block stylesheets %}
-<link href="{{ asset('/css/login.css') }}" rel="stylesheet" type="text/css" />
-{% endblock %}
-
 {% block body %}
-<div class="container">
     <div class="span8">
-        <h4>Please login</h4>
+        <h3>Please login</h3>
         <br />
         {% if error %}
         <div class="alert alert-error">
@@ -25,7 +20,7 @@
                 <div class="control-group">
                     <label class="control-label" for="username">Email address</label>
                     <div class="controls">
-                        <input type="text" class="input-xlarge" id="username" name="_username" rel="popover" value="mlankag@gmail.com" data-content="Enter your assigned username." data-original-title="Username" required>
+                        <input type="text" class="input-xlarge" id="username" name="_username" rel="popover" value="john.smith@example.com" data-content="Enter your assigned username." data-original-title="Username" required>
                     </div>
                 </div>
                 <div class="control-group">
@@ -35,7 +30,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" name="submit" class="btn btn-primary" data-toggle="button">Login &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Login &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     <a href="{{ path('_welcome')}}" class="btn">Cancel</a>
                 </div>
             </fieldset>
@@ -50,12 +45,8 @@
             </p>
             <br />
             <p>
-                <a href="#" >Create an account</a>
-            </p>
-            <p>
                 <a href="{{ path('sked_app_member_reset')}}" >Forgot password</a>
             </p>
         </div>
     </div>
-</div>
 {% endblock body %}

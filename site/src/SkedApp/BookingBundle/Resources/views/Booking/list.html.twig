@@ -16,23 +16,22 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
         <div class="span3 bs-docs-sidenav">
            {% include "::menu.html.twig" %} 
             </div>       
     {% endblock menu %}    
     {% block content %}
-            <div class="span8">
-                <h4>Manage bookings</h4>
-                <br />
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-                <div id="calendar"></div>
-            </div>  
+    <div class="span9">
+        <h3>Manage bookings</h3>
+        <br />
+    {% block alert %}
+        {% include "::alert.html.twig" %}
+    {% endblock %}
+       <span><a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add booking</a></span>
+       <div id="calendar"></div>
+    </div>  
     {% endblock content %}   
-        </div>
        <script type='text/javascript'>
             $(document).ready(function() {
 	
@@ -43,13 +42,13 @@
 		
                 var calendar = $('#calendar').fullCalendar({
                     header: {
-                        left: '',
+                        left: 'prev,next today',
                         center: 'title',
-                        right: 'resourceDay'
+                        right: 'resourceDay,month,basicWeek,basicDay'
                     },
                     titleFormat: 'ddd, MMM dd, yyyy',
                     defaultView: 'resourceDay',
-                    selectable: true,
+                    selectable: false,
                     selectHelper: true,
                     select: function(start, end, allDay, event, resourceId) {
                         var title = prompt('Event Title:');
@@ -71,9 +70,7 @@
                     eventResize: function(event, dayDelta, minuteDelta) {
                         console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
                     },
-                    eventDrop: function( event, dayDelta, minuteDelta, allDay) {
-                        console.log("@@ drag/drop event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
-                    },
+                    
                     editable: true,
                     resources: [
                         {% for consultant in consultants %}
@@ -83,15 +80,8 @@
                             },
                         {% endfor%}
                     ],
-                    events: [
-                        {
-                            title: 'All Day Event 1',
-                            start: new Date(y, m, d - 1),
-                            end: new Date(y, m, d + 1),
-                            resourceId: 'resource-1'
-                        },
-                        
-                    ]
+                    events: "ajaxGetBookings",
+
                 });
 		
             });
