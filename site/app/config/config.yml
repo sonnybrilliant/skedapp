@@ -56,7 +56,10 @@ swiftmailer:
     host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
-    spool:     { type: memory }
+    auth_mode:  login
+    encryption: tls
+    port:  587
+    logging:  "%kernel.debug%"
 
 knp_paginator:
     page_range: 2                      # default page range used in pagination control
@@ -132,5 +135,5 @@ stfalcon_tinymce:
 
 # Set parameters to be used when sending mails:
 parameters:
-    mailer_from_mail: "info@skedapp.co.za"
+    mailer_from_mail: "dev@kaizania.co.za"
     mailer_from_name: "SkedApp"

@@ -7,9 +7,9 @@ parameters:
     database_password: root
 
     mailer_transport:  smtp
-    mailer_host:       localhost
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_host:       email-smtp.us-east-1.amazonaws.com
+    mailer_user:       AKIAJ2C4WPSJYW4EBT4Q
+    mailer_password:   Alk4ClFxDxS+E08f+fL+UZfcE4miEKFPa1E/GEm5PHPY
 
     recaptcha_public_key: 6LebmNkSAAAAAF5dLAFEA7ubWy90gSY9dmzkbxEp
     recaptcha_private_key: 6LebmNkSAAAAAJm2d08gynM-4ceqKq6Y5tUbMSrr
