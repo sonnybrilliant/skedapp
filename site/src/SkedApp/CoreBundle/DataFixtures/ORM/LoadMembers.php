@@ -120,6 +120,25 @@ class LoadMembers extends AbstractFixture implements OrderedFixtureInterface
         $adminWynand->setGroup($this->getReference('group-admin'));
         $adminWynand->setStatus($this->getReference('status-active'));
         $manager->persist($adminWynand);         
+      
+        $adminRonald = new Member();
+        $adminRonald->setFirstName("Sonny");
+        $adminRonald->setLastName("Brilliant");
+        $adminRonald->setEmail("mlankag@gmail.com");
+        $adminRonald->setMobileNumber("27713265638");
+        $adminRonald->setPassword('654321');
+
+        $adminRonald->getMemberRoles()->add($this->getReference('role-admin'));
+        $adminRonald->getMemberRoles()->add($this->getReference('role-member'));
+        $adminRonald->getMemberRoles()->add($this->getReference('role-report'));
+        $adminRonald->getMemberRoles()->add($this->getReference('role-content'));
+
+        $adminRonald->setCompany($this->getReference('company-default'));
+        $adminRonald->setTitle($this->getReference('title-mr'));
+        $adminRonald->setGender($this->getReference('gender-male'));
+        $adminRonald->setGroup($this->getReference('group-admin'));
+        $adminRonald->setStatus($this->getReference('status-active'));
+        $manager->persist($adminRonald);          
         
         $manager->flush() ;
 

@@ -6,9 +6,14 @@
 
     <parameters>
         <parameter key="company_manager.class">SkedApp\CompanyBundle\Services\CompanyManager</parameter>
+        <parameter key="company_photos_manager.class">SkedApp\CompanyBundle\Services\CompanyPhotosManager</parameter>
     </parameters>
     <services>
         <service id="company.manager" class="%company_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="company_photos.manager" class="%company_photos_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>

@@ -1,0 +1,23 @@
+<form class="form-horizontal" action="{{ path('sked_app_company_photo_update', {'company_id': company.id, 'id': 0 }) }}" method="POST" {{ form_enctype(photo_form) }}>
+  <fieldset>
+      <legend><span class="label label-info">Photo</span> <small>Upload.</small></legend>
+      <div class="control-group {% if form_errors(photo_form.caption) %} error {% endif %}">
+        <label class="control-label" for="caption">{{ form_label(photo_form.caption) }}</label>
+        <div class="controls">
+          {{ form_widget(photo_form.caption) }}
+          <span class="help-inline">{{form_errors(photo_form.caption)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(photo_form.picture) %} error {% endif %}">
+        <label class="control-label" for="picture">{{ form_label(photo_form.picture) }}</label>
+        <div class="controls">
+          {{ form_widget(photo_form.picture) }}
+          <span class="help-inline">{{form_errors(photo_form.picture)}}</span>
+        </div>
+      </div>
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-primary" data-toggle="button">Upload &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+      </div>
+      {{ form_rest(photo_form) }}
+  </fieldset>
+</form>

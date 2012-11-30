@@ -4,9 +4,12 @@ namespace SkedApp\CompanyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\CoreBundle\Entity\Company;
+use SkedApp\CoreBundle\Entity\CompanyPhotos;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SkedApp\CompanyBundle\Form\CompanyCreateType;
 use SkedApp\CompanyBundle\Form\CompanyUpdateType;
+use SkedApp\CompanyBundle\Form\CompanyPhotosCreateType;
+use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
 
 class CompanyController extends Controller
 {
@@ -148,9 +151,18 @@ class CompanyController extends Controller
 
         $form = $this->createForm(new CompanyUpdateType(), $company);
 
+        $company_photos = $this->container->get('company_photos.manager')->listAll (array ('company_id' => $company->getId (), 'sort' => 'c.caption', 'direction' => 'asc'));
+
+        $company_photo = new CompanyPhotos ();
+
+        $photo_form = $this->createForm(new CompanyPhotosCreateType(), $company_photo);
+
         return $this->render('SkedAppCompanyBundle:Company:edit.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $company->getId()
+                'id' => $company->getId(),
+                'company' => $company,
+                'company_photos' => $company_photos,
+                'photo_form' => $photo_form->createView(),
             ));
     }
 
@@ -202,7 +214,64 @@ class CompanyController extends Controller
     }
 
     /**
-     * Delete consultant
+     * Update company photo
+     *
+     * @return View
+     * @throws AccessDeniedException
+     */
+    public function photo_updateAction ($company_id, $id)
+    {
+        $this->get('logger')->info('create or update service provider photo id:' . $id);
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('logger')->warn('create or update service provider photo id:' . $id . ', access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        if ($id > 0)
+          $company_photo = $em->getRepository('SkedAppCoreBundle:CompanyPhotos')->find($id);
+        else
+          $company_photo = new CompanyPhotos ();
+
+        if ( (!$company_photo) && ($id > 0) ) {
+            $this->get('logger')->warn("service provider photo not found $id");
+            return $this->createNotFoundException();
+        }
+
+        $company = $em->getRepository('SkedAppCoreBundle:Company')->find($company_id);
+
+        if (!$company) {
+            $this->get('logger')->warn("Invalid service provider $company_id");
+            return $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(new CompanyPhotosUpdateType(), $company_photo);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+                $company_photo->setCompany ($company);
+                $em->persist ($company_photo);
+                $em->flush();
+                $this->getRequest()->getSession()->setFlash(
+                    'success', 'Uploaded service provider photo sucessfully');
+                return $this->redirect($this->generateUrl('sked_app_company_edit', array ('id' => $company_id)));
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Failed to upload service provider photo');
+            }
+        }
+
+        return $this->editAction ($company_id);
+
+    }
+
+    /**
+     * Delete company
      *
      * @return View
      * @throws AccessDeniedException
@@ -228,6 +297,35 @@ class CompanyController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Deleted service provider sucessfully');
         return $this->redirect($this->generateUrl('sked_app_company_list'));
+    }
+
+    /**
+     * Delete company photo
+     *
+     * @return View
+     * @throws AccessDeniedException
+     */
+    public function photo_deleteAction($company_id, $id)
+    {
+        $this->get('logger')->info('delete service provider photo id:' . $id);
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('logger')->warn('delete  service provider photo id:' . $id . ', access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $company = $em->getRepository('SkedAppCoreBundle:CompanyPhotos')->find($id);
+
+        if (!$company) {
+            $this->get('logger')->warn("service provider photo not found $id");
+            return $this->createNotFoundException();
+        }
+
+        $this->container->get('company_photos.manager')->delete($company);
+        $this->getRequest()->getSession()->setFlash(
+            'success', 'Deleted service provider photo sucessfully');
+        return $this->redirect($this->generateUrl('sked_app_company_edit', array ('id' => $company_id)));
     }
 
 }
