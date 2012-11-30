@@ -1,0 +1,5 @@
+site/app/bootstrap*
+site/app/config/parameters.yml
+site/nbproject/
+site/src/SkedApp/CoreBundle/Entity/*.php~
+site/web/bundles/
