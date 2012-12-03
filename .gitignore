@@ -1,3 +1,4 @@
+/site/composer.lock
 site/app/bootstrap*
 site/app/config/parameters.yml
 site/nbproject/
