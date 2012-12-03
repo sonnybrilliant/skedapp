@@ -1,0 +1,20 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}Search Results{% endblock %}
+
+{% block body %}
+    {% block content %}
+
+    {#start form display===============================#}
+        {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
+    {#end form display===============================#}
+
+     <div class="span9">
+        <h3>Search results</h3>
+        <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+            {% include "SkedAppSearchBundle:Search:list.table.html.twig" %}
+     </div>
+    {% endblock content %}
+{% endblock body %}

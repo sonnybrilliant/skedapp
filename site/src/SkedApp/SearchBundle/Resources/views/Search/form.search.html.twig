@@ -1,0 +1,66 @@
+{% block stylesheets %}
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('/js/search.js') }}"></script>
+{% endblock javascripts %}
+
+{% block jquery_ui %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+{% endblock jquery_ui %}
+
+
+<form class="form-horizontal formSearch" action="{{ path('sked_app_search_index') }}" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <legend><span class="label label-info">Start Here</span> <small>Tell us what you are looking for</small></legend>
+      <div class="control-group {% if form_errors(form.category) %} error {% endif %}">
+        <label class="control-label" for="company">{{ form_label(form.category) }}</label>
+        <div class="controls">
+          {{ form_widget(form.category) }}
+          <span class="help-inline">{{form_errors(form.category)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.address) %} error {% endif %}">
+        <label class="control-label" for="professional_statement">{{ form_label(form.address) }}</label>
+        <div class="controls">
+
+          {{ form_widget(form.address) }}
+          {{ form_widget(form.locality) }}
+          {{ form_widget(form.administrative_area_level_2) }}
+          {{ form_widget(form.administrative_area_level_1) }}
+          {{ form_widget(form.country) }}
+          {{ form_widget(form.lat) }}
+          {{ form_widget(form.lng) }}
+
+
+          <script type="text/javascript">
+          var blnAddress = true;
+          </script>
+          <span class="help-inline">{{form_errors(form.address)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.booking_date) %} error {% endif %}">
+        <label class="control-label" for="booking_date">{{ form_label(form.booking_date) }}</label>
+        <div class="controls">
+          {{ form_widget(form.booking_date) }}
+          <span class="help-inline">{{form_errors(form.booking_date)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.consultantServices) %} error {% endif %}">
+        <label class="control-label" for="consultant_services">{{ form_label(form.consultantServices) }}</label>
+        <div class="controls">
+          {{ form_widget(form.consultantServices) }}
+          <span class="help-inline">{{form_errors(form.consultantServices)}}</span>
+        </div>
+      </div>
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+      </div>
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+<div id="Search_map" class="divSearchMap"></div>
+<div style="clear:both;"></div>
