@@ -21,9 +21,15 @@ sked_app_category_update:
     defaults: { _controller: SkedAppCategoryBundle:Category:update }
     requirements:
         id:  \d+
-        
+
+sked_app_category_show:
+    pattern:  /category/show/{id}
+    defaults: { _controller: SkedAppCategoryBundle:Category:show }
+    requirements:
+        id:  \d+
+
 sked_app_category_delete:
     pattern:  /category/delete/{id}
     defaults: { _controller: SkedAppCategoryBundle:Category:delete }
     requirements:
-        id:  \d+   
+        id:  \d+

@@ -9,8 +9,8 @@ use SkedApp\CategoryBundle\Form\CategoryCreateType;
 use SkedApp\CategoryBundle\Form\CategoryUpdateType;
 
 /**
- * Catergory manager 
- * 
+ * Catergory manager
+ *
  * @author Ronald Conco <ronald.conco@kaizania.com>
  * @package SkedAppCategoryBundle
  * @subpackage Controller
@@ -21,7 +21,7 @@ class CategoryController extends Controller
 
     /**
      * List category
-     * 
+     *
      * @param integer $page
      * @return Reponse
      */
@@ -56,7 +56,7 @@ class CategoryController extends Controller
 
     /**
      * Create a new category
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
      */
@@ -77,7 +77,7 @@ class CategoryController extends Controller
 
     /**
      * Create a new category
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
      */
@@ -112,7 +112,7 @@ class CategoryController extends Controller
 
     /**
      * Edit category
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
      */
@@ -142,7 +142,7 @@ class CategoryController extends Controller
 
     /**
      * Update a category
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
      */
@@ -184,9 +184,9 @@ class CategoryController extends Controller
 
     /**
      * Delete category
-     *  
+     *
      * @return Response
-     * @throws AccessDeniedException 
+     * @throws AccessDeniedException
      */
     public function deleteAction($id)
     {
@@ -209,6 +209,33 @@ class CategoryController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Category was sucessfully deleted');
         return $this->redirect($this->generateUrl('sked_app_category_list'));
+    }
+
+    /**
+     * Show category
+     *
+     * @return View
+     * @throws AccessDeniedException
+     */
+    public function showAction ($id) {
+
+        $this->get('logger')->info('view category');
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('logger')->warn('view category, access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $category = $em->getRepository('SkedAppCoreBundle:Category')->find($id);
+
+        if (!$category) {
+            $this->get('logger')->warn("category not found $id");
+            return $this->createNotFoundException();
+        }
+
+        return $this->render('SkedAppCategoryBundle:Category:show.html.twig', array('category' => $category));
+
     }
 
 }
