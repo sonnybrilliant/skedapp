@@ -40,7 +40,7 @@ a:hover { color: #0AF; }
 .content {
     font: 1em/1.4 Segoe, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
- 
+
 .title {
     font: 1.7em/1.2 Baskerville, "Baskerville old face", "Hoefler Text", Garamond, "Times New Roman", serif;
 }
@@ -56,4 +56,17 @@ a:hover { color: #0AF; }
 
 .sort-image img.asc{
     margin-top: 5px;
+}
+
+.formSearch {
+  width: 400px;
+  float: left;
+}
+
+.divSearchMap {
+  width: 400px;
+  height: 300px;
+  float: right;
+  margin-top: 80px;
+  margin-right: 80px;
 }

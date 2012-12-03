@@ -1,0 +1,9 @@
+sked_app_search_index:
+    pattern:  /search/index
+    defaults: { _controller: SkedAppSearchBundle:Search:index }
+
+sked_app_search_ajax_get_services_by_category:
+    pattern:  /search/ajaxGetServicesByCategory/{categoryId}
+    defaults: { _controller: SkedAppSearchBundle:Search:ajaxGetServicesByCategory }
+    requirements:
+        categoryId:  \d+
