@@ -12,7 +12,9 @@
               {% for category in pagination %}
               <tr>
                 <td>{{category.name}}</td>
-                <td></a>&nbsp;&nbsp;<a href='{{path('sked_app_category_edit', {'id': category.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a> &nbsp;<a href='{{path('sked_app_category_delete', {'id': category.id }) }}' onclick="if(confirm('You are about to delete {{category.name}} category, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
+                <td></a>&nbsp;&nbsp;<a href='{{path('sked_app_category_show', {'id': category.id }) }}' rel="tooltip" title="click to show"><i class="icon-eye-open"></i>&nbsp;Show</a> &nbsp;
+                    <a href='{{path('sked_app_category_edit', {'id': category.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a> &nbsp;
+                    <a href='{{path('sked_app_category_delete', {'id': category.id }) }}' onclick="if(confirm('You are about to delete {{category.name}} category, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
               </tr>
               {% endfor %}
             </tbody>
