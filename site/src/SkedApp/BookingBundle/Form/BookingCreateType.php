@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-
+use Doctrine\ORM\EntityRepository;
 
 /**
  * SkedApp\ConsultantBundle\Form\BookingCreateType
@@ -20,6 +20,24 @@ class BookingCreateType extends AbstractType
 {
 
     /**
+     *
+     * @var boolean
+     */
+    private $isAdmin = false;
+
+    /**
+     *
+     * @var Integer
+     */
+    private $companyId = null;
+
+    public function __construct($companyId, $isAdmin = false)
+    {
+        $this->companyId = $companyId;
+        $this->isAdmin = $isAdmin;
+    }
+
+    /**
      * Build Form
      * 
      * @param FormBuilder $builder
@@ -28,20 +46,44 @@ class BookingCreateType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $companyId = $this->companyId;
+        $isAdmin = $this->isAdmin;
 
         $builder
-          ->add('appointmentDate','date', array(
-              'attr' => array('class' => 'span3 datepicker'),
-              'widget' => 'single_text',
-              'format' => 'yyyy-MM-dd',
-          ))  
-            
-           ->add('consultant', 'entity', array(
+            ->add('appointmentDate', 'date', array(
+                'attr' => array('class' => 'span3 datepicker', 'value' => 'Select date'),
+                'widget' => 'single_text',
+                'format' => 'yyyy-MM-dd',
+            ))
+            ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4'),
+                'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
+
+                    if ($isAdmin) {
+                        return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->setParameter('status',false);
+                    } else {
+                        return $er->createQueryBuilder('c')
+                            ->where('c.isDeleted = :status')
+                            ->andWhere('c.company = :company')
+                            ->setParameters(array(
+                                'status' => false,
+                                'company' => $companyId
+                            ));
+                    }
+
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->andWhere('c.company = :company')
+                        ->setParameters(array(
+                            'status' => false,
+                            'company' => $companyId
+                        ));
+                },
             ))
-            
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
@@ -51,7 +93,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time to:',
                 'attr' => array('class' => 'span1')
-            )) 
+            ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
@@ -66,9 +108,8 @@ class BookingCreateType extends AbstractType
                 'multiple' => false,
                 'required' => false,
                 'attr' => array('class' => 'span4'),
-                
-            ))            
-            
+            ))
+
         ;
     }
 

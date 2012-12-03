@@ -38,4 +38,12 @@ $(document).ready(function() {
         });
     });
     
+    //http://stackoverflow.com/questions/11270675/how-can-i-disable-the-new-chrome-html5-date-input
+   
+    if (navigator.userAgent.indexOf('Chrome/2') != -1) {
+    $('input[type=date]').on('click', function(event) {
+        event.preventDefault();
+    });
+}
+    
 });

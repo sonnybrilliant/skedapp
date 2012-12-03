@@ -43,12 +43,18 @@ class BookingController extends Controller
      * @param type $agency
      * @return Reponse
      */
-    public function newAction($agency = 1)
+    public function newAction()
     {
         $this->get('logger')->info('add a new booking');
-
+        
+        $user = $this->get('member.manager')->getLoggedInUser();
+        
         $booking = new Booking();
-        $form = $this->createForm(new BookingCreateType(), $booking);
+        $form = $this->createForm(new BookingCreateType(
+            $user->getCompany()->getId(),
+            $this->get('member.manager')->isAdmin()
+            ), 
+            $booking);
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
@@ -65,8 +71,14 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('add a new booking');
 
+        $user = $this->get('member.manager')->getLoggedInUser();
+        
         $booking = new Booking();
-        $form = $this->createForm(new BookingCreateType(), $booking);
+        $form = $this->createForm(new BookingCreateType(
+            $user->getCompany()->getId(),
+            $this->get('member.manager')->isAdmin()
+            ), 
+            $booking);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -98,9 +110,15 @@ class BookingController extends Controller
     public function editAction($bookingId)
     {
         $this->get('logger')->info('edit booking id:' . $bookingId);
-
-        $booking = $this->get("booking.manager")->getById($bookingId);
-        $form = $this->createForm(new BookingUpdateType(), $booking);
+        
+        $user = $this->get('member.manager')->getLoggedInUser();
+        
+        $booking = new Booking();
+        $form = $this->createForm(new BookingUpdateType(
+            $user->getCompany()->getId(),
+            $this->get('member.manager')->isAdmin()
+            ), 
+            $booking);
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
@@ -118,8 +136,14 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('update booking id:' . $bookingId);
 
-        $booking = $this->get("booking.manager")->getById($bookingId);
-        $form = $this->createForm(new BookingUpdateType(), $booking);
+        $user = $this->get('member.manager')->getLoggedInUser();
+        
+        $booking = new Booking();
+        $form = $this->createForm(new BookingUpdateType(
+            $user->getCompany()->getId(),
+            $this->get('member.manager')->isAdmin()
+            ), 
+            $booking);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());

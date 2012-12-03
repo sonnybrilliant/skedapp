@@ -50,6 +50,7 @@ class ConsultantCreateType extends AbstractType
             ))
             ->add('category', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Category',
+                'empty_value' => 'Select a category',
                 'label' => 'Category:',
                 'required' => true,
                 'attr' => array('class' => 'span4')

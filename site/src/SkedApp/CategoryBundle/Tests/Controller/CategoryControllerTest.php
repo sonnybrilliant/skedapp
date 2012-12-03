@@ -4,6 +4,7 @@ namespace SkedApp\CategoryBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+
 /**
  * Category controller test 
  * 

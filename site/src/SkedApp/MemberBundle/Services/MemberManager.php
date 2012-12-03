@@ -264,5 +264,36 @@ final class MemberManager
         }
         return($password);
     }
-
+    
+    /**
+     * Get logged in user
+     * 
+     * @return SkedAppCoreBundle:Member
+     */
+    public function getLoggedInUser()
+    {
+        $securityContext = $this->container->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+        return $user;
+    }
+    
+    /**
+     * Is user admin
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        $member = $this->getLoggedInUser();
+        $roles = $member->getMemberRoles();
+        $isAdmin = false;
+        
+        foreach($roles as $role){
+            if($role->getName() === "ROLE_ADMIN"){
+               $isAdmin = true; 
+            }
+        }
+        return $isAdmin;
+    }
+    
+    
 }

@@ -209,7 +209,7 @@ class Member implements UserInterface
      * @var SkedApp\CoreBundle\Entity\Company
      *
      *
-     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="members")
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="members" , fetch="EAGER"))
      * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
     protected $company;
@@ -536,9 +536,9 @@ class Member implements UserInterface
     /**
      * Add memberRoles
      *
-     * @param SkedApp\CoreBundle\EntityRole $memberRoles
+     * @param SkedApp\CoreBundle\Entity\Role $memberRoles
      */
-    public function addEntityRole(\SkedApp\CoreBundle\EntityRole $memberRoles)
+    public function addEntityRole(\SkedApp\CoreBundle\Entity\Role $memberRoles)
     {
         $this->memberRoles[] = $memberRoles;
     }
