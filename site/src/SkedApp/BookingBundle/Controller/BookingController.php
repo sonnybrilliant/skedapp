@@ -227,11 +227,13 @@ class BookingController extends Controller
                 $results[] = array(
                     'allDay' => $allDay,
                     'title' => $bookingName,
-                    'start' => $booking->getAppointmentDate()->format("Y-m-d") . ' ' . $booking->getStartTimeslot()->getSlot(),
-                    'end' => $booking->getAppointmentDate()->format("Y-m-d") . ' ' . $booking->getEndTimeslot()->getSlot(),
+                    'start' => $booking->getAppointmentDate()->format("c"),
+                    'end' => $booking->getAppointmentDate()->format("c"),
                     //'start' => "2012-11-29",
                     'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
-                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId"=>$booking->getId()) )
+                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId"=>$booking->getId()) ),
+                    //'color' => 'pink',
+                    //'textColor' => 'black'
                 );
             }
         }
