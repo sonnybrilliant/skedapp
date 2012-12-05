@@ -239,6 +239,8 @@ class Consultant
     public $picture;
     public $category = null;
 
+    public $available_slots;
+
     public function __construct()
     {
         $this->setIsLocked(false);
@@ -879,7 +881,7 @@ class Consultant
     /**
      * Get getDistanceFromPositionString
      *
-     * @return decimal in kilometers
+     * @return string with formatted distance in kilometers
      */
     public function getDistanceFromPositionString ($intPositionLat, $intPositionLong) {
 
@@ -891,6 +893,28 @@ class Consultant
           return round($decDistance, 2) . ' km';
       }
 
+    }
+
+    /**
+     * Get getIsAvailable
+     *
+     * @return boolean - true if the consultant is available
+     */
+    public function getIsAvailable ($objDate, $intTimeSlotID) {
+        return \SkedApp\BookingBundle\Services\BookingManager::getIsAvailable ($this->getId (), $objDate);
+    }
+
+    /**
+     * Get getAvailableBookingSlots
+     *
+     * @return array with details of open booking slots
+     */
+    public function getAvailableBookingSlots () {
+        return $this->available_slots;
+    }
+
+    public function setAvailableBookingSlots ($arrAvailableSlots) {
+        $this->available_slots = $arrAvailableSlots;
     }
 
 }

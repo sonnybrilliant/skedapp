@@ -1,0 +1,35 @@
+<div class="divSearchResultsItem">
+    <span style="padding-left: 10px">
+        <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" />
+    </span>
+
+    <span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span>
+
+    <span style="padding-left: 10px">
+        {% set arrSlots = consultant.getAvailableBookingSlots(objDate) %}
+        {% if arrSlots.error_message %}
+            {{ arrSlots.error_message }}
+        {% else %}
+            Slots go here...
+        {% endif %}
+        {% for service in consultant.consultantServices %}
+            <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
+        {% else %}
+             No listed services found.
+        {% endfor %}
+    </span>
+
+    <br /><br />
+
+    <span>
+          <label class="lblView">
+              Distance from you:<br />
+              <span class="spnNotes">(Point to point)</span>
+          </label>
+          <div class="divViewData">
+              {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
+          </div>
+          <div style="clear: both;"></div>
+    </span>
+
+</div>

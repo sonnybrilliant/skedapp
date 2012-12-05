@@ -12,4 +12,50 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookingRepository extends EntityRepository
 {
+
+    public function getBookingsForConsultantSearch($objConsultant, $objDate) {
+
+        $arrOut = array ('error_message' => null);
+
+        //check next day consultant is available
+        $intDoWAvailable = -1;
+        $intCntCheck = 1;
+        $blnIsAvailable = false;
+
+        while ( ($intDoWAvailable < 0) && ($intCntCheck <= 7) && (!$blnIsAvailable) ) {
+            $strDayName = $objDate->format('l');
+            eval ("\$blnIsAvailable = \$objConsultant->get$strDayName();");
+            $objDate->add(new \DateInterval('P1D'));
+            $intCntCheck++;
+        }
+
+        if (!$blnIsAvailable) {
+
+          $arrOut['error_message'] = 'This consultant is not available fo rhte next 7 days';
+
+          return $arrOut;
+
+        }
+
+        //Add one month to the date for search for open time slot will stop
+        $objStopDate = $objDate;
+        $objStopDate->add(new \DateInterval('P1M'));
+
+        $objQueuryBuilder = $this->createQueryBuilder('b');
+        $objQueuryBuilder->select('b');
+        $objQueuryBuilder->where('b.consultant =  :consultant')
+                ->andWhere('b.appointmentDate >= :current_date')
+                ->andWhere('b.appointmentDate <= :stop_date')
+                ->andWhere('b.isDeleted = 0')
+                ->setParameters(array ('consultant' => $objConsultant->getId(), 'current_date' => $objDate->format('Y-m-d'), 'stop_date' => $objStopDate->format('Y-m-d')));
+        $objQueuryBuilder->add('orderBy', 'b.appointmentDate Desc', true);
+
+        $arrBookings = $objQueuryBuilder->getQuery()->execute();
+
+        $arrOut['time_slots'] = array ();
+
+        return $arrOut;
+
+    }
+
 }
