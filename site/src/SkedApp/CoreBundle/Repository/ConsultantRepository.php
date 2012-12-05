@@ -15,7 +15,7 @@ class ConsultantRepository extends EntityRepository
 
     /**
      * Get all active consultants query
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
@@ -39,8 +39,60 @@ class ConsultantRepository extends EntityRepository
     }
 
     /**
+     * Get all active consultants query within a radius based on a lat/ long point and radius
+     *
+     * @author Otto Saayman <otto.saayman@kaizania.co.za>
+     * @return Resultset
+     */
+    public function getAllActiveConsultantsQueryWithinRadius($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'c.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('ACOS', 'DoctrineExtensions\Query\Mysql\Acos');
+        $config->addCustomNumericFunction('COS', 'DoctrineExtensions\Query\Mysql\Cos');
+        $config->addCustomNumericFunction('RADIANS', 'DoctrineExtensions\Query\Mysql\Radians');
+        $config->addCustomNumericFunction('SIN', 'DoctrineExtensions\Query\Mysql\Sin');
+
+        $objQueuryBuilder = $this->createQueryBuilder('c');
+        $objQueuryBuilder->select('c');
+        $objQueuryBuilder->innerJoin ('SkedAppCoreBundle:Company', 'comp');
+        $objQueuryBuilder->where('c.isDeleted =  :status')
+                ->andWhere('( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
+                    . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) <= :radius')
+                ->setParameters(array ('status' => false, 'latitude' => $options['lat'], 'longitude' => $options['lng'], 'radius' => $options['radius']));
+//        $objQueuryBuilder->add('orderBy', '( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
+//                . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) Desc', true);
+        $objQueuryBuilder->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
+
+        $arrOut = $objQueuryBuilder->getQuery()->execute();
+
+        for ($intCnt1 = 0; $intCnt1 < (count ($arrOut) - 1); $intCnt1++) {
+          for ($intCnt2 = 1; $intCnt2 < count ($arrOut); $intCnt2++) {
+            if ($arrOut[$intCnt1]->getDistanceFromPosition($options['lat'], $options['lng']) > $arrOut[$intCnt2]->getDistanceFromPosition($options['lat'], $options['lng'])) {
+              $objDummy = $arrOut[$intCnt2];
+              $arrOut[$intCnt2] = $arrOut[$intCnt1];
+              $arrOut[$intCnt1] = $objDummy;
+            }
+          }
+        }
+
+        return $arrOut;
+
+    }
+
+    /**
      * Get consultant by service
-     * 
+     *
      * @param integer $serviceId
      * @return type
      */
@@ -56,7 +108,7 @@ class ConsultantRepository extends EntityRepository
 
     /**
      * Get all active consultants query
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */

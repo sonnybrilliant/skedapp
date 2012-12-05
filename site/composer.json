@@ -20,6 +20,7 @@
         "jms/di-extra-bundle": "1.1.*",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "stof/doctrine-extensions-bundle": "dev-master",
+        "beberlei/DoctrineExtensions": "dev-master",
         "raulfraile/ladybug-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
