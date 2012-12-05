@@ -75,3 +75,10 @@ a:hover { color: #0AF; }
   font-size: 9px;
   font-style: italic;
 }
+
+/* Search Results */
+
+.divSearchResultsItem {
+  border: solid 1px;
+  background-color: #eeeeee;
+}

@@ -45,11 +45,11 @@ class SearchController extends Controller
 
         $form = $this->createForm(new SearchType());
 
+        $arrFormValues = $this->getRequest()->get('Search');
+
         if ($this->getRequest()->getMethod() == 'POST') {
 
             $form->bindRequest($this->getRequest());
-
-            $arrFormValues = $this->getRequest()->get('Search');
 
             $options['lat'] = $arrFormValues['lat'];
             $options['lng'] = $arrFormValues['lng'];
@@ -64,13 +64,19 @@ class SearchController extends Controller
             $arrResults['arrResult'], $this->getRequest()->query->get('page', $page), 10
         );
 
+        $objDate = new \DateTime($arrFormValues['booking_date']);
+
+        if ($objDate->getTimestamp() <= 0)
+          $objDate = new \DateTime();
+
         return $this->render('SkedAppSearchBundle:Search:index.html.twig', array(
                 'pagination' => $pagination,
                 'sort_img' => '/img/sort_' . $direction . '.png',
                 'sort' => $direction,
                 'form' => $form->createView (),
-                'intPositionLat' => $options['lat'],
-                'intPositionLong' => $options['lng'],
+                'intPositionLat' => $arrFormValues['lat'],
+                'intPositionLong' => $arrFormValues['lng'],
+                'objDate' => $objDate,
             ));
     }
 

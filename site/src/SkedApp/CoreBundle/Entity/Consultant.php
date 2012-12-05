@@ -879,7 +879,7 @@ class Consultant
     /**
      * Get getDistanceFromPositionString
      *
-     * @return decimal in kilometers
+     * @return string with formatted distance in kilometers
      */
     public function getDistanceFromPositionString ($intPositionLat, $intPositionLong) {
 
@@ -890,6 +890,52 @@ class Consultant
       } else {
           return round($decDistance, 2) . ' km';
       }
+
+    }
+
+    /**
+     * Get getIsAvailable
+     *
+     * @return boolean - true if the consultant is available
+     */
+    public function getIsAvailable ($objDate, $intTimeSlotID) {
+        return \SkedApp\BookingBundle\Services\BookingManager::getIsAvailable ($this->getId (), $objDate);
+    }
+
+    /**
+     * Get getAvailableBookingSlots
+     *
+     * @return array with details of open booking slots
+     */
+    public function getAvailableBookingSlots ($objDate) {
+
+        $arrOut = array ();
+
+        //check next day consultant is available
+        $intDoWAvailable = -1;
+        $intCntCheck = 1;
+        $blnIsAvailable = false;
+
+        while ( ($intDoWAvailable < 0) && ($intCntCheck <= 7) && (!$blnIsAvailable) ) {
+            $strDayName = $objDate->format('l');
+            eval ("\$blnIsAvailable = \$this->get$strDayName();");
+            $objDate->add(new \DateInterval('P1D'));
+            $intCntCheck++;
+        }
+
+        if (!$blnIsAvailable) {
+
+          $arrOut['error_message'] = 'This consultant is not available fo rhte next 7 days';
+
+          return $arrOut;
+
+        }
+
+        $objBManager = new \SkedApp\CoreBundle\Repository\BookingRepository($this->getDoctrine()->getEntityManager());
+
+        $arrBookings = $objBManager->getBookingsForConsultantSearch ($this->getId (), $objDate);
+
+        return $arrOut;
 
     }
 
