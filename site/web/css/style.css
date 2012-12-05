@@ -70,3 +70,8 @@ a:hover { color: #0AF; }
   margin-top: 80px;
   margin-right: 80px;
 }
+
+.spnNotes {
+  font-size: 9px;
+  font-style: italic;
+}

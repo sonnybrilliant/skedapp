@@ -33,7 +33,7 @@ class ConsultantRepository extends EntityRepository
         }
 
         $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
-        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameters('status', false);
+        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
         $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
         return $objQueuryBuilder->getQuery()->execute();
     }
@@ -57,17 +57,37 @@ class ConsultantRepository extends EntityRepository
                 $options[$key] = $defaultOptions[$key];
         }
 
-        $config = new \Doctrine\ORM\Configuration();
-        $config->addCustomStringFunction('ACOS', 'DoctrineExtensions\Query\MySql\Acos');
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('ACOS', 'DoctrineExtensions\Query\Mysql\Acos');
+        $config->addCustomNumericFunction('COS', 'DoctrineExtensions\Query\Mysql\Cos');
+        $config->addCustomNumericFunction('RADIANS', 'DoctrineExtensions\Query\Mysql\Radians');
+        $config->addCustomNumericFunction('SIN', 'DoctrineExtensions\Query\Mysql\Sin');
 
-        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
+        $objQueuryBuilder = $this->createQueryBuilder('c');
+        $objQueuryBuilder->select('c');
         $objQueuryBuilder->innerJoin ('SkedAppCoreBundle:Company', 'comp');
         $objQueuryBuilder->where('c.isDeleted =  :status')
                 ->andWhere('( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
                     . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) <= :radius')
                 ->setParameters(array ('status' => false, 'latitude' => $options['lat'], 'longitude' => $options['lng'], 'radius' => $options['radius']));
-        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
-        return $objQueuryBuilder->getQuery()->execute();
+//        $objQueuryBuilder->add('orderBy', '( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
+//                . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) Desc', true);
+        $objQueuryBuilder->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
+
+        $arrOut = $objQueuryBuilder->getQuery()->execute();
+
+        for ($intCnt1 = 0; $intCnt1 < (count ($arrOut) - 1); $intCnt1++) {
+          for ($intCnt2 = 1; $intCnt2 < count ($arrOut); $intCnt2++) {
+            if ($arrOut[$intCnt1]->getDistanceFromPosition($options['lat'], $options['lng']) > $arrOut[$intCnt2]->getDistanceFromPosition($options['lat'], $options['lng'])) {
+              $objDummy = $arrOut[$intCnt2];
+              $arrOut[$intCnt2] = $arrOut[$intCnt1];
+              $arrOut[$intCnt1] = $objDummy;
+            }
+          }
+        }
+
+        return $arrOut;
+
     }
 
     /**

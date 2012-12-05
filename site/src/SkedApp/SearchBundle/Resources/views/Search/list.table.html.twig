@@ -1,0 +1,43 @@
+<section>
+    <table id="sortable" class="table table-striped table-condensed tablesorter">
+        <thead>
+          <tr>
+            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>Logo</th>
+            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Consultant name', 'c.firstName')|raw }} </th>
+            <th>Services </th>
+            <th>
+              Distance from you<br />
+              <span class="spnNotes">(Point to point)</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for consultant in pagination %}
+          <tr>
+            <td><span style="padding-left: 10px"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="18px" height="18px" /></span></td>
+            <td><span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span></td>
+            <td><span style="padding-left: 10px">
+                  {% for service in consultant.consultantServices %}
+                      <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
+                  {% else %}
+                       No listed services found.
+                  {% endfor %}
+                </span>
+            </td>
+            <th>{{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}</th>
+          </tr>
+          {% else %}
+               <tr>
+                  <td colspan="3">
+                      <h4>We could not find anyone to help you out. Please try another search.</h4>
+                  </td>
+                </tr>
+          {% endfor %}
+        </tbody>
+ </table>
+    <div class="pagination pull-right">
+        {{ pagination.render()|raw }}
+    </div>
+</section>
+
+

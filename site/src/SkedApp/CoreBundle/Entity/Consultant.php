@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="consultant")
  * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\ConsultantRepository")
  * @ORM\HasLifecycleCallbacks
- * 
+ *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppCoreBundle
  * @subpackage Entity
@@ -74,14 +74,14 @@ class Consultant
 
     /**
      * @var string $speciality
-     * 
+     *
      * @ORM\Column(name="speciality", type="string", length=254, nullable=true)
      */
     protected $speciality;
 
     /**
      * @var string $professionalStatement
-     * 
+     *
      * @ORM\Column(name="professional_statement", type="string", length=254, nullable=true)
      */
     protected $professionalStatement;
@@ -99,7 +99,7 @@ class Consultant
 
     /**
      * @var SkedApp\CoreBundle\Entity\Company
-     * 
+     *
      *
      * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="consultants")
      * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
@@ -222,7 +222,7 @@ class Consultant
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $path;
@@ -338,7 +338,7 @@ class Consultant
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -361,7 +361,7 @@ class Consultant
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -384,7 +384,7 @@ class Consultant
     /**
      * Get speciality
      *
-     * @return string 
+     * @return string
      */
     public function getSpeciality()
     {
@@ -407,7 +407,7 @@ class Consultant
     /**
      * Get professionalStatement
      *
-     * @return string 
+     * @return string
      */
     public function getProfessionalStatement()
     {
@@ -430,7 +430,7 @@ class Consultant
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -453,7 +453,7 @@ class Consultant
     /**
      * Get isLocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsLocked()
     {
@@ -476,7 +476,7 @@ class Consultant
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -499,7 +499,7 @@ class Consultant
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -532,7 +532,7 @@ class Consultant
     /**
      * Get consultantServices
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getConsultantServices()
     {
@@ -555,7 +555,7 @@ class Consultant
     /**
      * Get gender
      *
-     * @return \SkedApp\CoreBundle\Entity\Gender 
+     * @return \SkedApp\CoreBundle\Entity\Gender
      */
     public function getGender()
     {
@@ -578,7 +578,7 @@ class Consultant
     /**
      * Get company
      *
-     * @return \SkedApp\CoreBundle\Entity\Company 
+     * @return \SkedApp\CoreBundle\Entity\Company
      */
     public function getCompany()
     {
@@ -601,7 +601,7 @@ class Consultant
     /**
      * Get path
      *
-     * @return string 
+     * @return string
      */
     public function getPath()
     {
@@ -624,7 +624,7 @@ class Consultant
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -647,7 +647,7 @@ class Consultant
     /**
      * Get monday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getMonday()
     {
@@ -670,7 +670,7 @@ class Consultant
     /**
      * Get tuesday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTuesday()
     {
@@ -693,7 +693,7 @@ class Consultant
     /**
      * Get wednesday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getWednesday()
     {
@@ -716,7 +716,7 @@ class Consultant
     /**
      * Get thursday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getThursday()
     {
@@ -739,7 +739,7 @@ class Consultant
     /**
      * Get friday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFriday()
     {
@@ -762,7 +762,7 @@ class Consultant
     /**
      * Get saturday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSaturday()
     {
@@ -785,7 +785,7 @@ class Consultant
     /**
      * Get sunday
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getSunday()
     {
@@ -808,7 +808,7 @@ class Consultant
     /**
      * Get startTimeslot
      *
-     * @return \SkedApp\CoreBundle\Entity\Timeslots 
+     * @return \SkedApp\CoreBundle\Entity\Timeslots
      */
     public function getStartTimeslot()
     {
@@ -831,7 +831,7 @@ class Consultant
     /**
      * Get endTimeslot
      *
-     * @return \SkedApp\CoreBundle\Entity\Timeslots 
+     * @return \SkedApp\CoreBundle\Entity\Timeslots
      */
     public function getEndTimeslot()
     {
@@ -848,17 +848,49 @@ class Consultant
     public function setAppointmentDuration(\SkedApp\CoreBundle\Entity\AppointmentDuration $appointmentDuration = null)
     {
         $this->appointmentDuration = $appointmentDuration;
-    
+
         return $this;
     }
 
     /**
      * Get appointmentDuration
      *
-     * @return \SkedApp\CoreBundle\Entity\AppointmentDuration 
+     * @return \SkedApp\CoreBundle\Entity\AppointmentDuration
      */
     public function getAppointmentDuration()
     {
         return $this->appointmentDuration;
     }
+
+    /**
+     * Get getDistanceFromPosition
+     *
+     * @return decimal in kilometers
+     */
+    public function getDistanceFromPosition ($intPositionLat, $intPositionLong) {
+
+      $decOut = (6371 * acos(cos( deg2rad($intPositionLat) ) * cos( deg2rad( $this->company->getLat() ) ) * cos( deg2rad( $this->company->getLng() ) - deg2rad($intPositionLong) )
+              + sin( deg2rad($intPositionLat) ) * sin( deg2rad( $this->company->getLat() ) ) ) );
+
+      return $decOut;
+
+    }
+
+    /**
+     * Get getDistanceFromPositionString
+     *
+     * @return decimal in kilometers
+     */
+    public function getDistanceFromPositionString ($intPositionLat, $intPositionLong) {
+
+      $decDistance = $this->getDistanceFromPosition($intPositionLat, $intPositionLong);
+
+      if ($decDistance < 1) {
+          return round(($decDistance * 1000), 2) . ' m';
+      } else {
+          return round($decDistance, 2) . ' km';
+      }
+
+    }
+
 }

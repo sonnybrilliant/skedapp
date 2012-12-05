@@ -69,6 +69,8 @@ class SearchController extends Controller
                 'sort_img' => '/img/sort_' . $direction . '.png',
                 'sort' => $direction,
                 'form' => $form->createView (),
+                'intPositionLat' => $options['lat'],
+                'intPositionLong' => $options['lng'],
             ));
     }
 
