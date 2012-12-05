@@ -15,7 +15,7 @@ class ConsultantRepository extends EntityRepository
 
     /**
      * Get all active consultants query
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
@@ -33,14 +33,46 @@ class ConsultantRepository extends EntityRepository
         }
 
         $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
-        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
+        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameters('status', false);
+        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
+        return $objQueuryBuilder->getQuery()->execute();
+    }
+
+    /**
+     * Get all active consultants query within a radius based on a lat/ long point and radius
+     *
+     * @author Otto Saayman <otto.saayman@kaizania.co.za>
+     * @return Resultset
+     */
+    public function getAllActiveConsultantsQueryWithinRadius($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'c.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $config = new \Doctrine\ORM\Configuration();
+        $config->addCustomStringFunction('ACOS', 'DoctrineExtensions\Query\MySql\Acos');
+
+        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
+        $objQueuryBuilder->innerJoin ('SkedAppCoreBundle:Company', 'comp');
+        $objQueuryBuilder->where('c.isDeleted =  :status')
+                ->andWhere('( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
+                    . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) <= :radius')
+                ->setParameters(array ('status' => false, 'latitude' => $options['lat'], 'longitude' => $options['lng'], 'radius' => $options['radius']));
         $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
         return $objQueuryBuilder->getQuery()->execute();
     }
 
     /**
      * Get consultant by service
-     * 
+     *
      * @param integer $serviceId
      * @return type
      */
@@ -56,7 +88,7 @@ class ConsultantRepository extends EntityRepository
 
     /**
      * Get all active consultants query
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */

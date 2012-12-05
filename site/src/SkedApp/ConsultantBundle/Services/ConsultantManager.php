@@ -6,8 +6,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
 
 /**
- * Consultant manager 
- * 
+ * Consultant manager
+ *
  * @author Ronald Conco <ronald.conco@kaizania.com>
  * @package SkedAppServiceBundle
  * @subpackage Consultant
@@ -80,12 +80,12 @@ final class ConsultantManager
     {
         $this->em = $em;
     }
-    
+
     /**
      * Get consultant by id
      * @param integer $id
      * @return SkedAppCoreBundle:Consultant
-     * @throws \Exception 
+     * @throws \Exception
      */
     public function getById($id)
     {
@@ -98,11 +98,11 @@ final class ConsultantManager
         }
 
         return $consultant;
-    }    
+    }
 
     /**
      * update consultant
-     * 
+     *
      * @param type $consultant
      * @return void
      */
@@ -116,7 +116,7 @@ final class ConsultantManager
 
     /**
      * update consultant
-     * 
+     *
      * @param type $consultant
      * @return void
      */
@@ -135,7 +135,7 @@ final class ConsultantManager
 
     /**
      * Get all consultants query
-     * 
+     *
      * @param array $options
      * @return query
      */
@@ -144,6 +144,45 @@ final class ConsultantManager
         return $this->em
                 ->getRepository('SkedAppCoreBundle:Consultant')
                 ->getAllActiveConsultantsQuery($options);
+    }
+
+
+    /**
+     * Get consultants query within a given radius of a given lat and long point
+     *
+     * @param array $options
+     * @return query
+     */
+    public function listAllWithinRadius($arrConf = array ())
+    {
+
+        if (!isset ($arrConf['radius']))
+          $arrConf['radius'] = 5;
+
+        if (!isset ($arrConf['lat']))
+          $arrConf['lat'] = null;
+
+        if (!isset ($arrConf['lng']))
+          $arrConf['lng'] = null;
+
+        $arrOut = array(
+            'arrResult' => array (),
+            'radius' => $arrConf['radius'],
+        );
+
+        if ( (is_null($arrConf['lat'])) || (is_null ($arrConf['lng'])) )
+          return $arrOut;
+
+        while ( (count($arrOut['arrResult']) <= 0) && ($arrConf['radius'] <= 200) ) {
+          $arrOut['arrResult'] = $this->em
+                  ->getRepository('SkedAppCoreBundle:Consultant')
+                  ->getAllActiveConsultantsQueryWithinRadius($arrConf);
+          $arrOut['radius'] = $arrConf['radius'];
+          $arrConf['radius'] += 5;
+        } //while
+
+        return $arrOut;
+
     }
 
 }

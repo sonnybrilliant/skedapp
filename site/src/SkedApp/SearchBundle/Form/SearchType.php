@@ -42,7 +42,7 @@ class SearchType extends AbstractType
                 'attr' => array('class' => 'span4')
             ))
             ->add('locality', 'hidden')
-            ->add('country', 'hidden')
+            ->add('country', 'hidden', array ('attr' => array ('value' => 'South Africa')))
             ->add('administrative_area_level_2', 'hidden')
             ->add('administrative_area_level_1', 'hidden')
             ->add('lat', 'hidden')

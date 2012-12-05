@@ -41,18 +41,28 @@ class SearchController extends Controller
         );
 
 
-        $paginator = $this->get('knp_paginator');
-        $pagination = $paginator->paginate(
-            $this->container->get('consultant.manager')->listAll($options), $this->getRequest()->query->get('page', $page), 10
-        );
-
         //Instantiate search form
 
         $form = $this->createForm(new SearchType());
 
         if ($this->getRequest()->getMethod() == 'POST') {
+
             $form->bindRequest($this->getRequest());
+
+            $arrFormValues = $this->getRequest()->get('Search');
+
+            $options['lat'] = $arrFormValues['lat'];
+            $options['lng'] = $arrFormValues['lng'];
+            $options['radius'] = 5;
+
         }
+
+        $arrResults = $this->container->get('consultant.manager')->listAllWithinRadius($options);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $arrResults['arrResult'], $this->getRequest()->query->get('page', $page), 10
+        );
 
         return $this->render('SkedAppSearchBundle:Search:index.html.twig', array(
                 'pagination' => $pagination,
