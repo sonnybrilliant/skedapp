@@ -81,4 +81,20 @@ a:hover { color: #0AF; }
 .divSearchResultsItem {
   border: solid 1px;
   background-color: #eeeeee;
+  padding: 12px;
+}
+
+.divSearchResultsItem span {
+  padding-left: 10px;
+}
+
+.lblView {
+  float: left;
+  width: 25%;
+  font-weight: bold;
+}
+
+.divViewData {
+  float: left;
+  width: 74%;
 }

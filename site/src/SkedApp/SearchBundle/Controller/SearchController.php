@@ -69,6 +69,12 @@ class SearchController extends Controller
         if ($objDate->getTimestamp() <= 0)
           $objDate = new \DateTime();
 
+        $em = $this->getDoctrine()->getEntityManager();
+
+        foreach ($pagination as $objConsultant) {
+          $objConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingsForConsultantSearch($objConsultant, $objDate));
+        }
+
         return $this->render('SkedAppSearchBundle:Search:index.html.twig', array(
                 'pagination' => $pagination,
                 'sort_img' => '/img/sort_' . $direction . '.png',

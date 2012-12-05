@@ -1,21 +1,11 @@
 <section>
     <table id="sortable" class="table table-striped table-condensed tablesorter">
-        <thead>
-          <tr>
-            <th>Details</th>
-            <th>
-              Distance from you<br />
-              <span class="spnNotes">(Point to point)</span>
-            </th>
-          </tr>
-        </thead>
         <tbody>
           {% for consultant in pagination %}
           <tr>
             <td>
                 {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
             </td>
-            <th>{{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}</th>
           </tr>
           {% else %}
                <tr>

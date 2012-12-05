@@ -239,6 +239,8 @@ class Consultant
     public $picture;
     public $category = null;
 
+    public $available_slots;
+
     public function __construct()
     {
         $this->setIsLocked(false);
@@ -907,36 +909,12 @@ class Consultant
      *
      * @return array with details of open booking slots
      */
-    public function getAvailableBookingSlots ($objDate) {
+    public function getAvailableBookingSlots () {
+        return $this->available_slots;
+    }
 
-        $arrOut = array ();
-
-        //check next day consultant is available
-        $intDoWAvailable = -1;
-        $intCntCheck = 1;
-        $blnIsAvailable = false;
-
-        while ( ($intDoWAvailable < 0) && ($intCntCheck <= 7) && (!$blnIsAvailable) ) {
-            $strDayName = $objDate->format('l');
-            eval ("\$blnIsAvailable = \$this->get$strDayName();");
-            $objDate->add(new \DateInterval('P1D'));
-            $intCntCheck++;
-        }
-
-        if (!$blnIsAvailable) {
-
-          $arrOut['error_message'] = 'This consultant is not available fo rhte next 7 days';
-
-          return $arrOut;
-
-        }
-
-        $objBManager = new \SkedApp\CoreBundle\Repository\BookingRepository($this->getDoctrine()->getEntityManager());
-
-        $arrBookings = $objBManager->getBookingsForConsultantSearch ($this->getId (), $objDate);
-
-        return $arrOut;
-
+    public function setAvailableBookingSlots ($arrAvailableSlots) {
+        $this->available_slots = $arrAvailableSlots;
     }
 
 }

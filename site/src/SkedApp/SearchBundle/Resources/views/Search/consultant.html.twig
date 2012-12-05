@@ -18,4 +18,18 @@
              No listed services found.
         {% endfor %}
     </span>
+
+    <br /><br />
+
+    <span>
+          <label class="lblView">
+              Distance from you:<br />
+              <span class="spnNotes">(Point to point)</span>
+          </label>
+          <div class="divViewData">
+              {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
+          </div>
+          <div style="clear: both;"></div>
+    </span>
+
 </div>
