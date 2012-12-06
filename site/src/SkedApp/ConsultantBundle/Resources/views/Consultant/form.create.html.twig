@@ -22,6 +22,20 @@
           <span class="help-inline">{{form_errors(form.lastName)}}</span>  
         </div>
       </div>
+      <div class="control-group {% if form_errors(form.email.first) %} error {% endif %}">
+        <label class="control-label" for="email_address">{{ form_label(form.email.first) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email.first) }} 
+           <span class="help-inline">{{form_errors(form.email.first)}}</span>
+        </div>
+      </div>       
+      <div class="control-group {% if form_errors(form.email.second) %} error {% endif %}">
+        <label class="control-label" for="confirm_email_address">{{ form_label(form.email.second) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email.second) }} 
+           <span class="help-inline">{{form_errors(form.email.second)}}</span>
+        </div>
+      </div> 
       <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
         <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
         <div class="controls">

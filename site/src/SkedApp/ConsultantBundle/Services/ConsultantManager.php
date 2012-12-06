@@ -100,6 +100,11 @@ final class ConsultantManager
         return $consultant;
     }
 
+    public function createNewConsultant($consultant)
+    {
+       $this->logger->info("Create a new consultant"); 
+    }
+    
     /**
      * update consultant
      *

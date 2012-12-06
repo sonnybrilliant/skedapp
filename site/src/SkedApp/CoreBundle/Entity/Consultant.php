@@ -61,6 +61,54 @@ class Consultant
      * @ORM\Column(name="last_name", type="string", length=100)
      */
     protected $lastName;
+    
+     /**
+     * @var string
+     *
+     *
+     * @Assert\NotBlank(message = "Emailaddress cannot be blank!")
+     * @Assert\Email(
+     *   message = "The email '{{ value }}' is not a valid email.",
+     *   checkMX = false
+     * )
+     * @ORM\Column(name="email", type="string", length=254)
+     */
+    protected $email;   
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255)
+     */
+    protected $username;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(message = "Password cannot be blank!")
+     * @Assert\MinLength(limit= 5, message="Password must have at least {{ limit }} characters.")
+     *
+     * @ORM\Column(name="password", type="string", length=255)
+     */
+    protected $password;
+
+    /**
+     * @var salt
+     *
+     * @ORM\Column(name="salt",type="string", length=255)
+     */
+    protected $salt;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="SkedApp\CoreBundle\Entity\Role")
+     * @ORM\JoinTable(name="consultant_role_map",
+     *     joinColumns={@ORM\JoinColumn(name="consultant_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     * )
+     */
+    protected $consultantRoles;
 
     /**
      * @var Gender
@@ -71,6 +119,48 @@ class Consultant
      * })
      */
     protected $gender;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    protected $enabled;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="expired", type="boolean")
+     */
+    protected $expired;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="last_login", type="datetime" , nullable= true)
+     */
+    protected $lastLogin;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="expires_at", type="datetime" , nullable= true)
+     */
+    protected $expiresAt;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="confirmation_token", type="string" , length=100 ,nullable= true)
+     */
+    protected $confirmationToken;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="password_requested_at", type="datetime" , nullable= true)
+     */
+    protected $passwordRequestedAt;
 
     /**
      * @var string $speciality
@@ -238,7 +328,6 @@ class Consultant
      */
     public $picture;
     public $category = null;
-
     public $available_slots;
 
     public function __construct()
@@ -840,7 +929,6 @@ class Consultant
         return $this->endTimeslot;
     }
 
-
     /**
      * Set appointmentDuration
      *
@@ -869,13 +957,13 @@ class Consultant
      *
      * @return decimal in kilometers
      */
-    public function getDistanceFromPosition ($intPositionLat, $intPositionLong) {
+    public function getDistanceFromPosition($intPositionLat, $intPositionLong)
+    {
 
-      $decOut = (6371 * acos(cos( deg2rad($intPositionLat) ) * cos( deg2rad( $this->company->getLat() ) ) * cos( deg2rad( $this->company->getLng() ) - deg2rad($intPositionLong) )
-              + sin( deg2rad($intPositionLat) ) * sin( deg2rad( $this->company->getLat() ) ) ) );
+        $decOut = (6371 * acos(cos(deg2rad($intPositionLat)) * cos(deg2rad($this->company->getLat())) * cos(deg2rad($this->company->getLng()) - deg2rad($intPositionLong))
+                + sin(deg2rad($intPositionLat)) * sin(deg2rad($this->company->getLat()))) );
 
-      return $decOut;
-
+        return $decOut;
     }
 
     /**
@@ -883,16 +971,16 @@ class Consultant
      *
      * @return string with formatted distance in kilometers
      */
-    public function getDistanceFromPositionString ($intPositionLat, $intPositionLong) {
+    public function getDistanceFromPositionString($intPositionLat, $intPositionLong)
+    {
 
-      $decDistance = $this->getDistanceFromPosition($intPositionLat, $intPositionLong);
+        $decDistance = $this->getDistanceFromPosition($intPositionLat, $intPositionLong);
 
-      if ($decDistance < 1) {
-          return round(($decDistance * 1000), 2) . ' m';
-      } else {
-          return round($decDistance, 2) . ' km';
-      }
-
+        if ($decDistance < 1) {
+            return round(($decDistance * 1000), 2) . ' m';
+        } else {
+            return round($decDistance, 2) . ' km';
+        }
     }
 
     /**
@@ -900,8 +988,9 @@ class Consultant
      *
      * @return boolean - true if the consultant is available
      */
-    public function getIsAvailable ($objDate, $intTimeSlotID) {
-        return \SkedApp\BookingBundle\Services\BookingManager::getIsAvailable ($this->getId (), $objDate);
+    public function getIsAvailable($objDate, $intTimeSlotID)
+    {
+        return \SkedApp\BookingBundle\Services\BookingManager::getIsAvailable($this->getId(), $objDate);
     }
 
     /**
@@ -909,12 +998,277 @@ class Consultant
      *
      * @return array with details of open booking slots
      */
-    public function getAvailableBookingSlots () {
+    public function getAvailableBookingSlots()
+    {
         return $this->available_slots;
     }
 
-    public function setAvailableBookingSlots ($arrAvailableSlots) {
+    public function setAvailableBookingSlots($arrAvailableSlots)
+    {
         $this->available_slots = $arrAvailableSlots;
     }
 
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Consultant
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return Consultant
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return Consultant
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return Consultant
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string 
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return Consultant
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+    
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set expired
+     *
+     * @param boolean $expired
+     * @return Consultant
+     */
+    public function setExpired($expired)
+    {
+        $this->expired = $expired;
+    
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return boolean 
+     */
+    public function getExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Set lastLogin
+     *
+     * @param \DateTime $lastLogin
+     * @return Consultant
+     */
+    public function setLastLogin($lastLogin)
+    {
+        $this->lastLogin = $lastLogin;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastLogin
+     *
+     * @return \DateTime 
+     */
+    public function getLastLogin()
+    {
+        return $this->lastLogin;
+    }
+
+    /**
+     * Set expiresAt
+     *
+     * @param \DateTime $expiresAt
+     * @return Consultant
+     */
+    public function setExpiresAt($expiresAt)
+    {
+        $this->expiresAt = $expiresAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get expiresAt
+     *
+     * @return \DateTime 
+     */
+    public function getExpiresAt()
+    {
+        return $this->expiresAt;
+    }
+
+    /**
+     * Set confirmationToken
+     *
+     * @param string $confirmationToken
+     * @return Consultant
+     */
+    public function setConfirmationToken($confirmationToken)
+    {
+        $this->confirmationToken = $confirmationToken;
+    
+        return $this;
+    }
+
+    /**
+     * Get confirmationToken
+     *
+     * @return string 
+     */
+    public function getConfirmationToken()
+    {
+        return $this->confirmationToken;
+    }
+
+    /**
+     * Set passwordRequestedAt
+     *
+     * @param \DateTime $passwordRequestedAt
+     * @return Consultant
+     */
+    public function setPasswordRequestedAt($passwordRequestedAt)
+    {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get passwordRequestedAt
+     *
+     * @return \DateTime 
+     */
+    public function getPasswordRequestedAt()
+    {
+        return $this->passwordRequestedAt;
+    }
+
+    /**
+     * Add consultantRoles
+     *
+     * @param \SkedApp\CoreBundle\Entity\Role $consultantRoles
+     * @return Consultant
+     */
+    public function addConsultantRole(\SkedApp\CoreBundle\Entity\Role $consultantRoles)
+    {
+        $this->consultantRoles[] = $consultantRoles;
+    
+        return $this;
+    }
+
+    /**
+     * Remove consultantRoles
+     *
+     * @param \SkedApp\CoreBundle\Entity\Role $consultantRoles
+     */
+    public function removeConsultantRole(\SkedApp\CoreBundle\Entity\Role $consultantRoles)
+    {
+        $this->consultantRoles->removeElement($consultantRoles);
+    }
+
+    /**
+     * Get consultantRoles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConsultantRoles()
+    {
+        return $this->consultantRoles;
+    }
 }
