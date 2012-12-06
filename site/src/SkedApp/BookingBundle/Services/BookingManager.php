@@ -123,7 +123,7 @@ final class BookingManager
     {
         $this->logger->info("delete booking id:$bookingId");
         $booking = $this->getById($bookingId);
-       
+
         $booking->setIsDeleted(true);
         $this->em->persist($booking);
         $this->em->flush();
@@ -143,7 +143,6 @@ final class BookingManager
 
         return $bookings;
     }
-
 
     /**
      * Is booking time slots valid
@@ -189,25 +188,24 @@ final class BookingManager
         }
 
         $results = $this->em->getRepository("SkedAppCoreBundle:Booking")
-            ->isConsultantAvailable($booking->getConsultant(),$bookingStartDate, $bookingEndDate);
-        
+            ->isConsultantAvailable($booking->getConsultant(), $bookingStartDate, $bookingEndDate);
+
         /*
          * confirm if the new appointment start time is equal to the 
          * already booked appointment end time
-         */        
-        if(sizeof($results) == 1){
+         */
+        if (sizeof($results) == 1) {
             $oldBooking = $results[0];
-            if($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()){
+            if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
                 return true;
             }
-        }else if(sizeof($results) > 1){
-           return false; 
-        }else if(sizeof($results) == 0){
-           return true; 
+        } else if (sizeof($results) > 1) {
+            return false;
+        } else if (sizeof($results) == 0) {
+            return true;
         }
-
     }
-    
+
     /**
      * Get booking for consultant
      * 
@@ -215,14 +213,14 @@ final class BookingManager
      * @param integer $date
      * @return booking
      */
-    public static function getBookingsForConsultantSearch($consultantId, $date) {
+    public static function getBookingsForConsultantSearch($consultantId, $date)
+    {
 
         $this->logger->info("get all bookings for a consultant for search results");
 
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->listAllForSearch($consultantId, $date);
 
         return $bookings;
-
     }
 
 }
