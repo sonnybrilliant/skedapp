@@ -98,8 +98,8 @@ final class BookingManager
         }
 
         return $booking;
-    }    
-    
+    }
+
     /**
      * Save booking object
      * 
@@ -127,5 +127,69 @@ final class BookingManager
 
         return $booking;
     }
+
+    /**
+     * Is booking time slots valid
+     * 
+     * start time must be less than end time
+     * 
+     * @param SkedAppCoreBundle:Booking $booking
+     * @return boolean
+     */
+    public function isTimeValid($booking)
+    {
+        $isValid = false;
+
+        if ($booking->getStartTimeslot()->getWeight() < $booking->getEndTimeslot()->getWeight()) {
+            $isValid = true;
+        }
+
+        return $isValid;
+    }
+
+    /**
+     * Check if booking do not clash
+     * @param SkedAppCoreBundle:Booking $booking
+     * @return boolean
+     */
+    public function isBookingDateAvailable($booking)
+    {
+        $bookingStartDate = "";
+        $bookingEndDate = "";
+
+        if ("" == $booking->getHiddenAppointmentStartTime()) {
+            $startTime = strtotime("+" . $booking->getStartTimeslot()->getWeight() - 1 . " hour", $booking->getAppointmentDate()->format('U'));
+            $bookingStartDate = new \DateTime();
+            $bookingStartDate->setTimestamp($startTime);
+
+            $endTime = strtotime("+" . $booking->getEndTimeslot()->getWeight() - 1 . " hour", $booking->getAppointmentDate()->format('U'));
+            $bookingEndDate = new \DateTime();
+            $bookingEndDate->setTimestamp($endTime);
+        } else {
+            $bookingStartDate = $booking->getHiddenAppointmentStartTime();
+            $bookingEndDate = $booking->getHiddenAppointmentEndTime();
+        }
+
+        $results = $this->em->getRepository("SkedAppCoreBundle:Booking")
+            ->isConsultantAvailable($booking->getConsultant(),$bookingStartDate, $bookingEndDate);
+        
+        /*
+         * confirm if the new appointment start time is equal to the 
+         * already booked appointment end time
+         */        
+        if(sizeof($results) == 1){
+            $oldBooking = $results[0];
+            if($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()){
+                return true;
+            }
+        }else if(sizeof($results) > 1){
+           return false; 
+        }else if(sizeof($results) == 0){
+           return true; 
+        }
+
+    }
+    
+    
 
 }

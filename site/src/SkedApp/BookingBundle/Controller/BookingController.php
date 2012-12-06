@@ -46,15 +46,14 @@ class BookingController extends Controller
     public function newAction()
     {
         $this->get('logger')->info('add a new booking');
-        
+
         $user = $this->get('member.manager')->getLoggedInUser();
-        
+
         $booking = new Booking();
         $form = $this->createForm(new BookingCreateType(
-            $user->getCompany()->getId(),
-            $this->get('member.manager')->isAdmin()
-            ), 
-            $booking);
+                $user->getCompany()->getId(),
+                $this->get('member.manager')->isAdmin()
+            ), $booking);
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
@@ -72,29 +71,46 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking');
 
         $user = $this->get('member.manager')->getLoggedInUser();
-        
+
         $booking = new Booking();
         $form = $this->createForm(new BookingCreateType(
-            $user->getCompany()->getId(),
-            $this->get('member.manager')->isAdmin()
-            ), 
-            $booking);
+                $user->getCompany()->getId(),
+                $this->get('member.manager')->isAdmin()
+            ), $booking);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
-                $booking->setStatus($this->get('status.manager')->confirmed());
-                $this->get('booking.manager')->save($booking);
-                $this->getRequest()->getSession()->setFlash(
-                    'success', 'Created booking sucessfully');
-                return $this->redirect($this->generateUrl('sked_app_booking_manager'));
-            } else {
-                $this->getRequest()->getSession()->setFlash(
-                    'error', 'Failed to create booking');
-            }
-        }
 
+                $isValid = true;
+                $errMsg = "";
+
+                if (!$this->get('booking.manager')->isTimeValid($booking)) {
+                   $errMsg  = "End time must be greater than start time";
+                   $isValid = false;  
+                } 
+
+                if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+                   $errMsg  = "Booking not available, please choose another time.";
+                   $isValid = false;  
+                } 
+                
+                if ($isValid) {
+                    $booking->setStatus($this->get('status.manager')->confirmed());
+                    $this->get('booking.manager')->save($booking);
+                    $this->getRequest()->getSession()->setFlash(
+                        'success', 'Created booking sucessfully');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                } else {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', $errMsg);
+                }
+            }
+        } else {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Failed to create booking');
+        }
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
@@ -110,15 +126,14 @@ class BookingController extends Controller
     public function editAction($bookingId)
     {
         $this->get('logger')->info('edit booking id:' . $bookingId);
-        
+
         $user = $this->get('member.manager')->getLoggedInUser();
-        
+
         $booking = new Booking();
         $form = $this->createForm(new BookingUpdateType(
-            $user->getCompany()->getId(),
-            $this->get('member.manager')->isAdmin()
-            ), 
-            $booking);
+                $user->getCompany()->getId(),
+                $this->get('member.manager')->isAdmin()
+            ), $booking);
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
@@ -137,13 +152,12 @@ class BookingController extends Controller
         $this->get('logger')->info('update booking id:' . $bookingId);
 
         $user = $this->get('member.manager')->getLoggedInUser();
-        
+
         $booking = new Booking();
         $form = $this->createForm(new BookingUpdateType(
-            $user->getCompany()->getId(),
-            $this->get('member.manager')->isAdmin()
-            ), 
-            $booking);
+                $user->getCompany()->getId(),
+                $this->get('member.manager')->isAdmin()
+            ), $booking);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -227,11 +241,11 @@ class BookingController extends Controller
                 $results[] = array(
                     'allDay' => $allDay,
                     'title' => $bookingName,
-                    'start' => $booking->getAppointmentDate()->format("c"),
-                    'end' => $booking->getAppointmentDate()->format("c"),
+                    'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
+                    'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
                     //'start' => "2012-11-29",
                     'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
-                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId"=>$booking->getId()) ),
+                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId" => $booking->getId())),
                     //'color' => 'pink',
                     //'textColor' => 'black'
                 );

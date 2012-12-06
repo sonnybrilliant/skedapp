@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookingRepository extends EntityRepository
 {
+    /**
+     * Is consultant available
+     * 
+     * @param date $bookingStartDate
+     * @param date $bookingEndDate
+     * @return array
+     */
+    public function isConsultantAvailable($consultant,$bookingStartDate,$bookingEndDate)
+    {
+       $dql = "SELECT b FROM SkedAppCoreBundle:Booking b WHERE b.consultant = ?1 AND b.isDeleted = ?2 AND b.hiddenAppointmentEndTime BETWEEN ?3 AND ?4  "; 
+        return $this->getEntityManager()->createQuery($dql)
+            ->setParameters(array(
+                1 => $consultant , 
+                2 => false , 
+                3 => $bookingStartDate , 
+                4 => $bookingEndDate
+                ))
+            ->getResult();
+
+    }
 }

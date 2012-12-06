@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\BookingRepository")
  * @ORM\Table(name="booking")
+ * @ORM\HasLifecycleCallbacks
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppCoreBundle
@@ -94,13 +95,13 @@ class Booking
      * @ORM\Column(name="is_deleted", type="boolean")
      */
     protected $isDeleted;
-    
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_leave", type="boolean")
      */
-    protected $isLeave;    
+    protected $isLeave;
 
     /**
      * @var datetime
@@ -108,6 +109,20 @@ class Booking
      * @ORM\Column(name="appointment_date", type="date")
      */
     protected $appointmentDate;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="hidden_appointment_start_time", type="datetime", nullable=true)
+     */
+    protected $hiddenAppointmentStartTime;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="hidden_appointment_end_time", type="datetime" , nullable=true)
+     */
+    protected $hiddenAppointmentEndTime;
 
     /**
      * @var datetime
@@ -129,6 +144,36 @@ class Booking
         $this->isLeave = false;
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+    }
+
+    /**
+     * Create appointment date with time
+     * 
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function createAppointmentStartTime()
+    {
+        $dateTime = strtotime("+" . $this->getStartTimeslot()->getWeight() - 1 . " hour", $this->getAppointmentDate()->format('U'));
+        $currentDateTime = new \DateTime();
+        $currentDateTime->setTimestamp($dateTime);
+        $this->setHiddenAppointmentStartTime($currentDateTime);
+        return;
+    }
+
+    /**
+     * Create appointment date with time
+     * 
+     * @ORM\PreUpdate()
+     * @ORM\PrePersist()
+     */
+    public function createAppointmentEndTime()
+    {
+        $dateTime = strtotime("+" . $this->getEndTimeslot()->getWeight() - 1 . " hour", $this->getAppointmentDate()->format('U'));
+        $currentDateTime = new \DateTime();
+        $currentDateTime->setTimestamp($dateTime);
+        $this->setHiddenAppointmentEndTime($currentDateTime);
+        return;
     }
 
     /**
@@ -371,7 +416,6 @@ class Booking
         return $this->service;
     }
 
-
     /**
      * Set isLeave
      *
@@ -381,7 +425,7 @@ class Booking
     public function setIsLeave($isLeave)
     {
         $this->isLeave = $isLeave;
-    
+
         return $this;
     }
 
@@ -394,4 +438,51 @@ class Booking
     {
         return $this->isLeave;
     }
+
+    /**
+     * Set hiddenAppointmentStartTime
+     *
+     * @param \DateTime $hiddenAppointmentStartTime
+     * @return Booking
+     */
+    public function setHiddenAppointmentStartTime($hiddenAppointmentStartTime)
+    {
+        $this->hiddenAppointmentStartTime = $hiddenAppointmentStartTime;
+
+        return $this;
+    }
+
+    /**
+     * Get hiddenAppointmentStartTime
+     *
+     * @return \DateTime 
+     */
+    public function getHiddenAppointmentStartTime()
+    {
+        return $this->hiddenAppointmentStartTime;
+    }
+
+    /**
+     * Set hiddenAppointmentEndTime
+     *
+     * @param \DateTime $hiddenAppointmentEndTime
+     * @return Booking
+     */
+    public function setHiddenAppointmentEndTime($hiddenAppointmentEndTime)
+    {
+        $this->hiddenAppointmentEndTime = $hiddenAppointmentEndTime;
+
+        return $this;
+    }
+
+    /**
+     * Get hiddenAppointmentEndTime
+     *
+     * @return \DateTime 
+     */
+    public function getHiddenAppointmentEndTime()
+    {
+        return $this->hiddenAppointmentEndTime;
+    }
+
 }
