@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-
+use Doctrine\ORM\EntityRepository;
 
 /**
  * SkedApp\ConsultantBundle\Form\ConsultantUpdateType
@@ -48,11 +48,15 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Gender:',
                 'attr' => array('class' => 'span4 chosen')
             ))
-            ->add('category', 'entity', array(
+             ->add('category', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Category',
                 'label' => 'Category:',
-                'required' => true,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4 chosen'),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->setParameter('status', false);
+                },
             ))
             ->add('consultantServices', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Service',
