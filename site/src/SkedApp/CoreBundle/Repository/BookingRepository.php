@@ -12,10 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookingRepository extends EntityRepository
 {
-    
+
     /**
      * Get all bookings
-     * 
+     *
      * @return array
      */
     public function getAllBooking()
@@ -24,12 +24,12 @@ class BookingRepository extends EntityRepository
              ->select('b')
              ->where("b.isDeleted = :status")
              ->setParameter('status', false);
-          return $qb->getQuery()->execute();    
+          return $qb->getQuery()->execute();
     }
 
     /**
      * Is consultant available
-     * 
+     *
      * @param SkedAppCoreBundle:Consultant $consultant
      * @param datetime $bookingStartDate
      * @param datetime $bookingEndDate
@@ -49,52 +49,103 @@ class BookingRepository extends EntityRepository
     }
 
     /**
-     * Get bookings for consultant
-     * 
+     * Get available booking slots for consultant
+     *
      * @param SkedAppCoreBundle:Consultant $consultant
      * @param datetime $bookingDate
-     * @return string|array
+     * @return array
      */
-    public function getBookingsForConsultantSearch($consultant, $bookingDate)
+    public function getBookingSlotsForConsultantSearch($consultant, $bookingDate, $callback_cnt = 0)
     {
 
-        $arrOut = array('error_message' => null);
+        $arrOut = array('error_message' => null, 'time_slots' => array ());
 
         //check next day consultant is available
         $intDoWAvailable = -1;
         $intCntCheck = 1;
-        $blnIsAvailable = false;
+        $booking_day_test = $bookingDate;
 
-        while (($intDoWAvailable < 0) && ($intCntCheck <= 7) && (!$blnIsAvailable)) {
-            $strDayName = $bookingDate->format('l');
-            eval("\$blnIsAvailable = \$consultant->get$strDayName();");
-            $bookingDate->add(new \DateInterval('P1D'));
+        echo $bookingDate->format('r') . ' is sent in and id is ' . $consultant->getId() . '<br>';
+
+        //Check if eny dates were set for consultant
+        while ( ($intDoWAvailable < 0) && ($intCntCheck <= 7) ) {
+            $strDayName = $booking_day_test->format('l');
+            eval("\$intDoWAvailable = \$consultant->get$strDayName();");
+            $booking_day_test->modify("+1 day");
             $intCntCheck++;
         }
 
-        if (!$blnIsAvailable) {
+        if ($intDoWAvailable < 0) {
 
-            $arrOut['error_message'] = 'This consultant is not available fo rhte next 7 days';
+            $arrOut['error_message'] = 'This consultant is not available for bookings';
 
             return $arrOut;
+
         }
 
-        //Add one month to the date for search for open time slot will stop
-        $objStopDate = $bookingDate;
-        $objStopDate->add(new \DateInterval('P1M'));
+        $appointment_duration = $consultant->getAppointmentDuration()->getDuration();
 
-        $qb = $this->createQueryBuilder('b');
-        $qb->select('b');
-        $qb->where('b.consultant =  :consultant')
-            ->andWhere('b.appointmentDate >= :current_date')
-            ->andWhere('b.appointmentDate <= :stop_date')
-            ->andWhere('b.isDeleted = 0')
-            ->setParameters(array('consultant' => $consultant->getId(), 'current_date' => $bookingDate->format('Y-m-d'), 'stop_date' => $objStopDate->format('Y-m-d')));
-        $qb->add('orderBy', 'b.appointmentDate Desc', true);
+        //Get the time the consultant starts and make sure it is not more than 2 hours in advance
+        //2 hours because booking can not be cancelled 2 hours in advance
 
-        $bookings = $qb->getQuery()->execute();
+//        echo $bookingDate->format('r') . ' after checking day availability<br>';
 
-        $arrOut['time_slots'] = array();
+        //Query is for today
+        if ($callback_cnt <= 0)
+          $bookingDate->setTime (date('H'), date('i'), 0);
+
+        echo $bookingDate->format('r') . ' after setting time<br>';
+
+        $start_time = $bookingDate;
+        $time_slot = explode(':', $consultant->getStartTimeslot()->getSlot());
+        $start_time->setTime($time_slot[0], $time_slot[1], 0);
+
+        //Get the end time slot
+        $end_time = $bookingDate;
+        $time_slot = explode(':', $consultant->getEndTimeslot()->getSlot());
+        $end_time->setTime($time_slot[0], $time_slot[1], 0);
+
+        while ($start_time->getTimestamp() <= (time() + (60 * 60 * 2))) {
+            //Add appointment length to start time until more than 2 hours away
+            $start_time->modify("+$appointment_duration minute");
+        } //while
+
+        $slot_cnt = 0;
+
+        //Start by identifying time slots on the same day
+        while ( ($slot_cnt < 5) && ($start_time->getTimestamp() <= $end_time->getTimeStamp()) ) {
+
+            $new_timestamp = $start_time->getTimestamp() + (60 * $appointment_duration);
+
+            $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));
+
+            $arrOut['time_slots'][$slot_cnt] = array(
+                    'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j F Y'), 'booking_taken' => $booking_time_slot
+                );
+
+            $start_time->modify("+$appointment_duration minute");
+            $slot_cnt++;
+
+        } //while
+
+        if ($slot_cnt <= 0) {
+          //No open time slots for consultant. Add 1 day and try again. Up to 30 days, then fail
+
+          if ($callback_cnt > 30) {
+            echo 'searching again on ' . $consultant->getid () . '<br>';
+            $arrOut['error_message'] = 'All booking time slots taken until ' . $bookingDate->format('j F Y');
+            return $arrOut;
+          }
+
+          $bookingDate->modify("+1 day");
+          $bookingDate->setTime (0, 0, 0);
+          $callback_cnt++;
+
+          echo 'trying next day<br>';
+
+          $arrOut = $this->getBookingSlotsForConsultantSearch($consultant, $bookingDate, $callback_cnt);
+
+        }
 
         return $arrOut;
     }
