@@ -67,15 +67,13 @@ class SearchController extends Controller
         $objDate = new \DateTime($arrFormValues['booking_date']);
 
         if ($objDate->getTimestamp() <= 0)
-          $objDate = new \DateTime();
+            $objDate = new \DateTime();
 
         $em = $this->getDoctrine()->getEntityManager();
 
         foreach ($pagination as $objConsultant) {
-          $objDateSend = new \DateTime($arrFormValues['booking_date']);
-          $objDateSend = $objDate;
-          echo $objDateSend->format('r') . ' taken from ' . $arrFormValues['booking_date'] . ' in controller<br>';
-          $objConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($objConsultant, $objDateSend));
+            $objDateSend = new \DateTime($arrFormValues['booking_date']);
+            $objConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($objConsultant, $objDateSend));
         }
 
         return $this->render('SkedAppSearchBundle:Search:index.html.twig', array(
