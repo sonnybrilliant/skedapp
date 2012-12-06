@@ -3,14 +3,22 @@
         <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" />
     </span>
 
-    <span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span>
+    <span style="padding-left: 10px">#{{consultant.id}} {{consultant.firstName}}&nbsp;{{consultant.lastName}}</span>
 
     <span style="padding-left: 10px">
-        {% set arrSlots = consultant.getAvailableBookingSlots(objDate) %}
+        {% set arrSlots = consultant.getAvailableBookingSlots() %}
         {% if arrSlots.error_message %}
-            {{ arrSlots.error_message }}
+            <div clas="divTimeSlotsTaken">{{ arrSlots.error_message }}</div>
         {% else %}
-            Slots go here...
+            <div class="divTimeSlotContainer">
+            {% for time_slot in arrSlots.time_slots %}
+                {% if time_slot.booking_taken %}
+                    <div class="divTimeSlotTaken">Taken</div>
+                {% else %}
+                    <div class="divTimeSlotAvailable">{{ time_slot.start_time }} to {{ time_slot.end_time }} on {{ time_slot.date }}</div>
+                {% endif %}
+            {% endfor %}
+            </div>
         {% endif %}
         {% for service in consultant.consultantServices %}
             <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
