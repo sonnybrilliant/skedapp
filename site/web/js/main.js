@@ -11,11 +11,14 @@ $(document).ready(function() {
 
                 var el = $('#Consultant_consultantServices');
                 el.empty();
+                el.removeAttr("disabled");
                 $.each(response.results, function(key,value) {
                     el.append($("<option></option>")
                         .attr("value", value.id).text(value.name));
 
                 });
+                
+                
 
             }
         });
@@ -29,6 +32,7 @@ $(document).ready(function() {
                 
                 var el = $('#Booking_service');
                 el.empty();
+                el.removeAttr("disabled");
                 $.each(response.results, function(key,value) {
                     el.append($("<option></option>")
                         .attr("value", value.id).text(value.name));

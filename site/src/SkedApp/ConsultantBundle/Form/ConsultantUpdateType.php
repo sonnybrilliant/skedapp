@@ -59,7 +59,7 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => true,
                 'required' => false,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span4' ),
                 
             ))
             ->add('speciality', 'textarea', array(

@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityRepository;
 
 
 /**
@@ -52,15 +53,19 @@ class ConsultantCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Category',
                 'empty_value' => 'Select a category',
                 'label' => 'Category:',
-                'required' => true,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span4 chosen'),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->setParameter('status', false);
+                },
             ))
             ->add('consultantServices', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => true,
                 'required' => false,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span4' , 'disabled' => 'disabled'),
                 
             ))
             ->add('speciality', 'textarea', array(

@@ -5,7 +5,8 @@ namespace SkedApp\ServiceBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\FormBuilderInterface; 
+use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * SkedApp\ServiceBundle\Form\ServiceCreateType
@@ -29,29 +30,31 @@ class ServiceCreateType extends AbstractType
     {
 
         $builder
-            ->add('name', 'text', array (
-                  'label' => 'Name:' ,
-                  'attr' => array ('class' => 'span4')
-                ))
-            
-            ->add('category', 'entity', array (
-                  'class' => 'SkedAppCoreBundle:Category',
-                  'label' => 'category:' ,
-                  'attr' => array ('class' => 'span4 chosen')
-                ))
-            
-            ->add('appointmentDuration', 'entity', array (
-                  'class' => 'SkedAppCoreBundle:AppointmentDuration',
-                  'label' => 'Length:' ,
-                  'attr' => array ('class' => 'span4 chosen')
-                ))
-            
-            ->add('description', 'textarea' ,
-                        array (
-                  'label' => 'Description:' ,
-                  'attr' => array ('class' => 'tinymce span4' ,'data-theme' => 'simple')
-                ))
-                   
+            ->add('name', 'text', array(
+                'label' => 'Name:',
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('category', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Category',
+                'label' => 'Category:',
+                'empty_value' => 'Select a category',
+                'attr' => array('class' => 'span4 chosen'),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->setParameter('status', false);
+                },
+            ))
+            ->add('appointmentDuration', 'entity', array(
+                'class' => 'SkedAppCoreBundle:AppointmentDuration',
+                'label' => 'Length:',
+                'attr' => array('class' => 'span4 chosen')
+            ))
+            ->add('description', 'textarea', array(
+                'label' => 'Description:',
+                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+            ))
+
         ;
     }
 

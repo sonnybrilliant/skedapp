@@ -58,6 +58,7 @@ class BookingCreateType extends AbstractType
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
+                'empty_value' => 'Select a consultant',
                 'attr' => array('class' => 'span4'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
@@ -74,14 +75,6 @@ class BookingCreateType extends AbstractType
                                 'company' => $companyId
                             ));
                     }
-
-                    return $er->createQueryBuilder('c')
-                        ->where('c.isDeleted = :status')
-                        ->andWhere('c.company = :company')
-                        ->setParameters(array(
-                            'status' => false,
-                            'company' => $companyId
-                        ));
                 },
             ))
             ->add('startTimeslot', 'entity', array(
@@ -107,7 +100,7 @@ class BookingCreateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span4' , 'disabled' => 'disabled'),
             ))
 
         ;

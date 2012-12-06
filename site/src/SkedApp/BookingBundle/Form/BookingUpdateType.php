@@ -75,13 +75,6 @@ class BookingUpdateType extends AbstractType
                             ));
                     }
 
-                    return $er->createQueryBuilder('c')
-                        ->where('c.isDeleted = :status')
-                        ->andWhere('c.company = :company')
-                        ->setParameters(array(
-                            'status' => false,
-                            'company' => $companyId
-                        ));
                 },
             ))
             ->add('startTimeslot', 'entity', array(
