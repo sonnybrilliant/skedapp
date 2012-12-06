@@ -76,6 +76,7 @@ class ConsultantRepository extends EntityRepository
 
         $arrOut = $objQueuryBuilder->getQuery()->execute();
 
+        //Order consultants from nearest to furthest from location
         for ($intCnt1 = 0; $intCnt1 < (count ($arrOut) - 1); $intCnt1++) {
           for ($intCnt2 = 1; $intCnt2 < count ($arrOut); $intCnt2++) {
             if ($arrOut[$intCnt1]->getDistanceFromPosition($options['lat'], $options['lng']) > $arrOut[$intCnt2]->getDistanceFromPosition($options['lat'], $options['lng'])) {

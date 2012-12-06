@@ -6,8 +6,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
 
 /**
- * Booking manager 
- * 
+ * Booking manager
+ *
  * @author Ronald Conco <ronald.conco@kaizania.com>
  * @package SkedAppBookingBundle
  * @subpackage Services
@@ -85,7 +85,7 @@ final class BookingManager
      * Get consultant by id
      * @param integer $id
      * @return SkedAppCoreBundle:Booking
-     * @throws \Exception 
+     * @throws \Exception
      */
     public function getById($id)
     {
@@ -102,7 +102,7 @@ final class BookingManager
 
     /**
      * Save booking object
-     * 
+     *
      * @param SkedAppCoreBundle:Booking $booking
      * @return void
      */
@@ -116,17 +116,18 @@ final class BookingManager
 
     /**
      * Get all bookings
-     * 
+     *
      * @return Array
      */
     public function getAll()
     {
         $this->logger->info("get all bookings");
 
-        $booking = $this->em->getRepository("SkedAppCoreBundle:Booking")->findAll();
+        $booking = $this->em->getRepository("SkedAppCoreBundle:Booking")->listAll();
 
         return $booking;
     }
+
 
     /**
      * Is booking time slots valid
@@ -149,6 +150,7 @@ final class BookingManager
 
     /**
      * Check if booking do not clash
+     * 
      * @param SkedAppCoreBundle:Booking $booking
      * @return boolean
      */
@@ -190,6 +192,21 @@ final class BookingManager
 
     }
     
-    
+    /**
+     * Get booking for consultant
+     * 
+     * @param integer $consultantId
+     * @param integer $date
+     * @return booking
+     */
+    public static function getBookingsForConsultantSearch($consultantId, $date) {
+
+        $this->logger->info("get all bookings for a consultant for search results");
+
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->listAllForSearch($consultantId, $date);
+
+        return $bookings;
+
+    }
 
 }
