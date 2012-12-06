@@ -12,6 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookingRepository extends EntityRepository
 {
+    
+    /**
+     * Get all bookings
+     * 
+     * @return array
+     */
+    public function getAllBooking()
+    {
+         $qb = $this->createQueryBuilder('b')
+             ->select('b')
+             ->where("b.isDeleted = :status")
+             ->setParameter('status', false);
+          return $qb->getQuery()->execute();    
+    }
 
     /**
      * Is consultant available
@@ -21,18 +35,17 @@ class BookingRepository extends EntityRepository
      * @param datetime $bookingEndDate
      * @return array
      */
-    public function isConsultantAvailable($consultant,$bookingStartDate,$bookingEndDate)
+    public function isConsultantAvailable($consultant, $bookingStartDate, $bookingEndDate)
     {
-       $dql = "SELECT b FROM SkedAppCoreBundle:Booking b WHERE b.consultant = ?1 AND b.isDeleted = ?2 AND b.hiddenAppointmentEndTime BETWEEN ?3 AND ?4  "; 
-       return $this->getEntityManager()->createQuery($dql)
-            ->setParameters(array(
-                    1 => $consultant , 
-                    2 => false , 
-                    3 => $bookingStartDate , 
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b WHERE b.consultant = ?1 AND b.isDeleted = ?2 AND b.hiddenAppointmentEndTime BETWEEN ?3 AND ?4  ";
+        return $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => $consultant,
+                    2 => false,
+                    3 => $bookingStartDate,
                     4 => $bookingEndDate
                 ))
-            ->getResult();
-
+                ->getResult();
     }
 
     /**
@@ -42,28 +55,28 @@ class BookingRepository extends EntityRepository
      * @param datetime $bookingDate
      * @return string|array
      */
-    public function getBookingsForConsultantSearch($consultant, $bookingDate) {
+    public function getBookingsForConsultantSearch($consultant, $bookingDate)
+    {
 
-        $arrOut = array ('error_message' => null);
+        $arrOut = array('error_message' => null);
 
         //check next day consultant is available
         $intDoWAvailable = -1;
         $intCntCheck = 1;
         $blnIsAvailable = false;
 
-        while ( ($intDoWAvailable < 0) && ($intCntCheck <= 7) && (!$blnIsAvailable) ) {
+        while (($intDoWAvailable < 0) && ($intCntCheck <= 7) && (!$blnIsAvailable)) {
             $strDayName = $bookingDate->format('l');
-            eval ("\$blnIsAvailable = \$consultant->get$strDayName();");
+            eval("\$blnIsAvailable = \$consultant->get$strDayName();");
             $bookingDate->add(new \DateInterval('P1D'));
             $intCntCheck++;
         }
 
         if (!$blnIsAvailable) {
 
-          $arrOut['error_message'] = 'This consultant is not available fo rhte next 7 days';
+            $arrOut['error_message'] = 'This consultant is not available fo rhte next 7 days';
 
-          return $arrOut;
-
+            return $arrOut;
         }
 
         //Add one month to the date for search for open time slot will stop
@@ -73,17 +86,17 @@ class BookingRepository extends EntityRepository
         $qb = $this->createQueryBuilder('b');
         $qb->select('b');
         $qb->where('b.consultant =  :consultant')
-                ->andWhere('b.appointmentDate >= :current_date')
-                ->andWhere('b.appointmentDate <= :stop_date')
-                ->andWhere('b.isDeleted = 0')
-                ->setParameters(array ('consultant' => $consultant->getId(), 'current_date' => $bookingDate->format('Y-m-d'), 'stop_date' => $objStopDate->format('Y-m-d')));
+            ->andWhere('b.appointmentDate >= :current_date')
+            ->andWhere('b.appointmentDate <= :stop_date')
+            ->andWhere('b.isDeleted = 0')
+            ->setParameters(array('consultant' => $consultant->getId(), 'current_date' => $bookingDate->format('Y-m-d'), 'stop_date' => $objStopDate->format('Y-m-d')));
         $qb->add('orderBy', 'b.appointmentDate Desc', true);
 
         $bookings = $qb->getQuery()->execute();
 
-        $arrOut['time_slots'] = array ();
+        $arrOut['time_slots'] = array();
 
         return $arrOut;
-
     }
+
 }

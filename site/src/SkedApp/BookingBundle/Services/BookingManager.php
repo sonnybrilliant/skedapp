@@ -115,6 +115,22 @@ final class BookingManager
     }
 
     /**
+     * Delete booking
+     * @param integer $bookingId
+     * @return void
+     */
+    public function delete($bookingId)
+    {
+        $this->logger->info("delete booking id:$bookingId");
+        $booking = $this->getById($bookingId);
+       
+        $booking->setIsDeleted(true);
+        $this->em->persist($booking);
+        $this->em->flush();
+        return;
+    }
+
+    /**
      * Get all bookings
      *
      * @return Array
@@ -123,9 +139,9 @@ final class BookingManager
     {
         $this->logger->info("get all bookings");
 
-        $booking = $this->em->getRepository("SkedAppCoreBundle:Booking")->listAll();
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllBooking();
 
-        return $booking;
+        return $bookings;
     }
 
 

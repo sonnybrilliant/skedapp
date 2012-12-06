@@ -22,10 +22,13 @@
     <div class="span9">
         <h3>Edit booking</h3>
         <br />
+        
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
+        <br />
+        <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id}) }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
+        {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
     </div>  
     {% endblock content %}   
 <script type="text/javascript">

@@ -87,15 +87,15 @@ class BookingController extends Controller
                 $errMsg = "";
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
-                   $errMsg  = "End time must be greater than start time";
-                   $isValid = false;  
-                } 
+                    $errMsg = "End time must be greater than start time";
+                    $isValid = false;
+                }
 
                 if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
-                   $errMsg  = "Booking not available, please choose another time.";
-                   $isValid = false;  
-                } 
-                
+                    $errMsg = "Booking not available, please choose another time.";
+                    $isValid = false;
+                }
+
                 if ($isValid) {
                     $booking->setStatus($this->get('status.manager')->confirmed());
                     $this->get('booking.manager')->save($booking);
@@ -120,20 +120,26 @@ class BookingController extends Controller
     /**
      * Edit booking
      * 
-     * @param type $bookingId
-     * @return type
+     * @param integer $bookingId
+     * @return Response
      */
     public function editAction($bookingId)
     {
         $this->get('logger')->info('edit booking id:' . $bookingId);
 
-        $user = $this->get('member.manager')->getLoggedInUser();
+        try {
 
-        $booking = new Booking();
-        $form = $this->createForm(new BookingUpdateType(
-                $user->getCompany()->getId(),
-                $this->get('member.manager')->isAdmin()
-            ), $booking);
+            $user = $this->get('member.manager')->getLoggedInUser();
+            $booking = $this->get('booking.manager')->getById($bookingId);
+
+            $form = $this->createForm(new BookingUpdateType(
+                    $user->getCompany()->getId(),
+                    $this->get('member.manager')->isAdmin()
+                ), $booking);
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$booking invalid");
+            $this->createNotFoundException($e->getMessage());
+        }
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
@@ -144,40 +150,67 @@ class BookingController extends Controller
     /**
      * update booking
      * 
-     * @param type $bookingId
-     * @return type
+     * @param integer $bookingId
+     * @return Response
      */
     public function updateAction($bookingId)
     {
         $this->get('logger')->info('update booking id:' . $bookingId);
 
-        $user = $this->get('member.manager')->getLoggedInUser();
+        try {
 
-        $booking = new Booking();
-        $form = $this->createForm(new BookingUpdateType(
-                $user->getCompany()->getId(),
-                $this->get('member.manager')->isAdmin()
-            ), $booking);
+            $user = $this->get('member.manager')->getLoggedInUser();
+            $booking = $this->get('booking.manager')->getById($bookingId);
 
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bindRequest($this->getRequest());
+            $form = $this->createForm(new BookingUpdateType(
+                    $user->getCompany()->getId(),
+                    $this->get('member.manager')->isAdmin()
+                ), $booking);
 
-            if ($form->isValid()) {
-                $this->get('booking.manager')->save($booking);
-                $this->getRequest()->getSession()->setFlash(
-                    'success', 'Updated booking sucessfully');
-                return $this->redirect($this->generateUrl('sked_app_booking_manager'));
-            } else {
-                $this->getRequest()->getSession()->setFlash(
-                    'error', 'Failed to update booking');
+            if ($this->getRequest()->getMethod() == 'POST') {
+                $form->bindRequest($this->getRequest());
+
+                if ($form->isValid()) {
+                    $this->get('booking.manager')->save($booking);
+                    $this->getRequest()->getSession()->setFlash(
+                        'success', 'Updated booking sucessfully');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                } else {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Failed to update booking');
+                }
             }
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$booking invalid");
+            $this->createNotFoundException($e->getMessage());
         }
-
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
                 'id' => $booking->getId()
             ));
+    }
+
+    /**
+     * Delete booking
+     * 
+     * @param integer $bookingId
+     * @return Response
+     */
+    public function deleteAction($bookingId)
+    {
+        $this->get('logger')->info('delete booking id:' . $bookingId);
+
+        try {
+
+           $this->get('booking.manager')->delete($bookingId);
+           $this->getRequest()->getSession()->setFlash(
+                        'success', 'Deleted booking sucessfully');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$booking invalid");
+            $this->createNotFoundException($e->getMessage());
+        }       
     }
 
     /**

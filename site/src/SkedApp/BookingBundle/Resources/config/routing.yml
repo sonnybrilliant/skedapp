@@ -21,6 +21,12 @@ sked_app_booking_update:
     defaults: { _controller: SkedAppBookingBundle:Booking:update }
     requirements:
         bookingId:  \d+              
+
+sked_app_booking_delete:
+    pattern:  /booking/delete/{bookingId}
+    defaults: { _controller: SkedAppBookingBundle:Booking:delete }
+    requirements:
+        bookingId:  \d+              
         
 sked_app_booking_ajax_get_by_consultant:
     pattern:  /booking/ajaxGetByConsultant/{consultantId}
