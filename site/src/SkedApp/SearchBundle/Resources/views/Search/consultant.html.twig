@@ -1,43 +1,55 @@
 <div class="divSearchResultsItem">
-    <span style="padding-left: 10px">
-        <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" />
-    </span>
 
-    <span style="padding-left: 10px">#{{consultant.id}} {{consultant.firstName}}&nbsp;{{consultant.lastName}}</span>
+    <div class="divConsultantInfo">
 
-    <span style="padding-left: 10px">
+        <span style="padding-left: 10px">
+            <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" />
+        </span>
+
+        <br />
+        <span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span>
+
+        <br /><br />
+
+        <span>
+              <label class="lblView">
+                  Distance from you:<br />
+                  <span class="spnNotes">(Point to point)</span>
+              </label>
+              <div class="divViewData">
+                  {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
+              </div>
+              <div style="clear: both;"></div>
+        </span>
+
+        <br />
+        {% for service in consultant.consultantServices %}
+            <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
+        {% else %}
+             No listed services found.
+        {% endfor %}
+
+    </div>
+
+    <div class="divTimeSlotsAround">
         {% set arrSlots = consultant.getAvailableBookingSlots() %}
         {% if arrSlots.error_message %}
-            <div clas="divTimeSlotsTaken">{{ arrSlots.error_message }}</div>
+            <div class="divTimeSlotsAllTaken">{{ arrSlots.error_message }}</div>
         {% else %}
             <div class="divTimeSlotContainer">
             {% for time_slot in arrSlots.time_slots %}
                 {% if time_slot.booking_taken %}
                     <div class="divTimeSlotTaken">Taken</div>
                 {% else %}
-                    <div class="divTimeSlotAvailable">{{ time_slot.start_time }} to {{ time_slot.end_time }} on {{ time_slot.date }}</div>
+                    <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_full, 'timeSlotStart': time_slot.start_time, 'timeSlotEnd': time_slot.end_time, 'serviceIds': serviceIds}) }}"><div class="divTimeSlotAvailable">
+                        {{ time_slot.start_time }} to {{ time_slot.end_time }}<br />
+                        <span class="spnTimeSlotNotes">{{ time_slot.dow }} {{ time_slot.date }} {{ time_slot.year }}</span>
+                    </div></a>
                 {% endif %}
             {% endfor %}
             </div>
         {% endif %}
-        {% for service in consultant.consultantServices %}
-            <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
-        {% else %}
-             No listed services found.
-        {% endfor %}
-    </span>
-
-    <br /><br />
-
-    <span>
-          <label class="lblView">
-              Distance from you:<br />
-              <span class="spnNotes">(Point to point)</span>
-          </label>
-          <div class="divViewData">
-              {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
-          </div>
-          <div style="clear: both;"></div>
-    </span>
+    </div>
+    <div style="clear: both;"></div>
 
 </div>

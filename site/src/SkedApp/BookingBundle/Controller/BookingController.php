@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use SkedApp\BookingBundle\Form\BookingCreateType;
+use SkedApp\BookingBundle\Form\BookingMakeType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\CoreBundle\Entity\Booking;
 
@@ -39,7 +40,7 @@ class BookingController extends Controller
 
     /**
      * new booking
-     * 
+     *
      * @param type $agency
      * @return Reponse
      */
@@ -62,7 +63,7 @@ class BookingController extends Controller
 
     /**
      * new booking
-     * 
+     *
      * @param type $agency
      * @return Reponse
      */
@@ -119,7 +120,7 @@ class BookingController extends Controller
 
     /**
      * Edit booking
-     * 
+     *
      * @param integer $bookingId
      * @return Response
      */
@@ -149,7 +150,7 @@ class BookingController extends Controller
 
     /**
      * update booking
-     * 
+     *
      * @param integer $bookingId
      * @return Response
      */
@@ -193,7 +194,7 @@ class BookingController extends Controller
 
     /**
      * Delete booking
-     * 
+     *
      * @param integer $bookingId
      * @return Response
      */
@@ -210,12 +211,12 @@ class BookingController extends Controller
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$booking invalid");
             $this->createNotFoundException($e->getMessage());
-        }       
+        }
     }
 
     /**
      * Ajax call services by category
-     * 
+     *
      * @param integer $consultantId
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws AccessDeniedException
@@ -288,6 +289,104 @@ class BookingController extends Controller
         $response = new Response(json_encode($results));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    /**
+     * Make a new booking on the public site
+     *
+     * @param integer $consultantId
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws AccessDeniedException
+     */
+    public function makeAction($companyId, $consultantId, $date, $timeSlotStart, $timeSlotEnd, $serviceIds = array())
+    {
+        $this->get('logger')->info('add a new booking public');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        $booking = new Booking();
+
+        $booking->setConsultant($this->get('consultant.manager')->getById($consultantId));
+
+        $form = $this->createForm(new BookingMakeType(
+                $companyId,
+                $consultantId,
+                $date,
+                $timeSlotStart,
+                $timeSlotEnd,
+                $serviceIds
+            ), $booking);
+
+        return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
+                'form' => $form->createView(),
+            ));
+    }
+
+    /**
+     * made booking
+     *
+     * @return Reponse
+     */
+    public function madeAction()
+    {
+        $this->get('logger')->info('add a new booking public');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        $values = $this->getRequest()->get('Booking');
+
+        $objConsultant = $this->get('consultant.manager')->getById($values['consultant']);
+
+        if (is_object($objConsultant))
+            $values['companyId'] = $objConsultant->getCompany()->getId();
+
+        $booking = new Booking();
+        $form = $this->createForm(new BookingMakeType(
+                $values['companyId'],
+                $values['consultant'],
+                $values['appointmentDate'],
+                $values['startTimeslot'],
+                $values['endTimeslot'],
+                $values['service']
+            ), $booking);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+
+                $isValid = true;
+                $errMsg = "";
+
+                if (!$this->get('booking.manager')->isTimeValid($booking)) {
+                    $errMsg = "End time must be greater than start time";
+                    $isValid = false;
+                }
+
+                if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+                    $errMsg = "Booking not available, please choose another time.";
+                    $isValid = false;
+                }
+
+                if ($isValid) {
+                    $booking->setStatus($this->get('status.manager')->confirmed());
+                    $this->get('booking.manager')->save($booking);
+                    $this->getRequest()->getSession()->setFlash(
+                        'success', 'Created booking sucessfully');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                } else {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', $errMsg);
+                }
+            }
+        } else {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Failed to create booking');
+        }
+
+        return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
+                'form' => $form->createView(),
+            ));
     }
 
 }

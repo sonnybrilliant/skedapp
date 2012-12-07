@@ -47,6 +47,9 @@ class SearchController extends Controller
 
         $arrFormValues = $this->getRequest()->get('Search');
 
+        if (!isset ($arrFormValues['consultantServices']))
+            $arrFormValues['consultantServices'] = array();
+
         if ($this->getRequest()->getMethod() == 'POST') {
 
             $form->bindRequest($this->getRequest());
@@ -54,6 +57,10 @@ class SearchController extends Controller
             $options['lat'] = $arrFormValues['lat'];
             $options['lng'] = $arrFormValues['lng'];
             $options['radius'] = 5;
+            $options['categoryId'] = $arrFormValues['category'];
+
+            if ( (isset ($arrFormValues['consultantServices'])) && (count($arrFormValues['consultantServices']) > 0) )
+              $options['consultantServices'] = $arrFormValues['consultantServices'];
 
         }
 
@@ -84,6 +91,7 @@ class SearchController extends Controller
                 'intPositionLat' => $arrFormValues['lat'],
                 'intPositionLong' => $arrFormValues['lng'],
                 'objDate' => $objDate,
+                'serviceIds' => implode(',', $arrFormValues['consultantServices'])
             ));
     }
 
