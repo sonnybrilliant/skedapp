@@ -57,21 +57,43 @@ class ConsultantRepository extends EntityRepository
                 $options[$key] = $defaultOptions[$key];
         }
 
+        if (!isset ($options['categoryId']))
+            $options['categoryId'] = 0;
+
+        if (!isset ($options['consultantServices']))
+            $options['consultantServices'] = array();
+
         $config = $this->getEntityManager()->getConfiguration();
         $config->addCustomNumericFunction('ACOS', 'DoctrineExtensions\Query\Mysql\Acos');
         $config->addCustomNumericFunction('COS', 'DoctrineExtensions\Query\Mysql\Cos');
         $config->addCustomNumericFunction('RADIANS', 'DoctrineExtensions\Query\Mysql\Radians');
         $config->addCustomNumericFunction('SIN', 'DoctrineExtensions\Query\Mysql\Sin');
 
+//        $dql = "SELECT c
+//            FROM SkedAppCoreBundle:Consultant c
+//            INNER JOIN c.company comp
+//            INNER JOIN c.consultantServices s";
+//        return $this->getEntityManager()->createQuery($dql)->getResult();
+
         $objQueuryBuilder = $this->createQueryBuilder('c');
-        $objQueuryBuilder->select('c');
-        $objQueuryBuilder->innerJoin ('SkedAppCoreBundle:Company', 'comp');
+        $objQueuryBuilder->select('c')
+                ->innerJoin ('c.company', 'comp')
+                ->innerJoin ('c.consultantServices', 's');
         $objQueuryBuilder->where('c.isDeleted =  :status')
                 ->andWhere('( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
                     . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) <= :radius')
                 ->setParameters(array ('status' => false, 'latitude' => $options['lat'], 'longitude' => $options['lng'], 'radius' => $options['radius']));
-//        $objQueuryBuilder->add('orderBy', '( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
-//                . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) Desc', true);
+
+        if ($options['categoryId'] > 0) {
+            $objQueuryBuilder->andWhere('s.category = :category')
+                    ->setParameter('category', $options['categoryId']);
+        }
+
+        if (count($options['consultantServices']) > 0) {
+            $objQueuryBuilder->andWhere('s.id IN (:consultants)')
+                    ->setParameter('consultants', $options['consultantServices']);
+        }
+
         $objQueuryBuilder->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
 
         $arrOut = $objQueuryBuilder->getQuery()->execute();

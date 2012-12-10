@@ -84,17 +84,67 @@ a:hover { color: #0AF; }
   padding: 12px;
 }
 
-.divSearchResultsItem span {
-  padding-left: 10px;
-}
-
 .lblView {
   float: left;
-  width: 25%;
+  width: 45%;
   font-weight: bold;
 }
 
 .divViewData {
   float: left;
-  width: 74%;
+  width: 54%;
+}
+
+.divConsultantInfo {
+  width: 300px;
+  float: left;
+}
+
+.divTimeSlotsAround {
+  width: 500px;
+  float: right;
+}
+
+.divTimeSlotContainer {
+  border: solid 1px;
+  border-radius: 4px;
+  background-color: #fbb13e;
+}
+
+.divTimeSlotAvailable, .divTimeSlotTaken {
+  width: 91px;
+  margin: 2px;
+  padding-left: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 4px;
+  border: solid 1px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-table;
+}
+
+.divTimeSlotAvailable {
+  color: #233805;
+  background-color: #f9cd89;
+}
+
+.divTimeSlotsAllTaken {
+  border: solid 1px;
+  border-radius: 4px;
+  background-color: #d4002b;
+  color: #233805;
+}
+
+.divTimeSlotTaken {
+  color: #d4002b;
+}
+
+.divTimeSlotAvailable a, .divTimeSlotTaken a {
+  text-decoration: none;
+}
+
+.spnTimeSlotNotes {
+  font-size: 10px;
+  font-style: italic;
 }

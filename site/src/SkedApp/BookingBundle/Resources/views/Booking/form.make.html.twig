@@ -1,0 +1,47 @@
+<form class="form-horizontal" action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
+      <div class="control-group">
+        <label class="control-label" for="time_slots">Date and time</label>
+        <div class="controls">
+            <div style="border: 1px solid #ccc; padding: 10px;width: 350px;">
+                <div style="margin: 8px 8px 0 0;padding-top: 5px;">
+                    {{ form_label(form.appointmentDate) }} {{ form_widget(form.appointmentDate) }}
+                </div>
+                <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
+                    {{ form_label(form.startTimeslot) }} {{ form_widget(form.startTimeslot) }}
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+       </div>
+      </div>
+      <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
+        <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
+        <div class="controls">
+          {{ form_widget(form.consultant) }}
+          <span class="help-inline">{{form_errors(form.consultant)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
+        <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
+        <div class="controls">
+          {{ form_widget(form.service) }}
+          <span class="help-inline">{{form_errors(form.service)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.description) %} error {% endif %}">
+        <label class="control-label" for="description">{{ form_label(form.description) }}</label>
+        <div class="controls">
+          {{ form_widget(form.description) }}
+          <span class="help-inline">{{form_errors(form.description)}}</span>
+        </div>
+      </div>
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn">Cancel</a>
+      </div>
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+{{ tinymce_init() }}
+
