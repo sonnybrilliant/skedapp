@@ -55,13 +55,12 @@ class BookingMakeType extends AbstractType
      */
     private $timeSlotEnd = null;
 
-    public function __construct($companyId, $consultantId, $date, $timeSlotStart, $timeSlotEnd, $serviceIds)
+    public function __construct($companyId, $consultantId, $date, $timeSlotStart, $serviceIds)
     {
         $this->companyId = $companyId;
         $this->consultantId = $consultantId;
         $this->date = $date;
         $this->timeSlotStart = $timeSlotStart;
-        $this->timeSlotEnd = $timeSlotEnd;
         $this->serviceIds = $serviceIds;
     }
 
@@ -78,7 +77,6 @@ class BookingMakeType extends AbstractType
         $consultantId = $this->consultantId;
         $date = $this->date;
         $timeSlotStart = $this->timeSlotStart;
-        $timeSlotEnd = $this->timeSlotEnd;
         $serviceIds = $this->serviceIds;
 
         $builder
@@ -93,7 +91,6 @@ class BookingMakeType extends AbstractType
                 'label' => 'Booking time:',
                 'attr' => array('class' => 'span1', 'value' => $this->timeSlotStart)
             ))
-            ->add('endTimeslot', 'hidden', array('attr' => array('value' => $this->timeSlotEnd)))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',

@@ -52,9 +52,9 @@ class Booking
 
     /**
      * @var string $description
-     * 
+     *
      * @Assert\MaxLength(limit= 500, message="Booking description has a limit of {{ limit }} characters.")
-     * 
+     *
      * @ORM\Column(name="description", type="text", length=500, nullable=true)
      */
     protected $description;
@@ -154,7 +154,7 @@ class Booking
 
     /**
      * Create appointment date with time
-     * 
+     *
      * @ORM\PreUpdate()
      * @ORM\PrePersist()
      */
@@ -169,7 +169,7 @@ class Booking
 
     /**
      * Create appointment date with time
-     * 
+     *
      * @ORM\PreUpdate()
      * @ORM\PrePersist()
      */
@@ -201,14 +201,14 @@ class Booking
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -224,14 +224,14 @@ class Booking
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
-    
+
         return $this;
     }
 
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -247,14 +247,14 @@ class Booking
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-    
+
         return $this;
     }
 
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -270,14 +270,14 @@ class Booking
     public function setIsCancelled($isCancelled)
     {
         $this->isCancelled = $isCancelled;
-    
+
         return $this;
     }
 
     /**
      * Get isCancelled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsCancelled()
     {
@@ -293,14 +293,14 @@ class Booking
     public function setIsLeave($isLeave)
     {
         $this->isLeave = $isLeave;
-    
+
         return $this;
     }
 
     /**
      * Get isLeave
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsLeave()
     {
@@ -316,14 +316,14 @@ class Booking
     public function setAppointmentDate($appointmentDate)
     {
         $this->appointmentDate = $appointmentDate;
-    
+
         return $this;
     }
 
     /**
      * Get appointmentDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getAppointmentDate()
     {
@@ -339,14 +339,14 @@ class Booking
     public function setHiddenAppointmentStartTime($hiddenAppointmentStartTime)
     {
         $this->hiddenAppointmentStartTime = $hiddenAppointmentStartTime;
-    
+
         return $this;
     }
 
     /**
      * Get hiddenAppointmentStartTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHiddenAppointmentStartTime()
     {
@@ -362,14 +362,14 @@ class Booking
     public function setHiddenAppointmentEndTime($hiddenAppointmentEndTime)
     {
         $this->hiddenAppointmentEndTime = $hiddenAppointmentEndTime;
-    
+
         return $this;
     }
 
     /**
      * Get hiddenAppointmentEndTime
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getHiddenAppointmentEndTime()
     {
@@ -385,14 +385,14 @@ class Booking
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -408,14 +408,14 @@ class Booking
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -431,14 +431,14 @@ class Booking
     public function setConsultant(\SkedApp\CoreBundle\Entity\Consultant $consultant = null)
     {
         $this->consultant = $consultant;
-    
+
         return $this;
     }
 
     /**
      * Get consultant
      *
-     * @return \SkedApp\CoreBundle\Entity\Consultant 
+     * @return \SkedApp\CoreBundle\Entity\Consultant
      */
     public function getConsultant()
     {
@@ -454,14 +454,14 @@ class Booking
     public function setService(\SkedApp\CoreBundle\Entity\Service $service = null)
     {
         $this->service = $service;
-    
+
         return $this;
     }
 
     /**
      * Get service
      *
-     * @return \SkedApp\CoreBundle\Entity\Service 
+     * @return \SkedApp\CoreBundle\Entity\Service
      */
     public function getService()
     {
@@ -477,14 +477,14 @@ class Booking
     public function setStartTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $startTimeslot = null)
     {
         $this->startTimeslot = $startTimeslot;
-    
+
         return $this;
     }
 
     /**
      * Get startTimeslot
      *
-     * @return \SkedApp\CoreBundle\Entity\Timeslots 
+     * @return \SkedApp\CoreBundle\Entity\Timeslots
      */
     public function getStartTimeslot()
     {
@@ -500,14 +500,14 @@ class Booking
     public function setEndTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $endTimeslot = null)
     {
         $this->endTimeslot = $endTimeslot;
-    
+
         return $this;
     }
 
     /**
      * Get endTimeslot
      *
-     * @return \SkedApp\CoreBundle\Entity\Timeslots 
+     * @return \SkedApp\CoreBundle\Entity\Timeslots
      */
     public function getEndTimeslot()
     {

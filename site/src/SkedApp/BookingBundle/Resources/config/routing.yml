@@ -39,7 +39,7 @@ sked_app_booking_ajax_get_bookings:
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
 
 sked_app_booking_make:
-    pattern:  /booking/make/{companyId}/{consultantId}/{date}/{timeSlotStart}/{timeSlotEnd}
+    pattern:  /booking/make/{companyId}/{consultantId}/{date}/{timeSlotStart}
     defaults: { _controller: SkedAppBookingBundle:Booking:make }
 
 sked_app_booking_made:

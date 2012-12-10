@@ -30,7 +30,7 @@ class BookingRepository extends EntityRepository
                  'active' => true,
                  'cancelled' => false
              ));
-          return $qb->getQuery()->execute();    
+          return $qb->getQuery()->execute();
    }
 
     /**
@@ -43,10 +43,10 @@ class BookingRepository extends EntityRepository
      */
     public function isConsultantAvailable($consultant, $bookingStartDate, $bookingEndDate)
     {
-        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b 
-                WHERE b.consultant = ?1 AND b.isDeleted = ?2 
-                AND b.isActive = ?3 AND b.isCancelled = ?4 
-                AND ( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 ) 
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.consultant = ?1 AND b.isDeleted = ?2
+                AND b.isActive = ?3 AND b.isCancelled = ?4
+                AND ( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 )
                 OR  ( b.hiddenAppointmentEndTime >= ?5 AND b.hiddenAppointmentEndTime <= ?6 )
                 OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime >= ?6 )";
         return $this->getEntityManager()->createQuery($dql)
@@ -137,7 +137,7 @@ class BookingRepository extends EntityRepository
                       'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j M'), 'booking_taken' => $booking_time_slot,
                       'dow' => $start_time->format('D'),
                       'year' => $start_time->format('Y'),
-                      'date_full' => $start_time->format('j M Y')
+                      'date_full' => $start_time->format('Y-m-d')
                   );
 
               $start_time->modify("+$appointment_duration minute");
