@@ -35,6 +35,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
 
     public function load(ObjectManager $manager)
     {
+
         $memberManagerService = $this->container->get('member.manager');
 
         $adminUserMfana = array(
@@ -51,7 +52,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
 
         $memberManagerService->createDefaultMember($adminUserMfana);
 
-        $adminUserOtto = array(
+        $adminUserOtto = $adminUserOtto = array(
             'firstName' => 'Otto',
             'lastName' => 'Saayman',
             'email' => 'otto.saayman@kaizania.co.za',
@@ -63,7 +64,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'group' => $this->getReference('group-admin'),
         );
 
-        $memberManagerService->createDefaultMember($adminUserOtto);
+        $savedAdminUserOtto = $memberManagerService->createDefaultMember($adminUserOtto);
 
         $adminUserRyan = array(
             'firstName' => 'Ryan',
@@ -92,7 +93,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'group' => $this->getReference('group-admin'),
         );
 
-        $memberManagerService->createDefaultMember($adminUserBernard);       
+        $memberManagerService->createDefaultMember($adminUserBernard);
 
         $adminUserWynand = array(
             'firstName' => 'Wynand',
@@ -106,8 +107,8 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'group' => $this->getReference('group-admin'),
         );
 
-        $memberManagerService->createDefaultMember($adminUserWynand);          
- 
+        $memberManagerService->createDefaultMember($adminUserWynand);
+
          $adminUserBrilliant = array(
             'firstName' => 'Sonny',
             'lastName' => 'Brilliant',
@@ -120,8 +121,9 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'group' => $this->getReference('group-admin'),
         );
 
-        $memberManagerService->createDefaultMember($adminUserBrilliant); 
-        
+        $memberManagerService->createDefaultMember($adminUserBrilliant);
+
+        $this->addReference('member-default' , $savedAdminUserOtto) ;
     }
 
     public function getOrder()

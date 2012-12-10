@@ -306,6 +306,7 @@ class BookingController extends Controller
         $booking = new Booking();
 
         $booking->setConsultant($this->get('consultant.manager')->getById($consultantId));
+        $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($timeSlotStart));
 
         $form = $this->createForm(new BookingMakeType(
                 $companyId,
@@ -340,12 +341,14 @@ class BookingController extends Controller
             $values['companyId'] = $objConsultant->getCompany()->getId();
 
         $booking = new Booking();
+//        $booking->setEndTimeslot($objEndTimeslot);
+
         $form = $this->createForm(new BookingMakeType(
                 $values['companyId'],
                 $values['consultant'],
                 $values['appointmentDate'],
                 $values['startTimeslot'],
-                $values['endTimeslot'],
+                $this->get('timeslots.manager')->getByTime($values['endTimeslot'])->getId(),
                 $values['service']
             ), $booking);
 

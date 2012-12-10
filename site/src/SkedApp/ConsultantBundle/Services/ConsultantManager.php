@@ -4,6 +4,7 @@ namespace SkedApp\ConsultantBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
+use SkedApp\CoreBundle\Entity\Consultant;
 
 /**
  * Consultant manager
@@ -99,10 +100,50 @@ final class ConsultantManager
 
         return $consultant;
     }
-    
+
+    /**
+     * Create default system consultant
+     *
+     * @param array $params
+     * @return saved object
+     */
+    public function createDefaultConsultant($params)
+    {
+
+        $consultant = new Consultant();
+
+        $consultant->setGender($params['gender']);
+        $consultant->setCompany($params['company']);
+        $consultant->setStartTimeSlot($params['startTimeSlot']);
+        $consultant->setEndTimeSlot($params['endTimeSlot']);
+        $consultant->setAppointmentDuration($params['appointmentDuration']);
+        $consultant->setFirstName($params['firstName']);
+        $consultant->setLastName($params['lastName']);
+        $consultant->setEmail($params['email']);
+        $consultant->setUsername($params['username']);
+        $consultant->setPassword($params['password']);
+        $consultant->setEnabled($params['enabled']);
+        $consultant->setExpired($params['expired']);
+        $consultant->setIsActive($params['isActive']);
+        $consultant->setIsDeleted($params['isDeleted']);
+        $consultant->setMonday($params['monday']);
+        $consultant->setTuesday($params['tuesday']);
+        $consultant->setWednesday($params['wednesday']);
+        $consultant->setThursday($params['thursday']);
+        $consultant->setFriday($params['friday']);
+        $consultant->setSaturday($params['saturday']);
+        $consultant->setSunday($params['sunday']);
+
+        $this->em->persist($consultant);
+        $this->em->flush();
+
+        return $consultant;
+
+    }
+
     /**
      * Create a new consultant
-     * 
+     *
      * @param SkedAppCoreBundle:Consultant $consultant
      * @return void
      * @throws \Exception
@@ -110,11 +151,11 @@ final class ConsultantManager
     public function createNewConsultant($consultant)
     {
        $this->logger->info("Create a new consultant");
-       
+
        $groupName = "Consultant";
-       
+
        $groups = $this->em->getRepository("SkedAppCoreBundle:Group")->findByName($groupName);
-       
+
        if($groups){
            $group = $groups[0];
            foreach($group->getRoles() as $role){
@@ -123,12 +164,12 @@ final class ConsultantManager
        }else{
            throw new \Exception("Could not find groups matching name:".$groupName);
        }
-       
+
        $this->em->persist($consultant);
        $this->em->flush();
-       return;       
+       return;
     }
-    
+
     /**
      * update consultant
      *
