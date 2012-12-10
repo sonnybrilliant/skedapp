@@ -18,28 +18,28 @@ final class EmailerManager
 
     /**
      * Service Container
-     * @var object  
+     * @var object
      */
     private $container = null;
 
     /**
      * Monolog logger
-     * @var object  
+     * @var object
      */
     private $logger = null;
 
     /**
      * Entity manager
-     * @var object  
+     * @var object
      */
     private $em;
 
     /**
      * Class construct
-     * 
+     *
      * @param ContainerInterface $container
      * @param Logger $logger
-     * @return void 
+     * @return void
      */
     public function __construct(
     ContainerInterface $container, Logger $logger)
@@ -82,7 +82,7 @@ final class EmailerManager
 
     /**
      * Send simple email
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -107,7 +107,7 @@ final class EmailerManager
 
     /**
      * Send registration email
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -121,7 +121,7 @@ final class EmailerManager
 
     /**
      * Send forgot password email
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -129,6 +129,34 @@ final class EmailerManager
     {
         $this->logger->info('sending registration email to:' . $params['email']);
         $params['subject'] = "Reset Your SkedApp Password";
+        $this->sendMail($params);
+        return;
+    }
+
+    /**
+     * Send booking created e-mail to consultant
+     *
+     * @param array $params
+     * @return void
+     */
+    public function consultantBookingCreated($params)
+    {
+        $this->logger->info('sending new booking for consultant mail to:' . $params['email']);
+        $params['subject'] = "New Booking Created";
+        $this->sendMail($params);
+        return;
+    }
+
+    /**
+     * Send booking created e-mail to company
+     *
+     * @param array $params
+     * @return void
+     */
+    public function companyBookingCreated($params)
+    {
+        $this->logger->info('sending new booking for company mail to:' . $params['email']);
+        $params['subject'] = "New Booking Created";
         $this->sendMail($params);
         return;
     }
