@@ -8,15 +8,24 @@ security:
             algorithm: sha512
             encode-as-base64: true
             iterations: 10
+        SkedApp\CoreBundle\Entity\Consultant:
+            algorithm: sha512
+            encode-as-base64: true
+            iterations: 10
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
+        chain_provider:
+                   chain: 
+                      providers: [custom_members,consultant_user_provider]
         custom_members:
            entity: { class: SkedAppCoreBundle:Member, property: username }
-
+        consultant_user_provider:
+           entity: { class: SkedAppCoreBundle:Consultant, property: username }
+           #id: consultant.user.provider
 
     firewalls:
         main:

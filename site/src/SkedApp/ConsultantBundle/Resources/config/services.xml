@@ -6,10 +6,15 @@
 
     <parameters>
         <parameter key="consultant_manager.class">SkedApp\ConsultantBundle\Services\ConsultantManager</parameter>
+        <parameter key="consultant_user_provider.class">SkedApp\ConsultantBundle\Security\User\ConsultantUserProvder</parameter>
     </parameters>
     <services>
         <service id="consultant.manager" class="%consultant_manager.class%">
             <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>        
+        <service id="consultant.user.provider" class="%consultant_user_provider.class%">
+            <argument type="service" id="doctrine" />
             <argument type="service" id="logger" />
         </service>        
     </services>

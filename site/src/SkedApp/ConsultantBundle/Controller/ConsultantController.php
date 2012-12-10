@@ -93,15 +93,40 @@ class ConsultantController extends Controller
         }
 
         $consultant = new Consultant();
+        $password = $this->get('utility.manager')->generatePassword(16);
+        $consultant->setPassword($password);
         $form = $this->createForm(new ConsultantCreateType(), $consultant);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($consultant);
-                $em->flush();
+                $this->get('consultant.manager')->createNewConsultant($consultant);
+                
+                $params = array(
+                    'fullName' => $consultant->getFirstName() . ' ' . $consultant->getLastName(),
+                    'email' => $consultant->getEmail(),
+                    'company' => $consultant->getCompany()->getName(),
+                    'password' => $password,
+                    'link' => $this->generateUrl(
+                        '_security_login', array(), true)
+                );
+
+                $emailBodyHtml = $this->render(
+                        'SkedAppCoreBundle:EmailTemplates:member.created.html.twig', $params
+                    )->getContent();
+
+                $emailBodyTxt = $this->render(
+                        'SkedAppCoreBundle:EmailTemplates:member.created.txt.twig', $params
+                    )->getContent();
+
+                $params['bodyHTML'] = $emailBodyHtml;
+                $params['bodyTEXT'] = $emailBodyTxt;
+
+                //send mail
+                $this->get('email.manager')->memberRegistration($params);
+
+                
                 $this->getRequest()->getSession()->setFlash(
                     'success', 'Created consultant sucessfully');
                 return $this->redirect($this->generateUrl('sked_app_consultant_list'));
@@ -110,7 +135,9 @@ class ConsultantController extends Controller
                     'error', 'Failed to create consultant');
             }
         }
-
+        
+        echo $form->getErrorsAsString();
+        
         return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
     }
 

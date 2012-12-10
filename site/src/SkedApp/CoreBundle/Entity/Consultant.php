@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * SkedApp\CoreBundle\Entity\Company
@@ -20,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @subpackage Entity
  * @version 0.0.1
  */
-class Consultant
+class Consultant implements AdvancedUserInterface , \Serializable
 {
 
     /**
@@ -61,8 +63,8 @@ class Consultant
      * @ORM\Column(name="last_name", type="string", length=100)
      */
     protected $lastName;
-    
-     /**
+
+    /**
      * @var string
      *
      *
@@ -73,7 +75,7 @@ class Consultant
      * )
      * @ORM\Column(name="email", type="string", length=254)
      */
-    protected $email;   
+    protected $email;
 
     /**
      * @var string
@@ -297,6 +299,13 @@ class Consultant
     protected $appointmentDuration;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $path;
+
+    /**
      * @var datetime $createdAt
      *
      * @ORM\Column(name="created_at", type="datetime", nullable=true)
@@ -309,13 +318,6 @@ class Consultant
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     protected $updatedAt;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $path;
 
     /**
      * @Assert\File(
@@ -332,6 +334,9 @@ class Consultant
 
     public function __construct()
     {
+        $this->enabled = true;
+        $this->expired = false;
+        $this->salt = md5(uniqid(null, true));
         $this->setIsLocked(false);
         $this->setIsActive(true);
         $this->isDeleted = false;
@@ -339,7 +344,36 @@ class Consultant
 
     public function __toString()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    /**
+     * Erases the user credentials.
+     */
+    public function eraseCredentials()
+    {
+        
+    }
+
+    /**
+     * Gets an array of roles.
+     *
+     * @return array An array of Role objects
+     */
+    public function getRoles()
+    {
+        return $this->getConsultantRoles()->toArray();
+    }
+
+    /**
+     * Compares this user to another to determine if they are the same.
+     *
+     * @param  AdvancedUserInterface $user The user
+     * @return boolean       True if equal, false othwerwise.
+     */
+    public function equals(AdvancedUserInterface $user)
+    {
+        return md5($this->getUsername()) == md5($user->getUsername());
     }
 
     /**
@@ -411,6 +445,33 @@ class Consultant
     public function getAbsolutePath()
     {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->id . '.' . $this->path;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function finalizeMember()
+    {
+        if (null == $this->getUsername()) {
+            $this->setUsername($this->getEmail());
+        }
+
+        if (null == $this->getExpiresAt()) {
+            $date = new \DateTime();
+            $this->setExpiresAt($date->modify('+6 months'));
+        }
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function encodePassword()
+    {
+        //set password encoding
+        $this->setSalt(md5(time()));
+        $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
+        $password = $encoder->encodePassword($this->getPassword(), $this->getSalt());
+        $this->setPassword($password);
     }
 
     /**
@@ -1008,7 +1069,6 @@ class Consultant
         $this->available_slots = $arrAvailableSlots;
     }
 
-
     /**
      * Set email
      *
@@ -1018,7 +1078,7 @@ class Consultant
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
@@ -1041,7 +1101,7 @@ class Consultant
     public function setUsername($username)
     {
         $this->username = $username;
-    
+
         return $this;
     }
 
@@ -1064,7 +1124,7 @@ class Consultant
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
 
@@ -1087,7 +1147,7 @@ class Consultant
     public function setSalt($salt)
     {
         $this->salt = $salt;
-    
+
         return $this;
     }
 
@@ -1110,7 +1170,7 @@ class Consultant
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
-    
+
         return $this;
     }
 
@@ -1133,7 +1193,7 @@ class Consultant
     public function setExpired($expired)
     {
         $this->expired = $expired;
-    
+
         return $this;
     }
 
@@ -1156,7 +1216,7 @@ class Consultant
     public function setLastLogin($lastLogin)
     {
         $this->lastLogin = $lastLogin;
-    
+
         return $this;
     }
 
@@ -1179,7 +1239,7 @@ class Consultant
     public function setExpiresAt($expiresAt)
     {
         $this->expiresAt = $expiresAt;
-    
+
         return $this;
     }
 
@@ -1202,7 +1262,7 @@ class Consultant
     public function setConfirmationToken($confirmationToken)
     {
         $this->confirmationToken = $confirmationToken;
-    
+
         return $this;
     }
 
@@ -1225,7 +1285,7 @@ class Consultant
     public function setPasswordRequestedAt($passwordRequestedAt)
     {
         $this->passwordRequestedAt = $passwordRequestedAt;
-    
+
         return $this;
     }
 
@@ -1248,7 +1308,7 @@ class Consultant
     public function addConsultantRole(\SkedApp\CoreBundle\Entity\Role $consultantRoles)
     {
         $this->consultantRoles[] = $consultantRoles;
-    
+
         return $this;
     }
 
@@ -1271,4 +1331,45 @@ class Consultant
     {
         return $this->consultantRoles;
     }
+    
+        /**
+     * @see \Serializable::serialize()
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+
+    /**
+     * @see \Serializable::unserialize()
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
+    
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
 }

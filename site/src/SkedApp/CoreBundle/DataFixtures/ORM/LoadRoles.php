@@ -27,18 +27,28 @@ class LoadRoles extends AbstractFixture implements OrderedFixtureInterface
         $report = new Role('ROLE_REPORT') ;
         $manager->persist($report) ;
 
-        $members = new Role('ROLE_MEMBER_MANAGER') ;
+        $members = new Role('ROLE_MEMBER') ;
         $manager->persist($members) ;
 
-        $content = new Role('ROLE_CONTENT_MANAGER') ;
-        $manager->persist($content) ;
+        $consultantAdmin = new Role('ROLE_CONSULTANT_ADMIN') ;
+        $manager->persist($consultantAdmin) ;
+
+        $consultantUser = new Role('ROLE_CONSULTANT_USER') ;
+        $manager->persist($consultantUser) ;
+
+        $siteUser = new Role('ROLE_SITE_USER') ;
+        $manager->persist($siteUser) ;
+
+       
 
         $manager->flush() ;
 
         $this->addReference('role-admin' , $admin) ;
         $this->addReference('role-member' , $members) ;
         $this->addReference('role-report' , $report) ;
-        $this->addReference('role-content' , $content) ;
+        $this->addReference('role-consultant-admin' , $consultantAdmin) ;
+        $this->addReference('role-consultant-user' , $consultantUser) ;
+        $this->addReference('role-site-user' , $siteUser) ;
 
     }
 

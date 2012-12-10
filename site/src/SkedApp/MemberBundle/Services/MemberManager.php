@@ -115,6 +115,45 @@ final class MemberManager
     }
 
     /**
+     * Create default system members 
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function createDefaultMember($params)
+    {
+
+        $member = new Member();
+
+        $member->setFirstName($params['firstName']);
+        $member->setLastName($params['lastName']);
+        $member->setEmail($params['email']);
+        $member->setMobileNumber($params['mobile']);
+        $member->setPassword($params['password']);
+
+        $member->setCompany($params['company']);
+        $member->setTitle($params['title']);
+        $member->setGender($params['gender']);
+        $member->setGroup($params['group']);
+                
+        $member->setStatus($this->container->get('status.manager')->active());
+        $group = $this->em->getRepository('SkedAppCoreBundle:Group')->find($member->getGroup()->getId());
+
+        foreach ($group->getRoles() as $role) {
+
+            if ("ROLE_ADMIN" == $role->getName()) {
+                $member->setIsAdmin(true);
+            }
+
+            $member->addMemberRole($role);
+        }
+
+        $this->em->persist($member);
+        $this->em->flush();
+        return;
+    }
+
+    /**
      * Create a new member
      *
      * @param \SkedApp\CoreBundle\Entities\Member $member
@@ -264,7 +303,7 @@ final class MemberManager
         }
         return($password);
     }
-    
+
     /**
      * Get logged in user
      * 
@@ -276,7 +315,7 @@ final class MemberManager
         $user = $securityContext->getToken()->getUser();
         return $user;
     }
-    
+
     /**
      * Is user admin
      * @return boolean
@@ -286,14 +325,13 @@ final class MemberManager
         $member = $this->getLoggedInUser();
         $roles = $member->getMemberRoles();
         $isAdmin = false;
-        
-        foreach($roles as $role){
-            if($role->getName() === "ROLE_ADMIN"){
-               $isAdmin = true; 
+
+        foreach ($roles as $role) {
+            if ($role->getName() === "ROLE_ADMIN") {
+                $isAdmin = true;
             }
         }
         return $isAdmin;
     }
-    
-    
+
 }

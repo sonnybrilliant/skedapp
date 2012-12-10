@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="member_manager.class">SkedApp\MemberBundle\Services\MemberManager</parameter>
-        <parameter key="token_generator.class">SkedApp\MemberBundle\Services\TokenGenerator</parameter>
+        <parameter key="token_generator.class">SkedApp\MemberBundle\Services\TokenGenerator</parameter>        
     </parameters>
     <services>
         <service id="member.manager" class="%member_manager.class%">

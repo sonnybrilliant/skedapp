@@ -22,8 +22,14 @@ class BookingRepository extends EntityRepository
     {
          $qb = $this->createQueryBuilder('b')
              ->select('b')
-             ->where("b.isDeleted = :status")
-             ->setParameter('status', false);
+             ->where("b.isDeleted = :delete")
+             ->andWhere("b.isActive = :active")
+             ->andWhere("b.isCancelled = :cancelled")
+             ->setParameters(array(
+                 'delete' => false,
+                 'active' => true,
+                 'cancelled' => false
+             ));
           return $qb->getQuery()->execute();    
     }
 
@@ -37,13 +43,20 @@ class BookingRepository extends EntityRepository
      */
     public function isConsultantAvailable($consultant, $bookingStartDate, $bookingEndDate)
     {
-        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b WHERE b.consultant = ?1 AND b.isDeleted = ?2 AND b.hiddenAppointmentEndTime BETWEEN ?3 AND ?4  ";
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b 
+                WHERE b.consultant = ?1 AND b.isDeleted = ?2 
+                AND b.isActive = ?3 AND b.isCancelled = ?4 
+                AND ( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 ) 
+                OR  ( b.hiddenAppointmentEndTime >= ?5 AND b.hiddenAppointmentEndTime <= ?6 )
+                OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime >= ?6 )";
         return $this->getEntityManager()->createQuery($dql)
                 ->setParameters(array(
                     1 => $consultant,
                     2 => false,
-                    3 => $bookingStartDate,
-                    4 => $bookingEndDate
+                    3 => true,
+                    4 => false,
+                    5 => $bookingStartDate,
+                    6 => $bookingEndDate
                 ))
                 ->getResult();
     }
