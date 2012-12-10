@@ -251,7 +251,12 @@ class BookingController extends Controller
             throw new AccessDeniedException();
         }
     }
-
+    
+    /**
+     *  Get active bookings
+     * 
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function ajaxGetBookingsAction()
     {
         $this->get('logger')->info('get bookings');

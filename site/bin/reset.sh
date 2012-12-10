@@ -26,4 +26,7 @@ echo "==========================================="
 sudo chmod 0777 -R app/cache/ app/logs/ 
 sudo chmod 0777 -R app/cache/* app/logs/* 
 
+echo "Installing assets "
+sudo php app/console assets:install --symlink web
+
 echo "Done, Thank you for your patiance!!!"

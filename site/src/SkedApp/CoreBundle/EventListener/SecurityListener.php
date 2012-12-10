@@ -36,12 +36,18 @@ class SecurityListener
     private $redirectToAdmin = false;
 
     /**
+     *
+     * @var boolean $isLoggedIn
+     */
+    private $isLoggedIn = false;
+
+    /**
      * Constructs a new instance of SecurityListener.
      *
      * @param Router          $router   The router
      * @param SecurityContext $security The security context
      */
-    public function __construct(Router $router , SecurityContext $security)
+    public function __construct(Router $router, SecurityContext $security)
     {
         $this->router = $router;
         $this->security = $security;
@@ -54,6 +60,10 @@ class SecurityListener
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
+        if ($this->security->getToken()->getUser()) {
+            $this->isLoggedIn = true;
+        }
+
         if ($this->security->isGranted('ROLE_ADMIN')) {
             $this->redirectToAdmin = true;
         }
@@ -68,6 +78,15 @@ class SecurityListener
     {
         if ($this->redirectToAdmin) {
             $event->setResponse(new RedirectResponse($this->router->generate('sked_app_company_list')));
+        } else {
+            if ($this->isLoggedIn) {
+                $user = $this->security->getToken()->getUser();
+
+                if ($user) {
+                    $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_booking_show', array(
+                                'id' => $this->security->getToken()->getUser()->getId()))));
+                }
+            }
         }
     }
 

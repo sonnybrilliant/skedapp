@@ -210,7 +210,7 @@ final class BookingManager
         
         return false;
     }
-
+    
     /**
      * Get booking for consultant
      * 

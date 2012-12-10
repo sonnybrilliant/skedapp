@@ -20,18 +20,40 @@ class BookingRepository extends EntityRepository
      */
     public function getAllBooking()
     {
-         $qb = $this->createQueryBuilder('b')
-             ->select('b')
-             ->where("b.isDeleted = :delete")
-             ->andWhere("b.isActive = :active")
-             ->andWhere("b.isCancelled = :cancelled")
-             ->setParameters(array(
-                 'delete' => false,
-                 'active' => true,
-                 'cancelled' => false
-             ));
-          return $qb->getQuery()->execute();    
-   }
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where("b.isDeleted = :delete")
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false
+            ));
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Get consultant all bookings
+     *
+     * @return array
+     */
+    public function getAllConsultantBookings($consultantId)
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where("b.isDeleted = :delete")
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.consultant = :consultant")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'consultant' => $consultantId    
+            ));
+        return $qb->getQuery()->execute();
+    }
 
     /**
      * Is consultant available
@@ -71,7 +93,7 @@ class BookingRepository extends EntityRepository
     public function getBookingSlotsForConsultantSearch($consultant, \DateTime $bookingDate, $callback_cnt = 0)
     {
 
-        $arrOut = array('error_message' => null, 'time_slots' => array ());
+        $arrOut = array('error_message' => null, 'time_slots' => array());
 
         //check next day consultant is available
         $intDoWAvailable = -1;
@@ -79,7 +101,7 @@ class BookingRepository extends EntityRepository
         $booking_day_test = new \DateTime($bookingDate->format('r'));
 
         //Check if any dates were set for consultant
-        while ( ($intDoWAvailable < 0) && ($intCntCheck <= 7) ) {
+        while (($intDoWAvailable < 0) && ($intCntCheck <= 7)) {
             $strDayName = $booking_day_test->format('l');
             eval("\$intDoWAvailable = \$consultant->get$strDayName();");
             $booking_day_test->modify("+1 day");
@@ -91,21 +113,19 @@ class BookingRepository extends EntityRepository
             $arrOut['error_message'] = 'This consultant is not available for bookings';
 
             return $arrOut;
-
         } else {
-          //found the next available day, so set the requested booking date to that day
-          $booking_day_test->modify("-1 day");
-          $bookingDate = new \DateTime($booking_day_test->format("Y-m-d 00:00:00"));
+            //found the next available day, so set the requested booking date to that day
+            $booking_day_test->modify("-1 day");
+            $bookingDate = new \DateTime($booking_day_test->format("Y-m-d 00:00:00"));
         }
 
         $appointment_duration = $consultant->getAppointmentDuration()->getDuration();
 
         //Get the time the consultant starts and make sure it is not more than 2 hours in advance
         //2 hours because booking can not be cancelled 2 hours in advance
-
         //Query is for today
         if ($callback_cnt <= 0)
-          $bookingDate->setTime (date('H'), date('i'), 0);
+            $bookingDate->setTime(date('H'), date('i'), 0);
 
         $start_time = new \DateTime($bookingDate->format('r'));
         $time_slot = explode(':', $consultant->getStartTimeslot()->getSlot());
@@ -124,47 +144,42 @@ class BookingRepository extends EntityRepository
         $slot_cnt = 0;
 
         if ($bookingDate->getTimestamp() <= $end_time->getTimeStamp()) {
-          //Still enough time to book today
+            //Still enough time to book today
+            //Start by identifying time slots on the same day
+            while (($slot_cnt < 5) && ($start_time->getTimestamp() <= $end_time->getTimeStamp())) {
 
-          //Start by identifying time slots on the same day
-          while ( ($slot_cnt < 5) && ($start_time->getTimestamp() <= $end_time->getTimeStamp()) ) {
+                $new_timestamp = $start_time->getTimestamp() + (60 * $appointment_duration);
 
-              $new_timestamp = $start_time->getTimestamp() + (60 * $appointment_duration);
+                $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));
 
-              $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));
+                $arrOut['time_slots'][$slot_cnt] = array(
+                    'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j M'), 'booking_taken' => $booking_time_slot,
+                    'dow' => $start_time->format('D'),
+                    'year' => $start_time->format('Y'),
+                    'date_full' => $start_time->format('j M Y')
+                );
 
-              $arrOut['time_slots'][$slot_cnt] = array(
-                      'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j M'), 'booking_taken' => $booking_time_slot,
-                      'dow' => $start_time->format('D'),
-                      'year' => $start_time->format('Y'),
-                      'date_full' => $start_time->format('j M Y')
-                  );
-
-              $start_time->modify("+$appointment_duration minute");
-              $slot_cnt++;
-
-          } //while
-
+                $start_time->modify("+$appointment_duration minute");
+                $slot_cnt++;
+            } //while
         } //if ($bookingDate->getTimestamp() <= $end_time->getTimeStamp())
 
         if ($slot_cnt <= 0) {
-          //No open time slots for consultant. Add 1 day and try again. Up to 30 days, then return fully booked message
+            //No open time slots for consultant. Add 1 day and try again. Up to 30 days, then return fully booked message
 
-          if ($callback_cnt > 30) {
-            $arrOut['error_message'] = 'All booking time slots taken until ' . $bookingDate->format('j F Y');
-            return $arrOut;
-          }
+            if ($callback_cnt > 30) {
+                $arrOut['error_message'] = 'All booking time slots taken until ' . $bookingDate->format('j F Y');
+                return $arrOut;
+            }
 
-          $bookingDate->modify("+1 day");
-          $bookingDate->setTime (0, 0, 0);
-          $callback_cnt++;
+            $bookingDate->modify("+1 day");
+            $bookingDate->setTime(0, 0, 0);
+            $callback_cnt++;
 
-          $arrOut = $this->getBookingSlotsForConsultantSearch($consultant, $bookingDate, $callback_cnt);
-
+            $arrOut = $this->getBookingSlotsForConsultantSearch($consultant, $bookingDate, $callback_cnt);
         }
 
         return $arrOut;
-
     }
 
 }

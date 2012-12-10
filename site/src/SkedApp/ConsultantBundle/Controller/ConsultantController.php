@@ -9,6 +9,7 @@ use SkedApp\ConsultantBundle\Form\ConsultantUpdateType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use SkedApp\BookingBundle\Form\BookingShowType;
 
 /**
  * SkedApp\ConsultantBundle\Controller\ConsultantController
@@ -94,7 +95,7 @@ class ConsultantController extends Controller
 
             if ($form->isValid()) {
                 $this->get('consultant.manager')->createNewConsultant($consultant);
-                
+
                 $params = array(
                     'fullName' => $consultant->getFirstName() . ' ' . $consultant->getLastName(),
                     'email' => $consultant->getEmail(),
@@ -118,7 +119,7 @@ class ConsultantController extends Controller
                 //send mail
                 $this->get('email.manager')->memberRegistration($params);
 
-                
+
                 $this->getRequest()->getSession()->setFlash(
                     'success', 'Created consultant sucessfully');
                 return $this->redirect($this->generateUrl('sked_app_consultant_list'));
@@ -127,9 +128,9 @@ class ConsultantController extends Controller
                     'error', 'Failed to create consultant');
             }
         }
-        
+
         echo $form->getErrorsAsString();
-        
+
         return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
     }
 
@@ -153,11 +154,11 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show_personal_details.html.twig', array('consultant' => $consultant));
+        return $this->render('SkedAppConsultantBundle:Consultant:show.personal.details.html.twig', array('consultant' => $consultant));
     }
 
     /**
-    /**
+      /**
      * Show consultant
      * 
      * @return View
@@ -177,7 +178,33 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show_bookings.html.twig', array('consultant' => $consultant));
+        return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array('consultant' => $consultant));
+    }
+
+    /**
+     * Show booking to consultant
+     * 
+     * @return View
+     * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function showBookingToConsultantAction($bookingId)
+    {
+        $this->get('logger')->info('show consultant booking id:' . $bookingId);
+
+        try {
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $form = $this->createForm(new BookingShowType(), $booking);
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$booking invalid");
+            $this->createNotFoundException($e->getMessage());
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:show.booking.to.consultant.html.twig', array(
+                'form' => $form->createView(),
+                'booking' => $booking
+            ));
     }
 
     /**
@@ -185,6 +212,8 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function editAction($id)
     {
@@ -216,6 +245,8 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function updateAction($id)
     {
@@ -263,6 +294,8 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function deleteAction($id)
     {
@@ -288,11 +321,55 @@ class ConsultantController extends Controller
     }
 
     /**
+     * Get all consultant active bookings
+     * 
+     * @param integer $consultantId
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function ajaxGetAllBookingsAction($consultantId)
+    {
+        $this->get('logger')->info('get all consultant active bookings');
+        $results = array();
+
+        $bookings = $this->get("consultant.manager")->getConsultantBookings($consultantId);
+
+        if ($bookings) {
+            foreach ($bookings as $booking) {
+                $allDay = false;
+
+
+                if (true == $booking->getIsLeave()) {
+                    $allDay = true;
+                    $bookingName = "On leave";
+                } else {
+                    $bookingName = $booking->getService()->getName();
+                }
+
+                $results[] = array(
+                    'allDay' => $allDay,
+                    'title' => $bookingName,
+                    'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
+                    'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
+                    //'start' => "2012-11-29",
+                    'url' => $this->generateUrl("sked_app_consultant_booking_show_to_consultant", array("bookingId" => $booking->getId())),
+                );
+            }
+        }
+
+        $response = new Response(json_encode($results));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
      * Ajax call services by category
      * 
      * @param integer $categoryId
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws AccessDeniedException
+     * 
      */
     public function ajaxGetByCategoryAction($categoryId)
     {

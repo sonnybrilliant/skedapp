@@ -24,7 +24,8 @@
         "raulfraile/ladybug-bundle": "dev-master",
         "knplabs/knp-paginator-bundle": "dev-master",
         "stfalcon/tinymce-bundle": "dev-master",
-        "genemu/form-bundle": "2.1.*"
+        "genemu/form-bundle": "2.1.*",
+        "friendsofsymfony/jsrouting-bundle": "1.0.*"
     },
     "scripts": {
         "post-install-cmd": [

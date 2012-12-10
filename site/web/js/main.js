@@ -6,7 +6,7 @@ $(document).ready(function() {
     //update services
     $('#Consultant_category').change(function(){
         var categoryId = this.value;
-        $.getJSON("/booking/ajaxGetByCategory/"+categoryId,function(response){
+        $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_category', { categoryId: categoryId}, true),function(response){
             if(response.results){
 
                 var el = $('#Consultant_consultantServices');
@@ -17,9 +17,6 @@ $(document).ready(function() {
                         .attr("value", value.id).text(value.name));
 
                 });
-
-
-
             }
         });
     });
@@ -27,7 +24,7 @@ $(document).ready(function() {
     //update services
     $('#Booking_consultant').change(function(){
         var consultantId = this.value;
-        $.getJSON("/booking/ajaxGetByConsultant/"+consultantId,function(response){
+        $.getJSON(Routing.generate('sked_app_booking_ajax_get_by_consultant', { consultantId : consultantId}, true ),function(response){
             if(response.results){
 
                 var el = $('#Booking_service');

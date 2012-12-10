@@ -1,0 +1,8 @@
+<div class="well sidebar-nav emphasize-dark" style="margin-top: 20px;">
+    <ul class="nav nav-list">
+        {% if is_granted('ROLE_CONSULTANT_USER') %}
+        <li><a href="{{ path('sked_app_consultant_show' , {'id':consultant.id }) }}"><i class="icon-chevron-right"></i>Profile</a></li>
+        <li><a href="{{ path('sked_app_consultant_booking_show' , {'id':consultant.id }) }}"><i class="icon-chevron-right"></i>Bookings</a></li>
+        {% endif %}
+    </ul>
+</div><!--/.well -->

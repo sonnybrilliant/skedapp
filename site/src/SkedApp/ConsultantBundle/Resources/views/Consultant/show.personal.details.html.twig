@@ -4,10 +4,14 @@
 {% block body %}
 <div class="container">
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-            </div>       
-    {% endblock menu %}    
+    <div class="span3 bs-docs-sidenav">
+       {% if is_granted('ROLE_ADMIN') %}
+            {% include "::menu.html.twig" %}        
+       {% elseif is_granted('ROLE_CONSULTANT_USER') %}
+            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" %}             
+       {% endif %}            
+    </div>       
+    {% endblock menu %}   
     {% block content %}
             <div class="span7">
                 <h4>Consultant profile</h4>                

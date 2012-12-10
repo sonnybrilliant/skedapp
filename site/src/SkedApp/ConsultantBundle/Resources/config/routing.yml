@@ -34,6 +34,12 @@ sked_app_consultant_booking_show:
     requirements:
         id:  \d+
 
+sked_app_consultant_booking_show_to_consultant:
+    pattern:  /consultant/booking/details/{bookingId}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookingToConsultant }
+    requirements:
+        bookingId:  \d+
+
 sked_app_consultant_delete:
     pattern:  /consultant/delete/{id}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:delete }
@@ -45,3 +51,13 @@ sked_app_consultant_ajax_get_by_category:
     defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
     requirements:
         categoryId:  \d+   
+    options:
+        expose: true    
+
+sked_app_consultant_ajax_get_all_bookings:
+    pattern:  /consultant/ajaxGetAllBookings/{consultantId}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetAllBookings }
+    requirements:
+        consultantId:  \d+ 
+    options:
+        expose: true      

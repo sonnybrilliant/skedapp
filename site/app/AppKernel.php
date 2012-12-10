@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new RaulFraile\Bundle\LadybugBundle\RaulFraileLadybugBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new SkedApp\CoreBundle\SkedAppCoreBundle(),
             new SkedApp\ConsultantBundle\SkedAppConsultantBundle(),
             new SkedApp\ApiBundle\SkedAppApiBundle(),

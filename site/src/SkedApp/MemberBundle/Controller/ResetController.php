@@ -43,8 +43,14 @@ class ResetController extends Controller
                 $data = $form->getData();
                 $email = $data['email'];
                 $member = $this->container->get('member.manager')->getByEmail($email);
+                
+                //check consultant
+                if(!$member){
+                    $member = $this->container->get('consultant.manager')->getByEmail($email); 
+                }
+                
 
-                if (!$member) {
+                if (!$member) {                     
                     //email not found in the system
                     $this->getRequest()
                         ->getSession()
@@ -118,10 +124,14 @@ class ResetController extends Controller
         }
 
         $member = $this->container->get('member.manager')->getByToken($token);
+        
+        if(!$member){
+           $member = $this->container->get('consultant.manager')->getByToken($token); 
+        }
 
         if ($member) {
 
-            $form = $this->createForm(new PasswordUpdateType($this->get('translator')));
+            $form = $this->createForm(new PasswordUpdateType());
             $request = $this->getRequest();
 
             if ('POST' === $request->getMethod()) {

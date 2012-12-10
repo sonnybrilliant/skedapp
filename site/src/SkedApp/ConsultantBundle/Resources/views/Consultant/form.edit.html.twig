@@ -1,4 +1,4 @@
-<form class="form-horizontal" action="{{ path('sked_app_consultant_update',{id:id}) }}" method="POST" {{ form_enctype(form) }}>
+<form class="form-horizontal" action="{{ path('sked_app_consultant_update',{'id':id}) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
       <legend><span class="label label-info">Info</span> <small>Edit consultant details.</small></legend>
       <div class="control-group {% if form_errors(form.company) %} error {% endif %}">

@@ -99,7 +99,40 @@ final class ConsultantManager
 
         return $consultant;
     }
-    
+
+    /**
+     * Get consultant by email address
+     *
+     * @param string $email
+     * @return boolean
+     */
+    public function getByEmail($email)
+    {
+        $consultants = $this->em->getRepository('SkedAppCoreBundle:Consultant')
+            ->findByEmail($email);
+
+        if ($consultants) {
+            return $consultants[0];
+        }
+        return false;
+    }
+
+    /**
+     * Get consultant by token
+     * @param string $token
+     * @return boolean
+     */
+    public function getByToken($token)
+    {
+       $consultants = $this->em->getRepository('SkedAppCoreBundle:Consultant')
+            ->findByConfirmationToken($token);
+
+        if ($consultants) {
+            return $consultants[0];
+        }
+        return false;
+    }
+
     /**
      * Create a new consultant
      * 
@@ -109,26 +142,26 @@ final class ConsultantManager
      */
     public function createNewConsultant($consultant)
     {
-       $this->logger->info("Create a new consultant");
-       
-       $groupName = "Consultant";
-       
-       $groups = $this->em->getRepository("SkedAppCoreBundle:Group")->findByName($groupName);
-       
-       if($groups){
-           $group = $groups[0];
-           foreach($group->getRoles() as $role){
-               $consultant->addConsultantRole($role);
-           }
-       }else{
-           throw new \Exception("Could not find groups matching name:".$groupName);
-       }
-       
-       $this->em->persist($consultant);
-       $this->em->flush();
-       return;       
+        $this->logger->info("Create a new consultant");
+
+        $groupName = "Consultant";
+
+        $groups = $this->em->getRepository("SkedAppCoreBundle:Group")->findByName($groupName);
+
+        if ($groups) {
+            $group = $groups[0];
+            foreach ($group->getRoles() as $role) {
+                $consultant->addConsultantRole($role);
+            }
+        } else {
+            throw new \Exception("Could not find groups matching name:" . $groupName);
+        }
+
+        $this->em->persist($consultant);
+        $this->em->flush();
+        return;
     }
-    
+
     /**
      * update consultant
      *
@@ -175,6 +208,19 @@ final class ConsultantManager
                 ->getAllActiveConsultantsQuery($options);
     }
 
+    /**
+     * Get consultant active bookings
+     * 
+     * @param integer $consultantId
+     * @return array
+     */
+    public function getConsultantBookings($consultantId)
+    {
+        $this->logger->info("get all active consultant bookings");
+
+        return $this->em->getRepository("SkedAppCoreBundle:Booking")
+                ->getAllConsultantBookings($consultantId);
+    }
 
     /**
      * Get consultants query within a given radius of a given lat and long point
@@ -182,36 +228,35 @@ final class ConsultantManager
      * @param array $options
      * @return query
      */
-    public function listAllWithinRadius($arrConf = array ())
+    public function listAllWithinRadius($arrConf = array())
     {
 
-        if (!isset ($arrConf['radius']))
-          $arrConf['radius'] = 5;
+        if (!isset($arrConf['radius']))
+            $arrConf['radius'] = 5;
 
-        if (!isset ($arrConf['lat']))
-          $arrConf['lat'] = null;
+        if (!isset($arrConf['lat']))
+            $arrConf['lat'] = null;
 
-        if (!isset ($arrConf['lng']))
-          $arrConf['lng'] = null;
+        if (!isset($arrConf['lng']))
+            $arrConf['lng'] = null;
 
         $arrOut = array(
-            'arrResult' => array (),
+            'arrResult' => array(),
             'radius' => $arrConf['radius'],
         );
 
-        if ( (is_null($arrConf['lat'])) || (is_null ($arrConf['lng'])) )
-          return $arrOut;
+        if ((is_null($arrConf['lat'])) || (is_null($arrConf['lng'])))
+            return $arrOut;
 
-        while ( (count($arrOut['arrResult']) <= 0) && ($arrConf['radius'] <= 200) ) {
-          $arrOut['arrResult'] = $this->em
-                  ->getRepository('SkedAppCoreBundle:Consultant')
-                  ->getAllActiveConsultantsQueryWithinRadius($arrConf);
-          $arrOut['radius'] = $arrConf['radius'];
-          $arrConf['radius'] += 5;
+        while ((count($arrOut['arrResult']) <= 0) && ($arrConf['radius'] <= 200)) {
+            $arrOut['arrResult'] = $this->em
+                ->getRepository('SkedAppCoreBundle:Consultant')
+                ->getAllActiveConsultantsQueryWithinRadius($arrConf);
+            $arrOut['radius'] = $arrConf['radius'];
+            $arrConf['radius'] += 5;
         } //while
 
         return $arrOut;
-
     }
 
 }
