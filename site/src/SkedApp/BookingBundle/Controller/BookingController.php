@@ -313,7 +313,7 @@ class BookingController extends Controller
                 $consultantId,
                 $date,
                 $timeSlotStart,
-                $timeSlotEnd,
+                $this->get('timeslots.manager')->getByTime($timeSlotEnd)->getId(),
                 $serviceIds
             ), $booking);
 
@@ -348,7 +348,7 @@ class BookingController extends Controller
                 $values['consultant'],
                 $values['appointmentDate'],
                 $values['startTimeslot'],
-                $this->get('timeslots.manager')->getByTime($values['endTimeslot'])->getId(),
+                $values['endTimeslot'],
                 $values['service']
             ), $booking);
 
