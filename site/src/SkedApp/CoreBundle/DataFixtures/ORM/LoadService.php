@@ -67,6 +67,8 @@ class LoadService extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($service9);
         
         $manager->flush();
+        
+        
     }
 
     public function getOrder()

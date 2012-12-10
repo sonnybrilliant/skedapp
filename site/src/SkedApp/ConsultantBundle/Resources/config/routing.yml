@@ -23,8 +23,14 @@ sked_app_consultant_update:
         id:  \d+
 
 sked_app_consultant_show:
-    pattern:  /consultant/show/{id}
+    pattern:  /consultant/show/details/{id}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:show }
+    requirements:
+        id:  \d+
+
+sked_app_consultant_booking_show:
+    pattern:  /consultant/booking/show/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookings }
     requirements:
         id:  \d+
 

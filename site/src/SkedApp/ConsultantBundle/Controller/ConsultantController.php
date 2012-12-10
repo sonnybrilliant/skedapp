@@ -8,6 +8,7 @@ use SkedApp\ConsultantBundle\Form\ConsultantCreateType;
 use SkedApp\ConsultantBundle\Form\ConsultantUpdateType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 
 /**
  * SkedApp\ConsultantBundle\Controller\ConsultantController
@@ -25,16 +26,13 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function listAction($page = 1)
     {
 
         $this->get('logger')->info('list consultants');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list consultants, access denied.');
-            throw new AccessDeniedException();
-        }
 
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
@@ -61,15 +59,12 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function newAction()
     {
         $this->get('logger')->info('create a new consultant');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('create consultant, access denied.');
-            throw new AccessDeniedException();
-        }
 
         $consultant = new Consultant();
         $form = $this->createForm(new ConsultantCreateType(), $consultant);
@@ -82,15 +77,12 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function createAction()
     {
         $this->get('logger')->info('create a new consultant');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('create consultant, access denied.');
-            throw new AccessDeniedException();
-        }
 
         $consultant = new Consultant();
         $password = $this->get('utility.manager')->generatePassword(16);
@@ -146,15 +138,12 @@ class ConsultantController extends Controller
      * 
      * @return View
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function showAction($id)
     {
         $this->get('logger')->info('view consultant');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('view consultant, access denied.');
-            throw new AccessDeniedException();
-        }
 
         $em = $this->getDoctrine()->getEntityManager();
         $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
@@ -164,7 +153,31 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show.html.twig', array('consultant' => $consultant));
+        return $this->render('SkedAppConsultantBundle:Consultant:show_personal_details.html.twig', array('consultant' => $consultant));
+    }
+
+    /**
+    /**
+     * Show consultant
+     * 
+     * @return View
+     * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function showBookingsAction($id)
+    {
+        $this->get('logger')->info('show consultant booking details');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+
+        if (!$consultant) {
+            $this->get('logger')->warn("consultant not found $id");
+            return $this->createNotFoundException();
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:show_bookings.html.twig', array('consultant' => $consultant));
     }
 
     /**

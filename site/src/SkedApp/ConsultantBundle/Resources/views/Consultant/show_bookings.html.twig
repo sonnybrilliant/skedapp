@@ -1,0 +1,119 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}View consultant details{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block jquery_ui %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock jquery_ui %}
+
+{% block javascripts %}
+<script src="{{ asset('/js/fullcalendar.min.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    {% block menu %}
+        <div class="span3 bs-docs-sidenav">
+           {% include "::menu.html.twig" %} 
+            </div>       
+    {% endblock menu %}    
+    {% block content %}
+            <div class="span7">
+                <h4>Consultant profile</h4>                
+                <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+                <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="{{ path("sked_app_consultant_booking_show",{'id':consultant.id})}}">Bookings</a></li>
+                        <li><a href="{{ path("sked_app_consultant_show",{"id":consultant.id})}}">Personal details</a></li>                        
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="row">
+                                <div class="span7">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+
+                        </div>
+                    </div>
+                </div>
+            </div>  
+    {% endblock content %}   
+        </div>
+        <script type='text/javascript'>
+                   $(document).ready(function() {
+	
+                      var date = new Date();
+                       var d = date.getDate();
+                       var m = date.getMonth();
+                       var y = date.getFullYear();
+		
+                       $('#calendar').fullCalendar({
+                               header: {
+                                       left: 'prev,next today',
+                                       center: 'title',
+                                       right: 'month,basicWeek,basicDay'
+                               },
+                               editable: true,
+                               events: [
+                                       {
+                                               title: 'All Day Event',
+                                               start: new Date(y, m, 1)
+                                       },
+                                       {
+                                               title: 'Long Event',
+                                               start: new Date(y, m, d-5),
+                                               end: new Date(y, m, d-2)
+                                       },
+                                       {
+                                               id: 999,
+                                               title: 'Repeating Event',
+                                               start: new Date(y, m, d-3, 16, 0),
+                                               allDay: false
+                                       },
+                                       {
+                                               id: 999,
+                                               title: 'Repeating Event',
+                                               start: new Date(y, m, d+4, 16, 0),
+                                               allDay: false
+                                       },
+                                       {
+                                               title: 'Meeting',
+                                               start: new Date(y, m, d, 10, 30),
+                                               allDay: false
+                                       },
+                                       {
+                                               title: 'Lunch',
+                                               start: new Date(y, m, d, 12, 0),
+                                               end: new Date(y, m, d, 14, 0),
+                                               allDay: false
+                                       },
+                                       {
+                                               title: 'Birthday Party',
+                                               start: new Date(y, m, d+1, 19, 0),
+                                               end: new Date(y, m, d+1, 22, 30),
+                                               allDay: false
+                                       },
+                                       {
+                                               title: 'Click for Google',
+                                               start: new Date(y, m, 28),
+                                               end: new Date(y, m, 29),
+                                               url: 'http://google.com/'
+                                       }
+                               ]
+                       });
+		
+                   });
+
+            </script>
+{% endblock body %}

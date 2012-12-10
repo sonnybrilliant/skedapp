@@ -44,13 +44,13 @@ class LoadTitles extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush() ;
 
-         $this->addReference('title-dr' , $dr) ;
-         $this->addReference('title-madam' , $madam) ;
-         $this->addReference('title-miss' , $miss) ;
-         $this->addReference('title-mr' , $mr) ;
-         $this->addReference('title-mrs' , $mrs) ;
-         $this->addReference('title-prof' , $prof) ;
-         $this->addReference('title-rev' , $rev) ;
+        $this->addReference('title-dr' , $dr) ;
+        $this->addReference('title-madam' , $madam) ;
+        $this->addReference('title-miss' , $miss) ;
+        $this->addReference('title-mr' , $mr) ;
+        $this->addReference('title-mrs' , $mrs) ;
+        $this->addReference('title-prof' , $prof) ;
+        $this->addReference('title-rev' , $rev) ;
     }
 
     public function getOrder()
