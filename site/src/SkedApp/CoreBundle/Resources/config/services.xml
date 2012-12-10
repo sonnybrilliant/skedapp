@@ -7,7 +7,8 @@
     <parameters>
         <parameter key="kernel_listener_login_redirect_class">SkedApp\CoreBundle\EventListener\SecurityListener</parameter>
         <parameter key="status_manager.class">SkedApp\CoreBundle\Services\StatusManager</parameter>   
-        <parameter key="utility_manager.class">SkedApp\CoreBundle\Services\UtilityManager</parameter>   
+        <parameter key="utility_manager.class">SkedApp\CoreBundle\Services\UtilityManager</parameter> 
+        <parameter key="email_manager.class">SkedApp\CoreBundle\Services\EmailerManager</parameter>  
     </parameters>
     <services>
         <service id="kernel.listener.login_redirect" class="%kernel_listener_login_redirect_class%">
@@ -23,6 +24,10 @@
         <service id="utility.manager" class="%utility_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
-        </service>         
+        </service> 
+        <service id="email.manager" class="%email_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>                    
     </services>
 </container>

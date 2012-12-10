@@ -99,7 +99,36 @@ final class ConsultantManager
 
         return $consultant;
     }
-
+    
+    /**
+     * Create a new consultant
+     * 
+     * @param SkedAppCoreBundle:Consultant $consultant
+     * @return void
+     * @throws \Exception
+     */
+    public function createNewConsultant($consultant)
+    {
+       $this->logger->info("Create a new consultant");
+       
+       $groupName = "Consultant";
+       
+       $groups = $this->em->getRepository("SkedAppCoreBundle:Group")->findByName($groupName);
+       
+       if($groups){
+           $group = $groups[0];
+           foreach($group->getRoles() as $role){
+               $consultant->addConsultantRole($role);
+           }
+       }else{
+           throw new \Exception("Could not find groups matching name:".$groupName);
+       }
+       
+       $this->em->persist($consultant);
+       $this->em->flush();
+       return;       
+    }
+    
     /**
      * update consultant
      *

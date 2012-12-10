@@ -27,8 +27,25 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $admin->addRole($this->getReference('role-admin')) ;
         $admin->addRole($this->getReference('role-member')) ;
         $admin->addRole($this->getReference('role-report')) ;
-        $admin->addRole($this->getReference('role-content')) ;
+        $admin->addRole($this->getReference('role-consultant-admin')) ;
+        $admin->addRole($this->getReference('role-consultant-user')) ;
+        $admin->addRole($this->getReference('role-site-user')) ;
         $manager->persist($admin) ;
+        
+        $consultantAdmin = new Group('Consultant administrator') ;
+        $consultantAdmin->setDescription('Consultant administrator');
+        $consultantAdmin->addRole($this->getReference('role-consultant-admin')) ;
+        $manager->persist($consultantAdmin) ;
+        
+        $consultant = new Group('Consultant') ;
+        $consultant->setDescription('Consultant user');
+        $consultant->addRole($this->getReference('role-consultant-user')) ;
+        $manager->persist($consultant) ;        
+        
+        $siteUser = new Group('Site user') ;
+        $siteUser->setDescription('Consultant user');
+        $siteUser->addRole($this->getReference('role-site-user')) ;
+        $manager->persist($siteUser) ;        
         
         $manager->flush() ;
         

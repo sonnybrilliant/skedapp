@@ -39,6 +39,16 @@ class ConsultantCreateType extends AbstractType
                 'label' => 'Last name:',
                 'attr' => array('class' => 'span4')
             ))
+            ->add('email', 'repeated', array(
+                'type' => 'email',
+                'first_name' => 'first',
+                'first_options'  => array('label' => 'Email address:'),
+                'options' => array('attr' => array('class' => 'span4')),
+                'second_name' => 'second',
+                'second_options' => array('label' => 'Confirm Email address:'),
+                'invalid_message' => 'Email addresses do not match',
+                
+            ))
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',
                 'label' => 'Company:',

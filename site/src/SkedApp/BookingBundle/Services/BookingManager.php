@@ -194,16 +194,21 @@ final class BookingManager
          * confirm if the new appointment start time is equal to the 
          * already booked appointment end time
          */
+        
         if (sizeof($results) == 1) {
             $oldBooking = $results[0];
             if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
                 return true;
+            }elseif ($oldBooking->getHiddenAppointmentStartTime()->getTimestamp() == $bookingEndDate->getTimestamp()) {
+               return true; 
             }
         } else if (sizeof($results) > 1) {
             return false;
         } else if (sizeof($results) == 0) {
             return true;
         }
+        
+        return false;
     }
 
     /**
