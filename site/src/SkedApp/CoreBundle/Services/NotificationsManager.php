@@ -81,71 +81,15 @@ final class NotificationsManager
     }
 
     /**
-     * Send booking created notification to consultant
-     *
-     * @param array $params
+     * Confirm booking to service provider
+     * 
+     * @param Array $params
      * @return void
      */
-    public function consultantBookingCreated($params)
+    public function confirmationBookingCompany($params)
     {
-
-        if (!isset($params['booking']))
-            return 'No booking specified';
-
-        //Need details of users entity
-
-//        $params = array(
-//              'fullName' => $member->getFirstName() . ' ' . $member->getLastName(),
-//              'link' => $this->generateUrl(
-//                  'sked_app_member_reset_token', array('token' => $token), true)
-//            );
-
-//        $emailBodyHtml = $this->render(
-//                'SkedAppCoreBundle:EmailTemplates:member.password.reset.html.twig', $params
-//            )->getContent();
-//
-//        $emailBodyTxt = $this->render(
-//                'SkedAppCoreBundle:EmailTemplates:member.password.reset.txt.twig', $params
-//            )->getContent();
-//
-//        $token = $this->container->get('emailer.manager')->consultantBookingCreated($params);
-//        $this->sendMail($params);
-
-        return;
+        $this->container->get('email.manager')->companyBookingCreated($params);
+        return; 
     }
-
-    /**
-     * Send booking created notification to company
-     *
-     * @param array $params
-     * @return void
-     */
-    public function companyBookingCreated($params)
-    {
-
-        if (!isset($params['booking']))
-            return 'No booking specified';
-
-        //Need details of users entity
-
-//        $params = array(
-//              'fullName' => $member->getFirstName() . ' ' . $member->getLastName(),
-//              'link' => $this->generateUrl(
-//                  'sked_app_member_reset_token', array('token' => $token), true)
-//            );
-
-//        $emailBodyHtml = $this->render(
-//                'SkedAppCoreBundle:EmailTemplates:member.password.reset.html.twig', $params
-//            )->getContent();
-//
-//        $emailBodyTxt = $this->render(
-//                'SkedAppCoreBundle:EmailTemplates:member.password.reset.txt.twig', $params
-//            )->getContent();
-//
-//        $token = $this->container->get('emailer.manager')->consultantBookingCreated($params);
-//        $this->sendMail($params);
-
-        return;
-    }
-
+ 
 }

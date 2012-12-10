@@ -35,6 +35,12 @@ final class EmailerManager
     private $em;
 
     /**
+     * Template engine
+     * @var object 
+     */
+    private $template;
+
+    /**
      * Class construct
      *
      * @param ContainerInterface $container
@@ -47,6 +53,7 @@ final class EmailerManager
         $this->setContainer($container);
         $this->setLogger($logger);
         $this->setEm($container->get('doctrine')->getEntityManager('default'));
+        $this->setTemplate($container->get('templating'));
         return;
     }
 
@@ -78,6 +85,16 @@ final class EmailerManager
     public function setEm($em)
     {
         $this->em = $em;
+    }
+
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    public function setTemplate($template)
+    {
+        $this->template = $template;
     }
 
     /**
@@ -134,20 +151,6 @@ final class EmailerManager
     }
 
     /**
-     * Send booking created e-mail to consultant
-     *
-     * @param array $params
-     * @return void
-     */
-    public function consultantBookingCreated($params)
-    {
-        $this->logger->info('sending new booking for consultant mail to:' . $params['email']);
-        $params['subject'] = "New Booking Created";
-        $this->sendMail($params);
-        return;
-    }
-
-    /**
      * Send booking created e-mail to company
      *
      * @param array $params
@@ -155,9 +158,10 @@ final class EmailerManager
      */
     public function companyBookingCreated($params)
     {
-        $this->logger->info('sending new booking for company mail to:' . $params['email']);
+        $this->logger->info('sending new booking for company');
         $params['subject'] = "New Booking Created";
         $this->sendMail($params);
+        
         return;
     }
 

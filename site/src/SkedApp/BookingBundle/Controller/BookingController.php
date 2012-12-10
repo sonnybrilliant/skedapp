@@ -101,6 +101,36 @@ class BookingController extends Controller
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
+                    //send emails
+                    $admins = $this->container->get("member.manager")
+                        ->getServiceProviderAdmin($booking->getConsultant()->getCompany()->getId());
+
+                    if ($admins) {
+                        foreach ($admins as $admin) {
+                            $tmp = array(
+                                'fullName' => $admin->getFirstName() . ' ' . $admin->getLastName(),
+                                'consultantName' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
+                                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId'=>$booking->getId()),true)
+                            );
+
+                            
+                            $emailBodyHtml = $this->render(
+                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.html.twig', $tmp
+                            )->getContent();
+//
+//                            $emailBodyTxt = $this->render(
+//                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.txt.twig', $tmp
+//                            )->getContent();
+
+                            $options['bodyHTML'] = $emailBodyHtml;
+                            //$options['bodyTEXT'] = $emailBodyTxt;
+                            $options['bodyTEXT'] = 'hello';
+                            $options['email'] = $admin->getEmail();
+                            $options['fullName'] = $tmp['fullName'];
+                            
+                            $this->get("notification.manager")->confirmationBookingCompany($options);
+                        }
+                    }
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -203,10 +233,10 @@ class BookingController extends Controller
 
         try {
 
-           $this->get('booking.manager')->delete($bookingId);
-           $this->getRequest()->getSession()->setFlash(
-                        'success', 'Deleted booking sucessfully');
-                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+            $this->get('booking.manager')->delete($bookingId);
+            $this->getRequest()->getSession()->setFlash(
+                'success', 'Deleted booking sucessfully');
+            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$booking invalid");
             $this->createNotFoundException($e->getMessage());
@@ -251,7 +281,7 @@ class BookingController extends Controller
             throw new AccessDeniedException();
         }
     }
-    
+
     /**
      *  Get active bookings
      * 
@@ -388,8 +418,8 @@ class BookingController extends Controller
                 }
             } else {
 
-                  echo $appointmentDate->format('Y-m-d') . ' invalid ' . $form->getErrorsAsString();
-                  exit;
+                echo $appointmentDate->format('Y-m-d') . ' invalid ' . $form->getErrorsAsString();
+                exit;
             }
         } else {
             $this->getRequest()->getSession()->setFlash(

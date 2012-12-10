@@ -333,5 +333,18 @@ final class MemberManager
         }
         return $isAdmin;
     }
+    
+    /**
+     * Get service providers admins
+     * 
+     * @param integer $companyId
+     * @return array
+     */
+    public function getServiceProviderAdmin($companyId)
+    {
+        $this->logger->info("get service providers admins for for id:".$companyId);        
+        return $this->em->getRepository("SkedAppCoreBundle:Member")
+                    ->getConsultantAdminsForCompany($companyId);
+    }
 
 }

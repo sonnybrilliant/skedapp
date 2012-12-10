@@ -12,4 +12,26 @@ use Doctrine\ORM\EntityRepository;
  */
 class MemberRepository extends EntityRepository
 {
+
+    /**
+     * Get consultant admins for service provider
+     *
+     * @return array
+     */
+    public function getConsultantAdminsForCompany($companyId)
+    {
+
+        $qb = $this->createQueryBuilder('m')
+            ->select('m')
+            ->where("m.enabled = :enabled")
+            ->andWhere("m.isAdmin = :isAdmin")
+            ->andWhere("m.company = :company")
+            ->setParameters(array(
+            'enabled' => true,
+            'isAdmin' => false,
+            'company' => $companyId,
+            ));
+        return $qb->getQuery()->execute();
+    }
+
 }
