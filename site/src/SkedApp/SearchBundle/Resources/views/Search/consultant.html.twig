@@ -41,7 +41,7 @@
                 {% if time_slot.booking_taken %}
                     <div class="divTimeSlotTaken">Taken</div>
                 {% else %}
-                    <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_full, 'timeSlotStart': time_slot.start_time, 'timeSlotEnd': time_slot.end_time, 'serviceIds': serviceIds}) }}"><div class="divTimeSlotAvailable">
+                    <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_full, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}"><div class="divTimeSlotAvailable">
                         {{ time_slot.start_time }} to {{ time_slot.end_time }}<br />
                         <span class="spnTimeSlotNotes">{{ time_slot.dow }} {{ time_slot.date }} {{ time_slot.year }}</span>
                     </div></a>

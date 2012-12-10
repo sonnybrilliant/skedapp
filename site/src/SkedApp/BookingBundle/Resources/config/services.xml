@@ -6,11 +6,16 @@
 
     <parameters>
         <parameter key="booking_manager.class">SkedApp\BookingBundle\Services\BookingManager</parameter>
+        <parameter key="timeslots_manager.class">SkedApp\BookingBundle\Services\TimeslotsManager</parameter>
     </parameters>
     <services>
         <service id="booking.manager" class="%booking_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
-        </service>        
+        </service>
+        <service id="timeslots.manager" class="%timeslots_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>
     </services>
 </container>

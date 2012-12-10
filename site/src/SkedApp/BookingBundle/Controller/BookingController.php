@@ -302,7 +302,7 @@ class BookingController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws AccessDeniedException
      */
-    public function makeAction($companyId, $consultantId, $date, $timeSlotStart, $timeSlotEnd, $serviceIds = array())
+    public function makeAction($companyId, $consultantId, $date, $timeSlotStart, $serviceIds = array())
     {
         $this->get('logger')->info('add a new booking public');
 
@@ -311,13 +311,13 @@ class BookingController extends Controller
         $booking = new Booking();
 
         $booking->setConsultant($this->get('consultant.manager')->getById($consultantId));
+        $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($timeSlotStart));
 
         $form = $this->createForm(new BookingMakeType(
                 $companyId,
                 $consultantId,
                 $date,
                 $timeSlotStart,
-                $timeSlotEnd,
                 $serviceIds
             ), $booking);
 
@@ -345,12 +345,12 @@ class BookingController extends Controller
             $values['companyId'] = $objConsultant->getCompany()->getId();
 
         $booking = new Booking();
+
         $form = $this->createForm(new BookingMakeType(
                 $values['companyId'],
                 $values['consultant'],
                 $values['appointmentDate'],
                 $values['startTimeslot'],
-                $values['endTimeslot'],
                 $values['service']
             ), $booking);
 
@@ -361,6 +361,8 @@ class BookingController extends Controller
 
                 $isValid = true;
                 $errMsg = "";
+
+                $booking->setEndTimeslot($this->get('timeslots.manager')->getById($booking->getStartTimeslot()->getId() + $objConsultant->getAppointmentDuration()->getId()));
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
@@ -373,22 +375,28 @@ class BookingController extends Controller
                 }
 
                 if ($isValid) {
-                    $booking->setStatus($this->get('status.manager')->confirmed());
+
+//                    $booking->setStatus($this->get('status.manager')->confirmed());
+
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
-                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                    return $this->redirect($this->generateUrl('sked_app_search_index'));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
                 }
+            } else {
+
+                  echo $appointmentDate->format('Y-m-d') . ' invalid ' . $form->getErrorsAsString();
+                  exit;
             }
         } else {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Failed to create booking');
         }
 
-        return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
+        return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
             ));
     }

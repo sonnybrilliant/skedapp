@@ -115,8 +115,8 @@ final class MemberManager
     }
 
     /**
-     * Create default system members 
-     * 
+     * Create default system members
+     *
      * @param array $params
      * @return void
      */
@@ -135,7 +135,7 @@ final class MemberManager
         $member->setTitle($params['title']);
         $member->setGender($params['gender']);
         $member->setGroup($params['group']);
-                
+
         $member->setStatus($this->container->get('status.manager')->active());
         $group = $this->em->getRepository('SkedAppCoreBundle:Group')->find($member->getGroup()->getId());
 
@@ -150,7 +150,7 @@ final class MemberManager
 
         $this->em->persist($member);
         $this->em->flush();
-        return;
+        return $member;
     }
 
     /**
@@ -306,7 +306,7 @@ final class MemberManager
 
     /**
      * Get logged in user
-     * 
+     *
      * @return SkedAppCoreBundle:Member
      */
     public function getLoggedInUser()

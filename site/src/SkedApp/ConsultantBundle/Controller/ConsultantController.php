@@ -129,9 +129,7 @@ class ConsultantController extends Controller
             }
         }
 
-        echo $form->getErrorsAsString();
-
-        return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
+       return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
     }
 
     /**

@@ -20,6 +20,7 @@ class BookingRepository extends EntityRepository
      */
     public function getAllBooking()
     {
+
         $qb = $this->createQueryBuilder('b')
             ->select('b')
             ->where("b.isDeleted = :delete")
@@ -50,7 +51,7 @@ class BookingRepository extends EntityRepository
             'delete' => false,
             'active' => true,
             'cancelled' => false,
-            'consultant' => $consultantId    
+            'consultant' => $consultantId
             ));
         return $qb->getQuery()->execute();
     }
@@ -65,10 +66,10 @@ class BookingRepository extends EntityRepository
      */
     public function isConsultantAvailable($consultant, $bookingStartDate, $bookingEndDate)
     {
-        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b 
-                WHERE b.consultant = ?1 AND b.isDeleted = ?2 
-                AND b.isActive = ?3 AND b.isCancelled = ?4 
-                AND ( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 ) 
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.consultant = ?1 AND b.isDeleted = ?2
+                AND b.isActive = ?3 AND b.isCancelled = ?4
+                AND ( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 )
                 OR  ( b.hiddenAppointmentEndTime >= ?5 AND b.hiddenAppointmentEndTime <= ?6 )
                 OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime >= ?6 )";
         return $this->getEntityManager()->createQuery($dql)
@@ -147,7 +148,6 @@ class BookingRepository extends EntityRepository
             //Still enough time to book today
             //Start by identifying time slots on the same day
             while (($slot_cnt < 5) && ($start_time->getTimestamp() <= $end_time->getTimeStamp())) {
-
                 $new_timestamp = $start_time->getTimestamp() + (60 * $appointment_duration);
 
                 $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));
