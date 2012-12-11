@@ -40,7 +40,10 @@ $(document).ready(function() {
     });
 
     //Run the ajax call to show only selected services
-    var categoryId = document.getElementById('Consultant_category').value;
+    var categoryId = 0;
+    if (document.getElementById('Consultant_category')) {
+      categoryId = document.getElementById('Consultant_category').value;
+    }
 
     if (categoryId <= 0)
       categoryId = 0;

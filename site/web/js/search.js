@@ -29,7 +29,10 @@ $(document).ready(function() {
     });
 
     //Run the ajax call to show only selected services
-    var categoryId = document.getElementById('Search_category').value;
+    var categoryId = 0;
+    if (document.getElementById('Search_category')) {
+      categoryId = document.getElementById('Search_category').value;
+    }
 
     if (categoryId <= 0)
       categoryId = 0;
