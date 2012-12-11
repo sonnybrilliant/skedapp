@@ -32,6 +32,8 @@
                                     <p><strong>Fullname</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
                                     <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
                                     <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
+                                    <p><strong>Speciality</strong>: <br /> {{ consultant.speciality|raw }}</p>
+                                    <p><strong>Professional Statement</strong>: <br /> {{ consultant.professionalStatement|raw }}</p>
 
                                     {% if intPositionLat > 0 and intPositionLng > 0 %}
                                     <span>
@@ -85,7 +87,13 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="tab2">
-                            <p>Service provider details go here</p>
+                            <p><strong>Employer</strong>: {{ company.name }}</p>
+                            <p>
+                                <strong>Location</strong>:<br />
+                                {{ company.address }} <br />
+                                {{ company.locality }} <br />
+                                {{ company.country }} <br />
+                            </p>
                         </div>
                         <div class="tab-pane" id="tab3">
 
