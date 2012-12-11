@@ -1,3 +1,7 @@
+sked_app_customer:
+    resource: "@SkedAppCustomerBundle/Resources/config/routing.yml"
+    prefix:   /
+
 sked_app_member:
     resource: "@SkedAppMemberBundle/Resources/config/routing.yml"
     prefix:   /

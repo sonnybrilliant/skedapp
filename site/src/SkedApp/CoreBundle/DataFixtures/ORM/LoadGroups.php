@@ -43,7 +43,7 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($consultant) ;        
         
         $siteUser = new Group('Site user') ;
-        $siteUser->setDescription('Consultant user');
+        $siteUser->setDescription('Site user user');
         $siteUser->addRole($this->getReference('role-site-user')) ;
         $manager->persist($siteUser) ;        
         

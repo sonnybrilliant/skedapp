@@ -1,0 +1,17 @@
+sked_app_customer_register:
+    pattern:  /customer/register
+    defaults: { _controller: SkedAppCustomerBundle:Customer:register }
+
+sked_app_customer_register_account:
+    pattern:  /customer/register/account
+    defaults: { _controller: SkedAppCustomerBundle:Customer:registerAccount }
+    
+sked_app_customer_register_success:
+    pattern:  /customer/register/success/{email}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:registerSuccess } 
+    
+sked_app_customer_account_activate:
+    pattern: /customer/account/activate/{token}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:accountActivate}
+    requirements:
+        _method: GET|POST    

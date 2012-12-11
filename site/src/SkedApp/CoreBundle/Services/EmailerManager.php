@@ -161,7 +161,21 @@ final class EmailerManager
         $this->logger->info('sending new booking for company');
         $params['subject'] = "New Booking Created";
         $this->sendMail($params);
-        
+
+        return;
+    }
+
+    /**
+     * Send customer account verification after an account register
+     *
+     * @param array $params
+     * @return void
+     */
+    public function verifyCustomerAccount($params)
+    {
+        $this->logger->info('sending customer account verification');
+        $params['subject'] = "You have successfully created your account";
+        $this->sendMail($params);
         return;
     }
 

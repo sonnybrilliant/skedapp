@@ -31,7 +31,7 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <a href="{{ path("_security_logout")}}" class="btn btn-primary pull-right"><i class="icon-white icon-off"></i> Logout</a>
                         {% else %}
-                             <a href="{{ path("_security_login")}}" class="btn btn-primary pull-right"><i class="icon-white icon-user"></i> Login</a>
+                            <span class="pull-right"><a href="{{ path("sked_app_customer_register") }}">Register</a> an account or <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a></span>
                         {% endif %}
                     </div>
                 </div>
