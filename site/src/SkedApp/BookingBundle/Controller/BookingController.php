@@ -117,13 +117,13 @@ class BookingController extends Controller
                             $emailBodyHtml = $this->render(
                                 'SkedAppCoreBundle:EmailTemplates:booking.created.company.html.twig', $tmp
                             )->getContent();
-//
-//                            $emailBodyTxt = $this->render(
-//                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.txt.twig', $tmp
-//                            )->getContent();
+
+                            $emailBodyTxt = $this->render(
+                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.txt.twig', $tmp
+                            )->getContent();
 
                             $options['bodyHTML'] = $emailBodyHtml;
-                            //$options['bodyTEXT'] = $emailBodyTxt;
+                            $options['bodyTEXT'] = $emailBodyTxt;
                             $options['bodyTEXT'] = 'hello';
                             $options['email'] = $admin->getEmail();
                             $options['fullName'] = $tmp['fullName'];
