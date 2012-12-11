@@ -81,10 +81,14 @@ class SecurityListener
         } else {
             if ($this->isLoggedIn) {
                 $user = $this->security->getToken()->getUser();
-
                 if ($user) {
-                    $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_booking_show', array(
-                                'id' => $this->security->getToken()->getUser()->getId()))));
+
+                    if ("SkedApp\CoreBundle\Entity\Customer" == get_class($user)) {
+                       $event->setResponse(new RedirectResponse($this->router->generate('_welcome'))); 
+                    } else {
+                        $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_booking_show', array(
+                                    'id' => $this->security->getToken()->getUser()->getId()))));
+                    }
                 }
             }
         }

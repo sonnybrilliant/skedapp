@@ -43,14 +43,18 @@ class ResetController extends Controller
                 $data = $form->getData();
                 $email = $data['email'];
                 $member = $this->container->get('member.manager')->getByEmail($email);
-                
+
                 //check consultant
-                if(!$member){
-                    $member = $this->container->get('consultant.manager')->getByEmail($email); 
+                if (!$member) {
+                    $member = $this->container->get('consultant.manager')->getByEmail($email);
                 }
                 
+                //check customer
+                if (!$member) {
+                    $member = $this->container->get('customer.manager')->getByEmail($email);
+                }
 
-                if (!$member) {                     
+                if (!$member) {
                     //email not found in the system
                     $this->getRequest()
                         ->getSession()
@@ -81,7 +85,7 @@ class ResetController extends Controller
 
                     $message = \Swift_Message::newInstance()
                         ->setSubject('Reset Your SkedApp Password')
-                        ->setFrom(array($this->container->getParameter ('mailer_from_mail') => $this->container->getParameter ('mailer_from_name')))
+                        ->setFrom(array($this->container->getParameter('mailer_from_mail') => $this->container->getParameter('mailer_from_name')))
                         ->setTo(array($email => $member->getFirstName() . ' ' . $member->getLastName()))
                         ->setBody($emailBodyHtml, 'text/html')
                         ->addPart($emailBodyTxt, 'text/plain');
@@ -89,8 +93,7 @@ class ResetController extends Controller
                     ;
 
                     $this->get('mailer')->send($message);
-                    return $this->redirect($this->generateUrl('sked_app_member_reset_sent',array('email'=>$email)));
-
+                    return $this->redirect($this->generateUrl('sked_app_member_reset_sent', array('email' => $email)));
                 }
             }
         }
@@ -125,8 +128,14 @@ class ResetController extends Controller
 
         $member = $this->container->get('member.manager')->getByToken($token);
         
-        if(!$member){
-           $member = $this->container->get('consultant.manager')->getByToken($token); 
+        //check consultant
+        if (!$member) {
+            $member = $this->container->get('consultant.manager')->getByToken($token);
+        }
+
+        //check customer
+        if (!$member) {
+            $member = $this->container->get('customer.manager')->getByToken($token);
         }
 
         if ($member) {
@@ -166,7 +175,6 @@ class ResetController extends Controller
             return $this->render('SkedAppMemberBundle:Reset:reset.password.change.html.twig', array(
                     'form' => $form->createView(),
                     'token' => $token));
-
         }
 
         return $this->render('SkedAppMemberBundle:Reset:reset.invalid.tokent.html.twig');
