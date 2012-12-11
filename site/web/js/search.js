@@ -3,7 +3,7 @@ $(document).ready(function() {
     //update services
     $('#Search_category').change(function(){
         var categoryId = this.value;
-        $.getJSON("search/ajaxGetServicesByCategory/"+categoryId,function(response){
+        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', { categoryId: categoryId}, true),function(response){
             if(response.results){
 
                 var el = $('#Search_consultantServices');
@@ -29,12 +29,15 @@ $(document).ready(function() {
     });
 
     //Run the ajax call to show only selected services
-    var categoryId = document.getElementById('Search_category').value;
+    var categoryId = 0;
+    if (document.getElementById('Search_category')) {
+      categoryId = document.getElementById('Search_category').value;
+    }
 
     if (categoryId <= 0)
       categoryId = 0;
 
-        $.getJSON("search/ajaxGetServicesByCategory/"+categoryId,function(response){
+        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', { categoryId: categoryId}, true),function(response){
             if(response.results){
 
                 var el = $('#Search_consultantServices');

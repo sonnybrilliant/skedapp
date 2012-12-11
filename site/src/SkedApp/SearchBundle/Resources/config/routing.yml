@@ -7,3 +7,5 @@ sked_app_search_ajax_get_services_by_category:
     defaults: { _controller: SkedAppSearchBundle:Search:ajaxGetServicesByCategory }
     requirements:
         categoryId:  \d+
+    options:
+        expose: true

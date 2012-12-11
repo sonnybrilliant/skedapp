@@ -21,9 +21,9 @@ class ConsultantCreateType extends AbstractType
 
     /**
      * Build Form
-     * 
+     *
      * @param FormBuilder $builder
-     * @param array $options 
+     * @param array $options
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -46,7 +46,7 @@ class ConsultantCreateType extends AbstractType
                 'second_name' => 'second',
                 'second_options' => array('label' => 'Confirm Email address:'),
                 'invalid_message' => 'Email addresses do not match',
-                
+
             ))
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',
@@ -75,18 +75,21 @@ class ConsultantCreateType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => array('class' => 'span4' , 'disabled' => 'disabled'),
-                
+
             ))
             ->add('speciality', 'textarea', array(
                 'label' => 'Speciality:',
+                'required' => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
             ->add('professionalStatement', 'textarea', array(
                 'label' => 'Professional Statement:',
+                'required' => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
+                'required' => false,
                 'attr' => array('class' => 'span4')
             ))
             ->add('monday', 'checkbox', array(
@@ -137,7 +140,7 @@ class ConsultantCreateType extends AbstractType
 
     /**
      * Get name
-     * @return string 
+     * @return string
      */
     public function getName()
     {

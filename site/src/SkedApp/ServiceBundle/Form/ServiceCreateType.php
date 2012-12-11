@@ -21,9 +21,9 @@ class ServiceCreateType extends AbstractType
 
     /**
      * Build Form
-     * 
+     *
      * @param FormBuilder $builder
-     * @param array $options 
+     * @param array $options
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -52,6 +52,7 @@ class ServiceCreateType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
+                'required'      => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
 
@@ -60,7 +61,7 @@ class ServiceCreateType extends AbstractType
 
     /**
      * Get name
-     * @return string 
+     * @return string
      */
     public function getName()
     {

@@ -49,7 +49,8 @@ class ConsultantRepository extends EntityRepository
 
         $defaultOptions = array(
             'sort' => 'c.id',
-            'direction' => 'asc'
+            'direction' => 'asc',
+            'consultantServices' => null
         );
 
         foreach ($options as $key => $values) {
@@ -89,7 +90,7 @@ class ConsultantRepository extends EntityRepository
                     ->setParameter('category', $options['categoryId']);
         }
 
-        if (count($options['consultantServices']) > 0) {
+        if ( (count($options['consultantServices']) > 0) && ($options['consultantServices'][0] > 0) ) {
             $objQueuryBuilder->andWhere('s.id IN (:consultants)')
                     ->setParameter('consultants', $options['consultantServices']);
         }

@@ -1,6 +1,6 @@
-sked_app_customer:
-    resource: "@SkedAppCustomerBundle/Resources/config/routing.yml"
-    prefix:   /
+_welcome:
+    pattern:  /
+    defaults: { _controller: SkedAppCoreBundle:Site:index }
 
 sked_app_member:
     resource: "@SkedAppMemberBundle/Resources/config/routing.yml"
@@ -36,6 +36,10 @@ sked_app_core:
 
 sked_app_search:
     resource: "@SkedAppSearchBundle/Resources/config/routing.yml"
+    prefix:   /
+
+sked_app_customer:
+    resource: "@SkedAppCustomerBundle/Resources/config/routing.yml"
     prefix:   /
 
 fos_js_routing:
