@@ -463,5 +463,33 @@ class ConsultantController extends Controller
                     ));
     }
 
+    /**
+     * Show consultant
+     *
+     * @return Print
+     * @throws AccessDeniedException
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function printAction($id)
+    {
+        $this->get('logger')->info('view consultant');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+
+        if (!$consultant) {
+            $this->get('logger')->warn("consultant not found $id");
+            return $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(new SearchType());
+
+        $form->bindRequest($this->getRequest());
+
+        return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.day.html.twig',
+                array('consultant' => $consultant, 'print_bookings' => true, 'form' => $form->createView()));
+    }
+
 }
 

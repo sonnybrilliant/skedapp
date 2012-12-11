@@ -67,3 +67,9 @@ sked_app_consultant_view:
     defaults: { _controller: SkedAppConsultantBundle:Consultant:view }
     requirements:
         id:  \d+
+
+sked_app_consultant_booking_day_print:
+    pattern:  /consultant/print/details/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:print }
+    requirements:
+        id:  \d+
