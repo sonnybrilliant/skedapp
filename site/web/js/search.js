@@ -34,7 +34,7 @@ $(document).ready(function() {
     if (categoryId <= 0)
       categoryId = 0;
 
-        $.getJSON("search/ajaxGetServicesByCategory/"+categoryId,function(response){
+        $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_category', { categoryId: categoryId}, true),function(response){
             if(response.results){
 
                 var el = $('#Search_consultantServices');
