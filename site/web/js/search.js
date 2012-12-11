@@ -3,7 +3,7 @@ $(document).ready(function() {
     //update services
     $('#Search_category').change(function(){
         var categoryId = this.value;
-        $.getJSON("search/ajaxGetServicesByCategory/"+categoryId,function(response){
+        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', { categoryId: categoryId}, true),function(response){
             if(response.results){
 
                 var el = $('#Search_consultantServices');
@@ -37,7 +37,7 @@ $(document).ready(function() {
     if (categoryId <= 0)
       categoryId = 0;
 
-        $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_category', { categoryId: categoryId}, true),function(response){
+        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', { categoryId: categoryId}, true),function(response){
             if(response.results){
 
                 var el = $('#Search_consultantServices');

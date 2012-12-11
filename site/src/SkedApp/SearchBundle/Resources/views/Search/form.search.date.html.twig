@@ -1,0 +1,41 @@
+{% block stylesheets %}
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block jquery_ui %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock jquery_ui %}
+
+<form class="form-horizontal formSearch" action="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'category_id': category_id}) }}" method="POST" {{ form_enctype(form) }} id="frmDateSelect">
+  <fieldset>
+      <div class="control-group {% if form_errors(form.booking_date) %} error {% endif %}">
+        <label class="control-label" for="booking_date">{{ form_label(form.booking_date) }}</label>
+        <div class="controls">
+            {{ form_widget(form.booking_date) }}
+            <span class="help-inline">{{form_errors(form.booking_date)}}</span>
+        </div>
+      </div>
+  </fieldset>
+  {{ form_widget(form.hidden_category) }}
+</form>
+<div style="clear:both;"></div>
+<script language="JavaScript">
+  $(document).ready(function() {
+
+    //update services
+    $('#Search_booking_date').change(function(){
+      $('#frmDateSelect').submit();
+    })
+  });
+
+  jQuery(function($){
+      $( "#Search_booking_date" ).datepicker({
+          showOtherMonths: true,
+          selectOtherMonths: true,
+          minDate: 0,
+          maxDate: "+1M +10D",
+          dateFormat: 'yy-mm-dd'
+      });
+  });
+
+</script>

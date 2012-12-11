@@ -1,0 +1,99 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}View consultant profile{% endblock %}
+
+{% block body %}
+    {% block content %}
+            <div class="span7">
+                <h4>Consultant profile</h4>
+                <div class="pull-right">
+                    <a href="{{path('sked_app_search_index', {'category_id': category_id, 'date': dateFull, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'service_ids': serviceIds}) }}">Back to Search</a>
+                    <br />
+
+                    {#start form display===============================#}
+                        {% include "SkedAppSearchBundle:Search:form.search.date.html.twig" %}
+                    {#end form display===============================#}
+
+                </div>
+                <div style="clear:both;"></div>
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+                <div class="tabbable"> <!-- Only required for left/right tabs -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
+                        <li><a href="#tab2" data-toggle="tab">Location Details</a></li>
+                        <li><a href="#tab3" data-toggle="tab">Location Photos</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab1">
+                            <div class="row">
+                                <div class="span2"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
+                                <div class="span4">
+                                    <p><strong>Fullname</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
+                                    <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
+                                    <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
+
+                                    {% if intPositionLat > 0 and intPositionLng > 0 %}
+                                    <span>
+                                          <label class="lblView">
+                                              Distance from you:<br />
+                                              <span class="spnNotes">(Point to point)</span>
+                                          </label>
+                                          <div class="divViewData">
+                                              {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
+                                          </div>
+                                          <div style="clear: both;"></div>
+                                    </span>
+                                    {% endif %}
+
+                                    <p>
+                                        <strong>Services</strong>:
+                                        {% for service in consultant.consultantServices %}
+                                          <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
+                                        {% else %}
+                                         No listed services found.
+                                        {% endfor %}
+
+                                    </p>
+                                </div>
+
+                                <div class="divTimeSlotsAround">
+                                    {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                                    {% if arrSlots %}
+                                      {% if arrSlots.error_message %}
+                                          <div class="divTimeSlotsAllTaken">{{ arrSlots.error_message }}</div>
+                                      {% else %}
+                                          <div class="divTimeSlotContainer">
+                                          {% for time_slot in arrSlots.time_slots %}
+                                              {% if time_slot.booking_taken %}
+                                                  <div class="divTimeSlotTaken">Taken</div>
+                                              {% else %}
+                                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_full, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}"><div class="divTimeSlotAvailable">
+                                                      {{ time_slot.start_time }} to {{ time_slot.end_time }}<br />
+                                                      <span class="spnTimeSlotNotes">{{ time_slot.dow }} {{ time_slot.date }} {{ time_slot.year }}</span>
+                                                  </div></a>
+                                              {% endif %}
+                                          {% endfor %}
+                                          </div>
+                                      {% endif %}
+                                    {% else %}
+                                          Please set a date to view available booking slots
+                                    {% endif %}
+                                </div>
+                                <div style="clear: both;"></div>
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab2">
+                            <p>Service provider details go here</p>
+                        </div>
+                        <div class="tab-pane" id="tab3">
+
+                            {% include "SkedAppCompanyBundle:CompanyPhotos:list.table.html.twig" %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endblock content %}
+{% endblock body %}

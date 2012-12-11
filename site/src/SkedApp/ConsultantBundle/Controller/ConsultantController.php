@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\CoreBundle\Entity\Consultant;
 use SkedApp\ConsultantBundle\Form\ConsultantCreateType;
 use SkedApp\ConsultantBundle\Form\ConsultantUpdateType;
+use SkedApp\SearchBundle\Form\SearchType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
@@ -24,10 +25,10 @@ class ConsultantController extends Controller
 
     /**
      * list consultants
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function listAction($page = 1)
@@ -57,10 +58,10 @@ class ConsultantController extends Controller
 
     /**
      * Create a new consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function newAction()
@@ -75,10 +76,10 @@ class ConsultantController extends Controller
 
     /**
      * Create a new consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function createAction()
@@ -134,10 +135,10 @@ class ConsultantController extends Controller
 
     /**
      * Show consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function showAction($id)
@@ -158,10 +159,10 @@ class ConsultantController extends Controller
     /**
       /**
      * Show consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function showBookingsAction($id)
@@ -181,10 +182,10 @@ class ConsultantController extends Controller
 
     /**
      * Show booking to consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function showBookingToConsultantAction($bookingId)
@@ -207,10 +208,10 @@ class ConsultantController extends Controller
 
     /**
      * Edit consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function editAction($id)
@@ -240,10 +241,10 @@ class ConsultantController extends Controller
 
     /**
      * Update consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function updateAction($id)
@@ -289,10 +290,10 @@ class ConsultantController extends Controller
 
     /**
      * Delete consultant
-     * 
+     *
      * @return View
      * @throws AccessDeniedException
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function deleteAction($id)
@@ -320,10 +321,10 @@ class ConsultantController extends Controller
 
     /**
      * Get all consultant active bookings
-     * 
+     *
      * @param integer $consultantId
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function ajaxGetAllBookingsAction($consultantId)
@@ -363,11 +364,11 @@ class ConsultantController extends Controller
 
     /**
      * Ajax call services by category
-     * 
+     *
      * @param integer $categoryId
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws AccessDeniedException
-     * 
+     *
      */
     public function ajaxGetByCategoryAction($categoryId)
     {
@@ -408,6 +409,58 @@ class ConsultantController extends Controller
             $this->get('logger')->warn('not a valid request, expected ajax call');
             throw new AccessDeniedException();
         }
+    }
+
+    /**
+     * View consultant (Public)
+     *
+     * @return View
+     *
+     */
+    public function viewAction($id)
+    {
+        $this->get('logger')->info('view consultant public');
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+
+        if (!$consultant) {
+            $this->get('logger')->warn("consultant not found $id");
+            return $this->createNotFoundException();
+        }
+
+        $company = $em->getRepository('SkedAppCoreBundle:Company')->find($consultant->getCompany()->getId());
+
+        if (!$company) {
+            $this->get('logger')->warn("company not found $id");
+            return $this->createNotFoundException();
+        }
+
+        $company_photos = $this->container->get('company_photos.manager')->listAll (array ('company_id' => $company->getId (), 'sort' => 'c.caption', 'direction' => 'asc'));
+
+        $arrBookingDate = $this->getRequest()->get('Search', array('booking_date' => ''));
+
+        $strBookingDate = $this->getRequest()->get('booking_date', $arrBookingDate['booking_date']);
+
+        if (strlen ($strBookingDate) > 0) {
+          $objDateSend = new \DateTime($strBookingDate);
+          $consultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $objDateSend));
+        }
+
+        $form = $this->createForm(new SearchType());
+
+        return $this->render('SkedAppConsultantBundle:Consultant:view.html.twig',
+                array(
+                    'consultant' => $consultant,
+                    'company' => $company,
+                    'company_photos' => $company_photos,
+                    'intPositionLat' => $this->getRequest()->get('pos_lat', 0),
+                    'intPositionLong' => $this->getRequest()->get('pos_lng', 0),
+                    'dateFull' => $strBookingDate,
+                    'category_id' => $this->getRequest()->get('category_id', 0),
+                    'serviceIds' => '',
+                    'form' => $form->createView(),
+                    ));
     }
 
 }

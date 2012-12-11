@@ -50,14 +50,20 @@ sked_app_consultant_ajax_get_by_category:
     pattern:  /consultant/ajaxGetByCategory/{categoryId}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
     requirements:
-        categoryId:  \d+   
+        categoryId:  \d+
     options:
-        expose: true    
+        expose: true
 
 sked_app_consultant_ajax_get_all_bookings:
     pattern:  /consultant/ajaxGetAllBookings/{consultantId}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetAllBookings }
     requirements:
-        consultantId:  \d+ 
+        consultantId:  \d+
     options:
-        expose: true      
+        expose: true
+
+sked_app_consultant_view:
+    pattern:  /consultant/view/details/{id}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:view }
+    requirements:
+        id:  \d+

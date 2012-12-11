@@ -43,16 +43,31 @@ class SearchController extends Controller
 
         //Instantiate search form
 
-        $form = $this->createForm(new SearchType());
-
         $arrFormValues = $this->getRequest()->get('Search');
 
+        if (!isset($arrFormValues['booking_date']))
+          $arrFormValues['booking_date'] = $this->getRequest()->get('date', '');
+
+        if (!isset($arrFormValues['lat']))
+          $arrFormValues['lat'] = $this->getRequest()->get('pos_lat', null);
+
+        if (!isset($arrFormValues['lng']))
+          $arrFormValues['lng'] = $this->getRequest()->get('pos_lng', null);
+
         if (!isset ($arrFormValues['consultantServices']))
-            $arrFormValues['consultantServices'] = array();
+            $arrFormValues['consultantServices'] = $this->getRequest()->get('service_ids', array());
+        if (!is_array($arrFormValues['consultantServices']))
+            $arrFormValues['consultantServices'] = explode(',', $arrFormValues['consultantServices']);
 
-        if ($this->getRequest()->getMethod() == 'POST') {
+        if (!isset ($arrFormValues['category']))
+            $arrFormValues['category'] = $this->getRequest()->get('category_id', 0);
 
-            $form->bindRequest($this->getRequest());
+        $form = $this->createForm(new SearchType($arrFormValues['category'], $arrFormValues['booking_date']));
+
+        if ( (!is_null($arrFormValues['lat'])) && (!is_null($arrFormValues['lng'])) && ($arrFormValues['category'] > 0) ) {
+
+            if ($this->getRequest()->getMethod() == 'POST')
+                $form->bindRequest($this->getRequest());
 
             $options['lat'] = $arrFormValues['lat'];
             $options['lng'] = $arrFormValues['lng'];
@@ -87,10 +102,12 @@ class SearchController extends Controller
                 'pagination' => $pagination,
                 'sort_img' => '/img/sort_' . $direction . '.png',
                 'sort' => $direction,
-                'form' => $form->createView (),
+                'form' => $form->createView(),
                 'intPositionLat' => $arrFormValues['lat'],
                 'intPositionLong' => $arrFormValues['lng'],
                 'objDate' => $objDate,
+                'dateFull' => $objDate->format('d-m-Y'),
+                'category_id' => $arrFormValues['category'],
                 'serviceIds' => implode(',', $arrFormValues['consultantServices'])
             ));
     }

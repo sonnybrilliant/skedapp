@@ -3,11 +3,12 @@
     <div class="divConsultantInfo">
 
         <span style="padding-left: 10px">
-            <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" />
+            <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}"><img
+                src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" /></a>
         </span>
 
         <br />
-        <span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span>
+        <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span></a>
 
         <br /><br />
 
@@ -28,6 +29,10 @@
         {% else %}
              No listed services found.
         {% endfor %}
+
+         <p>
+            <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}">View details...</a>
+         </p>
 
     </div>
 
