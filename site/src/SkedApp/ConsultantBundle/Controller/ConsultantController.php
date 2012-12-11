@@ -376,10 +376,10 @@ class ConsultantController extends Controller
             $this->get('logger')->info('get services by category');
             $results = array();
 
-            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-                $this->get('logger')->warn('view agency, access denied.');
-                throw new AccessDeniedException();
-            }
+//            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+//                $this->get('logger')->warn('view agency, access denied.');
+//                throw new AccessDeniedException();
+//            }
 
             $em = $this->getDoctrine()->getEntityManager();
             $category = $em->getRepository('SkedAppCoreBundle:Category')->find($categoryId);
