@@ -227,5 +227,19 @@ final class BookingManager
 
         return $bookings;
     }
-
+    
+    /**
+     * Get all tomorrow bookins
+     * 
+     * @return array
+     */
+    public function getTomorrowsBookings()
+    {
+        $this->logger->info("get tomorrows bookings");
+        
+        $bookings =  $bookings = $this->em
+                                      ->getRepository("SkedAppCoreBundle:Booking")
+                                      ->getAllTomorrowsBookings();
+        return $bookings;
+    }
 }

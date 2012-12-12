@@ -115,5 +115,27 @@ final class NotificationsManager
         $this->container->get('email.manager')->verifyCustomerAccount($params);
         return;
     }
+    
+    /**
+     * Send booking reminders to customers
+     *  
+     * @return void
+     */
+    public function sendBookingReminders()
+    {
+        $this->logger->info("send booking reminders");
+        $bookings = $this->container->get("booking.manager")->getTomorrowsBookings();
+        
+        foreach($bookings as $booking){
+            $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));
+            
+            //update booking
+            $booking->setIsReminderSent(true);
+            $this->em->persist($booking);
+            $this->em->flush();
+        }
+        
+        return;        
+    }
 
 }

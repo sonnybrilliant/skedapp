@@ -183,7 +183,6 @@ final class EmailerManager
 
                 $options['bodyHTML'] = $emailBodyHtml;
                 $options['bodyTEXT'] = $emailBodyTxt;
-                $options['bodyTEXT'] = 'hello';
                 $options['email'] = $admin->getEmail();
                 $options['fullName'] = $tmp['fullName'];
 
@@ -225,13 +224,50 @@ final class EmailerManager
 
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
-        $options['bodyTEXT'] = 'hello';
         $options['email'] = $booking->getCustomer()->getEmail();
         $options['fullName'] = $tmp['fullName'];
 
         $this->sendMail($options);
         return;
     }
+    
+    /**
+     * Send booking reminder to customers
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function bookingReminderCustomer($params)
+    {
+        $this->logger->info("send booking reminder to customer");
+        $options['subject'] = "Your SkedApp booking reminder for tomorrow";
+
+        $booking = $params['booking'];
+        
+        $tmp = array(
+            'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
+            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
+            'service' => $booking->getService()->getName(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }    
 
     /**
      * Send customer account verification after an account register
