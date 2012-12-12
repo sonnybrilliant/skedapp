@@ -57,6 +57,32 @@ class BookingRepository extends EntityRepository
     }
 
     /**
+     * Get consultant all bookings
+     *
+     * @return array
+     */
+    public function getAllConsultantBookingsByDate($consultantId, \DateTime $objStartDate, \DateTime $objEndDate)
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where("b.isDeleted = :delete")
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.consultant = :consultant")
+            ->andWhere("b.hiddenAppointmentStartTime >= :start")
+            ->andWhere("b.hiddenAppointmentEndTime <= :end")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'consultant' => $consultantId,
+            'start' => $objStartDate->format('Y-m-d H:i:s'),
+            'end' => $objEndDate->format('Y-m-d H:i:s')
+            ));
+        return $qb->getQuery()->execute();
+    }
+
+    /**
      * Is consultant available
      *
      * @param SkedAppCoreBundle:Consultant $consultant
