@@ -175,11 +175,11 @@ final class BookingManager
         $bookingEndDate = "";
 
         if ("" == $booking->getHiddenAppointmentStartTime()) {
-            $startTime = strtotime("+" . $booking->getStartTimeslot()->getWeight() - 1 . " hour", $booking->getAppointmentDate()->format('U'));
+            $startTime = strtotime("+" . $booking->getStartTimeslot()->getWeight() * 900 . " seconds", $booking->getAppointmentDate()->format('U'));
             $bookingStartDate = new \DateTime();
             $bookingStartDate->setTimestamp($startTime);
 
-            $endTime = strtotime("+" . $booking->getEndTimeslot()->getWeight() - 1 . " hour", $booking->getAppointmentDate()->format('U'));
+            $endTime = strtotime("+" . $booking->getEndTimeslot()->getWeight() * 900 . " seconds", $booking->getAppointmentDate()->format('U'));
             $bookingEndDate = new \DateTime();
             $bookingEndDate->setTimestamp($endTime);
         } else {
