@@ -178,7 +178,7 @@ class Booking
      */
     public function createAppointmentStartTime()
     {
-        $dateTime = strtotime("+" . $this->getStartTimeslot()->getWeight() - 1 . " hour", $this->getAppointmentDate()->format('U'));
+        $dateTime = strtotime("+" . $this->getStartTimeslot()->getWeight() * 900 . " seconds", $this->getAppointmentDate()->format('U'));
         $currentDateTime = new \DateTime();
         $currentDateTime->setTimestamp($dateTime);
         $this->setHiddenAppointmentStartTime($currentDateTime);
@@ -193,7 +193,7 @@ class Booking
      */
     public function createAppointmentEndTime()
     {
-        $dateTime = strtotime("+" . $this->getEndTimeslot()->getWeight() - 1 . " hour", $this->getAppointmentDate()->format('U'));
+        $dateTime = strtotime("+" . $this->getEndTimeslot()->getWeight() * 900 . " seconds", $this->getAppointmentDate()->format('U'));
         $currentDateTime = new \DateTime();
         $currentDateTime->setTimestamp($dateTime);
         $this->setHiddenAppointmentEndTime($currentDateTime);
