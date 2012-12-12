@@ -185,4 +185,17 @@ final class CustomerManager
         return $user;
     }
 
+    /**
+     * Get all customers query
+     *
+     * @param array $options
+     * @return Doctrine Query
+     */
+    public function listAll($options = array())
+    {
+        return $this->em
+                ->getRepository('SkedAppCoreBundle:Customer')
+                ->getAllActiveCustomersQuery($options);
+    }
+
 }

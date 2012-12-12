@@ -1,3 +1,13 @@
+sked_app_customer_list:
+    pattern:  /customer/list
+    defaults: { _controller: SkedAppCustomerBundle:Customer:list }
+
+sked_app_customer_show:
+    pattern:  /customer/show/{id}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:show }
+    requirements:
+        id:  \d+I am too tired
+        
 sked_app_customer_register:
     pattern:  /customer/register
     defaults: { _controller: SkedAppCustomerBundle:Customer:register }

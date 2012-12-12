@@ -12,4 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class CustomerRepository extends EntityRepository
 {
+
+    /**
+     * Get all active customers query
+     *
+     * @author Ronald Conco <ronald.conco@kaizania.com>
+     * @return Resultset
+     */
+    public function getAllActiveCustomersQuery($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'c.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $qb = $this->createQueryBuilder('c')->select('c');
+        $qb->where('c.isDeleted =  :status')->setParameter('status', false);
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
 }

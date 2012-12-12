@@ -21,6 +21,39 @@ class CustomerController extends Controller
 {
 
     /**
+     * list customers
+     *
+     * @return View
+     * @throws AccessDeniedException
+     *
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function listAction($page = 1)
+    {
+
+        $this->get('logger')->info('list customers');
+
+        $sort = $this->get('request')->query->get('sort');
+        $direction = $this->get('request')->query->get('direction', 'desc');
+
+        $options = array('sort' => $sort,
+            'direction' => $direction
+        );
+
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $this->container->get('customer.manager')->listAll($options), $this->getRequest()->query->get('page', $page), 10
+        );
+
+        return $this->render('SkedAppCustomerBundle:Customer:list.html.twig', array(
+                'pagination' => $pagination,
+                'sort_img' => '/img/sort_' . $direction . '.png',
+                'sort' => $direction,
+            ));
+    }    
+    
+    /**
      * Register an account
      * 
      * @return Response
