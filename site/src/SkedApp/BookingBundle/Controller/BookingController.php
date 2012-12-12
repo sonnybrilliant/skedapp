@@ -101,37 +101,17 @@ class BookingController extends Controller
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
+                    $options = array(
+                      'booking' => $booking,
+                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)  
+                    );
+                    
                     //send emails
-                    $admins = $this->container->get("member.manager")
-                        ->getServiceProviderAdmin($booking->getConsultant()->getCompany()->getId());
-
-                    if ($admins) {
-                        foreach ($admins as $admin) {
-                            $tmp = array(
-                                'fullName' => $admin->getFirstName() . ' ' . $admin->getLastName(),
-                                'consultantName' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
-                                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId'=>$booking->getId()),true)
-                            );
-
-                            
-                            $emailBodyHtml = $this->render(
-                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.html.twig', $tmp
-                            )->getContent();
-
-                            $emailBodyTxt = $this->render(
-                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.txt.twig', $tmp
-                            )->getContent();
-
-                            $options['bodyHTML'] = $emailBodyHtml;
-                            $options['bodyTEXT'] = $emailBodyTxt;
-                            $options['bodyTEXT'] = 'hello';
-                            $options['email'] = $admin->getEmail();
-                            $options['fullName'] = $tmp['fullName'];
-                            
-                            $this->get("notification.manager")->confirmationBookingCompany($options);
-                        }
-                    }
+                    $this->get("notification.manager")->confirmationBookingCompany($options);
+                    $this->get("notification.manager")->confirmationBookingCustomer($options);
+                  
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                    
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);

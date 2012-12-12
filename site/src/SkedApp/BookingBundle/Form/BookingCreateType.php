@@ -77,6 +77,23 @@ class BookingCreateType extends AbstractType
                     }
                 },
             ))
+            ->add('customer', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Customer',
+                'label' => 'Customer:',
+                'empty_value' => 'Select a customer',
+                'attr' => array('class' => 'span4 chosen'),
+                'query_builder' => function(EntityRepository $er) {
+                     return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->andWhere('c.enabled  = :enabled')
+                        ->andWhere('c.isActive  = :isActive')
+                        ->setParameters(array(
+                            'status' => false,
+                            'enabled' => true,
+                            'isActive' => true
+                        ));                    
+                },
+            ))
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
