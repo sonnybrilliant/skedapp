@@ -276,10 +276,10 @@ class Member implements AdvancedUserInterface , \Serializable
     /**
      * Compares this user to another to determine if they are the same.
      *
-     * @param  UserInterface $user The user
+     * @param  AdvancedUserInterface $user The user
      * @return boolean       True if equal, false othwerwise.
      */
-    public function equals(UserInterface $user)
+    public function equals(AdvancedUserInterface $user)
     {
         return md5($this->getUsername()) == md5($user->getUsername());
     }

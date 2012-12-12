@@ -159,9 +159,77 @@ final class EmailerManager
     public function companyBookingCreated($params)
     {
         $this->logger->info('sending new booking for company');
-        $params['subject'] = "New Booking Created";
-        $this->sendMail($params);
+        $options['subject'] = "New Booking Created";
 
+        $admins = $this->container->get("member.manager")
+            ->getServiceProviderAdmin($params['booking']->getConsultant()->getCompany()->getId());
+
+        if ($admins) {
+            foreach ($admins as $admin) {
+                $tmp = array(
+                    'fullName' => $admin->getFirstName() . ' ' . $admin->getLastName(),
+                    'consultantName' => $params['booking']->getConsultant()->getFirstName() . ' ' . $params['booking']->getConsultant()->getLastName(),
+                    'link' => $params['link']
+                );
+
+
+                $emailBodyHtml = $this->template->render(
+                    'SkedAppCoreBundle:EmailTemplates:booking.created.company.html.twig', $tmp
+                );
+
+                $emailBodyTxt = $this->template->render(
+                    'SkedAppCoreBundle:EmailTemplates:booking.created.company.txt.twig', $tmp
+                );
+
+                $options['bodyHTML'] = $emailBodyHtml;
+                $options['bodyTEXT'] = $emailBodyTxt;
+                $options['bodyTEXT'] = 'hello';
+                $options['email'] = $admin->getEmail();
+                $options['fullName'] = $tmp['fullName'];
+
+                $this->sendMail($options);
+            }
+        }
+
+        return;
+    }
+    
+    /**
+     * Send booking confirmation to customers
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function bookingConfirmationCustomer($params)
+    {
+        $this->logger->info("send booking confimation to customer");
+        $options['subject'] = "Your SkedApp booking confirmation";
+
+        $booking = $params['booking'];
+        
+        $tmp = array(
+            'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
+            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
+            'service' => $booking->getService()->getName(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['bodyTEXT'] = 'hello';
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
         return;
     }
 

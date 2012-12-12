@@ -17,6 +17,13 @@
             </div>
        </div>
       </div>      
+      <div class="control-group {% if form_errors(form.customer) %} error {% endif %}">
+        <label class="control-label" for="customer">{{ form_label(form.customer) }}</label>
+        <div class="controls">
+          {{ form_widget(form.customer) }} 
+          <span class="help-inline">{{form_errors(form.customer)}}</span>  
+        </div>
+      </div>
       <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
         <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
         <div class="controls">

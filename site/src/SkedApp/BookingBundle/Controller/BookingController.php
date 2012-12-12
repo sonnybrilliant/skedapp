@@ -101,37 +101,17 @@ class BookingController extends Controller
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
+                    $options = array(
+                      'booking' => $booking,
+                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                    );
+
                     //send emails
-                    $admins = $this->container->get("member.manager")
-                        ->getServiceProviderAdmin($booking->getConsultant()->getCompany()->getId());
+                    $this->get("notification.manager")->confirmationBookingCompany($options);
+                    $this->get("notification.manager")->confirmationBookingCustomer($options);
 
-                    if ($admins) {
-                        foreach ($admins as $admin) {
-                            $tmp = array(
-                                'fullName' => $admin->getFirstName() . ' ' . $admin->getLastName(),
-                                'consultantName' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
-                                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId'=>$booking->getId()),true)
-                            );
-
-
-                            $emailBodyHtml = $this->render(
-                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.html.twig', $tmp
-                            )->getContent();
-
-                            $emailBodyTxt = $this->render(
-                                'SkedAppCoreBundle:EmailTemplates:booking.created.company.txt.twig', $tmp
-                            )->getContent();
-
-                            $options['bodyHTML'] = $emailBodyHtml;
-                            $options['bodyTEXT'] = $emailBodyTxt;
-                            $options['bodyTEXT'] = 'hello';
-                            $options['email'] = $admin->getEmail();
-                            $options['fullName'] = $tmp['fullName'];
-
-                            $this->get("notification.manager")->confirmationBookingCompany($options);
-                        }
-                    }
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
@@ -343,8 +323,15 @@ class BookingController extends Controller
             //Store the details in the URL
 
             return $this->redirect($this->generateUrl('_security_login',
-                    array ('company_id' => $companyId, 'consultant_id' => $consultantId, 'date' => $date->format('d-m-Y'), 'timeslot_start' => $timeSlotStart, 'service_ids' => implode(',$serviceIds', $serviceIds), ))
-                    );
+                    array (
+                        'booking_attempt' => 1,
+                        'company_id' => $companyId,
+                        'consultant_id' => $consultantId,
+                        'booking_date' => $date,
+                        'timeslot_start' => $timeSlotStart,
+                        'service_ids' => implode(',$serviceIds', $serviceIds),
+                        )
+                    ));
         }
 
         $booking = new Booking();
