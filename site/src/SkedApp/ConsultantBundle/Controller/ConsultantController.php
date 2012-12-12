@@ -43,7 +43,6 @@ class ConsultantController extends Controller
             'direction' => $direction
         );
 
-
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $this->container->get('consultant.manager')->listAll($options), $this->getRequest()->query->get('page', $page), 10
@@ -483,12 +482,31 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        $form = $this->createForm(new SearchType());
+        $arrSearch = $this->getRequest()->get('Search');
+        $objDateSelected = new \DateTime($arrSearch['booking_date']);
+
+        $form = $this->createForm(new SearchType(0, $objDateSelected->format('d-m-Y')));
 
         $form->bindRequest($this->getRequest());
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.day.html.twig',
-                array('consultant' => $consultant, 'print_bookings' => true, 'form' => $form->createView()));
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objDateSelected->setTime(0, 0, 0), $objDateSelected->setTime(23, 59, 59));
+
+        $arrTwigOptions = array(
+                    'consultant' => $consultant,
+                    'print_bookings' => true,
+                    'form' => $form->createView(),
+                    'bookings' => $bookings,
+                    'selected_date' => $objDateSelected->format('d-m-Y'),
+                    'print' => $this->getRequest()->get('print_out', 0)
+                );
+
+        if ($this->getRequest()->get('print_out', 0) <= 0) {
+            $twigName = 'SkedAppConsultantBundle:Consultant:show.bookings.day.html.twig';
+        } else {
+            $twigName = 'SkedAppConsultantBundle:Consultant:print.bookings.day.html.twig';
+        }
+
+        return $this->render($twigName, $arrTwigOptions);
     }
 
 }

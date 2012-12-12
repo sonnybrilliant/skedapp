@@ -1,4 +1,4 @@
-{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% extends "SkedAppConsultantBundle::layout.print.html.twig" %}
 
 {% block title %}Print booking details{% endblock %}
 
@@ -13,26 +13,20 @@
 
 {% block body %}
 <div class="container">
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-       {% if is_granted('ROLE_ADMIN') %}
-            {% include "::menu.html.twig" %}
-       {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant } %}
-       {% endif %}
-    </div>
-    {% endblock menu %}
     {% block content %}
             <div class="span8">
                 <h4>Print my bookings</h4>
                 <br />
+            </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
 
-        {#start form display===============================#}
-            {% include "SkedAppSearchBundle:Search:form.search.date.html.twig" %}
-        {#end form display===============================#}
+        {% if not print %}
+            {#start form display===============================#}
+                {% include "SkedAppSearchBundle:Search:form.search.date.html.twig" %}
+            {#end form display===============================#}
+        {% endif %}
 
         {% include "SkedAppBookingBundle:Booking:list.print.html.twig" %}
 
