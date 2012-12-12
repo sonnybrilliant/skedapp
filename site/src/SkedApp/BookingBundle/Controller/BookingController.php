@@ -113,7 +113,7 @@ class BookingController extends Controller
                                 'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId'=>$booking->getId()),true)
                             );
 
-                            
+
                             $emailBodyHtml = $this->render(
                                 'SkedAppCoreBundle:EmailTemplates:booking.created.company.html.twig', $tmp
                             )->getContent();
@@ -127,7 +127,7 @@ class BookingController extends Controller
                             $options['bodyTEXT'] = 'hello';
                             $options['email'] = $admin->getEmail();
                             $options['fullName'] = $tmp['fullName'];
-                            
+
                             $this->get("notification.manager")->confirmationBookingCompany($options);
                         }
                     }
@@ -284,7 +284,7 @@ class BookingController extends Controller
 
     /**
      *  Get active bookings
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function ajaxGetBookingsAction()
@@ -337,6 +337,15 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking public');
 
         $user = $this->get('member.manager')->getLoggedInUser();
+
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            //User is not logged in
+            //Store the details in the URL
+
+            return $this->redirect($this->generateUrl('_security_login',
+                    array ('company_id' => $companyId, 'consultant_id' => $consultantId, 'date' => $date->format('d-m-Y'), 'timeslot_start' => $timeSlotStart, 'service_ids' => implode(',$serviceIds', $serviceIds), ))
+                    );
+        }
 
         $booking = new Booking();
 
