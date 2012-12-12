@@ -35,10 +35,23 @@ class SecurityController extends Controller
         $token = new DefaultCsrfProvider($this->container->getParameter('secret'));
         $csrf = $token->generateCsrfToken(md5(time()));
 
+        $bookingAttempt = $this->getRequest()->get('booking_attempt', 0);
+        $companyId = $this->getRequest()->get('company_id', 0);
+        $consultantId = $this->getRequest()->get('consultant_id', 0);
+        $date = $this->getRequest()->get('booking_date', 'nodate');
+        $timeSlotStart = $this->getRequest()->get('timeslot_start', 0);
+        $serviceIds = $this->getRequest()->get('service_ids', 0);
+
         return $this->render('SkedAppCoreBundle:Security:login.html.twig', array(
           'last_username' => $this->getRequest()->getSession()->get(SecurityContext::LAST_USERNAME),
           'error' => $error,
-          'csrf_token' => $csrf
+          'csrf_token' => $csrf,
+          'booking_attempt' => $bookingAttempt,
+          'company_id' => $companyId,
+          'consultant_id' => $consultantId,
+          'booking_date' => $date,
+          'timeslot_start' => $timeSlotStart,
+          'service_ids' => $serviceIds,
         ));
     }
 

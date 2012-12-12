@@ -103,15 +103,15 @@ class BookingController extends Controller
                         'success', 'Created booking sucessfully');
                     $options = array(
                       'booking' => $booking,
-                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)  
+                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
-                    
+
                     //send emails
                     $this->get("notification.manager")->confirmationBookingCompany($options);
                     $this->get("notification.manager")->confirmationBookingCustomer($options);
-                  
+
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
-                    
+
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
@@ -264,7 +264,7 @@ class BookingController extends Controller
 
     /**
      *  Get active bookings
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function ajaxGetBookingsAction()
@@ -317,6 +317,22 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking public');
 
         $user = $this->get('member.manager')->getLoggedInUser();
+
+        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            //User is not logged in
+            //Store the details in the URL
+
+            return $this->redirect($this->generateUrl('_security_login',
+                    array (
+                        'booking_attempt' => 1,
+                        'company_id' => $companyId,
+                        'consultant_id' => $consultantId,
+                        'booking_date' => $date,
+                        'timeslot_start' => $timeSlotStart,
+                        'service_ids' => implode(',$serviceIds', $serviceIds),
+                        )
+                    ));
+        }
 
         $booking = new Booking();
 
