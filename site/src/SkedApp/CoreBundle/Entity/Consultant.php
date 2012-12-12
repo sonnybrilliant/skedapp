@@ -352,7 +352,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
      */
     public function eraseCredentials()
     {
-        
+
     }
 
     /**
@@ -1085,7 +1085,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -1108,7 +1108,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -1131,7 +1131,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -1154,7 +1154,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get salt
      *
-     * @return string 
+     * @return string
      */
     public function getSalt()
     {
@@ -1177,7 +1177,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -1200,7 +1200,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get expired
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getExpired()
     {
@@ -1223,7 +1223,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get lastLogin
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLogin()
     {
@@ -1246,7 +1246,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get expiresAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getExpiresAt()
     {
@@ -1269,7 +1269,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get confirmationToken
      *
-     * @return string 
+     * @return string
      */
     public function getConfirmationToken()
     {
@@ -1292,7 +1292,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get passwordRequestedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getPasswordRequestedAt()
     {
@@ -1325,13 +1325,13 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * Get consultantRoles
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getConsultantRoles()
     {
         return $this->consultantRoles;
     }
-    
+
         /**
      * @see \Serializable::serialize()
      */
@@ -1351,7 +1351,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
             $this->id,
         ) = unserialize($serialized);
     }
-    
+
     public function isAccountNonExpired()
     {
         return true;
@@ -1370,6 +1370,22 @@ class Consultant implements AdvancedUserInterface , \Serializable
     public function isEnabled()
     {
         return $this->enabled;
+    }
+
+    /**
+     * Get full name of consultant
+     *
+     * @return string
+     */
+    public function getFullName ()
+    {
+        $strOut = $this->firstName;
+
+        if (strlen ($this->lastName) > 0)
+                $strOut .= ' ' . $this->lastName;
+
+        return $strOut;
+
     }
 
 }
