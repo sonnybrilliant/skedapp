@@ -141,11 +141,17 @@ final class MemberManager
 
         foreach ($group->getRoles() as $role) {
 
+            
             if ("ROLE_ADMIN" == $role->getName()) {
-                $member->setIsAdmin(true);
+                if($params['isAdmin']){
+                    $member->setIsAdmin(true);
+                    $member->addMemberRole($role); 
+                }                
+            }else{
+               $member->addMemberRole($role); 
             }
 
-            $member->addMemberRole($role);
+            
         }
 
         $this->em->persist($member);
