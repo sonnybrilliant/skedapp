@@ -408,7 +408,7 @@ class BookingController extends Controller
 
                 if ($isValid) {
 
-//                    $booking->setStatus($this->get('status.manager')->confirmed());
+                    $booking->setCustomer($user);
 
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
