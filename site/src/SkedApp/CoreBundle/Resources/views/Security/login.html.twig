@@ -13,7 +13,11 @@
         </div>
         {% endif %}
 
-        <form class="form-horizontal" action="{{ path('_security_check', {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}" method="POST">
+        {% if booking_attempt is defined %}
+            <form class="form-horizontal" action="{{ path('_security_check', {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}" method="POST">
+        {% else %}
+            <form class="form-horizontal" action="{{ path('_security_check') }}" method="POST">
+        {%  %}
             <legend><span class="label label-info">Info</span> <small>All form fields are required.</small></legend>
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
             <fieldset>
