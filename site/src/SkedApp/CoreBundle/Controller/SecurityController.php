@@ -42,16 +42,19 @@ class SecurityController extends Controller
         $timeSlotStart = $this->getRequest()->get('timeslot_start', 0);
         $serviceIds = $this->getRequest()->get('service_ids', 0);
 
+        $bookingParameters = array ('booking_attempt' => $bookingAttempt,
+            'company_id' => $companyId,
+            'consultant_id' => $consultantId,
+            'booking_date' => $date,
+            'timeslot_start' => $timeSlotStart,
+            'service_ids' => $serviceIds);
+
+        $_SESSION['booking_params'] = serialize($bookingParameters);
+
         return $this->render('SkedAppCoreBundle:Security:login.html.twig', array(
           'last_username' => $this->getRequest()->getSession()->get(SecurityContext::LAST_USERNAME),
           'error' => $error,
           'csrf_token' => $csrf,
-          'booking_attempt' => $bookingAttempt,
-          'company_id' => $companyId,
-          'consultant_id' => $consultantId,
-          'booking_date' => $date,
-          'timeslot_start' => $timeSlotStart,
-          'service_ids' => $serviceIds,
         ));
     }
 

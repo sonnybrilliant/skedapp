@@ -407,7 +407,18 @@ class BookingController extends Controller
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
+
+                    $options = array(
+                      'booking' => $booking,
+                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                    );
+
+                    //send emails
+                    $this->get("notification.manager")->confirmationBookingCompany($options);
+                    $this->get("notification.manager")->confirmationBookingCustomer($options);
+
                     return $this->redirect($this->generateUrl('sked_app_search_index'));
+
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
