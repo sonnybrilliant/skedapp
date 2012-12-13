@@ -1,0 +1,21 @@
+
+{% extends "SkedAppCustomerBundle::layout.html.twig" %}
+{% block title %}My bookings{% endblock %}
+
+{% block body %}
+    {% block menu %}
+     <div class="span3 bs-docs-sidenav">
+           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer } %} 
+     </div>       
+    {% endblock menu %}    
+    {% block content %}
+     <div class="span9">
+        <h3>My bookings</h3>
+        <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+            {% include "SkedAppCustomerBundle:Customer:bookings.list.table.html.twig" %}
+     </div>  
+    {% endblock content %}   
+{% endblock body %}

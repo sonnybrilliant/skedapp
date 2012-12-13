@@ -124,6 +124,11 @@ class Customer implements AdvancedUserInterface, \Serializable
     protected $customerRoles;
 
     /**
+     * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Booking", mappedBy="customer")
+     */
+    protected $bookings;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="enabled", type="boolean")
@@ -366,12 +371,12 @@ class Customer implements AdvancedUserInterface, \Serializable
     {
         return $this->salt;
     }
-    
+
     public function getCaptcha()
     {
         return $this->captcha;
     }
-    
+
     public function setCaptcha($captcha)
     {
         $this->captcha = $captcha;
@@ -995,4 +1000,37 @@ class Customer implements AdvancedUserInterface, \Serializable
         return $this->customerRoles;
     }
 
+
+    /**
+     * Add bookings
+     *
+     * @param \SkedApp\CoreBundle\Entity\Booking $bookings
+     * @return Customer
+     */
+    public function addBooking(\SkedApp\CoreBundle\Entity\Booking $bookings)
+    {
+        $this->bookings[] = $bookings;
+    
+        return $this;
+    }
+
+    /**
+     * Remove bookings
+     *
+     * @param \SkedApp\CoreBundle\Entity\Booking $bookings
+     */
+    public function removeBooking(\SkedApp\CoreBundle\Entity\Booking $bookings)
+    {
+        $this->bookings->removeElement($bookings);
+    }
+
+    /**
+     * Get bookings
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBookings()
+    {
+        return $this->bookings;
+    }
 }

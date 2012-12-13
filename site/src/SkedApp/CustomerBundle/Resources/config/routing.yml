@@ -1,3 +1,25 @@
+sked_app_customer_list:
+    pattern:  /customer/list
+    defaults: { _controller: SkedAppCustomerBundle:Customer:list }
+
+sked_app_customer_show:
+    pattern:  /customer/show/{id}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:show }
+    requirements:
+        id:  \d+
+
+sked_app_customer_delete:
+    pattern:  /customer/delete/{id}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:delete }
+    requirements:
+        id:  \d+
+
+sked_app_customer_list_bookings:
+    pattern:  /customer/bookings/list/{id}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:listBookings }
+    requirements:
+        id:  \d+
+        
 sked_app_customer_register:
     pattern:  /customer/register
     defaults: { _controller: SkedAppCustomerBundle:Customer:register }

@@ -35,6 +35,38 @@ class BookingRepository extends EntityRepository
     }
 
     /**
+     * Get all customer bookings
+     *
+     * @return array
+     */
+    public function getAllCustomerBooking($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'b.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $qb = $this->createQueryBuilder('b')->select('b');
+        $qb->where('b.isDeleted =  :delete')
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.customer = :customer")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'customer' => $options['customer']
+            ));
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+    /**
      * Get consultant all bookings
      *
      * @return array
@@ -109,7 +141,34 @@ class BookingRepository extends EntityRepository
                 ))
                 ->getResult();
     }
-
+    
+    /**
+     * Get all active tomorrow bookings
+     * 
+     * @return array
+     */
+    public function getAllTomorrowsBookings()
+    {
+        $currentDate = strtotime("+1 day");
+        $tomorrowDate = new \DateTime();
+        $tomorrowDate->setTimestamp($currentDate);
+        
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.isDeleted = ?1 AND b.isActive = ?2 
+                AND b.isCancelled = ?3 AND b.isReminderSent = ?4
+                AND b.appointmentDate = ?5";
+        return $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => false,
+                    5=> $tomorrowDate->format("Y-m-d")
+                ))
+                ->getResult();
+        
+    }
+    
     /**
      * Get available booking slots for consultant
      *

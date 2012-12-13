@@ -87,6 +87,14 @@ class BookingController extends Controller
                 $isValid = true;
                 $errMsg = "";
 
+                if (!$booking->getIsLeave()) {
+                    //service must be seletced
+                    if (!$booking->getService()) {
+                        $errMsg = "Please select a service";
+                        $isValid = false;
+                    }
+                }
+
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
                     $isValid = false;
@@ -102,8 +110,8 @@ class BookingController extends Controller
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
                     $options = array(
-                      'booking' => $booking,
-                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                        'booking' => $booking,
+                        'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
                     //send emails
@@ -111,7 +119,6 @@ class BookingController extends Controller
                     $this->get("notification.manager")->confirmationBookingCustomer($options);
 
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
-
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
@@ -322,8 +329,7 @@ class BookingController extends Controller
             //User is not logged in
             //Store the details in the URL
 
-            return $this->redirect($this->generateUrl('_security_login',
-                    array (
+            return $this->redirect($this->generateUrl('_security_login', array(
                         'booking_attempt' => 1,
                         'company_id' => $companyId,
                         'consultant_id' => $consultantId,
@@ -436,6 +442,34 @@ class BookingController extends Controller
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
             ));
+    }
+
+    /**
+     * Edit booking
+     *
+     * @param integer $bookingId
+     * @return Response
+     */
+    public function cancelBookingAction($bookingId)
+    {
+        $this->get('logger')->info('cancel booking id:' . $bookingId);
+
+        try {
+
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $customer = $booking->getCustomer();
+            $this->get('booking.manager')->cancelBooking($booking);
+
+            //send cofirmation emails
+            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$bookingId invalid");
+            $this->createNotFoundException($e->getMessage());
+        }
+
+        $this->getRequest()->getSession()->setFlash(
+            'success', 'Booking cancellation sucessfully');
+        return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
     }
 
 }

@@ -1,0 +1,22 @@
+{% extends "SkedAppCustomerBundle::layout.html.twig" %}
+{% block title %}Customer details{% endblock %}
+
+{% block body %}
+    {% block menu %}
+    <div class="span3 bs-docs-sidenav">
+         {% include "::menu.html.twig" %} 
+    </div>       
+    {% endblock menu %}    
+    {% block content %}
+    <div class="span9">
+        <h3>Customer details</h3>
+        <br />
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+        {#start form display===============================#}
+            {% include "SkedAppCustomerBundle:Customer:form.show.html.twig" %}
+        {#end form display===============================#}   
+    </div>  
+    {% endblock content %}   
+{% endblock body %}

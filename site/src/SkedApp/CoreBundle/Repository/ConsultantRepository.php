@@ -32,10 +32,10 @@ class ConsultantRepository extends EntityRepository
                 $options[$key] = $defaultOptions[$key];
         }
 
-        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
-        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
-        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
-        return $objQueuryBuilder->getQuery()->execute();
+        $qb = $this->createQueryBuilder('c')->select('c');
+        $qb->where('c.isDeleted =  :status')->setParameter('status', false);
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
     }
 
     /**
@@ -70,34 +70,28 @@ class ConsultantRepository extends EntityRepository
         $config->addCustomNumericFunction('RADIANS', 'DoctrineExtensions\Query\Mysql\Radians');
         $config->addCustomNumericFunction('SIN', 'DoctrineExtensions\Query\Mysql\Sin');
 
-//        $dql = "SELECT c
-//            FROM SkedAppCoreBundle:Consultant c
-//            INNER JOIN c.company comp
-//            INNER JOIN c.consultantServices s";
-//        return $this->getEntityManager()->createQuery($dql)->getResult();
-
-        $objQueuryBuilder = $this->createQueryBuilder('c');
-        $objQueuryBuilder->select('c')
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('c')
                 ->innerJoin ('c.company', 'comp')
                 ->innerJoin ('c.consultantServices', 's');
-        $objQueuryBuilder->where('c.isDeleted =  :status')
+        $qb->where('c.isDeleted =  :status')
                 ->andWhere('( 6371 * ACOS( COS( RADIANS(:latitude) ) * COS( RADIANS( comp.lat ) ) * COS( RADIANS( comp.lng ) - RADIANS(:longitude) ) '
                     . ' + SIN( RADIANS(:latitude) ) * SIN( RADIANS( comp.lat ) ) ) ) <= :radius')
                 ->setParameters(array ('status' => false, 'latitude' => $options['lat'], 'longitude' => $options['lng'], 'radius' => $options['radius']));
 
         if ($options['categoryId'] > 0) {
-            $objQueuryBuilder->andWhere('s.category = :category')
+            $qb->andWhere('s.category = :category')
                     ->setParameter('category', $options['categoryId']);
         }
 
         if ( (count($options['consultantServices']) > 0) && ($options['consultantServices'][0] > 0) ) {
-            $objQueuryBuilder->andWhere('s.id IN (:consultants)')
+            $qb->andWhere('s.id IN (:consultants)')
                     ->setParameter('consultants', $options['consultantServices']);
         }
 
-        $objQueuryBuilder->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
+        $qb->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
 
-        $arrOut = $objQueuryBuilder->getQuery()->execute();
+        $arrOut = $qb->getQuery()->execute();
 
         //Order consultants from nearest to furthest from location
         for ($intCnt1 = 0; $intCnt1 < (count ($arrOut) - 1); $intCnt1++) {
@@ -138,9 +132,9 @@ class ConsultantRepository extends EntityRepository
      */
     public function getAllActiveQuery()
     {
-        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
-        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
-        return $objQueuryBuilder->getQuery()->execute();
+        $qb = $this->createQueryBuilder('c')->select('c');
+        $qb->where('c.isDeleted =  :status')->setParameter('status', false);
+        return $qb->getQuery()->execute();
     }
 
 }

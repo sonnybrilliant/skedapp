@@ -48,6 +48,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-admin'),
+            'isAdmin' => true, 
         );
 
         $memberManagerService->createDefaultMember($adminUserMfana);
@@ -62,6 +63,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-admin'),
+            'isAdmin' => true, 
         );
 
         $savedAdminUserOtto = $memberManagerService->createDefaultMember($adminUserOtto);
@@ -76,6 +78,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-admin'),
+            'isAdmin' => true, 
         );
 
         $memberManagerService->createDefaultMember($adminUserRyan);
@@ -91,6 +94,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-admin'),
+            'isAdmin' => true, 
         );
 
         $memberManagerService->createDefaultMember($adminUserBernard);
@@ -105,6 +109,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-admin'),
+            'isAdmin' => true, 
         );
 
         $memberManagerService->createDefaultMember($adminUserWynand);
@@ -112,13 +117,14 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
          $adminUserBrilliant = array(
             'firstName' => 'Sonny',
             'lastName' => 'Brilliant',
-            'email' => 'mlankag@gmail.com',
+            'email' => 'dev@kaizania.co.za',
             'mobile' => '27713265638',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-admin'),
+            'isAdmin' => false, 
         );
 
         $memberManagerService->createDefaultMember($adminUserBrilliant);
