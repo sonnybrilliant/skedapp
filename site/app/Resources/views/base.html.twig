@@ -32,7 +32,7 @@
                             <a href="{{ path("_security_logout")}}" class="btn btn-primary pull-right"><i class="icon-white icon-off"></i> Logout</a>
                         {% else %}
                             <span class="pull-right">
-                                {% if booking_attempt %}
+                                {% if booking_attempt is defined %}
                                     <a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}">Register</a>
                                 {% else %}
                                     <a href="{{ path("sked_app_customer_register") }}">Register</a>

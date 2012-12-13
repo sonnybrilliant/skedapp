@@ -194,23 +194,23 @@ final class BookingManager
          * confirm if the new appointment start time is equal to the 
          * already booked appointment end time
          */
-        
+
         if (sizeof($results) == 1) {
             $oldBooking = $results[0];
             if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
                 return true;
-            }elseif ($oldBooking->getHiddenAppointmentStartTime()->getTimestamp() == $bookingEndDate->getTimestamp()) {
-               return true; 
+            } elseif ($oldBooking->getHiddenAppointmentStartTime()->getTimestamp() == $bookingEndDate->getTimestamp()) {
+                return true;
             }
         } else if (sizeof($results) > 1) {
             return false;
         } else if (sizeof($results) == 0) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * Get booking for consultant
      * 
@@ -227,7 +227,7 @@ final class BookingManager
 
         return $bookings;
     }
-    
+
     /**
      * Get all tomorrow bookins
      * 
@@ -236,10 +236,44 @@ final class BookingManager
     public function getTomorrowsBookings()
     {
         $this->logger->info("get tomorrows bookings");
-        
-        $bookings =  $bookings = $this->em
-                                      ->getRepository("SkedAppCoreBundle:Booking")
-                                      ->getAllTomorrowsBookings();
+
+        $bookings = $bookings = $this->em
+            ->getRepository("SkedAppCoreBundle:Booking")
+            ->getAllTomorrowsBookings();
         return $bookings;
     }
+
+    /**
+     * Get all bookings
+     *
+     * @return Array
+     */
+    public function getAllCustomerBookings($options)
+    {
+        $this->logger->info("get all customer bookings");
+
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllCustomerBooking($options);
+
+        return $bookings;
+    }
+    
+    /**
+     * Cancel booking
+     * 
+     * @param SkedAppCoreBundle:Booking $booking
+     * @return type
+     */
+    public function cancelBooking($booking)
+    {
+        $this->logger->info("cancel booking");
+        
+        $booking->setIsDeleted(true);
+        $booking->setIsActive(false);
+        $booking->setIsCancelled(true);
+        
+        $this->em->persist($booking);
+        $this->em->flush();
+        return;
+    }
+
 }

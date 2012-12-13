@@ -1,0 +1,44 @@
+<section class="content">
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}
+<form class="display helpers form-horizontal" action="{{ path('sked_app_customer_register_account') }}" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
+        <label class="control-label" for="first_name">{{ form_label(form.firstName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.firstName) }}
+          <span class="help-inline">{{form_errors(form.firstName)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
+        <label class="control-label" for="last_name">{{ form_label(form.lastName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.lastName) }}
+          <span class="help-inline">{{form_errors(form.lastName)}}</span>
+        </div>
+      </div>      
+      <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
+        <label class="control-label" for="mobile_number">{{ form_label(form.mobileNumber) }}</label>
+        <div class="controls">
+          {{ form_widget(form.mobileNumber) }}
+          <span class="help-inline">{{form_errors(form.mobileNumber)}}</span>
+        </div>
+      </div>  
+      <div class="control-group {% if form_errors(form.email) %} error {% endif %}">
+        <label class="control-label" for="email_address">{{ form_label(form.email) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email) }} 
+           <span class="help-inline">{{form_errors(form.email)}}</span>
+        </div>
+      </div>       
+      <div class="form-actions">
+        <a href="{{ path('sked_app_customer_list') }}" class="btn">Back</a>
+      </div>
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+</section>
+{{ form_stylesheet(form) }}
+{{ form_javascript(form) }}
+

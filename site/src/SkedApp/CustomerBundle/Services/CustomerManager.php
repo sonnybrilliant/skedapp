@@ -186,6 +186,26 @@ final class CustomerManager
     }
 
     /**
+     * Delete customer
+     *
+     * @param type $customer
+     * @return void
+     */
+    public function delete($customer)
+    {
+        $this->logger->info('delete customer');
+
+        $customer->setIsDeleted(true);
+        $customer->setIsActive(false);
+        $customer->setIsLocked(true);
+        $customer->setEnabled(false);
+
+        $this->em->persist($customer);
+        $this->em->flush();
+        return;
+    }
+
+    /**
      * Get all customers query
      *
      * @param array $options

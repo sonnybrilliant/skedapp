@@ -267,8 +267,129 @@ final class EmailerManager
 
         $this->sendMail($options);
         return;
+    }   
+    
+    /**
+     * Send booking cancellation to customers
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function bookingCancellationCustomer($params)
+    {
+        $this->logger->info("send booking cancellation confimation to customer");
+        $options['subject'] = "Your SkedApp booking cancellation confirmed";
+
+        $booking = $params['booking'];
+        
+        $tmp = array(
+            'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
+            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
+            'service' => $booking->getService()->getName(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.cancel.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.cancel.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
     }    
 
+     /**
+     * Send booking created e-mail to company
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingCancellationCompany($params)
+    {
+        $this->logger->info('sending new booking for company');
+        $options['subject'] = "Your SkedApp customer booking cancellation confirmed";
+
+        $booking = $params['booking'];
+        
+        $admins = $this->container->get("member.manager")
+            ->getServiceProviderAdmin($params['booking']->getConsultant()->getCompany()->getId());
+
+        if ($admins) {
+            foreach ($admins as $admin) {
+                $tmp = array(
+                    'fullName' => $admin->getFirstName() . ' ' . $admin->getLastName(),
+                    'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
+                    'service' => $booking->getService()->getName(),
+                    'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+                );
+
+
+                $emailBodyHtml = $this->template->render(
+                    'SkedAppCoreBundle:EmailTemplates:booking.cancel.company.html.twig', $tmp
+                );
+
+                $emailBodyTxt = $this->template->render(
+                    'SkedAppCoreBundle:EmailTemplates:booking.cancel.company.txt.twig', $tmp
+                );
+
+                $options['bodyHTML'] = $emailBodyHtml;
+                $options['bodyTEXT'] = $emailBodyTxt;
+                $options['email'] = $admin->getEmail();
+                $options['fullName'] = $tmp['fullName'];
+
+                $this->sendMail($options);
+            }
+        }
+
+        return;
+    }
+   
+     /**
+     * Send booking cancellation to customers
+     * 
+     * @param array $params
+     * @return void
+     */
+    public function bookingCancellationConsultant($params)
+    {
+        $this->logger->info("send booking cancellation confimation to customer");
+        $options['subject'] = "Your SkedApp customer booking cancellation confirmed";
+
+        $booking = $params['booking'];
+        
+        $tmp = array(
+            'fullName' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
+            'service' => $booking->getService()->getName(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.cancel.consultant.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.cancel.consultant.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }     
+    
     /**
      * Send customer account verification after an account register
      *

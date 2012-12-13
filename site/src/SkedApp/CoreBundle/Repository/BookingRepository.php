@@ -35,6 +35,38 @@ class BookingRepository extends EntityRepository
     }
 
     /**
+     * Get all customer bookings
+     *
+     * @return array
+     */
+    public function getAllCustomerBooking($options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'b.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $qb = $this->createQueryBuilder('b')->select('b');
+        $qb->where('b.isDeleted =  :delete')
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.customer = :customer")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'customer' => $options['customer']
+            ));
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+    /**
      * Get consultant all bookings
      *
      * @return array
