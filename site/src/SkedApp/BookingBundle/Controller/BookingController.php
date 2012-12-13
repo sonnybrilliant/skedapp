@@ -429,10 +429,6 @@ class BookingController extends Controller
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
                 }
-            } else {
-
-                echo $appointmentDate->format('Y-m-d') . ' invalid ' . $form->getErrorsAsString();
-                exit;
             }
         } else {
             $this->getRequest()->getSession()->setFlash(

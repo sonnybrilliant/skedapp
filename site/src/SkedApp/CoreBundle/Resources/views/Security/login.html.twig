@@ -49,7 +49,11 @@
             </p>
             <br />
             <p>
+              {% if booking_attempt is defined %}
                 <a href="{{ path('sked_app_member_reset', {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids})}}" >Forgot password</a>
+              {% else %}
+                <a href="{{ path('sked_app_member_reset')}}" >Forgot password</a>
+              {% endif %}
             </p>
         </div>
     </div>
