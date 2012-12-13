@@ -87,6 +87,14 @@ class BookingController extends Controller
                 $isValid = true;
                 $errMsg = "";
 
+                if (!$booking->getIsLeave()) {
+                    //service must be seletced
+                    if (!$booking->getService()) {
+                        $errMsg = "Please select a service";
+                        $isValid = false;
+                    }
+                }
+
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
                     $isValid = false;
@@ -434,25 +442,23 @@ class BookingController extends Controller
     public function cancelBookingAction($bookingId)
     {
         $this->get('logger')->info('cancel booking id:' . $bookingId);
-        
+
         try {
 
             $booking = $this->get('booking.manager')->getById($bookingId);
             $customer = $booking->getCustomer();
             $this->get('booking.manager')->cancelBooking($booking);
-            
-            //send cofirmation emails
-            $this->get('notification.manager')->sendBookingCancellation(array('booking'=>$booking));
 
+            //send cofirmation emails
+            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
         }
-        
+
         $this->getRequest()->getSession()->setFlash(
             'success', 'Booking cancellation sucessfully');
-        return $this->redirect($this->generateUrl('sked_app_customer_list_bookings',array('id'=>$customer->getId())));
-        
+        return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
     }
 
 }
