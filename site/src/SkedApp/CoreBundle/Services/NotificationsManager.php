@@ -81,29 +81,18 @@ final class NotificationsManager
     }
 
     /**
-     * Confirm booking to service provider
+     * Confirm booking 
      * 
      * @param Array $params
      * @return void
      */
-    public function confirmationBookingCompany($params)
+    public function confirmationBooking($params)
     {
-        $this->container->get('email.manager')->companyBookingCreated($params);
-        return;
-    }
-
-    /**
-     * Confirm booking to customer
-     * 
-     * @param array $params
-     * @return void
-     */
-    public function confirmationBookingCustomer($params)
-    {
+        $this->container->get('email.manager')->bookingConfirmationCompany($params);
         $this->container->get('email.manager')->bookingConfirmationCustomer($params);
         return;
     }
-
+    
     /**
      * Confirm booking to service provider
      * 

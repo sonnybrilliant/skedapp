@@ -1,10 +1,17 @@
 SkedApp
 ------------
-Hi {{ fullName }},
+Hi {{ user.firstName }} {{ user.lastName }} ,
 
-Your consultant, {{ consultantName }} has a new booking on SkedApp
+Your consultant, {{ consultant.firstName }} {{ consultant.lastName }} has a new booking on SkedApp
 
-Follow the link below to view the details.
+Booking details are as follows:
+
+Booking date: {{ date }}
+Service : {{ service.name }} 
+Customer name: {{ customer.firstName }} {{ customer.lastName }}
+Customer contact: Tel {{ customer.mobileNumber }} Email {{ customer.email }}
+
+For more details, please follow the link:
 {{ link }}
 
 

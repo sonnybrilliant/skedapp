@@ -156,7 +156,7 @@ final class EmailerManager
      * @param array $params
      * @return void
      */
-    public function companyBookingCreated($params)
+    public function bookingConfirmationCompany($params)
     {
         $this->logger->info('sending new booking for company');
         $options['subject'] = "New Booking Created";
@@ -164,12 +164,17 @@ final class EmailerManager
         $admins = $this->container->get("member.manager")
             ->getServiceProviderAdmin($params['booking']->getConsultant()->getCompany()->getId());
 
+        $booking = $params['booking'];
+        
         if ($admins) {
-            foreach ($admins as $admin) {
+            foreach ($admins as $user) {
                 $tmp = array(
-                    'fullName' => $admin->getFirstName() . ' ' . $admin->getLastName(),
-                    'consultantName' => $params['booking']->getConsultant()->getFirstName() . ' ' . $params['booking']->getConsultant()->getLastName(),
-                    'link' => $params['link']
+                    'user' => $user,
+                    'consultant' => $booking->getConsultant(),
+                    'link' => $params['link'],
+                    'service' => $booking->getService(),
+                    'customer' => $booking->getCustomer(),
+                    'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
                 );
 
 
@@ -183,7 +188,7 @@ final class EmailerManager
 
                 $options['bodyHTML'] = $emailBodyHtml;
                 $options['bodyTEXT'] = $emailBodyTxt;
-                $options['email'] = $admin->getEmail();
+                $options['email'] = $user->getEmail();
                 $options['fullName'] = $tmp['fullName'];
 
                 $this->sendMail($options);
@@ -207,10 +212,11 @@ final class EmailerManager
         $booking = $params['booking'];
         
         $tmp = array(
-            'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
-            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
-            'service' => $booking->getService()->getName(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+            'user' => $booking->getCustomer(),
+            'consultant' => $booking->getConsultant(),
+            'provider' => $booking->getCompany(),
+            'service' => $booking->getService(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
         );
 
 

@@ -1,14 +1,27 @@
 SkedApp
 ------------
-Hi {{ fullName }},
+Hi {{ user.firstName }} {{ user.lastName }},
 
 This is your booking confirmation email.
 
 Your booking details are as follows:
 
-Consultant: {{ consultant }}
-Service to be rendered: {{ service }}
+Consultant: {{ consultant.firstName }} {{ consultant.lastName }}
+Service to be rendered: {{ service.name }} 
 Date: {{ date }}
+
+
+Business contact details:
+{{ provider.name }}
+
+{{ consultant.mobileNumber }}
+{{ provider.address }}
+{{ provider.locality }}
+
+GPS cordinates: 
+lattidude: {{ provider.lat }}
+longitude: {{ provider.lng }}
+
 
 Thank you,
 The SkedApp Team

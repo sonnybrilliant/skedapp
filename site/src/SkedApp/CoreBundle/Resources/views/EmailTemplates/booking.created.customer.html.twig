@@ -59,11 +59,13 @@
             <tr>
                 <td>
                     <h1 style="color: #000; font: bold 23px arial; margin:5px 0;" class="">SkedApp</h1>
-                    <p style="margin-bottom: 6pt;">Hi {{ fullName }},</p>
+                    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }} {{ user.lastName }},</p>
                     <p style="margin-bottom: 6pt;">This is your booking confirmation email.</p>
                     <p style="margin-bottom: 6pt;"></p>
                     <p style="margin-bottom: 6pt;">Your booking details are as follows:</p>
-                    <p style="margin-bottom: 6pt;"><strong>Consultant</strong>: {{ consultant }} <br/> <strong>Service to be tendered </strong>: {{ service }} <br /><strong>Date</strong>: {{ date }}</p>
+                    <p style="margin-bottom: 6pt;"><strong>Consultant</strong>: {{ consultant.firstName }} {{ consultant.lastName }} <br/> <strong>Service to be tendered </strong>: {{ service.name }}  <br /><strong>Date</strong>: {{ date }}<br /></p>
+                    <p style="margin-bottom: 6pt;">Business contact details: <br/> {{ provider.name }} <br /><br /> {{ consultant.mobileNumber }} <br> {{ provider.address }} <br />{{ provider.locality }} <br /></p>
+                    <p style="margin-bottom: 6pt;">GPS cordinates: <br /> lattidude: {{ provider.lat }} <br /> longitude: {{ provider.lng }}</p>
                     <p style="margin-bottom: 6pt;"><br />Thank you,</p>
                     <p style="margin-bottom: 6pt;">The SkedApp Team</p>
                     <table border="0" cellspacing="0" cellpadding="0" style="font-family:Arial;" width="100%" class="responsive">
