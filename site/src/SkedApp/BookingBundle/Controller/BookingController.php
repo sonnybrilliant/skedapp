@@ -407,20 +407,27 @@ class BookingController extends Controller
 
                 if ($isValid) {
 
-//                    $booking->setStatus($this->get('status.manager')->confirmed());
+                    $booking->setCustomer($user);
 
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
+
+                    $options = array(
+                      'booking' => $booking,
+                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                    );
+
+                    //send emails
+                    $this->get("notification.manager")->confirmationBookingCompany($options);
+                    $this->get("notification.manager")->confirmationBookingCustomer($options);
+
                     return $this->redirect($this->generateUrl('sked_app_search_index'));
+
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
                 }
-            } else {
-
-                echo $appointmentDate->format('Y-m-d') . ' invalid ' . $form->getErrorsAsString();
-                exit;
             }
         } else {
             $this->getRequest()->getSession()->setFlash(

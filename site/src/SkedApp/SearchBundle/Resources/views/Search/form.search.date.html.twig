@@ -6,7 +6,7 @@
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
 {% endblock jquery_ui %}
 
-{% if print_bookings %}
+{% if print_bookings is defined %}
   <form class="form-horizontal formSearch" action="{{ path("sked_app_consultant_booking_day_print",{"id":consultant.id}) }}" method="POST" {{ form_enctype(form) }} id="frmDateSelect">
 {% else %}
   <form class="form-horizontal formSearch" action="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'category_id': category_id}) }}" method="POST" {{ form_enctype(form) }} id="frmDateSelect">
