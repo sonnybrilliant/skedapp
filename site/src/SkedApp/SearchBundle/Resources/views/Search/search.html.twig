@@ -1,0 +1,9 @@
+{% extends "SkedAppSearchBundle::layout.html.twig" %}
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+        <div class="span12">
+            <h3>Search results</h3>        
+            {% include "SkedAppSearchBundle:Search:list.table.html.twig" %}
+        </div>  
+{% endblock content %}

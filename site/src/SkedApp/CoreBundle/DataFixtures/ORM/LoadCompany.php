@@ -24,6 +24,12 @@ class LoadCompany extends AbstractFixture implements OrderedFixtureInterface
         $company->setName('Skedapp');
         $company->setAddress('company address');
         $company->setDescription('this is a description');
+        $company->setAddress('Sandton, South Africa');
+        $company->setLocality('Sandton');
+        $company->setCountry('South Africa');
+        $company->setLat('-26.1075261');
+        $company->setLng('28.056656699999962');
+        $company->setContactNumber('0116783454');
         $manager->persist($company) ;
 
         $company_hair = new Company() ;
@@ -35,6 +41,7 @@ class LoadCompany extends AbstractFixture implements OrderedFixtureInterface
         $company_hair->setCountry('South Africa');
         $company_hair->setLat('-26.1075261');
         $company_hair->setLng('28.056656699999962');
+        $company_hair->setContactNumber('0116783454');
         $manager->persist($company_hair) ;
 
         $manager->flush() ;

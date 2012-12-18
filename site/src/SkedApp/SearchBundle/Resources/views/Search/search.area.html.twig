@@ -1,0 +1,22 @@
+<div class="span12">
+    <div class="span5">
+        <br /><br /><br /><br />
+        {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
+    </div>
+    <div class="span6">
+        <div id="Search_map" class="divSearchMap pull-right"></div>        
+    </div>
+</div>
+{% block stylesheets %}
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('/js/search.js') }}"></script>
+{% endblock javascripts %}
+
+{% block jquery_ui %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+{% endblock jquery_ui %}

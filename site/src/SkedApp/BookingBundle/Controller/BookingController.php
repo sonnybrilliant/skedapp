@@ -114,7 +114,7 @@ class BookingController extends Controller
                         'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                    //send emails
+                    //send booking confirmation emails
                     $this->get("notification.manager")->confirmationBooking($options);
                     
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
@@ -418,9 +418,8 @@ class BookingController extends Controller
                       'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                    //send emails
-                    $this->get("notification.manager")->confirmationBookingCompany($options);
-                    $this->get("notification.manager")->confirmationBookingCustomer($options);
+                   //send booking confirmation emails
+                    $this->get("notification.manager")->confirmationBooking($options);
 
                     return $this->redirect($this->generateUrl('sked_app_search_index'));
 

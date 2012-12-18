@@ -60,6 +60,17 @@ class Company
      * @ORM\Column(name="address", type="string", length=150, nullable=false)
      */
     protected $address;
+    
+    /**
+     * @var string
+     *
+     * @Assert\Type(type="numeric", message="Contact number {{ value }} is not a valid {{ type }} mobile number.")
+     * @Assert\MinLength(limit= 10, message="Contactnumber must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 12, message="Contact number has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="contact_number", type="string", length=12 , nullable=true)
+     */
+    protected $contactNumber;    
 
     /**
      * @var string $locality
@@ -633,4 +644,27 @@ class Company
         return $this->isDeleted;
     }
 
+
+    /**
+     * Set contactNumber
+     *
+     * @param string $contactNumber
+     * @return Company
+     */
+    public function setContactNumber($contactNumber)
+    {
+        $this->contactNumber = $contactNumber;
+    
+        return $this;
+    }
+
+    /**
+     * Get contactNumber
+     *
+     * @return string 
+     */
+    public function getContactNumber()
+    {
+        return $this->contactNumber;
+    }
 }

@@ -8,6 +8,13 @@
           <span class="help-inline">{{form_errors(form.name)}}</span>
         </div>
       </div>
+      <div class="control-group {% if form_errors(form.contactNumber) %} error {% endif %}">
+        <label class="control-label" for="company_contact_number">{{ form_label(form.contactNumber) }}</label>
+        <div class="controls">
+          {{ form_widget(form.contactNumber) }}
+          <span class="help-inline">{{form_errors(form.contactNumber)}}</span>
+        </div>
+      </div>      
       <div class="control-group {% if form_errors(form.picture) %} error {% endif %}">
         <label class="control-label" for="picture">{{ form_label(form.picture) }}</label>
         <div class="controls">

@@ -23,12 +23,12 @@ class SearchController extends Controller
 {
 
     /**
-     * list consultants
+     * ssearch results
      *
      * @return View
      * @throws AccessDeniedException
      */
-    public function indexAction($page = 1)
+    public function resultsAction($page = 1)
     {
 
         $this->get('logger')->info('search results');
@@ -42,40 +42,41 @@ class SearchController extends Controller
 
 
         //Instantiate search form
+        $formData = $this->getRequest()->get('Search');
 
-        $arrFormValues = $this->getRequest()->get('Search');
+        if (!isset($formData['booking_date'])){
+          $formData['booking_date'] = $this->getRequest()->get('date', '');
+        }
 
-        if (!isset($arrFormValues['booking_date']))
-          $arrFormValues['booking_date'] = $this->getRequest()->get('date', '');
+        if (!isset($formData['lat'])){
+          $formData['lat'] = $this->getRequest()->get('pos_lat', null);
+        }
+        
+        if (!isset($formData['lng']))
+          $formData['lng'] = $this->getRequest()->get('pos_lng', null);
 
-        if (!isset($arrFormValues['lat']))
-          $arrFormValues['lat'] = $this->getRequest()->get('pos_lat', null);
+        if (!isset ($formData['consultantServices']))
+            $formData['consultantServices'] = $this->getRequest()->get('service_ids', array());
+        if (!is_array($formData['consultantServices']))
+            $formData['consultantServices'] = explode(',', $formData['consultantServices']);
 
-        if (!isset($arrFormValues['lng']))
-          $arrFormValues['lng'] = $this->getRequest()->get('pos_lng', null);
+        if (!isset ($formData['category']))
+            $formData['category'] = $this->getRequest()->get('category_id', 0);
 
-        if (!isset ($arrFormValues['consultantServices']))
-            $arrFormValues['consultantServices'] = $this->getRequest()->get('service_ids', array());
-        if (!is_array($arrFormValues['consultantServices']))
-            $arrFormValues['consultantServices'] = explode(',', $arrFormValues['consultantServices']);
+        $form = $this->createForm(new SearchType($formData['category'], $formData['booking_date']));
 
-        if (!isset ($arrFormValues['category']))
-            $arrFormValues['category'] = $this->getRequest()->get('category_id', 0);
-
-        $form = $this->createForm(new SearchType($arrFormValues['category'], $arrFormValues['booking_date']));
-
-        if ( (!is_null($arrFormValues['lat'])) && (!is_null($arrFormValues['lng'])) && ($arrFormValues['category'] > 0) ) {
+        if ( (!is_null($formData['lat'])) && (!is_null($formData['lng'])) && ($formData['category'] > 0) ) {
 
             if ($this->getRequest()->getMethod() == 'POST')
                 $form->bindRequest($this->getRequest());
 
-            $options['lat'] = $arrFormValues['lat'];
-            $options['lng'] = $arrFormValues['lng'];
+            $options['lat'] = $formData['lat'];
+            $options['lng'] = $formData['lng'];
             $options['radius'] = 5;
-            $options['categoryId'] = $arrFormValues['category'];
+            $options['categoryId'] = $formData['category'];
 
-            if ( (isset ($arrFormValues['consultantServices'])) && (count($arrFormValues['consultantServices']) > 0) )
-              $options['consultantServices'] = $arrFormValues['consultantServices'];
+            if ( (isset ($formData['consultantServices'])) && (count($formData['consultantServices']) > 0) )
+              $options['consultantServices'] = $formData['consultantServices'];
 
         }
 
@@ -86,7 +87,7 @@ class SearchController extends Controller
             $arrResults['arrResult'], $this->getRequest()->query->get('page', $page), 10
         );
 
-        $objDate = new \DateTime($arrFormValues['booking_date']);
+        $objDate = new \DateTime($formData['booking_date']);
 
         if ($objDate->getTimestamp() <= 0)
             $objDate = new \DateTime();
@@ -94,21 +95,21 @@ class SearchController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         foreach ($pagination as $objConsultant) {
-            $objDateSend = new \DateTime($arrFormValues['booking_date']);
+            $objDateSend = new \DateTime($formData['booking_date']);
             $objConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($objConsultant, $objDateSend));
         }
 
-        return $this->render('SkedAppSearchBundle:Search:index.html.twig', array(
+        return $this->render('SkedAppSearchBundle:Search:search.html.twig', array(
                 'pagination' => $pagination,
                 'sort_img' => '/img/sort_' . $direction . '.png',
                 'sort' => $direction,
                 'form' => $form->createView(),
-                'intPositionLat' => $arrFormValues['lat'],
-                'intPositionLong' => $arrFormValues['lng'],
+                'intPositionLat' => $formData['lat'],
+                'intPositionLong' => $formData['lng'],
                 'objDate' => $objDate,
                 'dateFull' => $objDate->format('d-m-Y'),
-                'category_id' => $arrFormValues['category'],
-                'serviceIds' => implode(',', $arrFormValues['consultantServices'])
+                'category_id' => $formData['category'],
+                'serviceIds' => implode(',', $formData['consultantServices'])
             ));
     }
 

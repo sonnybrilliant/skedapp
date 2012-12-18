@@ -214,7 +214,7 @@ final class EmailerManager
         $tmp = array(
             'user' => $booking->getCustomer(),
             'consultant' => $booking->getConsultant(),
-            'provider' => $booking->getCompany(),
+            'provider' => $booking->getConsultant()->getCompany(),
             'service' => $booking->getService(),
             'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
         );

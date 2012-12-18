@@ -57,6 +57,10 @@ class CompanyCreateType extends AbstractType
                 'read_only'      => true,
                 'attr' => array('class' => 'span4')
             ))
+            ->add('contactNumber', 'text', array(
+                'label' => 'Contact number:',
+                'attr' => array('class' => 'span4')
+            ))
             ->add('lat', null, array(
                 'required'      => false,
                 'read_only'      => true,
