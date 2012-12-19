@@ -327,8 +327,6 @@ class BookingController extends Controller
 
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             //User is not logged in
-            //Store the details in the URL
-
             return $this->redirect($this->generateUrl('_security_login', array(
                         'booking_attempt' => 1,
                         'company_id' => $companyId,

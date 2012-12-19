@@ -86,6 +86,21 @@ class CustomerController extends Controller
      */
     public function listBookingsAction($id,$page=1)
     {
+
+        $bookingParameters = unserialize($_SESSION['booking_params']);
+
+        if ( (is_array($bookingParameters)) && ($bookingParameters['booking_attempt'] == 1) ) {
+            $_SESSION['booking_params'] = null;
+            return $this->redirect($this->generateUrl('sked_app_booking_make', array(
+                    'companyId' => $bookingParameters['company_id'],
+                    'consultantId' => $bookingParameters['consultant_id'],
+                    'date' => $bookingParameters['booking_date'],
+                    'timeSlotStart' => $bookingParameters['timeslot_start'],
+                    'serviceIds' => $bookingParameters['service_ids'],
+                )
+                    ));
+        }
+
         $this->get('logger')->info('show customers');
 
         try {
@@ -118,7 +133,7 @@ class CustomerController extends Controller
 
     /**
      * Register an account
-     * 
+     *
      * @return Response
      */
     public function registerAction()
@@ -137,7 +152,7 @@ class CustomerController extends Controller
 
     /**
      * Register an account
-     * 
+     *
      * @return Response
      */
     public function registerAccountAction()
@@ -160,7 +175,7 @@ class CustomerController extends Controller
 
                 $this->get('customer.manager')->createCustomer($customer);
 
-                //TODO send email 
+                //TODO send email
                 $tmp = array(
                     'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
                     'link' => $this->generateUrl("sked_app_customer_account_activate", array('token' => $token), true)
@@ -196,7 +211,7 @@ class CustomerController extends Controller
 
     /**
      * Register an account
-     * 
+     *
      * @return Response
      */
     public function registerSuccessAction($email)
@@ -212,7 +227,7 @@ class CustomerController extends Controller
 
     /**
      * Account activate
-     * 
+     *
      * @return Response
      */
     public function accountActivateAction($token)

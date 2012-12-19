@@ -14,6 +14,10 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class DefaultControllerTest extends WebTestCase
 {
+
+    /**
+     * Test the search page and the search results
+     */
     public function testIndex()
     {
 
@@ -51,6 +55,27 @@ class DefaultControllerTest extends WebTestCase
         //we found the expected consultant
         $this->assertEquals(1, $crawler->filter('html:contains("View details")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Sonny")')->count());
+
+    }
+
+    /**
+     * Test the click a time slot to make a booking
+     */
+    public function testMake()
+    {
+
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+        //open search results page
+        $crawler = $client->request('GET', '/booking/make/2/1/' . date('d-m-y') . '/12:00?serviceIds=');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //check if make booking required login
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
 
     }
 
