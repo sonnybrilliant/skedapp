@@ -84,7 +84,7 @@ final class ConsultantManager
 
     /**
      * Get consultant by id
-     * 
+     *
      * @param integer $id
      * @return SkedAppCoreBundle:Consultant
      * @throws \Exception
@@ -121,7 +121,7 @@ final class ConsultantManager
 
     /**
      * Get consultant by token
-     * 
+     *
      * @param string $token
      * @return boolean
      */
@@ -166,6 +166,8 @@ final class ConsultantManager
         $consultant->setFriday($params['friday']);
         $consultant->setSaturday($params['saturday']);
         $consultant->setSunday($params['sunday']);
+        $consultant->setSunday($params['sunday']);
+        $consultant->addConsultantService($params['consultantService']);
 
         $this->em->persist($consultant);
         $this->em->flush();
@@ -251,7 +253,7 @@ final class ConsultantManager
 
     /**
      * Get consultant active bookings
-     * 
+     *
      * @param integer $consultantId
      * @return array
      */

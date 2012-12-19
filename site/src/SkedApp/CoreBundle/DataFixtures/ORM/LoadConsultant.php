@@ -61,11 +61,10 @@ class LoadConsultant extends AbstractFixture implements OrderedFixtureInterface 
                 'saturday' => true,
                 'sunday' => false,
                 'sunday' => false,
+                'consultantService' => $this->getReference('service-womans-cut')
             );
 
         $consultant = $consultantManagerService->createDefaultConsultant($arrConsultant);
-
-        $consultant->addConsultantService($this->getReference('service-womans-cut'));
 
         $this->addReference('consultant-default' , $consultant) ;
     }

@@ -141,10 +141,10 @@ class BookingRepository extends EntityRepository
                 ))
                 ->getResult();
     }
-    
+
     /**
      * Get all active tomorrow bookings
-     * 
+     *
      * @return array
      */
     public function getAllTomorrowsBookings()
@@ -152,9 +152,9 @@ class BookingRepository extends EntityRepository
         $currentDate = strtotime("+1 day");
         $tomorrowDate = new \DateTime();
         $tomorrowDate->setTimestamp($currentDate);
-        
+
         $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
-                WHERE b.isDeleted = ?1 AND b.isActive = ?2 
+                WHERE b.isDeleted = ?1 AND b.isActive = ?2
                 AND b.isCancelled = ?3 AND b.isReminderSent = ?4
                 AND b.appointmentDate = ?5";
         return $this->getEntityManager()->createQuery($dql)
@@ -166,9 +166,9 @@ class BookingRepository extends EntityRepository
                     5=> $tomorrowDate->format("Y-m-d")
                 ))
                 ->getResult();
-        
+
     }
-    
+
     /**
      * Get available booking slots for consultant
      *
@@ -241,7 +241,8 @@ class BookingRepository extends EntityRepository
                     'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j M'), 'booking_taken' => $booking_time_slot,
                     'dow' => $start_time->format('D'),
                     'year' => $start_time->format('Y'),
-                    'date_full' => $start_time->format('j M Y')
+                    'date_full' => $start_time->format('j M Y'),
+                    'date_form' => $start_time->format('d-m-Y')
                 );
 
                 $start_time->modify("+$appointment_duration minute");
