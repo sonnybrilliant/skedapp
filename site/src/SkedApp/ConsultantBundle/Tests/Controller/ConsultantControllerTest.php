@@ -296,4 +296,69 @@ class ConsultantControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('title:contains("List consultants")')->count());
     }
 
+    /**
+     * View consultant test
+     */
+    public function testView()
+    {
+
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+
+        $crawler = $client->request('GET', '/consultant/view/details/1');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //check if words are available on the page
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Sonny")')->count());
+
+    }
+
+    /**
+     * View consultant view of day's bookings
+     */
+    public function testViewPrintableList()
+    {
+
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+
+        $crawler = $client->request('GET', '/consultant/print/details/1');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //check if redirect went to the login screen
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+
+        // select the login form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form with valid credentials
+        $crawler = $client->submit(
+            $form, array(
+            '_username' => 'sonnyhairconsultant',
+            '_password' => '654321',
+            )
+        );
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //check if words are not available on the page
+        $this->assertEquals(0, $crawler->filter('html:contains("Please login")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+
+        $crawler = $client->request('GET', '/consultant/print/details/1');
+
+        //check if print screen displays
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Print my bookings")')->count());
+
+    }
+
 }
