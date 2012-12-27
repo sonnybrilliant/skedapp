@@ -36,7 +36,7 @@ final class EmailerManager
 
     /**
      * Template engine
-     * @var object 
+     * @var object
      */
     private $template;
 
@@ -165,7 +165,7 @@ final class EmailerManager
             ->getServiceProviderAdmin($params['booking']->getConsultant()->getCompany()->getId());
 
         $booking = $params['booking'];
-        
+
         if ($admins) {
             foreach ($admins as $user) {
                 $tmp = array(
@@ -197,10 +197,10 @@ final class EmailerManager
 
         return;
     }
-    
+
     /**
      * Send booking confirmation to customers
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -210,7 +210,7 @@ final class EmailerManager
         $options['subject'] = "Your SkedApp booking confirmation";
 
         $booking = $params['booking'];
-        
+
         $tmp = array(
             'user' => $booking->getCustomer(),
             'consultant' => $booking->getConsultant(),
@@ -236,10 +236,10 @@ final class EmailerManager
         $this->sendMail($options);
         return;
     }
-    
+
     /**
      * Send booking reminder to customers
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -249,7 +249,7 @@ final class EmailerManager
         $options['subject'] = "Your SkedApp booking reminder for tomorrow";
 
         $booking = $params['booking'];
-        
+
         $tmp = array(
             'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
             'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
@@ -259,11 +259,11 @@ final class EmailerManager
 
 
         $emailBodyHtml = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.reminder.customer.html.twig', $tmp
         );
 
         $emailBodyTxt = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.txt.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.reminder.customer.txt.twig', $tmp
         );
 
         $options['bodyHTML'] = $emailBodyHtml;
@@ -273,11 +273,11 @@ final class EmailerManager
 
         $this->sendMail($options);
         return;
-    }   
-    
+    }
+
     /**
      * Send booking cancellation to customers
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -287,7 +287,7 @@ final class EmailerManager
         $options['subject'] = "Your SkedApp booking cancellation confirmed";
 
         $booking = $params['booking'];
-        
+
         $tmp = array(
             'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
             'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
@@ -311,7 +311,7 @@ final class EmailerManager
 
         $this->sendMail($options);
         return;
-    }    
+    }
 
      /**
      * Send booking created e-mail to company
@@ -325,7 +325,7 @@ final class EmailerManager
         $options['subject'] = "Your SkedApp customer booking cancellation confirmed";
 
         $booking = $params['booking'];
-        
+
         $admins = $this->container->get("member.manager")
             ->getServiceProviderAdmin($params['booking']->getConsultant()->getCompany()->getId());
 
@@ -358,10 +358,10 @@ final class EmailerManager
 
         return;
     }
-   
+
      /**
      * Send booking cancellation to customers
-     * 
+     *
      * @param array $params
      * @return void
      */
@@ -371,7 +371,7 @@ final class EmailerManager
         $options['subject'] = "Your SkedApp customer booking cancellation confirmed";
 
         $booking = $params['booking'];
-        
+
         $tmp = array(
             'fullName' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
             'service' => $booking->getService()->getName(),
@@ -394,8 +394,8 @@ final class EmailerManager
 
         $this->sendMail($options);
         return;
-    }     
-    
+    }
+
     /**
      * Send customer account verification after an account register
      *
