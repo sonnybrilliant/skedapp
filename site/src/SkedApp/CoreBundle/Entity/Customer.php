@@ -281,7 +281,7 @@ class Customer implements AdvancedUserInterface, \Serializable
      */
     public function eraseCredentials()
     {
-        
+
     }
 
     /**
@@ -345,7 +345,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get username
      *
-     * @return string 
+     * @return string
      */
     public function getUsername()
     {
@@ -355,7 +355,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -365,7 +365,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get salt
      *
-     * @return string 
+     * @return string
      */
     public function getSalt()
     {
@@ -438,7 +438,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get firstName
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -461,7 +461,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get lastName
      *
-     * @return string 
+     * @return string
      */
     public function getLastName()
     {
@@ -484,7 +484,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -533,7 +533,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get mobileNumber
      *
-     * @return string 
+     * @return string
      */
     public function getMobileNumber()
     {
@@ -569,7 +569,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get enabled
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getEnabled()
     {
@@ -592,7 +592,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get expired
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getExpired()
     {
@@ -615,7 +615,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get lastLogin
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getLastLogin()
     {
@@ -638,7 +638,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get expiresAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getExpiresAt()
     {
@@ -661,7 +661,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get confirmationToken
      *
-     * @return string 
+     * @return string
      */
     public function getConfirmationToken()
     {
@@ -684,7 +684,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get passwordRequestedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getPasswordRequestedAt()
     {
@@ -707,7 +707,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
@@ -730,7 +730,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get isDeleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsDeleted()
     {
@@ -753,7 +753,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get isLocked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsLocked()
     {
@@ -776,7 +776,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get radio
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getRadio()
     {
@@ -799,7 +799,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get internet
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getInternet()
     {
@@ -822,7 +822,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get tv
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTv()
     {
@@ -845,7 +845,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get twitter
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getTwitter()
     {
@@ -868,7 +868,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get facebook
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getFacebook()
     {
@@ -891,7 +891,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get printedMedia
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPrintedMedia()
     {
@@ -914,7 +914,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get wordOfMouth
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getWordOfMouth()
     {
@@ -937,7 +937,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -960,7 +960,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -993,7 +993,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get customerRoles
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCustomerRoles()
     {
@@ -1010,7 +1010,7 @@ class Customer implements AdvancedUserInterface, \Serializable
     public function addBooking(\SkedApp\CoreBundle\Entity\Booking $bookings)
     {
         $this->bookings[] = $bookings;
-    
+
         return $this;
     }
 
@@ -1027,10 +1027,27 @@ class Customer implements AdvancedUserInterface, \Serializable
     /**
      * Get bookings
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBookings()
     {
         return $this->bookings;
     }
+
+    /**
+     * Get full name of customer
+     *
+     * @return string
+     */
+    public function getFullName ()
+    {
+        $strOut = $this->firstName;
+
+        if (strlen ($this->lastName) > 0)
+                $strOut .= ' ' . $this->lastName;
+
+        return $strOut;
+
+    }
+
 }

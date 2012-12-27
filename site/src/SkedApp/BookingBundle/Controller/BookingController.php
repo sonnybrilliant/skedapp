@@ -116,7 +116,7 @@ class BookingController extends Controller
 
                     //send booking confirmation emails
                     $this->get("notification.manager")->confirmationBooking($options);
-                    
+
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -324,6 +324,11 @@ class BookingController extends Controller
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
+        //Format the date correctly
+
+        $date = new \DateTime($date);
+        $date = $date->format('Y-m-d');
+
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             //User is not logged in
             return $this->redirect($this->generateUrl('_security_login', array(
@@ -419,7 +424,7 @@ class BookingController extends Controller
                    //send booking confirmation emails
                     $this->get("notification.manager")->confirmationBooking($options);
 
-                    return $this->redirect($this->generateUrl('sked_app_search_index'));
+                    return $this->redirect($this->generateUrl('sked_app_search_query'));
 
                 } else {
                     $this->getRequest()->getSession()->setFlash(

@@ -219,7 +219,6 @@ final class EmailerManager
             'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
         );
 
-
         $emailBodyHtml = $this->template->render(
             'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
         );
@@ -231,7 +230,7 @@ final class EmailerManager
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getCustomer()->getEmail();
-        $options['fullName'] = $tmp['fullName'];
+        $options['fullName'] = $tmp['user']->getFullName();
 
         $this->sendMail($options);
         return;
