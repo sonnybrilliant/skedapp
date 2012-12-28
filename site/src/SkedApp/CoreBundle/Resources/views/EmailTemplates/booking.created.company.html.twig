@@ -63,7 +63,13 @@
                     <p style="margin-bottom: 6pt;">Your consultant, {{ consultant.firstName }} {{ consultant.lastName }} has a new booking on SkedApp</p>
                     <p style="margin-bottom: 6pt;"></p>
                     <p style="margin-bottom: 6pt;">Booking details are as follows:</p>
-                    <p style="margin-bottom: 6pt;"><strong>Booking date</strong>: {{ date }} <br/> <strong>Service</strong>: {{ service.name }} <br /> <strong>Customer name</strong>: {{ customer.firstName }} {{ customer.lastName }} <br /> <strong>Customer contact</strong>: Tel {{ customer.mobileNumber }} Email {{ customer.email }}</p>
+                    <p style="margin-bottom: 6pt;">
+                        <strong>Booking date</strong>: {{ date }} <br/>
+                        <strong>Consultant</strong>: {{ consultant.fullName }} <br/>
+                        <strong>Service</strong>: {{ service.name }} <br />
+                        <strong>Customer name</strong>: {{ customer.fullName }} <br />
+                        <strong>Customer contact</strong>: Tel {{ customer.mobileNumber }} Email {{ customer.email }}
+                    </p>
                     <p style="margin-bottom: 6pt;">For more details, please follow the link <br /><a style="color: #006699;" href="{{ link }}">{{ link }}</a></p>
                     <p style="margin-bottom: 6pt;"><br />Thank you,</p>
                     <p style="margin-bottom: 6pt;">The SkedApp Team</p>

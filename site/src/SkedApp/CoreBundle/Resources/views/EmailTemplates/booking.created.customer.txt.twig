@@ -7,9 +7,11 @@ This is your booking confirmation email.
 Your booking details are as follows:
 
 Consultant: {{ consultant.firstName }} {{ consultant.lastName }}
-Service to be rendered: {{ service.name }} 
+Service to be rendered: {{ service.name }}
+Contact number: {{ company.contactNumber }}
 Date: {{ date }}
-
+Location: {{ company.name }}, {{ company.address }}
+Location GPS co-ordinates: {{ company.completeGPS }}
 
 Business contact details:
 {{ provider.name }}
@@ -18,7 +20,7 @@ Business contact details:
 {{ provider.address }}
 {{ provider.locality }}
 
-GPS cordinates: 
+GPS cordinates:
 lattidude: {{ provider.lat }}
 longitude: {{ provider.lng }}
 

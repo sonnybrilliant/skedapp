@@ -60,7 +60,7 @@ class Company
      * @ORM\Column(name="address", type="string", length=150, nullable=false)
      */
     protected $address;
-    
+
     /**
      * @var string
      *
@@ -70,7 +70,7 @@ class Company
      *
      * @ORM\Column(name="contact_number", type="string", length=12 , nullable=true)
      */
-    protected $contactNumber;    
+    protected $contactNumber;
 
     /**
      * @var string $locality
@@ -654,17 +654,107 @@ class Company
     public function setContactNumber($contactNumber)
     {
         $this->contactNumber = $contactNumber;
-    
+
         return $this;
     }
 
     /**
      * Get contactNumber
      *
-     * @return string 
+     * @return string
      */
     public function getContactNumber()
     {
         return $this->contactNumber;
     }
+
+    /**
+     * Get full Address in one line
+     *
+     * @return string
+     */
+    public function getAddressInLine()
+    {
+
+        $return_string = '';
+
+        if (strlen ($this->address) > 0)
+                $return_string .= $this->address;
+
+        if (strlen ($this->locality) > 0) {
+
+            if (strlen ($return_string) > 0)
+                    $return_string .= ', ';
+
+            $return_string .= $this->locality;
+
+        }
+
+        if (strlen ($this->country) > 0) {
+
+            if (strlen ($return_string) > 0)
+                    $return_string .= ', ';
+
+            $return_string .= $this->country;
+
+        }
+
+        return $return_string;
+
+    }
+
+
+    /**
+     * Get GPS co-ordinates in human friendly format from a given decimal co-ordinate
+     *
+     * @return array
+     */
+    public function getDegressStringFromDecimal ($decimalGPS) {
+
+        $vars = explode(".",$decimalGPS);
+
+        $deg = $vars[0];
+        $tempma = "0.".$vars[1];
+
+        $tempma = $tempma * 3600;
+        $min = floor($tempma / 60);
+        $sec = $tempma - ($min*60);
+
+        return array("deg"=>$deg, "min"=>$min, "sec"=>$sec);
+
+    }
+
+    /**
+     * Get GPS co-ordinates in human friendly format
+     *
+     * @return string
+     */
+    public function getCompleteGPS()
+    {
+
+        $return_string = '';
+
+        $latitudeArray = $this->getDegressStringFromDecimal($this->getLat());
+        $longitudeArray = $this->getDegressStringFromDecimal($this->getLng());
+
+        $return_string = $latitudeArray['deg'] . '° ' . $latitudeArray['min'] . "' " . round($latitudeArray['sec'], 3) . '"';
+
+        if ($this->getLat() < 0) {
+          $return_string .= ' S ';
+        } elseif ($this->getLat() > 0) {
+          $return_string .= ' N ';
+        }
+
+        $return_string .= $longitudeArray['deg'] . '° ' . $longitudeArray['min'] . "' " . round($longitudeArray['sec'], 3) . '"';
+
+        if ($this->getLng() < 0) {
+          $return_string .= ' W';
+        } elseif ($this->getLng() > 0) {
+          $return_string .= ' E';
+        }
+
+        return $return_string;
+
+    }
+
 }

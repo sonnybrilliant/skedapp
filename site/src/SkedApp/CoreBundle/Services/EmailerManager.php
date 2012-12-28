@@ -217,6 +217,7 @@ final class EmailerManager
             'provider' => $booking->getConsultant()->getCompany(),
             'service' => $booking->getService(),
             'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
+            'company' => $booking->getConsultant()->getCompany()
         );
 
         $emailBodyHtml = $this->template->render(

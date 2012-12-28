@@ -424,7 +424,7 @@ class BookingController extends Controller
                    //send booking confirmation emails
                     $this->get("notification.manager")->confirmationBooking($options);
 
-                    return $this->redirect($this->generateUrl('sked_app_search_query'));
+                    return $this->redirect($this->generateUrl('_welcome'));
 
                 } else {
                     $this->getRequest()->getSession()->setFlash(
