@@ -39,9 +39,9 @@ class BookingCreateType extends AbstractType
 
     /**
      * Build Form
-     * 
+     *
      * @param FormBuilder $builder
-     * @param array $options 
+     * @param array $options
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -91,7 +91,7 @@ class BookingCreateType extends AbstractType
                             'status' => false,
                             'enabled' => true,
                             'isActive' => true
-                        ));                    
+                        ));
                 },
             ))
             ->add('startTimeslot', 'entity', array(
@@ -106,6 +106,7 @@ class BookingCreateType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
+                'required' => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
             ->add('isLeave', 'checkbox', array(
@@ -125,7 +126,7 @@ class BookingCreateType extends AbstractType
 
     /**
      * Get name
-     * @return string 
+     * @return string
      */
     public function getName()
     {
