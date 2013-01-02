@@ -483,6 +483,10 @@ class Booking
      */
     public function getService()
     {
+
+        if (!is_object($this->service))
+                $this->service = new Service();
+
         return $this->service;
     }
 

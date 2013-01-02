@@ -304,4 +304,16 @@ final class ConsultantManager
         return $results;
     }
 
+    /**
+     * Get logged in consultant
+     *
+     * @return SkedAppCoreBundle:Consultant
+     */
+    public function getLoggedInUser()
+    {
+        $securityContext = $this->container->get('security.context');
+        $consultant = $securityContext->getToken()->getUser();
+        return $consultant;
+    }
+
 }
