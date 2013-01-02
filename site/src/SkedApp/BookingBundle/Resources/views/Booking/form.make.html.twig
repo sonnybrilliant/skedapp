@@ -1,6 +1,8 @@
 <form class="form-horizontal" action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
   {{ form_widget(form.appointmentDate) }}
-  {{ form_widget(form.startTimeslotString) }}
+  {{ form_widget(form.startTimeslot) }}
+  {{ form_widget(form.consultant) }}
+  {{ form_widget(form.service) }}
   <fieldset>
       <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
       <div class="control-group">
@@ -18,15 +20,13 @@
       <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
         <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
         <div class="controls">
-          {{ form_widget(form.consultant) }}
-          <span class="help-inline">{{form_errors(form.consultant)}}</span>
+          {{ booking_consultant }}
         </div>
       </div>
       <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
         <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
         <div class="controls">
-          {{ form_widget(form.service) }}
-          <span class="help-inline">{{form_errors(form.service)}}</span>
+          {{ booking_service }}
         </div>
       </div>
       <div class="control-group {% if form_errors(form.description) %} error {% endif %}">

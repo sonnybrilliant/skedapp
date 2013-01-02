@@ -7,6 +7,10 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
+use SkedApp\BookingBundle\Form\DataTransformer\StringToDateTransformer;
+use SkedApp\BookingBundle\Form\DataTransformer\StringToTimeslotTransformer;
+use SkedApp\ConsultantBundle\Form\DataTransformer\StringToConsultantTransformer;
+use SkedApp\ServiceBundle\Form\DataTransformer\StringToServiceTransformer;
 
 /**
  * SkedApp\BookingBundle\Form\BookingMakeType
@@ -79,41 +83,29 @@ class BookingMakeType extends AbstractType
         $timeSlotStart = $this->timeSlotStart;
         $serviceIds = $this->serviceIds;
 
-        $builder
-            ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span3 datepicker', 'value' => 'Select date', 'value' => $this->date),
-                'label' => 'Booking Date:',
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
-            ))
-            ->add('startTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Booking time:',
-                'attr' => array('class' => 'span1', 'value' => $this->timeSlotStart)
-            ))
-            ->add('consultant', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Consultant',
-                'label' => 'Consultant:',
-                'empty_value' => 'Select a consultant',
-                'attr' => array('class' => 'span4', 'value' => $this->consultantId),
-                'query_builder' => function(EntityRepository $er) use ($companyId) {
+        $entityManager = $options['em'];
+        $stringTimeslotTransformer = new StringToTimeslotTransformer($entityManager);
+        $dateTimeTransformer = new StringToDateTransformer();
+        $stringConsultantTransformer = new StringToConsultantTransformer($entityManager);
+        $stringServiceTransformer = new StringToServiceTransformer($entityManager);
 
-                    return $er->createQueryBuilder('c')
-                        ->where('c.isDeleted = :status')
-                        ->andWhere('c.company = :company')
-                        ->setParameters(array(
-                            'status' => false,
-                            'company' => $companyId
-                        ));
-                },
-            ))
-            ->add('service', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Service',
-                'label' => 'Services:',
-                'multiple' => false,
-                'required' => false,
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled', 'value' => $this->serviceIds),
-            ))
+        $builder
+            ->add(
+                    $builder->create('appointmentDate', 'hidden')
+                      ->addModelTransformer($dateTimeTransformer)
+                    )
+            ->add(
+                    $builder->create('startTimeslot', 'hidden', array('data_class' => null))
+                      ->addModelTransformer($stringTimeslotTransformer)
+                    )
+            ->add(
+                    $builder->create('consultant', 'hidden', array('data_class' => null))
+                      ->addModelTransformer($stringConsultantTransformer)
+                    )
+            ->add(
+                    $builder->create('service', 'hidden', array('data_class' => null))
+                      ->addModelTransformer($stringServiceTransformer)
+                    )
             ->add('description', 'textarea', array(
                 'label' => 'Notes:',
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
@@ -142,6 +134,14 @@ class BookingMakeType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SkedApp\CoreBundle\Entity\Booking',
+        ));
+
+        $resolver->setRequired(array(
+            'em',
+        ));
+
+        $resolver->setAllowedTypes(array(
+            'em' => 'Doctrine\Common\Persistence\ObjectManager',
         ));
     }
 

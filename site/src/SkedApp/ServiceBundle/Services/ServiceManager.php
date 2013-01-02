@@ -7,8 +7,8 @@ use Monolog\Logger;
 use SkedApp\CoreBundle\Entity\Service;
 
 /**
- * Service manager 
- * 
+ * Service manager
+ *
  * @author Ronald Conco <ronald.conco@kaizania.com>
  * @package SkedAppServiceBundle
  * @subpackage Services
@@ -83,8 +83,28 @@ final class ServiceManager
     }
 
     /**
+     * Get service by id
+     *
+     * @param integer $id
+     * @return SkedAppCoreBundle:Service
+     * @throws \Exception
+     */
+    public function getById($id)
+    {
+        $service = $this->em->getRepository('SkedAppCoreBundle:Service')
+            ->find($id);
+
+        if (!$service) {
+            throw new \Exception('Service not found for id:' . $id);
+            $this->logger->err('Failed to find Service by id:' . $id);
+        }
+
+        return $service;
+    }
+
+    /**
      * Create and update service
-     * 
+     *
      * @param type $service
      * @return void
      */
@@ -98,7 +118,7 @@ final class ServiceManager
 
     /**
      * Get all services query
-     * 
+     *
      * @param array $options
      * @return query
      */
@@ -111,7 +131,7 @@ final class ServiceManager
 
     /**
      * get services by category
-     * 
+     *
      * @param type $category
      * @return type
      */
@@ -120,11 +140,11 @@ final class ServiceManager
         return $this->em
                 ->getRepository('SkedAppCoreBundle:Service')
                 ->getServicesByCategory($category);
-    }    
-    
+    }
+
     /**
      * Delete services by category
-     * 
+     *
      * @param type $category
      * @return type
      */

@@ -40,16 +40,16 @@ sked_app_booking_ajax_get_by_consultant:
     requirements:
         consultantId:  \d+
     options:
-        expose: true          
+        expose: true
 
 sked_app_booking_ajax_get_bookings:
     pattern:  /booking/ajaxGetBookings
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
     options:
-        expose: true  
+        expose: true
 
 sked_app_booking_make:
-    pattern:  /booking/make/{companyId}/{consultantId}/{date}/{timeSlotStart}
+    pattern:  /booking/make/{companyId}/{consultantId}/{date}/{timeSlotStart}/{serviceIds}
     defaults: { _controller: SkedAppBookingBundle:Booking:make }
 
 sked_app_booking_made:

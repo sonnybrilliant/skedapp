@@ -318,7 +318,7 @@ class BookingController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws AccessDeniedException
      */
-    public function makeAction($companyId, $consultantId, $date, $timeSlotStart, $serviceIds = array())
+    public function makeAction($companyId, $consultantId, $date, $timeSlotStart, $serviceIds)
     {
         $this->get('logger')->info('add a new booking public');
 
@@ -337,15 +337,17 @@ class BookingController extends Controller
                         'consultant_id' => $consultantId,
                         'booking_date' => $date,
                         'timeslot_start' => $timeSlotStart,
-                        'service_ids' => implode(',$serviceIds', $serviceIds),
+                        'service_ids' => $serviceIds,
                         )
                     ));
         }
 
         $booking = new Booking();
         $consultant = $this->get('consultant.manager')->getById($consultantId);
+        $service = $this->get('service.manager')->getById($serviceIds);
 
         $booking->setConsultant($consultant);
+        $booking->setService($service);
         $booking->setAppointmentDate($date);
         $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($timeSlotStart));
         $timeSlotEnd = new \DateTime($timeSlotStart);
@@ -358,13 +360,18 @@ class BookingController extends Controller
                 $date,
                 $timeSlotStart,
                 $serviceIds
-            ), $booking);
+            ),
+            $booking,
+            array('em' => $this->getDoctrine()->getEntityManager())
+            );
 
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
                 'booking_date' => $date,
                 'booking_time_start' => $timeSlotStart,
                 'booking_time_end' => $timeSlotEnd->format('H:i'),
+                'booking_consultant' => $consultant->getFullName(),
+                'booking_service' => $service->getName(),
             ));
     }
 
@@ -387,8 +394,8 @@ class BookingController extends Controller
             $values['companyId'] = $objConsultant->getCompany()->getId();
 
         $booking = new Booking();
-        $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($values['startTimeslotString']));
-        $booking->setAppointmentDate(new \DateTime($values['appointmentDate']));
+//        $booking->setStartTimeslot($this->get('timeslots.manager')->getById($values['startTimeslotString']));
+//        $booking->setAppointmentDate(new \DateTime($values['appointmentDate']));
 
         $form = $this->createForm(new BookingMakeType(
                 $values['companyId'],
@@ -396,7 +403,10 @@ class BookingController extends Controller
                 $values['appointmentDate'],
                 $values['startTimeslot'],
                 $values['service']
-            ), $booking);
+            ),
+            $booking,
+            array('em' => $this->getDoctrine()->getEntityManager())
+            );
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -406,7 +416,7 @@ class BookingController extends Controller
                 $isValid = true;
                 $errMsg = "";
 
-                $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($values['startTimeslotString']));
+//                $booking->setStartTimeslot($this->get('timeslots.manager')->getById($values['startTimeslot']));
                 $booking->setEndTimeslot($this->get('timeslots.manager')->getById($booking->getStartTimeslot()->getId() + $objConsultant->getAppointmentDuration()->getId()));
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
