@@ -82,4 +82,18 @@ $(document).ready(function() {
         addresspickerMap.addresspicker( "updatePosition");
     }
 
+    if (document.getElementById('divSearchForm')) {
+      document.getElementById('divSearchForm').style.display = 'none';
+    }
+
 });
+
+function ShowHideSearchForm (anchorTag) {
+    if (document.getElementById('divSearchForm').style.display == 'none') {
+        document.getElementById('divSearchForm').style.display = '';
+        anchorTag.innerHTML = 'Hide Search Form';
+    } else {
+        document.getElementById('divSearchForm').style.display = 'none';
+        anchorTag.innerHTML = 'Show Search Form';
+    }
+}

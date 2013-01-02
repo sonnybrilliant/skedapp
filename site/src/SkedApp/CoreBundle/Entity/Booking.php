@@ -39,7 +39,7 @@ class Booking
      * })
      */
     protected $consultant;
-    
+
     /**
      * @var Customer
      *
@@ -48,7 +48,7 @@ class Booking
      *   @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
      * })
      */
-    protected $customer;    
+    protected $customer;
 
     /**
      * @var Service
@@ -116,13 +116,13 @@ class Booking
      * @ORM\Column(name="is_leave", type="boolean")
      */
     protected $isLeave;
-    
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_reminder_sent", type="boolean")
      */
-    protected $isReminderSent;    
+    protected $isReminderSent;
 
     /**
      * @var datetime
@@ -541,14 +541,14 @@ class Booking
     public function setIsReminderSent($isReminderSent)
     {
         $this->isReminderSent = $isReminderSent;
-    
+
         return $this;
     }
 
     /**
      * Get isReminderSent
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsReminderSent()
     {
@@ -564,17 +564,36 @@ class Booking
     public function setCustomer(\SkedApp\CoreBundle\Entity\Customer $customer = null)
     {
         $this->customer = $customer;
-    
+
         return $this;
     }
 
     /**
      * Get customer
      *
-     * @return \SkedApp\CoreBundle\Entity\Customer 
+     * @return \SkedApp\CoreBundle\Entity\Customer
      */
     public function getCustomer()
     {
         return $this->customer;
     }
+
+    /**
+     * Get timeSlotStartString
+     *
+     * @return string
+     */
+    public function getStartTimeslotString () {
+      return $this->getStartTimeslot()->getSlot();
+    }
+
+    /**
+     * Get timeSlotStartString
+     *
+     * @return string
+     */
+    public function getAppointmentDateString () {
+      return $this->getStartTimeslot()->getSlot();
+    }
+
 }

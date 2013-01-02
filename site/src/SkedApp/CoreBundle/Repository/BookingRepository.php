@@ -237,16 +237,18 @@ class BookingRepository extends EntityRepository
 
                 $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));
 
-                $arrOut['time_slots'][$slot_cnt] = array(
-                    'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j M'), 'booking_taken' => $booking_time_slot,
-                    'dow' => $start_time->format('D'),
-                    'year' => $start_time->format('Y'),
-                    'date_full' => $start_time->format('j M Y'),
-                    'date_form' => $start_time->format('d-m-Y')
-                );
+                if (!$booking_time_slot) {
+                    $arrOut['time_slots'][$slot_cnt] = array(
+                        'start_time' => $start_time->format('H:i'), 'end_time' => date('H:i', $new_timestamp), 'date' => $start_time->format('j M'), 'booking_taken' => $booking_time_slot,
+                        'dow' => $start_time->format('D'),
+                        'year' => $start_time->format('Y'),
+                        'date_full' => $start_time->format('j M Y'),
+                        'date_form' => $start_time->format('d-m-Y')
+                    );
+                    $slot_cnt++;
+                }
 
                 $start_time->modify("+$appointment_duration minute");
-                $slot_cnt++;
             } //while
         } //if ($bookingDate->getTimestamp() <= $end_time->getTimeStamp())
 

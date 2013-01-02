@@ -343,9 +343,14 @@ class BookingController extends Controller
         }
 
         $booking = new Booking();
+        $consultant = $this->get('consultant.manager')->getById($consultantId);
 
-        $booking->setConsultant($this->get('consultant.manager')->getById($consultantId));
+        $booking->setConsultant($consultant);
+        $booking->setAppointmentDate($date);
         $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($timeSlotStart));
+        $timeSlotEnd = new \DateTime($timeSlotStart);
+
+        $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
 
         $form = $this->createForm(new BookingMakeType(
                 $companyId,
@@ -357,6 +362,9 @@ class BookingController extends Controller
 
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
+                'booking_date' => $date,
+                'booking_time_start' => $timeSlotStart,
+                'booking_time_end' => $timeSlotEnd->format('H:i'),
             ));
     }
 
@@ -379,6 +387,8 @@ class BookingController extends Controller
             $values['companyId'] = $objConsultant->getCompany()->getId();
 
         $booking = new Booking();
+        $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($values['startTimeslotString']));
+        $booking->setAppointmentDate(new \DateTime($values['appointmentDate']));
 
         $form = $this->createForm(new BookingMakeType(
                 $values['companyId'],
@@ -396,6 +406,7 @@ class BookingController extends Controller
                 $isValid = true;
                 $errMsg = "";
 
+                $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($values['startTimeslotString']));
                 $booking->setEndTimeslot($this->get('timeslots.manager')->getById($booking->getStartTimeslot()->getId() + $objConsultant->getAppointmentDuration()->getId()));
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {

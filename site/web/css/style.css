@@ -148,3 +148,8 @@ a:hover { color: #0AF; }
   font-size: 10px;
   font-style: italic;
 }
+
+.spnSearchInstructions {
+  margin-left: 120px;
+  margin-right: 80px;
+}

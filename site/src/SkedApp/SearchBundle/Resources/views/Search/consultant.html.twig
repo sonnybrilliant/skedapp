@@ -13,6 +13,15 @@
         <br /><br />
 
         <span>
+
+              <label class="lblView">
+                  Address:
+              </label>
+              <div class="divViewData">
+                  {{ consultant.company.name }}, {{ consultant.company.address }}
+              </div>
+              <div style="clear: both;"></div>
+
               <label class="lblView">
                   Distance from you:<br />
                   <span class="spnNotes">(Point to point)</span>
@@ -21,6 +30,15 @@
                   {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
               </div>
               <div style="clear: both;"></div>
+
+              <label class="lblView">
+                  GPS:
+              </label>
+              <div class="divViewData">
+                  {{ consultant.company.completeGPS }}
+              </div>
+              <div style="clear: both;"></div>
+
         </span>
 
         <br />

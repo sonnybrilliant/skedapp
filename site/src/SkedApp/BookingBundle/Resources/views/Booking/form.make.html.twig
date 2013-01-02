@@ -1,19 +1,19 @@
 <form class="form-horizontal" action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
+  {{ form_widget(form.appointmentDate) }}
+  {{ form_widget(form.startTimeslotString) }}
   <fieldset>
       <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
       <div class="control-group">
-        <label class="control-label" for="time_slots">Date and time</label>
+        <label class="control-label" for="consultants">Appointment Date:</label>
         <div class="controls">
-            <div style="border: 1px solid #ccc; padding: 10px;width: 350px;">
-                <div style="margin: 8px 8px 0 0;padding-top: 5px;">
-                    {{ form_label(form.appointmentDate) }} {{ form_widget(form.appointmentDate) }}
-                </div>
-                <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
-                    {{ form_label(form.startTimeslot) }} {{ form_widget(form.startTimeslot) }}
-                </div>
-                <div style="clear: both;"></div>
-            </div>
-       </div>
+          {{ booking_date }}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="consultants">Appointment Time:</label>
+        <div class="controls">
+          {{ booking_time_start }} - {{ booking_time_end }}
+        </div>
       </div>
       <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
         <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>

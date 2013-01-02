@@ -75,8 +75,8 @@ class SearchType extends AbstractType
             ->add('consultantServices', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
-                'multiple' => true,
-                'required' => false,
+                'multiple' => false,
+                'required' => true,
                 'attr' => array('class' => 'span4'),
 
             ))

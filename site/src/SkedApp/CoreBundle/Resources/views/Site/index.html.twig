@@ -5,6 +5,11 @@
         <div class="span12">
             <br />
             <h1>Search , Locate <small> services in your area.</small></h1>
-        </div>        
-        {%include "SkedAppSearchBundle:Search:search.area.html.twig" %}       
+        </div>
+
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+
+        {%include "SkedAppSearchBundle:Search:search.area.html.twig" %}
 {% endblock %}

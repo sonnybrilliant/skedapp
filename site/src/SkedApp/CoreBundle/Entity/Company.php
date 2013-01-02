@@ -737,7 +737,7 @@ class Company
         $latitudeArray = $this->getDegressStringFromDecimal($this->getLat());
         $longitudeArray = $this->getDegressStringFromDecimal($this->getLng());
 
-        $return_string = $latitudeArray['deg'] . '° ' . $latitudeArray['min'] . "' " . round($latitudeArray['sec'], 3) . '"';
+        $return_string = abs($latitudeArray['deg']) . '° ' . $latitudeArray['min'] . "' " . round($latitudeArray['sec'], 3) . '"';
 
         if ($this->getLat() < 0) {
           $return_string .= ' S ';
@@ -745,7 +745,7 @@ class Company
           $return_string .= ' N ';
         }
 
-        $return_string .= $longitudeArray['deg'] . '° ' . $longitudeArray['min'] . "' " . round($longitudeArray['sec'], 3) . '"';
+        $return_string .= abs($longitudeArray['deg']) . '° ' . $longitudeArray['min'] . "' " . round($longitudeArray['sec'], 3) . '"';
 
         if ($this->getLng() < 0) {
           $return_string .= ' W';
