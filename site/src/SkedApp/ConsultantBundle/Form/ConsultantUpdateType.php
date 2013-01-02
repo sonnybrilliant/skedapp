@@ -21,9 +21,9 @@ class ConsultantUpdateType extends AbstractType
 
     /**
      * Build Form
-     * 
+     *
      * @param FormBuilder $builder
-     * @param array $options 
+     * @param array $options
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -62,16 +62,18 @@ class ConsultantUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => true,
-                'required' => false,
+                'required' => true,
                 'attr' => array('class' => 'span4' ),
-                
+
             ))
             ->add('speciality', 'textarea', array(
                 'label' => 'Speciality:',
+                'required' => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
             ->add('professionalStatement', 'textarea', array(
                 'label' => 'Professional Statement:',
+                'required' => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
             ->add('monday', 'checkbox', array(
@@ -117,14 +119,14 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Session length:',
                 'attr' => array('class' => 'span1')
             ))
-            
+
 
         ;
     }
 
     /**
      * Get name
-     * @return string 
+     * @return string
      */
     public function getName()
     {

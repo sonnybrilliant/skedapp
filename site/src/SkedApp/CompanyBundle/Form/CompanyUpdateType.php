@@ -41,6 +41,7 @@ class CompanyUpdateType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
+                'required' => false,
                 'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
             ))
             ->add('address', null, array(
@@ -50,7 +51,7 @@ class CompanyUpdateType extends AbstractType
             ->add('contactNumber', 'text', array(
                 'label' => 'Contact number:',
                 'attr' => array('class' => 'span4')
-            ))       
+            ))
             ->add('locality', null, array(
                 'required'      => false,
                 'read_only'      => true
