@@ -169,13 +169,13 @@ class Member implements AdvancedUserInterface , \Serializable
      * @ORM\Column(name="enabled", type="boolean")
      */
     protected $enabled;
-    
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_admin", type="boolean")
      */
-    protected $isAdmin;      
+    protected $isAdmin;
 
     /**
      * @var boolean
@@ -795,20 +795,20 @@ class Member implements AdvancedUserInterface , \Serializable
     public function setIsAdmin($isAdmin)
     {
         $this->isAdmin = $isAdmin;
-    
+
         return $this;
     }
 
     /**
      * Get isAdmin
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsAdmin()
     {
         return $this->isAdmin;
     }
-    
+
     /**
      * @see \Serializable::serialize()
      */
@@ -828,7 +828,7 @@ class Member implements AdvancedUserInterface , \Serializable
             $this->id,
         ) = unserialize($serialized);
     }
-    
+
     public function isAccountNonExpired()
     {
         return true;
@@ -848,4 +848,21 @@ class Member implements AdvancedUserInterface , \Serializable
     {
         return $this->enabled;
     }
+
+    /**
+     * Get full name of member
+     *
+     * @return string
+     */
+    public function getFullName ()
+    {
+        $strOut = $this->firstName;
+
+        if (strlen ($this->lastName) > 0)
+                $strOut .= ' ' . $this->lastName;
+
+        return $strOut;
+
+    }
+
 }

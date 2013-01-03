@@ -190,11 +190,54 @@ final class EmailerManager
                 $options['bodyHTML'] = $emailBodyHtml;
                 $options['bodyTEXT'] = $emailBodyTxt;
                 $options['email'] = $user->getEmail();
-                $options['fullName'] = $tmp['fullName'];
+                $options['fullName'] = $user->getFullName();
 
                 $this->sendMail($options);
             }
         }
+
+        return;
+    }
+
+    /**
+     * Send booking confirmation to consultants
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingConfirmationConsultant($params)
+    {
+
+        $this->logger->info('sending new booking for consultant');
+        $options['subject'] = "New Booking Created";
+
+        $booking = $params['booking'];
+
+        $tmp = array(
+            'user' => $booking->getConsultant(),
+            'consultant' => $booking->getConsultant(),
+            'link' => $params['link'],
+            'service' => $booking->getService(),
+            'customer' => $booking->getCustomer(),
+            'fullName' => $booking->getCustomer()->getFullName(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.consultant.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.consultant.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getConsultant()->getEmail();
+        $options['fullName'] = $booking->getConsultant()->getFullName();
+
+        $this->sendMail($options);
 
         return;
     }

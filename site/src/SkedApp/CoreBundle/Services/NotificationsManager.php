@@ -81,21 +81,22 @@ final class NotificationsManager
     }
 
     /**
-     * Confirm booking 
-     * 
+     * Confirm booking
+     *
      * @param Array $params
      * @return void
      */
     public function confirmationBooking($params)
     {
         $this->container->get('email.manager')->bookingConfirmationCompany($params);
+        $this->container->get('email.manager')->bookingConfirmationConsultant($params);
         $this->container->get('email.manager')->bookingConfirmationCustomer($params);
         return;
     }
-    
+
     /**
      * Confirm booking to service provider
-     * 
+     *
      * @param Array $params
      * @return void
      */
@@ -104,10 +105,10 @@ final class NotificationsManager
         $this->container->get('email.manager')->verifyCustomerAccount($params);
         return;
     }
-    
+
     /**
      * Send booking cancellation
-     * 
+     *
      * @param type $params
      * @return type
      */
@@ -116,29 +117,29 @@ final class NotificationsManager
          $this->container->get('email.manager')->bookingCancellationCustomer($params);
          $this->container->get('email.manager')->bookingCancellationCompany($params);
          $this->container->get('email.manager')-> bookingCancellationConsultant($params);
-         return;        
+         return;
     }
-    
+
     /**
      * Send booking reminders to customers
-     *  
+     *
      * @return void
      */
     public function sendBookingReminders()
     {
         $this->logger->info("send booking reminders");
         $bookings = $this->container->get("booking.manager")->getTomorrowsBookings();
-        
+
         foreach($bookings as $booking){
             $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));
-            
+
             //update booking
             $booking->setIsReminderSent(true);
             $this->em->persist($booking);
             $this->em->flush();
         }
-        
-        return;        
-    }    
+
+        return;
+    }
 
 }
