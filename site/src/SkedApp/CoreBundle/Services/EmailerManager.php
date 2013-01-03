@@ -174,6 +174,7 @@ final class EmailerManager
                     'link' => $params['link'],
                     'service' => $booking->getService(),
                     'customer' => $booking->getCustomer(),
+                    'fullName' => $booking->getCustomer()->getFullName(),
                     'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
                 );
 
