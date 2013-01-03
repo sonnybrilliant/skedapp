@@ -3,6 +3,7 @@
 namespace SkedApp\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use SkedApp\CoreBundle\Entity\Consultant;
 
 /**
  * BookingRepository
@@ -122,8 +123,45 @@ class BookingRepository extends EntityRepository
      * @param datetime $bookingEndDate
      * @return array
      */
-    public function isConsultantAvailable($consultant, $bookingStartDate, $bookingEndDate)
+    public function isConsultantAvailable(Consultant $consultant, $bookingStartDate, $bookingEndDate)
     {
+
+        //check next day consultant is available
+        $intDoWAvailable = -1;
+        $intCntCheck = 1;
+        $booking_day_test = new \DateTime($bookingStartDate->format('r'));
+
+        //Check if any dates were set for consultant
+        while (($intDoWAvailable < 0) && ($intCntCheck <= 7)) {
+            $strDayName = $booking_day_test->format('l');
+            eval("\$intDoWAvailable = \$consultant->get$strDayName();");
+            $booking_day_test->modify("+1 day");
+            $intCntCheck++;
+        }
+
+        //Consultant has no working days set
+        if ($intDoWAvailable < 0)
+          return null;
+
+        //Check if time is within consultant's time slots
+        $consultantStartSlot = new \DateTime($bookingStartDate->format('Y-m-d H:i:s'));
+        $consultantEndSlot = new \DateTime($bookingEndDate->format('Y-m-d H:i:s'));
+
+        $startSlot = explode(':', $consultant->getStartTimeslot()->getSlot());
+        $consultantStartSlot->setTime($startSlot[0], $startSlot[1], 0);
+
+        //Booking starts before consultant is available
+        if ($consultantStartSlot->getTimestamp() > $bookingStartDate->getTimestamp())
+          return null;
+
+        $endSlot = explode(':', $consultant->getEndTimeslot()->getSlot());
+        $consultantEndSlot->setTime($endSlot[0], $endSlot[1], 0);
+
+        //Booking ends after consultant is not available
+        if ($consultantEndSlot->getTimestamp() < $bookingEndDate->getTimestamp())
+          return null;
+
+        //Check if consultant has bookings
         $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
                 WHERE b.consultant = ?1 AND b.isDeleted = ?2
                 AND b.isActive = ?3 AND b.isCancelled = ?4

@@ -593,7 +593,7 @@ class Booking
      * @return string
      */
     public function getAppointmentDateString () {
-      return $this->getStartTimeslot()->getSlot();
+      return $this->getAppointmentDate()->format('Y-m-d');
     }
 
 }

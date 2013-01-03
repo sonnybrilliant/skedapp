@@ -146,9 +146,9 @@ final class BookingManager
 
     /**
      * Is booking time slots valid
-     * 
+     *
      * start time must be less than end time
-     * 
+     *
      * @param SkedAppCoreBundle:Booking $booking
      * @return boolean
      */
@@ -165,7 +165,7 @@ final class BookingManager
 
     /**
      * Check if booking do not clash
-     * 
+     *
      * @param SkedAppCoreBundle:Booking $booking
      * @return boolean
      */
@@ -190,8 +190,11 @@ final class BookingManager
         $results = $this->em->getRepository("SkedAppCoreBundle:Booking")
             ->isConsultantAvailable($booking->getConsultant(), $bookingStartDate, $bookingEndDate);
 
+        if (is_null($results))
+          return false;
+
         /*
-         * confirm if the new appointment start time is equal to the 
+         * confirm if the new appointment start time is equal to the
          * already booked appointment end time
          */
 
@@ -213,7 +216,7 @@ final class BookingManager
 
     /**
      * Get booking for consultant
-     * 
+     *
      * @param integer $consultantId
      * @param integer $date
      * @return booking
@@ -230,7 +233,7 @@ final class BookingManager
 
     /**
      * Get all tomorrow bookins
-     * 
+     *
      * @return array
      */
     public function getTomorrowsBookings()
@@ -256,21 +259,21 @@ final class BookingManager
 
         return $bookings;
     }
-    
+
     /**
      * Cancel booking
-     * 
+     *
      * @param SkedAppCoreBundle:Booking $booking
      * @return type
      */
     public function cancelBooking($booking)
     {
         $this->logger->info("cancel booking");
-        
+
         $booking->setIsDeleted(true);
         $booking->setIsActive(false);
         $booking->setIsCancelled(true);
-        
+
         $this->em->persist($booking);
         $this->em->flush();
         return;
