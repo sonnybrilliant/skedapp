@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\CoreBundle\Entity\Customer;
+use SkedApp\CoreBundle\Entity\Service;
 use SkedApp\CustomerBundle\Form\CustomerCreateType;
 use SkedApp\CustomerBundle\Form\CustomerShowType;
 
@@ -115,9 +116,16 @@ class CustomerController extends Controller
                 'customer' => $customer
             );
 
+            $allBookings = $this->container->get('booking.manager')->getAllCustomerBookings($options);
+
+            foreach ($allBookings as $booking) {
+              if (!is_object($booking->getService()))
+                      $booking->setService(new Service());
+            }
+
             $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
-                $this->container->get('booking.manager')->getAllCustomerBookings($options), $this->getRequest()->query->get('page', $page), 10
+                $allBookings, $this->getRequest()->query->get('page', $page), 10
             );
         } catch (\Exception $e) {
             return $this->createNotFoundException($e->getMessage());

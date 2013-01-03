@@ -9,6 +9,7 @@ use SkedApp\BookingBundle\Form\BookingCreateType;
 use SkedApp\BookingBundle\Form\BookingMakeType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\CoreBundle\Entity\Booking;
+use SkedApp\CoreBundle\Entity\Customer;
 
 /**
  * SkedApp\BookingBundle\Controller\BookingController
@@ -388,10 +389,11 @@ class BookingController extends Controller
 
         $values = $this->getRequest()->get('Booking');
 
-        $objConsultant = $this->get('consultant.manager')->getById($values['consultant']);
+        $consultant = $this->get('consultant.manager')->getById($values['consultant']);
+        $service = $this->get('service.manager')->getById($values['service']);
 
-        if (is_object($objConsultant))
-            $values['companyId'] = $objConsultant->getCompany()->getId();
+        if (is_object($consultant))
+            $values['companyId'] = $consultant->getCompany()->getId();
 
         $booking = new Booking();
 //        $booking->setStartTimeslot($this->get('timeslots.manager')->getById($values['startTimeslotString']));
@@ -417,7 +419,7 @@ class BookingController extends Controller
                 $errMsg = "";
 
 //                $booking->setStartTimeslot($this->get('timeslots.manager')->getById($values['startTimeslot']));
-                $booking->setEndTimeslot($this->get('timeslots.manager')->getById($booking->getStartTimeslot()->getId() + $objConsultant->getAppointmentDuration()->getId()));
+                $booking->setEndTimeslot($this->get('timeslots.manager')->getById($booking->getStartTimeslot()->getId() + $consultant->getAppointmentDuration()->getId()));
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
@@ -426,6 +428,11 @@ class BookingController extends Controller
 
                 if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
                     $errMsg = "Booking not available, please choose another time.";
+                    $isValid = false;
+                }
+
+                if (!$user instanceOf Customer) {
+                    $errMsg = "Please register on the site and log in to create a booking.";
                     $isValid = false;
                 }
 
@@ -457,8 +464,16 @@ class BookingController extends Controller
                 'error', 'Failed to create booking');
         }
 
+        $timeSlotEnd = new \DateTime($values['startTimeslot']);
+        $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
+                'booking_date' => $values['appointmentDate'],
+                'booking_time_start' => $values['startTimeslot'],
+                'booking_time_end' => $timeSlotEnd->format('H:i'),
+                'booking_consultant' => $consultant->getFullName(),
+                'booking_service' => $service->getName(),
             ));
     }
 
