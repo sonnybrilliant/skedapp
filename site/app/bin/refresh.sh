@@ -9,9 +9,6 @@ sudo composer update
 DIR=`php -r "echo dirname(dirname(realpath('$0')));"`
 cd "$DIR"
 
-# This CD does not work, so hard coding for live site
-cd /var/www/skedapp/site
-
 echo "Clearing cache on app/cache app/logs"
 echo "==========================================="
 sudo rm -Rf app/cache/* app/logs/*
