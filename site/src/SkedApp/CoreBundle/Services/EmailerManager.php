@@ -118,6 +118,14 @@ final class EmailerManager
 
         ;
 
+        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) ) {
+          //Need to attach files using data
+          foreach ($params['attachments_data'] as $file) {
+            $attachment = \Swift_Attachment::newInstance($file['file_data'], $file['file_name'], $file['file_mime']);
+            $message->attach($attachment);
+          }
+        }
+
         $this->container->get('mailer')->send($message);
         return;
     }
@@ -276,6 +284,9 @@ final class EmailerManager
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getCustomer()->getEmail();
         $options['fullName'] = $tmp['user']->getFullName();
+
+        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
+          $options['attachments_data'] = $params['attachments_data'];
 
         $this->sendMail($options);
         return;

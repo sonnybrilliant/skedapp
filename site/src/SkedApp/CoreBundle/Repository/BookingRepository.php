@@ -129,6 +129,13 @@ class BookingRepository extends EntityRepository
         //check next day consultant is available
         $intDoWAvailable = -1;
         $intCntCheck = 1;
+
+        if (!is_object ($bookingStartDate))
+          $bookingStartDate = new \DateTime($bookingStartDate);
+
+        if (!is_object ($bookingEndDate))
+          $bookingEndDate = new \DateTime($bookingEndDate);
+
         $booking_day_test = new \DateTime($bookingStartDate->format('r'));
 
         //Check if any dates were set for consultant
