@@ -125,7 +125,6 @@ class BookingRepository extends EntityRepository
      */
     public function isConsultantAvailable(Consultant $consultant, $bookingStartDate, $bookingEndDate)
     {
-
         //check next day consultant is available
         $intDoWAvailable = -1;
         $intCntCheck = 1;
