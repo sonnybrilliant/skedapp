@@ -58,24 +58,6 @@ a:hover { color: #0AF; }
     margin-top: 5px;
 }
 
-.formSearch {
-  width: 400px;
-  float: left;
-}
-
-.divSearchMap {
-  width: 400px;
-  height: 300px;
-  float: right;
-  margin-top: 80px;
-  margin-right: 80px;
-}
-
-.spnNotes {
-  font-size: 9px;
-  font-style: italic;
-}
-
 /* Search Results */
 
 .divSearchResultsItem {
@@ -152,4 +134,39 @@ a:hover { color: #0AF; }
 .spnSearchInstructions {
   margin-left: 120px;
   margin-right: 80px;
+}
+
+/* Search form */
+
+.divSearchAreaAround {
+  width: 95%;
+  margin: auto;
+  margin-top: 22px;
+}
+
+.divSearchFormAround {
+  width: 49%;
+  float: left;
+}
+
+.divSearchMapAround {
+  width: 49%;
+  float: right;
+}
+
+.formSearch {
+  width: 400px;
+  float: left;
+}
+
+.divSearchMap {
+  width: 400px;
+  height: 300px;
+  float: right;
+  margin-right: 80px;
+}
+
+.spnNotes {
+  font-size: 9px;
+  font-style: italic;
 }

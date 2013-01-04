@@ -1,13 +1,13 @@
-<div class="span12">
-    <div class="span5">
-        <br /><br /><br /><br />
+<div class="divSearchAreaAround">
+    <div class="divSearchFormAround">
         {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
     </div>
-    <div class="span6">
-        <div id="Search_map" class="divSearchMap pull-right"></div>
+    <div class="divSearchMapAround">
+        <div id="Search_map" class="divSearchMap"></div>
         <div style="clear: both;"></div>
         <div class="spnNotes spnSearchInstructions">Use the controls on the map to pinpoint your position. Click and hold to drag the marker to where you are.</div>
     </div>
+    <div style="clear: both;"></div>
 </div>
 {% block stylesheets %}
 <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
