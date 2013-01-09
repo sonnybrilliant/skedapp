@@ -48,6 +48,11 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Gender:',
                 'attr' => array('class' => 'span4 chosen')
             ))
+            ->add('picture', 'file', array(
+                'label' => 'Profile picture:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
              ->add('category', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Category',
                 'label' => 'Category:',

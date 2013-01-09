@@ -4,59 +4,66 @@
       <div class="control-group {% if form_errors(form.company) %} error {% endif %}">
         <label class="control-label" for="company">{{ form_label(form.company) }}</label>
         <div class="controls">
-          {{ form_widget(form.company) }} 
-          <span class="help-inline">{{form_errors(form.company)}}</span>  
+          {{ form_widget(form.company) }}
+          <span class="help-inline">{{form_errors(form.company)}}</span>
         </div>
-      </div>      
+      </div>
       <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
         <label class="control-label" for="first_name">{{ form_label(form.firstName) }}</label>
         <div class="controls">
-          {{ form_widget(form.firstName) }} 
-          <span class="help-inline">{{form_errors(form.firstName)}}</span>  
+          {{ form_widget(form.firstName) }}
+          <span class="help-inline">{{form_errors(form.firstName)}}</span>
         </div>
-      </div> 
+      </div>
       <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
         <label class="control-label" for="last_name">{{ form_label(form.lastName) }}</label>
         <div class="controls">
-          {{ form_widget(form.lastName) }} 
-          <span class="help-inline">{{form_errors(form.lastName)}}</span>  
+          {{ form_widget(form.lastName) }}
+          <span class="help-inline">{{form_errors(form.lastName)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
         <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
         <div class="controls">
-          {{ form_widget(form.gender) }} 
-          <span class="help-inline">{{form_errors(form.gender)}}</span>  
+          {{ form_widget(form.gender) }}
+          <span class="help-inline">{{form_errors(form.gender)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.picture) %} error {% endif %}">
+        <label class="control-label" for="picture">{{ form_label(form.picture) }}</label>
+        <div class="controls">
+          {{ form_widget(form.picture) }}
+          <span class="help-inline">{{form_errors(form.picture)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.professionalStatement) %} error {% endif %}">
         <label class="control-label" for="professional_statement">{{ form_label(form.professionalStatement) }}</label>
         <div class="controls">
-          {{ form_widget(form.professionalStatement) }} 
-          <span class="help-inline">{{form_errors(form.professionalStatement)}}</span>  
+          {{ form_widget(form.professionalStatement) }}
+          <span class="help-inline">{{form_errors(form.professionalStatement)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.speciality) %} error {% endif %}">
         <label class="control-label" for="speciality">{{ form_label(form.speciality) }}</label>
         <div class="controls">
-          {{ form_widget(form.speciality) }} 
-          <span class="help-inline">{{form_errors(form.speciality)}}</span>  
+          {{ form_widget(form.speciality) }}
+          <span class="help-inline">{{form_errors(form.speciality)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.category) %} error {% endif %}">
         <label class="control-label" for="category">{{ form_label(form.category) }}</label>
         <div class="controls">
-          {{ form_widget(form.category) }} 
-          <span class="help-inline">{{form_errors(form.category)}}</span>  
+          {{ form_widget(form.category) }}
+          <span class="help-inline">{{form_errors(form.category)}}</span>
         </div>
-      </div> 
+      </div>
       <div class="control-group {% if form_errors(form.consultantServices) %} error {% endif %}">
         <label class="control-label" for="consultant_services">{{ form_label(form.consultantServices) }}</label>
         <div class="controls">
-          {{ form_widget(form.consultantServices) }} 
-          <span class="help-inline">{{form_errors(form.consultantServices)}}</span>  
+          {{ form_widget(form.consultantServices) }}
+          <span class="help-inline">{{form_errors(form.consultantServices)}}</span>
         </div>
-      </div> 
+      </div>
       <div class="control-group">
         <label class="control-label" for="time_slots">Default time slots</label>
         <div class="controls">
@@ -74,25 +81,24 @@
                     </tr>
                 </table>
                 <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
-                    Time from:{{ form_widget(form.startTimeslot) }} 
+                    Time from:{{ form_widget(form.startTimeslot) }}
                 </div>
                 <div style="margin: 8px 8px 0 0;padding-top: 5px;">
-                    Time to:{{ form_widget(form.endTimeslot) }} 
+                    Time to:{{ form_widget(form.endTimeslot) }}
                 </div>
                 <div style="margin-top: 13px;">
-                     Session length: {{ form_widget(form.appointmentDuration) }} 
+                     Session length: {{ form_widget(form.appointmentDuration) }}
                 </div>
 
             </div>
 
         </div>
-      </div>      
+      </div>
       <div class="form-actions">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_consultant_list') }}" class="btn">Cancel</a>
-      </div> 
-      {{ form_rest(form) }} 
+      </div>
+      {{ form_rest(form) }}
   </fieldset>
 </form>
 {{ tinymce_init() }}
-     
