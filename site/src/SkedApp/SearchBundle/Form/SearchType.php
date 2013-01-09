@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-
+use Doctrine\ORM\EntityRepository;
 
 /**
  * SkedApp\ConsultantBundle\Form\SearchType
@@ -61,6 +61,11 @@ class SearchType extends AbstractType
                 'label' => 'Category:',
                 'required' => true,
                 'attr' => array('class' => 'span4'),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->setParameter('status', false);
+                },
             ))
             ->add('address', 'text', array(
                 'label' => 'Type your current location:',
