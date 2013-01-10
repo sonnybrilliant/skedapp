@@ -67,8 +67,6 @@ class DefaultControllerTest extends WebTestCase
         $client = static::createClient();
         $client->followRedirects(true);
 
-        echo '/booking/make/2/2/' . date('d-m-Y') . '/12:00/1';
-
         //open search results page
         $crawler = $client->request('GET', '/booking/make/2/2/' . date('d-m-Y') . '/12:00/1');
 
