@@ -144,6 +144,11 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('edit booking id:' . $bookingId);
 
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('logger')->warn('list consultants, access denied.');
+            throw new AccessDeniedException();
+        }
+
         try {
 
             $user = $this->get('member.manager')->getLoggedInUser();
