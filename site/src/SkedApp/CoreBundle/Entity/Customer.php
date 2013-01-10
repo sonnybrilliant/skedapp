@@ -106,6 +106,17 @@ class Customer implements AdvancedUserInterface, \Serializable
     protected $mobileNumber;
 
     /**
+     * @var string
+     *
+     * @Assert\Type(type="numeric", message="Land line number {{ value }} is not a valid {{ type }} land line number.")
+     * @Assert\MinLength(limit= 10, message="Land line number must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 12, message="Land line number has a limit of {{ limit }} characters.")
+     *
+     * @ORM\Column(name="land_line_number", type="string", length=12 , nullable=true)
+     */
+    protected $landLineNumber;
+
+    /**
      * @var salt
      *
      * @ORM\Column(name="salt",type="string", length=255)
@@ -538,6 +549,29 @@ class Customer implements AdvancedUserInterface, \Serializable
     public function getMobileNumber()
     {
         return $this->mobileNumber;
+    }
+
+    /**
+     * Set landLineNumber
+     *
+     * @param string $landLineNumber
+     * @return Customer
+     */
+    public function setLandLineNumber($landLineNumber)
+    {
+        $this->landLineNumber = $landLineNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get landLineNumber
+     *
+     * @return string
+     */
+    public function getLandLineNumber()
+    {
+        return $this->landLineNumber;
     }
 
     /**

@@ -21,9 +21,9 @@ class CustomerCreateType extends AbstractType
 
     /**
      * Build Form
-     * 
+     *
      * @param FormBuilder $builder
-     * @param array $options 
+     * @param array $options
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -40,6 +40,11 @@ class CustomerCreateType extends AbstractType
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Mobile number:',
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('landLineNumber', 'text', array(
+                'label' => 'Land line number:',
+                'required' => false,
                 'attr' => array('class' => 'span4')
             ))
             ->add('email', 'repeated', array(
@@ -61,12 +66,47 @@ class CustomerCreateType extends AbstractType
                 'invalid_message' => 'Passwords do not match',
             ))
             ->add('captcha', 'genemu_recaptcha')
+            ->add('radio', 'checkbox', array(
+                'label' => 'Radio:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('internet', 'checkbox', array(
+                'label' => 'Internet:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('tv', 'checkbox', array(
+                'label' => 'Television:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('twitter', 'checkbox', array(
+                'label' => 'Twitter:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('facebook', 'checkbox', array(
+                'label' => 'Facebook:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('printedMedia', 'checkbox', array(
+                'label' => 'Printed Media:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('wordOfMouth', 'checkbox', array(
+                'label' => 'Word of Mouth:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
+            ))
         ;
     }
 
     /**
      * Get name
-     * @return string 
+     * @return string
      */
     public function getName()
     {

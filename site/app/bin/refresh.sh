@@ -2,12 +2,17 @@
 echo "Starting with reset"
 echo "==========================================="
 
+echo "Composer Self Update"
+echo "==========================================="
+sudo composer self-update
+
 echo "Composer Update"
 echo "==========================================="
 sudo composer update
 
 DIR=`php -r "echo dirname(dirname(realpath('$0')));"`
-cd "$DIR"
+# cd "$DIR"
+# this does not work - Need something that works
 
 echo "Clearing cache on app/cache app/logs"
 echo "==========================================="
