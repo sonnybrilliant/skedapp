@@ -25,7 +25,7 @@ class DefaultControllerTest extends WebTestCase
         $client->followRedirects(true);
 
         //open search results page
-        $crawler = $client->request('GET', '/search/index');
+        $crawler = $client->request('GET', '/search/results');
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -67,8 +67,10 @@ class DefaultControllerTest extends WebTestCase
         $client = static::createClient();
         $client->followRedirects(true);
 
+        echo '/booking/make/2/2/' . date('d-m-Y') . '/12:00/1';
+
         //open search results page
-        $crawler = $client->request('GET', '/booking/make/2/1/' . date('d-m-y') . '/12:00?serviceIds=');
+        $crawler = $client->request('GET', '/booking/make/2/2/' . date('d-m-Y') . '/12:00/1');
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
