@@ -1,9 +1,18 @@
 $(document).ready(function() {
-
+    
+    $('#searchFrm').hide();
+    
+    $('#searchToggle').click(function(){
+        $('#searchFrm').toggle();
+        $('#searchResults').toggle();
+    });
+    
     //update services
     $('#Search_category').change(function(){
         var categoryId = this.value;
-        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', { categoryId: categoryId}, true),function(response){
+        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', {
+            categoryId: categoryId
+        }, true),function(response){
             if(response.results){
 
                 var el = $('#Search_consultantServices');
@@ -18,47 +27,56 @@ $(document).ready(function() {
         });
     });
 
-    jQuery(function($){
-        $( "#Search_booking_date" ).datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            minDate: 0,
-            maxDate: "+1M +10D",
-            dateFormat: 'yy-mm-dd'
-        });
+
+    $( "#Search_booking_date" ).datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        minDate: 0,
+        maxDate: "+1M +10D",
+        dateFormat: 'yy-mm-dd'
     });
+
 
     //Run the ajax call to show only selected services
     var categoryId = 0;
     if (document.getElementById('Search_category')) {
-      categoryId = document.getElementById('Search_category').value;
+        categoryId = document.getElementById('Search_category').value;
     }
 
     if (categoryId <= 0)
-      categoryId = 0;
+        categoryId = 0;
 
-        $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', { categoryId: categoryId}, true),function(response){
-            if(response.results){
+    $.getJSON(Routing.generate('sked_app_search_ajax_get_services_by_category', {
+        categoryId: categoryId
+    }, true),function(response){
+        if(response.results){
 
-                var el = $('#Search_consultantServices');
-                el.empty();
-                $.each(response.results, function(key,value) {
-                    el.append($("<option></option>")
-                        .attr("value", value.id).text(value.name));
+            var el = $('#Search_consultantServices');
+            el.empty();
+            $.each(response.results, function(key,value) {
+                el.append($("<option></option>")
+                    .attr("value", value.id).text(value.name));
 
-                });
+            });
 
-            }
-        });
+        }
+    });
 
     if (blnAddress) {
+        
+        if($($('#Search_lat').val() == '')){
+            $('#Search_lat').val('-25.7500');
+            $('#Search_lng').val('28.2200');
+        //$('#Search_country').val('Pretoria,South Africa')
+        }
+        
         var addresspickerMap = $( "#Search_address" ).addresspicker({
             regionBias: "za",
             mapOptions: {
-                zoom: 10
+                zoom: 8
             },
             elements: {
-                map:      "#Search_map",
+                map:      "#map_canvas",                
                 lat:      "#Search_lat",
                 lng:      "#Search_lng",
                 locality: '#Search_locality',
@@ -81,19 +99,4 @@ $(document).ready(function() {
         gmarker.setIcon (image);
         addresspickerMap.addresspicker( "updatePosition");
     }
-
-    if (document.getElementById('divSearchForm')) {
-      document.getElementById('divSearchForm').style.display = 'none';
-    }
-
 });
-
-function ShowHideSearchForm (anchorTag) {
-    if (document.getElementById('divSearchForm').style.display == 'none') {
-        document.getElementById('divSearchForm').style.display = '';
-        anchorTag.innerHTML = 'Hide Search Form';
-    } else {
-        document.getElementById('divSearchForm').style.display = 'none';
-        anchorTag.innerHTML = 'Show Search Form';
-    }
-}

@@ -35,17 +35,17 @@
                             {% if is_granted('ROLE_ADMIN') %}
                                 <span class="pull-right">&nbsp</span>
                                 <a href="{{ path("sked_app_company_list")}}" class="btn btn-warning pull-right"> My Company Admin &nbsp; &nbsp;
-                                    <i class="icon-white icon-circle-arrow-right"></li>
+                                    <i class="icon-white icon-circle-arrow-right"></i></li>
                                 </a>
                             {% elseif is_granted('ROLE_SITE_USER') and logged_in_customer is defined %}
                                 <span class="pull-right">&nbsp</span>
                                 <a href="{{ path("sked_app_customer_list_bookings", {'id':logged_in_customer.id })}}" class="btn btn-warning pull-right"> My Bookings &nbsp; &nbsp;
-                                    <i class="icon-white icon-circle-arrow-right"></li>
+                                    <i class="icon-white icon-circle-arrow-right"></i></li>
                                 </a>
                             {% elseif is_granted('ROLE_CONSULTANT_USER') and logged_in_consultant is defined %}
                                 <span class="pull-right">&nbsp</span>
                                 <a href="{{ path("sked_app_consultant_show", {'id':logged_in_consultant.id })}}" class="btn btn-warning pull-right"> My Consultant Admin &nbsp; &nbsp;
-                                    <i class="icon-white icon-circle-arrow-right"></li>
+                                    <i class="icon-white icon-circle-arrow-right"></i></li>
                                 </a>
                             {% endif %}
 
@@ -62,11 +62,13 @@
                 </div>
             </div>
         {% endblock %}
-        <div class="container">
-            <div class="row" style="">
+        
+        <div class="container">  
+            <div class="row">
         {% block body %}{% endblock %}
-            </div>
+            </div>        
         </div>
+            
         {% block footer %}
             <!-- start of footer container -->
             <div class="container">

@@ -58,40 +58,42 @@ a:hover { color: #0AF; }
     margin-top: 5px;
 }
 
+#map_canvas { height: 310px }
+
 /* Search Results */
 
-.divSearchResultsItem {
+/*.divSearchResultsItem {
   border: solid 1px;
   background-color: #eeeeee;
   padding: 12px;
-}
+}*/
 
-.lblView {
+/*.lblView {
   float: left;
   width: 45%;
   font-weight: bold;
-}
+}*/
 
-.divViewData {
+/*.divViewData {
   float: left;
   width: 54%;
-}
+}*/
 
-.divConsultantInfo {
+/*.divConsultantInfo {
   width: 300px;
   float: left;
-}
+}*/
 
-.divTimeSlotsAround {
+/*.divTimeSlotsAround {
   width: 543px;
   float: right;
-}
+}*/
 
-.divTimeSlotContainer {
+/*.divTimeSlotContainer {
   border: solid 1px;
   border-radius: 4px;
   background-color: #fbb13e;
-}
+}*/
 
 .divTimeSlotAvailable, .divTimeSlotTaken {
   width: 91px;
@@ -138,35 +140,35 @@ a:hover { color: #0AF; }
 
 /* Search form */
 
-.divSearchAreaAround {
+/*.divSearchAreaAround {
   width: 95%;
   margin: auto;
   margin-top: 22px;
-}
+}*/
 
-.divSearchFormAround {
+/*.divSearchFormAround {
   width: 49%;
   float: left;
-}
+}*/
 
-.divSearchMapAround {
+/*.divSearchMapAround {
   width: 49%;
   float: right;
-}
+}*/
 
-.formSearch {
+/*.formSearch {
   width: 400px;
   float: left;
-}
+}*/
 
-.divSearchMap {
+/*.divSearchMap {
   width: 400px;
-  height: 300px;
+ height: 300px;
   float: right;
   margin-right: 80px;
-}
+}*/
 
-.spnNotes {
+/*.spnNotes {
   font-size: 9px;
   font-style: italic;
-}
+}*/

@@ -26,6 +26,7 @@ class ResetControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/reset/password');
 
+        
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($client->getResponse()->isSuccessful());

@@ -1,78 +1,133 @@
-<div class="divSearchResultsItem">
-
-    <div class="divConsultantInfo">
-
-        <span style="padding-left: 10px">
-            <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}"><img
-                src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="280px" height="280px" /></a>
-        </span>
-
-        <br />
-        <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span></a>
-
-        <br /><br />
-
-        <span>
-
-              <label class="lblView">
-                  Address:
-              </label>
-              <div class="divViewData">
-                  {{ consultant.company.name }}, {{ consultant.company.address }}
-              </div>
-              <div style="clear: both;"></div>
-
-              <label class="lblView">
-                  Distance from you:<br />
-                  <span class="spnNotes">(Point to point)</span>
-              </label>
-              <div class="divViewData">
-                  {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
-              </div>
-              <div style="clear: both;"></div>
-
-              <label class="lblView">
-                  GPS:
-              </label>
-              <div class="divViewData">
-                  {{ consultant.company.completeGPS }}
-              </div>
-              <div style="clear: both;"></div>
-
-        </span>
-
-        <br />
-        {% for service in consultant.consultantServices %}
-            <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
-        {% else %}
-             No listed services found.
-        {% endfor %}
-
-         <p>
-            <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}">View details...</a>
-         </p>
-
-    </div>
-
-    <div class="divTimeSlotsAround">
-        {% set arrSlots = consultant.getAvailableBookingSlots() %}
-        {% if arrSlots.error_message %}
-            <div class="divTimeSlotsAllTaken">{{ arrSlots.error_message }}</div>
-        {% else %}
-            <div class="divTimeSlotContainer">
-            {% for time_slot in arrSlots.time_slots %}
-                {% if time_slot.booking_taken %}
-                    <div class="divTimeSlotTaken">Taken</div>
+<div class="span5">
+    <a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}" class="pull-left">
+        <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" class="img-polaroid" title="consultant profile image" width="120px" height="120px" /></a>
+        <div>
+            <span style="padding-left: 10px"><strong>Fullname</strong>:<a href="{{ path("sked_app_consultant_view",{"id":consultant.id, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'booking_date': dateFull, 'category_id': category_id})}}">&nbsp;{{consultant.firstName}}&nbsp;{{consultant.lastName}}</a></span><br/>
+            <span style="padding-left: 10px"><strong>Services</strong>:        
+                {% for service in consultant.consultantServices %}
+                   <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
                 {% else %}
-                    <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}"><div class="divTimeSlotAvailable">
-                        {{ time_slot.start_time }} to {{ time_slot.end_time }}<br />
-                        <span class="spnTimeSlotNotes">{{ time_slot.dow }} {{ time_slot.date }} {{ time_slot.year }}</span>
-                    </div></a>
-                {% endif %}
+                   No listed services found.
+                {% endfor %}
+            </span><br />
+            <span style="padding-left: 10px"><strong>Service provider</strong>: &nbsp;{{ consultant.company.name }}</span><br/>
+            <span style="padding-left: 10px"><strong>Address</strong>: &nbsp;{{ consultant.company.address }}</span><br/>
+            <span style="padding-left: 10px"><strong>Distance from you</strong>: &nbsp;{{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}</span><br/>
+            <span style="padding-left: 10px"><strong>GPS</strong>: &nbsp;{{ consultant.company.completeGPS }}</span><br/>
+        </div>
+</div>
+<div class="span6 pull-right" style="padding-right: 30px;">
+    
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+        </thead>
+        <tbody>
+            {% set arrSlots = consultant.getAvailableBookingSlots() %}
+            {% if arrSlots.error_message %}
+                <tr>
+                    <td colspan="6">{{ arrSlots.error_message }}</td>
+                </tr>
+                
+            {% else %}
+                {% for time_slot in arrSlots.time_slots %}
+                <tr>
+                {# if time_slot.booking_taken == false #}
+                    {% if time_slot.dow == 'Mon'%}
+                        <td>
+                             <small>  
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}                               
+                             </a>
+                                <br />     
+                                {{ time_slot.date }} {{ time_slot.year }}    
+                             </small>
+                         </td>
+                    {% else %} 
+                         <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if time_slot.dow == 'Tues'%}
+                        <td>
+                             <small>  
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}                               
+                             </a>
+                                <br />     
+                                {{ time_slot.date }} {{ time_slot.year }}    
+                             </small>
+                         </td>
+                    {% else %} 
+                         <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if time_slot.dow == 'Wed'%}
+                        <td>
+                             <small>  
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}                               
+                             </a>
+                                <br />     
+                                {{ time_slot.date }} {{ time_slot.year }}    
+                             </small>
+                         </td>
+                    {% else %} 
+                         <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if time_slot.dow == 'Thurs'%}
+                        <td>
+                             <small>  
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}                               
+                             </a>
+                                <br />     
+                                {{ time_slot.date }} {{ time_slot.year }}    
+                             </small>
+                         </td>
+                    {% else %} 
+                         <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if time_slot.dow == 'Fri'%}
+                        <td>
+                             <small>  
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}                               
+                             </a>
+                                <br />     
+                                {{ time_slot.date }} {{ time_slot.year }}    
+                             </small>
+                         </td>
+                    {% else %} 
+                         <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if time_slot.dow == 'Sat'%}
+                         <td>
+                             <small>  
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}                               
+                             </a>
+                                <br />     
+                                {{ time_slot.date }} {{ time_slot.year }}    
+                             </small>
+
+                         </td>
+                    {% else %} 
+                         <td>&nbsp;</td>
+                    {% endif %}            
+                {# endif #}
+                </tr>         
             {% endfor %}
-            </div>
-        {% endif %}
-    </div>
-    <div style="clear: both;"></div>
+    {% endif %}
+        </tbody>
+    </table>
 
 </div>
+    

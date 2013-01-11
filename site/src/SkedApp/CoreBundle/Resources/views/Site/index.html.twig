@@ -2,14 +2,15 @@
 {% block title %}Welcome{% endblock %}
 
 {% block body %}
-        <div class="span12">
-            <br />
-            <h1>Search , Locate <small> services in your area.</small></h1>
-        </div>
+<div class="span12">
+    <br />
+    <h2>Search , Locate <small> services in your area.</small></h2>
+    <br />
 
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
 
         {%include "SkedAppSearchBundle:Search:search.area.html.twig" %}
+</div>
 {% endblock %}
