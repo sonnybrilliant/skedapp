@@ -60,6 +60,7 @@ class DefaultControllerTest extends WebTestCase
 
     /**
      * Test the click a time slot to make a booking
+     * @runInSeparateProcess
      */
     public function testMake()
     {
@@ -68,7 +69,7 @@ class DefaultControllerTest extends WebTestCase
         $client->followRedirects(true);
 
         //open search results page
-        $crawler = $client->request('GET', '/booking/make/2/2/' . date('d-m-Y') . '/12:00/1');
+        $crawler = $client->request('GET', '/booking/make/2/2/' . date('d-m-Y', (time() + (60 * 60 * 24))) . '/12:00/1');
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -76,6 +77,51 @@ class DefaultControllerTest extends WebTestCase
         //check if make booking required login
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+
+        // select the login form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form with valid credentials
+        $crawler = $client->submit(
+            $form, array(
+            '_username' => 'otto@saayman.net',
+            '_password' => 'gertygert',
+            )
+        );
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //check if words are not available on the page
+        $this->assertEquals(0, $crawler->filter('html:contains("Please login")')->count());
+        $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+
+        //open search results page
+        $crawler = $client->request('GET', '/booking/make/2/2/' . date('d-m-Y', (time() + (60 * 60 * 24))) . '/12:00/1');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //check if make booking form is displayed
+        $this->assertGreaterThan(0, $crawler->filter('html:contains("Appointment Date")')->count());
+
+        // select the search form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form which should be pre-populated
+        $crawler = $client->submit(
+            $form, array()
+        );
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        echo $client->getRequest()->getContent();
+
+        //we found the expected consultant
+        $this->assertEquals(1, $crawler->filter('html:contains("location")')->count());
 
     }
 
