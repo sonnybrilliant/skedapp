@@ -1,6 +1,7 @@
 <section>
     {% for consultant in pagination %}
          {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
+          <div style="clear: both;"></div>
     {% else %}
         <h4>We could not find anyone to help you out. Please try another search.</h4>
     {% endfor %}
