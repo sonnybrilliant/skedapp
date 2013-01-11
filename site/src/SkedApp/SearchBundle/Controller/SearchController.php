@@ -51,7 +51,7 @@ class SearchController extends Controller
         if (!isset($formData['lat'])){
           $formData['lat'] = $this->getRequest()->get('pos_lat', null);
         }
-        
+
         if (!isset($formData['lng']))
           $formData['lng'] = $this->getRequest()->get('pos_lng', null);
 
@@ -82,6 +82,13 @@ class SearchController extends Controller
 
         $arrResults = $this->container->get('consultant.manager')->listAllWithinRadius($options);
 
+        $variables = array();
+
+        //Read form variables into an array
+        foreach ($formData as $strKey => $strValue) {
+            $variables['Search[' . $strKey . ']'] = $strValue;
+        }
+
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $arrResults['arrResult'], $this->getRequest()->query->get('page', $page), 10
@@ -109,7 +116,8 @@ class SearchController extends Controller
                 'objDate' => $objDate,
                 'dateFull' => $objDate->format('d-m-Y'),
                 'category_id' => $formData['category'],
-                'serviceIds' => implode(',', $formData['consultantServices'])
+                'serviceIds' => implode(',', $formData['consultantServices']),
+                'paginatorVariables' => $variables
             ));
     }
 

@@ -3,5 +3,9 @@
          {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
     {% else %}
         <h4>We could not find anyone to help you out. Please try another search.</h4>
-    {% endfor %}     
+    {% endfor %}
+    <div style="clear: both;"></div>
+    <div class="pagination pull-right">
+        {{ pagination.render(null, paginatorVariables)|raw }}
+    </div>
 </section>
