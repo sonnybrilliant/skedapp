@@ -199,7 +199,7 @@ class BookingRepository extends EntityRepository
 
         $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
                 WHERE b.isDeleted = ?1 AND b.isActive = ?2
-                AND b.isCancelled = ?3 AND b.isReminderSent = ?4
+                AND b.isCancelled = ?3 AND b.isMainReminderSent = ?4
                 AND b.appointmentDate = ?5";
         return $this->getEntityManager()->createQuery($dql)
                 ->setParameters(array(
@@ -208,6 +208,32 @@ class BookingRepository extends EntityRepository
                     3 => false,
                     4 => false,
                     5=> $tomorrowDate->format("Y-m-d")
+                ))
+                ->getResult();
+
+    }
+
+    /**
+     * Get all active today's bookings
+     *
+     * @return array
+     */
+    public function getAllTodaysBookings()
+    {
+        $todayDate = new \DateTime();
+        
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.isDeleted = ?1 AND b.isActive = ?2
+                AND b.isCancelled = ?3 AND b.isMainReminderSent = ?4
+                AND b.isHourReminderSent = ?5 AND b.appointmentDate = ?6 ";
+        return $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => false,
+                    5 => false,
+                    6 => $todayDate->format("Y-m-d")
                 ))
                 ->getResult();
 

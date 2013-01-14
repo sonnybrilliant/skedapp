@@ -1,0 +1,38 @@
+#portfolio img {
+    margin: 0 auto;
+    min-width: 50%;
+    width: 90%;
+}
+
+.bigborder {
+    border: 10px solid #FFFFFF;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.5);
+    display: block;
+    margin-right: 15px;
+}
+
+.footer {
+	font-size: 8px;
+}
+
+#about_tumi img {
+    float: left;
+}
+
+.footerText{
+	font-size: 12px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.boderBottom {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 4px;
+}
+
+.shadow {
+  position:relative;
+  top:-16px;
+  width:100%;
+  z-index:5;
+}

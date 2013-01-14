@@ -119,10 +119,19 @@ class Booking
 
     /**
      * @var boolean
+     * to be sent at 07:00 on the day of appointment
      *
-     * @ORM\Column(name="is_reminder_sent", type="boolean")
+     * @ORM\Column(name="is_main_reminder_sent", type="boolean")
      */
-    protected $isReminderSent;
+    protected $isMainReminderSent;
+    
+    /**
+     * @var boolean
+     * to be sent any hour before the appointment
+     *
+     * @ORM\Column(name="is_hour_reminder_sent", type="boolean")
+     */
+    protected $isHourReminderSent;    
 
     /**
      * @var datetime
@@ -533,29 +542,6 @@ class Booking
     }
 
     /**
-     * Set isReminderSent
-     *
-     * @param boolean $isReminderSent
-     * @return Booking
-     */
-    public function setIsReminderSent($isReminderSent)
-    {
-        $this->isReminderSent = $isReminderSent;
-
-        return $this;
-    }
-
-    /**
-     * Get isReminderSent
-     *
-     * @return boolean
-     */
-    public function getIsReminderSent()
-    {
-        return $this->isReminderSent;
-    }
-
-    /**
      * Set customer
      *
      * @param \SkedApp\CoreBundle\Entity\Customer $customer
@@ -596,4 +582,50 @@ class Booking
       return $this->getAppointmentDate()->format('Y-m-d');
     }
 
+
+    /**
+     * Set isMainReminderSent
+     *
+     * @param boolean $isMainReminderSent
+     * @return Booking
+     */
+    public function setIsMainReminderSent($isMainReminderSent)
+    {
+        $this->isMainReminderSent = $isMainReminderSent;
+    
+        return $this;
+    }
+
+    /**
+     * Get isMainReminderSent
+     *
+     * @return boolean 
+     */
+    public function getIsMainReminderSent()
+    {
+        return $this->isMainReminderSent;
+    }
+
+    /**
+     * Set isHourReminderSent
+     *
+     * @param boolean $isHourReminderSent
+     * @return Booking
+     */
+    public function setIsHourReminderSent($isHourReminderSent)
+    {
+        $this->isHourReminderSent = $isHourReminderSent;
+    
+        return $this;
+    }
+
+    /**
+     * Get isHourReminderSent
+     *
+     * @return boolean 
+     */
+    public function getIsHourReminderSent()
+    {
+        return $this->isHourReminderSent;
+    }
 }

@@ -156,16 +156,17 @@ final class NotificationsManager
      *
      * @return void
      */
-    public function sendBookingReminders()
+    public function sendDayBookingReminders()
     {
         $this->logger->info("send booking reminders");
-        $bookings = $this->container->get("booking.manager")->getTomorrowsBookings();
+        $bookings = $this->container->get("booking.manager")->getTodayBookings();
 
         foreach($bookings as $booking){
+            echo 'processing booking'.$booking->getId();
             $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));
 
             //update booking
-            $booking->setIsReminderSent(true);
+            $booking->setIsMainReminderSent(true);
             $this->em->persist($booking);
             $this->em->flush();
         }
