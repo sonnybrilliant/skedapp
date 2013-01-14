@@ -24,10 +24,10 @@
         {% block header %}
             <div class="container">
                 <div class="row">
-                    <div class="span6 pull-left">
+                    <div class="span5 pull-left">
                         <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" width="180px" title="logo" /></a>
                     </div>
-                    <div class="span5 pull-right" style="margin-top: 50px;">
+                    <div class="span7 pull-right" style="margin-top: 50px;">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
                             <a href="{{ path("_security_logout")}}" class="btn btn-primary pull-right"><i class="icon-white icon-off"></i> Logout</a>

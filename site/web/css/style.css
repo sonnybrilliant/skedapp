@@ -172,3 +172,19 @@ a:hover { color: #0AF; }
   font-size: 9px;
   font-style: italic;
 }*/
+
+/* Overriding Bootstrap CSS to fit screens on 1024x768 */
+
+.form-horizontal .control-label {
+  width: 120px;
+}
+
+.form-horizontal .controls {
+  margin-left: 130px;
+}
+
+/* Fixing layout on consultant details screen */
+
+.divTimeSlotContainer {
+  margin-left: 42px;
+}

@@ -3,7 +3,7 @@
 
 {% block body %}
     {% block content %}
-            <div class="span7">
+            <div class="span12">
                 <h4>Consultant profile</h4>
                 <div class="pull-right">
                     <a href="{{path('sked_app_search_query', {'category_id': category_id, 'date': dateFull, 'pos_lat': intPositionLat, 'pos_lng': intPositionLong, 'service_ids': serviceIds}) }}">Back to Search</a>
@@ -58,6 +58,9 @@
 
                                     </p>
                                 </div>
+
+                                <div style="clear: both;"></div>
+                                <p>&nbsp;</p>
 
                                 <div class="divTimeSlotsAround">
                                     {% set arrSlots = consultant.getAvailableBookingSlots() %}
