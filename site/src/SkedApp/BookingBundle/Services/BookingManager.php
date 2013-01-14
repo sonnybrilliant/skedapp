@@ -261,6 +261,21 @@ final class BookingManager
         return $bookings;
     }    
     
+    /**
+     * Get all today bookings before the hour
+     *
+     * @return array
+     */
+    public function getTodayHourBookings()
+    {
+        $this->logger->info("get today bookings before the hour");
+
+        $bookings = $bookings = $this->em
+            ->getRepository("SkedAppCoreBundle:Booking")
+            ->getAllTodaysHourBookings();
+        return $bookings;
+    }    
+    
 
     /**
      * Get all bookings

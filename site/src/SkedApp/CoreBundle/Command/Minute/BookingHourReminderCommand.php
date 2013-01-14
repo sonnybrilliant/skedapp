@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * SkedApp\CoreBundle\Command\Minute\BookingDayReminderCommand
+ * SkedApp\CoreBundle\Command\Minute\BookingHourReminderCommand
  * 
  * Send booking reminder  on the day 07:00 am
  *
@@ -18,14 +18,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @subpackage Form
  * @version 0.0.1
  */
-class BookingDayReminderCommand extends ContainerAwareCommand
+class BookingHourReminderCommand extends ContainerAwareCommand
 {
 
     protected function configure()
     {
         $this
-            ->setName('booking:reminder:day')
-            ->setDescription('Send booking reminders on the day, 07:00 am')
+            ->setName('booking:reminder:hour')
+            ->setDescription('Send booking reminders on the hour')
         ;
     }
 
@@ -33,13 +33,13 @@ class BookingDayReminderCommand extends ContainerAwareCommand
     {
         $logger = $this->getContainer()->get('logger');
 
-        $logger->info("Start day booking reminder command");
-        $output->writeln("Start day booking reminder command");
+        $logger->info("Start hour booking reminder command");
+        $output->writeln("Start hour booking reminder command");
 
-        $this->getContainer()->get("notification.manager")->sendDayBookingReminders();
+        $this->getContainer()->get("notification.manager")->sendHourBookingReminders();
 
-        $logger->info("End day booking reminder command");
-        $output->writeln("Ending day booking reminder command");
+        $logger->info("End hour booking reminder command");
+        $output->writeln("Ending hour booking reminder command");
     }
 
 }

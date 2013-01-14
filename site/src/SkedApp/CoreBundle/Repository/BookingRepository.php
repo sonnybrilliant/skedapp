@@ -59,14 +59,15 @@ class BookingRepository extends EntityRepository
             ->andWhere("b.isCancelled = :cancelled")
             ->andWhere("b.customer = :customer")
             ->setParameters(array(
-            'delete' => false,
-            'active' => true,
-            'cancelled' => false,
-            'customer' => $options['customer']
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
+                'customer' => $options['customer']
             ));
         $qb->orderBy($options['sort'], $options['direction']);
         return $qb->getQuery()->execute();
     }
+
     /**
      * Get consultant all bookings
      *
@@ -129,11 +130,11 @@ class BookingRepository extends EntityRepository
         $intDoWAvailable = -1;
         $intCntCheck = 1;
 
-        if (!is_object ($bookingStartDate))
-          $bookingStartDate = new \DateTime($bookingStartDate);
+        if (!is_object($bookingStartDate))
+            $bookingStartDate = new \DateTime($bookingStartDate);
 
-        if (!is_object ($bookingEndDate))
-          $bookingEndDate = new \DateTime($bookingEndDate);
+        if (!is_object($bookingEndDate))
+            $bookingEndDate = new \DateTime($bookingEndDate);
 
         $booking_day_test = new \DateTime($bookingStartDate->format('r'));
 
@@ -147,7 +148,7 @@ class BookingRepository extends EntityRepository
 
         //Consultant has no working days set
         if ($intDoWAvailable < 0)
-          return null;
+            return null;
 
         //Check if time is within consultant's time slots
         $consultantStartSlot = new \DateTime($bookingStartDate->format('Y-m-d H:i:s'));
@@ -158,14 +159,14 @@ class BookingRepository extends EntityRepository
 
         //Booking starts before consultant is available
         if ($consultantStartSlot->getTimestamp() > $bookingStartDate->getTimestamp())
-          return null;
+            return null;
 
         $endSlot = explode(':', $consultant->getEndTimeslot()->getSlot());
         $consultantEndSlot->setTime($endSlot[0], $endSlot[1], 0);
 
         //Booking ends after consultant is not available
         if ($consultantEndSlot->getTimestamp() < $bookingEndDate->getTimestamp())
-          return null;
+            return null;
 
         //Check if consultant has bookings
         $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
@@ -207,10 +208,9 @@ class BookingRepository extends EntityRepository
                     2 => true,
                     3 => false,
                     4 => false,
-                    5=> $tomorrowDate->format("Y-m-d")
+                    5 => $tomorrowDate->format("Y-m-d")
                 ))
                 ->getResult();
-
     }
 
     /**
@@ -221,22 +221,61 @@ class BookingRepository extends EntityRepository
     public function getAllTodaysBookings()
     {
         $todayDate = new \DateTime();
-        
-        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
-                WHERE b.isDeleted = ?1 AND b.isActive = ?2
-                AND b.isCancelled = ?3 AND b.isMainReminderSent = ?4
-                AND b.isHourReminderSent = ?5 AND b.appointmentDate = ?6 ";
-        return $this->getEntityManager()->createQuery($dql)
-                ->setParameters(array(
-                    1 => false,
-                    2 => true,
-                    3 => false,
-                    4 => false,
-                    5 => false,
-                    6 => $todayDate->format("Y-m-d")
-                ))
-                ->getResult();
 
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where("b.isDeleted = :delete")
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.isMainReminderSent = :isMainReminderSent")
+            ->andWhere("b.isHourReminderSent = :isHourReminderSent")
+            ->andWhere("b.appointmentDate = :appointmentDate")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'isMainReminderSent' => false,
+            'isHourReminderSent' => false,
+            'appointmentDate' => $todayDate->format('Y-m-d'),
+           
+            ));
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Get all active today's bookings
+     *
+     * @return array
+     */
+    public function getAllTodaysHourBookings()
+    {
+        $todayDate = new \DateTime();
+
+        $config = $this->getEntityManager()->getConfiguration();
+        $config->addCustomNumericFunction('TimestampDiff', 'DoctrineExtensions\Query\Mysql\TimestampDiff');
+        
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where("b.isDeleted = :delete")
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.isMainReminderSent = :isMainReminderSent")
+            ->andWhere("b.isHourReminderSent = :isHourReminderSent")
+            ->andWhere("b.appointmentDate = :appointmentDate")
+            ->andWhere(" TimestampDiff(HOUR,:nowDate,b.hiddenAppointmentStartTime) = 1")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'isMainReminderSent' => true,
+            'isHourReminderSent' => false,
+            'appointmentDate' => $todayDate->format('Y-m-d'),
+            'nowDate' => $todayDate->format('Y-m-d H:m:s'),
+           
+            ));
+               
+        return $qb->getQuery()->execute();
+        
     }
 
     /**

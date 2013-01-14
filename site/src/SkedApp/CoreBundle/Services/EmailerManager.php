@@ -301,7 +301,7 @@ final class EmailerManager
     public function bookingReminderCustomer($params)
     {
         $this->logger->info("send booking reminder to customer");
-        $options['subject'] = "Your SkedApp booking reminder for tomorrow";
+        $options['subject'] = "Your SkedApp booking reminder for day";
 
         $booking = $params['booking'];
 
