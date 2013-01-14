@@ -13,7 +13,7 @@
         <tbody>
           {% for consultant in pagination %}
           <tr>
-            <td><span style="padding-left: 10px"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="18px" height="18px" /></span></td>
+            <td><span style="padding-left: 10px"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" width="180px" height="180px" /></span></td>
             <td><span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span></td>
             <td><span style="padding-left: 10px">
                   {% for service in consultant.consultantServices %}

@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "Starting with reset"
+echo "Starting with refresh"
 echo "==========================================="
 
 echo "Composer Self Update"
@@ -26,8 +26,8 @@ sudo php app/console cache:warmup
 
 echo "Setting Permissions on app/cache app/logs "
 echo "==========================================="
-sudo chmod 0777 -R app/cache/ app/logs/
-sudo chmod 0777 -R app/cache/* app/logs/*
+sudo chmod 0777 -R app/cache/ app/logs/ web/uploads/
+sudo chmod 0777 -R app/cache/* app/logs/* web/uploads/*
 
 echo "Installing assets "
 sudo php app/console assets:install --symlink web
