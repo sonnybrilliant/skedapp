@@ -11,21 +11,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * SkedApp\CoreBundle\Command\Minute\BookingReminderCommand
  * 
- * Send booking reminder a day before the booking
+ * Send booking reminder  on the day 07:00 am
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SuleCoreBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class BookingReminderCommand extends ContainerAwareCommand
+class BookingDayReminderCommand extends ContainerAwareCommand
 {
 
     protected function configure()
     {
         $this
-            ->setName('booking:reminder')
-            ->setDescription('Send booking reminders')
+            ->setName('booking:reminder:day')
+            ->setDescription('Send booking reminders on the day, 07:00 am')
         ;
     }
 
@@ -33,13 +33,13 @@ class BookingReminderCommand extends ContainerAwareCommand
     {
         $logger = $this->getContainer()->get('logger');
 
-        $logger->info("Start booking reminder command");
-        $output->writeln("Start booking reminder command");
+        $logger->info("Start day booking reminder command");
+        $output->writeln("Start day booking reminder command");
 
-        $this->getContainer()->get("notification.manager")->sendBookingReminders();
+        $this->getContainer()->get("notification.manager")->sendDayBookingReminders();
 
-        $logger->info("End booking reminder command");
-        $output->writeln("Ending booking reminder command");
+        $logger->info("End day booking reminder command");
+        $output->writeln("Ending day booking reminder command");
     }
 
 }
