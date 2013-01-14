@@ -307,9 +307,11 @@ final class EmailerManager
 
         $tmp = array(
             'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
-            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
-            'service' => $booking->getService()->getName(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+            'consultant' => $booking->getConsultant(),
+            'provider' => $booking->getConsultant()->getCompany(),
+            'service' => $booking->getService(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
+            'company' => $booking->getConsultant()->getCompany()
         );
 
 
