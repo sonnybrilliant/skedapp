@@ -346,6 +346,11 @@ class Consultant implements AdvancedUserInterface , \Serializable
     {
         return $this->firstName . ' ' . $this->lastName;
     }
+    
+    public function fullName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 
     /**
      * Erases the user credentials.

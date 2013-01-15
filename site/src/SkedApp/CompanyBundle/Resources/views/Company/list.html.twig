@@ -10,6 +10,9 @@
     {% block content %}
     <div class="span9">
         <h3>Manage service providers</h3>
+        <div class="span4 pull-right">
+                <span><a href="{{ path('sked_app_company_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Service Provider</a></span>
+        </div>
         <br />
         {% block alert %}
             {% include "::alert.html.twig" %}

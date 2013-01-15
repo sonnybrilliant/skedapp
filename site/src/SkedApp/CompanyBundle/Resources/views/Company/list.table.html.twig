@@ -1,13 +1,11 @@
 <section>
-    <span><a href="{{ path('sked_app_company_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Service Provider</a></span>
-    <div style="clear: both;"></div>
     <table id="sortable" class="table table-striped table-condensed tablesorter">
             <thead>
               <tr>
                 <th>{{ pagination.sortable('#', 'c.id')|raw }}</th>
                 <th>{{ pagination.sortable('Name', 'c.name')|raw }}</th>
                 <th>{{ pagination.sortable('Consultants', 'c.consultants')|raw }}</th>
-                <th>{{ pagination.sortable('Is Active', 'c.isActive')|raw }}</th>
+                <th>{{ pagination.sortable('Active', 'c.isActive')|raw }}</th>
                 <th>{{ pagination.sortable('Created At', 'c.createdAt')|raw }}</th>
                 <th>Actions</th>
               </tr>
@@ -18,11 +16,15 @@
                 <td>{{company.id}}</td>
                 <td>{{company.name}}</td>
                 <td>{{company.consultants.count}}</td>
-                <td>{{company.isActive}}</td>
-                <td>{{company.createdAt|date('M jS Y')}}</td>
-                <td><a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;
-                  <a href='{{path('sked_app_company_edit', {'id': company.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i></a> &nbsp;
-                  <a href='{{path('sked_app_company_delete', {'id': company.id }) }}' rel="tooltip" title="click to delete"><i class="icon-trash"></i></a></td>
+                {% if company.isActive %}
+                <td>Yes</td>
+                {% else %}
+                <td>No</td>
+                {% endif%}
+                <td>{{company.createdAt|date('Y-m-d H:i A')}}</td>
+                <td><a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                  <a href='{{path('sked_app_company_edit', {'id': company.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                  <a href='{{path('sked_app_company_delete', {'id': company.id }) }}' rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
               </tr>
               {% endfor %}
             </tbody>

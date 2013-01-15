@@ -1,11 +1,12 @@
 <section>
-    <span><a href="{{ path('sked_app_consultant_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Consultant</a></span>
-    <div style="clear: both;"></div>
     <table id="sortable" class="table table-striped table-condensed tablesorter">
         <thead>
           <tr>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('#', 'c.id')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Consultant name', 'c.firstName')|raw }} </th>
+            {% if is_granted('ROLE_ADMIN') %}
+            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Service provider', 'c.company')|raw }} </th>
+            {% endif %}
             <th>Services </th>
             <th>Actions</th>
           </tr>
@@ -13,18 +14,25 @@
         <tbody>
           {% for consultant in pagination %}
           <tr>
-            <td><span style="padding-left: 10px"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image"
-                                                      width="180px" height="180px" style="width: 180px; height: 180px;" /></span></td>
-            <td><span style="padding-left: 10px">{{consultant.firstName}}&nbsp;{{consultant.lastName}}</span></td>
-            <td><span style="padding-left: 10px">
+              <td><span style="padding-left: 10px">
+                    <a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view">
+                        <img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" title="consultant profile image" class="img-polaroid"  width="50px" height="50px" />
+                    </a>
+                  </span>
+              </td>
+              <td><span style="padding-left: 10px"><a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view">{{consultant.fullName}}</a></span></td>
+              {% if is_granted('ROLE_ADMIN') %}
+              <td><a href='{{path('sked_app_company_show', {'id': consultant.company.id }) }}' >{{consultant.company.name}}</a></td>
+             {% endif %}
+              <td><span style="padding-left: 10px">
                   {% for service in consultant.consultantServices %}
                       <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
                   {% else %}
                        No listed services found.
                   {% endfor %}
                 </span>
-            </td>
-            <td><a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;<a href='{{path('sked_app_consultant_edit', {'id': consultant.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i></a> &nbsp;<a href='{{path('sked_app_consultant_delete', {'id': consultant.id }) }}' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i></a></td>
+              </td>
+            <td><a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i>&nbsp;View</a>&nbsp;<a href='{{path('sked_app_consultant_edit', {'id': consultant.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a>&nbsp;<a href='{{path('sked_app_consultant_delete', {'id': consultant.id }) }}' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
           </tr>
           {% endfor %}
         </tbody>

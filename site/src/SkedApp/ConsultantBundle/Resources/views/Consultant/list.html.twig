@@ -11,11 +11,12 @@
     {% block content %}
      <div class="span9">
         <h3>Manage consultants</h3>
+        <span><a href="{{ path('sked_app_consultant_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Consultant</a></span>
         <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            {% include "SkedAppConsultantBundle:Consultant:list.table.html.twig" %}
+        {% include "SkedAppConsultantBundle:Consultant:list.table.html.twig" %}
      </div>  
     {% endblock content %}   
 {% endblock body %}

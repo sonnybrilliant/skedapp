@@ -121,7 +121,7 @@ class Booking
      * @var boolean
      * to be sent at 07:00 on the day of appointment
      *
-     * @ORM\Column(name="is_main_reminder_sent", type="boolean")
+     * @ORM\Column(name="is_main_reminder_sent", type="boolean" ,nullable=true)
      */
     protected $isMainReminderSent;
     
@@ -129,7 +129,7 @@ class Booking
      * @var boolean
      * to be sent any hour before the appointment
      *
-     * @ORM\Column(name="is_hour_reminder_sent", type="boolean")
+     * @ORM\Column(name="is_hour_reminder_sent", type="boolean" , nullable=true)
      */
     protected $isHourReminderSent;    
 
