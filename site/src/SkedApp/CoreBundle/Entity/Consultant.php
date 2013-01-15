@@ -167,14 +167,14 @@ class Consultant implements AdvancedUserInterface , \Serializable
     /**
      * @var string $speciality
      *
-     * @ORM\Column(name="speciality", type="string", length=254, nullable=true)
+     * @ORM\Column(name="speciality", type="text", length=10000, nullable=true)
      */
     protected $speciality;
 
     /**
      * @var string $professionalStatement
      *
-     * @ORM\Column(name="professional_statement", type="string", length=254, nullable=true)
+     * @ORM\Column(name="professional_statement", type="text", length=10000, nullable=true)
      */
     protected $professionalStatement;
 

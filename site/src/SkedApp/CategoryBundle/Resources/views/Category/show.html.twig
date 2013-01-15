@@ -2,29 +2,30 @@
 {% block title %}View category details{% endblock %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %}
-            </div>
+    <div class="span3 bs-docs-sidenav">
+       {% include "::menu.html.twig" %}
+    </div>
     {% endblock menu %}
     {% block content %}
-            <div class="span7">
-                <h4>Category</h4>
-                <br />
+     <div class="span9">
+                <h4>Category profile</h4>
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Show'} %}
+           {% include 'SkedAppCategoryBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            <div class="row">
-                <div class="span2"><img src="/uploads/categories/{{ category.id }}.{{ category.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
-                <div class="span4">
-                    <p><strong>Name</strong>: {{ category.name }} </p>
-                    <p>
-                        <strong>Description</strong>:
-                        <br /><br /> {{ category.description|raw }}
-                    </p>
-                </div>
-            </div>
-    {% endblock content %}
+        <div class="span2" style="margin-left: 0px"><img src="/uploads/categories/{{ category.id }}.{{ category.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
+        <div class="span7">
+            <p><strong>Name</strong>: {{ category.name }} </p>
+            <p>
+                <strong>Description</strong>:
+                <br /><br /> {{ category.description|raw }}
+            </p>
         </div>
+    </div>
+    {% endblock content %}
+
 {% endblock body %}

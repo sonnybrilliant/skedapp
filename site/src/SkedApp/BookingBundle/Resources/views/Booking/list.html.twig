@@ -17,25 +17,24 @@
 
 {% block body %}
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
+    <div class="span3 bs-docs-sidenav">
            {% include "::menu.html.twig" %} 
-            </div>       
+    </div>       
     {% endblock menu %}    
     {% block content %}
     <div class="span9">
         <h3>Manage bookings</h3>
-        <br />
+        <div class="span5" style="margin-left: -15px">
+           {% set vars = {'action': 'Show'} %}
+           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span3 pull-right">
+                <span><a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add booking</a></span>
+         </div>
     {% block alert %}
         {% include "::alert.html.twig" %}
     {% endblock %}
-       <span><a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add booking</a></span>
-       <br />
-       <br />
        <div id="calendar"></div>
-       <br />
-       <br />
-       <span><a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add booking</a></span>
- 
     </div>  
     {% endblock content %}   
        <script type='text/javascript'>

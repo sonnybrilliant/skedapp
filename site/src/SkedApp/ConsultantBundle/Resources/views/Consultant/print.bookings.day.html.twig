@@ -12,12 +12,12 @@
 {% endblock jquery_ui %}
 
 {% block body %}
-<div class="container">
     {% block content %}
-            <div class="span8">
-                <h4>Print my bookings</h4>
-                <br />
-            </div>
+        <h3>Print bookings</h3>                
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Print'} %}
+           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
@@ -31,5 +31,4 @@
         {% include "SkedAppBookingBundle:Booking:list.print.html.twig" %}
 
     {% endblock content %}
-        </div>
 {% endblock body %}

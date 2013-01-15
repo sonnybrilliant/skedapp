@@ -20,37 +20,40 @@
     {% endblock menu %}
     {% block content %}
     <div class="span9">
-                <h3>Edit service provider</h3>
-                <br />
+        <h3>Edit service provider</h3>
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Edit'} %}
+           {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
 
-                <div class="tabbable"> <!-- Only required for left/right tabs -->
-                        <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
-                        <li><a href="#tab2" data-toggle="tab">Photos</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab1">
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Photos</a></li>
+                </ul>
+                <div class="tab-content">
+                   <div class="tab-pane active" id="tab1">
 
-                        {#start form display===============================#}
-                            {% include "SkedAppCompanyBundle:Company:form.edit.html.twig" %}
-                        {#end form display===============================#}
+                    {#start form display===============================#}
+                        {% include "SkedAppCompanyBundle:Company:form.edit.html.twig" %}
+                    {#end form display===============================#}
 
-                        </div>
-                        <div class="tab-pane" id="tab2">
-                          <h4>Manage service provider photos</h4>
-                          <br />
+                   </div>
+                   <div class="tab-pane" id="tab2">
+                      <h4>Manage service provider photos</h4>
+                      <br />
 
-                          {% include "SkedAppCompanyBundle:CompanyPhotos:form.create.html.twig" %}
+                      {% include "SkedAppCompanyBundle:CompanyPhotos:form.create.html.twig" %}
 
-                          {% include "SkedAppCompanyBundle:CompanyPhotos:list.table.html.twig" %}
+                      {% include "SkedAppCompanyBundle:CompanyPhotos:list.table.html.twig" %}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+                   </div>
+               </div>
+        </div>
+    </div>
 
     {% endblock content %}
        

@@ -9,8 +9,14 @@
     {% endblock menu %}    
     {% block content %}
     <div class="span9">
-                <h3>Manage services</h3>
-                <br />
+        <h3>Manage services</h3>
+        <div class="span5" style="margin-left: -15px">
+           {% set vars = {'action': 'List'} %}
+           {% include 'SkedAppServiceBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span3 pull-right">
+            <span><a href="{{ path('sked_app_service_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Service</a></span>
+        </div>  
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}

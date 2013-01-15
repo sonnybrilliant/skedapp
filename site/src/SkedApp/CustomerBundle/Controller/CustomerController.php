@@ -243,6 +243,8 @@ class CustomerController extends Controller
         $this->get('logger')->info('account activate token' . $token);
 
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->getRequest()->getSession()->setFlash(
+                    'error', 'You cannot activate an account while you are logged in.');
             return $this->redirect($this->generateUrl('_welcome'));
         }
 

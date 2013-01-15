@@ -63,9 +63,9 @@ class Booking
     /**
      * @var string $description
      *
-     * @Assert\MaxLength(limit= 500, message="Booking description has a limit of {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 10000, message="Booking description has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="description", type="text", length=500, nullable=true)
+     * @ORM\Column(name="description", type="text", length=10000, nullable=true)
      */
     protected $description;
 

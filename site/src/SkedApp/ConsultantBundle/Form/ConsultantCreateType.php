@@ -51,7 +51,12 @@ class ConsultantCreateType extends AbstractType
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',
                 'label' => 'Company:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span4 chosen'),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->setParameter('status', false);
+                },
             ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',

@@ -20,7 +20,7 @@
             <td><span style="padding-left: 10px">{{customer.email}}</span></td>
             <td><span style="padding-left: 10px">{{customer.mobileNumber}}</span></td>
             <td><span style="padding-left: 10px">{{customer.bookings.count}}</span></td>
-            <td><a href='{{path('sked_app_customer_show', {'id': customer.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i></a>&nbsp;&nbsp;<a href='{{path('sked_app_customer_show', {'id': customer.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i></a> &nbsp;<a href='{{path('sked_app_customer_delete', {'id': customer.id }) }}' onclick="if(confirm('You are about to delete customer {{customer.firstName}} {{customer.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i></a></td>
+            <td><a href='{{path('sked_app_customer_show', {'id': customer.id }) }}' rel="tooltip" title="click to view"><i class="icon-eye-open"></i>&nbsp;View</a>&nbsp;<a href='{{path('sked_app_customer_delete', {'id': customer.id }) }}' onclick="if(confirm('You are about to delete customer {{customer.firstName}} {{customer.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
           </tr>
           {% endfor %}
         </tbody>

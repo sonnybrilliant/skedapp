@@ -1,7 +1,8 @@
-<section>
-    <table id="sortable" class="table table-striped table-condensed tablesorter">
+<section class="content">
+    <table id="sortable" class="table display table-striped table-condensed tablesorter">
         <thead>
           <tr>
+            <th><img src="{{ asset('/img/assets/icons/sort_descend.png') }}" title="Sort by table headers" /> {{ pagination.sortable('#', 'b.id')|raw }}</th>  
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Cunsultant', 'b.consultant')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Service', 'b.service')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Booking date', 'b.hiddenAppointmentStartTime')|raw }}</th>
@@ -12,11 +13,12 @@
         <tbody>
           {% for booking in pagination %}
           <tr>
+            <td><span style="padding-left: 20px">{{ booking.id }} </span></td>  
             <td><span style="padding-left: 20px">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }} </span></td>
             <td><span style="padding-left: 20px">{{ booking.service.name }} </span></td>
             <td><span style="padding-left: 20px">{{ booking.hiddenAppointmentStartTime|date('M jS Y') }} </span></td>
             <td><span style="padding-left: 20px">{{ booking.hiddenAppointmentStartTime|date('G:s a') }} </span></td>
-            <td><a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to cancel booking"><i class="icon-remove-circle"></i></a></td>
+            <td><a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to cancel booking"><i class="icon-remove"></i>&nbsp;Cancel</a></td>
           </tr>
           {% endfor %}
         </tbody>

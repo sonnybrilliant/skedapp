@@ -2,43 +2,44 @@
 {% block title %}View service provider details{% endblock %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
-        <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %}
-            </div>
+    <div class="span3 bs-docs-sidenav">
+       {% include "::menu.html.twig" %}
+    </div>
     {% endblock menu %}
     {% block content %}
-            <div class="span7">
-                <h4>Service Provider profile</h4>
-                <br />
+    <div class="span9">
+        <h3>Service Provider profile</h3>
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Show'} %}
+           {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-                <div class="tabbable"> <!-- Only required for left/right tabs -->
-                        <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
-                        <li><a href="#tab2" data-toggle="tab">Photos</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab1">
-                            <div class="row">
-                                <div class="span2"><img src="/uploads/companies/{{ company.id }}.{{ company.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
-                                <div class="span4">
-                                    <p><strong>Name</strong>: {{ company.name }}</p>
-                                    <p>
-                                        <strong>Description</strong>:
-                                        <br /><br /> {{ company.description|raw }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab2">
-                            <p>Images here</p>
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
+                <li><a href="#tab2" data-toggle="tab">Photos</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <div class="row">
+                        <div class="span2"><img src="/uploads/companies/{{ company.id }}.{{ company.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
+                        <div class="span4">
+                            <p><strong>Name</strong>: {{ company.name }}</p>
+                            <p>
+                                <strong>Description</strong>:
+                                <br /><br /> {{ company.description|raw }}
+                            </p>
                         </div>
                     </div>
                 </div>
+                <div class="tab-pane" id="tab2">
+                    <p>Images here</p>
+                </div>
             </div>
-    {% endblock content %}
         </div>
+    </div>
+    {% endblock content %}
 {% endblock body %}

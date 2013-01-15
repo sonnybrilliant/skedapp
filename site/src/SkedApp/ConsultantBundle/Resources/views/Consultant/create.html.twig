@@ -10,7 +10,10 @@
     {% block content %}
     <div class="span9">
         <h3>Add a new consultant</h3>
-        <br />
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Create'} %}
+           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}

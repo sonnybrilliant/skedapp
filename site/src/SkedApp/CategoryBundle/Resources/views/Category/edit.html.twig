@@ -9,8 +9,11 @@
     {% endblock menu %}    
     {% block content %}
     <div class="span9">
-                <h3>Edit category</h3>
-                <br />
+        <h3>Edit category</h3>
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Edit'} %}
+           {% include 'SkedAppCategoryBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}

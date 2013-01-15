@@ -10,14 +10,17 @@
     {% block content %}
     <div class="span9">
         <h3>Manage service providers</h3>
-        <div class="span4 pull-right">
+        <div class="span5" style="margin-left: -15px">
+           {% set vars = {'action': 'List'} %}
+           {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="span3 pull-right">
                 <span><a href="{{ path('sked_app_company_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Service Provider</a></span>
         </div>
-        <br />
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-            {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %}
+        {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %}
     </div>
     {% endblock content %}
 {% endblock body %}

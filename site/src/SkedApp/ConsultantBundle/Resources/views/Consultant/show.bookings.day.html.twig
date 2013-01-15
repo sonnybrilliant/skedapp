@@ -12,7 +12,6 @@
 {% endblock jquery_ui %}
 
 {% block body %}
-<div class="container">
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
        {% if is_granted('ROLE_ADMIN') %}
@@ -23,9 +22,12 @@
     </div>
     {% endblock menu %}
     {% block content %}
-            <div class="span8">
-                <h4>Print my bookings</h4>
-                <br />
+    <div class="span9">
+        <h3>Print bookings</h3>                
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Print'} %}
+           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
+        </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
@@ -35,7 +37,7 @@
         {#end form display===============================#}
 
         {% include "SkedAppBookingBundle:Booking:list.print.html.twig" %}
+    </div>
 
     {% endblock content %}
-        </div>
 {% endblock body %}
