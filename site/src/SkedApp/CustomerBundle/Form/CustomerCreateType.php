@@ -69,37 +69,30 @@ class CustomerCreateType extends AbstractType
             ->add('radio', 'checkbox', array(
                 'label' => 'Radio:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
             ))
             ->add('internet', 'checkbox', array(
                 'label' => 'Internet:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
-            ))
+           ))
             ->add('tv', 'checkbox', array(
                 'label' => 'Television:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
-            ))
+           ))
             ->add('twitter', 'checkbox', array(
                 'label' => 'Twitter:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
             ))
             ->add('facebook', 'checkbox', array(
                 'label' => 'Facebook:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
             ))
             ->add('printedMedia', 'checkbox', array(
                 'label' => 'Printed Media:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
             ))
             ->add('wordOfMouth', 'checkbox', array(
                 'label' => 'Word of Mouth:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
             ))
         ;
     }

@@ -29,6 +29,14 @@
           <span class="help-inline">{{form_errors(form.mobileNumber)}}</span>
         </div>
       </div>
+      <div class="control-group {% if form_errors(form.landLineNumber) %} error {% endif %}">
+        <label class="control-label" for="land_line">{{ form_label(form.landLineNumber) }}</label>
+        <div class="controls">
+          {{ form_widget(form.landLineNumber) }}
+          <span class="help-inline"><a href="#" rel="tooltip" data-placement="right" data-original-title="Enter land line number."><i class="icon-info-sign"></i></a></span>
+          <span class="help-inline">{{form_errors(form.landLineNumber)}}</span>
+        </div>
+      </div>
       <div class="control-group {% if form_errors(form.email.first) %} error {% endif %}">
         <label class="control-label" for="email_address">{{ form_label(form.email.first) }}</label>
         <div class="controls">
@@ -57,6 +65,41 @@
            <span class="help-inline">{{form_errors(form.password.second)}}</span>
         </div>
       </div>
+      <div class="control-group">
+        <label class="control-label" for="media">How did you hear about us?</label>
+        <div class="controls">
+            <table width="150px">
+                <tr>
+                    <td>{{ form_widget(form.radio) }}</td>
+                    <td>Radio</td>                    
+                </tr>
+                <tr>                    
+                    <td>{{ form_widget(form.internet) }}</td>
+                    <td>Internet</td>
+                </tr>
+                <tr>
+                    <td>{{ form_widget(form.tv) }}</td>
+                    <td>TV</td>                    
+                </tr>
+                <tr>
+                    <td>{{ form_widget(form.twitter) }}</td>
+                    <td>Twitter</td>                    
+                </tr>
+                <tr>
+                    <td>{{ form_widget(form.facebook) }}</td>
+                    <td>Facebook</td>                    
+                </tr>
+                <tr>
+                    <td>{{ form_widget(form.printedMedia) }}</td>
+                    <td>Print media</td>                    
+                </tr>
+                <tr>
+                    <td>{{ form_widget(form.wordOfMouth) }}</td>
+                    <td>Word of mouth</td>                    
+                </tr>
+            </table>             
+        </div>
+      </div>
       <div class="control-group {% if form_errors(form.captcha) %} error {% endif %}">
         <label class="control-label" for="form.captcha">{{ form_label(form.captcha) }}</label>
         <div class="controls">
@@ -68,68 +111,7 @@
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Register &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('_welcome') }}" class="btn">Cancel</a>
       </div>
-      <legend><span class="label label-info">Optional Fields</span> <small>Help us give a better service by completing the optional fields.</small></legend>
-      <div class="control-group {% if form_errors(form.landLineNumber) %} error {% endif %}">
-        <label class="control-label" for="form.captcha">{{ form_label(form.landLineNumber) }}</label>
-        <div class="controls">
-          {{ form_widget(form.landLineNumber) }}
-           <span class="help-inline">{{form_errors(form.landLineNumber)}}</span>
-        </div>
-      </div>
-      <legend><small>How did you hear about us?</small></legend>
-      <div class="control-group">
-        <label class="control-label" for="radio">{{ form_label(form.radio) }}</label>
-        <div class="controls">
-          {{ form_widget(form.radio) }}
-           <span class="help-inline">{{form_errors(form.radio)}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="internet">{{ form_label(form.internet) }}</label>
-        <div class="controls">
-          {{ form_widget(form.internet) }}
-           <span class="help-inline">{{form_errors(form.internet)}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="tv">{{ form_label(form.tv) }}</label>
-        <div class="controls">
-          {{ form_widget(form.tv) }}
-           <span class="help-inline">{{form_errors(form.tv)}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="twitter">{{ form_label(form.twitter) }}</label>
-        <div class="controls">
-          {{ form_widget(form.twitter) }}
-           <span class="help-inline">{{form_errors(form.twitter)}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="facebook">{{ form_label(form.facebook) }}</label>
-        <div class="controls">
-          {{ form_widget(form.facebook) }}
-           <span class="help-inline">{{form_errors(form.facebook)}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="printedMedia">{{ form_label(form.printedMedia) }}</label>
-        <div class="controls">
-          {{ form_widget(form.printedMedia) }}
-           <span class="help-inline">{{form_errors(form.printedMedia)}}</span>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="wordOfMouth">{{ form_label(form.wordOfMouth) }}</label>
-        <div class="controls">
-          {{ form_widget(form.wordOfMouth) }}
-           <span class="help-inline">{{form_errors(form.wordOfMouth)}}</span>
-        </div>
-      </div>
-      <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Register &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('_welcome') }}" class="btn">Cancel</a>
-      </div>
+      
       {{ form_rest(form) }}
   </fieldset>
 </form>
