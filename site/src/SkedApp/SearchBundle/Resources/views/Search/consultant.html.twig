@@ -80,7 +80,7 @@
                          <td>&nbsp;</td>
                     {% endif %}
 
-                    {% if time_slot.dow == 'Thurs'%}
+                    {% if time_slot.dow == 'Thu'%}
                         <td>
                              <small>
                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">

@@ -237,7 +237,7 @@ class BookingRepository extends EntityRepository
             'isMainReminderSent' => false,
             'isHourReminderSent' => false,
             'appointmentDate' => $todayDate->format('Y-m-d'),
-           
+
             ));
         return $qb->getQuery()->execute();
     }
@@ -253,7 +253,7 @@ class BookingRepository extends EntityRepository
 
         $config = $this->getEntityManager()->getConfiguration();
         $config->addCustomNumericFunction('TimestampDiff', 'DoctrineExtensions\Query\Mysql\TimestampDiff');
-        
+
         $qb = $this->createQueryBuilder('b')
             ->select('b')
             ->where("b.isDeleted = :delete")
@@ -271,11 +271,11 @@ class BookingRepository extends EntityRepository
             'isHourReminderSent' => false,
             'appointmentDate' => $todayDate->format('Y-m-d'),
             'nowDate' => $todayDate->format('Y-m-d H:m:s'),
-           
+
             ));
-               
+
         return $qb->getQuery()->execute();
-        
+
     }
 
     /**
