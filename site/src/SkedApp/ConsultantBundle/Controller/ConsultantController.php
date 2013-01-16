@@ -457,7 +457,7 @@ class ConsultantController extends Controller
                     'intPositionLong' => $this->getRequest()->get('pos_lng', 0),
                     'dateFull' => $strBookingDate,
                     'category_id' => $this->getRequest()->get('category_id', 0),
-                    'serviceIds' => '',
+                    'serviceIds' => $this->getRequest()->get('serviceIds'),
                     'form' => $form->createView(),
                     ));
     }
