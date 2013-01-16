@@ -17,9 +17,11 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
+        <div class="span9" style="margin-left: 0px">
         {#start form display===============================#}
             {% include "SkedAppCategoryBundle:Category:form.edit.html.twig" %}
-        {#end form display===============================#}   
+        {#end form display===============================#}  
+        </div>        
     </div>  
     {% endblock content %}   
 {% endblock body %}

@@ -21,7 +21,9 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
+        <div class="span9" style="margin-left: 0px">
         {% include "SkedAppConsultantBundle:Consultant:list.table.html.twig" %}
+        </div>        
      </div>  
     {% endblock content %}   
 {% endblock body %}

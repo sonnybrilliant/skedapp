@@ -28,9 +28,11 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
+        <div class="span9" style="margin-left: 0px">
         {#start form display===============================#}
             {% include "SkedAppCompanyBundle:Company:form.create.html.twig" %}
         {#end form display===============================#}
+        </div>        
     </div>
     {% endblock content %}
 <script type="text/javascript">

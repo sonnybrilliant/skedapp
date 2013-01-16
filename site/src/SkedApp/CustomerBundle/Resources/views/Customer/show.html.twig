@@ -17,9 +17,13 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
+        
+        <div class="span9" style="margin-left: 0px">
+        <br />    
         {#start form display===============================#}
             {% include "SkedAppCustomerBundle:Customer:form.show.html.twig" %}
-        {#end form display===============================#}   
+        {#end form display===============================#}  
+        </div>        
     </div>  
     {% endblock content %}   
 {% endblock body %}

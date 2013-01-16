@@ -20,7 +20,9 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-        {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %}
+        <div class="span9" style="margin-left: 0px">
+            {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %}
+        </div>
     </div>
     {% endblock content %}
 {% endblock body %}
