@@ -86,6 +86,11 @@ class ApiController extends Controller
     {
         $this->get('logger')->info('get consultant by category, service id and location');
 
+        $user = null;
+
+        if ($this->getRequest()->get('user_id'))
+          $user = $this->get('customer.manager')->getById($this->getRequest()->get('user_id'));
+
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
 
@@ -95,6 +100,8 @@ class ApiController extends Controller
 
         //Instantiate search form
         $formData = $this->getRequest()->get('Search');
+
+        $page = $this->getRequest()->get('page', 1);
 
         if (!isset($formData['booking_date'])){
           $formData['booking_date'] = $this->getRequest()->get('date', '');
@@ -138,9 +145,6 @@ class ApiController extends Controller
 
         }
 
-        return $this->respond($formData);
-        exit;
-
         if ( (!is_null($formData['lat'])) && (!is_null($formData['lng'])) && ($serviceId > 0) ) {
 
             $options['lat'] = $formData['lat'];
@@ -151,7 +155,7 @@ class ApiController extends Controller
 
         }
 
-        if ( (is_null($formData['lat'])) || (is_null($formData['lng'])) || ($serviceId <= 0) ) {
+        if ( (is_null($formData['lat'])) || (is_null($formData['lng'])) || ($serviceId <= 0) || ($formData['category'] <= 0) ) {
             return $this->respond(array('error_message' => 'Please provide some search criteria'));
         }
 
@@ -185,7 +189,12 @@ class ApiController extends Controller
             $consultantsFound[] = $oneConsultant;
         }
 
-        return $this->respond(array ('consultantsFound' => $consultantsFound, 'formData' => $formData));
+        $arrResponse = array('consultantsFound' => $consultantsFound, 'formData' => $formData, 'parametersToSearch' => $options);
+
+        if (is_object($user))
+            $arrResponse['user'] = $user->getObjectAsArray();
+
+        return $this->respond($arrResponse);
     }
 
     /**

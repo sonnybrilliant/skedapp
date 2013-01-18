@@ -1084,4 +1084,25 @@ class Customer implements AdvancedUserInterface, \Serializable
 
     }
 
+    public function getObjectAsArray ()
+    {
+        return array (
+            'id' => $this->getId(),
+            'first_name' => $this->getFirstName(),
+            'last_name' => $this->getLastName(),
+            'email' => $this->getEmail(),
+            'username' => $this->getUsername(),
+            'mobile_number' => $this->getMobileNumber(),
+            'enabled' => $this->getEnabled(),
+            'expired' => $this->getExpired(),
+            'last_login' => $this->getLastLogin(),
+            'expires_at' => $this->getExpiresAt(),
+            'speciality' => $this->getSpeciality(),
+            'professional_statement' => $this->getProfessionalStatement(),
+            'is_active' => $this->getIsActive(),
+            'is_deleted' => $this->getIsDeleted(),
+            'is_locked' => $this->getIsLocked(),
+        );
+    }
+
 }
