@@ -22,7 +22,7 @@
         "stof/doctrine-extensions-bundle": "dev-master",
         "beberlei/DoctrineExtensions": "dev-master",
         "raulfraile/ladybug-bundle": "dev-master",
-        "knplabs/knp-paginator-bundle": "dev-master",
+        "knplabs/knp-paginator-bundle": "v2.2",
         "stfalcon/tinymce-bundle": "dev-master",
         "genemu/form-bundle": "2.1.*",
         "friendsofsymfony/jsrouting-bundle": "1.0.*"
