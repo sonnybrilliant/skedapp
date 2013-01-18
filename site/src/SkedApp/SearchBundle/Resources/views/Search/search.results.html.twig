@@ -1,12 +1,10 @@
-<section>
+<div class="span12">
     {% for consultant in pagination %}
          {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
-          <div style="clear: both;"></div>
     {% else %}
-        <h4>We could not find anyone to help you out. Please try another search.</h4>
+        <div>
+            <p><span class="label label-important">Oopps!!</span>, We could not find anyone to help you out. Please try another search.</p>
+        </div>
     {% endfor %}
-    <div style="clear: both;"></div>
-    <div class="pagination pull-right">
-        {{ pagination.render(null, paginatorVariables)|raw }}
-    </div>
-</section>
+</div>
+
