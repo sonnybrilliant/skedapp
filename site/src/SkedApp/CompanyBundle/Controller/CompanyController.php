@@ -36,7 +36,6 @@ class CompanyController extends Controller
             'direction' => $direction
         );
 
-
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $this->container->get('company.manager')->listAll($options), $this->getRequest()->query->get('page', $page), 10
