@@ -36,6 +36,7 @@ class AppKernel extends Kernel
             new SkedApp\MemberBundle\SkedAppMemberBundle(),
             new SkedApp\SearchBundle\SkedAppSearchBundle(),
             new SkedApp\CustomerBundle\SkedAppCustomerBundle(),
+            new Ivory\GoogleMapBundle\IvoryGoogleMapBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
