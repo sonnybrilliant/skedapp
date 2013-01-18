@@ -139,7 +139,7 @@ class BookingRepository extends EntityRepository
         $booking_day_test = new \DateTime($bookingStartDate->format('r'));
 
         //Check if any dates were set for consultant
-        while (($intDoWAvailable < 0) && ($intCntCheck <= 7)) {
+        while ((!$intDoWAvailable) && ($intCntCheck <= 7)) {
             $strDayName = $booking_day_test->format('l');
             eval("\$intDoWAvailable = \$consultant->get$strDayName();");
             $booking_day_test->modify("+1 day");
@@ -147,7 +147,7 @@ class BookingRepository extends EntityRepository
         }
 
         //Consultant has no working days set
-        if ($intDoWAvailable < 0)
+        if (!$intDoWAvailable)
             return null;
 
         //Check if time is within consultant's time slots
@@ -291,19 +291,19 @@ class BookingRepository extends EntityRepository
         $arrOut = array('error_message' => null, 'time_slots' => array());
 
         //check next day consultant is available
-        $intDoWAvailable = -1;
+        $intDoWAvailable = false;
         $intCntCheck = 1;
         $booking_day_test = new \DateTime($bookingDate->format('r'));
 
         //Check if any dates were set for consultant
-        while (($intDoWAvailable < 0) && ($intCntCheck <= 7)) {
+        while ((!$intDoWAvailable) && ($intCntCheck <= 7)) {
             $strDayName = $booking_day_test->format('l');
             eval("\$intDoWAvailable = \$consultant->get$strDayName();");
             $booking_day_test->modify("+1 day");
             $intCntCheck++;
         }
 
-        if ($intDoWAvailable < 0) {
+        if (!$intDoWAvailable) {
 
             $arrOut['error_message'] = 'This consultant is not available for bookings';
 
