@@ -25,7 +25,9 @@
         "knplabs/knp-paginator-bundle": "v2.2",
         "stfalcon/tinymce-bundle": "dev-master",
         "genemu/form-bundle": "2.1.*",
-        "friendsofsymfony/jsrouting-bundle": "1.0.*"
+        "friendsofsymfony/jsrouting-bundle": "1.0.*",
+        "egeloen/google-map-bundle": "*",
+        "kriswallsmith/buzz": "*"
     },
     "scripts": {
         "post-install-cmd": [

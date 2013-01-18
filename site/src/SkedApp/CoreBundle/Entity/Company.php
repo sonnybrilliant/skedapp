@@ -757,4 +757,22 @@ class Company
 
     }
 
+    public function getObjectAsArray ()
+    {
+        return array (
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'description' => $this->getDescription(),
+            'address' => $this->getAddress(),
+            'contact_number' => $this->getContactNumber(),
+            'locality' => $this->getLocality(),
+            'country' => $this->getCountry(),
+            'lat' => $this->getLat(),
+            'lng' => $this->getLng(),
+            'is_active' => $this->getIsActive(),
+            'is_deleted' => $this->getIsDeleted(),
+            'is_locked' => $this->getIsLocked(),
+        );
+    }
+
 }

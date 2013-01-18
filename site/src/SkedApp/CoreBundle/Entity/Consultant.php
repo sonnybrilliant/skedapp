@@ -346,7 +346,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     {
         return $this->firstName . ' ' . $this->lastName;
     }
-    
+
     public function fullName()
     {
         return $this->firstName . ' ' . $this->lastName;
@@ -1391,6 +1391,38 @@ class Consultant implements AdvancedUserInterface , \Serializable
 
         return $strOut;
 
+    }
+
+    public function getObjectAsArray ()
+    {
+        return array (
+            'id' => $this->getId(),
+            'gender' => $this->getGender()->getName(),
+            'company' => $this->getCompany()->getObjectAsArray(),
+            'start_time_slot' => $this->getStartTimeslot()->getSlot(),
+            'end_time_slot' => $this->getEndTimeslot()->getSlot(),
+            'appointment_duration' => $this->getAppointmentDuration()->getDuration(),
+            'first_name' => $this->getFirstName(),
+            'last_name' => $this->getLastName(),
+            'email' => $this->getEmail(),
+            'username' => $this->getUsername(),
+            'enabled' => $this->getEnabled(),
+            'expired' => $this->getExpired(),
+            'last_login' => $this->getLastLogin(),
+            'expires_at' => $this->getExpiresAt(),
+            'speciality' => $this->getSpeciality(),
+            'professional_statement' => $this->getProfessionalStatement(),
+            'is_active' => $this->getIsActive(),
+            'is_deleted' => $this->getIsDeleted(),
+            'is_locked' => $this->getIsLocked(),
+            'monday' => $this->getMonday(),
+            'tuesday' => $this->getTuesday(),
+            'wednesday' => $this->getWednesday(),
+            'thursday' => $this->getThursday(),
+            'friday' => $this->getFriday(),
+            'saturday' => $this->getSaturday(),
+            'sunday' => $this->getSunday(),
+        );
     }
 
 }

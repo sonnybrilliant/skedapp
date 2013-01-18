@@ -40,7 +40,6 @@ class SearchController extends Controller
             'direction' => $direction
         );
 
-
         //Instantiate search form
         $formData = $this->getRequest()->get('Search');
 
