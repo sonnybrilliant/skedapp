@@ -33,10 +33,10 @@
                                 <li>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path("sked_app_company_list")}}">My admin</a>
-                                    {% elseif is_granted('ROLE_SITE_USER') and logged_in_customer is defined %}
-                                        <a href="{{ path("sked_app_customer_list_bookings", {'id':logged_in_customer.id })}}">My bookings</a>
-                                    {% elseif is_granted('ROLE_CONSULTANT_USER') and logged_in_consultant is defined %}
-                                        <a href="{{ path("sked_app_consultant_show", {'id':logged_in_consultant.id })}}">My admin</a>
+                                    {% elseif is_granted('ROLE_SITE_USER') %}
+                                        <a href="{{ path("sked_app_customer_list_bookings", {'id':app.user.id })}}">My bookings</a>
+                                    {% elseif is_granted('ROLE_CONSULTANT_USER')  %}
+                                        <a href="{{ path("sked_app_consultant_show", {'id': app.user.id })}}">My admin</a>
                                     {% endif %}
                                 </li>
                                 <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
