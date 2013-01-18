@@ -26,6 +26,7 @@
             <th>Thursday</th>
             <th>Friday</th>
             <th>Saturday</th>
+            <th>Sunday</th>
         </thead>
         <tbody>
             {% set arrSlots = consultant.getAvailableBookingSlots() %}
@@ -52,7 +53,7 @@
                          <td>&nbsp;</td>
                     {% endif %}
 
-                    {% if time_slot.dow == 'Tues'%}
+                    {% if time_slot.dow == 'Tue'%}
                         <td>
                              <small>
                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
@@ -109,6 +110,21 @@
                     {% endif %}
 
                     {% if time_slot.dow == 'Sat'%}
+                         <td>
+                             <small>
+                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
+                                {{ time_slot.start_time }} to {{ time_slot.end_time }}
+                             </a>
+                                <br />
+                                {{ time_slot.date }} {{ time_slot.year }}
+                             </small>
+
+                         </td>
+                    {% else %}
+                         <td>&nbsp;</td>
+                    {% endif %}
+
+                    {% if time_slot.dow == 'Sun'%}
                          <td>
                              <small>
                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}">
