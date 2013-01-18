@@ -85,20 +85,20 @@ class CustomerController extends Controller
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_SITE_USER")
      */
-    public function listBookingsAction($id,$page=1)
+    public function listBookingsAction($id, $page = 1)
     {
 
         $bookingParameters = unserialize($_SESSION['booking_params']);
 
-        if ( (is_array($bookingParameters)) && ($bookingParameters['booking_attempt'] == 1) ) {
+        if ((is_array($bookingParameters)) && ($bookingParameters['booking_attempt'] == 1)) {
             $_SESSION['booking_params'] = null;
             return $this->redirect($this->generateUrl('sked_app_booking_make', array(
-                    'companyId' => $bookingParameters['company_id'],
-                    'consultantId' => $bookingParameters['consultant_id'],
-                    'date' => $bookingParameters['booking_date'],
-                    'timeSlotStart' => $bookingParameters['timeslot_start'],
-                    'serviceIds' => $bookingParameters['service_ids'],
-                )
+                        'companyId' => $bookingParameters['company_id'],
+                        'consultantId' => $bookingParameters['consultant_id'],
+                        'date' => $bookingParameters['booking_date'],
+                        'timeSlotStart' => $bookingParameters['timeslot_start'],
+                        'serviceIds' => $bookingParameters['service_ids'],
+                        )
                     ));
         }
 
@@ -119,8 +119,8 @@ class CustomerController extends Controller
             $allBookings = $this->container->get('booking.manager')->getAllCustomerBookings($options);
 
             foreach ($allBookings as $booking) {
-              if (!is_object($booking->getService()))
-                      $booking->setService(new Service());
+                if (!is_object($booking->getService()))
+                    $booking->setService(new Service());
             }
 
             $paginator = $this->get('knp_paginator');
@@ -244,7 +244,7 @@ class CustomerController extends Controller
 
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             $this->getRequest()->getSession()->setFlash(
-                    'error', 'You cannot activate an account while you are logged in.');
+                'error', 'You cannot activate an account while you are logged in.');
             return $this->redirect($this->generateUrl('_welcome'));
         }
 
