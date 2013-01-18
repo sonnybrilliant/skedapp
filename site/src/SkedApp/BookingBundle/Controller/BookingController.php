@@ -378,6 +378,7 @@ class BookingController extends Controller
                 'booking_time_end' => $timeSlotEnd->format('H:i'),
                 'booking_consultant' => $consultant->getFullName(),
                 'booking_service' => $service->getName(),
+                'customer' => $user,
             ));
     }
 
