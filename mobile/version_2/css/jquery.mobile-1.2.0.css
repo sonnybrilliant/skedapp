@@ -464,8 +464,9 @@
 .ui-body-d,
 .ui-overlay-d {
 	border: 1px solid 		#000 /*{d-body-border}*/;
-	color: 					#333 /*{d-body-color}*/;
-	text-shadow: 0 /*{d-body-shadow-x}*/ 1px /*{d-body-shadow-y}*/ 0 /*{d-body-shadow-radius}*/ 	#fff /*{d-body-shadow-color}*/;
+	color: 					#fff /*{d-body-color}*/;
+	text-shadow: none;
+	font-weight: normal;
 	background: 			#fff /*{d-body-background-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #fff /*{d-body-background-start}*/), to( #fff /*{d-body-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #fff /*{d-body-background-start}*/, #fff /*{d-body-background-end}*/); /* Chrome 10+, Saf5.1+ */
