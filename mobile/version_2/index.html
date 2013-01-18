@@ -2,7 +2,7 @@
 <head>
 <title>Welcome to skedapp</title> 
 	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
 	<link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
 	<link rel="stylesheet" href="css/style.css" />
 	<script type="text/javascript" src="js/jquery.js"></script>
@@ -18,37 +18,44 @@
 			<div style="text-align:center; margin: 20px 0 60px 0;">
 				<img src="images/logo.jpg"/>
 			</div>
-			<div>
-				<img class="middlebackground" src="images/image.png"/>
+			<div style="background-color: #333; height: 300px;">
+				</div>
 					<div data-role="content" class="-box-blue-wrapper">
 					<p style="color: #fff; text-shadow: none; font-size: 18px; padding:0px;">Search, Locate services in your area.</p>
 							<form action="">
 								<div data-role="fieldcontain">
+									<select name="select-choice-0" id="select-choice-0">
+									   <option value="standard">Select a category</option>
+									   <option value="rush">Hair</option>
+									   <option value="express">Beauty</option>
+									   <option value="overnight">Health</option>
+									   <option value="overnight">Law</option>
+									</select>
+								</div>
+								<div data-role="fieldcontain">
 									<fieldset data-role="controlgroup" data-mini="true">
-										<input name="" id="textinput1" placeholder="select a category" value="" type="text" />
+										<input name="" id="textinput2" placeholder="Type in your current location" value="" type="text" />
 									</fieldset>
 								</div>
 								<div data-role="fieldcontain">
 									<fieldset data-role="controlgroup" data-mini="true">
-										<input name="" id="textinput2" placeholder="type in your current location" value="" type="text" />
+										<input name="" id="textinput3" placeholder="Date" value="" type="date" />
 									</fieldset>
 								</div>
 								<div data-role="fieldcontain">
-									<fieldset data-role="controlgroup" data-mini="true">
-										<input name="" id="textinput3" placeholder="" value="" type="date" />
-									</fieldset>
-								</div>
-								<div data-role="fieldcontain">
-									<fieldset data-role="controlgroup" data-mini="true">
-										<input name="" id="textinput4" placeholder="services" value="" type="text" />
-									</fieldset>
+									<select name="select-choice-0" id="select-choice-0">
+									   <option value="standard">Select</option>
+									   <option value="rush">Mens Cut</option>
+									   <option value="express">Womens Cut</option>
+									   <option value="overnight">Blow Wave</option>
+									</select>
 								</div>
 								<a data-role="button" data-rel="back" data-theme="e" href="#page1" data-icon="" data-iconpos="right">
 									Search
 								</a>
 							</form>
 					</div>
-			</div>
+			
 		<div style="margin-top: 20px;"></div>
 		<div  id="footerCustom" data-theme="a" data-role="footer" data-position="fixed">
             <h3>
