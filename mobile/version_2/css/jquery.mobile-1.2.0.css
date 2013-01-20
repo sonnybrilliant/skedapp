@@ -464,7 +464,7 @@
 .ui-body-d,
 .ui-overlay-d {
 	border: 1px solid 		#000 /*{d-body-border}*/;
-	color: 					#fff /*{d-body-color}*/;
+	color: 					#000 /*{d-body-color}*/;
 	text-shadow: none;
 	font-weight: normal;
 	background: 			#fff /*{d-body-background-color}*/;
@@ -832,7 +832,7 @@ a.ui-link-inherit {
 .ui-icon-alt {
 	background: 						#fff;
 	background: 						rgba(255,255,255,.3);
-	background-image: url(images/icons-18-black.png);
+	
 	background-repeat: no-repeat;
 }
 /* HD/"retina" sprite
@@ -846,14 +846,12 @@ a.ui-link-inherit {
 	.ui-icon-gear, .ui-icon-refresh, .ui-icon-forward, .ui-icon-back,
 	.ui-icon-grid, .ui-icon-star, .ui-icon-alert, .ui-icon-info, .ui-icon-home, .ui-icon-search, .ui-icon-searchfield:after, 
 	.ui-icon-checkbox-off, .ui-icon-checkbox-on, .ui-icon-radio-off, .ui-icon-radio-on {
-		background-image: url(images/icons-36-white.png);
 		-moz-background-size: 776px 18px;
 		-o-background-size: 776px 18px;
 		-webkit-background-size: 776px 18px;
 		background-size: 776px 18px;
 	}
 	.ui-icon-alt {
-		background-image: url(images/icons-36-black.png);
 	}
 }
 /* plus minus */
@@ -2230,7 +2228,7 @@ textarea.ui-mini { height: 45px; }
 	.ui-field-contain label.ui-input-text  { vertical-align: top; display: inline-block; width: 20%; margin: 0 2% 0 0 }
 	.ui-field-contain input.ui-input-text, 
 	.ui-field-contain textarea.ui-input-text, 
-	.ui-field-contain .ui-input-search { width: 78%; display: inline-block; } 
+	.ui-field-contain .ui-input-search { width: 78.2%; display: inline-block; } 
 	.ui-hide-label input.ui-input-text, 
 	.ui-hide-label textarea.ui-input-text, 
 	.ui-hide-label .ui-input-search { width: 100%; }
