@@ -71,6 +71,10 @@ iframe { border: none; }
 	margin: 2em 15px;
 }
 
+.colorLabel{
+	color: #fff;
+}
+
 #footerCustom {
   width: 85% ;
   margin-left: auto ;
