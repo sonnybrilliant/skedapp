@@ -86,11 +86,6 @@ class ApiController extends Controller
     {
         $this->get('logger')->info('get consultant by category, service id and location');
 
-        $user = null;
-
-        if ($this->getRequest()->get('user_id'))
-          $user = $this->get('customer.manager')->getById($this->getRequest()->get('user_id'));
-
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
 
@@ -129,7 +124,7 @@ class ApiController extends Controller
             $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
 
             if (!is_null ($address['error_message'])) {
-                return $this->respond(array('error_message' => $address['error_message']));
+                return $this->respond(array('error_message' => $address['error_message'], 'results' => array()), 'results');
             }
 
             $formData['lat'] = $address['lat'];
@@ -148,7 +143,7 @@ class ApiController extends Controller
         }
 
         if ( (is_null($formData['lat'])) || (is_null($formData['lng'])) || ($serviceId <= 0) || ($formData['category'] <= 0) ) {
-            return $this->respond(array('error_message' => 'Please provide some search criteria'));
+            return $this->respond(array('error_message' => 'Please provide some search criteria', 'results' => array()), 'results');
         }
 
         $arrResults = $this->container->get('consultant.manager')->listAllWithinRadius($options);
@@ -183,10 +178,7 @@ class ApiController extends Controller
 
         $arrResponse = array('consultantsFound' => $consultantsFound, 'formData' => $formData, 'parametersToSearch' => $options, 'fullAddress' => $address);
 
-        if (is_object($user))
-            $arrResponse['user'] = $user->getObjectAsArray();
-
-        return $this->respond($arrResponse);
+        return $this->respond($arrResponse, 'consultantsFound');
     }
 
     /**
@@ -210,12 +202,15 @@ class ApiController extends Controller
      * Create a json response object
      * @param array $results
      */
-    private function respond($results = array())
+    private function respond($results = array(), $countElementName = null)
     {
         $return = new \stdClass();
         $return->status = 'success';
         $return->count = sizeof($results);
         $return->results = $results;
+
+        if (!is_null($countElementName))
+            $return->count = sizeof($results[$countElementName]);
 
         $response = new Response(json_encode($return));
         $response->headers->set('Content-Type', 'application/json');
@@ -246,6 +241,14 @@ class ApiController extends Controller
         //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
         $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
 
-        return $this->respond($address);
+        if (isset($address['error_message'])) {
+            $address['results'] = array();
+            $results_field = 'results';
+        } else {
+            $address['results'] = array(1);
+            $results_field = 'results';
+        }
+
+        return $this->respond($address, $results_field);
     }
 }
