@@ -78,7 +78,7 @@ class ApiController extends Controller
     }
 
     /**
-     * Get consultant by service Id
+     * Get consultant by service Id and other criteria
      *
      * @return json response
      */
@@ -100,6 +100,7 @@ class ApiController extends Controller
 
         //Instantiate search form
         $formData = $this->getRequest()->get('Search');
+        $address = array();
 
         $page = $this->getRequest()->get('page', 1);
 
@@ -124,24 +125,15 @@ class ApiController extends Controller
         if ( (strlen($formData['address']) > 0) && ( (is_null ($formData['lng'])) || (is_null ($formData['lat'])) ) ) {
             //Latitude and Longitude not available, so attempt to get those from text location
 
-            $geocoder = $this->get('ivory_google_map.geocoder');
+            //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
+            $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
 
-            $response = $geocoder->geocode($formData['address']);
-
-            if (!is_object ($response)) {
-                return $this->respond(array('error_message' => 'Unable to get latitude and longitude from this address'));
+            if (!is_null ($address['error_message'])) {
+                return $this->respond(array('error_message' => $address['error_message']));
             }
 
-            $results = $response->getResults();
-
-            foreach($results as $result) {
-                // Get the formatted address
-                $location = $result->getGeometry()->getLocation();
-                if (is_null($formData['lat']))
-                    $formData['lat'] = $location->getLatitude();
-                if (is_null($formData['lng']))
-                    $formData['lng'] = $location->getLongitude();
-            }
+            $formData['lat'] = $address['lat'];
+            $formData['lng'] = $address['lng'];
 
         }
 
@@ -189,7 +181,7 @@ class ApiController extends Controller
             $consultantsFound[] = $oneConsultant;
         }
 
-        $arrResponse = array('consultantsFound' => $consultantsFound, 'formData' => $formData, 'parametersToSearch' => $options);
+        $arrResponse = array('consultantsFound' => $consultantsFound, 'formData' => $formData, 'parametersToSearch' => $options, 'fullAddress' => $address);
 
         if (is_object($user))
             $arrResponse['user'] = $user->getObjectAsArray();
@@ -230,4 +222,30 @@ class ApiController extends Controller
         return $response;
     }
 
+    /**
+     * Get Google maps geocoded data from information given
+     *
+     * @return json response
+     */
+    public function geoEncodeAddressAction()
+    {
+
+        $formData = $this->getRequest()->get('Search');
+
+        if (!isset($formData['lat'])){
+          $formData['lat'] = $this->getRequest()->get('pos_lat', null);
+        }
+
+        if (!isset($formData['lng']))
+          $formData['lng'] = $this->getRequest()->get('pos_lng', null);
+
+        if (!isset($formData['address'])){
+          $formData['address'] = $this->getRequest()->get('address', null);
+        }
+
+        //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
+        $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
+
+        return $this->respond($address);
+    }
 }
