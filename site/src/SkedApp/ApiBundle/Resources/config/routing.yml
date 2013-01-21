@@ -7,17 +7,19 @@ sked_app_api_get_services:
     defaults: { _controller: SkedAppApiBundle:Api:getServices , id: 1}
     requirements:
        id: \d+
-       
+
 sked_app_api_get_consultant:
     pattern:  /api/get/consultant/{id}
     defaults: { _controller: SkedAppApiBundle:Api:getConsultant , id: 1}
     requirements:
-       serviceId: \d+       
-       
+       serviceId: \d+
+
 sked_app_api_get_consultants:
     pattern:  /api/get/consultants/{serviceId}
     defaults: { _controller: SkedAppApiBundle:Api:getConsultants , serviceId: 1}
     requirements:
        serviceId: \d+
-       
-       
+
+sked_app_api_geo_encode_address:
+    pattern:  /api/geocode/address
+    defaults: { _controller: SkedAppApiBundle:Api:geoEncodeAddress }
