@@ -1,7 +1,9 @@
-//Instantiate the array for the search form
-var serviceProviderIDs = new Array();
-
 $(document).ready(function() {
+
+    //Instanciate if not found
+    if (!serviceProviderIDs) {
+      var serviceProviderIDs = new Array();
+    }
 
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
