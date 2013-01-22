@@ -3,6 +3,11 @@ var myMarker = '';
 
 $(document).ready(function() {
 
+    //Instanciate if not found
+    if (!serviceProviderIDs) {
+      var serviceProviderIDs = new Array();
+    }
+
     $('#searchToggle').click(function(){
         $('#searchFrm').toggle();
         $('#searchResults').toggle();
