@@ -53,9 +53,11 @@ class DefaultControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //we found the expected consultant
-        $this->assertEquals(1, $crawler->filter('html:contains("View details")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("Service provider")')->count());
         $this->assertEquals(1, $crawler->filter('html:contains("Sonny")')->count());
 
+        //Check if JavaScript was added to the search results
+        $this->assertEquals(1, $crawler->filter('html:contains("intCCnt++")')->count());
     }
 
     /**

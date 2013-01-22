@@ -18,8 +18,8 @@ $.widget( "ui.addresspicker", {
 	options: {
 	  appendAddressString: "",
 		mapOptions: {
-		  zoom: 5, 
-		  center: new google.maps.LatLng(46, 2), 
+		  zoom: 5,
+		  center: new google.maps.LatLng(46, 2),
 		  scrollwheel: false,
 		  mapTypeId: google.maps.MapTypeId.ROADMAP
 		},
@@ -37,7 +37,7 @@ $.widget( "ui.addresspicker", {
 	marker: function() {
 		return this.gmarker;
 	},
-	
+
 	map: function() {
 	  return this.gmap;
 	},
@@ -45,25 +45,25 @@ $.widget( "ui.addresspicker", {
   updatePosition: function() {
     this._updatePosition(this.gmarker.getPosition());
   },
-  
+
   reloadPosition: function() {
     this.gmarker.setVisible(true);
     this.gmarker.setPosition(new google.maps.LatLng(this.lat.val(), this.lng.val()));
     this.gmap.setCenter(this.gmarker.getPosition());
   },
-  
+
   selected: function() {
     return this.selectedResult;
   },
-  
+
 	_create: function() {
 	  this.geocoder = new google.maps.Geocoder();
 	  this.element.autocomplete({
-			source: $.proxy(this._geocode, this),  
+			source: $.proxy(this._geocode, this),
 			focus:  $.proxy(this._focusAddress, this),
 			select: $.proxy(this._selectAddress, this)
 		});
-		
+
 		this.lat      = $(this.options.elements.lat);
 		this.lng      = $(this.options.elements.lng);
 		this.locality = $(this.options.elements.locality);
@@ -81,13 +81,13 @@ $.widget( "ui.addresspicker", {
 
     this.gmap = new google.maps.Map(this.mapElement[0], this.options.mapOptions);
     this.gmarker = new google.maps.Marker({
-      position: this.options.mapOptions.center, 
-      map:this.gmap, 
+      position: this.options.mapOptions.center,
+      map:this.gmap,
       draggable: this.options.draggableMarker});
     google.maps.event.addListener(this.gmarker, 'dragend', $.proxy(this._markerMoved, this));
     this.gmarker.setVisible(false);
   },
-  
+
   _updatePosition: function(location) {
     if (this.lat) {
       this.lat.val(location.lat());
@@ -96,11 +96,11 @@ $.widget( "ui.addresspicker", {
       this.lng.val(location.lng());
     }
   },
-  
+
   _markerMoved: function() {
     this._updatePosition(this.gmarker.getPosition());
   },
-  
+
   // Autocomplete source method: fill its suggests with google geocoder results
   _geocode: function(request, response) {
     var address = request.term, self = this,
@@ -111,11 +111,11 @@ $.widget( "ui.addresspicker", {
         for (var i = 0; i < results.length; i++) {
           results[i].label =  results[i].formatted_address;
         };
-      } 
+      }
       response(results);
     });
   },
-  
+
   _findInfo: function(result, type) {
     for (var i = 0; i < result.address_components.length; i++) {
       var component = result.address_components[i];
@@ -125,13 +125,13 @@ $.widget( "ui.addresspicker", {
     }
     return false;
   },
-  
+
   _focusAddress: function(event, ui) {
     var address = ui.item;
     if (!address) {
       return;
     }
-    
+
     if (this.gmarker) {
       this.gmarker.setPosition(address.geometry.location);
       this.gmarker.setVisible(true);
@@ -139,7 +139,7 @@ $.widget( "ui.addresspicker", {
       this.gmap.fitBounds(address.geometry.viewport);
     }
     this._updatePosition(address.geometry.location);
-    
+
     if (this.locality) {
       this.locality.val(this._findInfo(address, 'locality'));
     }
@@ -147,7 +147,7 @@ $.widget( "ui.addresspicker", {
       this.country.val(this._findInfo(address, 'country'));
     }
   },
-  
+
   _selectAddress: function(event, ui) {
     this.selectedResult = ui.item;
   }
