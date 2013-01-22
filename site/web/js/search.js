@@ -1,12 +1,13 @@
+var searchResultsMap = '';
+var myMarker = '';
+
 $(document).ready(function() {
-    
-    $('#searchFrm').hide();
-    
+
     $('#searchToggle').click(function(){
         $('#searchFrm').toggle();
         $('#searchResults').toggle();
     });
-    
+
     //update services
     $('#Search_category').change(function(){
         var categoryId = this.value;
@@ -63,20 +64,20 @@ $(document).ready(function() {
     });
 
     if (blnAddress) {
-        
-        if($($('#Search_lat').val() == '')){
+
+        if ($('#Search_lat').val() == '') {
             $('#Search_lat').val('-25.7500');
             $('#Search_lng').val('28.2200');
         //$('#Search_country').val('Pretoria,South Africa')
         }
-        
+
         var addresspickerMap = $( "#Search_address" ).addresspicker({
             regionBias: "za",
             mapOptions: {
                 zoom: 8
             },
             elements: {
-                map:      "#map_canvas",                
+                map:      "#map_canvas",
                 lat:      "#Search_lat",
                 lng:      "#Search_lng",
                 locality: '#Search_locality',
@@ -98,5 +99,77 @@ $(document).ready(function() {
 
         gmarker.setIcon (image);
         addresspickerMap.addresspicker( "updatePosition");
+
+        searchResultsMap = gmarker.getMap();
+        myMarker = gmarker;
+
+        addMarkers();
+
+        //$('#searchFrm').hide();
+
     }
+
 });
+
+function addMarkers()
+{
+
+    var markerBounds = new google.maps.LatLngBounds();
+
+    markerBounds.extend(myMarker.getPosition());
+
+    for (intSPCnt = 0; intSPCnt < serviceProviderIDs.length; intSPCnt++) {
+        //Loop through service providers in the search results
+
+        var consultantNames = new String();
+
+        //Compile one marker for each location (service provider) containing info about all consultants
+        for (intCCnt = 0; intCCnt < serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'].length; intCCnt++) {
+            consultantNames += '<p><a href="' + Routing.generate('sked_app_consultant_view', {
+                  id: serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['id'],
+                  pos_lat: searchLatitude,
+                  pos_lng: searchLongitude,
+                  booking_date: searchDate,
+                  category_id: searchCategoryId,
+                  serviceIds: searchServiceIds
+                }, true) + '">' + serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['fullName'] + '</a></p>';
+        } //for each consultant
+
+        markerText = '<strong>' + serviceProviders[serviceProviderIDs[intSPCnt]]['name'] + '</strong>' + consultantNames + '<p>' + serviceProviders[serviceProviderIDs[intSPCnt]]['address'] + '</p>';
+
+        markerPoint = addOneMarker(searchResultsMap, serviceProviders[serviceProviderIDs[intSPCnt]]['lat'], serviceProviders[serviceProviderIDs[intSPCnt]]['lng'], markerText)
+
+        markerBounds.extend(markerPoint);
+
+    } //for each service provider
+
+    searchResultsMap.fitBounds(markerBounds);
+
+}
+
+function addOneMarker(mapObject, lat, lng, infoHTML)
+{
+
+    var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+
+    var marker = new google.maps.Marker({
+            position: point,
+            map: mapObject
+        });
+
+    var infoWindow = new google.maps.InfoWindow();
+
+    var image = new google.maps.MarkerImage("http://labs.google.com/ridefinder/images/mm_20_red.png",
+        // This marker is 12 pixels wide by 20 pixels tall.
+        new google.maps.Size(12, 20)
+        );
+
+    marker.setIcon (image);
+
+    google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(infoHTML);
+            infoWindow.open(mapObject, marker);
+        });
+
+    return point;
+}
