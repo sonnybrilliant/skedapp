@@ -3,11 +3,6 @@ var myMarker = '';
 
 $(document).ready(function() {
 
-    //Instanciate if not found
-    if (!serviceProviderIDs) {
-      var serviceProviderIDs = new Array();
-    }
-
     $('#searchToggle').click(function(){
         $('#searchFrm').toggle();
         $('#searchResults').toggle();
@@ -122,6 +117,11 @@ function addMarkers()
     var markerBounds = new google.maps.LatLngBounds();
 
     markerBounds.extend(myMarker.getPosition());
+
+    //Instanciate if not found
+    if (!serviceProviderIDs) {
+      var serviceProviderIDs = new Array();
+    }
 
     for (intSPCnt = 0; intSPCnt < serviceProviderIDs.length; intSPCnt++) {
         //Loop through service providers in the search results
