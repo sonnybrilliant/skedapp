@@ -1,12 +1,15 @@
+//Instantiate the array for the search form
+var serviceProviderIDs = new Array();
+
 $(document).ready(function() {
 
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
- 
+
     $('.inputHelper').click(function() {
        $(this).val("");
     });
-    
+
     //update services
     $('#Consultant_category').change(function(){
         var categoryId = this.value;
