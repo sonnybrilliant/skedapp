@@ -143,7 +143,9 @@ function addMarkers()
 
     } //for each service provider
 
-    searchResultsMap.fitBounds(markerBounds);
+    if (serviceProviderIDs.length > 0) {
+        searchResultsMap.fitBounds(markerBounds);
+    }
 
 }
 
