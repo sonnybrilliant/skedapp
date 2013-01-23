@@ -71,7 +71,7 @@ class SearchController extends Controller
 
             $options['lat'] = $formData['lat'];
             $options['lng'] = $formData['lng'];
-            $options['radius'] = 5;
+            $options['radius'] = 20;
             $options['categoryId'] = $formData['category'];
 
             if ( (isset ($formData['consultantServices'])) && (count($formData['consultantServices']) > 0) )

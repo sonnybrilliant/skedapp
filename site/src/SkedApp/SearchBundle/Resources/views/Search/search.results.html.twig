@@ -16,6 +16,7 @@ var intSPCnt = 0;
 </script>
 
 <div class="span12">
+
     {% for consultant in pagination %}
          {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
           <script language="JavaScript">
@@ -32,16 +33,19 @@ var intSPCnt = 0;
               serviceProviders[{{ consultant.company.id }}]['lng'] = '{{ consultant.company.lng }}';
               serviceProviders[{{ consultant.company.id }}]['consultants'] = new Array();
 
+              intCCnt = 0;
+
           }
 
           serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt] = new Array();
+          serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt]['id'] = '{{ consultant.id }}';
           serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt]['fullName'] = '{{ consultant.fullName }}';
           intCCnt++;
 
           </script>
     {% else %}
         <div>
-            <p><span class="label label-important">Oopps!!</span>, We could not find anyone to help you out. Please try another search.</p>
+            <p><span class="label label-important">Oops!!</span>, We could not find anyone to help you out. Please try another search.</p>
         </div>
     {% endfor %}
 </div>

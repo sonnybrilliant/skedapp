@@ -20,6 +20,7 @@ function addMarkers()
 
         //Compile one marker for each location (service provider) containing info about all consultants
         for (intCCnt = 0; intCCnt < serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'].length; intCCnt++) {
+
             consultantNames += '<p><a href="' + Routing.generate('sked_app_consultant_view', {
                   id: serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['id'],
                   pos_lat: searchLatitude,
