@@ -35,6 +35,8 @@ var intSPCnt = 0;
 
               intCCnt = 0;
 
+          } else {
+              intCCnt = serviceProviders[{{ consultant.company.id }}]['consultants'].length;
           }
 
           serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt] = new Array();
