@@ -1,5 +1,8 @@
+{% block javascripts %}
+<script src="{{ asset('/js/search-results.js') }}"></script>
+{% endblock javascripts %}
 <script language="JavaScript">
-  
+
 var serviceProviderIDs = new Array();
 var serviceProviders = new Array();
 var searchLatitude = '{{ intPositionLat }}';
