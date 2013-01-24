@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns           = "http://www.w3.org/ns/widgets"
+        xmlns:gap       = "http://phonegap.com/ns/1.0"
+        id                 = "com.skedapp"
+        version         = "1.0.0">
+
+   <name>Skedapp</name>
+
+   <description>Appointment scheduling application</description>
+
+   <author href="http://www.creativecloud.co.za" email="ronald.conco@creativecloud.co.za">Mfana Ronald Conco</author>
+
+   <icon src="icon.png" gap:role="default" />
+
+   <feature name="http://api.phonegap.com/1.0/network"/>
+   <feature name="http://api.phonegap.com/1.0/geolocation"/>
+
+   <preference name="phonegap-version" value="2.0.0" />
+   <preference name="target-device" value="universal" />
+
+   <!-- Splash Screens -->
+   <gap:splash src="splash.png" />
+</widget>

@@ -1,0 +1,104 @@
+#portfolio img {
+    margin: 0 auto;
+    min-width: 50%;
+    width: 90%;
+}
+
+.bigborder {
+    border: 10px solid #FFFFFF;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.5);
+    display: block;
+    margin-right: 15px;
+}
+
+.footer {
+	font-size: 8px;
+}
+
+#about_tumi img {
+    float: left;
+}
+
+.footerText{
+	font-size: 12px;
+	padding: 10px 0px;
+	text-align: center;
+}
+
+.boderBottom {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 4px;
+}
+
+.shadow {
+  position:relative;
+  top:-30px;
+  width:100%;
+  z-index:5;
+}
+
+.ui-btn-corner-all{
+	border-radius: 3px;
+}
+
+.ui-corner-all {
+	border-radius: 3px;
+}
+
+.backgroundImages{
+	background: 						#fff /*{global-icon-color}*/;
+	background-image: url(images/danny k.jpg) /*{global-icon-set}*/;
+	background-repeat: no-repeat;
+}
+.middlebackground {
+    
+}
+
+iframe { border: none; }
+
+#popupPanel-popup {
+	right: 0 !important;
+	left: auto !important;
+}
+#popupPanel {
+	width: 200px;
+	border: 1px solid #000;
+	border-right: none;
+	background: rgba(0,0,0,.5);
+	margin: -1px 0;
+}
+#popupPanel .ui-btn {
+	margin: 2em 15px;
+}
+
+.colorLabel{
+	color: #fff;
+}
+
+#footerCustom {
+  width: 85% ;
+  margin-left: auto ;
+  margin-right: auto ;
+  position: absolute;
+  background: #AE0C21;
+  color: #fff;
+  border: none;
+  border-radius: 8px 8px 0 0px;
+	
+}
+
+.-box-blue-wrapper {
+    background-clip: padding-box;
+    background-color: #00395F;
+    background-image: linear-gradient(to bottom, #00395F , #00395F );
+    border: none;
+    box-shadow: 0 0 100px #00395F  inset;
+    position: relative;
+	width: 85%;
+	border-radius: 8px 8px 8px 8px;
+	margin-left: auto;
+    margin-right: auto;
+	margin-top:-314px;
+	box-shadow: 0px 0px 6px #000;
+	min-height: 300px;
+}
