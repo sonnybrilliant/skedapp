@@ -1,9 +1,13 @@
+sked_app_api_get_init:
+    pattern:  /api/get/init
+    defaults: { _controller: SkedAppApiBundle:Api:init }
+    
 sked_app_api_get_categories:
-    pattern:  /api/get/categories
+    pattern:  /api/get/categories/{session}
     defaults: { _controller: SkedAppApiBundle:Api:getCategories}
 
 sked_app_api_get_services:
-    pattern:  /api/get/services/{id}
+    pattern:  /api/get/services/{session}/{id}
     defaults: { _controller: SkedAppApiBundle:Api:getServices , id: 1}
     requirements:
        id: \d+

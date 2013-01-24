@@ -26,7 +26,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="586" selection-end="586" vertical-scroll-proportion="0.34759358">
+            <state line="53" column="12" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.45454547">
               <folding />
             </state>
           </provider>
@@ -35,7 +35,34 @@
       <file leaf-file-name="configure.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/configure.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="39" selection-start="820" selection-end="820" vertical-scroll-proportion="0.0">
+            <state line="72" column="9" selection-start="2088" selection-end="2088" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="session.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/session.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="11" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="categories.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/categories.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="19" selection-start="1072" selection-end="1072" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="services.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/services.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="11" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -52,8 +79,12 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/js/application.js" />
-        <option value="$PROJECT_DIR$/js/configure.js" />
+        <option value="$PROJECT_DIR$/js/session.js" />
+        <option value="$PROJECT_DIR$/js/Services.js" />
+        <option value="$PROJECT_DIR$/js/categories.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/services.js" />
+        <option value="$PROJECT_DIR$/js/configure.js" />
       </list>
     </option>
   </component>
@@ -117,6 +148,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js" />
+    </key>
   </component>
   <component name="RunManager">
     <list size="0" />
@@ -212,16 +248,37 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/js/session.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="11" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/categories.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="19" selection-start="1072" selection-end="1072" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/services.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="11" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/configure.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="39" selection-start="820" selection-end="820" vertical-scroll-proportion="0.0">
+        <state line="72" column="9" selection-start="2088" selection-end="2088" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="586" selection-end="586" vertical-scroll-proportion="0.34759358">
+        <state line="53" column="12" selection-start="2178" selection-end="2178" vertical-scroll-proportion="0.45454547">
           <folding />
         </state>
       </provider>
