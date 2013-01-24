@@ -46,12 +46,7 @@
 }
 
 .backgroundImages{
-	background: 						#fff /*{global-icon-color}*/;
-	background-image: url(images/danny k.jpg) /*{global-icon-set}*/;
-	background-repeat: no-repeat;
-}
-.middlebackground {
-    
+	background: #fff /*{global-icon-color}*/;
 }
 
 iframe { border: none; }
@@ -84,14 +79,28 @@ iframe { border: none; }
 }
 
 #footerCustom {
-  width: 85% ;
-  margin-left: 8%;
+  width: 100% ;
   position: absolute;
   background: #AE0C21;
   color: #fff;
   font-size: 13px;
   border: none;
   border-radius: 8px 8px 0 0px;
+	
+}
+
+#skedappCustom {
+  width: 85%;
+  background: #AE0C21;
+  color: #fff;
+  font-size: 13px;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 8px 8px 0 0px;
+  padding: 10px 0;
+  text-align:center;
+  margin-bottom: 0;
 	
 }
 
@@ -103,8 +112,7 @@ iframe { border: none; }
     box-shadow: 0 0 100px #00395F  inset;
     position: relative;
 	width: 85%;
-	border-radius: 8px 8px 8px 8px;
-	
+	border-radius: 8px 8px 8px 8px;	
 	margin: -314 auto 41px auto;
 	box-shadow: 0px 0px 6px #000;
 	min-height: 300px;
