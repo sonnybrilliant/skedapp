@@ -89,6 +89,10 @@ iframe { border: none; }
 	
 }
 
+.fontWeightNormal {
+font-weight: normal;
+}
+
 #skedappCustom {
   width: 85%;
   background: #AE0C21;
