@@ -13,7 +13,7 @@
 <div data-role="page" data-theme="d" class="backgroundImages">
 		<div data-role="header" class="page-header home-page-header">
 			<h1><a href="">Register</a> an account or <a href="">Login</a></h1>
-			<a style="margin-top: -3px;" href="index.html" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+			<a style="margin-top: -3px;" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
 		</div>
 	
 			<div style="text-align:center; margin: 20px 0 60px 0;">
@@ -30,15 +30,19 @@
 		
 			
 			<div style="margin-top: 20px;"></div>
-			<div  id="footerCustom" data-theme="a" data-role="footer" data-position="fixed">
-            <h3 style="float: left;">
+			<div  data-position="fixed">
+            <div id="footerCustom">
+			<h3 style="text-align:center; font-weight: normal; font-size: 13px;">
                 SkedApp &#169; 2013
 			</h3>
-			<span style="float:right; margin-right: 15px;"data-role="link">
-			<a style="float:left; font-size: 13px; margin: 6px 10px 0 0; color: #fff; text-decoration: none; font-weight: normal" href="about.html" data-transition="slide">About us</a>
-			<a style="float:left; font-size: 13px; margin-top: 6px; color: #fff; text-decoration: none; font-weight: normal" href="contact.html" data-transition="slide">Contact Us</a>
-			</span>
-		</div>
+			</div>
+			<div style="margin-top: 41px" data-role="navbar">
+				<ul>
+					<li><a href="contact.html" data-transition="slide">Contact us</a></li>
+					<li><a href="about.html" data-transition="slide">About us</a></li>
+				</ul>
+			</div><!-- /navbar -->
+			</div>
 	</div>
 
 </body>
