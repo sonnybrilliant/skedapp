@@ -1,0 +1,96 @@
+<html>
+<head>
+<title>Skedapp | Register</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+	<link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-1.2.0.js"></script>
+</head>
+
+<body>
+	<div data-role="page" data-theme="c" class="backgroundImages">
+		<div data-role="header" class="page-header home-page-header">
+			<h1>Register account</h1>
+			<a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+		</div>
+	
+			<div class="skedappLogo">
+				<img src="images/logo.jpg"/>
+			</div>
+			<div class="greyBackground">
+				</div>
+					<div data-role="content" class="-box-blue-wrapper">
+					<p class="titleHeader">Register account</p>
+					
+					<span class="yellowBackground">info</span><label  class="infoTitleHeader">Register a new account, all fields required.</label>
+					<div class="paddingTop10px"></div>
+					<form action="api/register/customer" method="POST">
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+						<label class="whiteText">First name</label>
+                            <input name="" data-val-required="Name is required" id="textinput1" placeholder="First name" value="" type="text" />
+                        </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+						<label class="whiteText">Last name</label>
+                            <input name="Customer[email]" id="textinput2" placeholder="Last name" value="" type="text" />
+                        </fieldset>
+                    </div>
+					<div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+                            <label class="whiteText">
+                                Cellphone number
+                            </label>
+                            <input name="" id="textinput4" placeholder="Cellphone number" value="" type="tel" />
+                        </fieldset>
+                    </div>
+					<div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <label class="whiteText">
+                            Password
+                        </label>
+                        <input name="" id="textinput1" placeholder="password" value="" type="password" />
+                    </fieldset>
+					</div>
+				
+					<div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+						<label class="whiteText">Email</label>
+                            <input name="Customer[email]" id="textinput3" placeholder="john.smith@example.com" value="" type="email" />
+                        </fieldset>
+                    </div>
+					<div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+						<label class="whiteText">Confirm Email address:</label>
+                            <input name="Customer[email]" id="textinput3" placeholder="john.smith@example.com" value="" type="email" />
+                        </fieldset>
+                    </div>
+                    	
+                    <input type="submit" data-role="button" data-theme="e" value="Register" data-mini="true" />
+					<div class="paddingTop5px"></div>
+                    <a href="index.html" data-role="button" data-rel="back" data-theme="e" data-mini="true">Cancel</a>
+                </form>
+							
+			</div>
+				<div class="marginTop20px"></div>
+			<div class="clearfloat"></div>
+			
+			<div data-role="navbar">
+			<h3  id="skedappCustom">
+                SkedApp &#169; 2013
+			</h3>
+				<ul>
+					<li><a href="contact.html" data-transition="slide">Contact us</a></li>
+					<li><a href="about.html" data-transition="slide">About us</a></li>
+				</ul>
+			</div><!-- /navbar -->
+			</div>	
+			
+			
+			
+	</div>
+	</body>
+</html>
