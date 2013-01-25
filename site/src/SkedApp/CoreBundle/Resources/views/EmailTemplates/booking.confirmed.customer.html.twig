@@ -60,10 +60,9 @@
                 <td>
                     <h1 style="color: #000; font: bold 23px arial; margin:5px 0;" class="">SkedApp</h1>
                     <p style="margin-bottom: 6pt;">Hi {{ user.firstName }} {{ user.lastName }},</p>
-                    <p style="margin-bottom: 6pt;">This mail is to inform you that a booking has been scheduled for you with {{ consultant.fullName }} on {{ date }}.</p>
-                    <p style="margin-bottom: 6pt;">You will receive a confirmation e-mail once the booking has been confirmed.</p>
+                    <p style="margin-bottom: 6pt;">Your booking with {{ consultant.fullName }} on {{ date }} has been confirmed.</p>
                     <p style="margin-bottom: 6pt;"></p>
-                    <p style="margin-bottom: 6pt;">Your scheduled booking details are as follows:</p>
+                    <p style="margin-bottom: 6pt;">Your confirmed booking details are as follows:</p>
                     <p style="margin-bottom: 6pt;">
                         <strong>Consultant</strong>: {{ consultant.fullName }} <br/>
                         <strong>Service to be tendered </strong>: {{ service.name }}  <br />

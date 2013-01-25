@@ -106,6 +106,13 @@ class Booking
     /**
      * @var boolean
      *
+     * @ORM\Column(name="is_confirmed", type="boolean", nullable=true)
+     */
+    protected $isConfirmed;
+
+    /**
+     * @var boolean
+     *
      * @ORM\Column(name="is_cancelled", type="boolean")
      */
     protected $isCancelled;
@@ -124,14 +131,14 @@ class Booking
      * @ORM\Column(name="is_main_reminder_sent", type="boolean" ,nullable=true)
      */
     protected $isMainReminderSent;
-    
+
     /**
      * @var boolean
      * to be sent any hour before the appointment
      *
      * @ORM\Column(name="is_hour_reminder_sent", type="boolean" , nullable=true)
      */
-    protected $isHourReminderSent;    
+    protected $isHourReminderSent;
 
     /**
      * @var datetime
@@ -286,6 +293,29 @@ class Booking
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set isConfirmed
+     *
+     * @param boolean $isConfirmed
+     * @return Booking
+     */
+    public function setIsConfirmed($isConfirmed)
+    {
+        $this->isConfirmed = $isConfirmed;
+
+        return $this;
+    }
+
+    /**
+     * Get isConfirmed
+     *
+     * @return boolean
+     */
+    public function getIsConfirmed()
+    {
+        return $this->isConfirmed;
     }
 
     /**
@@ -592,14 +622,14 @@ class Booking
     public function setIsMainReminderSent($isMainReminderSent)
     {
         $this->isMainReminderSent = $isMainReminderSent;
-    
+
         return $this;
     }
 
     /**
      * Get isMainReminderSent
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsMainReminderSent()
     {
@@ -615,14 +645,14 @@ class Booking
     public function setIsHourReminderSent($isHourReminderSent)
     {
         $this->isHourReminderSent = $isHourReminderSent;
-    
+
         return $this;
     }
 
     /**
      * Get isHourReminderSent
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsHourReminderSent()
     {
