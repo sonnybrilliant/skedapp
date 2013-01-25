@@ -4,6 +4,8 @@ namespace SkedApp\ApiBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use SkedApp\CoreBundle\Entity\Customer;
+use SkedApp\CustomerBundle\Form\CustomerCreateApiType;
 
 /**
  * SkedApp\ApiBundle\Controller\ApiController
@@ -18,7 +20,7 @@ class ApiController extends Controller
 
     /**
      * Create a json response object
-     * 
+     *
      * @param stdClass $params
      */
     private function respond($params)
@@ -33,9 +35,9 @@ class ApiController extends Controller
             $return->status = false;
             $return->message = $params->error;
         }
-        
+
         $return->request = $params->request;
-        
+
         $str =  $params->callback.'(' . json_encode($return) . ');';
         $response = new Response($str);
         $response->headers->set('Content-Type', 'application/json');
@@ -44,7 +46,7 @@ class ApiController extends Controller
 
     /**
      * Start a new session
-     * 
+     *
      * @return json response
      */
     public function initAction()
@@ -52,22 +54,22 @@ class ApiController extends Controller
         $this->get('logger')->info('start mobile session');
         //create session
         $session = $this->get('mobile.session.manager')->init();
-        
+
         $response = new \stdClass();
         $response->status = true;
         $response->request = 'init';
         if(isset($_GET['callback'])){
-          $response->callback = $_GET['callback'];  
+          $response->callback = $_GET['callback'];
         }else{
-          $response->callback = 'test';  
+          $response->callback = 'test';
         }
-        
+
 
         $response->results = array(
             'session' => $session->getSession(),
             'isLoggedIn' => '',
         );
-        
+
         return $this->respond($response);
     }
 
@@ -89,17 +91,17 @@ class ApiController extends Controller
                 $results[] = array('id' => $category->getId(), 'name' => $category->getName());
             }
         }
-        
+
         $response = new \stdClass();
         $response->status = true;
         $response->request = 'categories';
         $response->results = $results;
         if(isset($_GET['callback'])){
-          $response->callback = $_GET['callback'];  
+          $response->callback = $_GET['callback'];
         }else{
-          $response->callback = 'test';  
+          $response->callback = 'test';
         }
-        
+
         return $this->respond($response);
     }
 
@@ -120,17 +122,17 @@ class ApiController extends Controller
                 $results[] = array('id' => $service->getId(), 'name' => $service->getName());
             }
         }
-        
+
         $response = new \stdClass();
         $response->status = true;
         $response->request = 'services';
         $response->results = $results;
         if(isset($_GET['callback'])){
-          $response->callback = $_GET['callback'];  
+          $response->callback = $_GET['callback'];
         }else{
-          $response->callback = 'test';  
+          $response->callback = 'test';
         }
-        
+
         return $this->respond($response);
     }
 
@@ -302,6 +304,71 @@ class ApiController extends Controller
         }
 
         return $this->respond($address, $results_field);
+    }
+
+    /**
+     * Register a user
+     *
+     * @return json response
+     */
+    public function registerCustomerAction()
+    {
+        $return = new \stdClass();
+        $formData = $this->getRequest()->get('Customer');
+
+        $customer = new Customer();
+        $form = $this->createForm(new CustomerCreateApiType(), $customer);
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+
+                $this->get('customer.manager')->createCustomer($customer);
+
+                //Set customer to active on mobi/ app registration
+                $customer->setIsActive(true);
+                $customer->setEnabled(true);
+                $customer->setConfirmationToken('');
+                $this->container->get('customer.manager')->update($customer);
+
+                //TODO send email
+                $tmp = array(
+                    'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
+                    'link' => $this->generateUrl("_security_login", null, true)
+                );
+
+                $options = array();
+                $emailBodyHtml = $this->render(
+                        'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.html.twig', $tmp
+                    )->getContent();
+
+
+                $emailBodyTxt = $this->render(
+                        'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.txt.twig', $tmp
+                    )->getContent();
+
+                $options['bodyHTML'] = $emailBodyHtml;
+                $options['bodyTEXT'] = $emailBodyTxt;
+                $options['email'] = $customer->getEmail();
+                $options['fullName'] = $tmp['fullName'];
+
+                $this->get("notification.manager")->customerAccountVerification($options);
+
+                $return->results = array('message' => 'You have successfully registered and activated your account. You are now logged in.', 'customer' => $customer->getObjectAsArray());
+            } else {
+                $return->status = false;
+                $return->error = $form->getErrorsAsString();
+            }
+        } else {
+            $return->status = false;
+            $return->error = 'Form submission failed';
+        }
+
+        $return->request = 'registerCustomer';
+        $return->callback = '';
+
+        return $this->respond($return);
     }
 
 }

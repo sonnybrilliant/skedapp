@@ -71,33 +71,33 @@
             <table width="150px">
                 <tr>
                     <td>{{ form_widget(form.radio) }}</td>
-                    <td>Radio</td>                    
+                    <td>Radio</td>
                 </tr>
-                <tr>                    
+                <tr>
                     <td>{{ form_widget(form.internet) }}</td>
                     <td>Internet</td>
                 </tr>
                 <tr>
                     <td>{{ form_widget(form.tv) }}</td>
-                    <td>TV</td>                    
+                    <td>TV</td>
                 </tr>
                 <tr>
                     <td>{{ form_widget(form.twitter) }}</td>
-                    <td>Twitter</td>                    
+                    <td>Twitter</td>
                 </tr>
                 <tr>
                     <td>{{ form_widget(form.facebook) }}</td>
-                    <td>Facebook</td>                    
+                    <td>Facebook</td>
                 </tr>
                 <tr>
                     <td>{{ form_widget(form.printedMedia) }}</td>
-                    <td>Print media</td>                    
+                    <td>Print media</td>
                 </tr>
                 <tr>
                     <td>{{ form_widget(form.wordOfMouth) }}</td>
-                    <td>Word of mouth</td>                    
+                    <td>Word of mouth</td>
                 </tr>
-            </table>             
+            </table>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.captcha) %} error {% endif %}">
@@ -111,7 +111,7 @@
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Register &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('_welcome') }}" class="btn">Cancel</a>
       </div>
-      
+
       {{ form_rest(form) }}
   </fieldset>
 </form>

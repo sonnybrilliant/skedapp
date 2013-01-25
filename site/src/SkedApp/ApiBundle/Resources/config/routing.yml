@@ -1,7 +1,7 @@
 sked_app_api_get_init:
     pattern:  /api/get/init
     defaults: { _controller: SkedAppApiBundle:Api:init }
-    
+
 sked_app_api_get_categories:
     pattern:  /api/get/categories/{session}
     defaults: { _controller: SkedAppApiBundle:Api:getCategories}
@@ -27,3 +27,7 @@ sked_app_api_get_consultants:
 sked_app_api_geo_encode_address:
     pattern:  /api/geocode/address
     defaults: { _controller: SkedAppApiBundle:Api:geoEncodeAddress }
+
+sked_app_api_register_customer:
+    pattern:  /api/register/customer
+    defaults: { _controller: SkedAppApiBundle:Api:registerCustomer }
