@@ -9,15 +9,26 @@
      <link rel="stylesheet" href="css/style.css" />
      <script src="js/jquery-1.8.3.min.js"></script>
      <script src="js/jquery.mobile-1.2.0.min.js"></script>
-     <script>
-        //$(document).one('deviceready', Configure.init);
-     </script>
+     <script type="text/javascript" charset="utf-8">
+
+        // Call onDeviceReady when PhoneGap is loaded.
+        //
+        // At this point, the document has loaded but phonegap-1.0.0.js has not.
+        // When PhoneGap is loaded and talking with the native device,
+        // it will call the event `deviceready`.
+        //
+        document.addEventListener("deviceready", onDeviceReady, false);
+
+        // PhoneGap is loaded and it is now safe to make calls PhoneGap methods
+        //
+        function onDeviceReady() {
+            Configure.init;
+        }
+
+    </script>
    </head>
    <body>
 	<div data-role="page" data-theme="d" class="backgroundImages">
-	<div data-role="header" class="page-header home-page-header">
-			<h1><a href="">Register</a> an account or <a href="">Login</a></h1>
-		</div>
 			<div class="skedappLogo">
 				<img src="images/logo.jpg"/>
 			</div>
@@ -44,9 +55,6 @@
 								<div data-role="fieldcontain">
 									<select name="select-choice-services" id="select-choice-services">
 									   <option value="standard">Services</option>
-									   <option value="rush">Mens Cut</option>
-									   <option value="express">Womens Cut</option>
-									   <option value="overnight">Blow Wave</option>
 									</select>
 								</div>
 								<a data-role="button" data-rel="back" data-theme="e" href="#page1" data-icon="" data-iconpos="right">
@@ -73,6 +81,5 @@
      <script src="js/services.js"></script>
     <script src="js/categories.js"></script>
     <script src="js/configure.js"></script>
-
 	</body>
 </html>
