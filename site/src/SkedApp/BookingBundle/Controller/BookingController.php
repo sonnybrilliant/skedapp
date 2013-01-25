@@ -115,8 +115,13 @@ class BookingController extends Controller
                         'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                    //send booking confirmation emails
-                    $this->get("notification.manager")->confirmationBooking($options);
+                    if ($booking->getIsConfirmed()) {
+                        //send booking confirmation emails
+                        $this->get("notification.manager")->confirmationBooking($options);
+                    } else {
+                        //send booking created notification emails
+                        $this->get("notification.manager")->createdByCompanyBooking($options);
+                    }
 
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
                 } else {
@@ -184,6 +189,8 @@ class BookingController extends Controller
             $user = $this->get('member.manager')->getLoggedInUser();
             $booking = $this->get('booking.manager')->getById($bookingId);
 
+            $oldIsConfirmed = $booking->getIsConfirmed();
+
             $form = $this->createForm(new BookingUpdateType(
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
@@ -196,6 +203,16 @@ class BookingController extends Controller
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Updated booking sucessfully');
+
+                    if ( (!$oldIsConfirmed) && ($booking->getIsConfirmed()) ) {
+                        $options = array(
+                            'booking' => $booking,
+                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                        );
+                        //send booking confirmation emails
+                        $this->get("notification.manager")->confirmationBooking($options);
+                    }
+
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -444,19 +461,22 @@ class BookingController extends Controller
 
                 if ($isValid) {
 
+                    //The Customer has created the booking, so it is not confirmed
+                    $booking->setIsConfirmed(false);
+
                     $booking->setCustomer($user);
 
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
-                        'success', 'Created booking sucessfully');
+                        'success', 'Created booking sucessfully. You will be notified once the booking is confirmed.');
 
                     $options = array(
                       'booking' => $booking,
                       'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                   //send booking confirmation emails
-                    $this->get("notification.manager")->confirmationBooking($options);
+                   //send booking created notification emails
+                    $this->get("notification.manager")->createdBooking($options);
 
                     return $this->redirect($this->generateUrl('_welcome'));
 

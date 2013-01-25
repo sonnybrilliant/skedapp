@@ -658,4 +658,17 @@ class Booking
     {
         return $this->isHourReminderSent;
     }
+
+    /**
+     * Get isConfirmedString
+     *
+     * @return string
+     */
+    public function getIsConfirmedString()
+    {
+        if ($this->isConfirmed)
+          return 'Yes';
+        return 'No';
+    }
+
 }

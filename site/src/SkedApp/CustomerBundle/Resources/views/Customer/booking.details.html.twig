@@ -26,6 +26,10 @@
                   <td>{{ booking.service.name }}</td>
               </tr>
               <tr>
+                  <td><strong>Confirmed</strong>:</td>
+                  <td>{{ booking.isConfirmedString }}</td>
+              </tr>
+              <tr>
                   <td><strong>Booking date</strong>:</td>
                   <td>{{ booking.hiddenAppointmentStartTime|date('M jS Y') }}</td>
               </tr>
