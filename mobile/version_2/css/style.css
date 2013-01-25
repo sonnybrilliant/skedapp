@@ -66,7 +66,6 @@ iframe { border: none; }
 	margin: 2em 15px;
 }
 
-
 .clearfloat {
     clear: both;
     font-size: 0;
@@ -86,11 +85,60 @@ iframe { border: none; }
   font-size: 13px;
   border: none;
   border-radius: 8px 8px 0 0px;
-	
 }
 
+.greyBackground {
+	background-color: #333;
+	height: 300px;
+}
+.titleHeader{
+	color: #fff;
+	text-shadow: none;
+	font-size: 16px;
+	padding:0px;
+}
+
+.infoTitleHeader{
+	color: #fff;
+	text-shadow: none;
+	font-size: 14px;
+	padding:0px;
+}
+
+.skedappLogo{
+	text-align:center; 
+	margin: 20px 0 30px 0;
+}
+
+.marginTop20px{
+	margin-top: 20px;
+}
+.yellowBackground{
+	padding:3px 5px; 
+	background: #FDA61B;
+	border-radius: 5px;
+	margin-right: 5px;
+}
 .fontWeightNormal {
-font-weight: normal;
+	font-weight: normal;
+}
+
+.paddingTop5px{
+	padding-top: 5px;
+}
+
+.paddingTop10px{
+	padding-top: 10px;
+}
+
+.marginTop0px{
+	margin-top: 0px;
+}
+
+.whiteText{
+	color: #fff;
+	text-shadow: none;
+	font-size: 14px;
 }
 
 #skedappCustom {
@@ -111,13 +159,13 @@ font-weight: normal;
 .-box-blue-wrapper {
     background-clip: padding-box;
     background-color: #00395F;
-    background-image: linear-gradient(to bottom, #00395F , #00395F );
+	margin: -314px auto 41px auto;
+    background-image: linear-gradient( to bottom, #00395F , #00395F );
     border: none;
     box-shadow: 0 0 100px #00395F  inset;
     position: relative;
 	width: 85%;
 	border-radius: 8px 8px 8px 8px;	
-	margin: -314 auto 41px auto;
 	box-shadow: 0px 0px 6px #000;
 	min-height: 300px;
 }
