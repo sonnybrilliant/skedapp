@@ -159,6 +159,45 @@ final class EmailerManager
     }
 
     /**
+     * Send booking created to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingCreatedCustomer($params)
+    {
+        $this->logger->info("send booking scheduled notification to customer");
+        $options['subject'] = "Your SkedApp booking created and awaiting confirmation";
+
+        $booking = $params['booking'];
+
+        $tmp = array(
+            'user' => $booking->getCustomer(),
+            'consultant' => $booking->getConsultant(),
+            'provider' => $booking->getConsultant()->getCompany(),
+            'service' => $booking->getService(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
+            'company' => $booking->getConsultant()->getCompany()
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['user']->getFullName();
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
      * Send booking created e-mail to company
      *
      * @param array $params
@@ -167,7 +206,7 @@ final class EmailerManager
     public function bookingConfirmationCompany($params)
     {
         $this->logger->info('sending new booking for company');
-        $options['subject'] = "New Booking Created";
+        $options['subject'] = "New Booking Created - Confirmation Needed";
 
         $admins = $this->container->get("member.manager")
             ->getServiceProviderAdmin($params['booking']->getConsultant()->getCompany()->getId());

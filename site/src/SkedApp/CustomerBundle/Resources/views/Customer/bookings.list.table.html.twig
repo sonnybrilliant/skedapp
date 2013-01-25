@@ -2,9 +2,10 @@
     <table id="sortable" class="table display table-striped table-condensed tablesorter">
         <thead>
           <tr>
-            <th><img src="{{ asset('/img/assets/icons/sort_descend.png') }}" title="Sort by table headers" /> {{ pagination.sortable('#', 'b.id')|raw }}</th>  
+            <th><img src="{{ asset('/img/assets/icons/sort_descend.png') }}" title="Sort by table headers" /> {{ pagination.sortable('#', 'b.id')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Cunsultant', 'b.consultant')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Service', 'b.service')|raw }}</th>
+            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Confirmed', 'b.isConfirmed')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Booking date', 'b.hiddenAppointmentStartTime')|raw }}</th>
             <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Booking Time', 'b.hiddenAppointmentStartTime')|raw }}</th>
             <th></th>
@@ -13,9 +14,10 @@
         <tbody>
           {% for booking in pagination %}
           <tr>
-            <td><span style="padding-left: 20px">{{ booking.id }} </span></td>  
+            <td><span style="padding-left: 20px">{{ booking.id }} </span></td>
             <td><span style="padding-left: 20px"><a href="#myModal_consultant_{{booking.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to view booking details" title="click to view booking details">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }}</a></span></td>
             <td><span style="padding-left: 20px">{{ booking.service.name }} </span></td>
+            <td><span style="padding-left: 20px">{{ booking.isConfirmedString }} </span></td>
             <td><span style="padding-left: 20px">{{ booking.hiddenAppointmentStartTime|date('M jS Y') }} </span></td>
             <td><span style="padding-left: 20px">{{ booking.hiddenAppointmentStartTime|date('G:s a') }} </span></td>
             <td>
