@@ -31,6 +31,13 @@
           <span class="help-inline">{{form_errors(form.consultant)}}</span>
         </div>
       </div>
+      <div class="control-group {% if form_errors(form.isConfirmed) %} error {% endif %}">
+        <label class="control-label" for="leave">{{ form_label(form.isConfirmed) }}</label>
+        <div class="controls">
+          {{ form_widget(form.isConfirmed) }}
+          <span class="help-inline">{{form_errors(form.isConfirmed)}}</span>
+        </div>
+      </div>
       <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
         <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
         <div class="controls">

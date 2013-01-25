@@ -39,9 +39,9 @@ class BookingUpdateType extends AbstractType
 
     /**
      * Build Form
-     * 
+     *
      * @param FormBuilder $builder
-     * @param array $options 
+     * @param array $options
      * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -89,10 +89,15 @@ class BookingUpdateType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple'),
+                'required' => false
             ))
             ->add('isLeave', 'checkbox', array(
                 'label' => 'Is leave:',
+                'required' => false,
+            ))
+            ->add('isConfirmed', 'checkbox', array(
+                'label' => 'Is confirmed:',
                 'required' => false,
             ))
             ->add('service', 'entity', array(
@@ -108,7 +113,7 @@ class BookingUpdateType extends AbstractType
 
     /**
      * Get name
-     * @return string 
+     * @return string
      */
     public function getName()
     {

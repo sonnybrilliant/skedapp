@@ -116,12 +116,37 @@ final class NotificationsManager
                     )
                 );
 
-        $this->container->get('email.manager')->bookingConfirmationCompany($params);
         $this->container->get('email.manager')->bookingConfirmationConsultant($params);
 
         $params['attachments_data'][] = array('file_data' => $icalText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
 
         $this->container->get('email.manager')->bookingConfirmationCustomer($params);
+        return;
+    }
+
+    /**
+     * Created booking
+     *
+     * @param Array $params
+     * @return void
+     */
+    public function createdBooking($params)
+    {
+
+        $this->container->get('email.manager')->bookingConfirmationCompany($params);
+        $this->container->get('email.manager')->bookingCreatedCustomer($params);
+        return;
+    }
+
+    /**
+     * Created booking
+     *
+     * @param Array $params
+     * @return void
+     */
+    public function createdByCompanyBooking($params)
+    {
+        $this->container->get('email.manager')->bookingCreatedCustomer($params);
         return;
     }
 
@@ -183,7 +208,7 @@ final class NotificationsManager
     {
         $this->logger->info("send booking reminders");
         $bookings = $this->container->get("booking.manager")->getTodayHourBookings();
-                
+
         foreach($bookings as $booking){
             echo 'processing booking'.$booking->getId();
             $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));

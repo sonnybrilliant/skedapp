@@ -60,18 +60,19 @@
                 <td>
                     <h1 style="color: #000; font: bold 23px arial; margin:5px 0;" class="">SkedApp</h1>
                     <p style="margin-bottom: 6pt;">Hi {{ user.firstName }} {{ user.lastName }},</p>
-                    <p style="margin-bottom: 6pt;">Your consultant, {{ consultant.firstName }} {{ consultant.lastName }} has a new booking on SkedApp.</p>
-                    <p style="margin-bottom: 6pt;">Confirmation of this booking is required.</p>
+                    <p style="margin-bottom: 6pt;">Your booking with {{ consultant.fullName }} on {{ date }} has been confirmed.</p>
                     <p style="margin-bottom: 6pt;"></p>
-                    <p style="margin-bottom: 6pt;">Booking details are as follows:</p>
+                    <p style="margin-bottom: 6pt;">Your confirmed booking details are as follows:</p>
                     <p style="margin-bottom: 6pt;">
-                        <strong>Booking date</strong>: {{ date }} <br/>
                         <strong>Consultant</strong>: {{ consultant.fullName }} <br/>
-                        <strong>Service</strong>: {{ service.name }} <br />
-                        <strong>Customer name</strong>: {{ customer.fullName }} <br />
-                        <strong>Customer contact</strong>: Tel {{ customer.mobileNumber }} Email {{ customer.email }}
+                        <strong>Service to be tendered </strong>: {{ service.name }}  <br />
+                        <strong>Contact number </strong>: {{ company.contactNumber }}  <br />
+                        <strong>Location </strong>: {{ company.name }}, {{ company.address }}  <br />
+                        <strong>Location GPS co-ordinates </strong>: {{ company.completeGPS }}  <br />
+                        <strong>Date</strong>: {{ date }}<br />
                     </p>
-                    <p style="margin-bottom: 6pt;">To confirm the booking, please follow the link <br /><a style="color: #006699;" href="{{ link }}">{{ link }}</a></p>
+                    <p style="margin-bottom: 6pt;">Business contact details: <br/> {{ provider.name }} <br /><br /> {{ provider.contactNumber }} <br> {{ provider.address }} <br />{{ provider.locality }} <br /></p>
+                    <p style="margin-bottom: 6pt;">GPS cordinates: <br /> lattidude: {{ provider.lat }} <br /> longitude: {{ provider.lng }}</p>
                     <p style="margin-bottom: 6pt;"><br />Thank you,</p>
                     <p style="margin-bottom: 6pt;">The SkedApp Team</p>
                     <table border="0" cellspacing="0" cellpadding="0" style="font-family:Arial;" width="100%" class="responsive">

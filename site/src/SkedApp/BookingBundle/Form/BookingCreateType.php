@@ -107,10 +107,15 @@ class BookingCreateType extends AbstractType
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
                 'required' => false,
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple'),
+                'required' => false
             ))
             ->add('isLeave', 'checkbox', array(
                 'label' => 'Is leave:',
+                'required' => false,
+            ))
+            ->add('isConfirmed', 'checkbox', array(
+                'label' => 'Is confirmed:',
                 'required' => false,
             ))
             ->add('service', 'entity', array(
