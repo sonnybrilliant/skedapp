@@ -9,6 +9,7 @@ var Configure =
     },
 	site:
     {
+      _url: "http://skedapp.kaizania.co.za/app_dev.php/api/get/",
       _url: "http://www.skedapp.co.za/app_dev.php/api/get/"
     },
     methods:
@@ -77,5 +78,5 @@ var Configure =
 
 };
 
-Configure.init();
+
 
