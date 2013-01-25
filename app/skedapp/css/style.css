@@ -91,10 +91,18 @@ iframe { border: none; }
 	background-color: #333;
 	height: 300px;
 }
-
+.titleHeader{
+	color: #fff;
+	text-shadow: none;
+	font-size: 16px; padding:0px;
+}
 .skedappLogo{
 	text-align:center; 
 	margin: 20px 0 30px 0;
+}
+
+.marginTop20px{
+	margin-top: 20px;
 }
 
 .fontWeightNormal {
