@@ -17,11 +17,66 @@ class ApiController extends Controller
 {
 
     /**
+     * Create a json response object
+     * 
+     * @param stdClass $params
+     */
+    private function respond($params)
+    {
+        $return = new \stdClass();
+
+        if ($params->status) {
+            $return->status = true;
+            $return->count = sizeof($params->results);
+            $return->results = $params->results;
+        } else {
+            $return->status = false;
+            $return->message = $params->error;
+        }
+        
+        $return->request = $params->request;
+        
+        $str =  $params->callback.'(' . json_encode($return) . ');';
+        $response = new Response($str);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * Start a new session
+     * 
+     * @return json response
+     */
+    public function initAction()
+    {
+        $this->get('logger')->info('start mobile session');
+        //create session
+        $session = $this->get('mobile.session.manager')->init();
+        
+        $response = new \stdClass();
+        $response->status = true;
+        $response->request = 'init';
+        if(isset($_GET['callback'])){
+          $response->callback = $_GET['callback'];  
+        }else{
+          $response->callback = 'test';  
+        }
+        
+
+        $response->results = array(
+            'session' => $session->getSession(),
+            'isLoggedIn' => '',
+        );
+        
+        return $this->respond($response);
+    }
+
+    /**
      * Get categories
      *
      * @return json response
      */
-    public function getCategoriesAction()
+    public function getCategoriesAction($session)
     {
         $this->get('logger')->info('get categories');
 
@@ -34,8 +89,18 @@ class ApiController extends Controller
                 $results[] = array('id' => $category->getId(), 'name' => $category->getName());
             }
         }
-
-        return $this->respond($results);
+        
+        $response = new \stdClass();
+        $response->status = true;
+        $response->request = 'categories';
+        $response->results = $results;
+        if(isset($_GET['callback'])){
+          $response->callback = $_GET['callback'];  
+        }else{
+          $response->callback = 'test';  
+        }
+        
+        return $this->respond($response);
     }
 
     /**
@@ -43,7 +108,7 @@ class ApiController extends Controller
      *
      * @return json response
      */
-    public function getServicesAction($id = 1)
+    public function getServicesAction($session,$id = 1)
     {
         $this->get('logger')->info('get services');
         $em = $this->getDoctrine()->getEntityManager();
@@ -55,10 +120,21 @@ class ApiController extends Controller
                 $results[] = array('id' => $service->getId(), 'name' => $service->getName());
             }
         }
-        return $this->respond($results);
+        
+        $response = new \stdClass();
+        $response->status = true;
+        $response->request = 'services';
+        $response->results = $results;
+        if(isset($_GET['callback'])){
+          $response->callback = $_GET['callback'];  
+        }else{
+          $response->callback = 'test';  
+        }
+        
+        return $this->respond($response);
     }
 
-   /**
+    /**
      * Get consultant by Id
      *
      * @return json response
@@ -70,7 +146,7 @@ class ApiController extends Controller
         $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
         $results = array();
 
-        if($consultant){
+        if ($consultant) {
             $results[] = $this->buildConsultant($consultant);
         }
 
@@ -99,50 +175,47 @@ class ApiController extends Controller
 
         $page = $this->getRequest()->get('page', 1);
 
-        if (!isset($formData['booking_date'])){
-          $formData['booking_date'] = $this->getRequest()->get('date', '');
+        if (!isset($formData['booking_date'])) {
+            $formData['booking_date'] = $this->getRequest()->get('date', '');
         }
 
-        if (!isset($formData['lat'])){
-          $formData['lat'] = $this->getRequest()->get('pos_lat', null);
+        if (!isset($formData['lat'])) {
+            $formData['lat'] = $this->getRequest()->get('pos_lat', null);
         }
 
         if (!isset($formData['lng']))
-          $formData['lng'] = $this->getRequest()->get('pos_lng', null);
+            $formData['lng'] = $this->getRequest()->get('pos_lng', null);
 
-        if (!isset($formData['address'])){
-          $formData['address'] = $this->getRequest()->get('address', null);
+        if (!isset($formData['address'])) {
+            $formData['address'] = $this->getRequest()->get('address', null);
         }
 
-        if (!isset ($formData['category']))
+        if (!isset($formData['category']))
             $formData['category'] = $this->getRequest()->get('category_id', 0);
 
-        if ( (strlen($formData['address']) > 0) && ( (is_null ($formData['lng'])) || (is_null ($formData['lat'])) ) ) {
+        if ((strlen($formData['address']) > 0) && ( (is_null($formData['lng'])) || (is_null($formData['lat'])) )) {
             //Latitude and Longitude not available, so attempt to get those from text location
-
             //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
             $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
 
-            if (!is_null ($address['error_message'])) {
+            if (!is_null($address['error_message'])) {
                 return $this->respond(array('error_message' => $address['error_message'], 'results' => array()), 'results');
             }
 
             $formData['lat'] = $address['lat'];
             $formData['lng'] = $address['lng'];
-
         }
 
-        if ( (!is_null($formData['lat'])) && (!is_null($formData['lng'])) && ($serviceId > 0) ) {
+        if ((!is_null($formData['lat'])) && (!is_null($formData['lng'])) && ($serviceId > 0)) {
 
             $options['lat'] = $formData['lat'];
             $options['lng'] = $formData['lng'];
             $options['radius'] = 5;
             $options['category'] = $formData['category'];
             $options['consultantServices'] = $serviceId;
-
         }
 
-        if ( (is_null($formData['lat'])) || (is_null($formData['lng'])) || ($serviceId <= 0) || ($formData['category'] <= 0) ) {
+        if ((is_null($formData['lat'])) || (is_null($formData['lng'])) || ($serviceId <= 0) || ($formData['category'] <= 0)) {
             return $this->respond(array('error_message' => 'Please provide some search criteria', 'results' => array()), 'results');
         }
 
@@ -189,32 +262,11 @@ class ApiController extends Controller
     private function buildConsultant($consultant)
     {
         return array('firstName' => $consultant->getFirstName(),
-                     'lastName'  => $consultant->getLastName(),
-                     'gender'    => $consultant->getGender()->getName(),
-                     'speciality' =>  $consultant->getSpeciality(),
-                     'professionalStatement' => $consultant->getProfessionalStatement(),
-
-
+            'lastName' => $consultant->getLastName(),
+            'gender' => $consultant->getGender()->getName(),
+            'speciality' => $consultant->getSpeciality(),
+            'professionalStatement' => $consultant->getProfessionalStatement(),
         );
-    }
-
-    /**
-     * Create a json response object
-     * @param array $results
-     */
-    private function respond($results = array(), $countElementName = null)
-    {
-        $return = new \stdClass();
-        $return->status = 'success';
-        $return->count = sizeof($results);
-        $return->results = $results;
-
-        if (!is_null($countElementName))
-            $return->count = sizeof($results[$countElementName]);
-
-        $response = new Response(json_encode($return));
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
     }
 
     /**
@@ -227,15 +279,15 @@ class ApiController extends Controller
 
         $formData = $this->getRequest()->get('Search');
 
-        if (!isset($formData['lat'])){
-          $formData['lat'] = $this->getRequest()->get('pos_lat', null);
+        if (!isset($formData['lat'])) {
+            $formData['lat'] = $this->getRequest()->get('pos_lat', null);
         }
 
         if (!isset($formData['lng']))
-          $formData['lng'] = $this->getRequest()->get('pos_lng', null);
+            $formData['lng'] = $this->getRequest()->get('pos_lng', null);
 
-        if (!isset($formData['address'])){
-          $formData['address'] = $this->getRequest()->get('address', null);
+        if (!isset($formData['address'])) {
+            $formData['address'] = $this->getRequest()->get('address', null);
         }
 
         //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
@@ -251,4 +303,5 @@ class ApiController extends Controller
 
         return $this->respond($address, $results_field);
     }
+
 }

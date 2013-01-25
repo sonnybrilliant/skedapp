@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <title>Skedapp - Schedule you life</title>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1"> 
+     <link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
+     <link rel="stylesheet" href="css/style.css" />
+     <script src="js/jquery-1.8.3.min.js"></script>
+     <script src="js/jquery.mobile-1.2.0.min.js"></script>
+     <script>
+        //$(document).one('deviceready', Configure.init);
+     </script>
+   </head>
+   <body>
+	<div data-role="page" data-theme="d" class="backgroundImages">
+			<div style="text-align:center; margin: 20px 0 60px 0;">
+				<img src="images/logo.jpg"/>
+			</div>
+			<div style="background-color: #333; height: 300px;">
+				</div>
+					<div data-role="content" class="-box-blue-wrapper">
+					<p style="color: #fff; text-shadow: none; font-size: 16px; padding:0px;">Search, Locate services in your area.</p>
+							<form action="">
+								<div data-role="fieldcontain">
+									<select name="select-choice-categories" id="select-choice-categories">
+									</select>
+								</div>
+								<div data-role="fieldcontain">
+									<fieldset data-role="controlgroup" data-mini="true">
+										<input name="" id="textinput2" placeholder="Type in your current location" value="" type="text" />
+									</fieldset>
+								</div>
+								<div data-role="fieldcontain">
+									<fieldset data-role="controlgroup" data-mini="true">
+										<input style="width: 102.2%" name="" id="textinput3" placeholder="Date" value="" type="date" />
+									</fieldset>
+								</div>
+								<div data-role="fieldcontain">
+									<select name="select-choice-services" id="select-choice-services">
+									   <option value="standard">Select</option>
+									   <option value="rush">Mens Cut</option>
+									   <option value="express">Womens Cut</option>
+									   <option value="overnight">Blow Wave</option>
+									</select>
+								</div>
+								<a data-role="button" data-rel="back" data-theme="e" href="#page1" data-icon="" data-iconpos="right">
+									Search
+								</a>
+							</form>
+					</div>
+			
+			<div style="margin-top: 20px;"></div>
+			<div  id="footerCustom" data-theme="a" data-role="footer" data-position="fixed">
+            <h3 style="float: left;">
+                SkedApp &#169; 2013
+			</h3>
+			<span style="float:right; margin-right: 15px;"data-role="link">
+			<a style="float:left; font-size: 13px; margin: 6px 10px 0 0; color: #fff; text-decoration: none; font-weight: normal" href="about.html" data-transition="slide">About us</a>
+			<a style="float:left; font-size: 13px; margin-top: 6px; color: #fff; text-decoration: none; font-weight: normal" href="contact.html" data-transition="slide">Contact Us</a>
+			</span>
+		</div>
+	</div>
+    <script src="js/session.js"></script>
+     <script src="js/services.js"></script>
+    <script src="js/categories.js"></script>
+    <script src="js/configure.js"></script>
+
+	</body>
+</html>
