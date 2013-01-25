@@ -8,9 +8,7 @@
      <link rel="stylesheet" href="css/style.css" />
      <script src="js/jquery-1.8.3.min.js"></script>
      <script src="js/jquery.mobile-1.2.0.min.js"></script>
-     <script>
-        //$(document).one('deviceready', Configure.init);
-     </script>
+     <script src="cordova.js"></script>
    </head>
    <body>
 	<div data-role="page" data-theme="d" class="backgroundImages">
@@ -24,11 +22,12 @@
 							<form action="">
 								<div data-role="fieldcontain">
 									<select name="select-choice-categories" id="select-choice-categories">
+                                        <option value="0">Select Category</option>
 									</select>
 								</div>
 								<div data-role="fieldcontain">
 									<fieldset data-role="controlgroup" data-mini="true">
-										<input name="" id="textinput2" placeholder="Type in your current location" value="" type="text" />
+										<input name="" id="textinput2" placeholder="Use my current location" value="" type="text" />
 									</fieldset>
 								</div>
 								<div data-role="fieldcontain">
@@ -38,10 +37,7 @@
 								</div>
 								<div data-role="fieldcontain">
 									<select name="select-choice-services" id="select-choice-services">
-									   <option value="standard">Select</option>
-									   <option value="rush">Mens Cut</option>
-									   <option value="express">Womens Cut</option>
-									   <option value="overnight">Blow Wave</option>
+									   <option value="0">Select your service</option>
 									</select>
 								</div>
 								<a data-role="button" data-rel="back" data-theme="e" href="#page1" data-icon="" data-iconpos="right">
@@ -65,6 +61,9 @@
      <script src="js/services.js"></script>
     <script src="js/categories.js"></script>
     <script src="js/configure.js"></script>
-
+    <script>
+        //$(document).one('deviceready', Configure.init);
+        Configure.init();
+     </script>
 	</body>
 </html>
