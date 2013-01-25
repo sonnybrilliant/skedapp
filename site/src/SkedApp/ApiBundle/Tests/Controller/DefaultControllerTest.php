@@ -32,5 +32,14 @@ class DefaultControllerTest extends WebTestCase
         //Check if no error messages were found in the geocoding of the address
         $this->assertRegExp('/\"error_message\":null/',$client->getResponse()->getContent());
 
+        //Test if API register call works
+        $crawler = $client->request('GET', '/api/geocode/address?Search[address]=Sandton, South Africa');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        //Check if no error messages were found in the geocoding of the address
+        $this->assertRegExp('/\"error_message\":null/',$client->getResponse()->getContent());
+
     }
 }
