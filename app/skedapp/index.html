@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <title>Skedapp - Schedule you life</title>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+	 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />	 
+     <link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
+     <link rel="stylesheet" href="css/style.css" />
+     <script src="js/jquery-1.8.3.min.js"></script>
+     <script src="js/jquery.mobile-1.2.0.min.js"></script>
+     <script>
+        //$(document).one('deviceready', Configure.init);
+     </script>
+   </head>
+   <body>
+	<div data-role="page" data-theme="d" class="backgroundImages">
+	<div data-role="header" class="page-header home-page-header">
+			<h1><a href="">Register</a> an account or <a href="">Login</a></h1>
+		</div>
+			<div class="skedappLogo">
+				<img src="images/logo.jpg"/>
+			</div>
+			<div class="greyBackground">
+				</div>
+					<div data-role="content" class="-box-blue-wrapper">
+					<p class="titleHeader">Search, Locate services in your area.</p>
+							<form action="">
+								<div data-role="fieldcontain">
+									<select name="select-choice-categories" id="select-choice-categories">
+									<option value="standard">Select a catageory</option>
+									</select>
+								</div>
+								<div data-role="fieldcontain">
+									<fieldset data-role="controlgroup" data-mini="true">
+										<input name="" id="textinput2" placeholder="Type in your current location" value="" type="text" />
+									</fieldset>
+								</div>
+								<div data-role="fieldcontain">
+									<fieldset data-role="controlgroup" data-mini="true">
+										<input style="width: 100%" name="" id="textinput3" placeholder="Date" value="" type="date" />
+									</fieldset>
+								</div>
+								<div data-role="fieldcontain">
+									<select name="select-choice-services" id="select-choice-services">
+									   <option value="standard">Services</option>
+									   <option value="rush">Mens Cut</option>
+									   <option value="express">Womens Cut</option>
+									   <option value="overnight">Blow Wave</option>
+									</select>
+								</div>
+								<a data-role="button" data-rel="back" data-theme="e" href="#page1" data-icon="" data-iconpos="right">
+									Search
+								</a>
+							</form>
+					</div>
+			
+			<div class="marginTop20px"></div>
+			<div class="clearfloat"></div>
+			
+			<div data-role="navbar">
+			<h3  id="skedappCustom">
+                SkedApp &#169; 2013
+			</h3>
+				<ul>
+					<li><a href="contact.html" data-transition="slide">Contact us</a></li>
+					<li><a href="about.html" data-transition="slide">About us</a></li>
+				</ul>
+			</div><!-- /navbar -->
+			</div>
+	</div>
+    <script src="js/session.js"></script>
+     <script src="js/services.js"></script>
+    <script src="js/categories.js"></script>
+    <script src="js/configure.js"></script>
+
+	</body>
+</html>
