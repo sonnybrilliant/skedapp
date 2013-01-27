@@ -128,6 +128,22 @@ iframe { border: none; }
 	margin-right: 5px;
   text-shadow: none;
 }
+
+.centerLinks{
+  color: #fff;
+  font-weight: normal;
+  padding-bottom: 10px;
+  font-size: 14px;
+  text-shadow: none;
+}
+
+.center{
+  text-align: center;
+  color: #fff;
+  font-weight: normal;
+  font-size: 14px;
+  padding-bottom: 8px;
+}
 .fontWeightNormal {
 	font-weight: normal;
 }
