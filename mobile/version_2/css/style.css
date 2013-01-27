@@ -1,33 +1,33 @@
 #portfolio img {
-    margin: 0 auto;
-    min-width: 50%;
-    width: 90%;
+  margin: 0 auto;
+  min-width: 50%;
+  width: 90%;
 }
 
 .bigborder {
-    border: 10px solid #FFFFFF;
-    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.5);
-    display: block;
-    margin-right: 15px;
+  border: 10px solid #FFFFFF;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.5);
+  display: block;
+  margin-right: 15px;
 }
 
 .footer {
-	font-size: 8px;
+  font-size: 8px;
 }
 
 #about_tumi img {
-    float: left;
+  float: left;
 }
 
 .footerText{
-	font-size: 12px;
-	padding: 10px 0px;
-	text-align: center;
+  font-size: 12px;
+  padding: 10px 0px;
+  text-align: center;
 }
 
 .boderBottom {
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 4px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
 }
 
 .shadow {
@@ -38,43 +38,43 @@
 }
 
 .ui-btn-corner-all{
-	border-radius: 3px;
+  border-radius: 3px;
 }
 
 .ui-corner-all {
-	border-radius: 3px;
+  border-radius: 3px;
 }
 
 .backgroundImages{
-	background: #fff /*{global-icon-color}*/;
+  background: #fff /*{global-icon-color}*/;
 }
 
 iframe { border: none; }
 
 #popupPanel-popup {
-	right: 0 !important;
-	left: auto !important;
+  right: 0 !important;
+  left: auto !important;
 }
 #popupPanel {
-	width: 200px;
-	border: 1px solid #000;
-	border-right: none;
-	background: rgba(0,0,0,.5);
-	margin: -1px 0;
+  width: 200px;
+  border: 1px solid #000;
+  border-right: none;
+  background: rgba(0,0,0,.5);
+  margin: -1px 0;
 }
 #popupPanel .ui-btn {
-	margin: 2em 15px;
+  margin: 2em 15px;
 }
 
 .clearfloat {
-    clear: both;
-    font-size: 0;
-    height: 0;
-    line-height: 0;
+  clear: both;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
 }
 
 .colorLabel{
-	color: #fff;
+  color: #fff;
 }
 
 .headers{
@@ -95,37 +95,37 @@ iframe { border: none; }
 }
 
 .greyBackground {
-	background-color: #333;
-	height: 300px;
+  background-color: #333;
+  height: 300px;
 }
 .titleHeader{
-	color: #fff;
-	text-shadow: none;
-	font-size: 16px;
-	padding:0px;
+  color: #fff;
+  text-shadow: none;
+  font-size: 16px;
+  padding:0px;
 }
 
 .infoTitleHeader{
-	color: #fff;
-	text-shadow: none;
-	font-size: 14px;
-	padding:0px;
+  color: #fff;
+  text-shadow: none;
+  font-size: 14px;
+  padding:0px;
 }
 
 .skedappLogo{
-	text-align:center; 
-	margin: 20px 0 30px 0;
+  text-align:center; 
+  margin: 20px 0 30px 0;
 }
 
 .marginTop20px{
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 .yellowBackground{
-	padding:3px 5px; 
-	background: #FDA61B;
-	border-radius: 5px;
-	margin-right: 5px;
+  padding:3px 5px; 
+  background: #FDA61B;
+  border-radius: 5px;
+  margin-right: 5px;
   text-shadow: none;
 }
 
@@ -145,25 +145,25 @@ iframe { border: none; }
   padding-bottom: 8px;
 }
 .fontWeightNormal {
-	font-weight: normal;
+  font-weight: normal;
 }
 
 .paddingTop5px{
-	padding-top: 5px;
+  padding-top: 5px;
 }
 
 .paddingTop10px{
-	padding-top: 10px;
+  padding-top: 10px;
 }
 
 .marginTop0px{
-	margin-top: 0px;
+  margin-top: 0px;
 }
 
 .whiteText{
-	color: #fff;
-	text-shadow: none;
-	font-size: 14px;
+  color: #fff;
+  text-shadow: none;
+  font-size: 14px;
 }
 
 #skedappCustom {
@@ -178,19 +178,19 @@ iframe { border: none; }
   padding: 10px 0;
   text-align:center;
   margin-bottom: 0;
-	
+
 }
 
 .-box-blue-wrapper {
-    background-clip: padding-box;
-    background-color: #00395F;
-	margin: -314px auto 41px auto;
-    background-image: linear-gradient( to bottom, #00395F , #00395F );
-    border: none;
-    box-shadow: 0 0 100px #00395F  inset;
-    position: relative;
-	width: 85%;
-	border-radius: 8px 8px 8px 8px;	
-	box-shadow: 0px 0px 6px #000;
-	min-height: 300px;
+  background-clip: padding-box;
+  background-color: #00395F;
+  margin: -314px auto 41px auto;
+  background-image: linear-gradient( to bottom, #00395F , #00395F );
+  border: none;
+  box-shadow: 0 0 100px #00395F  inset;
+  position: relative;
+  width: 85%;
+  border-radius: 8px 8px 8px 8px;	
+  box-shadow: 0px 0px 6px #000;
+  min-height: 300px;
 }
