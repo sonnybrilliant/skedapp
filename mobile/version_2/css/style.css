@@ -77,6 +77,13 @@ iframe { border: none; }
 	color: #fff;
 }
 
+.headers{
+  color: #fff;
+  text-shadow: none;
+  font-size: 18px;
+  padding:0px;
+}
+
 #footerCustom {
   width: 100% ;
   position: absolute;
@@ -113,11 +120,13 @@ iframe { border: none; }
 .marginTop20px{
 	margin-top: 20px;
 }
+
 .yellowBackground{
 	padding:3px 5px; 
 	background: #FDA61B;
 	border-radius: 5px;
 	margin-right: 5px;
+  text-shadow: none;
 }
 .fontWeightNormal {
 	font-weight: normal;
