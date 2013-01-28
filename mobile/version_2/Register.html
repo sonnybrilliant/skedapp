@@ -26,42 +26,36 @@
 
         <span class="yellowBackground">Register a new account, all fields required.</span>
         <div class="paddingTop10px"></div>
-        <form action="app_dev.php/api/register/customer" method="POST">
+        <form action="http://skedapp.kaizania.co.za/app_dev.php/api/register/customer" method="GET">
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">First name</label>
-              <input name="" id="textinput1" placeholder="first name" value="" type="text" />
+              <input id="Customer_firstName" name="Customer[firstName]" placeholder="first name" value="" type="text"/>
             </fieldset>
           </div>
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">Last name</label>
-              <input name="" id="textinput2" placeholder="last name" value="" type="text" />
+              <input id="Customer_lastName" name="Customer[lastName]" placeholder="last name" value="" type="text"/>
             </fieldset>
           </div>
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">Cellphone number</label>
-              <input name="" id="textinput4" placeholder="cellphone number" value="" type="tel" />
+              <input id="Customer_mobileNumber" name="Customer[mobileNumber]" placeholder="cellphone number" value="" type="tel" />
             </fieldset>
           </div>
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">Password</label>
-              <input name="Customer[password]" id="textinput1" placeholder="password" value="" type="password" />
+              <input id="Customer_password_first" name="Customer[password]" placeholder="password" value="" type="password" />
             </fieldset>
           </div>
 
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">Email</label>
-              <input name="Customer[email]" id="textinput3" placeholder="john.smith@example.com" value="" type="email" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <label class="whiteText">Confirm Email address</label>
-              <input name="Customer[email]" id="textinput3" placeholder="john.smith@example.com" value="" type="email" />
+              <input name="Customer[email]" id="Customer_email_first" placeholder="john.smith@example.com" value="" type="email" />
             </fieldset>
           </div>
           <div class="ui-body ui-body-b">
