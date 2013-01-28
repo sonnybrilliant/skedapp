@@ -26,17 +26,17 @@
 
         <span class="yellowBackground">Register a new account, all fields required.</span>
         <div class="paddingTop10px"></div>
-        <form action="api/register/customer" method="POST">
+        <form action="app_dev.php/api/register/customer" method="POST">
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">First name</label>
-              <input name="" data-val-required="Name is required" id="textinput1" placeholder="first name" value="" type="text" />
+              <input name="" id="textinput1" placeholder="first name" value="" type="text" />
             </fieldset>
           </div>
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">Last name</label>
-              <input name="Customer[email]" id="textinput2" placeholder="last name" value="" type="text" />
+              <input name="" id="textinput2" placeholder="last name" value="" type="text" />
             </fieldset>
           </div>
           <div data-role="fieldcontain">
@@ -48,7 +48,7 @@
           <div data-role="fieldcontain">
             <fieldset data-role="controlgroup" data-mini="true">
               <label class="whiteText">Password</label>
-              <input name="" id="textinput1" placeholder="password" value="" type="password" />
+              <input name="Customer[password]" id="textinput1" placeholder="password" value="" type="password" />
             </fieldset>
           </div>
 
@@ -65,12 +65,12 @@
             </fieldset>
           </div>
           <div class="ui-body ui-body-b">
-		<fieldset class="ui-grid-a">
-				<div class="ui-block-a"><a href="index.html" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
-				<div class="ui-block-b"><input type="submit" data-role="button" data-theme="e" value="Register" data-mini="true" /></div>
-	    </fieldset>
-		</div>
-          
+            <fieldset class="ui-grid-a">
+              <div class="ui-block-a"><a href="index.html" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
+              <div class="ui-block-b"><input type="submit" name="Submit" data-role="button" data-theme="e" value="Register" data-mini="true" /></div>
+            </fieldset>
+          </div>
+
         </form>
 
       </div>
