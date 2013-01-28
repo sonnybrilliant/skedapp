@@ -127,6 +127,7 @@ iframe { border: none; }
   border-radius: 5px;
   margin-right: 5px;
   text-shadow: none;
+  font-size: 12px;
 }
 
 .centerLinks{
