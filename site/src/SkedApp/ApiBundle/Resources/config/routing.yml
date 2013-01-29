@@ -31,3 +31,16 @@ sked_app_api_geo_encode_address:
 sked_app_api_register_customer:
     pattern:  /api/register/customer
     defaults: { _controller: SkedAppApiBundle:Api:registerCustomer }
+
+sked_app_api_check_availability:
+    pattern:  /api/check/consultant/available/{consultantId}/{bookingDateTime}
+    defaults: { _controller: SkedAppApiBundle:Api:checkConsultantAvailable }
+    requirements:
+       consultantId: \d+
+
+sked_app_api_make_booking:
+    pattern:  /api/make/booking/{consultantId}/{serviceId}/{bookingDateTime}
+    defaults: { _controller: SkedAppApiBundle:Api:checkConsultantAvailable }
+    requirements:
+       consultantId: \d+
+       serviceId: \d+

@@ -395,17 +395,74 @@ class ApiController extends Controller
         //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
         $available = $this->get('booking.manager')->isBookingDateAvailable($booking);
 
-        $return = array();
+        $return = new \stdClass();
+        $return->request = null;
+        $return->callback = null;
 
         if ($available) {
-            $return['results'] = array(1);
-            $results_field = 'results';
+            $return->results = array(1);
+            $return->status = true;
         } else {
-            $return['results'] = array();
-            $results_field = 'results';
+            $return->results = array();
+            $return->status = false;
+            $return->error = 'This consultant is not available at that time';
         }
 
-        return $this->respond($return, $results_field);
+        return $this->respond($return);
+    }
+
+    /**
+     * Make a booking
+     *
+     * @return json response
+     */
+    public function makeBookingAction($consultantId, $serviceId, $bookingDateTime)
+    {
+
+        $bookingStartDateTime = new \DateTime($bookingDateTime);
+
+        //Instantiate a mock booking entity to check availability
+        $booking = new \SkedApp\CoreBundle\Entity\Booking();
+        $consultant = $this->get('consultant.manager')->getById($consultantId);
+        $service = $this->get('service.manager')->getById($serviceId);
+        $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('P' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+        $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+
+        $booking->setConsultant($consultant);
+        $booking->setService($service);
+        $booking->setStartTimeslot($startTimeSlot);
+        $booking->setEndTimeslot($endTimeSlot);
+
+        if (!$this->get('booking.manager')->isTimeValid($booking)) {
+            $errMsg = "End time must be greater than start time";
+            $isValid = false;
+        }
+
+        if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+            $errMsg = "Booking not available, please choose another time.";
+            $isValid = false;
+        }
+
+//        if (!$user instanceOf Customer) {
+//            $errMsg = "Please register on the site and log in to create a booking.";
+//            $isValid = false;
+//        }
+
+        $return = new \stdClass();
+        $return->request = null;
+        $return->callback = null;
+
+        if ($isValid) {
+            $return->results = array(1);
+            $return->status = true;
+        } else {
+            $return->results = array();
+            $return->status = false;
+            $return->error = $errMsg;
+        }
+
+        return $this->respond($return);
     }
 
 }
