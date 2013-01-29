@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>Skedapp | Register</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.2.0.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile-1.2.0.js"></script>
+  </head>
+
+  <body>
+    <div data-role="page" data-theme="c" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1>Register account</h1>
+        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+      </div>
+
+      <div class="skedappLogo">
+        <img src="images/logo.jpg"/>
+      </div>
+      <div class="greyBackground">
+      </div>
+      <div data-role="content" class="-box-blue-wrapper">
+        <p class="titleHeader">Register account</p>
+
+        <span class="yellowBackground">Register a new account, all fields required.</span>
+        <div class="paddingTop10px"></div>
+        <form action="http://skedapp.kaizania.co.za/app_dev.php/api/register/customer" method="GET">
+          <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+              <label class="whiteText">First name</label>
+              <input id="Customer_firstName" name="Customer[firstName]" placeholder="first name" value="" type="text"/>
+            </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+              <label class="whiteText">Last name</label>
+              <input id="Customer_lastName" name="Customer[lastName]" placeholder="last name" value="" type="text"/>
+            </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+              <label class="whiteText">Cellphone number</label>
+              <input id="Customer_mobileNumber" name="Customer[mobileNumber]" placeholder="cellphone number" value="" type="tel" />
+            </fieldset>
+          </div>
+          <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+              <label class="whiteText">Password</label>
+              <input id="Customer_password_first" name="Customer[password]" placeholder="password" value="" type="password" />
+            </fieldset>
+          </div>
+
+          <div data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-mini="true">
+              <label class="whiteText">Email</label>
+              <input name="Customer[email]" id="Customer_email_first" placeholder="john.smith@example.com" value="" type="email" />
+            </fieldset>
+          </div>
+          <div class="ui-body ui-body-b">
+            <fieldset class="ui-grid-a">
+              <div class="ui-block-a"><a href="index.html" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
+              <div class="ui-block-b"><input type="submit" name="Submit" data-role="button" data-theme="e" value="Register" data-mini="true" /></div>
+            </fieldset>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="marginTop20px"></div>
+      <div class="clearfloat"></div>
+
+      <div data-role="navbar">
+        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="contact.html" data-transition="slide">Contact us</a></li>
+          <li><a href="about.html" data-transition="slide">About us</a></li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
