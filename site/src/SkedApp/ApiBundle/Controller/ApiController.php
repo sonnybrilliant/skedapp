@@ -371,4 +371,41 @@ class ApiController extends Controller
         return $this->respond($return);
     }
 
+    /**
+     * Check if a consultant is available
+     *
+     * @return json response
+     */
+    public function checkConsultantAvailableAction($consultantId, $bookingDateTime)
+    {
+
+        $bookingStartDateTime = new \DateTime($bookingDateTime);
+
+        //Instantiate a mock booking entity to check availability
+        $booking = new \SkedApp\CoreBundle\Entity\Booking();
+        $consultant = $this->get('consultant.manager')->getById($consultantId);
+        $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('P' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+        $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+
+        $booking->setConsultant($consultant);
+        $booking->setStartTimeslot($startTimeSlot);
+        $booking->setEndTimeslot($endTimeSlot);
+
+        //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
+        $available = $this->get('booking.manager')->isBookingDateAvailable($booking);
+
+        $return = array();
+
+        if ($available) {
+            $return['results'] = array(1);
+            $results_field = 'results';
+        } else {
+            $return['results'] = array();
+            $results_field = 'results';
+        }
+
+        return $this->respond($return, $results_field);
+    }
+
 }
