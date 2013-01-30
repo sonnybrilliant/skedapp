@@ -14,16 +14,16 @@
 -----------------------------------------------------------------------------------------------------------*/
 .ui-bar-a {
 	border-bottom: 1px solid 		#666 /*{a-bar-border}*/;
-	background: 			#111 /*{a-bar-background-color}*/;
 	color: 					#000 /*{a-bar-color}*/;
 	font-weight: bold;
 	text-shadow: none;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #FDA61B /*{a-bar-background-start}*/), to( #FDA61B /*{a-bar-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #FDA61B /*{a-bar-background-start}*/, #FDA61B /*{a-bar-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image:    -moz-linear-gradient( #FDA61B /*{a-bar-background-start}*/, #FDA61B /*{a-bar-background-end}*/); /* FF3.6 */
-	background-image:     -ms-linear-gradient( #FDA61B /*{a-bar-background-start}*/, #FDA61B /*{a-bar-background-end}*/); /* IE10 */
-	background-image:      -o-linear-gradient( #FDA61B /*{a-bar-background-start}*/, #FDA61B /*{a-bar-background-end}*/); /* Opera 11.10+ */
-	background-image:         linear-gradient( #FDA61B /*{a-bar-background-start}*/, #FDA61B /*{a-bar-background-end}*/);
+	background: #FDA61B;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FDA61B), to(#CC6600));
+	background: -webkit-linear-gradient(#FDA61B, #CC6600);
+	background: -moz-linear-gradient(#FDA61B, #CC6600);
+	background: -ms-linear-gradient(#FDA61B, #CC6600);
+	background: -o-linear-gradient(#FDA61B, #CC6600);
+	background: linear-gradient(#FDA61B, #CC6600);
 }
 .ui-bar-a,
 .ui-bar-a input,
