@@ -12,6 +12,10 @@ sked_app_api_get_services:
     requirements:
        id: \d+
 
+sked_app_api_search_consultants:
+    pattern:  /api/get/search/{session}/{category}/{service}/{address}/{date}/{lat}/{long}/{page}
+    defaults: { _controller: SkedAppApiBundle:Api:searchConsultant, page: 1 }
+
 sked_app_api_get_consultant:
     pattern:  /api/get/consultant/{id}
     defaults: { _controller: SkedAppApiBundle:Api:getConsultant , id: 1}
