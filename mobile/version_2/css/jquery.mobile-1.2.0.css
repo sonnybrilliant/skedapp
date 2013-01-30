@@ -327,8 +327,8 @@
 .ui-body-c,
 .ui-overlay-c {
 	border: 1px solid 		#000 /*{c-body-border}*/;
-	color: 					#333 /*{c-body-color}*/;
-	text-shadow: 0 /*{c-body-shadow-x}*/ 1px /*{c-body-shadow-y}*/ 0 /*{c-body-shadow-radius}*/ #fff /*{c-body-shadow-color}*/;
+	color: 					#fff /*{c-body-color}*/;
+	text-shadow: none;
 	background: 			#f9f9f9 /*{c-body-background-color}*/;
 	background-image: -webkit-gradient(linear, left top, left bottom, from( #f9f9f9 /*{c-body-background-start}*/), to( #eee /*{c-body-background-end}*/)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient( #f9f9f9 /*{c-body-background-start}*/, #eee /*{c-body-background-end}*/); /* Chrome 10+, Saf5.1+ */
