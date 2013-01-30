@@ -38,7 +38,7 @@ class ApiController extends Controller
 
         $return->request = $params->request;
 
-        $str =  $params->callback.'(' . json_encode($return) . ');';
+        $str = $params->callback . '(' . json_encode($return) . ');';
         $response = new Response($str);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -58,10 +58,10 @@ class ApiController extends Controller
         $response = new \stdClass();
         $response->status = true;
         $response->request = 'init';
-        if(isset($_GET['callback'])){
-          $response->callback = $_GET['callback'];
-        }else{
-          $response->callback = 'test';
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
         }
 
 
@@ -96,10 +96,10 @@ class ApiController extends Controller
         $response->status = true;
         $response->request = 'categories';
         $response->results = $results;
-        if(isset($_GET['callback'])){
-          $response->callback = $_GET['callback'];
-        }else{
-          $response->callback = 'test';
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
         }
 
         return $this->respond($response);
@@ -110,7 +110,7 @@ class ApiController extends Controller
      *
      * @return json response
      */
-    public function getServicesAction($session,$id = 1)
+    public function getServicesAction($session, $id = 1)
     {
         $this->get('logger')->info('get services');
         $em = $this->getDoctrine()->getEntityManager();
@@ -127,10 +127,10 @@ class ApiController extends Controller
         $response->status = true;
         $response->request = 'services';
         $response->results = $results;
-        if(isset($_GET['callback'])){
-          $response->callback = $_GET['callback'];
-        }else{
-          $response->callback = 'test';
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
         }
 
         return $this->respond($response);
@@ -153,6 +153,74 @@ class ApiController extends Controller
         }
 
         return $this->respond($results);
+    }
+    
+    /**
+     * Search for consultant
+     * 
+     * @param string $session
+     * @param string $category
+     * @param string $service
+     * @param string $address
+     * @param string $date
+     * @param string $lat
+     * @param string $long
+     * @param string $page
+     * @return string JSONP
+     */
+    public function searchConsultantAction($session, $category, $service, $address = null, $date = null, $lat = null, $long = null, $page = 1)
+    {
+        $this->get('logger')->info('search for consultant by service id and location');
+
+        $isValid = true;
+        $sort = $this->get('request')->query->get('sort');
+        $direction = $this->get('request')->query->get('direction', 'desc');
+
+        $options = array('sort' => $sort,
+            'direction' => $direction
+        );
+
+        //if address is not empty, do geo encode
+        if (($address != 'undefined')) {
+            $results = $this->get('geo_encode.manager')->getGeoEncodedAddress($address);
+            if ($results['isValid']) {
+                $lat = $results['lat'];
+                $long = $results['long'];
+            } else {
+                $isValid = false;
+            }
+        } else {
+            if (($lat == 'undefined') || ($long == 'undefined')) {
+                $isValid = false;
+            }
+        }
+
+        if ($isValid) {
+            $options['lat'] = $lat;
+            $options['lng'] = $long;
+            $options['radius'] = 5;
+            $options['category'] = $category;
+            $options['consultantServices'] = $service;
+
+            $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
+
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
+            );
+        }
+
+        $response = new \stdClass();
+        $response->status = $isValid;
+        $response->request = 'search';
+        $response->results = $results = array();
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
+        }
+
+        return $this->respond($response);
     }
 
     /**

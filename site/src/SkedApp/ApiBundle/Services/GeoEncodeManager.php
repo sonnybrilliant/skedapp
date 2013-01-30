@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
 
 /**
- * Notifications manager
+ * Geo Encode manager
  *
  * @author Otto Saayman <otto.saayman@kaizania.co.za>
  * @version 1.0
@@ -81,60 +81,58 @@ final class GeoEncodeManager
     }
 
     /**
-     * Return an array containing the correct encoded address from Google maps, or an error message
-     *
+     * Search for consultants using specified address.
+     * 
+     * @param string $address
      * @return array
      */
-    public function getGeoEncodedAddress($arrConf = array())
+    public function getGeoEncodedAddress($address)
     {
         $this->logger->info("geo encode an address");
 
-        $arrOut = array(
-            'error_message' => null,
-            'address_string' => '',
+        $output = array(
+            'errorMessage' => null,
+            'isValid' => true,
+            'addressString' => '',
             'locality' => '',
-            'administrative_area_level_1' => '',
-            'administrative_area_level_2' => '',
+            'administrativeAreaLevel1' => '',
+            'administrativeAreaLevel2' => '',
             'country' => '',
             'lat' => '',
-            'lng' => '',
+            'long' => '',
         );
 
         $geocoder = $this->container->get('ivory_google_map.geocoder');
 
-        $response = $geocoder->geocode($arrConf['address']);
+        $response = $geocoder->geocode($address);
 
-        if (!is_object ($response)) {
-            $arrOut['error_message'] = 'Unable to get latitude and longitude from this address';
-        }
+        if (!is_object($response)) {
+            $output['errorMessage'] = 'Unable to get latitude and longitude from this address';
+            $output['isValid'] = false;
+        } else {
+            $results = $response->getResults();
 
-        $results = $response->getResults();
+            if (count($results) > 1) {
+                $output['errorMessage'] = 'We found more than one location for the specified address. Please type your address in more detail.';
+            }
 
-        if (count($results) > 1) {
-          $arrOut['error_message'] = 'We found more than one location for the specified address. Please type your address in more detail.';
-        }
+            foreach ($results as $result) {
+                // Get the formatted address
+                $location = $result->getGeometry()->getLocation();
+                $output['lat'] = $location->getLatitude();
+                $output['long'] = $location->getLongitude();
 
-        foreach($results as $result) {
+                $output['addressString'] = $result->getFormattedAddress();
 
-            // Get the formatted address
-            $location = $result->getGeometry()->getLocation();
-            $arrOut['lat'] = $location->getLatitude();
-            $arrOut['lng'] = $location->getLongitude();
-
-            $arrOut['address_string'] = $result->getFormattedAddress();
-
-            foreach($result->getAddressComponents() as $addressComponent)
-                {
+                foreach ($result->getAddressComponents() as $addressComponent) {
                     $longName = $addressComponent->getLongName();
-                    $shortName = $addressComponent->getShortName();
+                    //$shortName = $addressComponent->getShortName();
                     $types = $addressComponent->getTypes();
-                    $arrOut[$types[0]] = $longName;
-
+                    $output[$types[0]] = $longName;
                 } //foreach
-
+            }
         }
-
-        return $arrOut;
+        return $output;
     }
 
 }
