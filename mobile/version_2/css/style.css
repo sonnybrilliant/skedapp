@@ -66,6 +66,17 @@ iframe { border: none; }
   margin: 2em 15px;
 }
 
+.dateHeader{
+	height: 40px;
+	background: #FDA61B;
+	margin: -31px 0 10px 0;
+	text-align: center;
+	line-height: 40px;
+	-webkit-box-shadow: #000 0px 2px 3px;
+	-moz-box-shadow: #000 0px 2px 3px;
+	box-shadow: #000 0px 2px 3px;
+}
+
 .clearfloat {
   clear: both;
   font-size: 0;
@@ -158,9 +169,18 @@ iframe { border: none; }
   padding-top: 10px;
 }
 
+.paddingBottom15px{
+  padding-bottom: 15px;
+}
+
+.marginTop10px{
+  margin-top: 10px;
+}
+
 .marginTop0px{
   margin-top: 0px;
 }
+
 
 .whiteText{
   color: #fff;
@@ -195,4 +215,45 @@ iframe { border: none; }
   border-radius: 8px 8px 8px 8px;	
   box-shadow: 0px 0px 6px #000;
   min-height: 300px;
+}
+
+.imageWrapper {
+	float: left;
+	margin-right: 10px;
+	padding: 2px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+
+#blockWrapper{
+	background: #fff;
+	padding: 10px 10px 0 10px;
+	border: 1px solid #000;
+	border-radius: 5px;
+	-webkit-box-shadow: #000 0px 2px 5px;
+	-moz-box-shadow: #000 0px 2px 5px;
+	box-shadow: #000 0px 2px 5px;
+}
+
+.nameTags {
+	font-weight: bold;
+	color: #00395F;
+}
+
+.descriptionDetails{
+	color: #333;
+	font-size: 12px;
+}
+
+.searchListings {
+	height: 40px;
+	background: #FDA61B;
+	margin: -31px 0 10px 0;
+	text-align: center;
+	line-height: 40px;	
+}
+
+.topHeader{
+	font-weight: bold;
+	color: #fff;
 }
