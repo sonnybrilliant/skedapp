@@ -312,11 +312,11 @@ final class EmailerManager
         );
 
         $emailBodyHtml = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.customer.html.twig', $tmp
         );
 
         $emailBodyTxt = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.txt.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.customer.txt.twig', $tmp
         );
 
         $options['bodyHTML'] = $emailBodyHtml;
