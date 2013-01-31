@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Skedapp</title>
+  <link rel="stylesheet" href="lib/jquery.mobile-1.2.0.css" />
+  <link rel="stylesheet" href="css/my.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="lib/jquery-1.8.3.min.js"></script>
+  <script src="lib/jquery.mobile-1.2.0.min.js"></script>
+  <script type="text/javascript" src="cordova-2.3.0.js"></script>
+  <script src="js/my.js"></script>
+  <script type="text/javascript" src="js/registration.js"></script>        
+  <script type="text/javascript" src="js/search.js"></script>
+  <script type="text/javascript" src="js/services.js"></script>
+  <script type="text/javascript" src="js/categories.js"></script>
+  <script type="text/javascript" src="js/session.js"></script>
+  <script type="text/javascript" src="js/conf.js"></script>
+</head>
+<body>
+  <!-- Home -->
+  <div data-role="page" id="page1">
+      <div data-theme="d" data-role="header">
+          <h4>
+              Welcome
+          </h4>
+      </div>
+      <div data-role="content">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a id="link-registration" href="#page4" data-role="button" data-transition="none" data-theme="c">
+                          Register
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-login" href="#page3" data-role="button" data-transition="none" data-theme="c">
+                          Login
+                      </a>
+                  </div>
+              </div>
+          </div>
+          <div style=" text-align:center" class="skedappLogo">
+            <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
+          </div>
+          <div class="greyBackground">
+          </div>
+          <div data-role="content" class="-box-blue-wrapper">
+            <p class="titleHeader">Search, Locate services in your area.</p>  
+            <form action="">
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <select name="select-choice-categories" id="select-choice-categories">
+                          <option value="standard">Select a category</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <input name="text-location" id="text-location" placeholder="Use my location" value="" type="text" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <input name="text-date" id="text-date" placeholder="Choose date" type="date" />
+                    </fieldset>
+                </div>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-mini="true">
+                        <select name="select-choice-services" id="select-choice-services">
+                          <option value="standard">Select a service</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#page1" data-icon="search" data-iconpos="left">
+                    Search
+                </a>
+            </form>
+          </div>    
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Login -->
+  <div data-role="page" id="page3">
+      <div data-theme="d" data-role="header">
+          <h4>
+              Login
+          </h4>
+      </div>
+      <div data-role="content">
+          <div style=" text-align:center">
+              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+          </div>
+          <form action="">
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-email">
+                      </label>
+                      <input name="text-email" id="text-email" placeholder="Email address" value=""
+                      type="email">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-password">
+                      </label>
+                      <input name="text-password" id="text-password" placeholder="Password"
+                      value="" type="password">
+                  </fieldset>
+              </div>
+              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none"
+              data-theme="a" href="#page1" data-icon="delete" data-iconpos="left">
+                  Cancel
+              </a>
+              <a id="btn-search" data-role="button" data-inline="true" data-transition="none"
+              data-theme="e" href="#page10" data-icon="check" data-iconpos="left">
+                  Login
+              </a>
+          </form>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Settings -->
+  <div data-role="page" id="page6">
+      <div data-theme="d" data-role="header">
+          <h4>
+              Settings
+          </h4>
+      </div>
+      <div data-role="content">
+          <div style=" text-align:center">
+              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+          </div>
+          <form action="">
+              <a data-role="button" href="#page6">
+                  Call Skedapp
+              </a>
+              <a data-role="button" href="#page6">
+                  Email Skedapp
+              </a>
+          </form>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Registration -->
+  <div data-role="page" id="page4">
+      <div data-theme="d" data-role="header">
+          <h4>
+              Registration
+          </h4>
+      </div>
+      <div data-role="content">
+          <div style=" text-align:center">
+              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+          </div>
+          <form action="">
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-first-name">
+                          First name
+                      </label>
+                      <input name="text-first-name" id="text-first-name" placeholder="First name"
+                      value="" type="text">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-last-name">
+                          Last name
+                      </label>
+                      <input name="text-last-name" id="text-last-name" placeholder="Last name"
+                      value="" type="text">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-mobile">
+                          Cellphone number
+                      </label>
+                      <input name="text-mobile" id="text-mobile" placeholder="Cellphone number"
+                      value="" type="text">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-password">
+                          Password
+                      </label>
+                      <input name="text-password" id="text-password" placeholder="Password"
+                      value="" type="password">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-confirm-password">
+                          Confirm password
+                      </label>
+                      <input name="text-confirm-password" id="text-confirm-password" placeholder="Confirm password"
+                      value="" type="password">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-email-address">
+                          Email address
+                      </label>
+                      <input name="text-email-address" id="text-email-address" placeholder="Email address"
+                      value="" type="email">
+                  </fieldset>
+              </div>
+              <div data-role="fieldcontain">
+                  <fieldset data-role="controlgroup" data-mini="true">
+                      <label for="text-confirm-email-address">
+                          Confirm email address
+                      </label>
+                      <input name="text-confirm-email-address" id="text-confirm-email-address"
+                      placeholder="Confirm email address" value="" type="email">
+                  </fieldset>
+              </div>
+              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none"
+              data-theme="a" href="#page1" data-icon="delete" data-iconpos="left">
+                  Cancel
+              </a>
+              <a id="btn-search" data-role="button" data-inline="true" data-transition="none"
+              data-theme="e" href="#page9" data-icon="check" data-iconpos="left">
+                  Register
+              </a>
+          </form>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Registration Success -->
+  <div data-role="page" id="page9">
+      <div data-theme="d" data-role="header">
+          <h5>
+              Registration
+          </h5>
+      </div>
+      <div data-role="content">
+          <div style=" text-align:center">
+              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+          </div>
+          <h4>
+              Successful registration
+          </h4>
+          <div>
+              <p>
+                  Please procceed to the
+                  <a data-mce-href="#page3" href="#page3" title="please login" style="">
+                      login
+                  </a>
+                  page.
+              </p>
+          </div>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a href="#page1" data-transition="fade">
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-transition="fade">
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Search Results -->
+  <div data-role="page" id="page2">
+      <div data-theme="d" data-role="header">
+          <span class="ui-title">
+          </span>
+          <a data-role="button" href="#page2" data-icon="home" data-iconpos="left"
+          class="ui-btn-left">
+              Home
+          </a>
+      </div>
+      <div data-role="content">
+          <h4>
+              Search Results
+          </h4>
+          <div>
+              <p>
+                  records: 10
+              </p>
+          </div>
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div style="">
+                      <img style="width: 130px; height: 100px" src="http://assets.codiqa.com/fleCRLtZRMqtwjeYrsB9_1.jpeg">
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <p>
+                          <b>
+                              Dr Ronald Conco&nbsp;
+                          </b>
+                      </p>
+                      <p>
+                          <b>
+                          </b>
+                          181 langenhoven street
+                      </p>
+                      <p>
+                          Distance: 5 kms
+                      </p>
+                      <p>
+                          <br>
+                      </p>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a href="#page1" data-transition="fade">
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-transition="fade">
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Bookings -->
+  <div data-role="page" id="page10">
+      <div data-theme="d" data-role="header">
+          <span class="ui-title">
+          </span>
+          <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
+          class="ui-btn-left">
+              Home
+          </a>
+      </div>
+      <div data-role="content">
+          <h4>
+              Bookings
+          </h4>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a href="#page1" data-transition="fade">
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-transition="fade">
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Bookings Profile -->
+  <div data-role="page" id="page11">
+      <div data-theme="d" data-role="header">
+          <span class="ui-title">
+          </span>
+          <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
+          class="ui-btn-left">
+              Home
+          </a>
+      </div>
+      <div data-role="content">
+          <h4>
+              Booking Profile
+          </h4>
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a href="#page1" data-transition="fade">
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-transition="fade">
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- Profile -->
+  <div data-role="page" id="page7">
+      <div data-theme="d" data-role="header">
+          <span class="ui-title">
+          </span>
+          <a data-role="button" href="#page2" data-icon="home" data-iconpos="left"
+          class="ui-btn-left">
+              Home
+          </a>
+      </div>
+      <div data-role="content">
+          <h3>
+              Profile
+          </h3>
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div style="">
+                      <img style="width: 130px; height: 100px" src="http://assets.codiqa.com/fleCRLtZRMqtwjeYrsB9_1.jpeg">
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <p>
+                          <b>
+                              Dr Ronald Conco&nbsp;
+                          </b>
+                      </p>
+                      <p>
+                          <b>
+                          </b>
+                          181 langenhoven street
+                      </p>
+                      <p>
+                          Distance: 5 kms
+                      </p>
+                      <p>
+                          <strong>
+                              Gender:
+                          </strong>
+                          Female
+                      </p>
+                      <p>
+                          <br>
+                      </p>
+                  </div>
+              </div>
+          </div>
+          <div data-role="collapsible-set">
+              <div data-role="collapsible">
+                  <h3>
+                      Services
+                  </h3>
+              </div>
+              <div data-role="collapsible">
+                  <h3>
+                      Professional statement
+                  </h3>
+              </div>
+          </div>
+          <img id="map" src="https://maps.googleapis.com/maps/api/staticmap?center=Madison, WI&amp;zoom=14&amp;size=270x200&amp;markers=Madison, WI&amp;sensor=false"
+          width="270" height="200">
+      </div>
+      <div data-theme="d" data-role="footer" data-position="fixed">
+          <div class="ui-grid-a">
+              <div class="ui-block-a">
+                  <div>
+                      <a href="#page1" data-transition="fade">
+                          Home
+                      </a>
+                  </div>
+              </div>
+              <div class="ui-block-b">
+                  <div>
+                      <a id="link-settings" href="#page6" data-transition="fade">
+                          Settings
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script type="text/javascript">
+      Conf.init();
+  </script>
+</body>
+</html>
