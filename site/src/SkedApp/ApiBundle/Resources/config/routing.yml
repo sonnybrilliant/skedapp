@@ -39,8 +39,9 @@ sked_app_api_check_availability:
        consultantId: \d+
 
 sked_app_api_make_booking:
-    pattern:  /api/make/booking/{consultantId}/{serviceId}/{bookingDateTime}
+    pattern:  /api/make/booking/{consultantId}/{serviceId}/{bookingDateTime}/{customerId}
     defaults: { _controller: SkedAppApiBundle:Api:checkConsultantAvailable }
     requirements:
        consultantId: \d+
        serviceId: \d+
+       customerId: \d+

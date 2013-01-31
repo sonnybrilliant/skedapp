@@ -416,7 +416,7 @@ class ApiController extends Controller
      *
      * @return json response
      */
-    public function makeBookingAction($consultantId, $serviceId, $bookingDateTime)
+    public function makeBookingAction($consultantId, $serviceId, $bookingDateTime, $customerId)
     {
 
         $bookingStartDateTime = new \DateTime($bookingDateTime);
@@ -425,14 +425,21 @@ class ApiController extends Controller
         $booking = new \SkedApp\CoreBundle\Entity\Booking();
         $consultant = $this->get('consultant.manager')->getById($consultantId);
         $service = $this->get('service.manager')->getById($serviceId);
+        $customer = $this->get('customer.manager')->getById($customerId);
         $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
         $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('P' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
         $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+
+        $isValid = true;
 
         $booking->setConsultant($consultant);
         $booking->setService($service);
         $booking->setStartTimeslot($startTimeSlot);
         $booking->setEndTimeslot($endTimeSlot);
+        $booking->setHiddenAppointmentStartTime($bookingStartDateTime->format('Y-m-d H:i'));
+        $booking->setHiddenAppointmentEndTime($bookingEndDateTime->format('Y-m-d H:i'));
+        $booking->setIsConfirmed(false);
+        $booking->setIsLeave(false);
 
         if (!$this->get('booking.manager')->isTimeValid($booking)) {
             $errMsg = "End time must be greater than start time";
@@ -444,18 +451,22 @@ class ApiController extends Controller
             $isValid = false;
         }
 
-//        if (!$user instanceOf Customer) {
-//            $errMsg = "Please register on the site and log in to create a booking.";
-//            $isValid = false;
-//        }
+        if (!$customer instanceOf Customer) {
+            $errMsg = "Please register on the site and log in to create a booking.";
+            $isValid = false;
+        }
 
         $return = new \stdClass();
         $return->request = null;
         $return->callback = null;
 
         if ($isValid) {
+
+          $this->get('booking.manager')->save($booking);
+
             $return->results = array(1);
             $return->status = true;
+
         } else {
             $return->results = array();
             $return->status = false;
