@@ -28,7 +28,7 @@ class MemberRepository extends EntityRepository
             ->andWhere("m.company = :company")
             ->setParameters(array(
             'enabled' => true,
-            'isAdmin' => false,
+            'isAdmin' => true,
             'company' => $companyId,
             ));
         return $qb->getQuery()->execute();

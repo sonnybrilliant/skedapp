@@ -600,7 +600,15 @@ class ApiController extends Controller
 
         if ($isValid) {
 
-          $this->get('booking.manager')->save($booking);
+            $this->get('booking.manager')->save($booking);
+
+            $options = array(
+              'booking' => $booking,
+              'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+            );
+
+            //send booking created notification emails
+            $this->get("notification.manager")->createdBooking($options);
 
             $return->results = array(1);
             $return->status = true;
