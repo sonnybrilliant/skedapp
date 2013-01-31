@@ -1097,8 +1097,6 @@ class Customer implements AdvancedUserInterface, \Serializable
             'expired' => $this->getExpired(),
             'last_login' => $this->getLastLogin(),
             'expires_at' => $this->getExpiresAt(),
-            'speciality' => $this->getSpeciality(),
-            'professional_statement' => $this->getProfessionalStatement(),
             'is_active' => $this->getIsActive(),
             'is_deleted' => $this->getIsDeleted(),
             'is_locked' => $this->getIsLocked(),

@@ -154,10 +154,10 @@ class ApiController extends Controller
 
         return $this->respond($results);
     }
-    
+
     /**
      * Search for consultant
-     * 
+     *
      * @param string $session
      * @param string $category
      * @param string $service
@@ -175,6 +175,11 @@ class ApiController extends Controller
         $isValid = true;
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
+
+        if (strtotime($date) <= 0)
+            $date = date('Y-m-d H:i');
+
+        $bookingDate = new \DateTime($date);
 
         $options = array('sort' => $sort,
             'direction' => $direction
@@ -195,10 +200,14 @@ class ApiController extends Controller
             }
         }
 
+        $pagination = array();
+        $errorMessage = '';
+        $consultantsFound = array();
+
         if ($isValid) {
             $options['lat'] = $lat;
             $options['lng'] = $long;
-            $options['radius'] = 5;
+            $options['radius'] = 20;
             $options['category'] = $category;
             $options['consultantServices'] = $service;
 
@@ -208,12 +217,28 @@ class ApiController extends Controller
             $pagination = $paginator->paginate(
                 $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
             );
+        } else {
+            $errorMessage = 'Please provide some search criteria';
+        }
+
+        $em = $this->getDoctrine()->getEntityManager();
+
+        if (count($pagination) <= 0) {
+            $isValid = false;
+            $errorMessage = 'Unable to find consultants';
+        } else {
+            foreach ($pagination as $consultant) {
+                $oneConsultant = $consultant->getObjectAsArray();
+                $oneConsultant['time_slots_available'] = $em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $bookingDate);
+                $consultantsFound[] = $oneConsultant;
+            }
         }
 
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'search';
-        $response->results = $results = array();
+        $response->results = $consultantsFound;
+        $response->error = $errorMessage;
         if (isset($_GET['callback'])) {
             $response->callback = $_GET['callback'];
         } else {
@@ -347,6 +372,8 @@ class ApiController extends Controller
     public function geoEncodeAddressAction()
     {
 
+        $return = new \stdClass();
+
         $formData = $this->getRequest()->get('Search');
 
         if (!isset($formData['lat'])) {
@@ -364,14 +391,18 @@ class ApiController extends Controller
         $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
 
         if (isset($address['error_message'])) {
-            $address['results'] = array();
-            $results_field = 'results';
+            $return->results = array();
+            $return->status = false;
+            $return->error = 'Unable to geo encode the address. Please try again.';
         } else {
-            $address['results'] = array(1);
-            $results_field = 'results';
+            $return->results = array('address' => $address);
+            $return->status = true;
         }
 
-        return $this->respond($address, $results_field);
+        $return->request = 'registerCustomer';
+        $return->callback = '';
+
+        return $this->respond($return);
     }
 
     /**
@@ -381,56 +412,93 @@ class ApiController extends Controller
      */
     public function registerCustomerAction()
     {
+
         $return = new \stdClass();
         $formData = $this->getRequest()->get('Customer');
+        $isValid = true;
+        $errorMessage = '';
+
+        if (!isset($formData['firstName']))
+            $formData['firstName'] = '';
+
+        if (!isset($formData['lastName']))
+            $formData['lastName'] = '';
+
+        if (!isset($formData['email']))
+            $formData['email'] = '';
+
+        if (!isset($formData['password']))
+            $formData['password'] = '';
+
+        if (!isset($formData['mobileNumber']))
+            $formData['mobileNumber'] = '';
 
         $customer = new Customer();
-        $form = $this->createForm(new CustomerCreateApiType(), $customer);
 
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bindRequest($this->getRequest());
+        if (strlen($formData['firstName']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'First name is required';
+        }
 
-            if ($form->isValid()) {
+        if (strlen($formData['email']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'E-Mail is required';
+        }
 
-                $this->get('customer.manager')->createCustomer($customer);
+        if (strlen($formData['password']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'Password is required';
+        }
 
-                //Set customer to active on mobi/ app registration
-                $customer->setIsActive(true);
-                $customer->setEnabled(true);
-                $customer->setConfirmationToken('');
-                $this->container->get('customer.manager')->update($customer);
+        if (strlen($formData['mobileNumber']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'Mobile number is required';
+        }
 
-                //TODO send email
-                $tmp = array(
-                    'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
-                    'link' => $this->generateUrl("_security_login", null, true)
-                );
+        if ($isValid) {
 
-                $options = array();
-                $emailBodyHtml = $this->render(
-                        'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.html.twig', $tmp
-                    )->getContent();
+            $customer->setFirstName($formData['firstName']);
+            $customer->setLastName($formData['lastName']);
+            $customer->setEmail($formData['email']);
+            $customer->setPassword($formData['password']);
+            $customer->setMobileNumber($formData['mobileNumber']);
+
+            $this->get('customer.manager')->createCustomer($customer);
+
+            //Set customer to active on mobi/ app registration
+            $customer->setIsActive(true);
+            $customer->setEnabled(true);
+            $customer->setConfirmationToken('');
+            $this->container->get('customer.manager')->update($customer);
+
+            //TODO send email
+            $tmp = array(
+                'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
+                'link' => $this->generateUrl("_security_login", array(), true)
+            );
+
+            $options = array();
+            $emailBodyHtml = $this->render(
+                    'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.html.twig', $tmp
+                )->getContent();
 
 
-                $emailBodyTxt = $this->render(
-                        'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.txt.twig', $tmp
-                    )->getContent();
+            $emailBodyTxt = $this->render(
+                    'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.txt.twig', $tmp
+                )->getContent();
 
-                $options['bodyHTML'] = $emailBodyHtml;
-                $options['bodyTEXT'] = $emailBodyTxt;
-                $options['email'] = $customer->getEmail();
-                $options['fullName'] = $tmp['fullName'];
+            $options['bodyHTML'] = $emailBodyHtml;
+            $options['bodyTEXT'] = $emailBodyTxt;
+            $options['email'] = $customer->getEmail();
+            $options['fullName'] = $tmp['fullName'];
 
-                $this->get("notification.manager")->customerAccountVerification($options);
+            $this->get("notification.manager")->customerAccountVerification($options);
 
-                $return->results = array('message' => 'You have successfully registered and activated your account. You are now logged in.', 'customer' => $customer->getObjectAsArray());
-            } else {
-                $return->status = false;
-                $return->error = $form->getErrorsAsString();
-            }
+            $return->status = true;
+            $return->results = array('message' => 'You have successfully registered and activated your account. You are now logged in.', 'customer' => $customer->getObjectAsArray());
         } else {
             $return->status = false;
-            $return->error = 'Form submission failed';
+            $return->error = $errorMessage;
         }
 
         $return->request = 'registerCustomer';
@@ -457,6 +525,7 @@ class ApiController extends Controller
         $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
 
         $booking->setConsultant($consultant);
+        $booking->setAppointmentDate($bookingStartDateTime);
         $booking->setStartTimeslot($startTimeSlot);
         $booking->setEndTimeslot($endTimeSlot);
 
@@ -464,7 +533,7 @@ class ApiController extends Controller
         $available = $this->get('booking.manager')->isBookingDateAvailable($booking);
 
         $return = new \stdClass();
-        $return->request = null;
+        $return->request = 'consultantAvailable';
         $return->callback = null;
 
         if ($available) {
@@ -495,13 +564,14 @@ class ApiController extends Controller
         $service = $this->get('service.manager')->getById($serviceId);
         $customer = $this->get('customer.manager')->getById($customerId);
         $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
-        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('P' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
         $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
 
         $isValid = true;
 
         $booking->setConsultant($consultant);
         $booking->setService($service);
+        $booking->setAppointmentDate($bookingStartDateTime);
         $booking->setStartTimeslot($startTimeSlot);
         $booking->setEndTimeslot($endTimeSlot);
         $booking->setHiddenAppointmentStartTime($bookingStartDateTime->format('Y-m-d H:i'));
@@ -525,7 +595,7 @@ class ApiController extends Controller
         }
 
         $return = new \stdClass();
-        $return->request = null;
+        $return->request = 'makeBooking';
         $return->callback = null;
 
         if ($isValid) {

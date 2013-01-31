@@ -245,7 +245,7 @@ final class BookingManager
             ->getAllTomorrowsBookings();
         return $bookings;
     }
-    
+
     /**
      * Get all today bookings
      *
@@ -259,8 +259,8 @@ final class BookingManager
             ->getRepository("SkedAppCoreBundle:Booking")
             ->getAllTodaysBookings();
         return $bookings;
-    }    
-    
+    }
+
     /**
      * Get all today bookings before the hour
      *
@@ -274,8 +274,8 @@ final class BookingManager
             ->getRepository("SkedAppCoreBundle:Booking")
             ->getAllTodaysHourBookings();
         return $bookings;
-    }    
-    
+    }
+
 
     /**
      * Get all bookings

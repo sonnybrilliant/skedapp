@@ -82,7 +82,7 @@ final class GeoEncodeManager
 
     /**
      * Search for consultants using specified address.
-     * 
+     *
      * @param string $address
      * @return array
      */
@@ -104,7 +104,7 @@ final class GeoEncodeManager
 
         $geocoder = $this->container->get('ivory_google_map.geocoder');
 
-        $response = $geocoder->geocode($address);
+        $response = $geocoder->geocode($address['address']);
 
         if (!is_object($response)) {
             $output['errorMessage'] = 'Unable to get latitude and longitude from this address';
