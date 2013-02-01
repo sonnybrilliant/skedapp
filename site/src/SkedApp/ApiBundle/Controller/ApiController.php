@@ -175,13 +175,14 @@ class ApiController extends Controller
         $isValid = true;
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
-
+        $consultantsList = array();
+        
         $options = array('sort' => $sort,
             'direction' => $direction
         );
 
         //if address is not empty, do geo encode
-        if (($address != 'undefined')) {
+        if (($address != 'null')) {
             $results = $this->get('geo_encode.manager')->getGeoEncodedAddress($address);
             if ($results['isValid']) {
                 $lat = $results['lat'];
@@ -203,17 +204,32 @@ class ApiController extends Controller
             $options['consultantServices'] = $service;
 
             $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
-
-            $paginator = $this->get('knp_paginator');
-            $pagination = $paginator->paginate(
-                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
-            );
+                        
+            foreach($consultants['arrResult'] as $consultant)
+            {
+               $consultant = array(
+                   'fullName' => $consultant->getFullName(),
+                   'gender' => $consultant->getGender()->getName(),
+                   'address' => $consultant->getCompany()->getAddress(),
+                   'image' => '/uploads/consultants/'.$consultant->getId().'.'.$consultant->getPath(),
+                   'distance' => round($consultant->getDistanceFromPosition($lat,$long)),
+               );
+               
+               $consultantsList[] = $consultant;
+            }
+            
+//            $paginator = $this->get('knp_paginator');
+//            $pagination = $paginator->paginate(
+//                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
+//            );
+            
         }
 
+        
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'search';
-        $response->results = $results = array();
+        $response->results = $consultantsList;
         if (isset($_GET['callback'])) {
             $response->callback = $_GET['callback'];
         } else {

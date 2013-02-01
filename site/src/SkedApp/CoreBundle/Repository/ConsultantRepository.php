@@ -91,8 +91,9 @@ class ConsultantRepository extends EntityRepository
 
         $qb->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
 
+        
         $arrOut = $qb->getQuery()->execute();
-
+        
         //Order consultants from nearest to furthest from location
         for ($intCnt1 = 0; $intCnt1 < (count ($arrOut) - 1); $intCnt1++) {
           for ($intCnt2 = 1; $intCnt2 < count ($arrOut); $intCnt2++) {
