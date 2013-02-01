@@ -175,77 +175,35 @@ class ApiController extends Controller
         $isValid = true;
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
-<<<<<<< HEAD
-        $errorMessage = '';
-
-        if (strtotime($date) <= 0)
-            $date = date('Y-m-d H:i');
-
-        $bookingDate = new \DateTime($date);
-
-=======
         $consultantsList = array();
         
->>>>>>> development_ronald
         $options = array('sort' => $sort,
             'direction' => $direction
         );
 
         //if address is not empty, do geo encode
-<<<<<<< HEAD
-        if (($address != 'undefined')) {
-            $results = $this->get('geo_encode.manager')->getGeoEncodedAddress(array('address' => $address));
-            if ( ($results['isValid']) && (strlen($results['errorMessage']) <= 0) ) {
-=======
         if (($address != 'null')) {
             $results = $this->get('geo_encode.manager')->getGeoEncodedAddress($address);
             if ($results['isValid']) {
->>>>>>> development_ronald
                 $lat = $results['lat'];
                 $long = $results['long'];
             } else {
                 $isValid = false;
-                $errorMessage = $results['errorMessage'];
             }
         } else {
-            $errorMessage = 'Please provide some search criteria';
             if (($lat == 'undefined') || ($long == 'undefined')) {
                 $isValid = false;
             }
         }
 
-        $pagination = array();
-        $consultantsFound = array();
-
         if ($isValid) {
             $options['lat'] = $lat;
             $options['lng'] = $long;
-            $options['radius'] = 20;
+            $options['radius'] = 5;
             $options['category'] = $category;
             $options['consultantServices'] = $service;
 
             $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
-<<<<<<< HEAD
-
-            $paginator = $this->get('knp_paginator');
-            $pagination = $paginator->paginate(
-                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
-            );
-
-            $em = $this->getDoctrine()->getEntityManager();
-
-            if (count($pagination) <= 0) {
-                $isValid = false;
-                $errorMessage = 'Unable to find consultants';
-            } else {
-                foreach ($pagination as $consultant) {
-                    $oneConsultant = $consultant->getObjectAsArray();
-                    $oneConsultant['time_slots_available'] = $em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $bookingDate);
-                    $consultantsFound[] = $oneConsultant;
-                }
-            }
-
-=======
                         
             foreach($consultants['arrResult'] as $consultant)
             {
@@ -265,19 +223,13 @@ class ApiController extends Controller
 //                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
 //            );
             
->>>>>>> development_ronald
         }
 
         
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'search';
-<<<<<<< HEAD
-        $response->results = $consultantsFound;
-        $response->error = $errorMessage;
-=======
         $response->results = $consultantsList;
->>>>>>> development_ronald
         if (isset($_GET['callback'])) {
             $response->callback = $_GET['callback'];
         } else {
@@ -286,6 +238,7 @@ class ApiController extends Controller
 
         return $this->respond($response);
     }
+
 
     /**
      * Get consultant by service Id and other criteria
