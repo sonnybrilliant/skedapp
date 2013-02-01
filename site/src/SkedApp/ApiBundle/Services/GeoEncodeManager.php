@@ -113,7 +113,8 @@ final class GeoEncodeManager
             $results = $response->getResults();
 
             if (count($results) > 1) {
-                $output['errorMessage'] = 'We found more than one location for the specified address. Please type your address in more detail.';
+                $resultsNew = $results[0];
+                $results = array($resultsNew);
             }
 
             foreach ($results as $result) {

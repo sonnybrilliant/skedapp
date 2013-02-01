@@ -175,6 +175,7 @@ class ApiController extends Controller
         $isValid = true;
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
+        $errorMessage = '';
 
         if (strtotime($date) <= 0)
             $date = date('Y-m-d H:i');
@@ -187,21 +188,22 @@ class ApiController extends Controller
 
         //if address is not empty, do geo encode
         if (($address != 'undefined')) {
-            $results = $this->get('geo_encode.manager')->getGeoEncodedAddress($address);
-            if ($results['isValid']) {
+            $results = $this->get('geo_encode.manager')->getGeoEncodedAddress(array('address' => $address));
+            if ( ($results['isValid']) && (strlen($results['errorMessage']) <= 0) ) {
                 $lat = $results['lat'];
                 $long = $results['long'];
             } else {
                 $isValid = false;
+                $errorMessage = $results['errorMessage'];
             }
         } else {
+            $errorMessage = 'Please provide some search criteria';
             if (($lat == 'undefined') || ($long == 'undefined')) {
                 $isValid = false;
             }
         }
 
         $pagination = array();
-        $errorMessage = '';
         $consultantsFound = array();
 
         if ($isValid) {
@@ -217,21 +219,20 @@ class ApiController extends Controller
             $pagination = $paginator->paginate(
                 $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
             );
-        } else {
-            $errorMessage = 'Please provide some search criteria';
-        }
 
-        $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getEntityManager();
 
-        if (count($pagination) <= 0) {
-            $isValid = false;
-            $errorMessage = 'Unable to find consultants';
-        } else {
-            foreach ($pagination as $consultant) {
-                $oneConsultant = $consultant->getObjectAsArray();
-                $oneConsultant['time_slots_available'] = $em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $bookingDate);
-                $consultantsFound[] = $oneConsultant;
+            if (count($pagination) <= 0) {
+                $isValid = false;
+                $errorMessage = 'Unable to find consultants';
+            } else {
+                foreach ($pagination as $consultant) {
+                    $oneConsultant = $consultant->getObjectAsArray();
+                    $oneConsultant['time_slots_available'] = $em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $bookingDate);
+                    $consultantsFound[] = $oneConsultant;
+                }
             }
+
         }
 
         $response = new \stdClass();
