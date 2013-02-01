@@ -175,6 +175,7 @@ class ApiController extends Controller
         $isValid = true;
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
+<<<<<<< HEAD
         $errorMessage = '';
 
         if (strtotime($date) <= 0)
@@ -182,14 +183,24 @@ class ApiController extends Controller
 
         $bookingDate = new \DateTime($date);
 
+=======
+        $consultantsList = array();
+        
+>>>>>>> development_ronald
         $options = array('sort' => $sort,
             'direction' => $direction
         );
 
         //if address is not empty, do geo encode
+<<<<<<< HEAD
         if (($address != 'undefined')) {
             $results = $this->get('geo_encode.manager')->getGeoEncodedAddress(array('address' => $address));
             if ( ($results['isValid']) && (strlen($results['errorMessage']) <= 0) ) {
+=======
+        if (($address != 'null')) {
+            $results = $this->get('geo_encode.manager')->getGeoEncodedAddress($address);
+            if ($results['isValid']) {
+>>>>>>> development_ronald
                 $lat = $results['lat'];
                 $long = $results['long'];
             } else {
@@ -214,6 +225,7 @@ class ApiController extends Controller
             $options['consultantServices'] = $service;
 
             $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
+<<<<<<< HEAD
 
             $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
@@ -233,13 +245,39 @@ class ApiController extends Controller
                 }
             }
 
+=======
+                        
+            foreach($consultants['arrResult'] as $consultant)
+            {
+               $consultant = array(
+                   'fullName' => $consultant->getFullName(),
+                   'gender' => $consultant->getGender()->getName(),
+                   'address' => $consultant->getCompany()->getAddress(),
+                   'image' => '/uploads/consultants/'.$consultant->getId().'.'.$consultant->getPath(),
+                   'distance' => round($consultant->getDistanceFromPosition($lat,$long)),
+               );
+               
+               $consultantsList[] = $consultant;
+            }
+            
+//            $paginator = $this->get('knp_paginator');
+//            $pagination = $paginator->paginate(
+//                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
+//            );
+            
+>>>>>>> development_ronald
         }
 
+        
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'search';
+<<<<<<< HEAD
         $response->results = $consultantsFound;
         $response->error = $errorMessage;
+=======
+        $response->results = $consultantsList;
+>>>>>>> development_ronald
         if (isset($_GET['callback'])) {
             $response->callback = $_GET['callback'];
         } else {
