@@ -97,7 +97,7 @@ final class MobileSessionManager
         $this->getEm()->flush();
         return $session;
     }
-    
+
     /**
      * Get by session
      * 
@@ -109,11 +109,26 @@ final class MobileSessionManager
         $sessions = $this->em->getRepository('SkedAppCoreBundle:MobileSession')
             ->findBySession($uniqueSession);
 
-        if($sessions){
+        if ($sessions) {
             return $sessions[0];
         }
 
         return $sessions;
+    }
+
+    /**
+     * Update session
+     * 
+     * @param SkedAppCoreBundle:MobileSession $session
+     * @return SkedAppCoreBundle:MobileSession
+     */
+    public function updateSession($session)
+    {
+        $this->getLogger()->info('update session');
+       
+        $this->getEm()->persist($session);
+        $this->getEm()->flush();
+        return $session;
     }
 
 }
