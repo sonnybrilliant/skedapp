@@ -2,8 +2,10 @@ var Categories =
 {
    getCategories: function()
    {
-        var fullUrl = Conf.site._url+Conf.methods._categories+'/'+Session.session.id;
+        console.log("category: initialize");
+        var fullUrl = Conf.site._baseUrl+"/api/get/"+Conf.methods._categories+'/'+Session.session.id;
 
+        console.log("categorie: url->"+fullUrl);
         $.ajax({
           dataType: 'jsonp',
           jsonpCallback: 'Conf.remoteAjaxCall',
@@ -12,6 +14,7 @@ var Categories =
    },
    setCategories: function(data)
    {
+       console.log("category: set data");
        if(data.status == true){
            if(data.count > 0){
 

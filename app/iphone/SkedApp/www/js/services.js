@@ -3,7 +3,8 @@ var Services =
    getServices: function(categoryId)
    {
         if(categoryId > 0){
-             var fullUrl = Conf.site._url+Conf.methods._services+'/'+Session.session.id+'/'+categoryId;
+            console.log("services: initialize");
+            var fullUrl = Conf.site._baseUrl+"/api/get/"+Conf.methods._services+'/'+Session.session.id+'/'+categoryId;
 
             $.ajax({
               dataType: 'jsonp',
@@ -16,7 +17,7 @@ var Services =
    },
    setServices: function(data)
    {
-
+       console.log("services: set data");
        if(data.status == true){
            if(data.count > 0){
 
@@ -33,7 +34,7 @@ var Services =
                $('#select-choice-services').html(options);
            }
        }else{
-           Conf.showAlert(Conf.alert._warning,"Hello again");
+           Conf.showAlert(Conf.alert._warning,"Error on the server, please contact support.");
        }
    }
 

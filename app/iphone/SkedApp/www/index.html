@@ -13,6 +13,7 @@
   <script src="lib/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript" src="cordova-2.3.0.js"></script>
   <script src="js/my.js"></script>
+  <script type="text/javascript" src="js/db.js"></script>        
   <script type="text/javascript" src="js/registration.js"></script>        
   <script type="text/javascript" src="js/search.js"></script>
   <script type="text/javascript" src="js/services.js"></script>
@@ -77,13 +78,13 @@
                         </select>
                     </fieldset>
                 </div>
-                <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#page1" data-icon="search" data-iconpos="left">
+                <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#" >
                     Search
                 </a>
             </form>
           </div>    
       </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
+      <div data-theme="d" data-role="footer" >
           <div class="ui-grid-a">
               <div class="ui-block-a">
                   <div>
@@ -109,10 +110,13 @@
               Login
           </h4>
       </div>
-      <div data-role="content">
-          <div style=" text-align:center">
-              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+          <div style=" text-align:center" class="skedappLogo">
+            <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
           </div>
+          <div class="greyBackground">
+          </div>
+          <div data-role="content" class="-box-blue-wrapper">
+            <p class="titleHeader">Search, Locate services in your area.</p>
           <form action="">
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
@@ -206,82 +210,57 @@
           </h4>
       </div>
       <div data-role="content">
-          <div style=" text-align:center">
-              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+          <div style=" text-align:center" class="skedappLogo">
+            <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
           </div>
-          <form action="">
+          <div class="greyBackground">
+          </div>
+          <div data-role="content" class="-box-blue-wrapper">
+            <p class="titleHeader">Create an account.</p>
+          <form action="" id="form-registration" name="form-registration">
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-first-name">
-                          First name
-                      </label>
-                      <input name="text-first-name" id="text-first-name" placeholder="First name"
-                      value="" type="text">
+                      <input name="text-first-name" id="text-first-name" placeholder="First name" value="" type="text" class="required" />
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-last-name">
-                          Last name
-                      </label>
-                      <input name="text-last-name" id="text-last-name" placeholder="Last name"
-                      value="" type="text">
+                      <input name="text-last-name" id="text-last-name" placeholder="Last name" value="" type="text"  class="required requiredNotWhitespace" />
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-mobile">
-                          Cellphone number
-                      </label>
-                      <input name="text-mobile" id="text-mobile" placeholder="Cellphone number"
-                      value="" type="text">
+                      <input name="text-mobile" id="text-mobile" placeholder="Cellphone number" value="" type="text" class="required" />
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-password">
-                          Password
-                      </label>
-                      <input name="text-password" id="text-password" placeholder="Password"
-                      value="" type="password">
+                      <input name="text-password" id="text-password-field" placeholder="Password" value="" type="password" class="required" />
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-confirm-password">
-                          Confirm password
-                      </label>
-                      <input name="text-confirm-password" id="text-confirm-password" placeholder="Confirm password"
-                      value="" type="password">
+                      <input name="text-confirm-password" id="text-confirm-password-field" placeholder="Confirm password" value="" type="password" class="required" />
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-email-address">
-                          Email address
-                      </label>
-                      <input name="text-email-address" id="text-email-address" placeholder="Email address"
-                      value="" type="email">
+                      <input name="text-email-address" id="text-email-address" placeholder="Email address" value="" type="email" class="required" />
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-confirm-email-address">
-                          Confirm email address
-                      </label>
-                      <input name="text-confirm-email-address" id="text-confirm-email-address"
-                      placeholder="Confirm email address" value="" type="email">
+                      <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
                   </fieldset>
               </div>
-              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none"
-              data-theme="a" href="#page1" data-icon="delete" data-iconpos="left">
+              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
                   Cancel
               </a>
-              <a id="btn-search" data-role="button" data-inline="true" data-transition="none"
-              data-theme="e" href="#page9" data-icon="check" data-iconpos="left">
+              <a id="btn-registration" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
                   Register
               </a>
           </form>
+        </div>
       </div>
       <div data-theme="d" data-role="footer" data-position="fixed">
           <div class="ui-grid-a">
@@ -347,63 +326,41 @@
   </div>
   <!-- Search Results -->
   <div data-role="page" id="page2">
-      <div data-theme="d" data-role="header">
-          <span class="ui-title">
-          </span>
-          <a data-role="button" href="#page2" data-icon="home" data-iconpos="left"
-          class="ui-btn-left">
-              Home
-          </a>
-      </div>
-      <div data-role="content">
-          <h4>
-              Search Results
-          </h4>
-          <div>
-              <p>
-                  records: 10
-              </p>
-          </div>
+      <div data-theme="c" data-role="header">
           <div class="ui-grid-a">
               <div class="ui-block-a">
-                  <div style="">
-                      <img style="width: 130px; height: 100px" src="http://assets.codiqa.com/fleCRLtZRMqtwjeYrsB9_1.jpeg">
+                  <div>
+                      <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
+                          class="ui-btn-left">
+                          Home
+                      </a>
                   </div>
               </div>
               <div class="ui-block-b">
-                  <div>
-                      <p>
-                          <b>
-                              Dr Ronald Conco&nbsp;
-                          </b>
-                      </p>
-                      <p>
-                          <b>
-                          </b>
-                          181 langenhoven street
-                      </p>
-                      <p>
-                          Distance: 5 kms
-                      </p>
-                      <p>
-                          <br>
-                      </p>
-                  </div>
+                      <p style="margin-top: 10px; margin-left: -35px;">Today, 30 Jan</p>
               </div>
           </div>
+      </div>
+      <div data-role="content" style="margin-top: 10px;" class="-box-blue-wrapper">
+              <p style="color: #FFFFFF;">
+                    Records: <span id="span-results-count">0</span> found.
+              </p>
+              <div id="div-search-results"></div>
+          
+              
       </div>
       <div data-theme="d" data-role="footer" data-position="fixed">
           <div class="ui-grid-a">
               <div class="ui-block-a">
                   <div>
-                      <a href="#page1" data-transition="fade">
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
                           Home
                       </a>
                   </div>
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-transition="fade">
+                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
