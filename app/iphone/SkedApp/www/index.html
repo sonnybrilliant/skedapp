@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title>Skedapp</title>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
   <link rel="stylesheet" href="lib/jquery.mobile-1.2.0.css" />
   <link rel="stylesheet" href="css/my.css" />
   <link rel="stylesheet" href="css/style.css" />
@@ -23,32 +24,13 @@
 </head>
 <body>
   <!-- Home -->
-  <div data-role="page" id="page1">
-      <div data-theme="d" data-role="header">
-          <h4>
-              Welcome
-          </h4>
+  <div data-role="page" id="page1" data-theme="c" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1><a href="#page4" data-transition="slide">Register</a> an account or <a href="#page3">Login</a></h1>
       </div>
-      <div data-role="content">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a id="link-registration" href="#page4" data-role="button" data-transition="none" data-theme="c">
-                          Register
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-login" href="#page3" data-role="button" data-transition="none" data-theme="c">
-                          Login
-                      </a>
-                  </div>
-              </div>
-          </div>
-          <div style=" text-align:center" class="skedappLogo">
-            <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
-          </div>
+      <div class="skedappLogo">
+				<img src="img/logo.jpg"/>
+			</div>
           <div class="greyBackground">
           </div>
           <div data-role="content" class="-box-blue-wrapper">
@@ -78,49 +60,45 @@
                         </select>
                     </fieldset>
                 </div>
-                <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#" >
+                <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#page01" >
                     Search
                 </a>
             </form>
           </div>    
+      
+     <div class="marginTop20px"></div>
+      <div class="clearfloat"></div>
+
+      <div data-role="navbar">
+        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page01" data-transition="slide">Bookings</a></li>
+        </ul>
       </div>
-      <div data-theme="d" data-role="footer" >
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                          Settings
-                      </a>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
+    </div>
+
   <!-- Login -->
-  <div data-role="page" id="page3">
-      <div data-theme="d" data-role="header">
-          <h4>
-              Login
-          </h4>
+  <div data-role="page" id="page3" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1>Please Login</h1>
+        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+        <a class="marginTop0px" href="#page6" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
       </div>
-          <div style=" text-align:center" class="skedappLogo">
-            <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
-          </div>
+          <div class="skedappLogo">
+        <img src="img/logo.jpg"/>
+      </div>
           <div class="greyBackground">
           </div>
           <div data-role="content" class="-box-blue-wrapper">
-            <p class="titleHeader">Search, Locate services in your area.</p>
+            <p class="titleHeader">Please login</p>
+
+        <span class="yellowBackground">Log in with your email address</span>
+        <div class="paddingTop10px"></div>
           <form action="">
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-email">
+                      <label for="text-email">Email address
                       </label>
                       <input name="text-email" id="text-email" placeholder="Email address" value=""
                       type="email">
@@ -128,52 +106,47 @@
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
-                      <label for="text-password">
+                      <label for="text-password">Password
                       </label>
                       <input name="text-password" id="text-password" placeholder="Password"
                       value="" type="password">
                   </fieldset>
               </div>
-              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none"
-              data-theme="a" href="#page1" data-icon="delete" data-iconpos="left">
-                  Cancel
-              </a>
-              <a id="btn-search" data-role="button" data-inline="true" data-transition="none"
-              data-theme="e" href="#page10" data-icon="check" data-iconpos="left">
-                  Login
-              </a>
+              
           </form>
-      </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                          Settings
-                      </a>
-                  </div>
-              </div>
+		  <div class="ui-body ui-body-b">
+            <fieldset class="ui-grid-a">
+              <div class="ui-block-a"><a id="btn-cancel" href="#page1" data-icon="delete" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
+              <div class="ui-block-b"><a id="btn-search" href="#page10" data-role="button" data-icon="check" data-mini="true" data-theme="e">Login</a></div>
+            </fieldset>
           </div>
+		  <div class="marginTop20px"></div>
+          <div class="center"><a class="centerLinks" href="">Forgot your password</a></div>
+          <div class="center">Don't have an account yet?</div>
+          <div class="center"><a class="centerLinks" href="#page4">Sign up for a free account here</a></div>
+      </div>
+     <div data-role="navbar">
+        <h3 id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page01" data-transition="slide">Bookings</a></li>
+        </ul>
       </div>
   </div>
   <!-- Settings -->
-  <div data-role="page" id="page6">
-      <div data-theme="d" data-role="header">
-          <h4>
-              Settings
-          </h4>
+  <div data-role="page" id="page6" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1>Settings</h1>
+        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
       </div>
-      <div data-role="content">
-          <div style=" text-align:center">
-              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
-          </div>
+      
+          <div class="skedappLogo">
+        <img src="img/logo.jpg"/>
+      </div>
+	  <div class="greyBackground">
+      </div>
+      <div data-role="content" class="-box-blue-wrapper">
+        <p>Please feel free to contact us</p>
           <form action="">
               <a data-role="button" href="#page6">
                   Call Skedapp
@@ -183,36 +156,25 @@
               </a>
           </form>
       </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                          Settings
-                      </a>
-                  </div>
-              </div>
-          </div>
+      <div data-role="navbar">
+        <h3 id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page1" data-transition="slide">Bookings</a></li>
+        </ul>
       </div>
-  </div>
+      </div>
   <!-- Registration -->
-  <div data-role="page" id="page4">
-      <div data-theme="d" data-role="header">
-          <h4>
-              Registration
-          </h4>
+  <div data-role="page" id="page4" data-theme="c" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1>Registration</h1>
+		<a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+        <a class="marginTop0px" href="#page6" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
       </div>
-      <div data-role="content">
-          <div style=" text-align:center" class="skedappLogo">
-            <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
-          </div>
+      
+          <div class="skedappLogo">
+			<img src="img/logo.jpg"/>
+			</div>
           <div class="greyBackground">
           </div>
           <div data-role="content" class="-box-blue-wrapper">
@@ -253,119 +215,116 @@
                       <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
                   </fieldset>
               </div>
-              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
-                  Cancel
-              </a>
-              <a id="btn-registration" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
-                  Register
-              </a>
+              
           </form>
-        </div>
-      </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                          Settings
-                      </a>
-                  </div>
-              </div>
+		  <div class="ui-body ui-body-b">
+            <fieldset class="ui-grid-a">
+              <div class="ui-block-a"><a id="btn-cancel" href="#page1" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
+              <div class="ui-block-b"><a id="btn-registration" href="#page9" data-role="button" data-mini="true" data-theme="e">Register</a></div>
+            </fieldset>
           </div>
+        </div>
+			<div class="marginTop20px"></div>
+      <div class="clearfloat"></div>
+
+      <div data-role="navbar">
+        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page01" data-transition="slide">Bookings</a></li>
+        </ul>
       </div>
+    
   </div>
   <!-- Registration Success -->
-  <div data-role="page" id="page9">
-      <div data-theme="d" data-role="header">
-          <h5>
-              Registration
-          </h5>
+      <div data-role="page" id="page9" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1>Registration</h1>
+        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+        <a class="marginTop0px" href="#page6" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
       </div>
-      <div data-role="content">
-          <div style=" text-align:center">
-              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
-          </div>
-          <h4>
-              Successful registration
-          </h4>
-          <div>
-              <p>
-                  Please procceed to the
-                  <a data-mce-href="#page3" href="#page3" title="please login" style="">
-                      login
-                  </a>
-                  page.
-              </p>
-          </div>
+      <div class="skedappLogo">
+        <img src="img/logo.jpg"/>
       </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a href="#page1" data-transition="fade">
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-transition="fade">
-                          Settings
-                      </a>
-                  </div>
-              </div>
-          </div>
+      <div class="greyBackground">
       </div>
-  </div>
+      <div data-role="content" class="-box-blue-wrapper">
+        <p class="titleHeader">Successful registration</p>
+
+        <span><p>Please procceed to the <a href="#page3" title="please login">login</a> page.</p></span>
+        <div class="paddingTop10px"></div></div>
+      <div data-role="navbar">
+        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page1" data-transition="slide">Bookings</a></li>
+        </ul>
+      </div>
+    
+    </div>
   <!-- Search Results -->
-  <div data-role="page" id="page2">
-      <div data-theme="c" data-role="header">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
-                          class="ui-btn-left">
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                      <p style="margin-top: 10px; margin-left: -35px;">Today, 30 Jan</p>
-              </div>
-          </div>
+  <div data-role="page" id="page2" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1 class="topHeader">Search Results</h1>
+        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
+        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
       </div>
-      <div data-role="content" style="margin-top: 10px;" class="-box-blue-wrapper">
-              <p style="color: #FFFFFF;">
-                    Records: <span id="span-results-count">0</span> found.
-              </p>
-              <div id="div-search-results"></div>
-          
-              
+       <div style="margin-top: 31px;" class="greyBackground">
       </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                          Settings
-                      </a>
-                  </div>
-              </div>
+      <div data-role="content" style="margin-top: -316px;" class="-box-blue-wrapper">
+        <p class="titleHeader"></p>
+        <div class="searchListings">Today, 30 Jan</div>
+        <div id="blockWrapper">
+          <img class="imageWrapper" src="img/Tuminail.jpg"/>
+          <div class="paddingBottom15px">
+            <div class="nameTags">Tumelo Mogoboya</div>
+            <div class="descriptionDetails">169 Troye Street</div>
+            <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
+            <div class="descriptionDetails">Sunnyside, 0002</div>
           </div>
+          <table class="tableWrapper">
+            <tbody>
+              <tr>
+                <td class="tableDetails">16:00</td>
+                <td class="tableDetails">16:45</td>
+                <td class="tableDetails">17:30</td>
+                <td class="rightDetails">18:15</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="marginTop10px"></div>
+        </div>
+        <div class="marginTop10px">
+          <div id="blockWrapper">
+            <img class="imageWrapper" src="img/tzn.jpg"/>
+            <div class="paddingBottom15px">
+              <div class="nameTags">Robert Gilbert</div>
+              <div class="descriptionDetails">169 Troye Street</div>
+              <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
+              <div class="descriptionDetails">Sunnyside, 0002</div>
+            </div>
+            <table class="tableWrapper">
+              <tbody>
+                <tr>
+                  <td class="tableDetails">16:00</td>
+                  <td class="tableDetails">16:45</td>
+                  <td class="tableDetails">17:30</td>
+                  <td class="rightDetails">18:15</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="marginTop10px"></div>
+          </div>
+          <div class="marginTop20px"></div>
+          <div class="clearfloat"></div>
+        </div>
+      </div>
+      <div data-role="navbar">
+        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page01" data-transition="slide">Bookings</a></li>
+        </ul>
       </div>
   </div>
   <!-- Bookings -->
@@ -403,39 +362,56 @@
       </div>
   </div>
   <!-- Bookings Profile -->
-  <div data-role="page" id="page11">
-      <div data-theme="d" data-role="header">
-          <span class="ui-title">
-          </span>
-          <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
-          class="ui-btn-left">
-              Home
-          </a>
+  <div data-role="page" id="page01" class="backgroundImages">
+      <div data-role="header" class="page-header home-page-header">
+        <h1 class="topHeader">Bookings</h1>
+        <a class="marginTop0px" data-transition="fade" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" >Home</a>
+        <a class="marginTop0px" data-transition="fade" href="index.html" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" >Settings</a>
       </div>
-      <div data-role="content">
-          <h4>
-              Booking Profile
-          </h4>
+      <div style="margin-top: 31px;" class="greyBackground">
       </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-          <div class="ui-grid-a">
-              <div class="ui-block-a">
-                  <div>
-                      <a href="#page1" data-transition="fade">
-                          Home
-                      </a>
-                  </div>
-              </div>
-              <div class="ui-block-b">
-                  <div>
-                      <a id="link-settings" href="#page6" data-transition="fade">
-                          Settings
-                      </a>
-                  </div>
-              </div>
+      <div data-role="content" style="margin-top: -316px;" class="-box-blue-wrapper">
+        <p class="titleHeader"></p>
+        <div class="searchListings">Today, 30 Jan</div>
+        <div id="blockWrapper">
+          <img class="imageWrapper" src="img/hellen.jpg"/>
+          <div class="paddingBottom15px">
+            <div class="nameTags">Tumelo Mogoboya</div>
+            <div class="descriptionDetails">169 Troye Street</div>
+            <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
+            <div class="descriptionDetails">Sunnyside, 0002</div>
           </div>
+          <a id="btn-search" data-role="button" data-transition="none" data-theme="e" data-mini="true" data-transition="flip" href="#page2">
+            Bookings
+          </a>
+          <div class="marginTop10px"></div>
+        </div>
+        <div class="marginTop10px">
+          <div id="blockWrapper">
+            <img class="imageWrapper" src="img/tzn.jpg"/>
+            <div class="paddingBottom15px">
+              <div class="nameTags">Robert Gilbert</div>
+              <div class="descriptionDetails">169 Troye Street</div>
+              <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
+              <div class="descriptionDetails">Sunnyside, 0002</div>
+            </div>
+            <a id="btn-search" data-role="button" data-transition="none" data-theme="e" data-mini="true" data-transition="flip" href="#page2">
+            Bookings
+          </a>
+            <div class="marginTop10px"></div>
+          </div>
+          <div class="marginTop20px"></div>
+          <div class="clearfloat"></div>
+        </div>
       </div>
-  </div>
+      <div data-role="navbar">
+        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
+        <ul>
+          <li><a href="#page6" data-transition="slide">Contact us</a></li>
+          <li><a href="#page01" data-transition="slide">Bookings</a></li>
+        </ul>
+      </div>
+      </div>
   <!-- Profile -->
   <div data-role="page" id="page7">
       <div data-theme="d" data-role="header">

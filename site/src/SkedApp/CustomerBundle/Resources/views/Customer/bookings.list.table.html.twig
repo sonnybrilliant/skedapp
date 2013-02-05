@@ -24,6 +24,7 @@
                 <small>
                     <a href="#myModal_booking_{{booking.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to view booking details" title="click to view booking details"><i class="icon-eye-open"></i>&nbsp;View</a>&nbsp;
                     <a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to cancel booking"><i class="icon-remove"></i>&nbsp;Cancel</a>
+                    <a href="{{ path("sked_app_customer_invite_friend", {'consultant': booking.consultant.id})}}" title="invite a friend"><li class="icon-star"></li>&nbsp;Invite</a>
                 </small>
             </td>
           </tr>
