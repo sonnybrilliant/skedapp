@@ -1,19 +1,21 @@
 var Search =
 {
-   //add click listner
     init: function()
     {
-        console.log("Entering Search:init");
+        console.log("search: init");
         $('#btn-search').bind("click",Search.checkForm);
     },
-    checkForm: function()
+    checkForm: function(event)
     {
         try{
-                console.log("Check form triggered");
+                console.log("search: check form triggered");
+                $("#div-search-results").html("");
                 Search.category = $('#select-choice-categories').val();
                 Search.service = $('#select-choice-services').val();
                 Search.location = $('#text-location').val();
                 Search.date = $('#text-date').val();
+                Search.latitude = null;
+                Search.longitude = null;
             
                 var isValid = true;
                 var isGeoCode  = true;
@@ -24,6 +26,7 @@ var Search =
                     console.log('service is zero');
                     isValid = false;
                     $('#select-choice-services').focus();
+                    
                 }
             
                 if(Search.location == '')
@@ -31,9 +34,15 @@ var Search =
                     isGeoCode = false;
                     navigator.geolocation.getCurrentPosition(Search.onGeolocationSuccess, Search.onGeolocationError);
                     Search.location = null;
+                    
+                    
+                    database = new Database();
+                    Search.latitude = localStorage.getItem("latitude");
+                    Search.longitude = localStorage.getItem("longitude");
+                    
                 }else{
-                    Search.lat = null;
-                    Search.long = null;
+                    Search.latitude = null;
+                    Search.longitude = null;
                 }
             
                 //validate date
@@ -48,8 +57,9 @@ var Search =
                     var currentDate = new Date();
                     var bookingDate = new Date(tmp[0], tmp[1], tmp[2]);
                     
-                    if(currentDate > bookingDate)
+                    if(bookingDate < currentDate)
                     {
+                       isValid = false;
                        Conf.showAlert(Conf.alert._error,'Your booking date is invalid.');
                        $('#text-date').focus(); 
                     }
@@ -72,8 +82,10 @@ var Search =
                     console.log('Posting to API');
                     console.log('Cat:'+Search.category+' location:'+Search.location+' date:'+Search.date+' service:'+Search.service);
                     
-                    var fullUrl = Conf.site._url+Conf.methods._search+'/'+Session.session.id+'/'+Search.category+'/'+Search.service+'/'+Search.location+'/';
-                        fullUrl+= Search.date+'/'+Search.lat+'/'+Search.long+'/1';
+                    var fullUrl  = Conf.site._baseUrl+"/api/get/"+Conf.methods._search+'/'+Session.session.id+'/';
+                        fullUrl += Search.category+'/'+Search.service+'/'+Search.location+'/'+Search.date+'/'+Search.latitude+'/'+Search.longitude+'/1';
+                    
+                    console.log(fullUrl);
                                         
                     $.ajax({
                       dataType: 'jsonp',
@@ -82,6 +94,8 @@ var Search =
                     });
                 }
             
+                
+            
         }catch(err){
            Conf.showAlert(Conf.alert._error,'Opps,\n An error occured, please contact support');
         }
@@ -89,10 +103,16 @@ var Search =
     },
     onGeolocationSuccess: function(position)
     {
-        Search.lat = position.coords.latitude;
-        Search.long = position.coords.longitude;
+        console.log('search: save coordinate to database');
+       
         
-        console.log('Latitude:'+Search.lat+' Longitude:'+Search.long);
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        
+        localStorage.setItem("latitude",latitude);
+        localStorage.setItem("longitude",longitude);
+        
+        console.log('search: latitude:'+latitude+'\n Longitude:'+longitude);
     },
     onGeolocationError: function(error)
     {
@@ -100,11 +120,42 @@ var Search =
     },
     onResult: function(data)
     {
-        console.log('results...');
-        //console.log('search results'+data);
-        //if(data.status == true){
-           Conf.showAlert(Conf.alert._error,data.request);
-        //}
+        console.log('search: results->'+data.count);
+        $('#span-results-count').html(data.count);
+        
+        if(data.count > 0){
+            console.log("search: count is greater than 0");
+            var consultants = data.results;
+            $.each( consultants , function(index, consultant) {
+                   var strImage = Conf.site._url+consultant.image;
+                   var str = '';
+                   str +="<div id='blockWrapper'>";
+                   str +=" <img class='imageWrapper' width='60px' width='60px' src='"+strImage+"'/>";
+                   str +="     <div class='paddingBottom15px'>";
+                   str +="         <div class='nameTags'>"+consultant.fullName+"</div>";
+                   str +="         <div class='descriptionDetails'>"+consultant.address+"</div>";
+                   str +="         <div class='descriptionDetails'>"+consultant.distance+" km</div>";
+                   str +="     </div>";
+                   str +="     <table class='tableWrapper'>";
+                   str +="         <tbody>";
+                   str +="             <tr>";
+                   str +="                 <td class='tableDetails'>16:00</td>";
+                   str +="                 <td class='tableDetails'>16:45</td>";
+                   str +="                 <td class='tableDetails'>17:30</td>";
+                   str +="                 <td class='rightDetails'>18:15</td>";
+                   str +="             </tr>";
+                   str +="         </tbody>";
+                   str +="     </table>";
+                   str +="     <div class='marginTop10px'></div>";
+                   str +="</div>";
+                   $("#div-search-results").append(str);
+            });
+
+            window.location.href = "#page2";
+        }else{
+            console.log("search: count equal to 0");
+        }
+        
     }
 
 };

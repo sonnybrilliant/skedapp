@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CustomerBundle\Form\CustomerCreateApiType;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
 /**
  * SkedApp\ApiBundle\Controller\ApiController
@@ -34,6 +35,11 @@ class ApiController extends Controller
         } else {
             $return->status = false;
             $return->message = $params->error;
+        }
+        
+        
+        if(isset($params->code)){
+          $return->code = $params->code;  
         }
 
         $return->request = $params->request;
@@ -64,7 +70,7 @@ class ApiController extends Controller
             $response->callback = 'test';
         }
 
-
+        
         $response->results = array(
             'session' => $session->getSession(),
             'isLoggedIn' => '',
@@ -238,6 +244,104 @@ class ApiController extends Controller
 
         return $this->respond($response);
     }
+    
+    /**
+     * Register customer
+     * 
+     * @param string $session
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $mobile
+     * @param string $password
+     * @param string $email
+     * @return string JSON
+     */
+    public function registerCustomerAction($session,$firstName,$lastName,$mobile,$password,$email)
+    {
+        $this->get('logger')->info('register an account');
+        $isValid = true;
+        $code = 1;
+        //check if email is unique;
+        $customer = $this->get("customer.manager")->getByEmail($email);
+        if($customer){
+          //email address is already in use
+          $code = 2;  
+        }else{            
+            $customer = new Customer();
+            $customer->setFirstName($firstName);
+            $customer->setLastName($lastName);
+            $customer->setMobileNumber($mobile);
+            $customer->setPassword($password);
+            $customer->setEmail($email);
+            $customer->setIsActive(true);
+            $customer->setEnabled(true);            
+            $this->get('customer.manager')->createCustomer($customer);
+        }
+                
+        $response = new \stdClass();
+        $response->status = $isValid;
+        $response->request = 'register';
+        $response->code = $code;
+        $response->results = array(
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'email' => $email
+        );
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
+        }
+
+        return $this->respond($response);
+        
+    }
+    
+    public function loginAction($session,$email,$password)
+    {
+        $this->get('logger')->info('customer login');
+        $isValid = true;
+        $code = 1;
+        $member = array();
+        
+        $customer = $this->get("customer.manager")->getByEmail($email);
+        if($customer){
+            $salt = $customer->getSalt();
+            $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
+            $password = $encoder->encodePassword($password, $salt);
+            
+            if($password != $customer->getPassword()){
+                $code = 2;
+            }else{
+                $member['firstName'] = $customer->getFirstName();
+                $member['lastName'] = $customer->getLastName();
+                $member['email'] = $customer->getEmail();
+                $member['mobile'] = $customer->getMobileNumber();
+                
+                $session = $this->get('mobile.session.manager')->getBySession($session);
+                
+                if($session){
+                    $session->setCustomer($customer);
+                    $session = $this->get('mobile.session.manager')->updateSession($session);
+                }                
+            }
+        }
+        
+        $response = new \stdClass();
+        $response->status = $isValid;
+        $response->request = 'login';
+        $response->code = $code;
+        $response->results = $member;
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
+        }
+
+        return $this->respond($response);
+        
+    }
+    
 
 
     /**
@@ -402,7 +506,7 @@ class ApiController extends Controller
      *
      * @return json response
      */
-    public function registerCustomerAction()
+    public function registerCustomersAction()
     {
 
         $return = new \stdClass();

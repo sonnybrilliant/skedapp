@@ -76,6 +76,16 @@ class Customer implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="email", type="string", length=254)
      */
     protected $email;
+    
+    /**
+     * @var Gender
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Gender")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="gender_id", referencedColumnName="id")
+     * })
+     */
+    protected $gender;    
 
     /**
      * @var string
@@ -1103,4 +1113,27 @@ class Customer implements AdvancedUserInterface, \Serializable
         );
     }
 
+
+    /**
+     * Set gender
+     *
+     * @param \SkedApp\CoreBundle\Entity\Gender $gender
+     * @return Customer
+     */
+    public function setGender(\SkedApp\CoreBundle\Entity\Gender $gender = null)
+    {
+        $this->gender = $gender;
+    
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return \SkedApp\CoreBundle\Entity\Gender 
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
 }

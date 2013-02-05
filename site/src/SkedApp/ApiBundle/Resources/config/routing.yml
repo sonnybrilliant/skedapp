@@ -16,6 +16,14 @@ sked_app_api_search_consultants:
     pattern:  /api/get/search/{session}/{category}/{service}/{address}/{date}/{lat}/{long}/{page}
     defaults: { _controller: SkedAppApiBundle:Api:searchConsultant, page: 1 }
 
+sked_app_api_register_customer:
+    pattern:  /api/get/register/{session}/{firstName}/{lastName}/{mobile}/{password}/{email}
+    defaults: { _controller: SkedAppApiBundle:Api:registerCustomer}
+
+sked_app_api_login_customer:
+    pattern:  /api/get/login/{session}/{email}/{password}
+    defaults: { _controller: SkedAppApiBundle:Api:login}
+
 sked_app_api_get_consultant:
     pattern:  /api/get/consultant/{id}
     defaults: { _controller: SkedAppApiBundle:Api:getConsultant , id: 1}
@@ -32,9 +40,6 @@ sked_app_api_geo_encode_address:
     pattern:  /api/geocode/address
     defaults: { _controller: SkedAppApiBundle:Api:geoEncodeAddress }
 
-sked_app_api_register_customer:
-    pattern:  /api/register/customer
-    defaults: { _controller: SkedAppApiBundle:Api:registerCustomer }
 
 sked_app_api_check_availability:
     pattern:  /api/check/consultant/available/{consultantId}/{bookingDateTime}

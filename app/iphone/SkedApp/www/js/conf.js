@@ -2,21 +2,24 @@ var Conf =
 {
     alert:
     {
-       _error: 1,
+    	_error: 1,
        _warning: 2,
        _success: 3
     },
 	site:
     {
       //_url: "http://skedapp.kaizania.co.za/app_dev.php/api/get/"
-      _url: "http://www.skedapp.co.za/app_dev.php/api/get/"
+      _baseUrl: "http://www.skedapp.co.za/app_dev.php",
+      _url:"http://www.skedapp.co.za",
+      
     },
     methods:
     {
-      _init: "init",
-      _categories: "categories",
-      _services: "services",
-      _search: "search"
+    	_init: "init",
+      	_categories: "categories",
+      	_services: "services",
+      	_search: "search",
+		_register: "register"
     },
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
@@ -38,12 +41,10 @@ var Conf =
 		if(Conf.checkRequirements()){
 		   Session.database();
 		   Categories.getCategories();
-           //initialize search
            Search.init();
-           //Registration.init();
+           Registration.init();
            //alert($('#form-registration'));
-		}
-       console.log('Received Event: ' + 1);
+		}       
     },	
     remoteAjaxCall: function(data)
     {

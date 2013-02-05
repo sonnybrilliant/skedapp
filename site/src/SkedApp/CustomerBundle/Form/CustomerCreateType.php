@@ -65,6 +65,11 @@ class CustomerCreateType extends AbstractType
                 'second_options' => array('label' => 'Confirm Password:'),
                 'invalid_message' => 'Passwords do not match',
             ))
+            ->add('gender', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Gender',
+                'label' => 'Gender:',
+                'attr' => array('class' => 'span4 chosen')
+            ))
             ->add('captcha', 'genemu_recaptcha')
             ->add('radio', 'checkbox', array(
                 'label' => 'Radio:',
