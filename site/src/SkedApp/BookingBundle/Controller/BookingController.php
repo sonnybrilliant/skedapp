@@ -323,15 +323,19 @@ class BookingController extends Controller
                     if (is_object($booking->getService()))
                             $bookingName = $booking->getService()->getName();
                     else
-                            $bookingName = 'Unknown';
+                            $bookingName = 'Unknown Service';
                 }
 
                 $bookingTooltip = '<div class="divBookingTooltip">';
 
                 if (is_object ($booking->getCustomer())) {
+
                     $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
                     $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
                     $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
+
+                    $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
+
                 }
 
                 $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
