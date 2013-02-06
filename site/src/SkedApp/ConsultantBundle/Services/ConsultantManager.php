@@ -254,6 +254,19 @@ final class ConsultantManager
     }
 
     /**
+     * Get all consultants by Company query
+     *
+     * @param array $options
+     * @return Doctrine Query
+     */
+    public function listAllByCompany(\SkedApp\CoreBundle\Entity\Company $company, $options = array())
+    {
+        return $this->em
+                ->getRepository('SkedAppCoreBundle:Consultant')
+                ->getAllActiveConsultantsByCompanyQuery($company, $options);
+    }
+
+    /**
      * Get consultant active bookings
      *
      * @param integer $consultantId
