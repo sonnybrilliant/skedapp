@@ -188,3 +188,9 @@ a:hover { color: #0AF; }
 .divTimeSlotContainer {
   margin-left: 42px;
 }
+
+/* Booking Tooltip */
+.divBookingTooltip {
+  font-size: 9px;
+  white-space: nowrap;
+}

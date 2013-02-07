@@ -39,6 +39,33 @@ class ConsultantRepository extends EntityRepository
     }
 
     /**
+     * Get all active consultants by Company query
+     *
+     * @author Otto Saayman <otto.saayman@creativecloud.co.za>
+     * @return Resultset
+     */
+    public function getAllActiveConsultantsByCompanyQuery(\SkedApp\CoreBundle\Entity\Company $company, $options)
+    {
+
+        $defaultOptions = array(
+            'sort' => 'c.id',
+            'direction' => 'asc'
+        );
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $qb = $this->createQueryBuilder('c')->select('c');
+        $qb->where('c.isDeleted =  :status')
+                ->andWhere('c.company =  :company')
+                ->setParameters(array('status' => false, 'company' => $company));
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
      * Get all active consultants query within a radius based on a lat/ long point and radius
      *
      * @author Otto Saayman <otto.saayman@kaizania.co.za>
@@ -91,9 +118,9 @@ class ConsultantRepository extends EntityRepository
 
         $qb->add('orderBy', $options['sort'] . ' ' . $options['direction'], true);
 
-        
+
         $arrOut = $qb->getQuery()->execute();
-        
+
         //Order consultants from nearest to furthest from location
         for ($intCnt1 = 0; $intCnt1 < (count ($arrOut) - 1); $intCnt1++) {
           for ($intCnt2 = 1; $intCnt2 < count ($arrOut); $intCnt2++) {
@@ -135,6 +162,21 @@ class ConsultantRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('c')->select('c');
         $qb->where('c.isDeleted =  :status')->setParameter('status', false);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Get all active consultants by Company query
+     *
+     * @author Otto Saayman <otto.saayman@creativecloud.co.za>
+     * @return Resultset
+     */
+    public function getAllActiveByCompanyQuery(\SkedApp\CoreBundle\Entity\Company $company)
+    {
+        $qb = $this->createQueryBuilder('c')->select('c');
+        $qb->where('c.isDeleted =  :status')
+                ->andWhere('c.company =  :company')
+                ->setParameters(array('status' => false, 'company' => $company));
         return $qb->getQuery()->execute();
     }
 
