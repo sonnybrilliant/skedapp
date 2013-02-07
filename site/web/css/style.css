@@ -197,15 +197,10 @@ a:hover { color: #0AF; }
 -webkit-border-radius: 8px;
 -moz-border-radius: 8px;
 border-radius: 0 8px 0px 0;
-background: #02a7dd;
-background: -webkit-gradient(linear, 0 0, 0 bottom, from(#02a7dd), to(#03436f));
-background: -webkit-linear-gradient(#02a7dd, #03436f);
-background: -moz-linear-gradient(#02a7dd, #03436f);
-background: -ms-linear-gradient(#02a7dd, #03436f);
-background: -o-linear-gradient(#02a7dd, #03436f);
-background: linear-gradient(#02a7dd, #03436f);
+background: transparent url("../img/blueGradient.jpg");
 padding-top:10px; margin: 0px;
-height: 360px;
+height: 370px;
+border-left: 1px solid #025b99;
 }
 
 
@@ -222,14 +217,17 @@ line-height: 30px;
 .tabs a {
 				padding:5px 10px;
 				display:inline-block;
-				background:#02A7DD;
+				background: transparent url("../img/tabs.png");
 				color:#fff;
 				text-decoration:none;
-        width: 15%;
-        height: 50px;
+        width: 171px;;
+        height: 42px;
         text-align: center;
         line-height:55px;
-        border-radius: 5px 5px 0 0; 
+        border-radius: 5px 5px 0 0;
+        border: none;
+        font-size: 20px;
+        font-weight: bold;
 			}
       
 .tabsOrange a {
@@ -261,3 +259,7 @@ line-height: 30px;
 				list-style:none;
 				display:inline;
 			}
+
+.quickFindArrow {
+    background: transparent url("../img/rightTab.jpg") no-repeat;
+}
