@@ -19,8 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
 //    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 //}
 
-$loader = require_once __DIR__.'/../app/bootstrap.php.cache';
-require_once __DIR__.'/../app/AppKernel.php';
+$loader = require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'bootstrap.php.cache';
+require_once __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'AppKernel.php';
 
 $kernel = new AppKernel('dev', true);
 $kernel->loadClassCache();

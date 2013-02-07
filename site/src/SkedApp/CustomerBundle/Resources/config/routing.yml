@@ -37,3 +37,9 @@ sked_app_customer_account_activate:
     defaults: { _controller: SkedAppCustomerBundle:Customer:accountActivate}
     requirements:
         _method: GET|POST    
+        
+sked_app_customer_invite_friend:
+    pattern: /customer/friend/invite/{consultant}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:inviteFriend}
+    requirements:
+        _method: GET|POST          
