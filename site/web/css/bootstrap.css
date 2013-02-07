@@ -199,7 +199,8 @@ a:hover {
 }
 
 .row {
-  margin-left: -20px;
+  *margin-left: -20px;
+  margin-left: 0px;
   *zoom: 1;
 }
 
@@ -217,7 +218,8 @@ a:hover {
 [class*="span"] {
   float: left;
   min-height: 1px;
-  margin-left: 20px;
+  *margin-left: 20px;
+  margin-left: 0px;
 }
 
 .container,
@@ -260,7 +262,8 @@ a:hover {
 }
 
 .span4 {
-  width: 300px;
+  *width: 300px;
+  width: 92%;
 }
 
 .span3 {
@@ -941,7 +944,7 @@ input,
 button,
 select,
 textarea {
-  font-size: 17px;
+  font-size: 95%;
   font-weight: normal;
   line-height: 20px;
 }
@@ -1277,7 +1280,8 @@ textarea.span5,
 input.span4,
 textarea.span4,
 .uneditable-input.span4 {
-  width: 286px;
+  *width: 286px;
+  width: 88%;
 }
 
 input.span3,
@@ -1801,7 +1805,7 @@ legend + .control-group {
 
 .form-horizontal .control-label {
   float: left;
-  width: 39%;
+  width: 85%;
   padding-top: 5px;
   text-align: left;
   margin-left: 32px;

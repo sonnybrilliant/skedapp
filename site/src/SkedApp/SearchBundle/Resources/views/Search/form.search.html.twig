@@ -2,10 +2,10 @@
 
 
 </style>
-<ul class='tabs' style="margin-bottom: 0px;">
-    <li><a href='#tab1'>Start Here</a></li>
-    <li class='tabsOrange'><a href='#tab2'>Step 2</a></li>
-    <li class='tabsGreen'><a href='#tab3'>Step 3</a></li>
+<ul class='tabs' style="margin-bottom: -2px; margin-left: 0px;">
+    <div><li><a href='#tab1'>Start Here</a></li>
+    <!--<li class='tabsOrange' style="margin-left: -5px"><a href='#tab2'>Step 2</a></li>
+    <li class='tabsGreen' style="margin-left: -5px"><a href='#tab3'>Step 3</a></li>-->
 </ul>
 <div id='tab1'>
     <form  class="form-horizontal formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
@@ -56,13 +56,6 @@
       {{ form_rest(form) }}
   </fieldset>
 </form>
-</div>
-
-<div id='tab2' class="formBackground">
-    <label style="margin-left: 50px;">Step 2</label>
-</div>
-<div id='tab3' class="formBackground">
-    <label style="margin-left: 50px;">Step 3</label>
 </div>
 
 
