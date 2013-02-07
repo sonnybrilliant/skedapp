@@ -12,6 +12,7 @@
 
 {% block javascripts %}
 <script src="{{ asset('/js/fullcalendar.min.js') }}"></script>
+<script src="{{ asset('/js/jquery.qtip-1.0.0-rc3.min.js') }}"></script>
 {% endblock %}
 
 
@@ -19,15 +20,15 @@
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
        {% if is_granted('ROLE_ADMIN') %}
-            {% include "::menu.html.twig" %}        
+            {% include "::menu.html.twig" %}
        {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant } %}             
-       {% endif %}            
-    </div>       
-    {% endblock menu %}    
+            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant } %}
+       {% endif %}
+    </div>
+    {% endblock menu %}
     {% block content %}
     <div class="span9">
-        <h3>Consultant profile</h3>                
+        <h3>Consultant profile</h3>
         <div class="span9" style="margin-left: -15px">
            {% set vars = {'action': 'Bookings'} %}
            {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
@@ -37,7 +38,7 @@
         {% endblock %}
         <div class="tabbable"> <!-- Only required for left/right tabs -->
             <ul class="nav nav-tabs">
-                <li><a href="{{ path("sked_app_consultant_show",{"id":consultant.id})}}">Personal details</a></li> 
+                <li><a href="{{ path("sked_app_consultant_show",{"id":consultant.id})}}">Personal details</a></li>
                 <li class="active"><a href="{{ path("sked_app_consultant_booking_show",{'id':consultant.id})}}">Bookings</a></li>
             </ul>
             <div class="tab-content">
@@ -53,11 +54,11 @@
                 </div>
             </div>
         </div>
-     </div>  
-    {% endblock content %}   
+     </div>
+    {% endblock content %}
         <script type='text/javascript'>
                    $(document).ready(function() {
-	
+
                       $('#calendar').fullCalendar({
                         header: {
                                 left: 'prev,next today',
@@ -68,11 +69,22 @@
                         editable: true,
                         selectable: false,
                         selectHelper: true,
-                        timeFormat: 'H:mmt{ - H:mm}t',
                         events: Routing.generate('sked_app_consultant_ajax_get_all_bookings', { consultantId : {{ consultant.id}}}, true ),
-                               
+                        eventRender: function(event, element) {
+                            element.qtip({
+                                content: event.description,
+                                position: {
+                                    corner: {
+                                        tooltip: 'bottomMiddle',
+                                        target:  'topMiddle'
+                                    }
+                                }
+                            });
+                        },
+                        timeFormat: 'H:mm'
+
                       });
-		
+
                    });
 
             </script>

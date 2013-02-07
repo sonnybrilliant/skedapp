@@ -342,8 +342,39 @@ class ConsultantController extends Controller
                     $allDay = true;
                     $bookingName = "On leave";
                 } else {
-                    $bookingName = $booking->getService()->getName();
+                    if (is_object($booking->getService()))
+                            $bookingName = $booking->getService()->getName();
+                    else
+                            $bookingName = 'Unknown Service';
                 }
+
+                $bookingTooltip = '<div class="divBookingTooltip">';
+
+                if (is_object ($booking->getCustomer())) {
+
+                    $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
+                    $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
+                    $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
+
+                    $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
+
+                }
+
+                $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
+                $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
+                $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
+
+                if (is_object ($booking->getConsultant())) {
+                    $bookingTooltip .= '<strong>Consultant:</strong> ' . $booking->getConsultant()->getFullName() . "<br />";
+                    $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $booking->getConsultant()->getEmail() . "<br />";
+                }
+
+                if (is_object ($booking->getService()))
+                        $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
+
+                $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
+
+                $bookingTooltip .= '</div>';
 
                 $results[] = array(
                     'allDay' => $allDay,
@@ -352,6 +383,7 @@ class ConsultantController extends Controller
                     'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
                     //'start' => "2012-11-29",
                     'url' => $this->generateUrl("sked_app_consultant_booking_show_to_consultant", array("bookingId" => $booking->getId())),
+                    'description' => $bookingTooltip,
                 );
             }
         }
