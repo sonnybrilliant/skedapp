@@ -14,7 +14,7 @@
                     {#end form display===============================#}
 
                 </div>
-                <div style="clear:both;"></div>
+                
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
@@ -44,7 +44,7 @@
                                           <div class="divViewData">
                                               {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
                                           </div>
-                                          <div style="clear: both;"></div>
+                                          
                                     </span>
                                     {% endif %}
 
@@ -57,9 +57,10 @@
                                         {% endfor %}
 
                                     </p>
+                                    <p><a href="{{ path("sked_app_invite_friends_consultant",{'id':consultant.id})}}" class="btn btn-warning" data-toggle="button" >"Refer a friend</a></p>
                                 </div>
 
-                                <div style="clear: both;"></div>
+                                
                                 <p>&nbsp;</p>
 
                                 <div class="divTimeSlotsAround">
@@ -85,8 +86,7 @@
                                           Please set a date to view available booking slots
                                     {% endif %}
                                 </div>
-                                <div style="clear: both;"></div>
-
+                                
                             </div>
                         </div>
                         <div class="tab-pane" id="tab2">
