@@ -1,7 +1,17 @@
-<form class="form-horizontal formSearch" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
-  <fieldset>
+<style>
+
+
+</style>
+<ul class='tabs' style="margin-bottom: 0px;">
+    <li><a href='#tab1'>Start Here</a></li>
+    <li class='tabsOrange'><a href='#tab2'>Step 2</a></li>
+    <li class='tabsGreen'><a href='#tab3'>Step 3</a></li>
+</ul>
+<div id='tab1'>
+    <form  class="form-horizontal formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
+  <fieldset style="height: 360px;">
+        <div class="control-label" for="company">{{ form_label(form.category) }}</div></br>
       <div class="control-group {% if form_errors(form.category) %} error {% endif %}">
-        <label class="control-label" for="company">{{ form_label(form.category) }}</label>
         <div class="controls">
           {{ form_widget(form.category) }}
           <span class="help-inline">{{form_errors(form.category)}}</span>
@@ -41,8 +51,54 @@
         </div>
       </div>
       <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
       </div>
       {{ form_rest(form) }}
   </fieldset>
 </form>
+</div>
+
+<div id='tab2' class="formBackground">
+    <label style="margin-left: 50px;">Step 2</label>
+</div>
+<div id='tab3' class="formBackground">
+    <label style="margin-left: 50px;">Step 3</label>
+</div>
+
+
+<script>
+$('ul.tabs').each(function(){
+    // For each set of tabs, we want to keep track of
+    // which tab is active and it's associated content
+    var $active, $content, $links = $(this).find('a');
+
+    // If the location.hash matches one of the links, use that as the active tab.
+    // If no match is found, use the first link as the initial active tab.
+    $active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
+    $active.addClass('active');
+    $content = $($active.attr('href'));
+
+    // Hide the remaining content
+    $links.not($active).each(function () {
+        $($(this).attr('href')).hide();
+    });
+
+    // Bind the click event handler
+    $(this).on('click', 'a', function(e){
+        // Make the old tab inactive.
+        $active.removeClass('active');
+        $content.hide();
+
+        // Update the variables with the new link and content
+        $active = $(this);
+        $content = $($(this).attr('href'));
+
+        // Make the tab active.
+        $active.addClass('active');
+        $content.show();
+
+        // Prevent the anchor's default click action
+        e.preventDefault();
+    });
+});
+</script>
