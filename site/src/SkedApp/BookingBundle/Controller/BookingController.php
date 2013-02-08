@@ -441,8 +441,12 @@ class BookingController extends Controller
                    $latestEnd = new \DateTime($endSlotsDateTime->format('Y-m-d H:i:00'));
                 }
 
-                if ($isSingleDay) {
+                if ( ($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time()) ) {
                     //If its a single day, add empty slots for each resource - Need to distinguish between resource and day view
+
+                    if ($startSlotsDateTime->getTimestamp() <= (time() + (60 * 60 * 2)))
+                        $startSlotsDateTime->setTimestamp(time() + (60 * 60 * 2));
+
                     while ($startSlotsDateTime->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
                         //Loop through the timeslots for each day and check if the consultant is available
 
@@ -517,8 +521,11 @@ class BookingController extends Controller
 
             } //foreach consultant
 
-            if (!$isSingleDay) {
-                //Week or month view - Not sure if this is practical
+            if ( (!$isSingleDay) && ($latestEnd->getTimestamp() < time()) ) {
+
+                if ($earliestStart->getTimestamp() <= (time() + (60 * 60 * 2)))
+                    $earliestStart->setTimestamp(time() + (60 * 60 * 2));
+
                 while ($earliestStart->getTimestamp() < $latestEnd->getTimestamp()) {
                     //Loop through the timeslots for each day and check if the consultant is available
 
