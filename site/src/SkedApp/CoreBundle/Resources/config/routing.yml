@@ -7,6 +7,10 @@ _security_check:
 
 _security_logout:
     pattern:  /logout
+    
+_security_access_denied:
+    pattern:  /access/denied
+    defaults: { _controller: SkedAppCoreBundle:Security:accessDenied }    
 
 
 sked_app_invite_friends_loggedin:

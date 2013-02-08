@@ -25,8 +25,6 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $admin = new Group('Administrator') ;
         $admin->setDescription('Super user, has access to everything, please do not grant this role to every one - sensitive data will be compromised');
         $admin->addRole($this->getReference('role-admin')) ;
-        $admin->addRole($this->getReference('role-member')) ;
-        $admin->addRole($this->getReference('role-report')) ;
         $admin->addRole($this->getReference('role-consultant-admin')) ;
         $admin->addRole($this->getReference('role-consultant-user')) ;
         $admin->addRole($this->getReference('role-site-user')) ;
@@ -49,7 +47,9 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         
         $manager->flush() ;
         
-        $this->addReference('group-admin' , $admin) ;
+        $this->addReference('group-super-admin' , $admin) ;
+        $this->addReference('group-consultant-admin' , $consultantAdmin) ;
+        $this->addReference('group-consultant' , $consultant) ;
     }
 
     public function getOrder()

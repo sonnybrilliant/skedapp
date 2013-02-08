@@ -1,0 +1,55 @@
+<section class="box_shadow_effect">
+    <table id="sortable" class="table table-striped table-condensed tablesorter">
+        <thead>
+          <tr>
+            <th>{{ pagination.sortable('Full name', 'm.firstName')|raw }} </th>
+            <th>{{ pagination.sortable('Email', 'm.email')|raw }}</th>  
+            {% if is_granted('ROLE_ADMIN') %}
+            <th></span>{{ pagination.sortable('Service provider', 'm.company')|raw }} </th>
+            <th></span>{{ pagination.sortable('Active', 'm.enabled')|raw }} </th>
+            <th></span>{{ pagination.sortable('Admin', 'm.isAdmin')|raw }} </th>
+            {% endif %}
+                      
+            <th>{{ pagination.sortable('Created At', 'm.createdAt')|raw }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for member in pagination %}
+                <tr>
+                    <td><small>{{ member.fullName }}</small></td>
+                    <td><small>{{ member.email }}</small></td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <td><small>{{ member.company.name }}</small></td>
+                    <td>
+                        <small>
+                        {% if member.enabled == true %}
+                            <span class="label label-info">Yes</span>
+                        {% else %}
+                            <span class="label label-error">No</span>
+                        {% endif %}
+                        </small>    
+                    </td>
+                    <td>
+                        <small>
+                        {% if member.isAdmin == true  %}
+                            <span class="label label-info">Yes</span>
+                        {% else %}
+                            <span class="label label-error">No</span>
+                        {% endif %} 
+                        </small>    
+                    </td>
+                    {% endif %}
+                    <td><small>{{member.createdAt|date('Y-m-d H:i A')}}</td>
+                </tr>
+          {% endfor %}
+        </tbody>
+ </table>
+ <div>
+   <div class="pagination">
+   {{ pagination.render()|raw }}
+   </div>
+  </div>            
+</section>
+
+
+
