@@ -458,6 +458,8 @@ class BookingController extends Controller
                           $booking->setAppointmentDate($startSlot);
                           $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($startSlot->format('H:i')));
                           $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($endSlot->format('H:i')));
+                          $booking->setHiddenAppointmentStartTime($startSlot);
+                          $booking->setHiddenAppointmentEndTime($endSlot);
 
                           $isAvailable = $this->get('booking.manager')->isBookingDateAvailable($booking);
 
