@@ -33,7 +33,7 @@ class Group
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string",length=20)
+     * @ORM\Column(name="name", type="string",length=50)
      */
     protected $name ;
 

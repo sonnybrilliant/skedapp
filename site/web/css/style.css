@@ -175,12 +175,10 @@ a:hover { color: #0AF; }
 
 /* Overriding Bootstrap CSS to fit screens on 1024x768 */
 
-.form-horizontal .control-label {
-  width: 120px;
-}
 
 .form-horizontal .controls {
-  margin-left: 130px;
+  margin-left: 30px;
+  margin-bottom: 8px;
 }
 
 /* Fixing layout on consultant details screen */
@@ -193,4 +191,75 @@ a:hover { color: #0AF; }
 .divBookingTooltip {
   font-size: 9px;
   white-space: nowrap;
+}
+
+.formBackground{
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 0 8px 0px 0;
+background: transparent url("../img/blueGradient.jpg");
+padding-top:10px; margin: 0px;
+height: 370px;
+border-left: 1px solid #025b99;
+}
+
+
+.indexfooter{
+width: 100%;
+text-align: center;
+margin:auto;
+background: #333;
+color: #fff;
+padding: 4px 0 0 0;
+line-height: 30px;
+}
+
+.tabs a {
+				padding:5px 10px;
+				display:inline-block;
+				background: transparent url("../img/tabs.png");
+				color:#fff;
+				text-decoration:none;
+        width: 171px;;
+        height: 42px;
+        text-align: center;
+        line-height:55px;
+        border-radius: 5px 5px 0 0;
+        border: none;
+        font-size: 20px;
+        font-weight: bold;
+			}
+      
+.tabsOrange a {
+				padding:5px 10px;
+				display:inline-block;
+				background:#fc9504;
+				color:#fff;
+				text-decoration:none;
+        width: 15%;
+        height: 50px;
+        text-align: center;
+        line-height:55px;
+        border-radius: 5px 5px 0 0; 
+			}
+      
+.tabsGreen a {
+				padding:5px 10px;
+				display:inline-block;
+				background:#aabc01;
+				color:#fff;
+				text-decoration:none;
+        width: 15%;
+        height: 50px;
+        text-align: center;
+        line-height:55px;
+        border-radius: 5px 5px 0 0; 
+			}      
+.tabs li {
+				list-style:none;
+				display:inline;
+			}
+
+.quickFindArrow {
+    background: transparent url("../img/rightTab.jpg") no-repeat;
 }

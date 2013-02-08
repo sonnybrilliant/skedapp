@@ -2,10 +2,12 @@
 {% block title %}Welcome{% endblock %}
 
 {% block body %}
-<div class="span12">
     <br />
-    <h2>Search , Locate <small> services in your area.</small></h2>
+    <h3 style="float: right;">Search, Locate services in your area.</h3>
     <br />
+
+<div class="span12" style="background: transparent url(../img/greyBackground.jpg) repeat 0 0; border-radius: 0 8px 8px 0; height: 371px; padding-top: 40px; margin-left: 0px;">
+    
 
         {% block alert %}
             {% include "::alert.html.twig" %}
@@ -13,4 +15,5 @@
 
         {%include "SkedAppSearchBundle:Search:search.area.html.twig" %}
 </div>
+
 {% endblock %}
