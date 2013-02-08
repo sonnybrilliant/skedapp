@@ -199,7 +199,7 @@ a:hover { color: #0AF; }
 border-radius: 0 8px 0px 0;
 background: transparent url("../img/blueGradient.jpg");
 padding-top:10px; margin: 0px;
-height: 370px;
+height: 420px;
 border-left: 1px solid #025b99;
 }
 
@@ -212,6 +212,8 @@ background: #333;
 color: #fff;
 padding: 4px 0 0 0;
 line-height: 30px;
+margin-bottom: -10px;
+margin-top: 60px;
 }
 
 .tabs a {
@@ -262,4 +264,23 @@ line-height: 30px;
 
 .quickFindArrow {
     background: transparent url("../img/rightTab.jpg") no-repeat;
+}
+
+.twitter{
+  background: transparent url("../img/twitter.png") no-repeat;
+  height: 32px;
+  width: 32px;
+  float: right;
+  margin-left: 5px;
+  margin-top: 1px;
+  cursor: pointer;
+}
+
+.facebook{
+  background: transparent url("../img/fb.png") no-repeat;
+  height: 32px;
+  width: 32px;
+  float: right;
+  margin-left: 5px;
+  cursor: pointer;
 }

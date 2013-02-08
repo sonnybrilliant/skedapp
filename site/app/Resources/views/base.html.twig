@@ -24,10 +24,10 @@
         {% block header %}
             <div class="container">
                 <div class="row" style="margin-top: 40px;">
-                    <div class="span5 pull-left" style="margin-left: 40px; width: 300px;">
+                    <div class="span5 pull-left" style="margin-left: 40px; width: 30%;">
                         <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" title="logo" /></a>
                     </div>
-                    <div class="span7 pull-right" style="margin-top: 0px;">
+                    <div class="span7 pull-right" style="margin-top: 0px; line-height: 21px;">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <ul class="nav nav-pills pull-right">
                                 <li>
@@ -46,13 +46,14 @@
                                 {% if booking_attempt is defined %}
                                     <a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}">Register</a>
                                 {% else %}
-                                    <a href="{{ path("sked_app_customer_register") }}">Register</a>
+                                    <a style="font-weight: bold;" href="{{ path("sked_app_customer_register") }}">Register</a>
                                 {% endif %}
-                                an account or <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a></span>
+                                <span style="font-weight: bold;">an account or </span> <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a></span>
                         {% endif %}
                         <span class="pull-right" style="margin-top: 3px;">
-                            <a href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a style="font-weight: bold;" href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                         </span>
+                        <h3 style="float: right; margin-top: 111px; line-height: 0px;">Search, Locate services in your area.</h3>
                     </div>
                 </div>
             </div>
@@ -68,10 +69,9 @@
             <!-- start of footer container -->
             <div style="width: 100%" class="container">
                 <div class="row">
-                    <hr />
                     <div class="indexfooter">
                         <footer>
-                            <p style="color: #ccc; font-size: 12px">SkedApp © {{ date().format('Y') }} | Make a Booking | Contact Us | Privacy Statement | Terms & Conditions</p>
+                            <p style="color: #ccc; font-size: 12px">SkedApp © {{ date().format('Y') }} | <a href="">Make a Booking</a> | <a href="">Contact Us</a> | <a href="">Privacy Statement</a> | <a href="">Terms & Conditions</a></p>
                         </footer>
                     </div>
                 </div>

@@ -258,7 +258,8 @@ a:hover {
 }
 
 .span5 {
-  width: 380px;
+  *width: 380px;
+  width: 46%;
 }
 
 .span4 {
@@ -1833,7 +1834,8 @@ legend + .control-group {
 }
 
 .form-horizontal .form-actions {
-  padding-left: 180px;
+  *padding-left: 180px;
+  padding-right: 24px;
 }
 
 table {

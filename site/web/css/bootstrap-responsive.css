@@ -115,10 +115,12 @@
   .navbar-static-top .container,
   .navbar-fixed-top .container,
   .navbar-fixed-bottom .container {
-    width: 1170px;
+    *width: 1170px;
+    width: 1024px;
   }
   .span12 {
-    width: 1170px;
+    *width: 1170px;
+    width: 100%;
   }
   .span11 {
     width: 1070px;
@@ -136,7 +138,8 @@
     width: 620px;
   }
   .span6 {
-    width: 570px;
+    *width: 570px;
+    width: 44%;
     
   }
   .span5 {
@@ -447,7 +450,8 @@
 
 @media (min-width: 768px) and (max-width: 979px) {
   .row {
-    margin-left: -20px;
+    *margin-left: -20px;
+    margin-left: 0px;
     *zoom: 1;
   }
   .row:before,
@@ -462,7 +466,8 @@
   [class*="span"] {
     float: left;
     min-height: 1px;
-    margin-left: 20px;
+    *margin-left: 20px;
+    margin-left: 0px;
   }
   .container,
   .navbar-static-top .container,
