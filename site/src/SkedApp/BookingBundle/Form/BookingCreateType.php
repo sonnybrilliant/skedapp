@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
+use SkedApp\CoreBundle\Entity\Timeslots;
 
 /**
  * SkedApp\ConsultantBundle\Form\BookingCreateType
@@ -31,10 +32,21 @@ class BookingCreateType extends AbstractType
      */
     private $companyId = null;
 
-    public function __construct($companyId, $isAdmin = false)
+    /**
+     *
+     * @var \DateTime
+     */
+    private $appointmentDate = null;
+
+    public function __construct($companyId, $isAdmin = false, $appointmentDate = null)
     {
         $this->companyId = $companyId;
         $this->isAdmin = $isAdmin;
+        $this->appointmentDate = $appointmentDate;
+
+        if (!is_object($this->appointmentDate))
+                $this->appointmentDate = new \DateTime();
+
     }
 
     /**
@@ -51,7 +63,7 @@ class BookingCreateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span3 datepicker', 'value' => 'Select date'),
+                'attr' => array('class' => 'span3 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
