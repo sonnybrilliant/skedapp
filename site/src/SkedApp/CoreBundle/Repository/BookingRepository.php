@@ -205,8 +205,8 @@ class BookingRepository extends EntityRepository
                 WHERE b.consultant = ?1 AND b.isDeleted = ?2
                 AND b.isActive = ?3 AND b.isCancelled = ?4
                 AND (( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 )
-                OR  ( b.hiddenAppointmentEndTime >= ?5 AND b.hiddenAppointmentEndTime <= ?6 )
-                OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime >= ?6 ))";
+                OR  ( b.hiddenAppointmentEndTime > ?5 AND b.hiddenAppointmentEndTime < ?6 )
+                OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime > ?6 ))";
         $resOut = $this->getEntityManager()->createQuery($dql)
                 ->setParameters(array(
                     1 => $consultant,
