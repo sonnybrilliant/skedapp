@@ -13,14 +13,15 @@
 
 {% block javascripts %}
 <script src="{{ asset('/js/fullcalendar.min.js') }}"></script>
+<script src="{{ asset('/js/jquery.qtip-1.0.0-rc3.min.js') }}"></script>
 {% endblock %}
 
 {% block body %}
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-    </div>       
-    {% endblock menu %}    
+           {% include "::menu.html.twig" %}
+    </div>
+    {% endblock menu %}
     {% block content %}
     <div class="span9">
         <h3>Manage bookings</h3>
@@ -34,20 +35,20 @@
     {% block alert %}
         {% include "::alert.html.twig" %}
     {% endblock %}
-    <div class="span9" style="margin-left: 0px">    
-    <br />    
+    <div class="span9" style="margin-left: 0px">
+    <br />
        <div id="calendar"></div>
-    </div>   
-    </div>  
-    {% endblock content %}   
+    </div>
+    </div>
+    {% endblock content %}
        <script type='text/javascript'>
             $(document).ready(function() {
-	
+
                 var date = new Date();
                 var d = date.getDate();
                 var m = date.getMonth();
                 var y = date.getFullYear();
-		
+
                 var calendar = $('#calendar').fullCalendar({
                     header: {
                         left: 'prev,next today',
@@ -78,7 +79,7 @@
                     eventResize: function(event, dayDelta, minuteDelta) {
                         console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
                     },
-                    
+
                     editable: true,
                     resources: [
                         {% for consultant in consultants %}
@@ -89,9 +90,20 @@
                         {% endfor%}
                     ],
                     events: "ajaxGetBookings",
-                    timeFormat: 'H:mmt{ - H:mm}t'
+                    eventRender: function(event, element) {
+                        element.qtip({
+                            content: event.description,
+                            position: {
+                                corner: {
+                                    tooltip: 'bottomMiddle',
+                                    target:  'topMiddle'
+                                }
+                            }
+                        });
+                    },
+                    timeFormat: 'H:mm'
                 });
-		
+
             });
 
         </script>

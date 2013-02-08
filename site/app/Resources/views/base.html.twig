@@ -23,11 +23,11 @@
     <body>
         {% block header %}
             <div class="container">
-                <div class="row">
-                    <div class="span5 pull-left">
-                        <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" width="180px" title="logo" /></a>
+                <div class="row" style="margin-top: 40px;">
+                    <div class="span5 pull-left" style="margin-left: 40px; width: 300px;">
+                        <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" title="logo" /></a>
                     </div>
-                    <div class="span7 pull-right" style="margin-top: 50px;">
+                    <div class="span7 pull-right" style="margin-top: 0px;">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <ul class="nav nav-pills pull-right">
                                 <li><a href="{{ path("_welcome")}}">Make a Booking</a></li>
@@ -67,12 +67,12 @@
 
         {% block footer %}
             <!-- start of footer container -->
-            <div class="container">
+            <div style="width: 100%" class="container">
                 <div class="row">
                     <hr />
-                    <div class="span12">
+                    <div class="indexfooter">
                         <footer>
-                            <p>SkedApp © {{ date().format('Y') }}</p>
+                            <p style="color: #ccc; font-size: 12px">SkedApp © {{ date().format('Y') }} | Make a Booking | Contact Us | Privacy Statement | Terms & Conditions</p>
                         </footer>
                     </div>
                 </div>
