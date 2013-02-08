@@ -442,10 +442,14 @@ class BookingController extends Controller
                 }
 
                 if ( ($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time()) ) {
-                    //If its a single day, add empty slots for each resource - Need to distinguish between resource and day view
+                    //If its a single day, add empty slots for each resource
 
-                    if ($startSlotsDateTime->getTimestamp() <= (time() + (60 * 60 * 2)))
-                        $startSlotsDateTime->setTimestamp(time() + (60 * 60 * 2));
+                    //Make sure start time slot is more than 2 hours in the future
+                    while ($startSlotsDateTime->getTimestamp() < (time() + (60 * 60 * 2))) {
+
+                        $durationInterval = new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M');
+                        $startSlotsDateTime->add($durationInterval);
+                    }
 
                     while ($startSlotsDateTime->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
                         //Loop through the timeslots for each day and check if the consultant is available
@@ -521,10 +525,14 @@ class BookingController extends Controller
 
             } //foreach consultant
 
-            if ( (!$isSingleDay) && ($latestEnd->getTimestamp() < time()) ) {
+            if ( (!$isSingleDay) && ($latestEnd->getTimestamp() > time()) ) {
 
-                if ($earliestStart->getTimestamp() <= (time() + (60 * 60 * 2)))
-                    $earliestStart->setTimestamp(time() + (60 * 60 * 2));
+                //Make sure start time slot is more than 2 hours in the future
+                while ($earliestStart->getTimestamp() < (time() + (60 * 60 * 2))) {
+
+                    $durationInterval = new \DateInterval('PT15M');
+                    $earliestStart->add($durationInterval);
+                }
 
                 while ($earliestStart->getTimestamp() < $latestEnd->getTimestamp()) {
                     //Loop through the timeslots for each day and check if the consultant is available
