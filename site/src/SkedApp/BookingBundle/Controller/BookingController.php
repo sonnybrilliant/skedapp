@@ -328,6 +328,12 @@ class BookingController extends Controller
 
                 $bookingTooltip = '<div class="divBookingTooltip">';
 
+                if (is_object ($booking->getConsultant())) {
+
+                    $bookingName = $booking->getConsultant()->getFullName() . ' - ' . $bookingName;
+
+                }
+
                 if (is_object ($booking->getCustomer())) {
 
                     $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
@@ -366,7 +372,105 @@ class BookingController extends Controller
                     //'color' => 'pink',
                     //'textColor' => 'black'
                 );
+            } //foreach booking found
+
+            $start = $this->getRequest()->get('start', null);
+            $end = $this->getRequest()->get('end', null);
+
+            //Test if its a day or month view
+            $startSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $start));
+            $endSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $end));
+            $earliestStart = new \Datetime($startSlotsDateTime->format('Y-m-d H:i:00'));
+            $latestEnd = new \Datetime($endSlotsDateTime->format('Y-m-d H:i:00'));
+            $isSingleDay = false;
+
+            if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) <= (60 * 60 * 24)) {
+                $isSingleDay = true;
             }
+
+            if ( (!is_null($start)) && (!is_null($end)) ) {
+                //Adding empty slots
+                $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc'));
+
+                foreach ($consultants as $consultant) {
+
+                    $startSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $start));
+                    $endSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $end));
+
+                    $startSlot = $consultant->getStartTimeslot()->getSlot();
+                    $startSlot = explode(':', $startSlot);
+
+                    $endSlot = $consultant->getEndTimeslot()->getSlot();
+                    $endSlot = explode(':', $endSlot);
+
+                    $startSlotsDateTime->setTime($startSlot[0], $startSlot[1], 0);
+                    $endSlotsDateTime->setTime($endSlot[0], $endSlot[1], 0);
+
+                    //Check which consultant starts the earliest and which ends the latest
+                    if ($earliestStart->getTimestamp() > $startSlotsDateTime->getTimestamp()) {
+                       $earliestStart = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
+                    }
+
+                    if ($latestEnd->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
+                       $latestEnd = new \DateTime($endSlotsDateTime->format('Y-m-d H:i:00'));
+                    }
+
+                    if ($isSingleDay) {
+                      //If its a single day, add empty slots for each resource - Need to distinguish between resource and day view
+                      while ($startSlotsDateTime->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
+                          //Loop through the timeslots for each day and check if the consultant is available
+
+                          $durationInterval = new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M');
+
+                          $startSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
+                          $endSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
+                          $endSlot->add($durationInterval);
+
+                          $bookingTooltip = '<div class="divBookingTooltip">';
+
+                          $bookingTooltip .= '<strong>Start Time:</strong> ' . $startSlot->format("H:i") . "<br />";
+                          $bookingTooltip .= '<strong>End Time:</strong> ' . $endSlot->format("H:i") . "<br />";
+
+                          $bookingTooltip .= '<strong>Consultant:</strong> ' . $consultant->getFullName() . "<br />";
+                          $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $consultant->getEmail() . "<br />";
+
+                          $services = $consultant->getConsultantServices();
+
+                          $bookingTooltip .= '<strong>Service(s): </strong>';
+
+                          foreach ($services as $service)
+                            $bookingTooltip .= $service->getName() . " ";
+
+                          $bookingTooltip .= "<br />";
+
+                          $bookingTooltip .= '</div>';
+
+                          $results[] = array(
+                              'allDay' => false,
+                              'title' => 'Available',
+                              'start' => $startSlot->format("c"),
+                              'end' => $endSlot->format("c"),
+                              //'start' => "2012-11-29",
+                              'resourceId' => 'resource-' . $consultant->getId(),
+                              'url' => $this->generateUrl("sked_app_booking_create"),
+                              'description' => $bookingTooltip,
+                              'color' => 'white',
+                              'textColor' => 'black'
+                          );
+
+                          $startSlotsDateTime->add($durationInterval);
+                      }
+                    } else {
+                        echo 'More than one day!';
+                        exit;
+                    }
+
+                } //foreach consultant
+            } else {
+                echo 'No dates!';
+                exit;
+            }
+
         }
 
         $response = new Response(json_encode($results));
