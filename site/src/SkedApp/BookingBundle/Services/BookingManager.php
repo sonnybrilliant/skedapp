@@ -213,6 +213,8 @@ final class BookingManager
          */
 
         if (sizeof($results) == 1) {
+            return false;
+            //Caused problems when checking availability on the calendar
             $oldBooking = $results[0];
             if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
                 return true;

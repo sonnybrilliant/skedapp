@@ -451,11 +451,12 @@ class BookingController extends Controller
                         $startSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
                         $endSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
                         $endSlot->add($durationInterval);
+                        $appointmentDate = new \DateTime($startSlotsDateTime->format('Y-m-d 00:00:00'));
 
                         $booking = new Booking();
 
                         $booking->setConsultant($consultant);
-                        $booking->setAppointmentDate($startSlot);
+                        $booking->setAppointmentDate($appointmentDate);
                         $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($startSlot->format('H:i')));
                         $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($endSlot->format('H:i')));
                         $booking->setHiddenAppointmentStartTime($startSlot);
@@ -465,45 +466,67 @@ class BookingController extends Controller
 
                         unset ($booking);
 
-                        if (true) { //($isAvailable) {
+                        if ($isAvailable) {
 
-                          $bookingTooltip = '<div class="divBookingTooltip">';
+                            $bookingTooltip = '<div class="divBookingTooltip">';
 
-                          $bookingTooltip .= '<strong>Start Time:</strong> ' . $startSlot->format("H:i") . "<br />";
-                          $bookingTooltip .= '<strong>End Time:</strong> ' . $endSlot->format("H:i") . "<br />";
+                            $bookingTooltip .= '<strong>Start Time:</strong> ' . $startSlot->format("H:i") . "<br />";
+                            $bookingTooltip .= '<strong>End Time:</strong> ' . $endSlot->format("H:i") . "<br />";
 
-                          $bookingTooltip .= '<strong>Consultant:</strong> ' . $consultant->getFullName() . "<br />";
-                          $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $consultant->getEmail() . "<br />";
+                            $bookingTooltip .= '<strong>Consultant:</strong> ' . $consultant->getFullName() . "<br />";
+                            $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $consultant->getEmail() . "<br />";
 
-                          $services = $consultant->getConsultantServices();
+                            $services = $consultant->getConsultantServices();
 
-                          $bookingTooltip .= '<strong>Service(s): </strong>';
+                            $bookingTooltip .= '<strong>Service(s): </strong>';
 
-                          foreach ($services as $service)
-                            $bookingTooltip .= $service->getName() . " ";
+                            foreach ($services as $service)
+                              $bookingTooltip .= $service->getName() . " ";
 
-                          $bookingTooltip .= "<br />";
+                            $bookingTooltip .= "<br />";
 
-                          $bookingTooltip .= '</div>';
+                            $bookingTooltip .= '</div>';
 
-                          $results[] = array(
-                              'allDay' => false,
-                              'title' => 'Available',
-                              'start' => $startSlot->format("c"),
-                              'end' => $endSlot->format("c"),
-                              //'start' => "2012-11-29",
-                              'resourceId' => 'resource-' . $consultant->getId(),
-                              'url' => $this->generateUrl("sked_app_booking_new",
-                                      array(
-                                          'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
-                                          'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
-                                          'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
-                                          'Booking[consultant]' => $consultant->getId(),
-                                                  )),
-                              'description' => $bookingTooltip,
-                              'color' => 'white',
-                              'textColor' => 'black'
-                          );
+                            $results[] = array(
+                                'allDay' => false,
+                                'title' => 'Add Booking',
+                                'start' => $startSlot->format("c"),
+                                'end' => $endSlot->format("c"),
+                                'resourceId' => 'resource-' . $consultant->getId(),
+                                'url' => $this->generateUrl("sked_app_booking_new",
+                                        array(
+                                            'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
+                                            'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
+                                            'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
+                                            'Booking[consultant]' => $consultant->getId(),
+                                                    )),
+                                'description' => $bookingTooltip,
+                                'color' => 'white',
+                                'textColor' => 'black'
+                            );
+
+                        } else { //if slot is available
+
+                            $bookingTooltip = '<div class="divBookingTooltip">' . $consultant->getFullName() . '<br />not available between ' . $startSlot->format('Y-m-d H:i:00') . ' and<br />'
+                                    . $endSlot->format('Y-m-d H:i:00') . '</div>';
+
+                            $results[] = array(
+                                'allDay' => false,
+                                'title' => 'Not available',
+                                'start' => $startSlot->format("c"),
+                                'end' => $endSlot->format("c"),
+                                'resourceId' => 'resource-' . $consultant->getId(),
+                                'url' => $this->generateUrl("sked_app_booking_new",
+                                        array(
+                                            'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
+                                            'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
+                                            'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
+                                            'Booking[consultant]' => $consultant->getId(),
+                                                    )),
+                                'description' => $bookingTooltip,
+                                'color' => 'white',
+                                'textColor' => 'black'
+                            );
 
                         } //if slot is available
 
