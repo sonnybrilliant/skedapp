@@ -7,3 +7,16 @@ _security_check:
 
 _security_logout:
     pattern:  /logout
+
+
+sked_app_invite_friends_loggedin:
+    pattern: /invite/friend
+    defaults: { _controller: SkedAppCoreBundle:Invite:inviteLoggedIn}
+    requirements:
+        _method: GET|POST 
+        
+sked_app_invite_friends_consultant:
+    pattern: /invite/friend/{id}
+    defaults: { _controller: SkedAppCoreBundle:Invite:inviteConsultant}
+    requirements:
+        _method: GET|POST         

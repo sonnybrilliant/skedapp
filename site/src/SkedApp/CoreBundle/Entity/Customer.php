@@ -1085,13 +1085,7 @@ class Customer implements AdvancedUserInterface, \Serializable
      */
     public function getFullName ()
     {
-        $strOut = $this->firstName;
-
-        if (strlen ($this->lastName) > 0)
-                $strOut .= ' ' . $this->lastName;
-
-        return $strOut;
-
+        return $this->firstName.' '.$this->lastName;
     }
 
     public function getObjectAsArray ()

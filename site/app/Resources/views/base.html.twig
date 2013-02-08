@@ -30,6 +30,7 @@
                     <div class="span7 pull-right" style="margin-top: 0px;">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <ul class="nav nav-pills pull-right">
+                                <li><a href="{{ path("_welcome")}}">Make a Booking</a></li>
                                 <li>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path("sked_app_company_list")}}">My admin</a>
@@ -39,20 +40,20 @@
                                         <a href="{{ path("sked_app_consultant_show", {'id': app.user.id })}}">My admin</a>
                                     {% endif %}
                                 </li>
+                                <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite friend</a></li>
                                 <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
                             </ul>
                         {% else %}
                             <span class="pull-right">
+                                <a href="{{ path("_welcome")}}">Make a Booking</a> |
                                 {% if booking_attempt is defined %}
                                     <a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}">Register</a>
                                 {% else %}
                                     <a href="{{ path("sked_app_customer_register") }}">Register</a>
                                 {% endif %}
-                                an account or <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a></span>
+                                an account or <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a>
+                            </span>
                         {% endif %}
-                        <span class="pull-right" style="margin-top: 3px;">
-                            <a href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                        </span>
                     </div>
                 </div>
             </div>

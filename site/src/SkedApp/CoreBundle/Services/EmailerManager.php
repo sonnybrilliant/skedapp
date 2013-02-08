@@ -491,6 +491,65 @@ final class EmailerManager
         $this->sendMail($options);
         return;
     }
+    
+    public function inviteFriendLoggedin($params)
+    {
+        $this->logger->info("send invite friend to logged in");
+        $options['subject'] = "Your SkedApp friend invite";
+        
+        $tmp = array(
+            'fullName' => $params['friendName'],
+            'senderName' => $params['senderName'],
+            'link' => $params['link'],
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.loggedin.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.loggedin.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $params['email'];
+        $options['fullName'] = $tmp['fullName'];
+        
+        $this->sendMail($options);
+        return;
+    }
+    
+    public function inviteFriendConsultant($params)
+    {
+        $this->logger->info("send invite friend to consultant");
+        $options['subject'] = "Your SkedApp friend invite";
+        
+        $tmp = array(
+            'fullName' => $params['friendName'],
+            'senderName' => $params['senderName'],
+            'link' => $params['link'],
+            'consultantName' => $params['consultantName']
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.consultant.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.consultant.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $params['email'];
+        $options['fullName'] = $tmp['fullName'];
+        
+        $this->sendMail($options);
+        return;
+    }
 
     /**
      * Send customer account verification after an account register

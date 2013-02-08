@@ -221,5 +221,19 @@ final class NotificationsManager
 
         return;
     }
+    
+    public function sendInviteFriendLoggedIn($params)
+    {
+        $this->logger->info("send invite friends logged in");
+        $this->container->get('email.manager')->inviteFriendLoggedin($params);
+        return;
+    }
+    
+    public function sendInviteFriendConsultant($params)
+    {
+        $this->logger->info("send invite friends to consultant");
+        $this->container->get('email.manager')->inviteFriendConsultant($params);
+        return;
+    }
 
 }

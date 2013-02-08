@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
- * SkedApp\CoreBundle\Entity\Company
+ * SkedApp\CoreBundle\Entity\Consultant
  *
  * @ORM\Table(name="consultant")
  * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\ConsultantRepository")
@@ -1384,13 +1384,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
      */
     public function getFullName ()
     {
-        $strOut = $this->firstName;
-
-        if (strlen ($this->lastName) > 0)
-                $strOut .= ' ' . $this->lastName;
-
-        return $strOut;
-
+       return $this->firstName.' '.$this->lastName;
     }
 
     public function getObjectAsArray ()
