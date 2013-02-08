@@ -505,29 +505,6 @@ class BookingController extends Controller
                                 'textColor' => 'black'
                             );
 
-                        } else { //if slot is available
-
-                            $bookingTooltip = '<div class="divBookingTooltip">' . $consultant->getFullName() . '<br />not available between ' . $startSlot->format('Y-m-d H:i:00') . ' and<br />'
-                                    . $endSlot->format('Y-m-d H:i:00') . '</div>';
-
-                            $results[] = array(
-                                'allDay' => false,
-                                'title' => 'Not available',
-                                'start' => $startSlot->format("c"),
-                                'end' => $endSlot->format("c"),
-                                'resourceId' => 'resource-' . $consultant->getId(),
-                                'url' => $this->generateUrl("sked_app_booking_new",
-                                        array(
-                                            'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
-                                            'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
-                                            'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
-                                            'Booking[consultant]' => $consultant->getId(),
-                                                    )),
-                                'description' => $bookingTooltip,
-                                'color' => 'white',
-                                'textColor' => 'black'
-                            );
-
                         } //if slot is available
 
                         $startSlotsDateTime->add($durationInterval);
