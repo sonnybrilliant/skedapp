@@ -22,9 +22,9 @@
     </head>
     <body>
         {% block header %}
-            <div class="container">
+            <div class="container BodyWidth">
                 <div class="row" style="margin-top: 40px;">
-                    <div class="span5 pull-left" style="margin-left: 40px; width: 30%;">
+                    <div class="span5 pull-left logoHandler">
                         <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" title="logo" /></a>
                     </div>
                     <div class="span7 pull-right" style="margin-top: 0px; line-height: 21px;">
@@ -48,19 +48,19 @@
                                 {% else %}
                                     <a style="font-weight: bold;" href="{{ path("sked_app_customer_register") }}">Register</a>
                                 {% endif %}
-                                <span style="font-weight: bold;">an account or </span> <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a></span>
+                                <span style="font-weight: bold;">an account or </span> <a href="{{ path("_security_login")}}" class="btn btn-inverse"><i class="icon-white icon-off"></i> Login</a></span>
                         {% endif %}
                         <span class="pull-right" style="margin-top: 3px;">
                             <a style="font-weight: bold;" href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                         </span>
-                        <h3 style="float: right; margin-top: 111px; line-height: 0px;">Search, Locate services in your area.</h3>
+                        <div class="headerWrapper"><h3 class="headerLabel">Search, Locate services in your area.</h3></div>
                     </div>
                 </div>
             </div>
         {% endblock %}
 
-        <div class="container">
-            <div class="row">
+        <div class="container bodyContainer">
+            <div class="row marginLeft0px">
         {% block body %}{% endblock %}
             </div>
         </div>

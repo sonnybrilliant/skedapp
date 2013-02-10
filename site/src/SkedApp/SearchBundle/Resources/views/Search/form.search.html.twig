@@ -1,7 +1,3 @@
-<style>
-
-
-</style>
 <ul class='tabs' style="margin-bottom: -2px; margin-left: 0px;">
     <div><li><a href='#tab1'>Start Here</a></li>
     <!--<li class='tabsOrange' style="margin-left: -5px"><a href='#tab2'>Step 2</a></li>
@@ -9,7 +5,7 @@
 </ul>
 <div id='tab1'>
     <form  class="form-horizontal formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
-  <fieldset style="height: 360px;">
+  <fieldset class="width360px">
         <div class="control-label" for="company">{{ form_label(form.category) }}</div></br>
       <div class="control-group {% if form_errors(form.category) %} error {% endif %}">
         <div class="controls">
@@ -50,8 +46,8 @@
           <span class="help-inline">{{form_errors(form.consultantServices)}}</span>
         </div>
       </div>
-      <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+      <div class="submitButton">
+          <button type="submit" name="submit" class="btn" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
       </div>
       {{ form_rest(form) }}
   </fieldset>
