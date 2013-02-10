@@ -2,11 +2,12 @@
     {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
 </div>
 <div class="span6 pull-right mapInterface">
-    <div id="map_canvas" class="img-polaroid" style="margin-right: 30px; border-radius: 5px;"></div>
+    <div id="map_canvas" class="img-polaroid mapRadius"></div>
+      <div class="margintop5px"></div>
     <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
 
-<div class="span6 pull-right" style="padding-left: 5px; padding-top: 8px;">
-    <small class="socialLabels">Find us on Facebook or Twitter<span class="twitter"></span><span class="facebook"></span></small>
+<div class="span6 pull-right facebookTwitter">
+    <small class="socialLabels">Find us on Facebook or Twitter<a href=""><span class="twitter"></span></a><a href="http://www.facebook.com/pages/Skedapp/420977264645890"><span class="facebook"></span></a></small>
 </div>
 </div>
 {% block stylesheets %}

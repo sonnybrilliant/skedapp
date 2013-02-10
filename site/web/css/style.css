@@ -194,6 +194,9 @@ a:hover { color: #0AF; }
 }
 
 .formBackground{
+  -webkit-box-shadow: 2px -4px 7px rgba(0, 0, 0, 1);
+  -moz-box-shadow:    2px -4px 7px rgba(0, 0, 0, 1);
+  box-shadow:         2px -4px 7px rgba(0, 0, 0, 1);
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 0 8px 0px 0;
@@ -201,6 +204,32 @@ a:hover { color: #0AF; }
   padding-top:10px; margin: 0px;
   height: 420px;
   border-left: 1px solid #025b99;
+}
+
+.formOrangeBackground{
+  -webkit-box-shadow: 2px -4px 7px rgba(0, 0, 0, 1);
+  -moz-box-shadow:    2px -4px 7px rgba(0, 0, 0, 1);
+  box-shadow:         2px -4px 7px rgba(0, 0, 0, 1);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 0 8px 0px 0;
+  background: transparent url("../img/orangeBackground.png");
+  padding-top:10px; margin: 0px;
+  height: 420px;
+  border-left: 1px solid #ff8a00;
+}
+
+.formGreenBackground{
+  -webkit-box-shadow: 2px -4px 7px rgba(0, 0, 0, 1);
+  -moz-box-shadow:    2px -4px 7px rgba(0, 0, 0, 1);
+  box-shadow:         2px -4px 7px rgba(0, 0, 0, 1);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 0 8px 0px 0;
+  background: transparent url("../img/greenBackground.png");
+  padding-top:10px; margin: 0px;
+  height: 420px;
+  border-left: 1px solid #9dae01;
 }
 
 /* Calendar for SP */
@@ -231,20 +260,59 @@ a:hover { color: #0AF; }
   margin-top: 60px;
 }
 
-.tabs a {
+.blueTab {
   padding:5px 10px;
   display:inline-block;
-  background: transparent url("../img/tabs.png");
+  background: transparent url("../img/blueTab.png");
   color:#fff;
   text-decoration:none;
-  width: 171px;;
-  height: 42px;
+  width: 73px;
+  height: 15px;
   text-align: center;
-  line-height:55px;
+  line-height:20px;
   border-radius: 5px 5px 0 0;
   border: none;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 12px;
+  margin-left: 5px;
+  float: left;
+}
+
+.tabs a:hover{
+  color: #fff;
+  text-decoration: none;
+}
+
+.orangeTab {
+  padding:5px 10px;
+  display:inline-block;
+  background: transparent url("../img/orangeTab.png");
+  color:#fff;
+  text-decoration:none;
+  width: 73px;
+  height: 15px;
+  text-align: center;
+  line-height:20px;
+  border-radius: 5px 5px 0 0;
+  border: none;
+  font-size: 12px;
+  margin-left: -5px;
+  float: left;
+}
+
+.greenTab {
+  padding:5px 10px;
+  display:inline-block;
+  background: transparent url("../img/greenTab.png");
+  color:#fff;
+  text-decoration:none;
+  width: 73px;
+  height: 15px;
+  text-align: center;
+  line-height:20px;
+  border-radius: 5px 5px 0 0;
+  border: none;
+  font-size: 12px;
+  margin-left: -5px; 
 }
 
 .tabs li {
@@ -302,7 +370,7 @@ a:hover { color: #0AF; }
 
 .greyBackground{
   background: transparent url(../img/greyBackground.jpg) repeat 0 0;
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px 8px 8px 0;
   height: 421px;
   padding-top: 40px;
   margin-left: 0px;
@@ -310,7 +378,7 @@ a:hover { color: #0AF; }
 }
 
 .tabsHolder{
-  margin-top: -60px;
+  margin-top: -37px;
   margin-left: 0px;
   width: 45%;
 }
@@ -385,4 +453,18 @@ input.span4, textarea.span4, .uneditable-input.span4 {
 
 .indexfooter a{
   color: #ccc;
+}
+
+.facebookTwitter{
+ padding-left: 5px;
+ padding-top: 8px; 
+}
+
+.margintop5px{
+  margin-top: 5px;
+}
+
+.mapRadius{
+  margin-right: 30px;
+  border-radius: 5px;
 }
