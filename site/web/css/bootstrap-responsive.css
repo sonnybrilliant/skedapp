@@ -93,8 +93,7 @@
 
 @media (min-width: 1200px) {
   .row {
-    *margin-left: -30px;
-    margin-left: 0px;
+    margin-left: -30px;
     *zoom: 1;
   }
   .row:before,
@@ -133,20 +132,16 @@
     width: 770px;
   }
   .span7 {
-    width: 620px;
+    width: 670px;
   }
   .span6 {
     width: 570px;
-    
   }
   .span5 {
-    width: 532px;
-    margin: 0px;
+    width: 470px;
   }
   .span4 {
-    width: 95%;
-    border-radius: 10px;
-    box-shadow: 0 2px 3px #02577D;
+    width: 370px;
   }
   .span3 {
     width: 270px;
@@ -415,9 +410,7 @@
   input.span4,
   textarea.span4,
   .uneditable-input.span4 {
-    width: 92%;
-    border-radius: 10px;
-    box-shadow: #02577d 0px 2px 3px;
+    width: 356px;
   }
   input.span3,
   textarea.span3,
