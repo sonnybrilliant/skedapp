@@ -16,11 +16,11 @@
            {% include 'SkedAppMemberBundle::breadcrumb.html.twig' with vars  %}
         </div>
         <div class="span5 pull-right" style="margin-right: -100px;">
-            <a href="{{ path('sked_app_consultant_new')}}" class="btn btn-warning"><i class="icon-plus-sign icon-white"></i>&nbsp;Add a member</a>
+            <a href="{{ path('sked_app_member_new')}}" class="btn btn-warning {% if is_granted('ROLE_ADMIN') == false %} disabled {% endif %}"><i class="icon-plus-sign icon-white"></i>&nbsp;Add a member</a>
             <form class="form-inline pull-right" >
                 <div class="input-prepend">
                     <span class="add-on"><i class="icon-search"></i></span>
-                    <input name="search_text" title="search" type="text" value="search.."  class="input-small search"/>
+                    <input name="search_text" title="search" type="text" value="search.."  class="input-small search inputHelper"/>
                     <input type="submit" value="Go" class="btn btn-warning btn-small" style="padding: 5px"/>
                     &nbsp;
                 </div>

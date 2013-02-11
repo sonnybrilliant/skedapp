@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use SkedApp\MemberBundle\Form\MemberCreateType;
+use SkedApp\CoreBundle\Entity\Member;
 
 /**
  * Member controller
@@ -50,9 +52,20 @@ class MemberController extends Controller
         return $this->render('SkedAppMemberBundle:Member:list.html.twig', array('pagination' => $pagination));
     }
     
+    /**
+     * Create a new member
+     * 
+     * @return Render
+     */
     public function newAction()
     {
-       $this->get('logger')->info('add a new member'); 
+       $this->get('logger')->info('add a new member');
+       
+       $member = new Member();
+       
+       $form = $this->createForm(new MemberCreateType(),$member);
+       
+       return $this->render('SkedAppMemberBundle:Member:new.html.twig',array('form'=>$form->createView()));
     }
     
     private function permissionCheck()

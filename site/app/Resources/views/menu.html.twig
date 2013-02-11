@@ -8,6 +8,10 @@
         <li><a href="{{ path('sked_app_consultant_list') }}"><i class="icon-chevron-right"></i>Manage consultants</a></li>
         <li><a href="{{ path('sked_app_customer_list') }}"><i class="icon-chevron-right"></i>Manage customers</a></li>
         <li><a href="{{ path('sked_app_booking_manager')}}"><i class="icon-chevron-right"></i>Manage bookings</a></li>
+        {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}
+        <li><a href="{{ path('sked_app_member_list') }}"><i class="icon-chevron-right"></i>Manage Members</a></li>
+        <li><a href="{{ path('sked_app_consultant_list') }}"><i class="icon-chevron-right"></i>Manage consultants</a></li>
+        <li><a href="{{ path('sked_app_booking_manager')}}"><i class="icon-chevron-right"></i>Manage bookings</a></li>        
         {% endif %}
     </ul>
 </div><!--/.well -->
