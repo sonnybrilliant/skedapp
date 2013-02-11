@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="submitButton">
-          <button type="submit" name="submit" class="btn" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+          <button type="submit" name="submit" class="btn" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
       </div>
       {{ form_rest(form) }}
   </fieldset>
@@ -55,15 +55,47 @@
 </div>
 
 <div id='tab2'>
-    <form  class="form-horizontal formSearch formOrangeBackground">
-    
-</form>
+  <div  class="formOrangeBackground">
+  </div>
 </div>
 
 <div id='tab3'>
-    <form  class="form-horizontal formSearch formGreenBackground">
-  
-</form>
+    <div  class="formGreenBackground">
+      <div>
+          <div style="margin-left:23px;">
+            <h3 class="white">Booking Details:
+            </h3>
+            <div style="float: left; width: 200px;">
+              <div class="searchResultsText white">Appointment Date:
+              </div>
+              <div class="searchResultsText white">Appointment Time:
+              </div>
+              <div class="searchResultsText white">Consultant:
+              </div>
+              <div class="searchResultsText white">Service:
+              </div>
+              <div class="searchResultsText white">Notes:</div>             
+            </div>
+          </div>
+      </div>
+      <div style="float: left; width: 199px;">
+          <div class="searchResultsText">2012-02-08
+          </div>
+          <div class="searchResultsText">12:15 - 15:45
+          </div>
+          <div class="searchResultsText">Funky Guy
+          </div>
+          <div class="searchResultsText">Mens Cut
+          </div>
+      </div>
+      <div class="marginBottom10px marginLeft20px">
+            <textarea rows="3"></textarea>
+            <div class="submitButton margintop15px">
+                <button type="submit" name="submit" class="btn" data-toggle="button">
+                Create &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+            </div> 
+      </div>
+    </div>
 </div>
 
 

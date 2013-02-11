@@ -217,6 +217,7 @@ a:hover { color: #0AF; }
   padding-top:10px; margin: 0px;
   height: 420px;
   border-left: 1px solid #ff8a00;
+  width: 100%;
 }
 
 .formGreenBackground{
@@ -396,6 +397,15 @@ a:hover { color: #0AF; }
   font-size: 14px;  
 }
 
+.searchResultsText{
+  font-size: 14px;
+  font-weight: bold;
+  height: 38px;
+}
+
+.white{
+  color: #fff;
+}
 .socialLabels{
   color: #fff;
   font-size: 14px;  
@@ -411,6 +421,14 @@ a:hover { color: #0AF; }
 
 .marginLeft0px{
   margin-left: 0px;
+}
+
+.marginBottom10px{
+  margin-bottom: 10px;
+}
+
+.marginLeft20px{
+  margin-left: 20px;
 }
 
 .form-horizontal .control-label {
@@ -434,6 +452,17 @@ input.span4, textarea.span4, .uneditable-input.span4 {
   -moz-box-shadow: #333 0px 1px 5px;
   box-shadow: #333 0px 1px 5px;  
   width: 91%;
+}
+
+
+input, textarea, .uneditable-input {
+    -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: #333 0px 1px 5px;
+  -moz-box-shadow: #333 0px 1px 5px;
+  box-shadow: #333 0px 1px 5px;  
+  width: 365px;
 }
 
 .span4 {
@@ -464,6 +493,13 @@ input.span4, textarea.span4, .uneditable-input.span4 {
   margin-top: 5px;
 }
 
+.margintop10px{
+  margin-top: 10px;
+}
+
+.margintop15px{
+  margin-top: 15px;
+}
 .mapRadius{
   margin-right: 30px;
   border-radius: 5px;

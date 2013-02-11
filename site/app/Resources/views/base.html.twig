@@ -46,12 +46,12 @@
                                 {% if booking_attempt is defined %}
                                     <a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}">Register</a>
                                 {% else %}
-                                    <a style="font-weight: bold;" href="{{ path("sked_app_customer_register") }}">Register</a>
+                                    <a href="{{ path("sked_app_customer_register") }}">Register</a>
                                 {% endif %}
-                                <span style="font-weight: bold;">an account or </span> <a href="{{ path("_security_login")}}" class="btn btn-inverse"><i class="icon-white icon-off"></i> Login</a></span>
+                                <span>an account or </span> <a href="{{ path("_security_login")}}" class="btn btn-inverse"><i class="icon-white icon-off"></i> Login</a></span>
                         {% endif %}
                         <span class="pull-right" style="margin-top: 3px;">
-                            <a style="font-weight: bold;" href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                         </span>
                         <div class="headerWrapper"><h3 class="headerLabel">Search, Locate services in your area.</h3></div>
                     </div>
@@ -84,6 +84,7 @@
             <!-- Placed at the end of the document so the pages load faster -->
             <script src="{{ asset('/js/bootstrap.js') }}"></script>
             <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-button.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>
