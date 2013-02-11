@@ -22,15 +22,14 @@
     </head>
     <body>
         {% block header %}
-            <div class="container">
+            <div class="container BodyWidth">
                 <div class="row" style="margin-top: 40px;">
-                    <div class="span5 pull-left" style="margin-left: 40px; width: 300px;">
+                    <div class="span5 pull-left logoHandler">
                         <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" title="logo" /></a>
                     </div>
-                    <div class="span7 pull-right" style="margin-top: 0px;">
+                    <div class="span7 pull-right" style="margin-top: 0px; line-height: 21px;">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <ul class="nav nav-pills pull-right">
-                                <li><a href="{{ path("_welcome")}}">Make a Booking</a></li>
                                 <li>
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <a href="{{ path("sked_app_company_list")}}">My admin</a>
@@ -40,27 +39,28 @@
                                         <a href="{{ path("sked_app_consultant_show", {'id': app.user.id })}}">My admin</a>
                                     {% endif %}
                                 </li>
-                                <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite friend</a></li>
                                 <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
                             </ul>
                         {% else %}
                             <span class="pull-right">
-                                <a href="{{ path("_welcome")}}">Make a Booking</a> |
                                 {% if booking_attempt is defined %}
                                     <a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}">Register</a>
                                 {% else %}
                                     <a href="{{ path("sked_app_customer_register") }}">Register</a>
                                 {% endif %}
-                                an account or <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a>
-                            </span>
+                                <span>an account or </span> <a href="{{ path("_security_login")}}" class="btn btn-inverse"><i class="icon-white icon-off"></i> Login</a></span>
                         {% endif %}
+                        <span class="pull-right" style="margin-top: 3px;">
+                            <a href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        </span>
+                        <div class="headerWrapper"><h3 class="headerLabel">Search, Locate services in your area.</h3></div>
                     </div>
                 </div>
             </div>
         {% endblock %}
 
-        <div class="container">
-            <div class="row">
+        <div class="container bodyContainer">
+            <div class="row marginLeft0px">
         {% block body %}{% endblock %}
             </div>
         </div>
@@ -69,10 +69,9 @@
             <!-- start of footer container -->
             <div style="width: 100%" class="container">
                 <div class="row">
-                    <hr />
                     <div class="indexfooter">
                         <footer>
-                            <p style="color: #ccc; font-size: 12px">SkedApp © {{ date().format('Y') }} | Make a Booking | Contact Us | Privacy Statement | Terms & Conditions</p>
+                            <p style="color: #ccc; font-size: 12px">SkedApp © {{ date().format('Y') }} | <a href="">Make a Booking</a> | <a href="">Contact Us</a> | <a href="">Privacy Statement</a> | <a href="">Terms & Conditions</a></p>
                         </footer>
                     </div>
                 </div>
@@ -85,6 +84,7 @@
             <!-- Placed at the end of the document so the pages load faster -->
             <script src="{{ asset('/js/bootstrap.js') }}"></script>
             <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>
+            <script src="{{ asset('/js/bootstrap-button.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>

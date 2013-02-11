@@ -145,6 +145,20 @@ final class BookingManager
     }
 
     /**
+     * Get all bookings between given dates
+     *
+     * @return Array
+     */
+    public function getAllBetweenDates(\DateTime $startDateTime, \DateTime $endDateTime)
+    {
+        $this->logger->info("get all bookings between dates");
+
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllBookingsByDate($startDateTime, $endDateTime);
+
+        return $bookings;
+    }
+
+    /**
      * Is booking time slots valid
      *
      * start time must be less than end time
@@ -199,6 +213,8 @@ final class BookingManager
          */
 
         if (sizeof($results) == 1) {
+            return false;
+            //Caused problems when checking availability on the calendar
             $oldBooking = $results[0];
             if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
                 return true;

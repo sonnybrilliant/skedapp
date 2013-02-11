@@ -1,15 +1,11 @@
-<style>
-
-
-</style>
-<ul class='tabs' style="margin-bottom: -2px; margin-left: 0px;">
-    <div><li><a href='#tab1'>Start Here</a></li>
-    <!--<li class='tabsOrange' style="margin-left: -5px"><a href='#tab2'>Step 2</a></li>
-    <li class='tabsGreen' style="margin-left: -5px"><a href='#tab3'>Step 3</a></li>-->
-</ul>
+<div class='tabs' style="margin-bottom: 0px; margin-left: 0px; margin-top: 2px;">
+          <div><a class="blueTab" href='#tab1'>Start Here</a></div>
+          <div><a class="orangeTab" href='#tab2'>Search</a></div>
+          <div><a class="greenTab" href='#tab3'>Confirm</a></div>
+</div>
 <div id='tab1'>
     <form  class="form-horizontal formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
-  <fieldset style="height: 360px;">
+  <fieldset class="width360px">
         <div class="control-label" for="company">{{ form_label(form.category) }}</div></br>
       <div class="control-group {% if form_errors(form.category) %} error {% endif %}">
         <div class="controls">
@@ -50,17 +46,61 @@
           <span class="help-inline">{{form_errors(form.consultantServices)}}</span>
         </div>
       </div>
-      <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+      <div class="submitButton">
+          <button type="submit" name="submit" class="btn" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
       </div>
       {{ form_rest(form) }}
   </fieldset>
 </form>
 </div>
 
+<div id='tab2'>
+  <div  class="formOrangeBackground">
+  </div>
+</div>
+
+<div id='tab3'>
+    <div  class="formGreenBackground">
+      <div>
+          <div style="margin-left:23px;">
+            <h3 class="white">Booking Details:
+            </h3>
+            <div style="float: left; width: 200px;">
+              <div class="searchResultsText white">Appointment Date:
+              </div>
+              <div class="searchResultsText white">Appointment Time:
+              </div>
+              <div class="searchResultsText white">Consultant:
+              </div>
+              <div class="searchResultsText white">Service:
+              </div>
+              <div class="searchResultsText white">Notes:</div>             
+            </div>
+          </div>
+      </div>
+      <div style="float: left; width: 199px;">
+          <div class="searchResultsText">2012-02-08
+          </div>
+          <div class="searchResultsText">12:15 - 15:45
+          </div>
+          <div class="searchResultsText">Funky Guy
+          </div>
+          <div class="searchResultsText">Mens Cut
+          </div>
+      </div>
+      <div class="marginBottom10px marginLeft20px">
+            <textarea rows="3"></textarea>
+            <div class="submitButton margintop15px">
+                <button type="submit" name="submit" class="btn" data-toggle="button">
+                Create &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+            </div> 
+      </div>
+    </div>
+</div>
+
 
 <script>
-$('ul.tabs').each(function(){
+$('div.tabs').each(function(){
     // For each set of tabs, we want to keep track of
     // which tab is active and it's associated content
     var $active, $content, $links = $(this).find('a');

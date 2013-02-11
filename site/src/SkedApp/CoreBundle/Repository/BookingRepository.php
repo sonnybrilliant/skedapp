@@ -95,6 +95,30 @@ class BookingRepository extends EntityRepository
      *
      * @return array
      */
+    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate)
+    {
+        $qb = $this->createQueryBuilder('b')
+            ->select('b')
+            ->where("b.isDeleted = :delete")
+            ->andWhere("b.isActive = :active")
+            ->andWhere("b.isCancelled = :cancelled")
+            ->andWhere("b.hiddenAppointmentStartTime >= :start")
+            ->andWhere("b.hiddenAppointmentEndTime <= :end")
+            ->setParameters(array(
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'start' => $objStartDate->format('Y-m-d H:i:s'),
+            'end' => $objEndDate->format('Y-m-d H:i:s')
+            ));
+        return $qb->getQuery()->execute();
+    }
+
+    /**
+     * Get consultant all bookings
+     *
+     * @return array
+     */
     public function getAllConsultantBookingsByDate($consultantId, \DateTime $objStartDate, \DateTime $objEndDate)
     {
         $qb = $this->createQueryBuilder('b')
@@ -127,7 +151,7 @@ class BookingRepository extends EntityRepository
     public function isConsultantAvailable(Consultant $consultant, $bookingStartDate, $bookingEndDate)
     {
         //check next day consultant is available
-        $intDoWAvailable = -1;
+        $intDoWAvailable = false;
         $intCntCheck = 1;
 
         if (!is_object($bookingStartDate))
@@ -175,7 +199,15 @@ class BookingRepository extends EntityRepository
                 AND ( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 )
                 OR  ( b.hiddenAppointmentEndTime >= ?5 AND b.hiddenAppointmentEndTime <= ?6 )
                 OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime >= ?6 )";
-        return $this->getEntityManager()->createQuery($dql)
+
+        //Query above is flawed
+        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.consultant = ?1 AND b.isDeleted = ?2
+                AND b.isActive = ?3 AND b.isCancelled = ?4
+                AND (( b.hiddenAppointmentStartTime >= ?5 AND b.hiddenAppointmentStartTime <= ?6 )
+                OR  ( b.hiddenAppointmentEndTime > ?5 AND b.hiddenAppointmentEndTime < ?6 )
+                OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime > ?6 ))";
+        $resOut = $this->getEntityManager()->createQuery($dql)
                 ->setParameters(array(
                     1 => $consultant,
                     2 => false,
@@ -185,6 +217,8 @@ class BookingRepository extends EntityRepository
                     6 => $bookingEndDate
                 ))
                 ->getResult();
+
+        return $resOut;
     }
 
     /**
