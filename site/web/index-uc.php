@@ -59,6 +59,20 @@
             }
 
         </style>
+        <?php
+
+        $strValue = 'your e-mail address';
+
+        if ( (isset ($_POST['email'])) && (strlen($_POST['email']) > 0) ) {
+
+          $strValue = $_POST['email'];
+
+          $resFile = fopen('uploads/emails.csv', 'a+');
+          fwrite($resFile, $strValue . "\r\n");
+          fclose($resFile);
+
+        }
+        ?>
 
     </head>
     <body>
@@ -70,22 +84,35 @@
         <div class="divUCBody">
             <div style="clear: both;"></div>
             <div class="divContentText">
-                <p>
-                    The SkedApp Website is currently under construction.
-                    <br />
-                    We've recently reached the beta testing phase and approved the design.
-                    <br />
-                    We will be live soon!
-                    <br />
-                    <h4>BUT</h4>
-                    Don't leave yet, give us your e-mail address and you will receive
-                </p><br />
-                <div class="divSubmitForm">
-                    <form action="index-uc.php" action="post">
-                        <input type="text" class="inpEMail" value="your e-mail address" />
-                        <br /><br />
-                        <input type="image" src="img/uc-page/submit.jpg" border="0" />
-                    </form>
+                    <?php
+                    if ( (isset ($_POST['email'])) && (strlen($_POST['email']) > 0) ) {
+                        ?>
+                        <p>
+                            <h4>Thank you very much for your e-mail address. We will be in contact soon.</h4>
+                        </p>
+                        <?php
+                    } else {
+                        ?>
+                        <p>
+                            The SkedApp Website is currently under construction.
+                            <br />
+                            We've recently reached the beta testing phase and approved the design.
+                            <br />
+                            We will be live soon!
+                            <br />
+                            <h4>BUT</h4>
+                            Don't leave yet, give us your e-mail address and you will receive
+                        </p><br />
+                        <div class="divSubmitForm">
+                        <form action="index-uc.php" method="post">
+                            <input type="text" class="inpEMail" value="<?php echo $strValue; ?>" onfocus="if (this.value == 'your e-mail address') { this.value = ''; }"
+                                   onblur="if (this.value == '') { this.value = 'your e-mail address'; }" name="email" />
+                            <br /><br />
+                            <input type="image" src="img/uc-page/submit.jpg" border="0" />
+                        </form>
+                        <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
