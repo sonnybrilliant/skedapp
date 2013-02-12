@@ -165,5 +165,3 @@ class BookingCreateType extends AbstractType
     }
 
 }
-
-?>

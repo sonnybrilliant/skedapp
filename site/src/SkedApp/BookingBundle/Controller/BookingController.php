@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use SkedApp\BookingBundle\Form\BookingCreateType;
 use SkedApp\BookingBundle\Form\BookingMakeType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
+use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\Timeslots;
@@ -38,8 +39,17 @@ class BookingController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
 
+        if (is_object($user->getCompany()))
+                $companyId = $user->getCompany()->getId();
+        else
+                $companyId = 0;
+
+        $form = $this->createForm(new BookingListFilterType($companyId, new \DateTime()));
+
         return $this->render('SkedAppBookingBundle:Booking:list.html.twig', array(
-                'consultants' => $consultants
+                'consultants' => $consultants,
+                'form' => $form->createView(),
+                'companyId' => $companyId
             ));
     }
 
@@ -578,6 +588,35 @@ class BookingController extends Controller
         $response = new Response(json_encode($results));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+    /**
+     *  Get active bookings by Company and/ or Consultant and/ or Date
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxGetBookingsListAction()
+    {
+        $this->get('logger')->info('see list of bookings');
+
+        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $this->get('logger')->warn('Ajax list bookings, access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
+
+        if (is_object($user->getCompany()))
+                $companyId = $user->getCompany()->getId();
+        else
+                $companyId = 0;
+
+        return $this->render('SkedAppBookingBundle:Booking:ajax.list.html.twig', array(
+                'bookings' => $bookings
+            ));
     }
 
     /**
