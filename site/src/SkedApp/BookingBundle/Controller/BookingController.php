@@ -604,10 +604,18 @@ class BookingController extends Controller
             throw new AccessDeniedException();
         }
 
+        if (strtotime($this->getRequest()->get('filterDate')) > 0)
+                $filterDate = new \DateTime($this->getRequest()->get('filterDate'));
+        else
+                $filterDate = new \DateTime();
+
+        $companyId = $this->getRequest()->get('companyId', 0);
+        $consultantId = $this->getRequest()->get('consultantId', 0);
+
         $user = $this->get('member.manager')->getLoggedInUser();
 
         $em = $this->getDoctrine()->getEntityManager();
-        $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $filterDate->setTime(0, 0, 0), $filterDate->setTime(23, 59, 59), $companyId);
 
         if (is_object($user->getCompany()))
                 $companyId = $user->getCompany()->getId();
@@ -615,7 +623,9 @@ class BookingController extends Controller
                 $companyId = 0;
 
         return $this->render('SkedAppBookingBundle:Booking:ajax.list.html.twig', array(
-                'bookings' => $bookings
+                'bookings' => $bookings,
+                'filterDate' => $filterDate->format('j F Y'),
+                'print' => true
             ));
     }
 

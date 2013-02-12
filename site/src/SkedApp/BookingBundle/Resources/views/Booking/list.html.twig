@@ -46,7 +46,7 @@
                     <div id="calendar"></div>
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <form class="form-horizontal" action="{{ path('sked_app_booking_manager') }}" method="POST" {{ form_enctype(form) }}>
+                    <input type="hidden" id="hiddenCompanyId" value="{{ companyId }}" />
                     <fieldset>
                         <div class="control-group">
                             <label class="control-label" for="consultant">{{ form_label(form.consultant) }}</label>
@@ -75,7 +75,10 @@
 
            function loadBookingList (consultantSelect, dateInput) {
                //Load the list of bookings
-               $('#bookingList').load(Routing.generate('sked_app_booking_ajax_bookings_list'), { company: {{ companyId }}, consultant: consultantSelect.value, filterDate: dateInput });
+               $('#bookingList').load(
+                       Routing.generate('sked_app_booking_ajax_bookings_list'),
+                       { company: $('#hiddenCompanyId').attr('value'), consultant: consultantSelect.attr('value'), filterDate: dateInput.attr('value') }
+                   );
            }
 
             $(document).ready(function() {
@@ -143,7 +146,12 @@
                 $('#BookingListFilter_consultant').change(function() {
                         //When selecting a consultant, update the booking list
                         loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
-                    }
+                    });
+
+                $('#BookingListFilter_filterDate').change(function() {
+                        //When selecting a consultant, update the booking list
+                        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
+                    });
 
             });
 
