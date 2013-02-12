@@ -63,7 +63,7 @@
 
         $strValue = 'your e-mail address';
 
-        if ( (isset ($_POST['email'])) && (strlen($_POST['email']) > 0) ) {
+        if ( (isset ($_POST['email'])) && (strlen($_POST['email']) > 0) && ($_POST['email'] != 'your e-mail address') ) {
 
           $strValue = $_POST['email'];
 
@@ -85,7 +85,7 @@
             <div style="clear: both;"></div>
             <div class="divContentText">
                     <?php
-                    if ( (isset ($_POST['email'])) && (strlen($_POST['email']) > 0) ) {
+                    if ( (isset ($_POST['email'])) && (strlen($_POST['email']) > 0) && ($_POST['email'] != 'your e-mail address') ) {
                         ?>
                         <p>
                             <h4>Thank you very much for your e-mail address. We will be in contact soon.</h4>
@@ -101,7 +101,7 @@
                             We will be live soon!
                             <br />
                             <h4>BUT</h4>
-                            Don't leave yet, give us your e-mail address and you will receive
+                            Don't leave yet, give us your e-mail address and you will receive PREFERRENTIAL access to our website!
                         </p><br />
                         <div class="divSubmitForm">
                         <form action="index-uc.php" method="post">
