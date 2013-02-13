@@ -880,8 +880,14 @@ class BookingController extends Controller
             $this->getRequest()->getSession()->setFlash('error', 'Please select at least one booking.');
         }
 
-        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) {
 
+            $user = $this->get('member.manager')->getLoggedInUser();
+
+            return $this->redirect($this->generateUrl('sked_app_consultant_booking_show', array('id' => $user->getId())));
+        } else {
+            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+        }
     }
 
 }
