@@ -604,6 +604,15 @@ class Booking
     }
 
     /**
+     * Get timeSlotEndString
+     *
+     * @return string
+     */
+    public function getEndTimeslotString () {
+      return $this->getEndTimeslot()->getSlot();
+    }
+
+    /**
      * Get timeSlotStartString
      *
      * @return string
@@ -669,6 +678,42 @@ class Booking
         if ($this->isConfirmed)
           return 'Yes';
         return 'No';
+    }
+
+    /**
+     * Get Customer as string
+     *
+     * @return string
+     */
+    public function getCustomerString()
+    {
+        if (is_object($this->customer))
+          return $this->customer->getFullName();
+        return '';
+    }
+
+    /**
+     * Get Customer contact number as string
+     *
+     * @return string
+     */
+    public function getCustomerNumberString()
+    {
+        if (is_object($this->customer))
+          return $this->customer->getMobileNumber();
+        return '';
+    }
+
+    /**
+     * Get Consultant as string
+     *
+     * @return string
+     */
+    public function getConsultantString()
+    {
+        if (is_object($this->consultant))
+          return $this->consultant->getFullName();
+        return '';
     }
 
 }

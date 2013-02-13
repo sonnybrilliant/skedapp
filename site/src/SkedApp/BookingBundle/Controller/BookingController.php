@@ -9,6 +9,7 @@ use SkedApp\BookingBundle\Form\BookingCreateType;
 use SkedApp\BookingBundle\Form\BookingMakeType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\BookingBundle\Form\BookingListFilterType;
+use SkedApp\BookingBundle\Form\BookingMessageType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\Timeslots;
@@ -599,7 +600,7 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('see list of bookings');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) ) {
             $this->get('logger')->warn('Ajax list bookings, access denied.');
             throw new AccessDeniedException();
         }
@@ -609,23 +610,29 @@ class BookingController extends Controller
         else
                 $filterDate = new \DateTime();
 
-        $companyId = $this->getRequest()->get('companyId', 0);
-        $consultantId = $this->getRequest()->get('consultantId', 0);
+        $companyId = $this->getRequest()->get('company', 0);
+        $consultantId = $this->getRequest()->get('consultant', 0);
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
+        $startDate = new \DateTime($filterDate->format('Y-m-d 00:00:00'));
+        $endDate = new \DateTime($filterDate->format('Y-m-d 23:59:59'));
+
         $em = $this->getDoctrine()->getEntityManager();
-        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $filterDate->setTime(0, 0, 0), $filterDate->setTime(23, 59, 59), $companyId);
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $startDate, $endDate, $companyId);
 
         if (is_object($user->getCompany()))
                 $companyId = $user->getCompany()->getId();
         else
                 $companyId = 0;
 
+        $form = $this->createForm(new BookingMessageType());
+
         return $this->render('SkedAppBookingBundle:Booking:ajax.list.html.twig', array(
                 'bookings' => $bookings,
                 'filterDate' => $filterDate->format('j F Y'),
-                'print' => true
+                'print' => true,
+                'form' => $form->createView(),
             ));
     }
 
@@ -824,6 +831,57 @@ class BookingController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Booking cancellation sucessfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
+    }
+
+    public function messagesAction ()
+    {
+        $this->get('logger')->info('Send messages and/ or delete selected bookings');
+
+        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) ) {
+            $this->get('logger')->warn('Send messages and/ or delete selected bookings, access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $bookingsSelected = $this->getRequest()->get('selectBookings', array());
+        $bookingsCancel = $this->getRequest()->get('cancelBookings', array());
+
+        if ( (count($bookingsSelected) > 0) || (count($bookingsCancel) > 0) ) {
+            //Some Bookings selected or marked for delete
+
+            $countSelectedBookings = 0;
+            $countCancelBookings = 0;
+
+            if (count($bookingsSelected) > 0) {
+
+                foreach($bookingsSelected as $bookingId) {
+
+                    $booking = $this->get('booking.manager')->getById($bookingId);
+
+                    $options = array(
+                      'booking' => $booking,
+                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                    );
+
+                   //send booking created notification emails
+                    $this->get("notification.manager")->createdBooking($options);
+
+                    $countSelectedBookings++;
+
+                }
+
+                $messageString = sprintf('Sent messages for %s bookings.<br />', $countSelectedBookings);
+
+            }
+
+            $this->getRequest()->getSession()->setFlash('success', $messageString);
+
+        } else {
+            //No bookings selected
+            $this->getRequest()->getSession()->setFlash('error', 'Please select at least one booking.');
+        }
+
+        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+
     }
 
 }

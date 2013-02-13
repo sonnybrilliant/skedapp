@@ -146,7 +146,7 @@ class BookingRepository extends EntityRepository
 
             $qb = $this->createQueryBuilder('b')
                 ->select('b')
-                ->join(\SkedApp\CoreBundle\Entity\Consultant, 'c')
+                ->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
                 ->where("b.isDeleted = :delete")
                 ->andWhere("b.isActive = :active")
                 ->andWhere("b.isCancelled = :cancelled")

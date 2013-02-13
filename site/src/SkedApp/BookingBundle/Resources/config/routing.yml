@@ -61,3 +61,7 @@ sked_app_booking_make:
 sked_app_booking_made:
     pattern:  /booking/made
     defaults: { _controller: SkedAppBookingBundle:Booking:made }
+
+sked_app_booking_messages:
+    pattern:  /booking/messages
+    defaults: { _controller: SkedAppBookingBundle:Booking:messages }

@@ -11,9 +11,12 @@
           </tr>
           <tr>
             <th>#</th>
+            <th>Customer</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Consultant</th>
             <th>Service</th>
+            <th>Confirmed</th>
             <th>Created</th>
           </tr>
         </thead>
@@ -21,9 +24,12 @@
           {% for booking in bookings %}
           <tr>
             <td>{{booking.id}}</td>
-            <td>{{booking.appointmentDate}}</td>
-            <td>{{booking.hiddenAppointmentStartTime}} - {{booking.hiddenAppointmentEndTime}}</td>
+            <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+            <td>{{booking.appointmentDateString}}</td>
+            <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
+            <td>{{booking.consultantString}}</td>
             <td>{{booking.service.name}}</td>
+            <td>{{booking.isConfirmedString}}</td>
             <td>{{booking.createdAt|date('M jS Y')}}</td>
           </tr>
           {% endfor %}
