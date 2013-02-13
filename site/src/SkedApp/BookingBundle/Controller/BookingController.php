@@ -802,6 +802,7 @@ class BookingController extends Controller
                 'booking_time_end' => $timeSlotEnd->format('H:i'),
                 'booking_consultant' => $consultant->getFullName(),
                 'booking_service' => $service->getName(),
+                'customer' => $user,
             ));
     }
 
@@ -844,12 +845,14 @@ class BookingController extends Controller
 
         $bookingsSelected = $this->getRequest()->get('selectBookings', array());
         $bookingsCancel = $this->getRequest()->get('cancelBookings', array());
+        $bookingMessage = $this->getRequest()->get('BookingMessage', array('messageText' => ''));
 
         if ( (count($bookingsSelected) > 0) || (count($bookingsCancel) > 0) ) {
             //Some Bookings selected or marked for delete
 
             $countSelectedBookings = 0;
             $countCancelBookings = 0;
+            $sendAndCancel = array();
 
             if (count($bookingsSelected) > 0) {
 
@@ -857,19 +860,66 @@ class BookingController extends Controller
 
                     $booking = $this->get('booking.manager')->getById($bookingId);
 
-                    $options = array(
-                      'booking' => $booking,
-                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
-                    );
+                    if (in_array($bookingId, $bookingsCancel)) {
+                        //Booking must also be cancelled
 
-                   //send booking created notification emails
-                    $this->get("notification.manager")->createdBooking($options);
+                        $options = array(
+                          'booking' => $booking,
+                          'messageText' => $bookingMessage['messageText'],
+                        );
+
+                       //send booking message notification emails
+                        $this->get("notification.manager")->messageAndCancelBooking($options);
+
+                        $sendAndCancel[] = $bookingId;
+
+                        $countCancelBookings++;
+
+                    } else {
+
+                        $options = array(
+                          'booking' => $booking,
+                          'messageText' => $bookingMessage['messageText'],
+                          'link' => $this->generateUrl("sked_app_customer_list_bookings", array('id' => $booking->getCustomer()->getId()), true)
+                        );
+
+                       //send booking message notification emails
+                        $this->get("notification.manager")->messageBooking($options);
+
+                    }
 
                     $countSelectedBookings++;
 
                 }
 
-                $messageString = sprintf('Sent messages for %s bookings.<br />', $countSelectedBookings);
+                if ($countSelectedBookings == 1)
+                    $messageString = sprintf('Sent messages for %s booking. ', $countSelectedBookings);
+                else
+                    $messageString = sprintf('Sent messages for %s bookings. ', $countSelectedBookings);
+
+            }
+
+            if (count($bookingsCancel) > 0) {
+
+                foreach($bookingsSelected as $bookingId) {
+
+                    $booking = $this->get('booking.manager')->getById($bookingId);
+
+                    $this->get('booking.manager')->cancelBooking($booking);
+
+                    if (!in_array($bookingId, $sendAndCancel)) {
+                        //No message was selected, just send cancellation
+                        $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+                    }
+
+                    $countCancelBookings++;
+
+                }
+
+                if ($countCancelBookings == 1)
+                    $messageString .= sprintf('Sent messages for %s cancelled booking. ', $countSelectedBookings);
+                else
+                    $messageString .= sprintf('Sent messages for %s cancelled bookings. ', $countSelectedBookings);
 
             }
 

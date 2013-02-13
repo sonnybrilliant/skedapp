@@ -1,0 +1,19 @@
+SkedApp
+------------
+Hi {{ booking.customer.fullName }},
+
+Your booking has been cancelled.
+
+{{ messageText }}
+
+Your cancelled booking details are as follows:
+
+Consultant: {{ booking.consultant.fullName }}
+Service to be rendered: {{ booking.service.name }}
+Date: {{ booking.appointmentDate.format('j F Y') }} {{ booking.startTimeSlotString }}
+
+Thank you,
+The SkedApp Team
+
+---
+(c) 2012, SkedApp. Pretoria , Gauteng , South Africa
