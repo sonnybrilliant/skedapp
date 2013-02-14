@@ -23,6 +23,7 @@
     </div>
     {% endblock menu %}
     {% block content %}
+
     <div class="span9">
         <h3>Manage bookings</h3>
         <div class="span5" style="margin-left: -15px">
@@ -35,13 +36,51 @@
     {% block alert %}
         {% include "::alert.html.twig" %}
     {% endblock %}
-    <div class="span9" style="margin-left: 0px">
-    <br />
-       <div id="calendar"></div>
-    </div>
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">Booking Calendars</a></li>
+                <li><a href="#tab2" data-toggle="tab">List Bookings</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <div id="calendar"></div>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <input type="hidden" id="hiddenCompanyId" name="company" value="{{ companyId }}" />
+                    <fieldset>
+                        <div class="control-group">
+                            <label class="control-label" for="consultant">{{ form_label(form.consultant) }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.consultant) }}
+                                <span class="help-inline">{{form_errors(form.consultant)}}</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="consultant">{{ form_label(form.filterDate) }}</label>
+                            <div class="controls">
+                                {{ form_widget(form.filterDate) }}
+                                <span class="help-inline">{{form_errors(form.filterDate)}}</span>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div id="bookingList"></div>
+
+                </div>
+            </div>
+        </div>
     </div>
     {% endblock content %}
        <script type='text/javascript'>
+
+           function loadBookingList (consultantSelect, dateInput) {
+               //Load the list of bookings
+               $('#bookingList').load(
+                       Routing.generate('sked_app_booking_ajax_bookings_list'),
+                       { company: $('#hiddenCompanyId').attr('value'), consultant: consultantSelect.attr('value'), filterDate: dateInput.attr('value') }
+                   );
+           }
+
             $(document).ready(function() {
 
                 var date = new Date();
@@ -103,6 +142,16 @@
                     },
                     timeFormat: 'H:mm'
                 });
+
+                $('#BookingListFilter_consultant').change(function() {
+                        //When selecting a consultant, update the booking list
+                        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
+                    });
+
+                $('#BookingListFilter_filterDate').change(function() {
+                        //When selecting a consultant, update the booking list
+                        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
+                    });
 
             });
 

@@ -119,25 +119,51 @@ class BookingRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAllConsultantBookingsByDate($consultantId, \DateTime $objStartDate, \DateTime $objEndDate)
+    public function getAllConsultantBookingsByDate($consultantId, \DateTime $objStartDate, \DateTime $objEndDate, $companyId = 0)
     {
-        $qb = $this->createQueryBuilder('b')
-            ->select('b')
-            ->where("b.isDeleted = :delete")
-            ->andWhere("b.isActive = :active")
-            ->andWhere("b.isCancelled = :cancelled")
-            ->andWhere("b.consultant = :consultant")
-            ->andWhere("b.hiddenAppointmentStartTime >= :start")
-            ->andWhere("b.hiddenAppointmentEndTime <= :end")
-            ->setParameters(array(
-            'delete' => false,
-            'active' => true,
-            'cancelled' => false,
-            'consultant' => $consultantId,
-            'start' => $objStartDate->format('Y-m-d H:i:s'),
-            'end' => $objEndDate->format('Y-m-d H:i:s')
-            ));
-        return $qb->getQuery()->execute();
+
+        if ($consultantId > 0) {
+
+            $qb = $this->createQueryBuilder('b')
+                ->select('b')
+                ->where("b.isDeleted = :delete")
+                ->andWhere("b.isActive = :active")
+                ->andWhere("b.isCancelled = :cancelled")
+                ->andWhere("b.consultant = :consultant")
+                ->andWhere("b.hiddenAppointmentStartTime >= :start")
+                ->andWhere("b.hiddenAppointmentEndTime <= :end")
+                ->setParameters(array(
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
+                'consultant' => $consultantId,
+                'start' => $objStartDate->format('Y-m-d H:i:s'),
+                'end' => $objEndDate->format('Y-m-d H:i:s')
+                ));
+            return $qb->getQuery()->execute();
+
+        } elseif ($companyId > 0) {
+
+            $qb = $this->createQueryBuilder('b')
+                ->select('b')
+                ->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
+                ->where("b.isDeleted = :delete")
+                ->andWhere("b.isActive = :active")
+                ->andWhere("b.isCancelled = :cancelled")
+                ->andWhere("c.company = :company")
+                ->andWhere("b.hiddenAppointmentStartTime >= :start")
+                ->andWhere("b.hiddenAppointmentEndTime <= :end")
+                ->setParameters(array(
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
+                'company' => $companyId,
+                'start' => $objStartDate->format('Y-m-d H:i:s'),
+                'end' => $objEndDate->format('Y-m-d H:i:s')
+                ));
+            return $qb->getQuery()->execute();
+
+        }
     }
 
     /**

@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use SkedApp\BookingBundle\Form\BookingCreateType;
 use SkedApp\BookingBundle\Form\BookingMakeType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
+use SkedApp\BookingBundle\Form\BookingListFilterType;
+use SkedApp\BookingBundle\Form\BookingMessageType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\Timeslots;
@@ -38,8 +40,17 @@ class BookingController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
 
+        if (is_object($user->getCompany()))
+                $companyId = $user->getCompany()->getId();
+        else
+                $companyId = 0;
+
+        $form = $this->createForm(new BookingListFilterType($companyId, new \DateTime()));
+
         return $this->render('SkedAppBookingBundle:Booking:list.html.twig', array(
-                'consultants' => $consultants
+                'consultants' => $consultants,
+                'form' => $form->createView(),
+                'companyId' => $companyId
             ));
     }
 
@@ -581,6 +592,51 @@ class BookingController extends Controller
     }
 
     /**
+     *  Get active bookings by Company and/ or Consultant and/ or Date
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxGetBookingsListAction()
+    {
+        $this->get('logger')->info('see list of bookings');
+
+        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) ) {
+            $this->get('logger')->warn('Ajax list bookings, access denied.');
+            throw new AccessDeniedException();
+        }
+
+        if (strtotime($this->getRequest()->get('filterDate')) > 0)
+                $filterDate = new \DateTime($this->getRequest()->get('filterDate'));
+        else
+                $filterDate = new \DateTime();
+
+        $companyId = $this->getRequest()->get('company', 0);
+        $consultantId = $this->getRequest()->get('consultant', 0);
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        $startDate = new \DateTime($filterDate->format('Y-m-d 00:00:00'));
+        $endDate = new \DateTime($filterDate->format('Y-m-d 23:59:59'));
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $startDate, $endDate, $companyId);
+
+        if (is_object($user->getCompany()))
+                $companyId = $user->getCompany()->getId();
+        else
+                $companyId = 0;
+
+        $form = $this->createForm(new BookingMessageType());
+
+        return $this->render('SkedAppBookingBundle:Booking:ajax.list.html.twig', array(
+                'bookings' => $bookings,
+                'filterDate' => $filterDate->format('j F Y'),
+                'print' => true,
+                'form' => $form->createView(),
+            ));
+    }
+
+    /**
      * Make a new booking on the public site
      *
      * @param integer $consultantId
@@ -746,6 +802,7 @@ class BookingController extends Controller
                 'booking_time_end' => $timeSlotEnd->format('H:i'),
                 'booking_consultant' => $consultant->getFullName(),
                 'booking_service' => $service->getName(),
+                'customer' => $user,
             ));
     }
 
@@ -775,6 +832,112 @@ class BookingController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Booking cancellation sucessfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
+    }
+
+    public function messagesAction ()
+    {
+        $this->get('logger')->info('Send messages and/ or delete selected bookings');
+
+        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) ) {
+            $this->get('logger')->warn('Send messages and/ or delete selected bookings, access denied.');
+            throw new AccessDeniedException();
+        }
+
+        $bookingsSelected = $this->getRequest()->get('selectBookings', array());
+        $bookingsCancel = $this->getRequest()->get('cancelBookings', array());
+        $bookingMessage = $this->getRequest()->get('BookingMessage', array('messageText' => ''));
+
+        if ( (count($bookingsSelected) > 0) || (count($bookingsCancel) > 0) ) {
+            //Some Bookings selected or marked for delete
+
+            $countSelectedBookings = 0;
+            $countCancelBookings = 0;
+            $sendAndCancel = array();
+
+            if (count($bookingsSelected) > 0) {
+
+                foreach($bookingsSelected as $bookingId) {
+
+                    $booking = $this->get('booking.manager')->getById($bookingId);
+
+                    if (in_array($bookingId, $bookingsCancel)) {
+                        //Booking must also be cancelled
+
+                        $options = array(
+                          'booking' => $booking,
+                          'messageText' => $bookingMessage['messageText'],
+                        );
+
+                       //send booking message notification emails
+                        $this->get("notification.manager")->messageAndCancelBooking($options);
+
+                        $sendAndCancel[] = $bookingId;
+
+                        $countCancelBookings++;
+
+                    } else {
+
+                        $options = array(
+                          'booking' => $booking,
+                          'messageText' => $bookingMessage['messageText'],
+                          'link' => $this->generateUrl("sked_app_customer_list_bookings", array('id' => $booking->getCustomer()->getId()), true)
+                        );
+
+                       //send booking message notification emails
+                        $this->get("notification.manager")->messageBooking($options);
+
+                    }
+
+                    $countSelectedBookings++;
+
+                }
+
+                if ($countSelectedBookings == 1)
+                    $messageString = sprintf('Sent messages for %s booking. ', $countSelectedBookings);
+                else
+                    $messageString = sprintf('Sent messages for %s bookings. ', $countSelectedBookings);
+
+            }
+
+            if (count($bookingsCancel) > 0) {
+
+                foreach($bookingsSelected as $bookingId) {
+
+                    $booking = $this->get('booking.manager')->getById($bookingId);
+
+                    $this->get('booking.manager')->cancelBooking($booking);
+
+                    if (!in_array($bookingId, $sendAndCancel)) {
+                        //No message was selected, just send cancellation
+                        $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+                    }
+
+                    $countCancelBookings++;
+
+                }
+
+                if ($countCancelBookings == 1)
+                    $messageString .= sprintf('Sent messages for %s cancelled booking. ', $countSelectedBookings);
+                else
+                    $messageString .= sprintf('Sent messages for %s cancelled bookings. ', $countSelectedBookings);
+
+            }
+
+            $this->getRequest()->getSession()->setFlash('success', $messageString);
+
+        } else {
+            //No bookings selected
+            $this->getRequest()->getSession()->setFlash('error', 'Please select at least one booking.');
+        }
+
+        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) {
+
+            $user = $this->get('member.manager')->getLoggedInUser();
+
+            return $this->redirect($this->generateUrl('sked_app_consultant_booking_show', array('id' => $user->getId())));
+        } else {
+            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+        }
     }
 
 }

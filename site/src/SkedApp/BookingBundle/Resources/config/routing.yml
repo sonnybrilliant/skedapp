@@ -48,6 +48,12 @@ sked_app_booking_ajax_get_bookings:
     options:
         expose: true
 
+sked_app_booking_ajax_bookings_list:
+    pattern:  /booking/ajaxGetBookingsList
+    defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookingsList }
+    options:
+        expose: true
+
 sked_app_booking_make:
     pattern:  /booking/make/{companyId}/{consultantId}/{date}/{timeSlotStart}/{serviceIds}
     defaults: { _controller: SkedAppBookingBundle:Booking:make }
@@ -55,3 +61,7 @@ sked_app_booking_make:
 sked_app_booking_made:
     pattern:  /booking/made
     defaults: { _controller: SkedAppBookingBundle:Booking:made }
+
+sked_app_booking_messages:
+    pattern:  /booking/messages
+    defaults: { _controller: SkedAppBookingBundle:Booking:messages }

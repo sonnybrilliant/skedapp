@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\CoreBundle\Entity\Consultant;
 use SkedApp\ConsultantBundle\Form\ConsultantCreateType;
 use SkedApp\ConsultantBundle\Form\ConsultantUpdateType;
+use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\SearchBundle\Form\SearchType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
@@ -176,7 +177,14 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array('consultant' => $consultant));
+        $companyId = $consultant->getCompany()->getId();
+        $consultantId = $consultant->getId();
+
+        $form = $this->createForm(new BookingListFilterType($companyId, new \DateTime()));
+
+        return $this->render(
+                'SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array('consultant' => $consultant, 'form' => $form->createView(), 'companyId' => $companyId)
+                );
     }
 
     /**
