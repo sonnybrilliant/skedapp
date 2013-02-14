@@ -1,0 +1,385 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body {
+	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
+	height: 100%;
+}
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	/*height: 100%;*/
+	margin: 0 auto -61px;
+}
+#push {
+	height: 80px;
+}
+.container {
+	padding-top: 0px;
+}
+.container-fluid {
+	padding-top: 0px;
+}
+.row-fluid .span9 {
+	text-align:right;
+}
+.spacer1 {
+	height: 1em;
+}
+.spacer2 {
+	height: 2em;
+}
+.spacer3 {
+	height: 3em;
+}
+.spacer4 {
+	height: 4em;
+}
+.spacer5 {
+	height: 5em;
+}
+.content-devider {
+	background-color: #959595;
+	height: 10px;
+	border: 1px solid #959595;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	margin-top: -1px;
+	position: relative;
+	z-index: 2;
+}
+.white-bg {
+	background-color: #FFFFFF;
+}
+.light-gray-text {
+	color: #cccccc;
+}
+.space-left {
+	margin-left: 10px;
+}
+.space-right {
+	margin-right: 10px;
+}
+.asterisk {
+	color: #F00;
+}
+/*********************
+Custom Styles
+*********************/
+/*********************
+Navbar Top Styles
+*********************/
+.navbar-inverse .navbar-inner {
+	background-color: #333;
+	background-image: -moz-linear-gradient(top, #333333, #333333);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333333), to(#333333));
+	background-image: -webkit-linear-gradient(top, #333333, #333333);
+	background-image: -o-linear-gradient(top, #333333, #333333);
+	background-image: linear-gradient(to bottom, #333333, #333333);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff333333', endColorstr='#ff333333', GradientType=0);
+	-moz-box-shadow: inset 0px -1px #888888;
+	-webkit-box-shadow: inset 0px -1px #888888;
+	box-shadow: inset 0px -1px #888888;
+}
+.navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
+    background-color: #0394c8;
+    color: #FFFFFF;
+}
+/*********************
+Generic Styles
+*********************/
+.body-main {
+	color: #FFFFFF;
+	background-color: #333333;
+	border: 1px solid #333333;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	position: relative;
+	z-index: 3;
+}
+.rounded-all {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+.rounded-top {
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+}
+.rounded-bottom {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+.body-secondary {
+	color: #333333;
+	background-color: #eeeeee;
+	border: 1px solid #e1e1e1;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+}
+/*********************
+Page Styles
+*********************/
+.logo {
+	padding-left: 1.25em;
+}
+.row-fluid.body-main .span5 {
+	padding-left: 0px;
+	margin-left: 0px;
+}
+.row-fluid.body-main .span12.tabs-img {
+	margin-top: -15px;
+	margin-left: -1px;
+	margin-bottom: -3px;
+	position:relative;
+	z-index: 4;
+}
+.booking-background {
+	margin: 0 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #025b99;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+	background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+	background-image: linear-gradient(top, #02aee4, #0379aa);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+.results-background {
+	margin: 0 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #ff8a00;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #feb80a, #ff8400);
+	background-image: -ms-linear-gradient(top, #feb80a, #ff8400);
+	background-image: -o-linear-gradient(top, #feb80a, #ff8400);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#feb80a), to(#ff8400));
+	background-image: -webkit-linear-gradient(top, #feb80a, #ff8400);
+	background-image: linear-gradient(top, #feb80a, #ff8400);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+.forms-background {
+	margin: -1px 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #025b99;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+	background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+	background-image: linear-gradient(top, #02aee4, #0379aa);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+.booking-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+.results-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+.forms-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+select.span12{
+	-moz-box-shadow: 0px 0px 2px #555555;
+	-webkit-box-shadow: 0px 0px 2px #555555;
+	box-shadow: 0px 0px 2px #555555;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+select.span12:active, select.span12:focus{
+	-moz-box-shadow: 0px 0px 5px #000000;
+	-webkit-box-shadow: 0px 0px 5px #000000;
+	box-shadow: 0px 0px 5px #000000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+input.span12{
+	-moz-box-shadow: 0px 0px 2px #555555;
+	-webkit-box-shadow: 0px 0px 2px #555555;
+	box-shadow: 0px 0px 2px #555555;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+input.span12:active, input.span12:focus{
+	-moz-box-shadow: 0px 0px 5px #000000;
+	-webkit-box-shadow: 0px 0px 5px #000000;
+	box-shadow: 0px 0px 5px #000000;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+.span7 .map-box {
+	padding: 1.25em;
+}
+.span7 .map-box .g-maps {
+	background-color: #ffffff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	height: 280px;
+}
+.social-box {
+	padding-top: 1.25em;
+	text-align: right;
+}
+.hint-box {
+	padding: 1.25em;
+}
+/*******************
+Dashboard Styles
+*******************/
+/*******************
+Dashboard Navigation
+*******************/
+.nav-tabs {
+    border-bottom: 1px solid #888888;
+}
+.nav-tabs > li > a {
+	background-color: #eee;
+	border: 1px solid #eee;
+	-moz-box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
+	-webkit-box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
+	box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #0394c8;
+    border-color: #0394c8 #0394c8 transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #FFFFFF;
+    cursor: default;
+	position: relative;
+	z-index: 4;
+	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+}
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+	border-color: #0394c8;
+	background-color: #0394c8;
+	color: #FFFFFF;
+	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	position: relative;
+	z-index: 4;
+}
+.nav-active {
+	color: #FFFFFF;
+	background-color: #0394c8;
+	border: 1px solid #0394c8;
+	-moz-box-shadow: inset 0px 0px 1px #fff;
+	-webkit-box-shadow: inset 0px 0px 1px #fff;
+	box-shadow: inset 0px 0px 1px #fff;
+	height: 10px;
+	margin-top: -22px;
+	position: relative;
+	z-index: 3;
+}
+.row-fluid.body-secondary {
+	margin-top: -1px;
+	position: relative;
+	z-index:1;
+}
+.row-fluid.body-secondary .span12 {
+	padding: 20px;
+}
+.table-heading {
+	color: #FFFFFF;
+	background-color: #0394c8 !important;
+	-moz-box-shadow: inset 0px 0px 1px #fff;
+	-webkit-box-shadow: inset 0px 0px 1px #fff;
+	box-shadow: inset 0px 0px 1px #fff;
+	font-style: italic;
+}
+/*******************
+Footer Styles
+*******************/
+#footer {
+	background-color: #333333;
+	text-align:center;
+	color: #FFFFFF;
+	height: 60px;
+	-moz-box-shadow: inset 0px 1px #888888;
+	-webkit-box-shadow: inset 0px 1px #888888;
+	box-shadow: inset 0px 1px #888888;
+	border-top: 1px solid #333333;	
+}
+#footer p {
+	margin-top: 20px;
+}

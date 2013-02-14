@@ -23,19 +23,31 @@ class CompanyRepository extends EntityRepository
     {
 
         $defaultOptions = array(
-            'sort' => 'c.name',
+            'searchText' => '',
+            'sort' => 'c.id',
             'direction' => 'asc'
         );
 
         foreach ($options as $key => $values) {
-            if (!$values)
+            if (!$values){
                 $options[$key] = $defaultOptions[$key];
+            }    
         }
 
-        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
-        $objQueuryBuilder->where('c.isDeleted =  :status')->setParameter('status', false);
-        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
-        return $objQueuryBuilder->getQuery()->execute();
+        $qb = $this->createQueryBuilder('c')->select('c');
+        //$qb->where('c.isDeleted =  :status')->setParameter('status', false);
+        
+        // search
+        if ($options['searchText']) {
+            if ($options['searchText'] != "search..") {
+                $qb->andWhere($qb->expr()->orx(
+                        $qb->expr()->like('c.name', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                    ));
+            }
+        }
+        
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
     }
 
 }

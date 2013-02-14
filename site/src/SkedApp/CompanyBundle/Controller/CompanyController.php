@@ -3,37 +3,46 @@
 namespace SkedApp\CompanyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\CoreBundle\Entity\Company;
 use SkedApp\CoreBundle\Entity\CompanyPhotos;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SkedApp\CompanyBundle\Form\CompanyCreateType;
 use SkedApp\CompanyBundle\Form\CompanyUpdateType;
 use SkedApp\CompanyBundle\Form\CompanyPhotosCreateType;
 use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
 
+/**
+ * Service provider controller
+ *
+ * @author Ronald Conco <ronald.conco@creativecloud.co.za>
+ * @package SkedAppCompanyBundle
+ * @subpackage Controller
+ * @version 0.0.1
+ */
 class CompanyController extends Controller
 {
-        /**
-     * list consultants
-     *
-     * @return View
+    /**
+     * List all available agencies
+     * 
+     * @param integer $page
+     * @return Response
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function listAction($page = 1)
     {
+        $this->get('logger')->info('list all service providers');
 
-        $this->get('logger')->info('list service providers');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list service providers, access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
-
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'c.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
+        
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,           
         );
 
         $paginator = $this->get('knp_paginator');
@@ -43,8 +52,8 @@ class CompanyController extends Controller
 
         return $this->render('SkedAppCompanyBundle:Company:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 
