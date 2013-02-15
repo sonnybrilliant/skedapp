@@ -79,8 +79,9 @@
                 {% block menu%}
                 
                 {% endblock menu %}
-
-            {% if error is defined %}
+            
+            {% block alert%}    
+               {% if error is defined %}
                 <div class="spacer2"></div>
                 {% if error %}
                 <div class="alert alert-error">
@@ -88,8 +89,9 @@
                     <h4 class="alert-heading">Warning!</h4>
                     Your username and password are invalid, please try again or contact support.
                 </div>
-                {% endif %}                      
+               {% endif %}                      
             {% endif %}
+            {% endblock alert%}     
             <div class="spacer2"></div>
             {% block body %} 
 

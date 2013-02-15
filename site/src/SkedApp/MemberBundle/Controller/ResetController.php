@@ -3,10 +3,7 @@
 namespace SkedApp\MemberBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use SkedApp\MemberBundle\Form\ResetPasswordType;
 use SkedApp\MemberBundle\Form\PasswordUpdateType;
 
@@ -22,9 +19,9 @@ class ResetController extends Controller
 {
 
     /**
-     * Reset password
-     *
-     * @return Response
+     * Password reset request
+     * 
+     * @return 
      */
     public function resetPasswordAction()
     {
@@ -36,10 +33,12 @@ class ResetController extends Controller
 
         $form = $this->createForm(new ResetPasswordType());
         $request = $this->getRequest();
-
+        
+        
         if ('POST' === $request->getMethod()) {
             $form->bindRequest($request);
             if ($form->isValid()) {
+                
                 $data = $form->getData();
                 $email = $data['email'];
                 $member = $this->container->get('member.manager')->getByEmail($email);
@@ -104,7 +103,8 @@ class ResetController extends Controller
 
     /**
      * Request password reset success
-     * @return Response
+     * 
+     * @return 
      */
     public function resetPasswordSuccessAction($email = null)
     {
@@ -117,8 +117,9 @@ class ResetController extends Controller
 
     /**
      * Check reset token
+     * 
      * @param string $token
-     * @throws AccessDeniedException
+     * 
      */
     public function resetTokenAction($token)
     {
@@ -149,8 +150,7 @@ class ResetController extends Controller
                     $data = $form->getData();
                     $password = $data['password'];
                     $isValid = true;
-
-
+                    
                     if (strlen($password) <= 5) {
                         $isValid = false;
                         $this->getRequest()->getSession()->setFlash('error', 'Password must have at least 6 characters.');
@@ -170,7 +170,6 @@ class ResetController extends Controller
                     }
                 }
             }
-
 
             return $this->render('SkedAppMemberBundle:Reset:reset.password.change.html.twig', array(
                     'form' => $form->createView(),
