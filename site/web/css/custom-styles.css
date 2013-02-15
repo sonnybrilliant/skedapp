@@ -23,6 +23,9 @@ html, body {
 .row-fluid .span9 {
 	text-align:right;
 }
+.align-right {
+	float: right;
+}
 .spacer1 {
 	height: 1em;
 }
@@ -55,14 +58,36 @@ html, body {
 .light-gray-text {
 	color: #cccccc;
 }
+
+.gray-text {
+	color: #666;
+}
+
+.dark-gray-text {
+	color: #333;
+}
+
 .space-left {
 	margin-left: 10px;
 }
 .space-right {
 	margin-right: 10px;
 }
+
+.space-right7 {
+	margin-right: 7px;
+}
 .asterisk {
 	color: #F00;
+}
+
+.greyBackground{
+  background: #ddd;
+}
+
+.whiteBackground{
+  background: #fff;
+  padding: 10px 0 0 0;
 }
 /*********************
 Custom Styles
@@ -94,29 +119,16 @@ Generic Styles
 	color: #FFFFFF;
 	background-color: #333333;
 	border: 1px solid #333333;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	/*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
 	-moz-box-shadow: inset 0px 0px 1px #ffffff;
 	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
 	box-shadow: inset 0px 0px 1px #ffffff;
-	position: relative;
-	z-index: 3;
-}
-.rounded-all {
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-}
-.rounded-top {
-	-webkit-border-top-right-radius: 10px;
-	-moz-border-radius-topright: 10px;
-	border-top-right-radius: 10px;
-	-webkit-border-top-left-radius: 10px;
-	-moz-border-radius-topleft: 10px;
-	border-top-left-radius: 10px;
-}
-.rounded-bottom {
-	-moz-border-radius: 10px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
+	/*Inner elements should not cover inner shadows*/
+	/*Chrome renders inset shadows incorrectly with border-radius*/
+	/*IE 7 AND 8 DO NOT SUPPORT INSET SHADOWS*/
 }
 .body-secondary {
 	color: #333333;
@@ -127,7 +139,7 @@ Generic Styles
 	box-shadow: inset 0px 0px 1px #ffffff;
 }
 /*********************
-Page Styles
+Home Page Styles
 *********************/
 .logo {
 	padding-left: 1.25em;
@@ -141,7 +153,7 @@ Page Styles
 	margin-left: -1px;
 	margin-bottom: -3px;
 	position:relative;
-	z-index: 4;
+	z-index: 2;
 }
 .booking-background {
 	margin: 0 0 -1px -1px;
@@ -170,36 +182,7 @@ Page Styles
 	background-clip: padding-box;
 	position:relative;
 	padding: 1.25em;
-	z-index: 3;
-}
-.results-background {
-	margin: 0 0 -1px -1px;
-	padding: 0;
-	background-color: #ffffff;
-	border: 1px solid #ff8a00;
-	-webkit-border-top-right-radius: 10px;
-	-moz-border-radius-topright: 10px;
-	border-top-right-radius: 10px;
-	-webkit-border-top-left-radius: 10px;
-	-moz-border-radius-topleft: 10px;
-	border-top-left-radius: 10px;
-	-moz-box-shadow: inset 0px 0px 1px #ffffff;
-	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
-	box-shadow: inset 0px 0px 1px #ffffff;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
-	background-image: -moz-linear-gradient(top, #feb80a, #ff8400);
-	background-image: -ms-linear-gradient(top, #feb80a, #ff8400);
-	background-image: -o-linear-gradient(top, #feb80a, #ff8400);
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#feb80a), to(#ff8400));
-	background-image: -webkit-linear-gradient(top, #feb80a, #ff8400);
-	background-image: linear-gradient(top, #feb80a, #ff8400);
-	-moz-background-clip: padding;
-	-webkit-background-clip: padding-box;
-	background-clip: padding-box;
-	position:relative;
-	padding: 1.25em;
-	z-index: 3;
+	z-index: 1;
 }
 .forms-background {
 	margin: -1px 0 -1px -1px;
@@ -228,14 +211,40 @@ Page Styles
 	background-clip: padding-box;
 	position:relative;
 	padding: 1.25em;
-	z-index: 3;
+	z-index: 1;
 }
+
+.forms-background-orange {
+	margin: -1px 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #ff8a00;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#feb80a', endColorstr = '#ff8901');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#feb80a', endColorstr = '#ff8901')";
+	background-image: -moz-linear-gradient(top, #feb80a, #ff8901);
+	background-image: -ms-linear-gradient(top, #feb80a, #ff8901);
+	background-image: -o-linear-gradient(top, #feb80a, #ff8901);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#feb80a), to(#ff8901));
+	background-image: -webkit-linear-gradient(top, #feb80a, #ff8901);
+	background-image: linear-gradient(top, #feb80a, #ff8901);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 1;
+}
+
 .booking-background form label {
-	color: #FFFFFF;
-	font-size: 1.5em;
-	line-height: 1.5em;
-}
-.results-background form label {
 	color: #FFFFFF;
 	font-size: 1.5em;
 	line-height: 1.5em;
@@ -249,14 +258,7 @@ select.span12{
 	-moz-box-shadow: 0px 0px 2px #555555;
 	-webkit-box-shadow: 0px 0px 2px #555555;
 	box-shadow: 0px 0px 2px #555555;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
-select.span12:active, select.span12:focus{
-	-moz-box-shadow: 0px 0px 5px #000000;
-	-webkit-box-shadow: 0px 0px 5px #000000;
-	box-shadow: 0px 0px 5px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -265,14 +267,7 @@ input.span12{
 	-moz-box-shadow: 0px 0px 2px #555555;
 	-webkit-box-shadow: 0px 0px 2px #555555;
 	box-shadow: 0px 0px 2px #555555;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
-}
-input.span12:active, input.span12:focus{
-	-moz-box-shadow: 0px 0px 5px #000000;
-	-webkit-box-shadow: 0px 0px 5px #000000;
-	box-shadow: 0px 0px 5px #000000;
+	/*IE 7 AND 8 DO NOT SUPPORT BLUR PROPERTY OF SHADOWS*/
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -367,6 +362,66 @@ Dashboard Navigation
 	box-shadow: inset 0px 0px 1px #fff;
 	font-style: italic;
 }
+
+.row-fluid.body-main-orange .span12.tabs-img {
+  margin-top: -15px;
+  margin-left: -1px;
+  margin-bottom: -3px;
+  position:relative;
+  z-index: 2;
+}
+.row-fluid.body-main-orange .span5 {
+  margin: 0 0 -1px -1px;
+  padding: 0;
+  background-color: #ffffff;
+  border: 1px solid #ff8a00;
+  -webkit-border-bottom-left-radius: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  border-bottom-left-radius: 0px;
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+  /*IE 7 AND 8 DO NOT SUPPORT BORDER RADIUS*/
+  -moz-box-shadow: inset 0px 0px 1px #ffffff;
+  -webkit-box-shadow: inset 0px 0px 1px #ffffff;
+  box-shadow: inset 0px 0px 1px #ffffff;
+  /*Inner elements should not cover inner shadows*/
+  /*Chrome renders inset shadows incorrectly with border-radius*/
+  /*IE 7 AND 8 DO NOT SUPPORT INSET SHADOWS*/
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#feb80a', endColorstr = '#ff8901');
+  /*INNER ELEMENTS MUST NOT BREAK THIS ELEMENTS BOUNDARIES*/
+  /*Element must have a height (not auto)*/
+  /*All filters must be placed together*/
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#feb80a', endColorstr = '#ff8901')";
+  /*Element must have a height (not auto)*/
+  /*All filters must be placed together*/
+  background-image: -moz-linear-gradient(top, #feb80a, #ff8901);
+  background-image: -ms-linear-gradient(top, #feb80a, #ff8901);
+  background-image: -o-linear-gradient(top, #feb80a, #ff8901);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#feb80a), to(#ff8901));
+  background-image: -webkit-linear-gradient(top, #feb80a, #ff8901);
+  background-image: linear-gradient(top, #feb80a, #ff8901);
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  /*Use "background-clip: padding-box" when using rounded corners to avoid the gradient bleeding through the corners*/
+  /*--IE9 WILL PLACE THE FILTER ON TOP OF THE ROUNDED CORNERS--*/
+  position:relative;
+  z-index: 1;
+}
+
+.row-fluid.body-main .span5 {
+	padding-left: 0px;
+	margin-left: 0px;
+}
+.row-fluid.body-main .span12.tabs-img {
+	margin-top: -15px;
+	margin-left: -1px;
+	margin-bottom: -3px;
+	position:relative;
+	z-index: 2;
+}
+
 /*******************
 Footer Styles
 *******************/
