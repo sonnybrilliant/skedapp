@@ -94,6 +94,7 @@ class BookingCreateType extends AbstractType
                 'label' => 'Customer:',
                 'empty_value' => 'Select a customer',
                 'attr' => array('class' => 'span4 chosen'),
+                'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
