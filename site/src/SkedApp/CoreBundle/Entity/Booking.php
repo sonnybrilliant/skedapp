@@ -749,4 +749,20 @@ class Booking
         return '';
     }
 
+    /**
+     * Get Consultant link to customer or to customer potential
+     *
+     * @return boolean
+     */
+    public function getCustomerOrNot ()
+    {
+        if ($this->getId() <= 0)
+            return null;
+
+        if (is_object($this->getCustomer()))
+                return true;
+        else
+                return false;
+    }
+
 }

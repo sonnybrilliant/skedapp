@@ -89,6 +89,12 @@ class BookingCreateType extends AbstractType
                     }
                 },
             ))
+            ->add('customerOrNot', 'choice', array(
+                'label' => 'Please select:',
+                'required' => true,
+                'expanded' => true,
+                'choices' => array(true => 'Link an existing customer', false => 'Add customer details'),
+            ))
             ->add('customer', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Customer',
                 'label' => 'Customer:',
