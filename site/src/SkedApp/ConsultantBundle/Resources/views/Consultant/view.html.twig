@@ -149,6 +149,16 @@
                                 {{ company.address }}
                             </p>
 
+                            <p>
+                                <strong>Other Consultants Available</strong>: <br />
+                                {% for consultant in otherConsultants %}
+                                    {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
+                                    <div style="clear: both;"></div>
+                                {% else %}
+                                    <p>No other consultants found</p>
+                                {% endfor %}
+                            </p>
+
                         </div>
                         <div class="tab-pane" id="tab3">
 
