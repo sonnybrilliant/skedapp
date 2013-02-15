@@ -842,6 +842,7 @@ class BookingController extends Controller
         $bookingsSelected = $this->getRequest()->get('selectBookings', array());
         $bookingsCancel = $this->getRequest()->get('cancelBookings', array());
         $bookingMessage = $this->getRequest()->get('BookingMessage', array('messageText' => ''));
+        $messageString = '';
 
         if ( (count($bookingsSelected) > 0) || (count($bookingsCancel) > 0) ) {
             //Some Bookings selected or marked for delete
