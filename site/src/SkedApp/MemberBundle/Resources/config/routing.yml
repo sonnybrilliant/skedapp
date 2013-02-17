@@ -1,6 +1,15 @@
-sked_app_member_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: SkedAppMemberBundle:Default:index }
+sked_app_member_list:
+    pattern:  /member/list
+    defaults: { _controller: SkedAppMemberBundle:Member:list }
+    requirements:
+        _method: GET    
+    
+sked_app_member_new:
+    pattern:  /member/new
+    defaults: { _controller: SkedAppMemberBundle:Member:new }
+    requirements:
+        _method: GET    
+  
 
 sked_app_member_reset:
     pattern:  /reset/password

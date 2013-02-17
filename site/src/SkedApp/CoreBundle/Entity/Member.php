@@ -849,6 +849,11 @@ class Member implements AdvancedUserInterface , \Serializable
         return $this->enabled;
     }
 
+    public function isAdmin()
+    {
+        return $this->isAdmin;
+    }
+    
     /**
      * Get full name of member
      *

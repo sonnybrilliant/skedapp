@@ -66,9 +66,79 @@ class ResetControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($client->getResponse()->isSuccessful());
 
-        $this->assertEquals(1, $crawler->filter('html:contains("Unable to check the captcha from the server")')->count());
+        $this->assertEquals(1, $crawler->filter('html:contains("The captcha is not valid")')->count());
+    }
+    
+    /**
+     * test reset password invalid post
+     */
+    public function testInvalidEmailSubmit()
+    {
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+
+        $crawler = $client->request('GET', '/reset/password');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //check if words are available on the page
+        $this->assertEquals(1, $crawler->filter('title:contains("Reset password")')->count());
+
+        // select the login form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form with valid credentials
+        $crawler = $client->submit(
+            $form, array(
+            'ResetPassword[email]' => 'ronald.conco@sulehosting.co.za',
+            'recaptcha_response_field' => '15551'     
+            )
+        );
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $this->assertEquals(1, $crawler->filter('html:contains("We couldn\'t find an account associated with ")')->count());
     }
 
+    /**
+     * test reset password invalid post
+     */
+    public function testValidSubmit()
+    {
+        $client = static::createClient();
+        $client->followRedirects(true);
+
+
+        $crawler = $client->request('GET', '/reset/password');
+
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        //check if words are available on the page
+        $this->assertEquals(1, $crawler->filter('title:contains("Reset password")')->count());
+
+        // select the login form
+        $form = $crawler->selectButton('submit')->form();
+
+        // submit the form with valid credentials
+        $crawler = $client->submit(
+            $form, array(
+            'ResetPassword[email]' => 'ronald.conco@creativecloud.co.za',
+            'recaptcha_response_field' => '15551'     
+            )
+        );
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        
+        $this->assertEquals(1, $crawler->filter('title:contains("Please check your email")')->count());
+    }   
+    
     /**
      * test invalid token submit
      */
@@ -86,6 +156,7 @@ class ResetControllerTest extends WebTestCase
 
         //check if words are available on the page
         $this->assertEquals(1, $crawler->filter('title:contains("Please check your email")')->count());
+        
     }
 
 }

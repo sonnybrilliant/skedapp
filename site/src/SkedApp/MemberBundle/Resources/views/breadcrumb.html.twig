@@ -1,0 +1,15 @@
+
+<ul class="breadcrumb">
+    <li>
+        <a href="{{ path('_welcome')}}">Home</a> <span class="divider">/</span>
+    </li>
+    <li class="active">
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('sked_app_member_list')}}">Members</a> <span class="divider">/</span>
+        {% else %}
+        List<span class="divider">/</span>
+        {% endif %}
+    </li>
+    <li class="active">{{ action }}</li>
+</ul>
+

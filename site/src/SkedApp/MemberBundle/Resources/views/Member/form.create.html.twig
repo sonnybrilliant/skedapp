@@ -1,0 +1,89 @@
+<form class="form-horizontal" action="{{ path('sked_app_consultant_create') }}" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <legend><span class="label label-info">Info</span> <small>Personal details.</small></legend>
+      <div class="control-group {% if form_errors(form.company) %} error {% endif %}">
+        <label class="control-label" for="company">{{ form_label(form.company) }}</label>
+        <div class="controls">
+          {{ form_widget(form.company) }} 
+          <span class="help-inline">{{form_errors(form.company)}}</span>  
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.title) %} error {% endif %}">
+        <label class="control-label" for="gender">{{ form_label(form.title) }}</label>
+        <div class="controls">
+          {{ form_widget(form.title) }} 
+          <span class="help-inline">{{form_errors(form.title)}}</span>  
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
+        <label class="control-label" for="gender">{{ form_label(form.gender) }}</label>
+        <div class="controls">
+          {{ form_widget(form.gender) }} 
+          <span class="help-inline">{{form_errors(form.gender)}}</span>  
+        </div>
+      </div>      
+      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
+        <label class="control-label" for="first_name">{{ form_label(form.firstName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.firstName) }} 
+          <span class="help-inline">{{form_errors(form.firstName)}}</span>  
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
+        <label class="control-label" for="last_name">{{ form_label(form.lastName) }}</label>
+        <div class="controls">
+          {{ form_widget(form.lastName) }} 
+          <span class="help-inline">{{form_errors(form.lastName)}}</span>  
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
+        <label class="control-label" for="mobile_number">{{ form_label(form.mobileNumber) }}</label>
+        <div class="controls">
+          {{ form_widget(form.mobileNumber) }} 
+          <span class="help-inline">{{form_errors(form.mobileNumber)}}</span>  
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.email.first) %} error {% endif %}">
+        <label class="control-label" for="email_address">{{ form_label(form.email.first) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email.first) }} 
+           <span class="help-inline">{{form_errors(form.email.first)}}</span>
+        </div>
+      </div>       
+      <div class="control-group {% if form_errors(form.email.second) %} error {% endif %}">
+        <label class="control-label" for="confirm_email_address">{{ form_label(form.email.second) }}</label>
+        <div class="controls">
+          {{ form_widget(form.email.second) }} 
+           <span class="help-inline">{{form_errors(form.email.second)}}</span>
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.password.first) %} error {% endif %}">
+        <label class="control-label" for="password_first">{{ form_label(form.password.first) }}</label>
+        <div class="controls">
+          {{ form_widget(form.password.first) }} 
+           <span class="help-inline">{{form_errors(form.password.first)}}</span>
+        </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.password.second) %} error {% endif %}">
+        <label class="control-label" for="password_second">{{ form_label(form.password.second) }}</label>
+        <div class="controls">
+          {{ form_widget(form.password.second) }} 
+           <span class="help-inline">{{form_errors(form.password.second)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.group) %} error {% endif %}">
+        <label class="control-label" for="group">{{ form_label(form.group) }}</label>
+        <div class="controls">
+          {{ form_widget(form.group) }} 
+           <span class="help-inline">{{form_errors(form.group)}}</span>
+        </div>
+      </div>       
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('sked_app_consultant_list') }}" class="btn">Cancel</a>
+      </div> 
+      {{ form_rest(form) }} 
+  </fieldset>
+</form>
+{{ tinymce_init() }}
+     

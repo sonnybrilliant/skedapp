@@ -3,37 +3,49 @@
 namespace SkedApp\CompanyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\CoreBundle\Entity\Company;
 use SkedApp\CoreBundle\Entity\CompanyPhotos;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use SkedApp\CompanyBundle\Form\CompanyCreateType;
 use SkedApp\CompanyBundle\Form\CompanyUpdateType;
 use SkedApp\CompanyBundle\Form\CompanyPhotosCreateType;
 use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
+use Ivory\GoogleMap\Overlays\Animation;
+use Ivory\GoogleMap\MapTypeId;
+use Ivory\GoogleMap\Events\MouseEvent;
 
+/**
+ * Service provider controllerh
+ *
+ * @author Ronald Conco <ronald.conco@creativecloud.co.za>
+ * @package SkedAppCompanyBundle
+ * @subpackage Controller
+ * @version 0.0.1
+ */
 class CompanyController extends Controller
 {
-        /**
-     * list consultants
-     *
-     * @return View
+    /**
+     * List all available agencies
+     * 
+     * @param integer $page
+     * @return Response
      * @throws AccessDeniedException
+     * 
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function listAction($page = 1)
     {
+        $this->get('logger')->info('list all service providers');
 
-        $this->get('logger')->info('list service providers');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list service providers, access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
-
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'c.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
+        
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,           
         );
 
         $paginator = $this->get('knp_paginator');
@@ -43,8 +55,8 @@ class CompanyController extends Controller
 
         return $this->render('SkedAppCompanyBundle:Company:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 
@@ -120,8 +132,75 @@ class CompanyController extends Controller
             $this->get('logger')->warn("service provider not found $id");
             return $this->createNotFoundException();
         }
+        
+        $infoWindow = $this->get('ivory_google_map.info_window');
 
-        return $this->render('SkedAppCompanyBundle:Company:show.html.twig', array('company' => $company));
+        // Configure your info window options
+        $infoWindow->setPrefixJavascriptVariable('info_window_');
+        $infoWindow->setPosition(0, 0, true);
+        $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
+        $infoWindow->setContent('<p>Zeus offices<br/><small>Telphone: </p>');
+        $infoWindow->setOpen(false);
+        $infoWindow->setAutoOpen(true);
+        $infoWindow->setOpenEvent(MouseEvent::CLICK);
+        $infoWindow->setAutoClose(false);
+        $infoWindow->setOption('disableAutoPan', true);
+        $infoWindow->setOption('zIndex', 10);
+        $infoWindow->setOptions(array(
+            'disableAutoPan' => true,
+            'zIndex' => 10
+        ));
+        
+        
+        
+        $marker = $this->get('ivory_google_map.marker');
+        
+       
+        // Configure your marker options
+        $marker->setPrefixJavascriptVariable('marker_');
+        $marker->setPosition($company->getLat(), $company->getLng(),true);
+        $marker->setAnimation(Animation::DROP);
+        $marker->setOptions(array(
+            'clickable' => true,
+            'flat' => true
+        ));
+        $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
+        $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
+        
+        $map = $this->get('ivory_google_map.map');
+        // Configure your map options
+        $map->setPrefixJavascriptVariable('map_');
+        $map->setHtmlContainerId('map_canvas');
+
+        $map->setAsync(false);
+
+        $map->setAutoZoom(false);
+
+        $map->setCenter($company->getLat(), $company->getLng(), true);
+        $map->setMapOption('zoom', 16);
+
+        $map->setBound(0, 0, 0, 0, false, false);
+
+        // Sets your map type
+        $map->setMapOption('mapTypeId', MapTypeId::ROADMAP);
+        $map->setMapOption('mapTypeId', 'roadmap');
+
+        $map->setMapOption('disableDefaultUI', false);
+        $map->setMapOption('disableDoubleClickZoom', false);
+        $map->setStylesheetOptions(array(
+            'width' => '100%',
+            'height' => '300px'
+        ));
+
+        $map->setLanguage('en');
+        
+        
+        $map->addMarker($marker);
+        $marker->setInfoWindow($infoWindow);
+        return $this->render('SkedAppCompanyBundle:Company:show.html.twig', array(
+            'company' => $company,
+            'map'=>$map
+        ));
 
     }
 

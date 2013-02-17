@@ -1,8 +1,11 @@
 {% extends "::base.html.twig" %}
 
+{% block menu %}
+      {% set vars = {'controller': 'service_provider'} %}
+      {% include "::menu.html.twig" with vars  %}     
+{% endblock %}
+
 {% block body %}
-   {% block menu %}
-   {% endblock menu %}
    {% block content %}
    {% endblock content %}
 {% endblock body %}
