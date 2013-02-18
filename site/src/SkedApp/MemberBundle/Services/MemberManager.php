@@ -90,6 +90,8 @@ final class MemberManager
      */
     public function getById($id)
     {
+        $this->getLogger()->info("get member by id:".$id);
+        
         $member = $this->em->getRepository('SkedAppCoreBundle:Member')
             ->find($id);
 
@@ -109,6 +111,12 @@ final class MemberManager
      */
     public function listAll($options = array())
     {
+        $this->getLogger()->info("list all members");
+        
+        $user = $this->getLoggedInUser();
+        
+        $options['user'] = $user;
+        
         return $this->em
                 ->getRepository('SkedAppCoreBundle:Member')
                 ->getAllMembersQuery($options);

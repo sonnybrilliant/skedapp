@@ -37,11 +37,14 @@ class ConsultantController extends Controller
 
         $this->get('logger')->info('list consultants');
 
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
-
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'c.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
+        
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,           
         );
 
         $paginator = $this->get('knp_paginator');
@@ -51,8 +54,8 @@ class ConsultantController extends Controller
 
         return $this->render('SkedAppConsultantBundle:Consultant:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 

@@ -1,0 +1,96 @@
+{% extends "SkedAppCompanyBundle::layout.html.twig" %}
+{% block title %}Edit company{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('/css/googlemap.css') }}" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block jquery_ui %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+{% endblock jquery_ui %}
+
+{% block body %}
+    {% block menu %}
+    <div class="span3 bs-docs-sidenav">
+       {% include "::menu.html.twig" %}
+    </div>
+    {% endblock menu %}
+    {% block content %}
+    <div class="span9">
+        <h3>Edit service provider</h3>
+        <div class="span9" style="margin-left: -15px">
+           {% set vars = {'action': 'Edit'} %}
+           {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
+                    <li><a href="#tab2" data-toggle="tab">Photos</a></li>
+                </ul>
+                <div class="tab-content">
+                   <div class="tab-pane active" id="tab1">
+
+                    {#start form display===============================#}
+                        {% include "SkedAppCompanyBundle:Company:form.edit.html.twig" %}
+                    {#end form display===============================#}
+
+                   </div>
+                   <div class="tab-pane" id="tab2">
+                      <h4>Manage service provider photos</h4>
+                      <br />
+
+                      {% include "SkedAppCompanyBundle:CompanyPhotos:form.create.html.twig" %}
+
+                      {% include "SkedAppCompanyBundle:CompanyPhotos:list.table.html.twig" %}
+
+                   </div>
+               </div>
+        </div>
+    </div>
+
+    {% endblock content %}
+       
+<script type="text/javascript">
+$(document).ready(function() {
+    if (blnAddress) {
+        var addresspickerMap = $( "#Company_address" ).addresspicker({
+            regionBias: "za",
+            mapOptions: {
+                zoom: 10
+            },
+            elements: {
+                map:      "#map",
+                lat:      "#Company_lat",
+                lng:      "#Company_lng",
+                locality: '#Company_locality',
+                //		    administrative_area_level_2: '#administrative_area_level_2',
+                //		    administrative_area_level_1: '#administrative_area_level_1',
+                country:  '#Company_country'
+            //		    postal_code: '#postal_code',
+            //        type:    '#type'
+            }
+        });
+
+        var gmarker = addresspickerMap.addresspicker( "marker");
+        gmarker.setVisible(true);
+
+        var image = new google.maps.MarkerImage("http://maps.google.com/mapfiles/marker.png",
+            // This marker is 20 pixels wide by 34 pixels tall.
+            new google.maps.Size(20, 34)
+            );
+
+        gmarker.setIcon (image);
+        addresspickerMap.addresspicker( "updatePosition");
+    }
+
+
+});
+</script>
+{% endblock body %}

@@ -31,9 +31,9 @@ class PasswordUpdateType extends AbstractType
           'attr'=> array('placeholder' => 'password'),
           'type' => 'password' ,
           'first_name' => 'first' ,
-          'first_options'  => array('label' => 'New password:'),
+          'first_options'  => array('label' => 'New password:', 'attr' => array('class'=>'span12')),
           'second_name' => 'second' ,
-          'second_options' => array('label' => 'Confirm new password:'),
+          'second_options' => array('label' => 'Confirm new password:' ,'attr' => array('class'=>'span12')),
           'invalid_message' =>'Passwords do not match' ,
         ));
     }

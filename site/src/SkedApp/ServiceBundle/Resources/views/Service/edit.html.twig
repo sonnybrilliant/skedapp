@@ -1,27 +1,22 @@
 {% extends "SkedAppServiceBundle::layout.html.twig" %}
 {% block title %}Edit service{% endblock %}
 
+
 {% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-    </div>       
-    {% endblock menu %}    
-    {% block content %}
-     <div class="span9">
+<div class="row-fluid body-secondary">
+    <div class="span5">
+        <div class="dash-forms-background">
         <h3>Edit service</h3>
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Edit'} %}
-           {% include 'SkedAppServiceBundle::breadcrumb.html.twig' with vars  %}
+        {% include "SkedAppServiceBundle:Service:form.edit.html.twig" %}
         </div>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-        {#start form display===============================#}
-            {% include "SkedAppServiceBundle:Service:form.edit.html.twig" %}
-        {#end form display===============================#}
-        </div>        
-     </div>  
-    {% endblock content %}   
+    </div>
+    <div class="span7">
+        <div class="map-box">
+                <h3><span class="asterisk">*</span>Hint</h3>
+            Remember to validate your email as soon as you have submitted the form.
+            <div class="spacer1"></div>
+                <div class="g-maps"></div> <!-- Temp Map -->
+        </div> <!-- End map-box -->
+    </div>
+ </div>	 
 {% endblock body %}

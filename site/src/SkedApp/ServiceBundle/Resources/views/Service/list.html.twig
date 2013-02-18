@@ -1,28 +1,25 @@
 {% extends "SkedAppServiceBundle::layout.html.twig" %}
-{% block title %}List services{% endblock %}
+{% block title %}Manage services{% endblock %}
 
 {% block body %}
-    {% block menu %}
-     <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-     </div>       
-    {% endblock menu %}    
-    {% block content %}
-    <div class="span9">
+<div class="row-fluid body-secondary">
+    <div class="span12">
         <h3>Manage services</h3>
-        <div class="span5" style="margin-left: -15px">
-           {% set vars = {'action': 'List'} %}
-           {% include 'SkedAppServiceBundle::breadcrumb.html.twig' with vars  %}
-        </div>
-        <div class="span3 pull-right">
-            <span><a href="{{ path('sked_app_service_new') }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-plus-sign"></i> Add Service</a></span>
-        </div>  
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-            {% include "SkedAppServiceBundle:Service:list.table.html.twig" %}
-        </div>        
-    </div>  
-    {% endblock content %}   
+        <div class="span5">
+            {% set vars = {'action': 'List'} %}
+            {% include 'SkedAppServiceBundle::breadcrumb.html.twig' with vars  %}
+            </div>
+            <div style="width: 28.718%;" class="span6 pull-right">
+                <a href="{{ path('sked_app_service_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add service</strong></a>
+                <form class="form-inline pull-right">
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-search" ></i></span>
+                        <input style="border-radius: 0;" name="searchText" title="search" type="text" value="" placeholder="search" class="input-small search" />
+                        <input style="height: 30px; border-radius: 0 4px 4px 0;" type="submit" value="GO!" class="btn btn-warning search-button" />
+                    </div>
+                </form>
+            </div>
+        {% include "SkedAppServiceBundle:Service:list.table.html.twig" %} 
+    </div> <!-- Dashboard Content --> 
+</div> 
 {% endblock body %}

@@ -30,7 +30,7 @@ class ResetPasswordType extends AbstractType
         $builder
             ->add('email', 'email', array(
                 'label' => 'Email address:',
-                'attr' => array('class' => 'span3')
+                'attr' => array('class' => 'span12')
             ))
             ->add('captcha', 'genemu_recaptcha')
         ;

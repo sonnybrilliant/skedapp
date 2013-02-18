@@ -57,5 +57,15 @@ class SecurityController extends Controller
           'csrf_token' => $csrf,
         ));
     }
+    
+    /**
+     * Show permission denied screen
+     * 
+     * @return View
+     */
+    public function accessDeniedAction()
+    {
+        return $this->render('SkedAppCoreBundle:Security:permission.html.twig');
+    }
 
 }

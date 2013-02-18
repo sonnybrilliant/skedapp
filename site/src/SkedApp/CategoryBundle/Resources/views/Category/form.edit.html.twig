@@ -1,26 +1,20 @@
-<form class="form-horizontal" action="{{ path('sked_app_category_update' , { id:id}) }}" method="POST" {{ form_enctype(form) }}>
-  <fieldset>
-      <legend><span class="label label-info">Info</span> <small>Edit category details</small></legend>
-      <div class="control-group {% if form_errors(form.name) %} error {% endif %}">
-        <label class="control-label" for="name">{{ form_label(form.name) }}</label>
-        <div class="controls">
-          {{ form_widget(form.name) }} 
-          <span class="help-inline">{{form_errors(form.name)}}</span>  
-        </div>
-      </div>      
-      <div class="control-group {% if form_errors(form.description) %} error {% endif %}">
-        <label class="control-label" for="description">{{ form_label(form.description) }}</label>
-        <div class="controls">
-          {{ form_widget(form.description) }} 
-          <span class="help-inline">{{form_errors(form.description)}}</span>  
-        </div>
-      </div>      
-      <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('sked_app_category_list') }}" class="btn">Cancel</a>
-      </div> 
-      {{ form_rest(form) }} 
-  </fieldset>
+<form action="{{ path('sked_app_category_update' , { id:id}) }}" method="POST" {{ form_enctype(form) }}>
+    <fieldset>
+      <label for="name">{{ form_label(form.name) }}</label>
+      {{ form_widget(form.name) }} 
+      <span class="help-inline">{{form_errors(form.name)}}</span>
+      <label for="description">{{ form_label(form.description) }}</label>
+      {{ form_widget(form.description) }} 
+      <span class="help-inline">{{form_errors(form.description)}}</span>   
+      <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+              <button class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
+          </div>
+                                  <div class="btn-group">
+                  <a href="{{ path('sked_app_category_list') }}" class="btn">Cancel</a>
+          </div>
+      </div>
+    </fieldset>
+{{ form_rest(form) }} 
 </form>
 {{ tinymce_init() }}
-     
