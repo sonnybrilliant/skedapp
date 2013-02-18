@@ -29,16 +29,14 @@ class CategoryController extends Controller
     {
         $this->get('logger')->info('list categories');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list categories, access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
-
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'c.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
+        
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,           
         );
 
 
@@ -49,8 +47,8 @@ class CategoryController extends Controller
 
         return $this->render('SkedAppCategoryBundle:Category:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 

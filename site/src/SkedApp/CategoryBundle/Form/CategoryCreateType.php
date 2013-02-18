@@ -31,7 +31,7 @@ class CategoryCreateType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label' => 'Name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12 input-small')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
@@ -41,7 +41,7 @@ class CategoryCreateType extends AbstractType
             ->add('picture', 'file', array(
                 'label' => 'Category image:',
                 'required'      => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12 input-small')
             ))
 
         ;

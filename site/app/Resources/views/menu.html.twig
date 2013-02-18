@@ -5,8 +5,15 @@
                 <li class="active"><a href="{{ path('sked_app_company_list') }}" title="list service providers">Service Providers</a></li>
             {% else %}
                 <li><a href="{{ path('sked_app_company_list') }}" title="list service providers">Service Providers</a></li>
+            {% endif %}  
+                
+            {% if controller == 'categories'%}
+                <li class="active"><a href="{{ path('sked_app_category_list')}}" title="list categories">Categories</a></li>
+            {% else %}    
+                <li><a href="{{ path('sked_app_category_list')}}" title="list categories">Categories</a></li>
             {% endif %}    
-        <li><a href="#">Categories</a></li>
+                
+        
         <li><a href="#">Services</a></li>
         <li><a href="#">Consultants</a></li>
         <li><a href="#">Customers</a></li>
