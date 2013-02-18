@@ -73,19 +73,13 @@ class BookingController extends Controller
         if (!isset ($bookingValues['appointmentDate']))
           $bookingValues['appointmentDate'] = date('Y-m-d');
 
-        if (!isset ($bookingValues['startTimeslot']))
-          $booking->setStartTimeslot(new Timeslots(''));
-        else
+        if (isset ($bookingValues['startTimeslot']))
           $booking->setStartTimeslot($this->get('timeslots.manager')->getById($bookingValues['startTimeslot']));
 
-        if (!isset ($bookingValues['endTimeslot']))
-          $booking->setEndTimeslot(new Timeslots(''));
-        else
+        if (isset ($bookingValues['endTimeslot']))
           $booking->setEndTimeslot($this->get('timeslots.manager')->getById($bookingValues['endTimeslot']));
 
-        if (!isset ($bookingValues['consultant']))
-          $booking->setConsultant(new Consultant());
-        else
+        if (isset ($bookingValues['consultant']))
           $booking->setConsultant($this->get('consultant.manager')->getById($bookingValues['consultant']));
 
         $form = $this->createForm(new BookingCreateType(
@@ -152,12 +146,14 @@ class BookingController extends Controller
                         'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                    if ($booking->getIsConfirmed()) {
-                        //send booking confirmation emails
-                        $this->get("notification.manager")->confirmationBooking($options);
-                    } else {
-                        //send booking created notification emails
-                        $this->get("notification.manager")->createdByCompanyBooking($options);
+                    if (is_object($booking->getCustomer())) {
+                        if ($booking->getIsConfirmed()) {
+                            //send booking confirmation emails
+                            $this->get("notification.manager")->confirmationBooking($options);
+                        } else {
+                            //send booking created notification emails
+                            $this->get("notification.manager")->createdByCompanyBooking($options);
+                        }
                     }
 
                     return $this->redirect($this->generateUrl('sked_app_booking_manager'));
@@ -846,6 +842,7 @@ class BookingController extends Controller
         $bookingsSelected = $this->getRequest()->get('selectBookings', array());
         $bookingsCancel = $this->getRequest()->get('cancelBookings', array());
         $bookingMessage = $this->getRequest()->get('BookingMessage', array('messageText' => ''));
+        $messageString = '';
 
         if ( (count($bookingsSelected) > 0) || (count($bookingsCancel) > 0) ) {
             //Some Bookings selected or marked for delete
