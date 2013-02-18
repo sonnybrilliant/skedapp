@@ -38,20 +38,23 @@
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <ul class="nav pull-right">
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>    
+                                        <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>   
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}   
-                                        <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>    
+                                        <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_USER') %}   
                                         <li><a href="{{ path("sked_app_consultant_show", {'id': app.user.id }) }}" title="View your calender">Bookings</a></li>    
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_SITE_USER') %}   
                                         <li><a href="{{ path("sked_app_customer_list_bookings", {'id':app.user.id }) }}" title="View my bookings">Bookings</a></li>    
-                                        <li><a href="#">Make a Booking</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% endif %}  
                                     <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
                                 </ul>
                                 {% else %}    
                                 <ul class="nav pull-right">
-                                    <li class="active"><a href="#">Make a Booking</a></li>
+                                    <li class="active"><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% if booking_attempt is defined %}
                                         <li><a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}" title="Register an account">Register an Account</a></li>
                                     {% else %}
@@ -70,7 +73,7 @@
                 
                 <div class="row-fluid">
                     <div class="span3">
-                        <a href="#" class="logo"><img src="{{ asset('/img/skedapp-logo.png') }}" width="172" height="130" alt="SkedApp" title="SkedApp" /></a>
+                        <a href="{{ path('_welcome')}}" class="logo"><img src="{{ asset('/img/skedapp-logo.png') }}" width="172" height="130" alt="SkedApp" title="SkedApp" /></a>
                     </div>
                     <div class="span9">
                         <h3>Search, Locate and Schedule services in your area.</h3>
