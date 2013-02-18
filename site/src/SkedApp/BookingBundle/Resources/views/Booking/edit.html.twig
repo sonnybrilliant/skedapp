@@ -15,14 +15,14 @@
 
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-    </div>       
-    {% endblock menu %}    
+           {% include "::menu.html.twig" %}
+    </div>
+    {% endblock menu %}
     {% block content %}
     <div class="span9">
         <h3>Edit booking</h3>
         <br />
-        
+
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
@@ -30,18 +30,18 @@
         <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id}) }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
         <div class="span9" style="margin-left: 0px">
             {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
-        </div>        
-    </div>  
-    {% endblock content %}   
+        </div>
+    </div>
+    {% endblock content %}
 <script type="text/javascript">
 $(document).ready(function() {
-    
+
     jQuery(function($){
         $( ".datepicker" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: true,
-            minDate: 0, 
-            maxDate: "+1M +10D", 
+            minDate: 0,
+            maxDate: "+1M +10D",
             dateFormat: 'yy-mm-dd'
         });
     });

@@ -24,13 +24,39 @@
           <span class="help-inline">{{form_errors(form.customerOrNot)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.customer) %} error {% endif %}">
-        <label class="control-label" for="customer">{{ form_label(form.customer) }}</label>
-        <div class="controls">
-          {{ form_widget(form.customer) }}
-          <span class="help-inline">{{form_errors(form.customer)}}</span>
-        </div>
+
+      <div id="divCustomerSelect">
+          <div class="control-group {% if form_errors(form.customer) %} error {% endif %}">
+            <label class="control-label" for="customer">{{ form_label(form.customer) }}</label>
+            <div class="controls">
+              {{ form_widget(form.customer) }}
+              <span class="help-inline">{{form_errors(form.customer)}}</span>
+            </div>
+          </div>
       </div>
+
+      <div id="divCustomerPotentialSelect">
+
+          <div class="control-group {% if form_errors(form.customerPotential) %} error {% endif %}">
+            <label class="control-label" for="customer_potential">{{ form_label(form.customerPotential) }}</label>
+            <div class="controls">
+              {{ form_widget(form.customerPotential) }}
+              <span class="help-inline">{{form_errors(form.customerPotential)}}</span>
+            </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.firstName) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.firstName) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.firstName) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.firstName)}}</span>
+                </div>
+              </div>
+          </div>
+
+      </div>
+
       <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
         <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
         <div class="controls">

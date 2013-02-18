@@ -15,9 +15,9 @@
 
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-    </div>       
-    {% endblock menu %}    
+           {% include "::menu.html.twig" %}
+    </div>
+    {% endblock menu %}
     {% block content %}
     <div class="span9">
         <h3>Add a booking</h3>
@@ -30,21 +30,35 @@
         {% endblock %}
         <div class="span9" style="margin-left: 0px">
             {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
-        </div>        
-    </div>  
-    {% endblock content %}   
+        </div>
+    </div>
+    {% endblock content %}
 <script type="text/javascript">
 $(document).ready(function() {
-    
+
     jQuery(function($){
         $( ".datepicker" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: true,
-            minDate: 0, 
-            maxDate: "+1M +10D", 
+            minDate: 0,
+            maxDate: "+1M +10D",
             dateFormat: 'yy-mm-dd'
         });
     });
+
+    $('#divCustomerSelect').hide();
+    $('#divCustomerPotentialSelect').hide();
+
+    $('#Booking_customerOrNot_1').click(function() {
+        $('#divCustomerPotentialSelect').show();
+        $('#divCustomerSelect').hide();
+        });
+
+    $('#Booking_customerOrNot_0').click(function() {
+        $('#divCustomerPotentialSelect').hide();
+        $('#divCustomerSelect').show();
+        });
+
 });
 </script>
 {% endblock body %}

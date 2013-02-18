@@ -6,9 +6,14 @@
 
     <parameters>
         <parameter key="customer_manager.class">SkedApp\CustomerBundle\Services\CustomerManager</parameter>
+        <parameter key="customer_potential_manager.class">SkedApp\CustomerBundle\Services\CustomerPotentialManager</parameter>
     </parameters>
     <services>
         <service id="customer.manager" class="%customer_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>
+        <service id="customer.potential.manager" class="%customer_potential_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>
