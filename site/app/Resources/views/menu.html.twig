@@ -2,19 +2,24 @@
     <ul class="nav nav-tabs pull-right">
         {% if is_granted('ROLE_ADMIN') %}
             {% if controller == 'service_provider'%}
-                <li class="active"><a href="{{ path('sked_app_company_list') }}" title="list service providers">Service Providers</a></li>
+                <li class="active"><a href="{{ path('sked_app_company_list') }}" title="manage service providers">Service Providers</a></li>
             {% else %}
-                <li><a href="{{ path('sked_app_company_list') }}" title="list service providers">Service Providers</a></li>
+                <li><a href="{{ path('sked_app_company_list') }}" title="manage service providers">Service Providers</a></li>
             {% endif %}  
                 
             {% if controller == 'categories'%}
-                <li class="active"><a href="{{ path('sked_app_category_list')}}" title="list categories">Categories</a></li>
+                <li class="active"><a href="{{ path('sked_app_category_list')}}" title="manage categories">Categories</a></li>
             {% else %}    
-                <li><a href="{{ path('sked_app_category_list')}}" title="list categories">Categories</a></li>
-            {% endif %}    
+                <li><a href="{{ path('sked_app_category_list')}}" title="manage categories">Categories</a></li>
+            {% endif %}  
                 
-        
-        <li><a href="#">Services</a></li>
+            {% if controller == 'service'%}
+                <li class="active"><a href="{{ path('sked_app_service_list')}}" title="manage services">Services</a></li>
+            {% else %}    
+                <li><a href="{{ path('sked_app_service_list')}}" title="manage services">Services</a></li>
+            {% endif %}    
+                        
+
         <li><a href="#">Consultants</a></li>
         <li><a href="#">Customers</a></li>
         <li><a href="#">Bookings</a></li>
