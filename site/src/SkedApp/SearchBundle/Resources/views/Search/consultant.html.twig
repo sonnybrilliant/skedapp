@@ -146,8 +146,10 @@
     </table>
 
 </div>
-<div class="span11">
-    <div class="pagination pull-right">
-            {{ pagination.render(null, paginatorVariables)|raw }}
+{% if pagination is defined %}
+    <div class="span11">
+        <div class="pagination pull-right">
+                {{ pagination.render(null, paginatorVariables)|raw }}
+        </div>
     </div>
-</div>
+{% endif %}

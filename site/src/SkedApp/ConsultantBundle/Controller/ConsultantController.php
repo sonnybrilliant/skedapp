@@ -486,6 +486,17 @@ class ConsultantController extends Controller
           $consultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $objDateSend));
         }
 
+        $otherConsultants = $this->get('consultant.manager')->listAllByCompany ($company, array('sort' => 'c.lastName', 'direction' => 'Asc'));
+        $otherConsultantsArray = array();
+
+        foreach ($otherConsultants as $otherConsultant) {
+            if ($otherConsultant->getId() != $consultant->getId()) {
+                $objDateSend = new \DateTime($strBookingDate);
+                $otherConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($otherConsultant, $objDateSend));
+                $otherConsultantsArray[] = $otherConsultant;
+            }
+        }
+
         $form = $this->createForm(new SearchType());
 
         return $this->render('SkedAppConsultantBundle:Consultant:view.html.twig',
@@ -499,6 +510,7 @@ class ConsultantController extends Controller
                     'category_id' => $this->getRequest()->get('category_id', 0),
                     'serviceIds' => $this->getRequest()->get('serviceIds'),
                     'form' => $form->createView(),
+                    'otherConsultants' => $otherConsultantsArray,
                     ));
     }
 

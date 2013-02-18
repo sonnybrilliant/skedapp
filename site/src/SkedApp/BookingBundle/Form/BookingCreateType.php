@@ -89,11 +89,18 @@ class BookingCreateType extends AbstractType
                     }
                 },
             ))
+            ->add('customerOrNot', 'choice', array(
+                'label' => 'Please select:',
+                'required' => true,
+                'expanded' => true,
+                'choices' => array(true => 'Link an existing customer', false => 'Add customer details'),
+            ))
             ->add('customer', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Customer',
                 'label' => 'Customer:',
                 'empty_value' => 'Select a customer',
                 'attr' => array('class' => 'span4 chosen'),
+                'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
