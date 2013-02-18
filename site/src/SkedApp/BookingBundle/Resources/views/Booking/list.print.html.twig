@@ -1,6 +1,6 @@
 <section>
     {% if not print %}
-    <span><a href="{{ path('sked_app_consultant_booking_day_print', {'id': consultant.id, 'print_out': 1, 'Search[booking_date]': selected_date}) }}" class="btn btn-warning btn-small pull-right"
+    <span><a href="{{ path('sked_app_consultant_booking_day_print', {'id': consultant.id, 'print_out': 1, 'Search[booking_date]': selected_date}) }}" class="btn btn-warning pull-right"
              target="_blank"><i class="icon-white icon-plus-sign"></i> Print</a></span>
     {% endif %}
     <div style="clear: both;"></div>

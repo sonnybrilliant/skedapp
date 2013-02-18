@@ -89,7 +89,7 @@ class BookingUpdateType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple'),
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
                 'required' => false
             ))
             ->add('isLeave', 'checkbox', array(

@@ -27,7 +27,7 @@
             {% include "::alert.html.twig" %}
         {% endblock %}
         <br />
-        <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id}) }}" class="btn btn-warning btn-small pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
+        <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id}) }}" class="btn btn-warning pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
         <div class="span9" style="margin-left: 0px">
             {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
         </div>        
