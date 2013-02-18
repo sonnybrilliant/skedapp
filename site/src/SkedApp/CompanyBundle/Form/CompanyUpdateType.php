@@ -32,11 +32,11 @@ class CompanyUpdateType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label' => 'Name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'required'      => false,
             ))
             ->add('description', 'textarea', array(
@@ -50,23 +50,27 @@ class CompanyUpdateType extends AbstractType
             ))
             ->add('contactNumber', 'text', array(
                 'label' => 'Contact number:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('locality', null, array(
                 'required'      => false,
-                'read_only'      => true
+                'read_only'      => true,
+                'attr' => array('class' => 'span12')
             ))
             ->add('country', null, array(
                 'required'      => false,
-                'read_only'      => true
+                'read_only'      => true,
+                'attr' => array('class' => 'span12')
             ))
             ->add('lat', null, array(
                 'required'      => false,
-                'read_only'      => true
+                'read_only'      => true,
+                'attr' => array('class' => 'span12')
             ))
             ->add('lng', null, array(
                 'required'      => false,
-                'read_only'      => true
+                'read_only'      => true,
+                'attr' => array('class' => 'span12')
             ))
 
         ;
