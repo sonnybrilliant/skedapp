@@ -56,9 +56,9 @@
            <td>{{company.name}}</td>
            <td>{{company.consultants.count}}</td>
            {% if company.isActive %}
-                <td><span class="label label-success">Yes</span></td>
+                <td><span>Yes</span></td>
            {% else %}
-                <td><span class="label">No</span></td>
+                <td><span>No</span></td>
            {% endif%}
            <td>{{company.createdAt|date('Y-m-d H:i A')}}</td>
            <td>

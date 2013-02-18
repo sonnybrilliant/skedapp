@@ -76,15 +76,15 @@
             <td>{{service.category.name}}</td>
             <td>{{service.appointmentDuration.name}}</td>
             {% if service.isDeleted %}
-                <td><span class="label label-error">Yes</span></td>
+                <td><span>Yes</span></td>
            {% else %}
-                <td><span class="label">No</span></td>
+                <td><span>No</span></td>
            {% endif%}
             <td>{{service.createdAt|date('Y-m-d H:i A')}}</td>
             <td>
                 <small>
-                    <a href='{{path('sked_app_service_edit', {'id': service.id }) }}' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a> &nbsp;
-                    <a href='{{path('sked_app_service_delete', {'id': service.id }) }}' onclick="if(confirm('You are about to delete {{service.name}} service, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
+                    <a href='{{path('sked_app_service_edit', {'id': service.id }) }}' rel="tooltip" title="click to view"><i class="icon-black icon-edit"></i>&nbsp;Edit</a> &nbsp;
+                    <a href='{{path('sked_app_service_delete', {'id': service.id }) }}' onclick="if(confirm('You are about to delete {{service.name}} service, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-black icon-trash"></i>&nbsp;Delete</a>
                 </small>
             </td>
         </tr>

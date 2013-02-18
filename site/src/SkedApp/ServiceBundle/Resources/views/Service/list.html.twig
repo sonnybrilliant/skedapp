@@ -9,13 +9,13 @@
             {% set vars = {'action': 'List'} %}
             {% include 'SkedAppServiceBundle::breadcrumb.html.twig' with vars  %}
             </div>
-            <div class="span6 pull-right">
+            <div style="width: 28.718%;" class="span6 pull-right">
                 <a href="{{ path('sked_app_service_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add service</strong></a>
                 <form class="form-inline pull-right">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-search" ></i></span>
-                        <input name="searchText" title="search" type="text" value="" placeholder="search" class="input-small search" />
-                        <input type="submit" value="GO!" class="btn btn-warning search-button" />
+                        <input style="border-radius: 0;" name="searchText" title="search" type="text" value="" placeholder="search" class="input-small search" />
+                        <input style="height: 30px; border-radius: 0 4px 4px 0;" type="submit" value="GO!" class="btn btn-warning search-button" />
                     </div>
                 </form>
             </div>
