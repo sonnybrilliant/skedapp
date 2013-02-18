@@ -45,6 +45,16 @@
                         {% endif %}
                 {% endif %}    
             </th>
+            <th scope="col" class="table-heading-blue">
+                {{ knp_pagination_sortable(pagination,'Deleted', 's.isDeleted') }}
+                {% if pagination.isSorted('s.isDeleted') %} 
+                        {% if direction == 'asc'%} 
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                {% endif %}    
+            </th>
             <th scope="col"  class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Created At', 'c.createdAt') }}
                 {% if pagination.isSorted('c.createdAt') %} 
@@ -65,6 +75,11 @@
             <td>{{service.name}}</td>
             <td>{{service.category.name}}</td>
             <td>{{service.appointmentDuration.name}}</td>
+            {% if service.isDeleted %}
+                <td><span class="label label-error">Yes</span></td>
+           {% else %}
+                <td><span class="label">No</span></td>
+           {% endif%}
             <td>{{service.createdAt|date('Y-m-d H:i A')}}</td>
             <td>
                 <small>
