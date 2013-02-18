@@ -67,16 +67,16 @@
              {% endif %}
               <td>
                   {% for service in consultant.consultantServices %}
-                      <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
+                      <span {{ cycle(['label-inverse', ''], service.id) }}">{{ service.name }}</span>
                   {% else %}
                        No listed services found.
                   {% endfor %}
               </td>
             <td>
                 <small>
-                    <a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view" class="btn btn-small btn-primary"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
-                    <a href='{{path('sked_app_consultant_edit', {'id': consultant.id }) }}' rel="tooltip" title="click to edit" class="btn btn-small btn-primary"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
-                    <a href='{{path('sked_app_consultant_delete', {'id': consultant.id }) }}' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
+                    <a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view"><i class="icon-black icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                    <a href='{{path('sked_app_consultant_edit', {'id': consultant.id }) }}' rel="tooltip" title="click to edit"><i class="icon-black icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                    <a href='{{path('sked_app_consultant_delete', {'id': consultant.id }) }}' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-black icon-trash"></i>&nbsp;Delete</a>
                 </small>
             </td>
           </tr>
