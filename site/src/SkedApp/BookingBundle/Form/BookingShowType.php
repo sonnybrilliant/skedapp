@@ -52,7 +52,7 @@ class BookingShowType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple' , 'disabled' => 'disabled' )
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple' , 'disabled' => 'disabled' )
             ))
             ->add('service', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Service',

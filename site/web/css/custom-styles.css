@@ -269,6 +269,7 @@ Page Styles
 	font-size: 1.5em;
 	line-height: 1.5em;
 }
+
 .results-background form label {
 	color: #FFFFFF;
 	font-size: 1.5em;
@@ -282,11 +283,14 @@ Page Styles
 .table-heading-blue a{
   color: #fff;
 }
-
 .dash-forms-background form label {
 	color: #555555;
-	font-size: 1.5em;
+	font-size: 17px;
 	line-height: 1.5em;
+}
+
+.width{
+  width: 100%;
 }
 select.span12{
 	border: 1px solid #bbb;

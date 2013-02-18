@@ -3,19 +3,15 @@
         <label for="company_name">{{ form_label(form.name) }}</label>
         {{ form_widget(form.name) }}
         <span class="help-inline">{{form_errors(form.name)}}</span>
-        <div class="spacer1"></div>
         <label for="company_contact_number">{{ form_label(form.contactNumber) }}</label>
         {{ form_widget(form.contactNumber) }}
         <span class="help-inline">{{form_errors(form.contactNumber)}}</span>
-        <div class="spacer1"></div>
         <label for="picture">{{ form_label(form.picture) }}</label>
         {{ form_widget(form.picture) }}
         <span class="help-inline">{{form_errors(form.picture)}}</span>
-        <div class="spacer1"></div>
         <label for="professional_statement">{{ form_label(form.description) }}</label>
-        {{ form_widget(form.description) }}
+        <div style="margin: 0px;" class="span12">{{ form_widget(form.description) }}</span>
         <span class="help-inline">{{form_errors(form.description)}}</span>
-        <div class="spacer1"></div>
         <label for="address">{{ form_label(form.address) }}</label>
         {{ form_widget(form.address) }}
         {{ form_widget(form.locality) }} 
@@ -29,7 +25,7 @@
                 <button class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
             </div>
             <div class="btn-group">
-                <button class="btn btn-small">Cancel</button>
+                <button class="btn">Cancel</button>
             </div>
         </div>
         <script type="text/javascript">
