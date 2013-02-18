@@ -31,12 +31,12 @@ class CategoryUpdateType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label' => 'Name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12 input-small')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
                 'required' => false,
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
             ))
 
 

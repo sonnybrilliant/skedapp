@@ -1,45 +1,55 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
-{% block title %}View service provider details{% endblock %}
+{% block title %}Service provider profile{% endblock %}
 
-{% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-       {% include "::menu.html.twig" %}
-    </div>
-    {% endblock menu %}
-    {% block content %}
-    <div class="span9">
-        <h3>Service Provider profile</h3>
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Show'} %}
-           {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
-        </div>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="tabbable"> <!-- Only required for left/right tabs -->
-                <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab1" data-toggle="tab">Personal details</a></li>
-                <li><a href="#tab2" data-toggle="tab">Photos</a></li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab1">
-                    <div class="row">
-                        <div class="span2"><img src="/uploads/companies/{{ company.id }}.{{ company.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
-                        <div class="span4">
-                            <p><strong>Name</strong>: {{ company.name }}</p>
-                            <p>
-                                <strong>Description</strong>:
-                                <br /><br /> {{ company.description|raw }}
-                            </p>
-                        </div>
-                    </div>
+{% block body %}        
+<div class="row-fluid body-main">
+    <div class="span5">
+        <div class="forms-background">
+            <h4>Service Provider Profile</h4>
+            <div class="whiteBackground">
+                <img src="/uploads/companies/gallery.png/{{ company.id }}.{{ company.path }}" style="width:140px; height:140px" class="space-left space-right pull-left img-polaroid"/>
+                <div style="padding-right: 10px;"class="">
+                        <strong class="dark-gray-text">Name: </strong><span class="gray-text">{{ company.name }}</span>
+                        <div class="spacer1"></div>
+                        <strong class="dark-gray-text">Contact Details: </strong><span class="gray-text">{{ company.contactNumber }}</span>
+                        <div class="spacer1"></div>
+                        <strong class="dark-gray-text">Description: </strong><span class="gray-text">{{ company.description|raw }}</span>
                 </div>
-                <div class="tab-pane" id="tab2">
-                    <p>Images here</p>
-                </div>
+                <div class="clearfix"></div>
+                <div class="spacer1"></div>
+
+            </div>
+            <div class="spacer1"></div>
+            <div class="spacer2"></div>
+            <h4>Photos</h4>
+            <div class="bs-docs-example bs-docs-example-images">
+                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7">
+                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7">
+                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7">
+                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid">
+                <div class="clearfix"></div>
+                <div class="spacer2"></div>
+                <button type="submit" class="btn pull-right">Back to Search <i class="icon-search"></i></button>
+                <div class="clearfix"></div>
+                <div class="spacer2"></div>
+                <div class="spacer1"></div>
             </div>
         </div>
     </div>
-    {% endblock content %}
+    <div class="span7">
+        <div class="map-box">
+            <h4>Location Details</h4>
+            {{ google_map_container(map) }}
+            <address>
+                <h4>Service Provider: {{ company.name }}</h4>
+                <strong>Location:</strong><br>
+                {{ company.address }}
+                
+
+            </address>
+            <div class="social-box">Find us on Facebook or Twitter <a href=""><img src="{{ asset('/img/facebook.png') }}"></img> <a href=""><img src="{{ asset('/img/twitter.png') }}"></img></a></div>
+        </div>
+    </div>
+</div> <!-- End .row-fluid -->
+{{ google_map_js(map) }}
 {% endblock body %}

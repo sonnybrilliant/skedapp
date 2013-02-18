@@ -1,5 +1,5 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
-{% block title %}Add a new company{% endblock %}
+{% block title %}Add service provider{% endblock %}
 
 {% block stylesheets %}
 <link href="{{ asset('/css/googlemap.css') }}" rel="stylesheet">
@@ -13,28 +13,23 @@
 {% endblock jquery_ui %}
 
 {% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %}
-    </div>
-    {% endblock menu %}
-    {% block content %}
-    <div class="span9">
-        <h3>Add a new company</h3>
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Create service provider'} %}
-           {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
-        </div>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-        {#start form display===============================#}
+<div class="row-fluid body-secondary">
+    <div class="span5">
+        <div class="dash-forms-background">
+            <h3>Add service provider</h3>
             {% include "SkedAppCompanyBundle:Company:form.create.html.twig" %}
-        {#end form display===============================#}
-        </div>        
+        </div>
+     </div>
+     <div class="span7">
+        <div class="hint-box">
+            <h3><span class="asterisk">*</span>Hints</h3>
+            <ol>
+                    <li>Provide a valid email address.</li>
+            </ol>
+            <div id="map" style="width: 600px"></div>
+        </div>            	
     </div>
-    {% endblock content %}
+</div> <!-- End .row-fluid -->
 <script type="text/javascript">
 $(document).ready(function() {
     if (blnAddress) {

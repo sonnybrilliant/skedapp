@@ -29,17 +29,16 @@ class ServiceController extends Controller
     {
         $this->get('logger')->info('list services');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list services, access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
-
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 's.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
+        
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,           
         );
+
 
 
         $paginator = $this->get('knp_paginator');
@@ -49,8 +48,8 @@ class ServiceController extends Controller
 
         return $this->render('SkedAppServiceBundle:Service:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 

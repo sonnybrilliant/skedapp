@@ -1,26 +1,77 @@
-<section>
-    <table id="sortable" class="table table-striped table-condensed tablesorter">
-            <thead>
-              <tr>
-                <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Category name', 'c.name')|raw }}</th>
-                <th>Actions</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for category in pagination %}
-              <tr>
-                <td>{{category.name}}</td>
-                <td></a>&nbsp;&nbsp;<a href='{{path('sked_app_category_show', {'id': category.id }) }}' rel="tooltip" title="click to show"><i class="icon-eye-open"></i>&nbsp;Show</a> &nbsp;
-                    <a href='{{path('sked_app_category_edit', {'id': category.id }) }}' rel="tooltip" title="click to edit"><i class="icon-edit"></i>&nbsp;Edit</a> &nbsp;
-                    <a href='{{path('sked_app_category_delete', {'id': category.id }) }}' onclick="if(confirm('You are about to delete {{category.name}} category, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete"><i class="icon-trash"></i>&nbsp;Delete</a></td>
-              </tr>
-              {% endfor %}
-            </tbody>
-     </table>
-    <div class="pagination pull-right">
-        {{ pagination.render()|raw }}
-    </div>
-</section>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th scope="col" width="5%" class="table-heading-blue">
+                {{ knp_pagination_sortable(pagination,'#', 'c.id') }}
+                {% if isDirectionSet == false %}
+                    <span class="pull-right"><i class="icon-chevron-up"></i></span>  
+                {% else %}
+                    {% if pagination.isSorted('c.id') %} 
+                        {% if direction == 'asc'%} 
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                    {% endif %}
+                {% endif %} 
+            </th>
+            <th scope="col" width="25%" class="table-heading-blue">
+                {{ knp_pagination_sortable(pagination,'Name', 'c.name') }}
+                {% if pagination.isSorted('c.name') %} 
+                        {% if direction == 'asc'%} 
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+               {% endif %}    
+            </th>
+            <th scope="col" width="10%" class="table-heading-blue">
+                {{ knp_pagination_sortable(pagination,'Deleted', 'c.isDeleted') }}
+                {% if pagination.isSorted('c.isDeleted') %} 
+                        {% if direction == 'asc'%} 
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                {% endif %}    
+            </th>
+            <th scope="col" width="25%" class="table-heading-blue">
+                {{ knp_pagination_sortable(pagination,'Created At', 'c.createdAt') }}
+                {% if pagination.isSorted('c.createdAt') %} 
+                        {% if direction == 'asc'%} 
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                {% endif %}                    
+            </th>
+            <th scope="col" width="25%" class="table-heading-blue"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for category in pagination %}
+        <tr>
+           <td>{{category.id}}</td>
+           <td>{{category.name}}</td>
+           {% if category.isDeleted %}
+                <td><span class="label label-error">Yes</span></td>
+           {% else %}
+                <td><span class="label">No</span></td>
+           {% endif%}
+           <td>{{category.createdAt|date('Y-m-d H:i A')}}</td>
+           <td>
+               <small>
+                  <a href='{{path('sked_app_category_show', {'id': category.id }) }}' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                  <a href='{{path('sked_app_category_edit', {'id': category.id }) }}' rel="tooltip" title="click to edit" class="btn btn-primary btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                  <a href='{{path('sked_app_category_delete', {'id': category.id }) }}' rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
+               </small>
+           </td>  
+         </tr>
+        {% endfor %}
+    </tbody>  
+</table>
+<div class="btn-group pull-right">
+    {{ knp_pagination_render(pagination) }}
+</div>
 
 
