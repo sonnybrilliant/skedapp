@@ -45,7 +45,7 @@ class CompanyCreateType extends AbstractType
             ->add('address', null, array(
                 'label' => 'Type your address:',
                 'required'      => true,
-                'attr' => array('class' => 'span12 ')
+                'attr' => array('class' => 'span12')
             ))
             ->add('locality', null, array(
                 'required'      => false,

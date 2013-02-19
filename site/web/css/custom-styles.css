@@ -175,6 +175,9 @@ Page Styles
 .logo {
 	padding-left: 1.25em;
 }
+.paddingBottom5px{
+  margin-bottom: 5px;
+}
 .row-fluid.body-main .span5 {
 	padding-left: 0px;
 	margin-left: 0px;
