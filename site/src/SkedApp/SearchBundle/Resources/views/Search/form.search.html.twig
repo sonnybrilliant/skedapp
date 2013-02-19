@@ -3,9 +3,11 @@
           <div><a class="orangeTab" href='#tab2'>Search</a></div>
           <div><a class="greenTab" href='#tab3'>Confirm</a></div>
 </div>-->
-<div class="forms-background" id='tab1'>
+
+<div class="clearfix"></div>
+<div class="booking-background" id='tab1'>
     <form  class="form-horizontal formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
-  <fieldset class="width360px">
+      <fieldset>
         <div class="pull-left" for="company">{{ form_label(form.category) }}</div></br>
       <div class="{% if form_errors(form.category) %} error {% endif %}">
         
@@ -53,7 +55,7 @@
   </fieldset>
 </form>
 </div>
-
+<div class="clesrfix"></div>
 <!--<div id='tab2'>
   <div  class="formOrangeBackground">
   </div>
