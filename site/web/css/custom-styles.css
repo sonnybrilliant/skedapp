@@ -69,6 +69,7 @@ html, body {
 .gray-text {
 	color: #555555;
 }
+
 .small-thin-text {
 	font-size: 16px;
 }
@@ -288,7 +289,7 @@ Page Styles
 }
 .forms-background form label {
 	color: #FFFFFF;
-	font-size: 19px;
+	font-size: 17px;
 	line-height: 1.5em;
 }
 .table-heading-blue a{

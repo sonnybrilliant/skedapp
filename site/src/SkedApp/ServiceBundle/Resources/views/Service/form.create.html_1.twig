@@ -29,10 +29,12 @@
           <span class="help-inline">{{form_errors(form.appointmentDuration)}}</span>  
         </div>
       </div>      
-      <div class="form-actions">
+      <div class="btn-toolbar pull-right">
+            <div class="btn-group">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_service_list') }}" class="btn">Cancel</a>
-      </div> 
+      </div>
+</div>  
       {{ form_rest(form) }} 
   </fieldset>
 </form>

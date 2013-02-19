@@ -12,7 +12,7 @@
         <label class="control-label" for="last_name">{{ form_label(form.lastName) }}</label>
         <div class="controls">
           {{ form_widget(form.lastName) }}
-          <span class="help-inline">{{form_errors(form.lastName)}}</span>
+          <span class="help-inline span12">{{form_errors(form.lastName)}}</span>
         </div>
       </div>      
       <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
