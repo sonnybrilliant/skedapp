@@ -217,5 +217,40 @@ final class CustomerManager
                 ->getRepository('SkedAppCoreBundle:Customer')
                 ->getAllActiveCustomersQuery($options);
     }
+    
+    /**
+     * Create customer from data fixture 
+     * 
+     * @param array $arguments
+     * @return 
+     */
+    public function createFromFixture($arguments)
+    {
+        $this->getLogger()->info("create customer from data fixture");
+
+        $customer = new Customer();
+
+        $customer->setFirstName($arguments['firstName']);
+        $customer->setLastName($arguments['lastName']);
+        $customer->setEmail($arguments['email']);
+        $customer->setUsername($arguments['email']);
+        $customer->setGender($arguments['gender']);
+        $customer->setMobileNumber($arguments['mobile']);
+        $customer->setLandLineNumber($arguments['landLine']);
+        $customer->setEnabled(true);
+        $customer->setIsActive(true);
+        $customer->setPassword($arguments['password']);
+        $customer->setFacebook(true);
+        $customer->setTwitter(true);
+        $customer->setTv(true);
+        $customer->setRadio(true);
+        $customer->setPrintedMedia(true);
+        $customer->addCustomerRole($arguments['role']);
+
+
+        $this->em->persist($customer);
+        $this->em->flush();
+        return;
+    }
 
 }

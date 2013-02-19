@@ -147,7 +147,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
         $adminUserJanet = array(
             'firstName' => 'Janet',
             'lastName' => 'Davis',
-            'email' => 'dev@creativecloud.co.za',
+            'email' => 'qa1@creativecloud.co.za',
             'mobile' => '27713265638',
             'password' => '654321',
             'company' => $this->getReference('company-default'),

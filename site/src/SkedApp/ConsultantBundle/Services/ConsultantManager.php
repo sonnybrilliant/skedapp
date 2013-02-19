@@ -168,7 +168,6 @@ final class ConsultantManager
         $consultant->setSunday($params['sunday']);
         $consultant->setSunday($params['sunday']);
         $consultant->addConsultantService($params['consultantService']);
-        $consultant->addConsultantRole($params['consultantRoleAdmin']);
         $consultant->addConsultantRole($params['consultantRoleUser']);
 
         $this->em->persist($consultant);

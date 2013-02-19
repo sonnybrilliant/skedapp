@@ -52,6 +52,7 @@ class LoadGroups extends AbstractFixture implements OrderedFixtureInterface
         $this->addReference('group-super-admin' , $admin) ;
         $this->addReference('group-consultant-admin' , $consultantAdmin) ;
         $this->addReference('group-consultant' , $consultant) ;
+        $this->addReference('group-site-user' , $siteUser) ;
     }
 
     public function getOrder()
