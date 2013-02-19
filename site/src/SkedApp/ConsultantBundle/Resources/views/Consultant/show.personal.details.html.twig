@@ -2,15 +2,6 @@
 {% block title %}View consultant details{% endblock %}
 
 {% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-       {% if is_granted('ROLE_ADMIN') %}
-            {% include "::menu.html.twig" %}        
-       {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" %}             
-       {% endif %}            
-    </div>       
-    {% endblock menu %}   
     {% block content %}
     <div class="span9">
         <h3>Consultant profile</h3>                
