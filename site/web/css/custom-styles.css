@@ -14,6 +14,17 @@ html, body {
 #push {
 	height: 80px;
 }
+
+.span7 .map-box {
+    padding: 1.25em;
+}
+
+.span7 .map-box #map_canvas {
+    background-color: #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    height: 280px;
+}
+
 .container {
 	padding-top: 0px;
 }
@@ -277,7 +288,7 @@ Page Styles
 }
 .forms-background form label {
 	color: #FFFFFF;
-	font-size: 18px;
+	font-size: 19px;
 	line-height: 1.5em;
 }
 .table-heading-blue a{
@@ -341,6 +352,21 @@ input.span12{
 	padding-top: 1.25em;
 	text-align: right;
 }
+
+.facebook{
+  background-image:url('../img/fb.png');
+  height: 32px;
+  width: 32px;
+  position: absolute;
+}
+
+.twitter{
+  background-image:url('../img/twitter.png');
+  height: 32px;
+  width: 32px;
+  position: absolute;
+}
+
 .hint-box {
 	padding: 1.25em;
 }
