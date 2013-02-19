@@ -60,7 +60,7 @@ class SearchType extends AbstractType
                 'empty_value' => 'Select a category',
                 'label' => 'Category:',
                 'required' => true,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
@@ -69,7 +69,7 @@ class SearchType extends AbstractType
             ))
             ->add('address', 'text', array(
                 'label' => 'Type your current location:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('locality', 'hidden')
             ->add('country', 'hidden', array ('attr' => array ('value' => 'South Africa')))
@@ -82,13 +82,13 @@ class SearchType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => true,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
 
             ))
             ->add('booking_date', 'text', array(
                 'label' => 'Date:',
                 'required' => true,
-                'attr' => array('class' => 'span4', 'value' => $date),
+                'attr' => array('class' => 'span12', 'value' => $date),
 
             ))
             ->add('hidden_category', 'hidden', array('attr' => array('value' => $categoryId)))
