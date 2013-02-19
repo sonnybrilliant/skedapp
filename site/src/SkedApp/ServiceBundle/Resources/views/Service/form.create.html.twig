@@ -12,10 +12,12 @@
       <label for="appointmentDuration">{{ form_label(form.appointmentDuration) }}</label>
       {{ form_widget(form.appointmentDuration) }} 
       <span class="help-inline">{{form_errors(form.appointmentDuration)}}</span>    
-       <div class="form-actions">
+       <div class="btn-toolbar pull-right">
+            
           <button class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_service_list') }}" class="btn">Cancel</a>
-      </div> 
+      
+</div>  
       {{ form_rest(form) }} 
   </fieldset>
 </form>

@@ -4,13 +4,12 @@
 {% block body %}
     <br />
     <br />
+<div class="row-fluid body-main">
+    {% block alert %}
+        {% include "::alert.html.twig" %}
+    {% endblock %}
 
-<div class="span12 greyBackground">
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-
-        {%include "SkedAppSearchBundle:Search:search.area.html.twig" %}
+    {%include "SkedAppSearchBundle:Search:search.area.html.twig" %}
 </div>
 
 {% endblock %}
