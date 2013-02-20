@@ -6,12 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use SkedApp\BookingBundle\Form\BookingCreateType;
-use SkedApp\BookingBundle\Form\BookingMakeType;
+use SkedApp\CustomerBundle\Form\CustomerPotentialType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\BookingBundle\Form\BookingMessageType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
+use SkedApp\CoreBundle\Entity\CustomerPotential;
 use SkedApp\CoreBundle\Entity\Timeslots;
 use SkedApp\CoreBundle\Entity\Consultant;
 
@@ -106,10 +107,12 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
 
         $booking = new Booking();
+        $customerPotential = new CustomerPotential();
         $form = $this->createForm(new BookingCreateType(
                 $user->getCompany()->getId(),
                 $this->get('member.manager')->isAdmin()
             ), $booking);
+        $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -169,6 +172,7 @@ class BookingController extends Controller
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
+                'formCustomerPotential' => $formCustomerPotential->createView()
             ));
     }
 

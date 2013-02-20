@@ -5,28 +5,33 @@
                 <li class="active"><a href="{{ path('sked_app_company_list') }}" title="manage service providers">Service Providers</a></li>
             {% else %}
                 <li><a href="{{ path('sked_app_company_list') }}" title="manage service providers">Service Providers</a></li>
-            {% endif %}  
-                
+            {% endif %}
+
             {% if controller == 'categories'%}
                 <li class="active"><a href="{{ path('sked_app_category_list')}}" title="manage categories">Categories</a></li>
-            {% else %}    
+            {% else %}
                 <li><a href="{{ path('sked_app_category_list')}}" title="manage categories">Categories</a></li>
-            {% endif %}  
-                
+            {% endif %}
+
             {% if controller == 'service'%}
                 <li class="active"><a href="{{ path('sked_app_service_list')}}" title="manage services">Services</a></li>
-            {% else %}    
+            {% else %}
                 <li><a href="{{ path('sked_app_service_list')}}" title="manage services">Services</a></li>
-            {% endif %} 
-                
+            {% endif %}
+
             {% if controller == 'consultants'%}
                 <li class="active"><a href="{{ path('sked_app_consultant_list')}}" title="manage consultants">Consultants</a></li>
-            {% else %}    
+            {% else %}
                 <li><a href="{{ path('sked_app_consultant_list')}}" title="manage consultants">Consultants</a></li>
-            {% endif %}    
+            {% endif %}
+
+            {% if controller == 'bookings'%}
+                <li class="active"><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
+            {% else %}
+                <li><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
+            {% endif %}
 
         <li><a href="#">Customers</a></li>
-        <li><a href="#">Bookings</a></li>
         {% endif%}
     </ul>
 </div> <!-- End .row-fluid -->
