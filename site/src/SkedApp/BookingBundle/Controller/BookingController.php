@@ -68,6 +68,7 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
 
         $booking = new Booking();
+        $customerPotential = new CustomerPotential();
 
         $bookingValues = $this->getRequest()->get('Booking');
 
@@ -88,9 +89,11 @@ class BookingController extends Controller
                 $this->get('member.manager')->isAdmin(),
                 new \DateTime($bookingValues['appointmentDate'])
             ), $booking);
+        $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
+                'formCustomerPotential' => $formCustomerPotential->createView(),
             ));
     }
 
@@ -116,6 +119,7 @@ class BookingController extends Controller
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
+            $formCustomerPotential->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
 
@@ -141,7 +145,14 @@ class BookingController extends Controller
                 }
 
                 if ($isValid) {
+
+                    if (strlen($customerPotential->getFirstName()) > 0) {
+                        $this->get('customer.potential.manager')->update($customerPotential);
+                        $booking->setCustomerPotential($customerPotential);
+                    }
+
                     $this->get('booking.manager')->save($booking);
+
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Created booking sucessfully');
                     $options = array(
@@ -164,6 +175,9 @@ class BookingController extends Controller
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
                 }
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
             }
         } else {
             $this->getRequest()->getSession()->setFlash(
@@ -172,7 +186,7 @@ class BookingController extends Controller
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
-                'formCustomerPotential' => $formCustomerPotential->createView()
+                'formCustomerPotential' => $formCustomerPotential->createView(),
             ));
     }
 
@@ -195,11 +209,13 @@ class BookingController extends Controller
 
             $user = $this->get('member.manager')->getLoggedInUser();
             $booking = $this->get('booking.manager')->getById($bookingId);
+            $customerPotential = $booking->getCustomerPotential();
 
             $form = $this->createForm(new BookingUpdateType(
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
+            $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$booking invalid");
             $this->createNotFoundException($e->getMessage());
@@ -214,6 +230,7 @@ class BookingController extends Controller
                 'form' => $form->createView(),
                 'id' => $booking->getId(),
                 'customer' => $customer,
+                'formCustomerPotential' => $formCustomerPotential->createView(),
             ));
     }
 
@@ -234,15 +251,28 @@ class BookingController extends Controller
 
             $oldIsConfirmed = $booking->getIsConfirmed();
 
+            $customerPotential = $booking->getCustomerPotential();
+
+            if (!is_object($customerPotential))
+                $customerPotential = new CustomerPotential();
+
             $form = $this->createForm(new BookingUpdateType(
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
+            $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
 
             if ($this->getRequest()->getMethod() == 'POST') {
                 $form->bindRequest($this->getRequest());
+                $formCustomerPotential->bindRequest($this->getRequest());
 
                 if ($form->isValid()) {
+
+                    if (strlen($customerPotential->getFirstName()) > 0) {
+                        $this->get('customer.potential.manager')->update($customerPotential);
+                        $booking->setCustomerPotential($customerPotential);
+                    }
+
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Updated booking sucessfully');
@@ -263,13 +293,14 @@ class BookingController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            $this->get('logger')->err("booking id:$booking invalid");
+            $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
         }
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $booking->getId()
+                'id' => $booking->getId(),
+                'formCustomerPotential' => $formCustomerPotential->createView(),
             ));
     }
 

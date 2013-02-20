@@ -1,43 +1,39 @@
-
-{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% extends "SkedAppCategoryBundle::layout.html.twig" %}
 {% block title %}Add a booking{% endblock %}
 
 {% block stylesheets %}
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" />
 {% endblock %}
-
 
 {% block jquery_ui %}
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
 {% endblock jquery_ui %}
 
-{% block body %}
+{% block javascripts %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock %}
 
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %}
-    </div>
-    {% endblock menu %}
-    {% block content %}
-    <div class="span9">
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
         <h3>Add a booking</h3>
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Create booking'} %}
-           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
-        </div>
+
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-            {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
+
+        <div style="margin-left: 0px;" class="span5">{% set vars = {'action': 'Create booking'} %}
+           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
         </div>
-    </div>
-    {% endblock content %}
+        {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
+    </div> <!-- Dashboard Content -->
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
 
     jQuery(function($){
-        $( ".datepicker" ).datepicker({
+        $( "#Booking_appointmentDate" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: true,
             minDate: 0,

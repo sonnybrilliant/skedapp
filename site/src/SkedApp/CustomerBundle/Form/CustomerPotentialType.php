@@ -16,7 +16,7 @@ use Doctrine\ORM\EntityRepository;
  * @subpackage Form
  * @version 0.0.1
  */
-class CustomerCreateType extends AbstractType
+class CustomerPotentialType extends AbstractType
 {
 
     /**
@@ -56,48 +56,10 @@ class CustomerCreateType extends AbstractType
                 'second_options' => array('label' => 'Confirm Email address:'),
                 'invalid_message' => 'Email addresses do not match',
             ))
-            ->add('password', 'repeated', array(
-                'type' => 'password',
-                'first_name' => 'first',
-                'first_options' => array('label' => 'Password:'),
-                'options' => array('attr' => array('class' => 'span4')),
-                'second_name' => 'second',
-                'second_options' => array('label' => 'Confirm Password:'),
-                'invalid_message' => 'Passwords do not match',
-            ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
                 'attr' => array('class' => 'span4 chosen')
-            ))
-            ->add('captcha', 'genemu_recaptcha')
-            ->add('radio', 'checkbox', array(
-                'label' => 'Radio:',
-                'required' => false,
-            ))
-            ->add('internet', 'checkbox', array(
-                'label' => 'Internet:',
-                'required' => false,
-           ))
-            ->add('tv', 'checkbox', array(
-                'label' => 'Television:',
-                'required' => false,
-           ))
-            ->add('twitter', 'checkbox', array(
-                'label' => 'Twitter:',
-                'required' => false,
-            ))
-            ->add('facebook', 'checkbox', array(
-                'label' => 'Facebook:',
-                'required' => false,
-            ))
-            ->add('printedMedia', 'checkbox', array(
-                'label' => 'Printed Media:',
-                'required' => false,
-            ))
-            ->add('wordOfMouth', 'checkbox', array(
-                'label' => 'Word of Mouth:',
-                'required' => false,
             ))
         ;
     }
@@ -108,20 +70,20 @@ class CustomerCreateType extends AbstractType
      */
     public function getName()
     {
-        return 'Customer';
+        return 'CustomerPotential';
     }
 
     public function getDefaultOptions(array $options)
     {
         return array(
-            'data_class' => 'SkedApp\CoreBundle\Entity\Customer',
+            'data_class' => 'SkedApp\CoreBundle\Entity\CustomerPotential',
         );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'SkedApp\CoreBundle\Entity\Customer',
+            'data_class' => 'SkedApp\CoreBundle\Entity\CustomerPotential',
         ));
     }
 

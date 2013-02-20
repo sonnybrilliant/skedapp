@@ -1,5 +1,4 @@
-
-{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% extends "SkedAppCategoryBundle::layout.html.twig" %}
 {% block title %}Manage bookings{% endblock %}
 
 {% block stylesheets %}
@@ -17,25 +16,21 @@
 {% endblock %}
 
 {% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %}
-    </div>
-    {% endblock menu %}
-    {% block content %}
-
-    <div class="span9">
+<div class="row-fluid body-secondary">
+    <div class="span12">
         <h3>Manage bookings</h3>
-        <div class="span5" style="margin-left: -15px">
-           {% set vars = {'action': 'Show'} %}
-           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
+
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+
+        <div style="margin-left: 0px;" class="span5">
+            {% set vars = {'action': 'Calendar'} %}
+            {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
         </div>
-        <div class="span3 pull-right">
-                <span><a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning pull-right"><i class="icon-white icon-plus-sign"></i> Add booking</a></span>
-         </div>
-    {% block alert %}
-        {% include "::alert.html.twig" %}
-    {% endblock %}
+        <div style="width: 29.718%;" class="span6 pull-right">
+            <a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
+        </div>
         <div class="tabbable"> <!-- Only required for left/right tabs -->
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab">Booking Calendars</a></li>
@@ -69,91 +64,92 @@
                 </div>
             </div>
         </div>
-    </div>
-    {% endblock content %}
-       <script type='text/javascript'>
+    </div> <!-- Dashboard Content -->
+</div>
 
-           function loadBookingList (consultantSelect, dateInput) {
-               //Load the list of bookings
-               $('#bookingList').load(
-                       Routing.generate('sked_app_booking_ajax_bookings_list'),
-                       { company: $('#hiddenCompanyId').attr('value'), consultant: consultantSelect.attr('value'), filterDate: dateInput.attr('value') }
-                   );
-           }
+<script type='text/javascript'>
 
-            $(document).ready(function() {
+   function loadBookingList (consultantSelect, dateInput) {
+       //Load the list of bookings
+       $('#bookingList').load(
+               Routing.generate('sked_app_booking_ajax_bookings_list'),
+               { company: $('#hiddenCompanyId').attr('value'), consultant: consultantSelect.attr('value'), filterDate: dateInput.attr('value') }
+           );
+   }
 
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
+    $(document).ready(function() {
 
-                var calendar = $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'resourceDay,month,basicWeek,basicDay'
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'resourceDay,month,basicWeek,basicDay'
+            },
+            titleFormat: 'ddd, MMM dd, yyyy',
+            defaultView: 'resourceDay',
+            selectable: false,
+            selectHelper: true,
+            select: function(start, end, allDay, event, resourceId) {
+                var title = prompt('Event Title:');
+                if (title) {
+                    console.log("@@ adding event " + title + ", start " + start + ", end " + end + ", allDay " + allDay + ", resource " + resourceId);
+                    calendar.fullCalendar('renderEvent',
+                    {
+                        title: title,
+                        start: start,
+                        end: end,
+                        allDay: allDay,
+                        resourceId: resourceId
                     },
-                    titleFormat: 'ddd, MMM dd, yyyy',
-                    defaultView: 'resourceDay',
-                    selectable: false,
-                    selectHelper: true,
-                    select: function(start, end, allDay, event, resourceId) {
-                        var title = prompt('Event Title:');
-                        if (title) {
-                            console.log("@@ adding event " + title + ", start " + start + ", end " + end + ", allDay " + allDay + ", resource " + resourceId);
-                            calendar.fullCalendar('renderEvent',
-                            {
-                                title: title,
-                                start: start,
-                                end: end,
-                                allDay: allDay,
-                                resourceId: resourceId
-                            },
-                            true // make the event "stick"
-                        );
+                    true // make the event "stick"
+                );
+                }
+                calendar.fullCalendar('unselect');
+            },
+            eventResize: function(event, dayDelta, minuteDelta) {
+                console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
+            },
+
+            editable: true,
+            resources: [
+                {% for consultant in consultants %}
+                    {
+                        name: "{{consultant.firstName}} {{consultant.lastName}}",
+                        id:   "resource-{{consultant.id}}",
+                    },
+                {% endfor%}
+            ],
+            events: "ajaxGetBookings",
+            eventRender: function(event, element) {
+                element.qtip({
+                    content: event.description,
+                    position: {
+                        corner: {
+                            tooltip: 'bottomMiddle',
+                            target:  'topMiddle'
                         }
-                        calendar.fullCalendar('unselect');
-                    },
-                    eventResize: function(event, dayDelta, minuteDelta) {
-                        console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
-                    },
-
-                    editable: true,
-                    resources: [
-                        {% for consultant in consultants %}
-                            {
-                                name: "{{consultant.firstName}} {{consultant.lastName}}",
-                                id:   "resource-{{consultant.id}}",
-                            },
-                        {% endfor%}
-                    ],
-                    events: "ajaxGetBookings",
-                    eventRender: function(event, element) {
-                        element.qtip({
-                            content: event.description,
-                            position: {
-                                corner: {
-                                    tooltip: 'bottomMiddle',
-                                    target:  'topMiddle'
-                                }
-                            }
-                        });
-                    },
-                    timeFormat: 'H:mm'
+                    }
                 });
+            },
+            timeFormat: 'H:mm'
+        });
 
-                $('#BookingListFilter_consultant').change(function() {
-                        //When selecting a consultant, update the booking list
-                        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
-                    });
-
-                $('#BookingListFilter_filterDate').change(function() {
-                        //When selecting a consultant, update the booking list
-                        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
-                    });
-
+        $('#BookingListFilter_consultant').change(function() {
+                //When selecting a consultant, update the booking list
+                loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
             });
 
-        </script>
+        $('#BookingListFilter_filterDate').change(function() {
+                //When selecting a consultant, update the booking list
+                loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
+            });
+
+    });
+
+</script>
 {% endblock body %}

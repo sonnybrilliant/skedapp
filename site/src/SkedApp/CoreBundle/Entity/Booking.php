@@ -765,4 +765,15 @@ class Booking
                 return false;
     }
 
+    /**
+     * Set Consultant link to customer or to customer potential
+     *
+     * @param boolean $customerOrNot
+     * @return Booking
+     */
+    public function setCustomerOrNot ($customerOrNot)
+    {
+        return $this;
+    }
+
 }
