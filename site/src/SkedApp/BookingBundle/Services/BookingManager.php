@@ -325,5 +325,21 @@ final class BookingManager
         $this->em->flush();
         return;
     }
+    
+    /**
+     * Get consultant Timeslots
+     * 
+     * @param SkedApp\CoreBundle\Entity\Consultant $consultant
+     * @param \Datetime $date
+     * @return array
+     */
+    public function getBookingSlotsForConsultantSearch($consultant,$date)
+    {
+        $this->logger->info('Get consultant open slots');
+        
+        $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
+                            ->getBookingSlotsForConsultantSearch($consultant, $date);
+        return $output;
+    }
 
 }

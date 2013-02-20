@@ -11,6 +11,10 @@ html, body {
 	/*height: 100%;*/
 	margin: 0 auto -61px;
 }
+
+.tab-content{
+  overflow:auto; 
+}
 #push {
 	height: 80px;
 }
@@ -23,6 +27,31 @@ html, body {
     background-color: #FFFFFF;
     border-radius: 5px 5px 5px 5px;
     height: 280px;
+}
+
+
+.tabbable .nav-tabs > .active > a, .tabbable .nav-tabs > .active > a:hover, .tabbable .nav-tabs > .active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #0394C8;
+    border-color: #0394C8 #0394C8 transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px #02B2E9 inset, 1px 0 #02B2E9 inset, -1px 0 #02B2E9 inset;
+    color: #FFFFFF;
+    cursor: default;
+    position: relative;
+    z-index: 4;
+}
+
+.tabbable .nav-tabs > li > a {
+    background-color: #888888;
+    border: 1px solid #888888;
+    box-shadow: 0 1px #AAAAAA inset, 1px 0 #AAAAAA inset, -1px 0 #AAAAAA inset;
+    color: #FFFFFF;
 }
 
 .container {

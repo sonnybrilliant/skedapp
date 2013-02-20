@@ -1,0 +1,64 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}View consultant details{% endblock %}
+
+{% block body %}
+<div class="row-fluid body-main">
+    <div class="span5">
+        <div class="forms-background">
+            <h4>Consultant Profile</h4>
+                <div class="whiteBackground">
+                    {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="space-left space-right pull-left img-polaroid"/>
+                    {% else %}
+                        {% if consultant.gender.name == "Male" %}
+                            <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="space-left space-right pull-left img-polaroid"/>
+                        {% else %}
+                            <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="space-left space-right pull-left img-polaroid"/>
+                        {% endif %}
+                        
+                    {% endif %}
+                    <div style="padding-right: 10px;"class="">
+                        <strong class="dark-gray-text">Full name: </strong><span class="gray-text">{{ consultant.fullName }}</span></br>
+                        <strong class="dark-gray-text">Gender: </strong><span class="gray-text">{{ consultant.gender.name }}</span></br>
+                        <strong class="dark-gray-text">Employer: </strong><span class="gray-text">{{ consultant.company.name }}</span></br>
+                        <strong class="dark-gray-text">Speciality: </strong><span class="gray-text">{{ consultant.speciality | raw }}</span></br>
+                        <strong class="dark-gray-text">Professional statement: </strong><span class="gray-text">{{ consultant.professionalStatement | raw }}</span></br>
+                        <strong class="dark-gray-text">Services: </strong>
+                        {% for service in consultant.consultantServices %}
+                            <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                        {% else %}
+                            No listed services found.
+                        {% endfor %}
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="spacer1"></div>
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+
+                                {{ consultant.getAvailableBookingSlots | ladybug_dump }}    
+
+                            </tr>
+                        </tbody>
+                    </table>
+             </div>
+        </div>
+    </div>
+    <div class="span7">
+        <div class="map-box">
+            <h4>Location Details</h4>
+            <div style="height: 175px;"class="g-maps"></div>
+            <address>
+              <h4>Employer: Skedapp</h4>
+              <strong>Location:</strong><br>
+              169 Troye Street<br> 405 Troye Villa<br>
+              South Africa<br>    
+              Pretoria<br> 0002<br>
+            </address>
+            <div class="spacer1"></div>
+            <div class="social-box">Find us on Facebook or Twitter <a href=""><img src="assets/img/facebook.png"></img> <a href=""><img src="assets/img/twitter.png"></img></a></div>
+        </div>
+    </div>
+</div> <!-- End .row-fluid -->
+ 
+{% endblock body %}

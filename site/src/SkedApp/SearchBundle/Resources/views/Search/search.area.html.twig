@@ -1,29 +1,32 @@
-<div class="span12 tabs-img"><img src="../img/tabs-set1.png" width="362" height="55" alt="step-tabs;" /></div>
+<div class="span12 tabs-img">
+    <img src="{{ asset('/img/tabs-set1.png') }}" width="362" height="55" alt="step-tabs;" />
+</div>
 <div class="span5">
     {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
 </div>
 <div class="span7">
-<div class="map-box">
-    <div id="map_canvas" class="img-polaroid mapRadius"></div>
-    <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
-<div class="clearfix"></div>
-<div class="social-box">
-        Find us on Facebook or Twitter
-        <a href="http://www.facebook.com/pages/Skedapp/420977264645890"><img src="../img/facebook.png"/></a>
-        <a href=""><img src="../img/twitter.png"/></a>
+    <div class="map-box">
+        <div id="map_canvas" class="img-polaroid mapRadius"></div>
+            <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
+        <div class="clearfix"></div>
+        <div class="social-box">
+                Find us on Facebook or Twitter
+                <a href="http://www.facebook.com/pages/Skedapp/420977264645890"><img src="{{ asset('/img/facebook.png') }}"/></a>
+                <a href=""><img src="{{ asset('/img/twitter.png') }}"/></a>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+
 {% block stylesheets %}
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
 {% endblock %}
 
 {% block jquery_ui %}
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
-<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
 {% endblock jquery_ui %}
 
 {% block javascripts %}
-<script src="{{ asset('/js/search.js') }}"></script>
+    <script src="{{ asset('/js/search.js') }}"></script>
 {% endblock javascripts %}

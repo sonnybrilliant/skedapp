@@ -2,34 +2,39 @@
 {% block title %}View consultant details{% endblock %}
 
 {% block body %}
-<div class="row-fluid body-main">
-    <div class="span5">
-        <div class="forms-background">
-            <h4>Consultant Profile</h4>
-                <div class="whiteBackground">
+<div class="row-fluid body-secondary">
+<div class="span12">
+  <div class="tabbable"> <!-- Only required for left/right tabs -->
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">Personal Details</a></li>
+      <li><a href="#tab2" data-toggle="tab">Bookings</a></li>
+    </ul>
+      <div class="tab-content" id="tab1">
+        <div class="tab-pane active">
+                <div class="span6">              
+                <h4>Consultant Profile</h4>
+                
                     {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
                         <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="space-left space-right pull-left img-polaroid"/>
                     {% else %}
                         {% if consultant.gender.name == "Male" %}
-                            <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="space-left space-right pull-left img-polaroid"/>
+                            <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="space-right pull-left img-polaroid"/>
                         {% else %}
-                            <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="space-left space-right pull-left img-polaroid"/>
+                            <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="space-right pull-left img-polaroid"/>
                         {% endif %}
                         
                     {% endif %}
-                    <div style="padding-right: 10px;"class="">
-                        <strong class="dark-gray-text">Full name: </strong><span class="gray-text">{{ consultant.fullName }}</span></br>
-                        <strong class="dark-gray-text">Gender: </strong><span class="gray-text">{{ consultant.gender.name }}</span></br>
-                        <strong class="dark-gray-text">Employer: </strong><span class="gray-text">{{ consultant.company.name }}</span></br>
-                        <strong class="dark-gray-text">Speciality: </strong><span class="gray-text">{{ consultant.speciality | raw }}</span></br>
-                        <strong class="dark-gray-text">Professional statement: </strong><span class="gray-text">{{ consultant.professionalStatement | raw }}</span></br>
-                        <strong class="dark-gray-text">Services: </strong>
-                        {% for service in consultant.consultantServices %}
-                            <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
-                        {% else %}
-                            No listed services found.
-                        {% endfor %}
-                    </div>
+
+                        <ul class="pull-left padding-left unstyled">
+                              <li><strong>Fullname:</strong> <a href="#">{{ consultant.fullName }}</a></li>
+                              <li><strong>Services:</strong> <span class="label label-warning">Mens Cut</span> <span class="label label-info">Womans Cut</span> <span class="label label-warning">Blow Wave</span></li>
+                              <li><strong>Service Provider:</strong> SkedApp</li>
+                              <li><strong>Address:</strong> Kempton Park, South Africa</li>
+                              <li><strong>Distance from you:</strong> 5km</li>
+                              <li><strong>GPS:</strong> 26° 6' 27.094" S 28° 3' 23.964" E</li>
+                          </ul>
+                      
+
                     <div class="clearfix"></div>
                     <div class="spacer1"></div>
                     <table class="table table-bordered">
@@ -41,24 +46,20 @@
                             </tr>
                         </tbody>
                     </table>
-             </div>
-        </div>
-    </div>
-    <div class="span7">
+        </div> <!-- End .span6 -->
+        <div style="width: 48.265%"class="span7">
         <div class="map-box">
-            <h4>Location Details</h4>
-            <div style="height: 175px;"class="g-maps"></div>
-            <address>
-              <h4>Employer: Skedapp</h4>
-              <strong>Location:</strong><br>
-              169 Troye Street<br> 405 Troye Villa<br>
-              South Africa<br>    
-              Pretoria<br> 0002<br>
-            </address>
+            <div class="g-maps"></div>
             <div class="spacer1"></div>
-            <div class="social-box">Find us on Facebook or Twitter <a href=""><img src="assets/img/facebook.png"></img> <a href=""><img src="assets/img/twitter.png"></img></a></div>
         </div>
     </div>
+
+                    
+
+</div>
+</div>
+</div>
+</div>
 </div> <!-- End .row-fluid -->
- 
+
 {% endblock body %}
