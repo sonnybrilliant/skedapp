@@ -29,8 +29,9 @@
             {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
         </div>
         <div style="width: 29.718%;" class="span6 pull-right">
-            <a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
+            <a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning pull-right"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
         </div>
+        <div class="clearfix"></div>
         <div class="tabbable"> <!-- Only required for left/right tabs -->
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab">Booking Calendars</a></li>
