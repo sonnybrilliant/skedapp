@@ -287,33 +287,25 @@ final class ConsultantManager
      */
     public function listAllWithinRadius($options = array())
     {
-
-        if (!isset($options['radius']))
-            $options['radius'] = 5;
-
-        if (!isset($options['lat']))
-            $options['lat'] = null;
-
-        if (!isset($options['lng']))
-            $options['lng'] = null;
-
-        $results = array(
-            'arrResult' => array(),
+        $this->logger->info("Search for consultants");
+        
+        $output = array(
+            'results' => array(),
             'radius' => $options['radius'],
         );
 
         if ((is_null($options['lat'])) || (is_null($options['lng'])))
-            return $results;
+            return $output;
 
-        while ((count($results['arrResult']) <= 0) && ($options['radius'] <= 200)) {
-            $results['arrResult'] = $this->em
+        while ((count($output['results']) <= 0) && ($options['radius'] <= 200)) {
+            $output['results'] = $this->em
                 ->getRepository('SkedAppCoreBundle:Consultant')
                 ->getAllActiveConsultantsQueryWithinRadius($options);
-            $results['radius'] = $options['radius'];
+            $output['radius'] = $options['radius'];
             $options['radius'] += 5;
         } //while
 
-        return $results;
+        return $output;
     }
 
     /**

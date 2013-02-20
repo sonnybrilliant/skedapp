@@ -1,1 +1,168 @@
-{# empty Twig template #}
+<div class="row-fluid body-secondary rounded-bottom">
+    <div class="span12">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">
+          <tr>
+            <th scope="col" class="table-heading-orange"><i class="icon-folder-open icon-white"></i> Choose a Consultant</th>
+            <th scope="col" class="table-heading-orange" colspan="7"><i class="icon-calendar icon-white"></i> Choose an Appointment Date</th>
+          </tr>
+          <tr>
+            <td width="30%" class="table-valign">
+                <span class="large-thin-text">
+                    {% if service is defined %}
+                        {{ service.name }}
+                    {% endif %}    
+                </span>
+            </td>
+            <td width="10%">
+                <strong>Mon</strong><br />
+                <span class="med-gray-text">10-02-13</span>
+            </td>
+            <td width="10%">
+                <strong>Tue</strong><br />
+                <span class="med-gray-text">11-02-13</span>
+            </td>
+            <td width="10%">
+                <strong>Wed</strong><br />
+                <span class="med-gray-text">13-02-13</span>
+            </td>
+            <td width="10%">
+                <strong>Thu</strong><br />
+                <span class="med-gray-text">14-02-13</span>
+            </td>
+            <td width="10%">
+                <strong>Fri</strong><br />
+                <span class="med-gray-text">15-02-13</span>
+            </td>
+            <td width="10%">
+                <strong>Sat</strong><br />
+                <span class="med-gray-text">16-02-13</span>
+            </td>
+            <td width="10%">
+                <strong>Sun</strong><br />
+                <span class="med-gray-text">17-02-13</span>
+            </td>
+          </tr>
+          {% for consultant in pagination %}
+          <tr>
+            <td>
+                   {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="118" class="img-polaroid span4"/>
+                    {% else %}
+                        {% if consultant.gender.name == "Male" %}
+                            <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="img-polaroid span4" />
+                        {% else %}
+                            <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="img-polaroid span4" />
+                        {% endif %}
+                        
+                    {% endif %}
+                <ul class="span8 unstyled">
+                    <li><strong>Fullname:</strong> <a href="#">{{ consultant.fullName }}</a></li>
+                    <li><strong>Services:</strong> 
+                        {% for service in consultant.consultantServices %}
+                            <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                        {% else %}
+                            No listed services found.
+                        {% endfor %}
+                    <li><strong>Service Provider:</strong> {{ consultant.company.name }}</li>
+                    <li><strong>Address:</strong> {{ consultant.company.address }}</li>
+                    <li><strong>Distance from you:</strong> {{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
+                    <li><strong>GPS:</strong> {{ consultant.company.completeGPS}}</li>
+                </ul>
+            </td>
+            <td>
+                <!-- monday -->
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Mon'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+           </td>
+           
+            <td>
+                 <!-- tuesday -->
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Tue'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+            </td>        
+           
+            <td>
+                                 <!-- tuesday -->
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Wed'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+            </td>        
+            
+            <td>
+                 <!-- tuesday -->
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Thu'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+            </td> 
+            
+            <td>
+                <!-- tuesday -->
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Fri'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+            </td>
+            
+            <td>
+                                 <!-- tuesday -->
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Sat'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+            </td>        
+            
+            <td>
+                {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                <ul class="unstyled">
+                {% for time_slot in arrSlots.time_slots %}
+                   {% if time_slot.dow == 'Sun'%}
+                      <li><a href="#">{{ time_slot.start_time }}</a></li>
+                   {% endif %} 
+                {% endfor %}
+                </ul>
+            </td>        
+            {% endfor %}
+
+          </tr>
+          
+          
+        </table>
+        <div class="btn-group pull-right">
+          <button class="btn">Previous</button>
+          <button class="btn">1</button>
+          <button class="btn">2</button>
+          <button class="btn">3</button>
+          <button class="btn">Next</button>
+        </div>
+    </div>
+</div><!-- End .row-fluid .body-secondary -->

@@ -1,0 +1,45 @@
+<div class="row-fluid body-main rounded-top">
+    <div class="span12 tabs-img">
+        <img src="{{ asset('/img/tabs-set2.png') }}" width="362" height="55" alt="step-tabs" class="space-left" />
+    </div>
+    <div class="clearfix"></div>
+    <div class="span5">
+        <div class="results-background">
+            <form class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
+                <fieldset>
+                    <label>{{ form_label(form.category) }}</label>
+                    {{ form_widget(form.category) }}
+                    <label>{{ form_label(form.address) }}</label>
+                    {{ form_widget(form.address) }}
+                    {{ form_widget(form.locality) }}
+                    {{ form_widget(form.administrative_area_level_2) }}
+                    {{ form_widget(form.administrative_area_level_1) }}
+                    {{ form_widget(form.country) }}
+                    {{ form_widget(form.lat) }}
+                    {{ form_widget(form.lng) }}
+                    <script type="text/javascript">
+                        var blnAddress = true;
+                    </script>
+                    <label>{{ form_label(form.booking_date) }}</label>
+                    {{ form_widget(form.booking_date) }}
+                    <label>{{ form_label(form.consultantServices) }}</label>
+                    {{ form_widget(form.consultantServices) }}    
+                    <div class="btn-toolbar pull-right">
+                        <div class="btn-group">
+                                <button class="btn btn-primary">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </fieldset>
+                {{ form_rest(form) }}    
+            </form>
+        </div>
+    </div>
+    <div class="span7">
+        <div class="map-box">
+            <div id="map_canvas" class="img-polaroid mapRadius"></div>
+            Use the controls on the map to pinpoint your position.<br />
+            Click and hold to drag the marker to where you are.
+            <div class="social-box">Find us on Facebook or Twitter <a href="#"><img src="{{ asset('/img/facebook.png') }}" width="32" height="32" alt="facebook" /></a> <a href="#"><img src="{{ asset('/img/twitter.png') }}" width="32" height="32" alt="twitter" /></a></div>
+        </div> <!-- End map-box -->
+    </div>
+</div> <!-- End .row-fluid .body-main -->
