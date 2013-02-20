@@ -297,9 +297,13 @@ class BookingController extends Controller
             $this->createNotFoundException($e->getMessage());
         }
 
+        if (!is_object($booking->getCustomer()))
+                $booking->setCustomer(new Customer());
+
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
                 'id' => $booking->getId(),
+                'customer' => $booking->getCustomer(),
                 'formCustomerPotential' => $formCustomerPotential->createView(),
             ));
     }

@@ -36,10 +36,12 @@ class CustomerPotentialType extends AbstractType
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
+                'required' => false,
                 'attr' => array('class' => 'span4')
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Mobile number:',
+                'required' => false,
                 'attr' => array('class' => 'span4')
             ))
             ->add('landLineNumber', 'text', array(
@@ -47,18 +49,15 @@ class CustomerPotentialType extends AbstractType
                 'required' => false,
                 'attr' => array('class' => 'span4')
             ))
-            ->add('email', 'repeated', array(
-                'type' => 'email',
-                'first_name' => 'first',
-                'first_options' => array('label' => 'Email address:'),
-                'options' => array('attr' => array('class' => 'span4')),
-                'second_name' => 'second',
-                'second_options' => array('label' => 'Confirm Email address:'),
-                'invalid_message' => 'Email addresses do not match',
+            ->add('email', 'text', array(
+                'label' => 'E-Mail:',
+                'required' => false,
+                'attr' => array('class' => 'span4')
             ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
+                'required' => false,
                 'attr' => array('class' => 'span4 chosen')
             ))
         ;
