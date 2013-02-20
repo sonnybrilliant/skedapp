@@ -77,6 +77,48 @@ class BookingUpdateType extends AbstractType
 
                 },
             ))
+            ->add('customerOrNot', 'choice', array(
+                'label' => 'Please select:',
+                'required' => true,
+                'expanded' => true,
+                'choices' => array(true => 'Link an existing customer', false => 'Add customer details'),
+            ))
+            ->add('customer', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Customer',
+                'label' => 'Customer:',
+                'empty_value' => 'Select a customer',
+                'attr' => array('class' => 'span4 chosen'),
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                     return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->andWhere('c.enabled  = :enabled')
+                        ->andWhere('c.isActive  = :isActive')
+                        ->setParameters(array(
+                            'status' => false,
+                            'enabled' => true,
+                            'isActive' => true
+                        ));
+                },
+            ))
+            ->add('customerPotential', 'entity', array(
+                'class' => 'SkedAppCoreBundle:CustomerPotential',
+                'label' => 'Offline Customer:',
+                'empty_value' => 'Select an offline customer',
+                'attr' => array('class' => 'span4 chosen'),
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                     return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->andWhere('c.enabled  = :enabled')
+                        ->andWhere('c.isActive  = :isActive')
+                        ->setParameters(array(
+                            'status' => false,
+                            'enabled' => true,
+                            'isActive' => true
+                        ));
+                },
+            ))
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',

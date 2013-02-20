@@ -17,6 +17,7 @@
             </div>
        </div>
       </div>
+
       <div class="control-group {% if form_errors(form.customerOrNot) %} error {% endif %}">
         <label class="control-label" for="customer">{{ form_label(form.customerOrNot) }}</label>
         <div class="controls">
@@ -51,6 +52,36 @@
                 <div class="controls">
                   {{ form_widget(formCustomerPotential.firstName) }}
                   <span class="help-inline">{{form_errors(formCustomerPotential.firstName)}}</span>
+                </div>
+              </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.lastName) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.lastName) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.lastName) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.lastName)}}</span>
+                </div>
+              </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.email) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.email) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.email) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.email)}}</span>
+                </div>
+              </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.mobileNumber) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.mobileNumber) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.mobileNumber) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.mobileNumber)}}</span>
                 </div>
               </div>
           </div>

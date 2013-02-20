@@ -52,7 +52,6 @@ class CustomerPotential implements \Serializable
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "Last name cannot be blank!")
      * @Assert\MinLength(limit= 2, message="Last name must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 100, message="Last name has a limit of {{ limit }} characters.")
      * @Assert\Regex(pattern="/\d/",
@@ -67,12 +66,6 @@ class CustomerPotential implements \Serializable
     /**
      * @var string
      *
-     *
-     * @Assert\NotBlank(message = "Emailaddress cannot be blank!")
-     * @Assert\Email(
-     *   message = "The email '{{ value }}' is not a valid email.",
-     *   checkMX = false
-     * )
      * @ORM\Column(name="email", type="string", length=254)
      */
     protected $email;

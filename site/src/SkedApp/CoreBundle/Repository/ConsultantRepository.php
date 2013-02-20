@@ -29,6 +29,9 @@ class ConsultantRepository extends EntityRepository
             'direction' => 'asc'
         );
 
+        if (!isset($options['searchText']))
+            $options['searchText'] = '';
+
         foreach ($options as $key => $values) {
             if (!$values) {
                 $options[$key] = $defaultOptions[$key];

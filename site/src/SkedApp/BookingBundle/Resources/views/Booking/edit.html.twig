@@ -1,43 +1,41 @@
-
-{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% extends "SkedAppCategoryBundle::layout.html.twig" %}
 {% block title %}Edit booking{% endblock %}
 
 {% block stylesheets %}
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" />
 {% endblock %}
-
 
 {% block jquery_ui %}
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
 {% endblock jquery_ui %}
 
-{% block body %}
+{% block javascripts %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock %}
 
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %}
-    </div>
-    {% endblock menu %}
-    {% block content %}
-    <div class="span9">
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
         <h3>Edit booking</h3>
-        <br />
 
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
         <br />
         <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id}) }}" class="btn btn-warning pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
-        <div class="span9" style="margin-left: 0px">
-            {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
+
+        <div style="margin-left: 0px;" class="span5">{% set vars = {'action': 'Edit booking'} %}
+           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
         </div>
-    </div>
-    {% endblock content %}
+        {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
+    </div> <!-- Dashboard Content -->
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
 
     jQuery(function($){
-        $( ".datepicker" ).datepicker({
+        $( "#Booking_appointmentDate" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: true,
             minDate: 0,
@@ -45,6 +43,25 @@ $(document).ready(function() {
             dateFormat: 'yy-mm-dd'
         });
     });
+
+    $('#divCustomerSelect').hide();
+    $('#divCustomerPotentialSelect').hide();
+
+    $('#Booking_customerOrNot_1').click(function() {
+        $('#divCustomerPotentialSelect').show();
+        $('#divCustomerSelect').hide();
+        });
+
+    $('#Booking_customerOrNot_0').click(function() {
+        $('#divCustomerPotentialSelect').hide();
+        $('#divCustomerSelect').show();
+        });
+
+    if ($('#Booking_customerOrNot_1').attr('checked')) {
+        $('#divCustomerPotentialSelect').show();
+        $('#divCustomerSelect').hide();
+    }
+
 });
 </script>
 {% endblock body %}
