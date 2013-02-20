@@ -32,11 +32,11 @@ class CompanyUpdateType extends AbstractType
         $builder
             ->add('name', 'text', array(
                 'label' => 'Name:',
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;'),
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
-                'attr' => array('class' => 'span12'),
+                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;'),
                 'required'      => false,
             ))
             ->add('description', 'textarea', array(
@@ -47,26 +47,27 @@ class CompanyUpdateType extends AbstractType
             ->add('address', null, array(
                 'label' => 'Type your address:',
                 'required'      => true,
+               'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
                 
             ))
             ->add('contactNumber', 'text', array(
                 'label' => 'Contact number:',
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
             ->add('locality', null, array(
                 'required'      => false,
                 'read_only'      => true,
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
             ->add('country', null, array(
                 'required'      => false,
                 'read_only'      => true,
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
             ->add('lat', null, array(
                 'required'      => false,
                 'read_only'      => true,
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
             ->add('lng', null, array(
                 'required'      => false,
