@@ -155,7 +155,9 @@ class ConsultantController extends Controller
             $this->get('logger')->warn("consultant not found $id");
             return $this->createNotFoundException();
         }
-
+        
+        
+        
         return $this->render('SkedAppConsultantBundle:Consultant:show.personal.details.html.twig', array('consultant' => $consultant));
     }
 

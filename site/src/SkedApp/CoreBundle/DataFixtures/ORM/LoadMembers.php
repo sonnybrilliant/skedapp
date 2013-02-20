@@ -129,10 +129,11 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
 
         $memberManagerService->createDefaultMember($adminUserArno); 
         
+        
         $adminUserTumelo = array(
             'firstName' => 'Tumelo',
             'lastName' => 'Mogoboya',
-            'email' => 'tumi.mogoboya@creativecloud.co.za',
+            'email' => 'tumelo.mogoboya@creativecloud.co.za',
             'mobile' => '27717704567',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
@@ -142,7 +143,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'isAdmin' => true, 
         );
 
-        $memberManagerService->createDefaultMember($adminUserArno);        
+        $memberManagerService->createDefaultMember($adminUserTumelo);        
         
         $adminUserJanet = array(
             'firstName' => 'Janet',

@@ -69,6 +69,7 @@ html, body {
 .gray-text {
 	color: #555555;
 }
+
 .small-thin-text {
 	font-size: 16px;
 }
@@ -173,6 +174,9 @@ Page Styles
 *********************/
 .logo {
 	padding-left: 1.25em;
+}
+.paddingBottom5px{
+  margin-bottom: 5px;
 }
 .row-fluid.body-main .span5 {
 	padding-left: 0px;
@@ -288,7 +292,7 @@ Page Styles
 }
 .forms-background form label {
 	color: #FFFFFF;
-	font-size: 19px;
+	font-size: 17px;
 	line-height: 1.5em;
 }
 .table-heading-blue a{

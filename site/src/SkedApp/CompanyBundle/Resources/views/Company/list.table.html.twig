@@ -63,9 +63,9 @@
            <td>{{company.createdAt|date('Y-m-d H:i A')}}</td>
            <td>
                <small>
-                  <a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to view"><i class="icon-black icon-eye-open"></i>&nbsp;View</a>&nbsp;
-                  <a href='{{path('sked_app_company_edit', {'id': company.id }) }}' rel="tooltip" title="click to edit"><i class="icon-black icon-edit"></i>&nbsp;Edit</a>&nbsp;
-                  <a href='{{path('sked_app_company_delete', {'id': company.id }) }}' rel="tooltip" title="click to delete"><i class="icon-black icon-trash"></i>&nbsp;Delete</a>
+                  <a href='{{path('sked_app_company_show', {'id': company.id }) }}' rel="tooltip" title="click to view" class="btn btn-small btn-primary"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                  <a href='{{path('sked_app_company_edit', {'id': company.id }) }}' rel="tooltip" title="click to edit" class="btn btn-small btn-info"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                  <a href='{{path('sked_app_company_delete', {'id': company.id }) }}' rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
                </small>
            </td>  
          </tr>
