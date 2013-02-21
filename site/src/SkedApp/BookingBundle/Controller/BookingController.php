@@ -15,6 +15,7 @@ use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\CustomerPotential;
 use SkedApp\CoreBundle\Entity\Timeslots;
 use SkedApp\CoreBundle\Entity\Consultant;
+use SkedApp\BookingBundle\Form\BookingMakeType;
 
 /**
  * SkedApp\BookingBundle\Controller\BookingController
