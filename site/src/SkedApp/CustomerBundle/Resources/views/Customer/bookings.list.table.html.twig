@@ -2,12 +2,12 @@
     <table id="sortable" class="table display table-striped table-condensed tablesorter">
         <thead>
           <tr>
-            <th><img src="{{ asset('/img/assets/icons/sort_descend.png') }}" title="Sort by table headers" /> {{ pagination.sortable('#', 'b.id')|raw }}</th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Cunsultant', 'b.consultant')|raw }}</th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Service', 'b.service')|raw }}</th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Confirmed', 'b.isConfirmed')|raw }}</th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Booking date', 'b.hiddenAppointmentStartTime')|raw }}</th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Booking Time', 'b.hiddenAppointmentStartTime')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'#', 'b.id')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Cunsultant', 'b.consultant')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Service', 'b.service')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Confirmed', 'b.isConfirmed')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Booking date', 'b.hiddenAppointmentStartTime')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Booking Time', 'b.hiddenAppointmentStartTime')|raw }}</th>
             <th></th>
           </tr>
         </thead>
@@ -32,7 +32,7 @@
         </tbody>
  </table>
     <div class="pagination pull-right">
-        {{ pagination.render()|raw }}
+    {{ knp_pagination_render(pagination) }}
     </div>
 </section>
 {% for booking in pagination %}
