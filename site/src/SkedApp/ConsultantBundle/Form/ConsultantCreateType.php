@@ -32,17 +32,17 @@ class ConsultantCreateType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('email', 'repeated', array(
                 'type' => 'email',
                 'first_name' => 'first',
                 'first_options'  => array('label' => 'Email address:'),
-                'options' => array('attr' => array('class' => 'span4')),
+                'options' => array('attr' => array('class' => 'span12')),
                 'second_name' => 'second',
                 'second_options' => array('label' => 'Confirm Email address:'),
                 'invalid_message' => 'Email addresses do not match',
@@ -51,7 +51,7 @@ class ConsultantCreateType extends AbstractType
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',
                 'label' => 'Company:',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
@@ -61,13 +61,13 @@ class ConsultantCreateType extends AbstractType
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
             ->add('category', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Category',
                 'empty_value' => 'Select a category',
                 'label' => 'Category:',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
@@ -79,23 +79,23 @@ class ConsultantCreateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => true,
                 'required' => false,
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled'),
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled'),
 
             ))
             ->add('speciality', 'textarea', array(
                 'label' => 'Speciality:',
                 'required' => false,
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
             ))
             ->add('professionalStatement', 'textarea', array(
                 'label' => 'Professional Statement:',
                 'required' => false,
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('monday', 'checkbox', array(
                 'label' => 'M',
@@ -128,17 +128,17 @@ class ConsultantCreateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span6')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time to:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span3')
             ))
             ->add('appointmentDuration', 'entity', array(
                 'class' => 'SkedAppCoreBundle:AppointmentDuration',
                 'label' => 'Session length:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span4')
             ))
         ;
     }
