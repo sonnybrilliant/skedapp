@@ -12,6 +12,11 @@ html, body {
 	margin: 0 auto -61px;
 }
 
+.text-top{
+  vertical-align: text-top;
+  margin-left: 3px;
+}
+
 .tab-content{
   overflow:auto; 
 }
