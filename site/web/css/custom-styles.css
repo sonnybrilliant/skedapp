@@ -210,6 +210,11 @@ Page Styles
 .logo {
 	padding-left: 1.25em;
 }
+
+
+.space-right-bottom{
+  margin-bottom: 10px;
+}
 .paddingBottom5px{
   margin-bottom: 5px;
 }
