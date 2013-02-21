@@ -5,7 +5,7 @@
 <div class="row-fluid body-secondary">
     <div class="span5">
         <div class="dash-forms-background">
-            <h4>Service Provider Profile</h4>
+            <h3>Service Provider Profile</h3>
             <div class="whiteBackground">
                 <img src="/uploads/companies/gallery.png/{{ company.id }}.{{ company.path }}" style="width:140px; height:140px" class="space-left space-right pull-left img-polaroid"/>
                 <div style="padding-right: 10px;">
@@ -21,7 +21,7 @@
             </div>
             <div class="spacer1"></div>
             <div class="spacer2"></div>
-            <h4>Photos</h4>
+            <h3>Photos</h3>
             <div class="bs-docs-example bs-docs-example-images">
                 <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7">
                 <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7">
@@ -36,7 +36,7 @@
     </div>
     <div class="span7">
         <div class="map-box">
-            <h4>Location Details</h4>
+            <h3>Location Details</h3>
             {{ google_map_container(map) }}
             <address>
                 <h4>Service Provider: {{ company.name }}</h4>

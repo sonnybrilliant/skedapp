@@ -13,9 +13,9 @@
 {% endblock jquery_ui %}
 
 {% block body %}
-<div class="row-fluid body-main">
+<div class="row-fluid body-secondary">
     <div class="span5">
-        <div class="forms-background">
+        <div class="dash-forms-background">
             <h3>Add service provider</h3>
             {% include "SkedAppCompanyBundle:Company:form.create.html.twig" %}
         </div>
@@ -26,7 +26,8 @@
             <ol>
                     <li>Provide a valid email address.</li>
             </ol>
-            <div id="map" style="width: 600px;"></div>
+            <div id="map" style="width: 629px; border-radius: 5px;"></div>
+            <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
         </div>            	
     </div>
 </div> <!-- End .row-fluid -->
