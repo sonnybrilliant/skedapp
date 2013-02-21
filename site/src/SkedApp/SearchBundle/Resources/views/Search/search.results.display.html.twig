@@ -39,7 +39,7 @@
           <tr>
             <td>
                    {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="118" class="img-polaroid span4"/>
+                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="138" class="img-polaroid span4"/>
                     {% else %}
                         {% if consultant.gender.name == "Male" %}
                             <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="img-polaroid span4" />
@@ -49,17 +49,15 @@
                         
                     {% endif %}
                 <ul class="span8 unstyled">
-                    <li><strong>Fullname:</strong> <a href="#">{{ consultant.fullName }}</a></li>
-                    <li><strong>Services:</strong> 
-                        {% for service in consultant.consultantServices %}
+                    <li><a href="#">{{ consultant.fullName }}</a></li>
+                    <li>{% for service in consultant.consultantServices %}
                             <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
                         {% else %}
                             No listed services found.
                         {% endfor %}
-                    <li><strong>Service Provider:</strong> {{ consultant.company.name }}</li>
-                    <li><strong>Address:</strong> {{ consultant.company.address }}</li>
-                    <li><strong>Distance from you:</strong> {{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
-                    <li><strong>GPS:</strong> {{ consultant.company.completeGPS}}</li>
+                    <li>{{ consultant.company.name }}</li>
+                    <li>{{ consultant.company.address }}</li>
+                    <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
                 </ul>
             </td>
             <td>
