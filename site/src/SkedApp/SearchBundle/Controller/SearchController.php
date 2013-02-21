@@ -36,37 +36,57 @@ class SearchController extends Controller
                 $options['lng'] = $data['lng'];
                 $options['radius'] = 20;
                 $options['category'] = $data['category'];
+                $options['categoryId'] = $data['category']->getId();
                 $options['service'] = $data['consultantServices'];
-
-                $searchResults = $this->container
-                    ->get('consultant.manager')
-                    ->listAllWithinRadius($options);
-
-                $paginator = $this->get('knp_paginator');
-                $pagination = $paginator->paginate(
-                    $searchResults['results'], $this->getRequest()->query->get('page', $page), 10
-                );
-
-                foreach ($pagination as $consultant) {
-                    $date = new \DateTime($data['booking_date']);
-                    $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
-                    $consultant->setAvailableBookingSlots($slots);
-                }
-
-                return $this->render('SkedAppSearchBundle:Search:search.html.twig', array(
-                        'form' => $form->createView(),
-                        'pagination' => $pagination,
-                        'service' => $options['service'],
-                        'options' => $options 
-                    ));
+                $options['serviceId'] = $data['consultantServices']->getId();
+                $options['date'] = $data['booking_date'];
             } else {
                 $this->getRequest()->getSession()->setFlash(
                     'error', 'Failed search');
             }
+        } else {
+            $data = $this->getRequest()->get('Search');
+            
+            $service = $this->get('service.manager')->getById($data['serviceId']);
+            $category = $this->get('category.manager')->getById($data['categoryId']);
+
+            $options['lat'] = $data['lat'];
+            $options['lng'] = $data['lng'];
+            $options['radius'] = 20;
+            $options['category'] = $category;
+            $options['categoryId'] = $category->getId();
+            $options['service'] = $service;
+            $options['serviceId'] = $service->getId();
+            $options['date'] = $data['date'];
+        }
+
+        $searchResults = $this->container
+            ->get('consultant.manager')
+            ->listAllWithinRadius($options);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $searchResults['results'], $this->getRequest()->query->get('page', $page), 5
+        );
+
+        $paginationParams = array();
+
+        //Read form variables into an array
+        foreach ($options as $strKey => $strValue) {
+            $paginationParams['Search[' . $strKey . ']'] = $strValue;
+        }
+
+        foreach ($pagination as $consultant) {
+            $date = new \DateTime($options['date']);
+            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
+            $consultant->setAvailableBookingSlots($slots);
         }
 
         return $this->render('SkedAppSearchBundle:Search:search.html.twig', array(
                 'form' => $form->createView(),
+                'pagination' => $pagination,
+                'options' => $options,
+                'paginationParams' => $paginationParams
             ));
     }
 

@@ -8,8 +8,8 @@
           <tr>
             <td width="30%" class="table-valign">
                 <span class="large-thin-text">
-                    {% if service is defined %}
-                        {{ service.name }}
+                    {% if options.service is defined %}
+                        {{ options.service.name }}
                     {% endif %}    
                 </span>
             </td>
@@ -67,7 +67,7 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Mon'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>        
@@ -83,7 +83,7 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Tue'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>      
@@ -99,7 +99,7 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Wed'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>      
@@ -115,7 +115,7 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Thu'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>      
@@ -131,7 +131,7 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Fri'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>      
@@ -147,7 +147,7 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Sat'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>      
@@ -162,24 +162,60 @@
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Sun'%}
                       <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': service.id}) }}">
+                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
                       </li>      
                    {% endif %} 
                 {% endfor %}
                 </ul>
-            </td>        
+            </td>  
+            <script language="JavaScript">
+
+            var serviceProviderIDs = new Array();
+            var serviceProviders = new Array();
+            var searchLatitude = '{{ options.lat  }}';
+            var searchLongitude = '{{ options.lng }}';
+            var searchDate = '{{ options.date }}';
+            var searchCategoryId = '{{ options.category.id }}';
+            var searchServiceIds = '{{ options.service.id }}';
+            var intCCnt = 0;
+            var intSPCnt = 0;
+            
+            if (!serviceProviders[{{ consultant.company.id }}]) {
+
+                serviceProviderIDs[intSPCnt] = {{ consultant.company.id }};
+                intSPCnt++;
+
+                serviceProviders[{{ consultant.company.id }}] = new Array();
+                serviceProviders[{{ consultant.company.id }}]['name'] = '{{ consultant.company.name }}';
+                serviceProviders[{{ consultant.company.id }}]['address'] = '{{ consultant.company.address }}';
+                serviceProviders[{{ consultant.company.id }}]['lat'] = '{{ consultant.company.lat }}';
+                serviceProviders[{{ consultant.company.id }}]['lng'] = '{{ consultant.company.lng }}';
+                serviceProviders[{{ consultant.company.id }}]['consultants'] = new Array();
+
+                intCCnt = 0;
+
+            } else {
+                intCCnt = serviceProviders[{{ consultant.company.id }}]['consultants'].length;
+            }
+
+            serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt] = new Array();
+            serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt]['id'] = '{{ consultant.id }}';
+            serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt]['fullName'] = '{{ consultant.fullName }}';
+            intCCnt++;
+
+            </script>
+            
+            
+            
+            
             {% endfor %}
 
           </tr>        
         </table>
         <div class="btn-group pull-right">
-          <button class="btn">Previous</button>
-          <button class="btn">1</button>
-          <button class="btn">2</button>
-          <button class="btn">3</button>
-          <button class="btn">Next</button>
+            {{ knp_pagination_render(pagination, null , paginationParams) }}
         </div>
     </div>
 </div><!-- End .row-fluid .body-secondary -->

@@ -82,6 +82,26 @@ final class CategoryManager
         $this->em = $em;
     }
 
+     /**
+     * Get service by id
+     *
+     * @param integer $id
+     * @return SkedAppCoreBundle:Category
+     * @throws \Exception
+     */
+    public function getById($id)
+    {
+        $category = $this->em->getRepository('SkedAppCoreBundle:Category')
+            ->find($id);
+
+        if (!$category) {
+            throw new \Exception('Category not found for id:' . $id);
+            $this->logger->err('Failed to find Service by id:' . $id);
+        }
+
+        return $category;
+    }   
+    
     /**
      * Create and update category
      * 
