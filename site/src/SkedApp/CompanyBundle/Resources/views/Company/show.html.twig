@@ -2,9 +2,9 @@
 {% block title %}Service provider profile{% endblock %}
 
 {% block body %}        
-<div class="row-fluid body-main">
+<div class="row-fluid body-secondary">
     <div class="span5">
-        <div class="forms-background">
+        <div class="dash-forms-background">
             <h4>Service Provider Profile</h4>
             <div class="whiteBackground">
                 <img src="/uploads/companies/gallery.png/{{ company.id }}.{{ company.path }}" style="width:140px; height:140px" class="space-left space-right pull-left img-polaroid"/>
@@ -29,9 +29,7 @@
                 <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid">
                 <div class="clearfix"></div>
                 <div class="spacer2"></div>
-                <div class="spacer2"></div>
                 <div class="clearfix"></div>
-                <div class="spacer2"></div>
                 <div class="spacer1"></div>
             </div>
         </div>
@@ -44,10 +42,7 @@
                 <h4>Service Provider: {{ company.name }}</h4>
                 <strong>Location:</strong><br>
                 {{ company.address }}
-                
-
             </address>
-            <div class="social-box">Find us on Facebook or Twitter <a href=""><img src="{{ asset('/img/facebook.png') }}"></img> <a href=""><img src="{{ asset('/img/twitter.png') }}"></img></a></div>
         </div>
     </div>
 </div> <!-- End .row-fluid -->
