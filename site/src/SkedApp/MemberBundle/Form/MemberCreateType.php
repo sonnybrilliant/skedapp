@@ -65,7 +65,7 @@ class MemberCreateType extends AbstractType
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',
                 'label' => 'Company:',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
@@ -75,7 +75,7 @@ class MemberCreateType extends AbstractType
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
             ->add('group', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Group',
@@ -85,7 +85,7 @@ class MemberCreateType extends AbstractType
             ->add('title', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Title',
                 'label' => 'Title:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
         ;
     }

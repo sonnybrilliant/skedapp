@@ -81,17 +81,17 @@
       <div class="control-group">
         <label class="control-label" for="time_slots">Default time slots</label>
         <div class="controls">
-            <div style="border: 1px solid #ccc; padding: 5px;width: 75%;">
+            <div style="border: 1px solid #ccc; padding: 5px;width: 96%;">
                 <table style="font-size: 12px;">
                     <tr>
                         <td>Days:<td>
-                        <td>&nbsp;{{ form_widget(form.monday) }}<strong>M</strong>&nbsp;<td>
-                        <td>&nbsp;{{ form_widget(form.tuesday) }}<strong>T</strong>&nbsp;</td>
-                        <td>&nbsp;{{ form_widget(form.wednesday) }}<strong>W</strong>&nbsp;</td>
-                        <td>&nbsp;{{ form_widget(form.thursday) }}<strong>T</strong>&nbsp;</td>
-                        <td>&nbsp;{{ form_widget(form.friday) }}<strong>F</strong>&nbsp;</td>
-                        <td>&nbsp;{{ form_widget(form.saturday) }}<strong>S</strong>&nbsp;</td>
-                        <td>&nbsp;{{ form_widget(form.sunday) }}<strong>S</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.monday) }}<strong class="text-top">M</strong>&nbsp;<td>
+                        <td>&nbsp;{{ form_widget(form.tuesday) }}<strong class="text-top">T</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.wednesday) }}<strong class="text-top">W</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.thursday) }}<strong class="text-top">T</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.friday) }}<strong class="text-top">F</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.saturday) }}<strong class="text-top">S</strong>&nbsp;</td>
+                        <td>&nbsp;{{ form_widget(form.sunday) }}<strong class="text-top">S</strong>&nbsp;</td>
                     </tr>
                 </table>
                 <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
@@ -108,7 +108,7 @@
 
         </div>
       </div>
-      <div class="form-actions">
+      <div class="btn-toolbar pull-right">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_consultant_list') }}" class="btn">Cancel</a>
       </div> 

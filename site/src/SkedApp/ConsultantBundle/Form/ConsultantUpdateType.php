@@ -82,31 +82,30 @@ class ConsultantUpdateType extends AbstractType
                 'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
             ))
             ->add('monday', 'checkbox', array(
-                'label' => 'Mon',
-                'required'  => false,
+                'label' => 'M'> false,
             ))
             ->add('tuesday', 'checkbox', array(
-                'label' => 'Tue',
+                'label' => 'T',
                 'required'  => false,
             ))
             ->add('wednesday', 'checkbox', array(
-                'label' => 'Wed',
+                'label' => 'W',
                 'required'  => false,
             ))
             ->add('thursday', 'checkbox', array(
-                'label' => 'Thur',
+                'label' => 'T',
                 'required'  => false,
             ))
             ->add('friday', 'checkbox', array(
-                'label' => 'Fri',
+                'label' => 'F',
                 'required'  => false,
             ))
             ->add('saturday', 'checkbox', array(
-                'label' => 'Sat',
+                'label' => 'S',
                 'required'  => false,
             ))
             ->add('sunday', 'checkbox', array(
-                'label' => 'Sun',
+                'label' => 'S',
                 'required'  => false,
             ))
             ->add('startTimeslot', 'entity', array(

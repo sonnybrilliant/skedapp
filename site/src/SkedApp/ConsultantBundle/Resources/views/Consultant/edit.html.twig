@@ -7,14 +7,14 @@
 <div class="row-fluid body-secondary">
     <div class="span12">
         <h3>Edit consultant</h3>
-        <div class="span9" style="margin-left: 0px">
+        <div class="span7" style="margin-left: 0px">
            {% set vars = {'action': 'Edit'} %}
            {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
         </div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-        <div class="span6" style="margin-left: 0px">
+        <div class="span7" style="margin-left: 0px">
         {#start form display===============================#}
             {% include "SkedAppConsultantBundle:Consultant:form.edit.html.twig" %}
         {#end form display===============================#} 
