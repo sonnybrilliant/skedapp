@@ -99,7 +99,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Customer',
                 'label' => 'Customer:',
                 'empty_value' => 'Select a customer',
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
