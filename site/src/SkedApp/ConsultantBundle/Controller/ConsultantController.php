@@ -12,6 +12,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\BookingBundle\Form\BookingShowType;
+use Ivory\GoogleMap\Overlays\Animation;
+use Ivory\GoogleMap\MapTypeId;
+use Ivory\GoogleMap\Events\MouseEvent;
 
 /**
  * SkedApp\ConsultantBundle\Controller\ConsultantController
@@ -41,10 +44,10 @@ class ConsultantController extends Controller
         $searchText = $this->get('request')->query->get('searchText');
         $sort = $this->get('request')->query->get('sort', 'c.id');
         $direction = $this->get('request')->query->get('direction', 'asc');
-        
+
         $options = array('searchText' => $searchText,
             'sort' => $sort,
-            'direction' => $direction,           
+            'direction' => $direction,
         );
 
         $paginator = $this->get('knp_paginator');
@@ -133,7 +136,7 @@ class ConsultantController extends Controller
             }
         }
 
-       return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
+        return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -155,9 +158,9 @@ class ConsultantController extends Controller
             $this->get('logger')->warn("consultant not found $id");
             return $this->createNotFoundException();
         }
-        
-        
-        
+
+
+
         return $this->render('SkedAppConsultantBundle:Consultant:show.personal.details.html.twig', array('consultant' => $consultant));
     }
 
@@ -189,7 +192,7 @@ class ConsultantController extends Controller
 
         return $this->render(
                 'SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array('consultant' => $consultant, 'form' => $form->createView(), 'companyId' => $companyId)
-                );
+        );
     }
 
     /**
@@ -356,34 +359,33 @@ class ConsultantController extends Controller
                     $bookingName = "On leave";
                 } else {
                     if (is_object($booking->getService()))
-                            $bookingName = $booking->getService()->getName();
+                        $bookingName = $booking->getService()->getName();
                     else
-                            $bookingName = 'Unknown Service';
+                        $bookingName = 'Unknown Service';
                 }
 
                 $bookingTooltip = '<div class="divBookingTooltip">';
 
-                if (is_object ($booking->getCustomer())) {
+                if (is_object($booking->getCustomer())) {
 
                     $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
                     $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
                     $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
 
                     $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
-
                 }
 
                 $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
                 $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
                 $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
 
-                if (is_object ($booking->getConsultant())) {
+                if (is_object($booking->getConsultant())) {
                     $bookingTooltip .= '<strong>Consultant:</strong> ' . $booking->getConsultant()->getFullName() . "<br />";
                     $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $booking->getConsultant()->getEmail() . "<br />";
                 }
 
-                if (is_object ($booking->getService()))
-                        $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
+                if (is_object($booking->getService()))
+                    $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
 
                 $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
 
@@ -461,9 +463,114 @@ class ConsultantController extends Controller
      * @return View
      *
      */
-    public function viewAction($id)
+    public function viewAction($slug, $id)
     {
-        $this->get('logger')->info('view consultant public');
+        $this->get('logger')->info('consultant public profile');
+
+        $options = array();
+
+        try {
+            $consultant = $this->get('consultant.manager')->getById($id);
+
+            $service = $this->get('service.manager')->getById($this->getRequest()->get('serviceId'));
+            $category = $this->get('category.manager')->getById($this->getRequest()->get('categoryId'));
+
+            $options['lat'] = $this->getRequest()->get('lat');
+            $options['lng'] = $this->getRequest()->get('lng');
+            $options['radius'] = 20;
+            $options['category'] = $category;
+            $options['categoryId'] = $category->getId();
+            $options['service'] = $service;
+            $options['serviceId'] = $service->getId();
+            $options['date'] = $this->getRequest()->get('date');
+
+            $date = new \DateTime($options['date']);
+            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
+            $consultant->setAvailableBookingSlots($slots);
+
+
+            $infoWindow = $this->get('ivory_google_map.info_window');
+
+            // Configure your info window options
+            $infoWindow->setPrefixJavascriptVariable('info_window_');
+            $infoWindow->setPosition(0, 0, true);
+            $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
+            $infoWindow->setContent('<p>'.$consultant->getCompany()->getName().'<br/><small>Telphone: </p>');
+            $infoWindow->setOpen(false);
+            $infoWindow->setAutoOpen(true);
+            $infoWindow->setOpenEvent(MouseEvent::CLICK);
+            $infoWindow->setAutoClose(false);
+            $infoWindow->setOption('disableAutoPan', true);
+            $infoWindow->setOption('zIndex', 10);
+            $infoWindow->setOptions(array(
+                'disableAutoPan' => true,
+                'zIndex' => 10
+            ));
+
+
+
+            $marker = $this->get('ivory_google_map.marker');
+
+
+            // Configure your marker options
+            $marker->setPrefixJavascriptVariable('marker_');
+            $marker->setPosition($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(), true);
+            $marker->setAnimation(Animation::DROP);
+            $marker->setOptions(array(
+                'clickable' => true,
+                'flat' => true
+            ));
+            $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
+            $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
+
+            $map = $this->get('ivory_google_map.map');
+            // Configure your map options
+            $map->setPrefixJavascriptVariable('map_');
+            $map->setHtmlContainerId('map_canvas');
+
+            $map->setAsync(false);
+
+            $map->setAutoZoom(false);
+
+            $map->setCenter($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(), true);
+            $map->setMapOption('zoom', 16);
+
+            $map->setBound(0, 0, 0, 0, false, false);
+
+            // Sets your map type
+            $map->setMapOption('mapTypeId', MapTypeId::ROADMAP);
+            $map->setMapOption('mapTypeId', 'roadmap');
+
+            $map->setMapOption('disableDefaultUI', false);
+            $map->setMapOption('disableDoubleClickZoom', false);
+            $map->setStylesheetOptions(array(
+                'width' => '100%',
+                'height' => '300px'
+            ));
+
+            $map->setLanguage('en');
+            $map->addMarker($marker);
+            $marker->setInfoWindow($infoWindow);
+        } catch (\Exception $e) {
+            return $this->createNotFoundException($e->getMessage());
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:public.profile.html.twig', array(
+                'consultant' => $consultant,
+                'map'=>$map,
+                'options' => $options
+            ));
+    }
+
+    /**
+     * View consultant (Public)
+     *
+     * @return View
+     *
+     */
+    public function viewOldAction($slug, $id)
+    {
+        $this->get('logger')->info('consultant public profile');
 
         $em = $this->getDoctrine()->getEntityManager();
         $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
@@ -480,43 +587,42 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        $company_photos = $this->container->get('company_photos.manager')->listAll (array ('company_id' => $company->getId (), 'sort' => 'c.caption', 'direction' => 'asc'));
+        $company_photos = $this->container->get('company_photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
 
         $arrBookingDate = $this->getRequest()->get('Search', array('booking_date' => ''));
 
         $strBookingDate = $this->getRequest()->get('booking_date', $arrBookingDate['booking_date']);
 
-        if (strlen ($strBookingDate) > 0) {
-          $objDateSend = new \DateTime($strBookingDate);
-          $consultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $objDateSend));
+        if (strlen($strBookingDate) > 0) {
+            $objDateSend = new \DateTime($strBookingDate);
+            $consultant->setAvailableBookingSlots($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $objDateSend));
         }
 
-        $otherConsultants = $this->get('consultant.manager')->listAllByCompany ($company, array('sort' => 'c.lastName', 'direction' => 'Asc'));
+        $otherConsultants = $this->get('consultant.manager')->listAllByCompany($company, array('sort' => 'c.lastName', 'direction' => 'Asc'));
         $otherConsultantsArray = array();
 
         foreach ($otherConsultants as $otherConsultant) {
             if ($otherConsultant->getId() != $consultant->getId()) {
                 $objDateSend = new \DateTime($strBookingDate);
-                $otherConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($otherConsultant, $objDateSend));
+                $otherConsultant->setAvailableBookingSlots($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($otherConsultant, $objDateSend));
                 $otherConsultantsArray[] = $otherConsultant;
             }
         }
 
         $form = $this->createForm(new SearchType());
 
-        return $this->render('SkedAppConsultantBundle:Consultant:view.html.twig',
-                array(
-                    'consultant' => $consultant,
-                    'company' => $company,
-                    'company_photos' => $company_photos,
-                    'intPositionLat' => $this->getRequest()->get('pos_lat', 0),
-                    'intPositionLong' => $this->getRequest()->get('pos_lng', 0),
-                    'dateFull' => $strBookingDate,
-                    'category_id' => $this->getRequest()->get('category_id', 0),
-                    'serviceIds' => $this->getRequest()->get('serviceIds'),
-                    'form' => $form->createView(),
-                    'otherConsultants' => $otherConsultantsArray,
-                    ));
+        return $this->render('SkedAppConsultantBundle:Consultant:view.html.twig', array(
+                'consultant' => $consultant,
+                'company' => $company,
+                'company_photos' => $company_photos,
+                'intPositionLat' => $this->getRequest()->get('pos_lat', 0),
+                'intPositionLong' => $this->getRequest()->get('pos_lng', 0),
+                'dateFull' => $strBookingDate,
+                'category_id' => $this->getRequest()->get('category_id', 0),
+                'serviceIds' => $this->getRequest()->get('serviceIds'),
+                'form' => $form->createView(),
+                'otherConsultants' => $otherConsultantsArray,
+            ));
     }
 
     /**
@@ -549,13 +655,13 @@ class ConsultantController extends Controller
         $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objDateSelected->setTime(0, 0, 0), $objDateSelected->setTime(23, 59, 59));
 
         $arrTwigOptions = array(
-                    'consultant' => $consultant,
-                    'print_bookings' => true,
-                    'form' => $form->createView(),
-                    'bookings' => $bookings,
-                    'selected_date' => $objDateSelected->format('d-m-Y'),
-                    'print' => $this->getRequest()->get('print_out', 0)
-                );
+            'consultant' => $consultant,
+            'print_bookings' => true,
+            'form' => $form->createView(),
+            'bookings' => $bookings,
+            'selected_date' => $objDateSelected->format('d-m-Y'),
+            'print' => $this->getRequest()->get('print_out', 0)
+        );
 
         if ($this->getRequest()->get('print_out', 0) <= 0) {
             $twigName = 'SkedAppConsultantBundle:Consultant:show.bookings.day.html.twig';

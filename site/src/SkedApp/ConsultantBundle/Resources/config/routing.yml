@@ -63,7 +63,7 @@ sked_app_consultant_ajax_get_all_bookings:
         expose: true
 
 sked_app_consultant_view:
-    pattern:  /consultant/view/details/{id}
+    pattern:  /consultant/profile/{slug}/{id}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:view }
     requirements:
         id:  \d+

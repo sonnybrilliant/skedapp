@@ -45,7 +45,16 @@ class SearchController extends Controller
                     'error', 'Failed search');
             }
         } else {
+           
             $data = $this->getRequest()->get('Search');
+            
+            if(!is_array($data)){
+              $data['lat'] = $this->getRequest()->get('lat');  
+              $data['lng'] = $this->getRequest()->get('lng');  
+              $data['serviceId'] = $this->getRequest()->get('serviceId');  
+              $data['categoryId'] = $this->getRequest()->get('categoryId');  
+              $data['date'] = $this->getRequest()->get('date');  
+            }
             
             $service = $this->get('service.manager')->getById($data['serviceId']);
             $category = $this->get('category.manager')->getById($data['categoryId']);

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  * @subpackage Entity
  * @version 0.0.1
  */
-class Consultant implements AdvancedUserInterface , \Serializable
+class Consultant implements AdvancedUserInterface, \Serializable
 {
 
     /**
@@ -331,6 +331,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     public $picture;
     public $category = null;
     public $available_slots;
+    public $slug;
 
     public function __construct()
     {
@@ -357,7 +358,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
      */
     public function eraseCredentials()
     {
-
+        
     }
 
     /**
@@ -379,6 +380,23 @@ class Consultant implements AdvancedUserInterface , \Serializable
     public function equals(AdvancedUserInterface $user)
     {
         return md5($this->getUsername()) == md5($user->getUsername());
+    }
+    
+    /**
+     * Create slug
+     * 
+     * @param string $text
+     * @return string
+     */
+    public function slugify($text)
+    {
+        // replace all non letters or digits by -
+        $text = preg_replace('/\W+/', '-', $text);
+
+        // trim and lowercase
+        $text = strtolower(trim($text, '-'));
+
+        return $text;
     }
 
     /**
@@ -1337,14 +1355,14 @@ class Consultant implements AdvancedUserInterface , \Serializable
         return $this->consultantRoles;
     }
 
-        /**
+    /**
      * @see \Serializable::serialize()
      */
     public function serialize()
     {
         return serialize(array(
-            $this->id,
-        ));
+                $this->id,
+            ));
     }
 
     /**
@@ -1354,7 +1372,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     {
         list (
             $this->id,
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     public function isAccountNonExpired()
@@ -1382,14 +1400,14 @@ class Consultant implements AdvancedUserInterface , \Serializable
      *
      * @return string
      */
-    public function getFullName ()
+    public function getFullName()
     {
-       return $this->firstName.' '.$this->lastName;
+        return $this->firstName . ' ' . $this->lastName;
     }
 
-    public function getObjectAsArray ()
+    public function getObjectAsArray()
     {
-        return array (
+        return array(
             'id' => $this->getId(),
             'gender' => $this->getGender()->getName(),
             'company' => $this->getCompany()->getObjectAsArray(),
@@ -1419,4 +1437,16 @@ class Consultant implements AdvancedUserInterface , \Serializable
         );
     }
 
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        $fullName = $this->getFullName();
+        $this->slug = $this->slugify($fullName);
+        return $this->slug;
+    }
 }
