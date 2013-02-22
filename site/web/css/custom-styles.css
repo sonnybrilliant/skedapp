@@ -5,6 +5,16 @@ html, body {
 	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
 	height: 100%;
 }
+#Booking_customerOrNot_0{
+  float: left;
+  margin-right: 5px;
+}
+
+#Booking_customerOrNot_1{
+  float: left;
+  margin-right: 5px;
+}
+
 #wrap {
 	min-height: 100%;
 	height: auto !important;

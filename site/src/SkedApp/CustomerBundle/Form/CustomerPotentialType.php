@@ -32,33 +32,33 @@ class CustomerPotentialType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Mobile number:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('landLineNumber', 'text', array(
                 'label' => 'Land line number:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('email', 'text', array(
                 'label' => 'E-Mail:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
                 'required' => false,
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
         ;
     }
