@@ -51,7 +51,7 @@ class BookingUpdateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span3 datepicker'),
+                'attr' => array('class' => 'span4 datepicker'),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))

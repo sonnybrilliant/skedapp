@@ -63,7 +63,7 @@ class BookingCreateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span3 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
+                'attr' => array('class' => 'span4 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
@@ -134,7 +134,7 @@ class BookingCreateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span3')
+                'attr' => array('class' => 'span5')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',

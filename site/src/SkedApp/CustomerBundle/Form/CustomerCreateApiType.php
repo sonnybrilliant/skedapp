@@ -32,7 +32,7 @@ class CustomerCreateApiType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
