@@ -61,7 +61,7 @@ class BookingListFilterType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
                 'empty_value' => 'Select a consultant',
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) use ($companyId) {
 
                     if ($companyId <= 0) {

@@ -58,7 +58,7 @@ class BookingUpdateType extends AbstractType
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -87,7 +87,7 @@ class BookingUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Customer',
                 'label' => 'Customer:',
                 'empty_value' => 'Select a customer',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -105,7 +105,7 @@ class BookingUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
                 'empty_value' => 'Select an offline customer',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -147,7 +147,7 @@ class BookingUpdateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
             ))
 
         ;

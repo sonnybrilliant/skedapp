@@ -1,6 +1,7 @@
+<div class="spacer2"></div>
+
 <form class="form-horizontal" action="{{ path('sked_app_booking_create') }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
       <div class="control-group">
         <label class="control-label" for="time_slots">Date and time</label>
         <div class="controls">
@@ -123,9 +124,9 @@
           <span class="help-inline">{{form_errors(form.description)}}</span>
         </div>
       </div>
-      <div class="form-actions">
+      <div class="btn-toolbar pull-right">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn">Cancel</a>
+                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn btn-small">Cancel</a>
       </div>
       {{ form_rest(form) }}
   </fieldset>

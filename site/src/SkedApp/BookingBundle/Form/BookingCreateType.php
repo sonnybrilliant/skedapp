@@ -71,7 +71,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
                 'empty_value' => 'Select a consultant',
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -99,7 +99,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Customer',
                 'label' => 'Customer:',
                 'empty_value' => 'Select a customer',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -117,7 +117,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
                 'empty_value' => 'Select an offline customer',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -134,12 +134,12 @@ class BookingCreateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span3')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time to:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span3')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
@@ -160,7 +160,7 @@ class BookingCreateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled'),
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled'),
             ))
 
         ;

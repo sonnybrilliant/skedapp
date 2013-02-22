@@ -33,12 +33,12 @@ class BookingShowType extends AbstractType
                 'attr' => array('class' => 'span3 datepicker'),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled' ), 
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled' ), 
             ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled' ),                
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled' ),                
             ))
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
@@ -59,7 +59,7 @@ class BookingShowType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled' ),
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled' ),
             ))
 
         ;
