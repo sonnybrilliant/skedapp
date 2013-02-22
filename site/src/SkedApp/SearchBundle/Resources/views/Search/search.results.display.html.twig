@@ -49,15 +49,14 @@
                         
                     {% endif %}
                 <ul class="span8 unstyled">
-                    <li><a href="#">{{ consultant.fullName }}</a></li>
+                    <li><a href="{{ path('sked_app_consultant_view', { 'id': consultant.id , 'slug': consultant.getSlug() , 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}">{{ consultant.fullName }}</a></li>
                     <li>{% for service in consultant.consultantServices %}
                             <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
                         {% else %}
-                            No listed services found.
                         {% endfor %}
                     <li>{{ consultant.company.name }}</li>
                     <li>{{ consultant.company.address }}</li>
-                    <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
+                    <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>                    
                 </ul>
             </td>
             <td>
