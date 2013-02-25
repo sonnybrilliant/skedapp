@@ -1,9 +1,28 @@
-<div class="well sidebar-nav emphasize-dark" style="margin-top: 20px;">
-    <ul class="nav nav-list">
+<div class="row-fluid">
+    <ul class="nav nav-tabs pull-right">
         {% if is_granted('ROLE_CONSULTANT_USER') %}
-        <li><a href="{{ path('sked_app_consultant_show' , {'id':consultant.id }) }}"><i class="icon-chevron-right"></i>Profile</a></li>
-        <li><a href="{{ path('sked_app_consultant_booking_show' , {'id':consultant.id }) }}"><i class="icon-chevron-right"></i>Bookings</a></li>
-        <li><a href="{{ path('sked_app_consultant_booking_day_print' , {'id':consultant.id }) }}"><i class="icon-chevron-right"></i>Print Bookings</a></li>
-        {% endif %}
+            {% if controller == 'profile'%}
+                <li class="active"><a href="{{ path('sked_app_consultant_show' , {'id':consultant.id }) }}" title="my profile">Profile</a></li>
+            {% else %}
+                <li><a href="{{ path('sked_app_consultant_show' , {'id':consultant.id }) }}" title="my profile">Profile</a></li>
+            {% endif %}
+                
+            {% if controller == 'bookings'%}
+                <li class="active"><a href="{{ path('sked_app_consultant_booking_show' , {'id':consultant.id }) }}" title="my bookings">Bookings</a></li>
+            {% else %}
+                <li><a href="{{ path('sked_app_consultant_booking_show' , {'id':consultant.id }) }}" title="my bookings">Bookings</a></li>
+            {% endif %}
+                
+            {% if controller == 'print'%}
+                <li class="active"><a href="{{ path('sked_app_consultant_booking_day_print' , {'id':consultant.id }) }}" title="print bookings">Print Bookings</a></li>
+            {% else %}
+                <li><a href="{{ path('sked_app_consultant_booking_day_print' , {'id':consultant.id }) }}" title="print bookings">Print Bookings</a></li>
+            {% endif %}
+
+        {% endif%}
     </ul>
-</div><!--/.well -->
+</div> <!-- End .row-fluid -->
+<div class="row-fluid nav-active"><!-- This is just a spacer to show which page is active --></div>
+<div class="row-fluid content-devider"><!-- This is just a visual devider to seperate the content from the navigation --></div>
+
+

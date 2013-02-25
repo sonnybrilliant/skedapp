@@ -15,18 +15,18 @@
 <script src="{{ asset('/js/jquery.qtip-1.0.0-rc3.min.js') }}"></script>
 {% endblock %}
 
-
-{% block menu %}
-   {% if is_granted('ROLE_ADMIN') %}
-        {% include "::menu.html.twig" %}
-   {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-        {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant,'controller': 'bookings' } %}
-   {% endif %}
-{% endblock menu %}   
-       
-
 {% block body %}
+    {% block menu %}
     <div class="row-fluid body-secondary">
+    <div class="span3 bs-docs-sidenav">
+       {% if is_granted('ROLE_ADMIN') %}
+            {% include "::menu.html.twig" %}
+       {% elseif is_granted('ROLE_CONSULTANT_USER') %}
+            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant } %}
+       {% endif %}
+    </div>
+    {% endblock menu %}
+    {% block content %}
     <div class="span12" style="margin-left: 0px">
         <h3>Consultant profile</h3>
         <div class="span5" style="margin-left: 0px">
@@ -71,7 +71,7 @@
         </div>
      </div>
 </div>
-
+    {% endblock content %}
         <script type='text/javascript'>
 
                    function loadBookingList (consultantSelect, dateInput) {
