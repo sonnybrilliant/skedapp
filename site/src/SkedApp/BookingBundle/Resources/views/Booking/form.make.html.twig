@@ -1,47 +1,45 @@
-<form class="form-horizontal" action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
-  {{ form_widget(form.appointmentDate) }}
-  {{ form_widget(form.startTimeslot) }}
-  {{ form_widget(form.consultant) }}
-  {{ form_widget(form.service) }}
-  <fieldset>
-      <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
-      <div class="control-group">
-        <label class="control-label" for="consultants">Appointment Date:</label>
-        <div class="controls">
-          {{ booking_date }}
+<div class="row-fluid body-main rounded-all">
+    <div class="span12 tabs-img">
+        <img src="{{ asset('/img/tabs-set3.png') }}" width="362" height="55" alt="step-tabs;" class="space-left" />
+    </div>
+    <div class="clearfix"></div>
+    <div class="span5">
+        <div class="confirm-background">
+            <form action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
+                {{ form_widget(form.appointmentDate) }}
+                {{ form_widget(form.startTimeslot) }}
+                {{ form_widget(form.consultant) }}
+                {{ form_widget(form.service) }}  
+              <fieldset>
+                <label>Appointment Date</label>
+                {{ booking_date }}
+                <label>Appointment Time:</label>
+                {{ booking_time_start }} - {{ booking_time_end }}
+                <label>Consultant</label>
+                {{ consultant.getFullName() }}
+                <label>Service</label>
+                {{ booking_service }} 
+                <label>Add notes, if any...</label>
+                {{ form_widget(form.description) }}
+                <div class="spacer1"></div>
+                <div class="submitButton">
+                    <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+                </div>
+              </fieldset>
+              {{ form_rest(form) }}      
+            </form>
         </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="consultants">Appointment Time:</label>
-        <div class="controls">
-          {{ booking_time_start }} - {{ booking_time_end }}
+    </div>
+    <div class="span7">
+        <div class="map-box">
+            <h3>Location Details</h3>
+            {{ google_map_container(map) }}
+            <address>
+                <h4>Service Provider: {{ consultant.company.name }}</h4>
+                <strong>Location:</strong><br>
+                {{ consultant.company.address }}
+            </address>
         </div>
-      </div>
-      <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
-        <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
-        <div class="controls">
-          {{ booking_consultant }}
-        </div>
-      </div>
-      <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
-        <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
-        <div class="controls">
-          {{ booking_service }}
-        </div>
-      </div>
-      <div class="control-group {% if form_errors(form.description) %} error {% endif %}">
-        <label class="control-label" for="description">{{ form_label(form.description) }}</label>
-        <div class="controls">
-          {{ form_widget(form.description) }}
-          <span class="help-inline">{{form_errors(form.description)}}</span>
-        </div>
-      </div>
-      <div class="form-actions">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('_welcome') }}" class="btn">Cancel</a>
-      </div>
-      {{ form_rest(form) }}
-  </fieldset>
-</form>
+    </div>
+</div> <!-- End .row-fluid -->
 {{ tinymce_init() }}
-

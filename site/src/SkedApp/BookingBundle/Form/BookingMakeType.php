@@ -109,6 +109,7 @@ class BookingMakeType extends AbstractType
             ->add('description', 'textarea', array(
                 'label' => 'Notes:',
                 'required' => false,
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
             ))
 
         ;

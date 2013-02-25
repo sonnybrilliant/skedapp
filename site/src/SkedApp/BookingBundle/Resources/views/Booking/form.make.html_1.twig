@@ -1,0 +1,47 @@
+<form class="form-horizontal" action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
+  {{ form_widget(form.appointmentDate) }}
+  {{ form_widget(form.startTimeslot) }}
+  {{ form_widget(form.consultant) }}
+  {{ form_widget(form.service) }}
+  <fieldset>
+      <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
+      <div class="control-group">
+        <label class="control-label" for="consultants">Appointment Date:</label>
+        <div class="controls">
+          {{ booking_date }}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="consultants">Appointment Time:</label>
+        <div class="controls">
+          {{ booking_time_start }} - {{ booking_time_end }}
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
+        <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
+        <div class="controls">
+          {{ booking_consultant }}
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
+        <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
+        <div class="controls">
+          {{ booking_service }}
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.description) %} error {% endif %}">
+        <label class="control-label" for="description">{{ form_label(form.description) }}</label>
+        <div class="controls">
+          {{ form_widget(form.description) }}
+          <span class="help-inline">{{form_errors(form.description)}}</span>
+        </div>
+      </div>
+      <div class="form-actions">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('_welcome') }}" class="btn">Cancel</a>
+      </div>
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+{{ tinymce_init() }}
+
