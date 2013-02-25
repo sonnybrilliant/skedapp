@@ -15,7 +15,7 @@
                 <h4>Consultant Profile</h4>
                 
                     {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="space-left space-right pull-left img-polaroid"/>
+                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="space-right pull-left img-polaroid"/>
                     {% else %}
                         {% if consultant.gender.name == "Male" %}
                             <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="space-right pull-left img-polaroid"/>
