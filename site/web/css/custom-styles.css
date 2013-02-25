@@ -5,15 +5,72 @@ html, body {
 	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
 	height: 100%;
 }
+#Booking_customerOrNot_0{
+  float: left;
+  margin-right: 5px;
+}
+
+#Booking_customerOrNot_1{
+  float: left;
+  margin-right: 5px;
+}
+
 #wrap {
 	min-height: 100%;
 	height: auto !important;
 	/*height: 100%;*/
 	margin: 0 auto -61px;
 }
+
+.text-top{
+  vertical-align: text-top;
+  margin-left: 3px;
+}
+
+
+
+.tab-content{
+  overflow:auto; 
+}
 #push {
 	height: 80px;
 }
+
+.span7 .map-box {
+    padding: 1.25em;
+}
+
+.span7 .map-box #map_canvas {
+    border: 1px solid #ddd;
+    background-color: #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    height: 280px;
+}
+
+.tabbable .nav-tabs > .active > a, .tabbable .nav-tabs > .active > a:hover, .tabbable .nav-tabs > .active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #0394C8;
+    border-color: #0394C8 #0394C8 transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px #02B2E9 inset, 1px 0 #02B2E9 inset, -1px 0 #02B2E9 inset;
+    color: #FFFFFF;
+    cursor: default;
+    position: relative;
+    z-index: 4;
+}
+
+.tabbable .nav-tabs > li > a {
+    background-color: #888888;
+    border: 1px solid #888888;
+    box-shadow: 0 1px #AAAAAA inset, 1px 0 #AAAAAA inset, -1px 0 #AAAAAA inset;
+    color: #FFFFFF;
+}
+
 .container {
 	padding-top: 0px;
 }
@@ -58,6 +115,7 @@ html, body {
 .gray-text {
 	color: #555555;
 }
+
 .small-thin-text {
 	font-size: 16px;
 }
@@ -73,12 +131,22 @@ html, body {
 .space-right {
 	margin-right: 10px;
 }
-.padding-left {
-	padding-left: 10px;
+
+
+.space-right7 {
+	margin-right: 7px;
 }
-.padding-right {
-	padding-right: 10px;
+
+.whiteBackground{
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px 0 0 0;
 }
+
+.dark-gray-text{
+  color: #333;
+}
+
 .asterisk {
 	color: #F00;
 }
@@ -112,6 +180,7 @@ Generic Styles
 	color: #FFFFFF;
 	background-color: #333333;
 	border: 1px solid #333333;
+  border-radius: 10px;
 	-moz-box-shadow: inset 0px 0px 1px #ffffff;
 	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
 	box-shadow: inset 0px 0px 1px #ffffff;
@@ -152,6 +221,14 @@ Page Styles
 *********************/
 .logo {
 	padding-left: 1.25em;
+}
+
+
+.space-right-bottom{
+  margin-bottom: 10px;
+}
+.paddingBottom5px{
+  margin-bottom: 5px;
 }
 .row-fluid.body-main .span5 {
 	padding-left: 0px;
@@ -222,6 +299,7 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
+
 .confirm-background {
 	margin: 0 0 -1px -1px;
 	padding: 0;
@@ -251,6 +329,7 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
+
 .dash-forms-background {
 	padding: 1.25em 1.25em 0 1.25em;
 }
@@ -285,28 +364,31 @@ Page Styles
 }
 .booking-background form label {
 	color: #FFFFFF;
-	font-size: 1.5em;
+	font-size: 17px;
 	line-height: 1.5em;
 }
+
 .results-background form label {
 	color: #FFFFFF;
-	font-size: 1.5em;
-	line-height: 1.5em;
-}
-.confirm-background form label {
-	color: #FFFFFF;
-	font-size: 1.5em;
+	font-size: 17px;;
 	line-height: 1.5em;
 }
 .forms-background form label {
 	color: #FFFFFF;
-	font-size: 1.5em;
+	font-size: 17px;
 	line-height: 1.5em;
+}
+.table-heading-blue a{
+  color: #fff;
 }
 .dash-forms-background form label {
 	color: #555555;
-	font-size: 1.5em;
+	font-size: 17px;
 	line-height: 1.5em;
+}
+
+.width{
+  width: 100%;
 }
 select.span12{
 	border: 1px solid #bbb;
@@ -317,7 +399,7 @@ select.span12{
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
-.booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus, .confrim-background select.span12:focus {
+.booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
 	-webkit-box-shadow: 0px 0px 5px #333333;
 	box-shadow: 0px 0px 5px #333333;
@@ -343,10 +425,10 @@ input.span12{
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
-.map-box {
+.span7 .map-box {
 	padding: 1.25em;
 }
-.map-box .g-maps {
+.span7 .map-box .g-maps {
 	background-color: #ffffff;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -357,6 +439,21 @@ input.span12{
 	padding-top: 1.25em;
 	text-align: right;
 }
+
+.facebook{
+  background-image:url('../img/fb.png');
+  height: 32px;
+  width: 32px;
+  position: absolute;
+}
+
+.twitter{
+  background-image:url('../img/twitter.png');
+  height: 32px;
+  width: 32px;
+  position: absolute;
+}
+
 .hint-box {
 	padding: 1.25em;
 }
@@ -376,33 +473,7 @@ Dashboard Navigation
 	-webkit-box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
 	box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
 }
-.tabbable .nav-tabs > li > a {
-	background-color: #888;
-	border: 1px solid #888;
-	color: #fff;
-	-moz-box-shadow: inset 0px 1px #aaa, inset 1px 0px #aaa, inset -1px 0px #aaa;
-	-webkit-box-shadow: inset 0px 1px #aaa, inset 1px 0px #aaa, inset -1px 0px #aaa;
-	box-shadow: inset 0px 1px #aaa, inset 1px 0px #aaa, inset -1px 0px #aaa;
-}
 .nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
-    -moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    background-color: #0394c8;
-    border-color: #0394c8 #0394c8 transparent;
-    border-image: none;
-    border-style: solid;
-    border-width: 1px;
-    color: #FFFFFF;
-    cursor: default;
-	position: relative;
-	z-index: 4;
-	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-}
-.tabbable .nav-tabs > .active > a, .tabbable .nav-tabs > .active > a:hover, .tabbable .nav-tabs > .active > a:focus {
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
@@ -454,7 +525,7 @@ Dashboard Navigation
 .table-heading-blue {
 	color: #FFFFFF;
 	background-color: #0394c8 !important;
-	font-style: italic;
+	
 }
 .table-heading-orange {
 	color: #FFFFFF;
