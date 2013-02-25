@@ -36,6 +36,8 @@
                     <div class="navbar-inner">
                             <div class="container">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <span class="brand"><small>Welcome, {{app.user.firstName}} {{app.user.lastName}}.</small></span>
+    
                                 <ul class="nav pull-right">
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>   
