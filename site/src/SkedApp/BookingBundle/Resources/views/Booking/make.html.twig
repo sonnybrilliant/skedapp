@@ -1,59 +1,10 @@
-
 {% extends "SkedAppBookingBundle::layout.html.twig" %}
 {% block title %}Make a booking{% endblock %}
 
-{% block stylesheets %}
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
-{% endblock %}
-
-
-{% block jquery_ui %}
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
-{% endblock jquery_ui %}
+{% block menu %}
+{% endblock menu %}
 
 {% block body %}
-    {% block menu %}
-     <div class="span3 bs-docs-sidenav">
-           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer } %} 
-     </div>       
-    {% endblock menu %} 
-    {% block content %}
-    <div class="span9">
-        <h3>Make a booking</h3>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-            {% include "SkedAppBookingBundle:Booking:form.make.html.twig" %}
-        </div>        
-    </div>
-    {% endblock content %}
-<script type="text/javascript">
-$(document).ready(function() {
-
-    jQuery(function($){
-        $( ".datepicker" ).datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            minDate: 0,
-            maxDate: "+1M +10D",
-            dateFormat: 'yy-mm-dd'
-        });
-    });
-});
-var consultantId = document.getElementById('Booking_consultant').value;
-    $.getJSON("/booking/ajaxGetByConsultant/"+consultantId,function(response){
-        if(response.results){
-
-            var el = $('#Booking_service');
-            el.empty();
-            el.removeAttr("disabled");
-            $.each(response.results, function(key,value) {
-                el.append($("<option></option>")
-                    .attr("value", value.id).text(value.name));
-
-            });
-        }
-    });
-</script>
-{% endblock body %}
+    {% include "SkedAppBookingBundle:Booking:form.make.html.twig" %}
+{{ google_map_js(map) }}
+{% endblock %}

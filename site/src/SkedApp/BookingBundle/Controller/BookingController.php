@@ -16,6 +16,9 @@ use SkedApp\CoreBundle\Entity\CustomerPotential;
 use SkedApp\CoreBundle\Entity\Timeslots;
 use SkedApp\CoreBundle\Entity\Consultant;
 use SkedApp\BookingBundle\Form\BookingMakeType;
+use Ivory\GoogleMap\Overlays\Animation;
+use Ivory\GoogleMap\MapTypeId;
+use Ivory\GoogleMap\Events\MouseEvent;
 
 /**
  * SkedApp\BookingBundle\Controller\BookingController
@@ -43,9 +46,9 @@ class BookingController extends Controller
         $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
 
         if (is_object($user->getCompany()))
-                $companyId = $user->getCompany()->getId();
+            $companyId = $user->getCompany()->getId();
         else
-                $companyId = 0;
+            $companyId = 0;
 
         $form = $this->createForm(new BookingListFilterType($companyId, new \DateTime()));
 
@@ -73,17 +76,17 @@ class BookingController extends Controller
 
         $bookingValues = $this->getRequest()->get('Booking');
 
-        if (!isset ($bookingValues['appointmentDate']))
-          $bookingValues['appointmentDate'] = date('Y-m-d');
+        if (!isset($bookingValues['appointmentDate']))
+            $bookingValues['appointmentDate'] = date('Y-m-d');
 
-        if (isset ($bookingValues['startTimeslot']))
-          $booking->setStartTimeslot($this->get('timeslots.manager')->getById($bookingValues['startTimeslot']));
+        if (isset($bookingValues['startTimeslot']))
+            $booking->setStartTimeslot($this->get('timeslots.manager')->getById($bookingValues['startTimeslot']));
 
-        if (isset ($bookingValues['endTimeslot']))
-          $booking->setEndTimeslot($this->get('timeslots.manager')->getById($bookingValues['endTimeslot']));
+        if (isset($bookingValues['endTimeslot']))
+            $booking->setEndTimeslot($this->get('timeslots.manager')->getById($bookingValues['endTimeslot']));
 
-        if (isset ($bookingValues['consultant']))
-          $booking->setConsultant($this->get('consultant.manager')->getById($bookingValues['consultant']));
+        if (isset($bookingValues['consultant']))
+            $booking->setConsultant($this->get('consultant.manager')->getById($bookingValues['consultant']));
 
         $form = $this->createForm(new BookingCreateType(
                 $user->getCompany()->getId(),
@@ -225,7 +228,7 @@ class BookingController extends Controller
         $customer = new Customer();
 
         if (is_object($booking->getCustomer()))
-                $customer = $booking->getCustomer();
+            $customer = $booking->getCustomer();
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
@@ -278,7 +281,7 @@ class BookingController extends Controller
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Updated booking sucessfully');
 
-                    if ( (!$oldIsConfirmed) && ($booking->getIsConfirmed()) ) {
+                    if ((!$oldIsConfirmed) && ($booking->getIsConfirmed())) {
                         $options = array(
                             'booking' => $booking,
                             'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
@@ -299,7 +302,7 @@ class BookingController extends Controller
         }
 
         if (!is_object($booking->getCustomer()))
-                $booking->setCustomer(new Customer());
+            $booking->setCustomer(new Customer());
 
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
@@ -402,40 +405,38 @@ class BookingController extends Controller
                     $bookingName = "On leave";
                 } else {
                     if (is_object($booking->getService()))
-                            $bookingName = $booking->getService()->getName();
+                        $bookingName = $booking->getService()->getName();
                     else
-                            $bookingName = 'Unknown Service';
+                        $bookingName = 'Unknown Service';
                 }
 
                 $bookingTooltip = '<div class="divBookingTooltip">';
 
-                if (is_object ($booking->getConsultant())) {
+                if (is_object($booking->getConsultant())) {
 
                     $bookingName = $booking->getConsultant()->getFullName() . ' - ' . $bookingName;
-
                 }
 
-                if (is_object ($booking->getCustomer())) {
+                if (is_object($booking->getCustomer())) {
 
                     $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
                     $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
                     $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
 
                     $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
-
                 }
 
                 $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
                 $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
                 $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
 
-                if (is_object ($booking->getConsultant())) {
+                if (is_object($booking->getConsultant())) {
                     $bookingTooltip .= '<strong>Consultant:</strong> ' . $booking->getConsultant()->getFullName() . "<br />";
                     $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $booking->getConsultant()->getEmail() . "<br />";
                 }
 
-                if (is_object ($booking->getService()))
-                        $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
+                if (is_object($booking->getService()))
+                    $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
 
                 $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
 
@@ -454,14 +455,13 @@ class BookingController extends Controller
                     //'textColor' => 'black'
                 );
             } //foreach booking found
-
         } //if bookings found
 
         if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) <= (60 * 60 * 24)) {
             $isSingleDay = true;
         }
 
-        if ( (!is_null($start)) && (!is_null($end)) ) {
+        if ((!is_null($start)) && (!is_null($end))) {
             //Adding empty slots
             $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc'));
 
@@ -481,16 +481,15 @@ class BookingController extends Controller
 
                 //Check which consultant starts the earliest and which ends the latest
                 if ($earliestStart->getTimestamp() > $startSlotsDateTime->getTimestamp()) {
-                   $earliestStart = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
+                    $earliestStart = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
                 }
 
                 if ($latestEnd->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
-                   $latestEnd = new \DateTime($endSlotsDateTime->format('Y-m-d H:i:00'));
+                    $latestEnd = new \DateTime($endSlotsDateTime->format('Y-m-d H:i:00'));
                 }
 
-                if ( ($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time()) ) {
+                if (($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time())) {
                     //If its a single day, add empty slots for each resource
-
                     //Make sure start time slot is more than 2 hours in the future
                     while ($startSlotsDateTime->getTimestamp() < (time() + (60 * 60 * 2))) {
 
@@ -519,7 +518,7 @@ class BookingController extends Controller
 
                         $isAvailable = $this->get('booking.manager')->isBookingDateAvailable($booking);
 
-                        unset ($booking);
+                        unset($booking);
 
                         if ($isAvailable) {
 
@@ -536,7 +535,7 @@ class BookingController extends Controller
                             $bookingTooltip .= '<strong>Service(s): </strong>';
 
                             foreach ($services as $service)
-                              $bookingTooltip .= $service->getName() . " ";
+                                $bookingTooltip .= $service->getName() . " ";
 
                             $bookingTooltip .= "<br />";
 
@@ -548,31 +547,27 @@ class BookingController extends Controller
                                 'start' => $startSlot->format("c"),
                                 'end' => $endSlot->format("c"),
                                 'resourceId' => 'resource-' . $consultant->getId(),
-                                'url' => $this->generateUrl("sked_app_booking_new",
-                                        array(
-                                            'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
-                                            'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
-                                            'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
-                                            'Booking[consultant]' => $consultant->getId(),
-                                                    )),
+                                'url' => $this->generateUrl("sked_app_booking_new", array(
+                                    'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
+                                    'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
+                                    'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
+                                    'Booking[consultant]' => $consultant->getId(),
+                                )),
                                 'description' => $bookingTooltip,
                                 'color' => 'white',
                                 'textColor' => 'black'
                             );
-
                         } //if slot is available
 
                         $startSlotsDateTime->add($durationInterval);
 
-                        unset ($startSlot);
-                        unset ($endSlot);
-
+                        unset($startSlot);
+                        unset($endSlot);
                     } //while
                 } //if is a single day
-
             } //foreach consultant
 
-            if ( (!$isSingleDay) && ($latestEnd->getTimestamp() > time()) ) {
+            if ((!$isSingleDay) && ($latestEnd->getTimestamp() > time())) {
 
                 //Make sure start time slot is more than 2 hours in the future
                 while ($earliestStart->getTimestamp() < (time() + (60 * 60 * 2))) {
@@ -604,10 +599,9 @@ class BookingController extends Controller
                         'start' => $startSlot->format("c"),
 //                        'end' => $endSlot->format("c"),
                         //'start' => "2012-11-29",
-                        'url' => $this->generateUrl("sked_app_booking_new",
-                                array(
-                                    'Booking[appointmentDate]' => $startSlot->format("Y-m-d")
-                            )),
+                        'url' => $this->generateUrl("sked_app_booking_new", array(
+                            'Booking[appointmentDate]' => $startSlot->format("Y-m-d")
+                        )),
                         'description' => $bookingTooltip,
                         'color' => 'white',
                         'textColor' => 'black'
@@ -615,9 +609,8 @@ class BookingController extends Controller
 
                     $earliestStart->add($durationInterval);
 
-                    unset ($startSlot);
-                    unset ($endSlot);
-
+                    unset($startSlot);
+                    unset($endSlot);
                 } //while
             } //Single day
         } //Dates are set
@@ -636,15 +629,15 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('see list of bookings');
 
-        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) ) {
+        if ((!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))) {
             $this->get('logger')->warn('Ajax list bookings, access denied.');
             throw new AccessDeniedException();
         }
 
         if (strtotime($this->getRequest()->get('filterDate')) > 0)
-                $filterDate = new \DateTime($this->getRequest()->get('filterDate'));
+            $filterDate = new \DateTime($this->getRequest()->get('filterDate'));
         else
-                $filterDate = new \DateTime();
+            $filterDate = new \DateTime();
 
         $companyId = $this->getRequest()->get('company', 0);
         $consultantId = $this->getRequest()->get('consultant', 0);
@@ -658,9 +651,9 @@ class BookingController extends Controller
         $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $startDate, $endDate, $companyId);
 
         if (is_object($user->getCompany()))
-                $companyId = $user->getCompany()->getId();
+            $companyId = $user->getCompany()->getId();
         else
-                $companyId = 0;
+            $companyId = 0;
 
         $form = $this->createForm(new BookingMessageType());
 
@@ -721,21 +714,88 @@ class BookingController extends Controller
                 $date,
                 $timeSlotStart,
                 $serviceIds
-            ),
-            $booking,
-            array('em' => $this->getDoctrine()->getEntityManager())
-            );
+            ), $booking, array('em' => $this->getDoctrine()->getEntityManager())
+        );
 
+        
+        
+         $infoWindow = $this->get('ivory_google_map.info_window');
+
+        // Configure your info window options
+        $infoWindow->setPrefixJavascriptVariable('info_window_');
+        $infoWindow->setPosition(0, 0, true);
+        $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
+        $infoWindow->setContent('<p>'.$consultant->getCompany()->getName().'<br/><small>Telphone: </p>');
+        $infoWindow->setOpen(false);
+        $infoWindow->setAutoOpen(true);
+        $infoWindow->setOpenEvent(MouseEvent::CLICK);
+        $infoWindow->setAutoClose(false);
+        $infoWindow->setOption('disableAutoPan', true);
+        $infoWindow->setOption('zIndex', 10);
+        $infoWindow->setOptions(array(
+            'disableAutoPan' => true,
+            'zIndex' => 10
+        ));
+        
+        
+        
+        $marker = $this->get('ivory_google_map.marker');
+        
+       
+        // Configure your marker options
+        $marker->setPrefixJavascriptVariable('marker_');
+        $marker->setPosition($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(),true);
+        $marker->setAnimation(Animation::DROP);
+        $marker->setOptions(array(
+            'clickable' => true,
+            'flat' => true
+        ));
+        $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
+        $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
+        
+        $map = $this->get('ivory_google_map.map');
+        // Configure your map options
+        $map->setPrefixJavascriptVariable('map_');
+        $map->setHtmlContainerId('map_canvas');
+
+        $map->setAsync(false);
+
+        $map->setAutoZoom(false);
+
+        $map->setCenter($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(), true);
+        $map->setMapOption('zoom', 16);
+
+        $map->setBound(0, 0, 0, 0, false, false);
+
+        // Sets your map type
+        $map->setMapOption('mapTypeId', MapTypeId::ROADMAP);
+        $map->setMapOption('mapTypeId', 'roadmap');
+
+        $map->setMapOption('disableDefaultUI', false);
+        $map->setMapOption('disableDoubleClickZoom', false);
+        $map->setStylesheetOptions(array(
+            'width' => '100%',
+            'height' => '300px'
+        ));
+
+        $map->setLanguage('en');
+        
+        
+        $map->addMarker($marker);
+        $marker->setInfoWindow($infoWindow);
+        
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
                 'booking_date' => $date,
                 'booking_time_start' => $timeSlotStart,
                 'booking_time_end' => $timeSlotEnd->format('H:i'),
-                'booking_consultant' => $consultant->getFullName(),
+                'consultant' => $consultant,
                 'booking_service' => $service->getName(),
                 'customer' => $user,
+                'map' => $map
             ));
     }
+
     /**
      * Make a new booking on the public site
      *
@@ -785,10 +845,8 @@ class BookingController extends Controller
                 $date,
                 $timeSlotStart,
                 $serviceIds
-            ),
-            $booking,
-            array('em' => $this->getDoctrine()->getEntityManager())
-            );
+            ), $booking, array('em' => $this->getDoctrine()->getEntityManager())
+        );
 
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
@@ -830,10 +888,8 @@ class BookingController extends Controller
                 $values['appointmentDate'],
                 $values['startTimeslot'],
                 $values['service']
-            ),
-            $booking,
-            array('em' => $this->getDoctrine()->getEntityManager())
-            );
+            ), $booking, array('em' => $this->getDoctrine()->getEntityManager())
+        );
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -873,15 +929,14 @@ class BookingController extends Controller
                         'success', 'Created booking sucessfully. You will be notified once the booking is confirmed.');
 
                     $options = array(
-                      'booking' => $booking,
-                      'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                        'booking' => $booking,
+                        'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                   //send booking created notification emails
+                    //send booking created notification emails
                     $this->get("notification.manager")->createdBooking($options);
 
                     return $this->redirect($this->generateUrl('_welcome'));
-
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
@@ -895,14 +950,82 @@ class BookingController extends Controller
         $timeSlotEnd = new \DateTime($values['startTimeslot']);
         $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
 
+        
+                
+         $infoWindow = $this->get('ivory_google_map.info_window');
+
+        // Configure your info window options
+        $infoWindow->setPrefixJavascriptVariable('info_window_');
+        $infoWindow->setPosition(0, 0, true);
+        $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
+        $infoWindow->setContent('<p>'.$consultant->getCompany()->getName().'<br/><small>Telphone: </p>');
+        $infoWindow->setOpen(false);
+        $infoWindow->setAutoOpen(true);
+        $infoWindow->setOpenEvent(MouseEvent::CLICK);
+        $infoWindow->setAutoClose(false);
+        $infoWindow->setOption('disableAutoPan', true);
+        $infoWindow->setOption('zIndex', 10);
+        $infoWindow->setOptions(array(
+            'disableAutoPan' => true,
+            'zIndex' => 10
+        ));
+        
+        
+        
+        $marker = $this->get('ivory_google_map.marker');
+        
+       
+        // Configure your marker options
+        $marker->setPrefixJavascriptVariable('marker_');
+        $marker->setPosition($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(),true);
+        $marker->setAnimation(Animation::DROP);
+        $marker->setOptions(array(
+            'clickable' => true,
+            'flat' => true
+        ));
+        $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
+        $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
+        
+        $map = $this->get('ivory_google_map.map');
+        // Configure your map options
+        $map->setPrefixJavascriptVariable('map_');
+        $map->setHtmlContainerId('map_canvas');
+
+        $map->setAsync(false);
+
+        $map->setAutoZoom(false);
+
+        $map->setCenter($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(), true);
+        $map->setMapOption('zoom', 16);
+
+        $map->setBound(0, 0, 0, 0, false, false);
+
+        // Sets your map type
+        $map->setMapOption('mapTypeId', MapTypeId::ROADMAP);
+        $map->setMapOption('mapTypeId', 'roadmap');
+
+        $map->setMapOption('disableDefaultUI', false);
+        $map->setMapOption('disableDoubleClickZoom', false);
+        $map->setStylesheetOptions(array(
+            'width' => '100%',
+            'height' => '300px'
+        ));
+
+        $map->setLanguage('en');
+        
+        
+        $map->addMarker($marker);
+        $marker->setInfoWindow($infoWindow);
+        
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
                 'booking_date' => $values['appointmentDate'],
                 'booking_time_start' => $values['startTimeslot'],
                 'booking_time_end' => $timeSlotEnd->format('H:i'),
-                'booking_consultant' => $consultant->getFullName(),
+                'consultant' => $consultant,
                 'booking_service' => $service->getName(),
                 'customer' => $user,
+                'map' => $map
             ));
     }
 
@@ -934,11 +1057,11 @@ class BookingController extends Controller
         return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
     }
 
-    public function messagesAction ()
+    public function messagesAction()
     {
         $this->get('logger')->info('Send messages and/ or delete selected bookings');
 
-        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) ) {
+        if ((!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))) {
             $this->get('logger')->warn('Send messages and/ or delete selected bookings, access denied.');
             throw new AccessDeniedException();
         }
@@ -948,7 +1071,7 @@ class BookingController extends Controller
         $bookingMessage = $this->getRequest()->get('BookingMessage', array('messageText' => ''));
         $messageString = '';
 
-        if ( (count($bookingsSelected) > 0) || (count($bookingsCancel) > 0) ) {
+        if ((count($bookingsSelected) > 0) || (count($bookingsCancel) > 0)) {
             //Some Bookings selected or marked for delete
 
             $countSelectedBookings = 0;
@@ -957,7 +1080,7 @@ class BookingController extends Controller
 
             if (count($bookingsSelected) > 0) {
 
-                foreach($bookingsSelected as $bookingId) {
+                foreach ($bookingsSelected as $bookingId) {
 
                     $booking = $this->get('booking.manager')->getById($bookingId);
 
@@ -965,44 +1088,40 @@ class BookingController extends Controller
                         //Booking must also be cancelled
 
                         $options = array(
-                          'booking' => $booking,
-                          'messageText' => $bookingMessage['messageText'],
+                            'booking' => $booking,
+                            'messageText' => $bookingMessage['messageText'],
                         );
 
-                       //send booking message notification emails
+                        //send booking message notification emails
                         $this->get("notification.manager")->messageAndCancelBooking($options);
 
                         $sendAndCancel[] = $bookingId;
 
                         $countCancelBookings++;
-
                     } else {
 
                         $options = array(
-                          'booking' => $booking,
-                          'messageText' => $bookingMessage['messageText'],
-                          'link' => $this->generateUrl("sked_app_customer_list_bookings", array('id' => $booking->getCustomer()->getId()), true)
+                            'booking' => $booking,
+                            'messageText' => $bookingMessage['messageText'],
+                            'link' => $this->generateUrl("sked_app_customer_list_bookings", array('id' => $booking->getCustomer()->getId()), true)
                         );
 
-                       //send booking message notification emails
+                        //send booking message notification emails
                         $this->get("notification.manager")->messageBooking($options);
-
                     }
 
                     $countSelectedBookings++;
-
                 }
 
                 if ($countSelectedBookings == 1)
                     $messageString = sprintf('Sent messages for %s booking. ', $countSelectedBookings);
                 else
                     $messageString = sprintf('Sent messages for %s bookings. ', $countSelectedBookings);
-
             }
 
             if (count($bookingsCancel) > 0) {
 
-                foreach($bookingsSelected as $bookingId) {
+                foreach ($bookingsSelected as $bookingId) {
 
                     $booking = $this->get('booking.manager')->getById($bookingId);
 
@@ -1014,18 +1133,15 @@ class BookingController extends Controller
                     }
 
                     $countCancelBookings++;
-
                 }
 
                 if ($countCancelBookings == 1)
                     $messageString .= sprintf('Sent messages for %s cancelled booking. ', $countSelectedBookings);
                 else
                     $messageString .= sprintf('Sent messages for %s cancelled bookings. ', $countSelectedBookings);
-
             }
 
             $this->getRequest()->getSession()->setFlash('success', $messageString);
-
         } else {
             //No bookings selected
             $this->getRequest()->getSession()->setFlash('error', 'Please select at least one booking.');
