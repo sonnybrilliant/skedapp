@@ -5,8 +5,10 @@
 {% endblock menu %}
 
 {% block body %}
-    {% block alert%}
-    {% endblock alert%}
+        {% block alert %}
+          {% include "::alert.html.twig" %}
+          <br />  
+        {% endblock %}
     {% include "SkedAppBookingBundle:Booking:form.make.html.twig" %}
 {{ google_map_js(map) }}
 {% endblock %}
