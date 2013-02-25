@@ -15,10 +15,14 @@ sked_app_customer_delete:
         id:  \d+
 
 sked_app_customer_list_bookings:
-    pattern:  /customer/bookings/list/{id}
-    defaults: { _controller: SkedAppCustomerBundle:Customer:listBookings }
+    pattern:  /customer/bookings/list/
+    defaults: { _controller: SkedAppCustomerBundle:Bookings:list }
+
+sked_app_customer_booking_details:
+    pattern:  /customer/booking/detail/{id}
+    defaults: { _controller: SkedAppCustomerBundle:Bookings:details }
     requirements:
-        id:  \d+
+        id:  \d+    
 
 sked_app_customer_register:
     pattern:  /customer/register
