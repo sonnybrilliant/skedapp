@@ -17,6 +17,7 @@
 
 {% block body %}
     {% block menu %}
+    <div class="row-fluid body-secondary">
     <div class="span3 bs-docs-sidenav">
        {% if is_granted('ROLE_ADMIN') %}
             {% include "::menu.html.twig" %}
@@ -69,6 +70,7 @@
             </div>
         </div>
      </div>
+</div>
     {% endblock content %}
         <script type='text/javascript'>
 
