@@ -15,7 +15,6 @@
 <script src="{{ asset('/js/jquery.qtip-1.0.0-rc3.min.js') }}"></script>
 {% endblock %}
 
-
 {% block body %}
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
@@ -27,12 +26,13 @@
     </div>
     {% endblock menu %}
     {% block content %}
-    <div class="span9">
+    <div class="span12" style="margin-left: 0px">
         <h3>Consultant profile</h3>
-        <div class="span9" style="margin-left: -15px">
+        <div class="span5" style="margin-left: 0px">
            {% set vars = {'action': 'Bookings'} %}
            {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
         </div>
+        <div class="clearfix"></div>
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
@@ -45,7 +45,7 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab1">
                     <div class="row">
-                        <div class="span9">
+                        <div class="span12" style="margin-left: 0px;">
                             <div id="calendar"></div>
                         </div>
                     </div>
