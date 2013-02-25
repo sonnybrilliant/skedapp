@@ -49,7 +49,7 @@
                                         <li><a href="{{ path("sked_app_consultant_show", {'id': app.user.id }) }}" title="View your calender">Bookings</a></li>    
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_SITE_USER') %}   
-                                        <li><a href="{{ path("sked_app_customer_list_bookings", {'id':app.user.id }) }}" title="View my bookings">Bookings</a></li>    
+                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>    
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% endif %}  
                                     <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>

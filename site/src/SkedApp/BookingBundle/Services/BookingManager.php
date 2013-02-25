@@ -205,7 +205,7 @@ final class BookingManager
             ->isConsultantAvailable($booking->getConsultant(), $bookingStartDate, $bookingEndDate);
 
         if (is_null($results))
-          return false;
+            return false;
 
         /*
          * confirm if the new appointment start time is equal to the
@@ -292,7 +292,6 @@ final class BookingManager
         return $bookings;
     }
 
-
     /**
      * Get all bookings
      *
@@ -301,6 +300,12 @@ final class BookingManager
     public function getAllCustomerBookings($options)
     {
         $this->logger->info("get all customer bookings");
+
+        $securityContext = $this->getContainer()->get('security.context');
+        $token = $securityContext->getToken();
+        $customer = $token->getUser();
+        
+        $options['customer'] = $customer;
 
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllCustomerBooking($options);
 
@@ -325,7 +330,7 @@ final class BookingManager
         $this->em->flush();
         return;
     }
-    
+
     /**
      * Get consultant Timeslots
      * 
@@ -333,12 +338,12 @@ final class BookingManager
      * @param \Datetime $date
      * @return array
      */
-    public function getBookingSlotsForConsultantSearch($consultant,$date)
+    public function getBookingSlotsForConsultantSearch($consultant, $date)
     {
         $this->logger->info('Get consultant open slots');
-        
+
         $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
-                            ->getBookingSlotsForConsultantSearch($consultant, $date);
+            ->getBookingSlotsForConsultantSearch($consultant, $date);
         return $output;
     }
 

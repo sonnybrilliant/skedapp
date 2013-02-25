@@ -1,0 +1,42 @@
+<section>
+    <table id="sortable" class="table display table-striped table-condensed tablesorter">
+        <thead>
+          <tr>
+            <th>{{ knp_pagination_sortable(pagination,'#', 'b.id')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Cunsultant', 'b.consultant')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Service', 'b.service')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Confirmed', 'b.isConfirmed')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Booking date', 'b.hiddenAppointmentStartTime')|raw }}</th>
+            <th>{{ knp_pagination_sortable(pagination,'Booking Time', 'b.hiddenAppointmentStartTime')|raw }}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in pagination %}
+          <tr>
+            <td><span style="padding-left: 20px">{{ booking.id }} </span></td>
+            <td><span style="padding-left: 20px"><a href="#myModal_consultant_{{booking.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to view booking details" title="click to view booking details">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }}</a></span></td>
+            <td><span style="padding-left: 20px">{{ booking.service.name }} </span></td>
+            <td><span style="padding-left: 20px">{{ booking.isConfirmedString }} </span></td>
+            <td><span style="padding-left: 20px">{{ booking.hiddenAppointmentStartTime|date('M jS Y') }} </span></td>
+            <td><span style="padding-left: 20px">{{ booking.hiddenAppointmentStartTime|date('G:s a') }} </span></td>
+            <td>
+                <small>
+                    <a href="#myModal_booking_{{booking.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to view booking details" title="click to view booking details"><i class="icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                    <a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to cancel booking"><i class="icon-remove"></i>&nbsp;Cancel</a>
+                    <a href="{{ path("sked_app_customer_invite_friend", {'consultant': booking.consultant.id})}}" title="invite a friend"><li class="icon-star"></li>&nbsp;Invite</a>
+                </small>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+ </table>
+    <div class="pagination pull-right">
+    {{ knp_pagination_render(pagination) }}
+    </div>
+</section>
+{% for booking in pagination %}
+     {% include "SkedAppCustomerBundle:Customer:booking.details.html.twig" with { 'booking':booking}  %}
+     {% include "SkedAppCustomerBundle:Customer:consultant.details.html.twig" with { 'booking':booking}  %}
+{% endfor %}
+

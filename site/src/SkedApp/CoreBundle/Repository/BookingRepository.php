@@ -44,6 +44,7 @@ class BookingRepository extends EntityRepository
     {
 
         $defaultOptions = array(
+            'searchText' => '',
             'sort' => 'b.id',
             'direction' => 'asc'
         );

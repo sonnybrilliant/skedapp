@@ -797,69 +797,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Make a new booking on the public site
-     *
-     * @param integer $consultantId
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @throws AccessDeniedException
-     */
-    public function makeoldAction($companyId, $consultantId, $date, $timeSlotStart, $serviceIds)
-    {
-        $this->get('logger')->info('add a new booking public');
-
-        $user = $this->get('member.manager')->getLoggedInUser();
-
-        //Format the date correctly
-
-        $date = new \DateTime($date);
-        $date = $date->format('Y-m-d');
-
-        if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            //User is not logged in
-            return $this->redirect($this->generateUrl('_security_login', array(
-                        'booking_attempt' => 1,
-                        'company_id' => $companyId,
-                        'consultant_id' => $consultantId,
-                        'booking_date' => $date,
-                        'timeslot_start' => $timeSlotStart,
-                        'service_ids' => $serviceIds,
-                        )
-                    ));
-        }
-
-        $booking = new Booking();
-        $consultant = $this->get('consultant.manager')->getById($consultantId);
-        $service = $this->get('service.manager')->getById($serviceIds);
-
-        $booking->setConsultant($consultant);
-        $booking->setService($service);
-        $booking->setAppointmentDate($date);
-        $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($timeSlotStart));
-        $timeSlotEnd = new \DateTime($timeSlotStart);
-
-        $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
-
-        $form = $this->createForm(new BookingMakeType(
-                $companyId,
-                $consultantId,
-                $date,
-                $timeSlotStart,
-                $serviceIds
-            ), $booking, array('em' => $this->getDoctrine()->getEntityManager())
-        );
-
-        return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
-                'form' => $form->createView(),
-                'booking_date' => $date,
-                'booking_time_start' => $timeSlotStart,
-                'booking_time_end' => $timeSlotEnd->format('H:i'),
-                'booking_consultant' => $consultant->getFullName(),
-                'booking_service' => $service->getName(),
-                'customer' => $user,
-            ));
-    }
-
-    /**
      * made booking
      *
      * @return Reponse
@@ -936,7 +873,7 @@ class BookingController extends Controller
                     //send booking created notification emails
                     $this->get("notification.manager")->createdBooking($options);
 
-                    return $this->redirect($this->generateUrl('_welcome'));
+                    return $this->redirect($this->generateUrl('sked_app_customer_booking_details',array('id'=>$booking->getId())));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
