@@ -11,18 +11,16 @@
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
 {% endblock jquery_ui %}
 
-{% block body %}
-  <div class="row-fluid body-secondary" style="margin-top: 20px;">
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
+{% block menu %}
        {% if is_granted('ROLE_ADMIN') %}
             {% include "::menu.html.twig" %}
        {% elseif is_granted('ROLE_CONSULTANT_USER') %}
             {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant } %}
        {% endif %}
-    </div>
-    {% endblock menu %}
+{% endblock menu%}
+    {% block body %}
     {% block content %}
+    <div class="row-fluid body-secondary">
     <div class="span12" style="margin-left: 0px">
         <h3>Print bookings</h3>                
         <div class="span5" style="margin-left: 0px">
@@ -30,19 +28,20 @@
            {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
         </div>
         <div class="clearfix"></div>
+
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
 
         {#start form display===============================#}
-        <div class="span6">
+        
             {% include "SkedAppSearchBundle:Search:form.search.date.html.twig" %}
-        </div>
+        
         <div class="clearfix"></div>
         {#end form display===============================#}
 
         {% include "SkedAppBookingBundle:Booking:list.print.html.twig" %}
     </div>
-</div>
+    </div>
     {% endblock content %}
 {% endblock body %}

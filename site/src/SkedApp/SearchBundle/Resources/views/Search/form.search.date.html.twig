@@ -13,8 +13,8 @@
 {% endif %}
   <fieldset>
       <div class="control-group {% if form_errors(form.booking_date) %} error {% endif %}">
-        <label class="control-label" for="booking_date">{{ form_label(form.booking_date) }}</label>
-        <div class="controls">
+        <label style="text-align: left; width: 60px;" class="control-label" for="booking_date">{{ form_label(form.booking_date) }}</label>
+        <div style="margin-left: 63px;">
             {{ form_widget(form.booking_date) }}
             <span class="help-inline">{{form_errors(form.booking_date)}}</span>
         </div>
