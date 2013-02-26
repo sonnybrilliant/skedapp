@@ -10,7 +10,7 @@
         
       </div>
       <div class="{% if form_errors(form.address) %} error {% endif %}">
-        <label class="pull-left" for="address">{{ form_label(form.address) }}</label>
+        <div class="pull-left" for="address">{{ form_label(form.address) }}</div>
         
 
           {{ form_widget(form.address) }}
@@ -29,14 +29,14 @@
         
       </div>
       <div class="{% if form_errors(form.booking_date) %} error {% endif %}">
-        <label class="pull-left" for="booking_date">{{ form_label(form.booking_date) }}</label>
+        <div class="pull-left" for="booking_date">{{ form_label(form.booking_date) }}</div>
         
           {{ form_widget(form.booking_date) }}
           <span class="help-inline">{{form_errors(form.booking_date)}}</span>
         
       </div>
       <div class="{% if form_errors(form.consultantServices) %} error {% endif %}">
-        <label class="pull-left" for="consultant_services">{{ form_label(form.consultantServices) }}</label>
+        <div class="pull-left" for="consultant_services">{{ form_label(form.consultantServices) }}</div>
         
           {{ form_widget(form.consultantServices) }}
           <span class="help-inline">{{form_errors(form.consultantServices)}}</span>

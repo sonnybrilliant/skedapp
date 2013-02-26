@@ -1,6 +1,5 @@
 <div class="spacer2"></div>
-<div class="spacer1"></div>
-<div style="border-radius: 10px 10px 0px 10px" class="row-fluid body-main rounded-top">
+<div class="row-fluid body-main rounded-top">
     <div class="span12 tabs-img">
         <img src="{{ asset('/img/tabs-set2.png') }}" width="362" height="55" alt="step-tabs" class="space-left" />
     </div>
@@ -9,9 +8,10 @@
         <div class="results-background">
             <form class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
                 <fieldset>
-                    <label>{{ form_label(form.category) }}</label>
+                    {{ form_label(form.category) }} <!-- Category Label -->
                     {{ form_widget(form.category) }}
-                    <label>{{ form_label(form.address) }}</label>
+                    <div class="spacer1"></div>
+                    {{ form_label(form.address) }} <!-- Location Label -->
                     {{ form_widget(form.address) }}
                     {{ form_widget(form.locality) }}
                     {{ form_widget(form.administrative_area_level_2) }}
@@ -22,9 +22,11 @@
                     <script type="text/javascript">
                         var blnAddress = true;
                     </script>
-                    <label>{{ form_label(form.booking_date) }}</label>
+                    <div class="spacer1"></div>
+                    {{ form_label(form.booking_date) }} <!-- Date Label -->
                     {{ form_widget(form.booking_date) }}
-                    <label>{{ form_label(form.consultantServices) }}</label>
+                    <div class="spacer1"></div>
+                    {{ form_label(form.consultantServices) }} <!-- Service Label -->
                     {{ form_widget(form.consultantServices) }}    
                     <div class="btn-toolbar pull-right">
                         <div class="btn-group">
