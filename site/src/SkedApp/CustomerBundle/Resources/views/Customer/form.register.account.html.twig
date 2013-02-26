@@ -7,7 +7,7 @@
 <form class="display helpers form-horizontal" action="{{ path('sked_app_customer_register_account') }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
       <legend><span class="label label-info">Info</span> <small class="gray-text">Register a new account, all fields required.</small></legend>
-      <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
+      <div class=" {% if form_errors(form.firstName) %} error {% endif %}">
         <label class="" for="first_name">{{ form_label(form.firstName) }}</label>
         <div class="">
           {{ form_widget(form.firstName) }}
@@ -15,7 +15,7 @@
           <span class="help-inline">{{form_errors(form.firstName)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.lastName) %} error {% endif %}">
+      <div class=" {% if form_errors(form.lastName) %} error {% endif %}">
         <label class="" for="last_name">{{ form_label(form.lastName) }}</label>
         <div class="">
           {{ form_widget(form.lastName) }}
@@ -23,14 +23,14 @@
           <span class="help-inline">{{form_errors(form.lastName)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.gender) %} error {% endif %}">
+      <div class=" {% if form_errors(form.gender) %} error {% endif %}">
         <label class="" for="gender">{{ form_label(form.gender) }}</label>
         <div class="">
           {{ form_widget(form.gender) }} 
           <span class="help-inline">{{form_errors(form.gender)}}</span>  
         </div>
       </div>      
-      <div class="control-group {% if form_errors(form.mobileNumber) %} error {% endif %}">
+      <div class=" {% if form_errors(form.mobileNumber) %} error {% endif %}">
         <label class="" for="mobile_number">{{ form_label(form.mobileNumber) }}</label>
         <div class="">
           {{ form_widget(form.mobileNumber) }}
@@ -38,7 +38,7 @@
           <span class="help-inline">{{form_errors(form.mobileNumber)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.landLineNumber) %} error {% endif %}">
+      <div class=" {% if form_errors(form.landLineNumber) %} error {% endif %}">
         <label class="" for="land_line">{{ form_label(form.landLineNumber) }}</label>
         <div class="">
           {{ form_widget(form.landLineNumber) }}
@@ -46,28 +46,28 @@
           <span class="help-inline">{{form_errors(form.landLineNumber)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.email.first) %} error {% endif %}">
+      <div class=" {% if form_errors(form.email.first) %} error {% endif %}">
         <label class="" for="email_address">{{ form_label(form.email.first) }}</label>
         <div class="">
           {{ form_widget(form.email.first) }}
            <span class="help-inline">{{form_errors(form.email.first)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.email.second) %} error {% endif %}">
+      <div class=" {% if form_errors(form.email.second) %} error {% endif %}">
         <label class="" for="confirm_email_address">{{ form_label(form.email.second) }}</label>
         <div class="">
           {{ form_widget(form.email.second) }}
            <span class="help-inline">{{form_errors(form.email.second)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.password.first) %} error {% endif %}">
+      <div class=" {% if form_errors(form.password.first) %} error {% endif %}">
         <label class="" for="password">{{ form_label(form.password.first) }}</label>
         <div class="">
           {{ form_widget(form.password.first) }}
            <span class="help-inline">{{form_errors(form.password.first)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.password.second) %} error {% endif %}">
+      <div class=" {% if form_errors(form.password.second) %} error {% endif %}">
         <label class="" for="confirm_password">{{ form_label(form.password.second) }}</label>
         <div class="">
           {{ form_widget(form.password.second) }}
@@ -109,7 +109,7 @@
             </table>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.captcha) %} error {% endif %}">
+      <div class="{% if form_errors(form.captcha) %} error {% endif %}">
         <label class="" for="form.captcha">{{ form_label(form.captcha) }}</label>
         <div class="">
           {{ form_widget(form.captcha) }}
