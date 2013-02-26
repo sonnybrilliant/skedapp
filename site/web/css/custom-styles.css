@@ -378,6 +378,11 @@ Page Styles
 	font-size: 1.5em;
 	line-height: 1.5em;
 }
+.confirm-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
 .table-heading-blue a{
   color: #fff;
 }

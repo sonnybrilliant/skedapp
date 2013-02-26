@@ -9,17 +9,18 @@
                 {{ form_widget(form.appointmentDate) }}
                 {{ form_widget(form.startTimeslot) }}
                 {{ form_widget(form.consultant) }}
-                {{ form_widget(form.service) }}  
-              <fieldset>
-                <label>Appointment Date</label>
-                {{ booking_date }}
-                <label>Appointment Time:</label>
-                {{ booking_time_start }} - {{ booking_time_end }}
-                <label>Consultant</label>
-                {{ consultant.getFullName() }}
-                <label>Service</label>
-                {{ booking_service }} 
-                <label>Add notes, if any...</label>
+                {{ form_widget(form.service) }}
+                    <h3>Appointment Details</h3>
+                    <ul class="unstyled space-left">
+                        <li>Service Provider: <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span></li>
+                        <li>Consultant: <span class="gray-text"><strong>{{ consultant.getFullName() }}</strong></span></li>
+                        <li>Location: <span class="gray-text"><strong>{{ consultant.company.address }}</strong></span><br />
+                            <span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</li>
+                        <li>Service: <span class="gray-text"><strong>{{ booking_service }}</strong></span></li>
+                        <li>Appointment Date: <span class="gray-text"><strong>{{ booking_date }}</strong></span></li>
+                        <li>Appointment Time: <span class="gray-text"><strong>{{ booking_time_start }} - {{ booking_time_end }}</strong></span></li>
+                    </ul>
+                <label>Add Notes:</label>
                 {{ form_widget(form.description) }}
                 <div class="spacer1"></div>
                 <div class="submitButton">
@@ -34,11 +35,6 @@
         <div class="map-box">
             <h3>Location Details</h3>
             {{ google_map_container(map) }}
-            <address>
-                <h4>Service Provider: {{ consultant.company.name }}</h4>
-                <strong>Location:</strong><br>
-                {{ consultant.company.address }}
-            </address>
         </div>
     </div>
 </div> <!-- End .row-fluid -->
