@@ -1,5 +1,5 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
-{% block title %}Service provider profile{% endblock %}
+{% block title %}Service Provider Profile{% endblock %}
 
 {% block alert %}
     {% include "::alert.html.twig" %}
@@ -28,7 +28,7 @@
             <h3>Photos</h3>
             <div class="bs-docs-example bs-docs-example-images">
                 {% for photo in company.companyPhotos %}
-                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:140px; height:140px" class="img-polaroid space-right7 space-right-bottom">   
+                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">   
                 {% else %}
                     <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
                     <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">

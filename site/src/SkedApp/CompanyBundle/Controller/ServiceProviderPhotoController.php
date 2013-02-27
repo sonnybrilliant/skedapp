@@ -12,7 +12,7 @@ use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
 /**
  * Service provider photo controller
  *
- * @author Ronald Conco <ronald.conco@creativecloud.co.za>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppCompanyBundle
  * @subpackage Controller
  * @version 0.0.1

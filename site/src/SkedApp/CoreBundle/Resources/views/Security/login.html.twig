@@ -1,5 +1,5 @@
 {% extends "SkedAppCoreBundle::security.layout.html.twig" %}
-{% block title %}Welcome, please sign in{% endblock %}
+{% block title %}Welcome, please login{% endblock %}
 
 {% block body %}
 <div class="row-fluid body-main rounded-all">
@@ -20,10 +20,10 @@
                         <input type="password" type="password" class="span12" id="password" name="_password" placeholder="password" required>
                         <div class="btn-toolbar pull-right">
                             <div class="btn-group">
-                                <button class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
+                                <button type="submit" name="submit" class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
                             </div>
                             <div class="btn-group">
-                                <button class="btn btn-small">Cancel</button>
+                                <a href="{{ path('_welcome') }}" class="btn btn-small">Cancel</a>
                             </div>
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />

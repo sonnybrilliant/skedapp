@@ -35,15 +35,11 @@ class CompanyPhotos
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "First name cannot be blank!")
-     * @Assert\MinLength(limit= 2, message="First name must have at least {{ limit }} characters.")
-     * @Assert\MaxLength(limit= 100, message="First name has a limit of {{ limit }} characters.")
-     * @Assert\Regex(pattern="/\d/",
-     *               match=false,
-     *               message="First name cannot contain a number"
-     *  )
+     * @Assert\NotBlank(message = "Caption cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Caption must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Caption has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="first_name", type="string", length=100)
+     * @ORM\Column(name="caption", type="string", length=100)
      */
     protected $caption;
 

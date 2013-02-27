@@ -18,7 +18,7 @@ use Ivory\GoogleMap\Events\MouseEvent;
 /**
  * Service provider controller
  *
- * @author Ronald Conco <ronald.conco@creativecloud.co.za>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppCompanyBundle
  * @subpackage Controller
  * @version 0.0.1
