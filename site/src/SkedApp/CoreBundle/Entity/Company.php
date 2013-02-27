@@ -137,6 +137,11 @@ class Company
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Consultant", mappedBy="company")
      */
     protected $consultants;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\CompanyPhotos", mappedBy="company")
+     */
+    protected $companyPhotos;
 
     /**
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\CompanyPhotos", mappedBy="company")
@@ -190,6 +195,8 @@ class Company
         $this->members    = new ArrayCollection();
         $this->setIsLocked(false);
         $this->setIsActive(true);
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function __toString()
@@ -775,4 +782,37 @@ class Company
         );
     }
 
+
+    /**
+     * Add companyPhotos
+     *
+     * @param \SkedApp\CoreBundle\Entity\CompanyPhotos $companyPhotos
+     * @return Company
+     */
+    public function addCompanyPhoto(\SkedApp\CoreBundle\Entity\CompanyPhotos $companyPhotos)
+    {
+        $this->companyPhotos[] = $companyPhotos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove companyPhotos
+     *
+     * @param \SkedApp\CoreBundle\Entity\CompanyPhotos $companyPhotos
+     */
+    public function removeCompanyPhoto(\SkedApp\CoreBundle\Entity\CompanyPhotos $companyPhotos)
+    {
+        $this->companyPhotos->removeElement($companyPhotos);
+    }
+
+    /**
+     * Get companyPhotos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCompanyPhotos()
+    {
+        return $this->companyPhotos;
+    }
 }

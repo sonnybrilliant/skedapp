@@ -51,7 +51,7 @@ class CompanyPhotos
      * @var SkedApp\CoreBundle\Entity\Company
      *
      *
-     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="consultants")
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="companyPhotos")
      * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
     protected $company;
@@ -107,6 +107,8 @@ class CompanyPhotos
         $this->setIsLocked(false);
         $this->setIsActive(true);
         $this->isDeleted = false;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function __toString()

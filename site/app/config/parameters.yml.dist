@@ -16,3 +16,5 @@ parameters:
 
     locale:            en
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    site_path:        'http://www.skedapp.co.za/' 

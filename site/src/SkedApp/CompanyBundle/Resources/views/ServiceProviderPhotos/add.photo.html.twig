@@ -1,0 +1,26 @@
+{% extends "SkedAppCompanyBundle::layout.html.twig" %}
+{% block title %}Add service provider{% endblock %}
+
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span5">
+        <div class="dash-forms-background">
+            <h3>Add service provider photo</h3>
+            {% include "SkedAppCompanyBundle:ServiceProviderPhotos:form.add.html.twig" %}
+        </div>
+     </div>
+     <div class="span7">
+        <div class="hint-box">
+            <h3><span class="asterisk">*</span>Hints</h3>
+            <ol>
+                <li>Provide <span class="label label-inverse">Caption </span> for your image.</li>
+            </ol>
+        </div>            	
+    </div>
+</div> <!-- End .row-fluid -->
+{% endblock body %}

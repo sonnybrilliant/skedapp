@@ -1,6 +1,10 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
 {% block title %}List service providers{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-secondary">
     <div class="span12">
@@ -10,7 +14,7 @@
             {% include 'SkedAppCompanyBundle::breadcrumb.html.twig' with vars  %}
             </div>
             <div style="width: 395px;" class="span6 pull-right">
-                <a href="{{ path('sked_app_company_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add Service Provider</strong></a>
+                <a href="{{ path('sked_app_service_provider_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add Service Provider</strong></a>
                 <form class="form-inline pull-right">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-search" ></i></span>
@@ -19,7 +23,7 @@
                     </div>
                 </form>
             </div>
-        {% include "SkedAppCompanyBundle:Company:list.table.html.twig" %} 
+        {% include "SkedAppCompanyBundle:ServiceProvider:list.table.html.twig" %} 
     </div> <!-- Dashboard Content --> 
 </div>
 {% endblock body %}

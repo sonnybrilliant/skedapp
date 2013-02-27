@@ -1,5 +1,5 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
-{% block title %}Add service provider{% endblock %}
+{% block title %}Edit company{% endblock %}
 
 {% block stylesheets %}
 <link href="{{ asset('/css/googlemap.css') }}" rel="stylesheet">
@@ -20,8 +20,8 @@
 <div class="row-fluid body-secondary">
     <div class="span5">
         <div class="dash-forms-background">
-            <h3>Add service provider</h3>
-            {% include "SkedAppCompanyBundle:Company:form.create.html.twig" %}
+            <h3>Edit service provider</h3>
+            {% include "SkedAppCompanyBundle:ServiceProvider:form.edit.html.twig" %}
         </div>
      </div>
      <div class="span7">

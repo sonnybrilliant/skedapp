@@ -1,6 +1,10 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
 {% block title %}Service provider profile{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}        
 <div class="row-fluid body-secondary">
     <div class="span5">
@@ -23,14 +27,16 @@
             <div class="spacer2"></div>
             <h3>Photos</h3>
             <div class="bs-docs-example bs-docs-example-images">
-                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right-bottom">
+                {% for photo in company.companyPhotos %}
+                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:140px; height:140px" class="img-polaroid space-right7 space-right-bottom">   
+                {% else %}
+                    <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
+                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
+                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
+                {% endfor %}    
                 <div class="clearfix"></div>
+                <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="pull-right btn btn-warning">Add photo</a>
                 <div class="spacer2"></div>
-                <div class="clearfix"></div>
-                <div class="spacer1"></div>
             </div>
         </div>
     </div>
