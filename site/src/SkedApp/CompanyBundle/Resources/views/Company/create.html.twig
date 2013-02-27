@@ -12,6 +12,10 @@
 <script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
 {% endblock jquery_ui %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-secondary">
     <div class="span5">
