@@ -1,31 +1,30 @@
 <div>
-    <br />
     {% if app.session.hasFlash('error') %}
-    <div class="alert alert-error">
+    <div class="space-top alert alert-error">
       <button class="close" data-dismiss="alert">×</button>
       <h4 class="alert-heading">Error !</h4>
       {{ app.session.flash('error') }}
     </div>
     {% elseif app.session.hasFlash('notice') %}
-    <div class="alert alert-error">
+    <div class="space-top alert alert-error">
       <button class="close" data-dismiss="alert">×</button>
       <h4 class="alert-heading">Notice !</h4>
       {{ app.session.flash('notice') }}
     </div>
     {% elseif app.session.hasFlash('warning') %}
-    <div class="alert alert-block">
+    <div class="space-top alert alert-block">
       <button class="close" data-dismiss="alert">×</button>
       <h4 class="alert-heading">Warning !</h4>
       {{ app.session.flash('warning') }}
     </div>
     {% elseif app.session.hasFlash('success') %}
-    <div class="alert alert-success">
+    <div class="space-top alert alert-success">
       <button class="close" data-dismiss="alert">×</button>
       <h4 class="alert-heading">Successful !</h4>
       {{ app.session.flash('success') }}
     </div>
     {% elseif app.session.hasFlash('info') %}
-    <div class="alert alert-info">
+    <div class="space-top alert alert-info">
       <button class="close" data-dismiss="alert">×</button>
       <h4 class="alert-heading">Info !</h4>
       {{ app.session.flash('info') }}

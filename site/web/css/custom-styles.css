@@ -103,6 +103,7 @@ html, body {
 	position: relative;
 	z-index: 2;
 }
+
 .white-bg {
 	background-color: #FFFFFF;
 }
@@ -128,6 +129,11 @@ html, body {
 .space-left {
 	margin-left: 10px;
 }
+
+.space-top {
+	margin-left: 20px;
+}
+
 .space-right {
 	margin-right: 10px;
 }
