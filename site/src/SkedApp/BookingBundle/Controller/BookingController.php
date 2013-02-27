@@ -158,7 +158,7 @@ class BookingController extends Controller
                     $this->get('booking.manager')->save($booking);
 
                     $this->getRequest()->getSession()->setFlash(
-                        'success', 'Created booking sucessfully');
+                        'success', 'Created booking successfully');
                     $options = array(
                         'booking' => $booking,
                         'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
@@ -279,7 +279,7 @@ class BookingController extends Controller
 
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
-                        'success', 'Updated booking sucessfully');
+                        'success', 'Updated booking successfully');
 
                     if ((!$oldIsConfirmed) && ($booking->getIsConfirmed())) {
                         $options = array(
@@ -326,7 +326,7 @@ class BookingController extends Controller
 
             $this->get('booking.manager')->delete($bookingId);
             $this->getRequest()->getSession()->setFlash(
-                'success', 'Deleted booking sucessfully');
+                'success', 'Deleted booking successfully');
             return $this->redirect($this->generateUrl('sked_app_booking_manager'));
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$booking invalid");
@@ -863,7 +863,7 @@ class BookingController extends Controller
 
                     $this->get('booking.manager')->save($booking);
                     $this->getRequest()->getSession()->setFlash(
-                        'success', 'Created booking sucessfully. You will be notified once the booking is confirmed.');
+                        'success', 'Created booking successfully. You will be notified once the booking is confirmed.');
 
                     $options = array(
                         'booking' => $booking,
@@ -990,7 +990,7 @@ class BookingController extends Controller
         }
 
         $this->getRequest()->getSession()->setFlash(
-            'success', 'Booking cancellation sucessfully');
+            'success', 'Booking cancellation successfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
     }
 

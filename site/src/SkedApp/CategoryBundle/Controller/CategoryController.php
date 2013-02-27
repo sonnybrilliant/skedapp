@@ -97,7 +97,7 @@ class CategoryController extends Controller
             if ($form->isValid()) {
                 $this->get('category.manager')->createAndUpdateCategory($category);
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Created category sucessfully');
+                    'success', 'Created category successfully');
                 return $this->redirect($this->generateUrl('sked_app_category_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -169,7 +169,7 @@ class CategoryController extends Controller
             if ($form->isValid()) {
                 $this->get('category.manager')->createAndUpdateCategory($category);
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Update category sucessfully');
+                    'success', 'Update category successfully');
                 return $this->redirect($this->generateUrl('sked_app_category_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -205,7 +205,7 @@ class CategoryController extends Controller
         $em->flush();
 
         $this->getRequest()->getSession()->setFlash(
-            'success', 'Category was sucessfully deleted');
+            'success', 'Category was successfully deleted');
         return $this->redirect($this->generateUrl('sked_app_category_list'));
     }
 
