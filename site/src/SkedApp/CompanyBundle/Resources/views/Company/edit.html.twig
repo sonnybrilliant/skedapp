@@ -12,6 +12,10 @@
 <script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
 {% endblock jquery_ui %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-secondary">
     <div class="span5">
@@ -24,8 +28,16 @@
         <div class="hint-box">
             <h3><span class="asterisk">*</span>Hints</h3>
             <ol>
-               <li>Provide a valid email address.</li>
+                <li>Provide the <span class="label label-inverse">Name</span> of the business.</li>
+                <br />
+                <li>Provide a valid <span class="label label-inverse">Contact number</span> of the business.</li>
+                <br />
+                <li>Provide a <span class="label label-inverse">Profile pictire</span> of the business.</li>
+                <br />
+                <li>Provide a <span class="label label-inverse">Description</span> of the business.</li>
+
             </ol>
+            <br />
             <div id="map" style="width: 100%; border-radius: 5px;"></div>
             <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
         </div>            	

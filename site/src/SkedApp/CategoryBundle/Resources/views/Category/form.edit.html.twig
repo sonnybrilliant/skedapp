@@ -1,9 +1,9 @@
 <form action="{{ path('sked_app_category_update' , { id:id}) }}" method="POST" {{ form_enctype(form) }}>
     <fieldset>
-      <label for="name">{{ form_label(form.name) }}</label>
+      <div for="name">{{ form_label(form.name) }}</div>
       {{ form_widget(form.name) }} 
       <span class="help-inline">{{form_errors(form.name)}}</span>
-      <label for="description">{{ form_label(form.description) }}</label>
+      <div for="description">{{ form_label(form.description) }}</div>
       {{ form_widget(form.description) }} 
       <span class="help-inline">{{form_errors(form.description)}}</span>   
       <div class="btn-toolbar pull-right">

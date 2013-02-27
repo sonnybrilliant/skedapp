@@ -32,26 +32,26 @@ class CustomerCreateType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span11')
+                'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span11')
+                'attr' => array('class' => 'span12')
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Mobile number:',
-                'attr' => array('class' => 'span11')
+                'attr' => array('class' => 'span12')
             ))
             ->add('landLineNumber', 'text', array(
                 'label' => 'Land line number:',
                 'required' => false,
-                'attr' => array('class' => 'span11')
+                'attr' => array('class' => 'span12')
             ))
             ->add('email', 'repeated', array(
                 'type' => 'email',
                 'first_name' => 'first',
                 'first_options' => array('label' => 'Email address:'),
-                'options' => array('attr' => array('class' => 'span11')),
+                'options' => array('attr' => array('class' => 'span12')),
                 'second_name' => 'second',
                 'second_options' => array('label' => 'Confirm Email address:'),
                 'invalid_message' => 'Email addresses do not match',
@@ -60,7 +60,7 @@ class CustomerCreateType extends AbstractType
                 'type' => 'password',
                 'first_name' => 'first',
                 'first_options' => array('label' => 'Password:'),
-                'options' => array('attr' => array('class' => 'span11')),
+                'options' => array('attr' => array('class' => 'span12')),
                 'second_name' => 'second',
                 'second_options' => array('label' => 'Confirm Password:'),
                 'invalid_message' => 'Passwords do not match',
@@ -68,7 +68,7 @@ class CustomerCreateType extends AbstractType
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
-                'attr' => array('class' => 'span11 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
             ->add('captcha', 'genemu_recaptcha')
             ->add('radio', 'checkbox', array(
