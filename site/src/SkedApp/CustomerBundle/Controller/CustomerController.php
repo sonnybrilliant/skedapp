@@ -274,7 +274,7 @@ class CustomerController extends Controller
         }
 
         $this->getRequest()->getSession()->setFlash(
-            'success', 'Deleted customer sucessfully');
+            'success', 'Deleted customer successfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list'));
     }
 

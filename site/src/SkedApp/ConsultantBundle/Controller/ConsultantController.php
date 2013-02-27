@@ -128,7 +128,7 @@ class ConsultantController extends Controller
 
 
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Created consultant sucessfully');
+                    'success', 'Created consultant successfully');
                 return $this->redirect($this->generateUrl('sked_app_consultant_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -289,7 +289,7 @@ class ConsultantController extends Controller
                 $em->persist($consultant);
                 $em->flush();
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Updated consultant sucessfully');
+                    'success', 'Updated consultant successfully');
                 return $this->redirect($this->generateUrl('sked_app_consultant_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -330,7 +330,7 @@ class ConsultantController extends Controller
 
         $this->container->get('consultant.manager')->delete($consultant);
         $this->getRequest()->getSession()->setFlash(
-            'success', 'Deleted consultant sucessfully');
+            'success', 'Deleted consultant successfully');
         return $this->redirect($this->generateUrl('sked_app_consultant_list'));
     }
 

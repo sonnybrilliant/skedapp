@@ -98,7 +98,7 @@ class ServiceController extends Controller
             if ($form->isValid()) {
                 $this->get('service.manager')->createAndUpdateService($service);
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Created service sucessfully');
+                    'success', 'Created service successfully');
                 return $this->redirect($this->generateUrl('sked_app_service_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -169,7 +169,7 @@ class ServiceController extends Controller
             if ($form->isValid()) {
                 $this->get('service.manager')->createAndUpdateService($service);
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Updated service sucessfully');
+                    'success', 'Updated service successfully');
                 return $this->redirect($this->generateUrl('sked_app_service_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -208,7 +208,7 @@ class ServiceController extends Controller
 
 
         $this->getRequest()->getSession()->setFlash(
-            'success', 'Service was sucessfully deleted');
+            'success', 'Service was successfully deleted');
         return $this->redirect($this->generateUrl('sked_app_service_list'));
     }
 
