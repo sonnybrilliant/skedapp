@@ -3,7 +3,7 @@
 namespace SkedApp\CategoryBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\CoreBundle\Entity\Category;
 use SkedApp\CategoryBundle\Form\CategoryCreateType;
 use SkedApp\CategoryBundle\Form\CategoryUpdateType;
@@ -11,7 +11,7 @@ use SkedApp\CategoryBundle\Form\CategoryUpdateType;
 /**
  * Catergory manager
  *
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppCategoryBundle
  * @subpackage Controller
  * @version 0.0.1
@@ -22,8 +22,9 @@ class CategoryController extends Controller
     /**
      * List category
      *
-     * @param integer $page
-     * @return Reponse
+     * @param Integer $page paginator
+     * 
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function listAction($page = 1)
     {

@@ -30,8 +30,6 @@ class ServiceProviderController extends Controller
      * List all available agencies
      * 
      * @param integer $page
-     * @return Response
-     * @throws AccessDeniedException
      * 
      * @Secure(roles="ROLE_ADMIN")
      */

@@ -38,20 +38,12 @@ class Category
      * @Assert\NotBlank(message = "Category name cannot be blank!")
      * @Assert\MinLength(limit= 3, message="Category name must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 30, message="Category name has a limit of {{ limit }} characters.")
-     *
+     * 
      * @ORM\Column(name="name", type="string", length=30)
      */
 
     protected $name ;
 
-    /**
-     * @var string $description
-     * 
-     * @Assert\MaxLength(limit= 100, message="Category description has a limit of {{ limit }} characters.")
-     *
-     * @ORM\Column(name="description", type="text", length=500, nullable=true)
-     */
-    protected $description;
     /**
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Service", mappedBy="category")
      */
@@ -299,29 +291,6 @@ class Category
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Category
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

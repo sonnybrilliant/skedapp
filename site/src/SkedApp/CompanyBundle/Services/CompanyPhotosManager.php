@@ -6,9 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
 
 /**
- * company photos manager
+ * Service provider photos manager
  *
- * @author Otto Saayman <otto.saayman@kaizania.co.za>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppServiceBundle
  * @subpackage CompanyPhotos
  * @version 0.0.1
@@ -135,19 +135,6 @@ final class CompanyPhotosManager
         $this->em->persist($company_photo);
         $this->em->flush();
         return;
-    }
-
-    /**
-     * Get all service provider photos query
-     *
-     * @param array $options
-     * @return query
-     */
-    public function listAll($options = array())
-    {
-        return $this->em
-                ->getRepository('SkedAppCoreBundle:CompanyPhotos')
-                ->getAllActiveCompanyPhotosQuery($options);
     }
 
 }

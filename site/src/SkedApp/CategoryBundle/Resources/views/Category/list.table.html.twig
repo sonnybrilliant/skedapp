@@ -54,16 +54,16 @@
            <td>{{category.id}}</td>
            <td>{{category.name}}</td>
            {% if category.isDeleted %}
-                <td><span>Yes</span></td>
+                <td><span class="label label-important">Yes</span></td>
            {% else %}
-                <td><span>No</span></td>
+                <td><span class="label label-info">No</span></td>
            {% endif%}
            <td>{{category.createdAt|date('Y-m-d H:i A')}}</td>
            <td>
                <small>
-                  <a href='{{path('sked_app_category_show', {'id': category.id }) }}' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
-                  <a href='{{path('sked_app_category_edit', {'id': category.id }) }}' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
-                  <a href='{{path('sked_app_category_delete', {'id': category.id }) }}' rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
+                  <a href='{{path('sked_app_category_show', {'id': category.id }) }}.html' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                  <a href='{{path('sked_app_category_edit', {'id': category.id }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                  <a href='{{path('sked_app_category_delete', {'id': category.id }) }}.html' rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
                </small>
            </td>  
          </tr>
