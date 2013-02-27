@@ -1,77 +1,106 @@
 sked_app_consultant_list:
-    pattern:  /consultant/list
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:list }
+    pattern:  /consultant/list.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:list , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_new:
-    pattern:  /consultant/new
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:new }
+    pattern:  /consultant/new.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:new , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_create:
-    pattern:  /consultant/create
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:create }
+    pattern:  /consultant/create.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:create , _format: html }
+    requirements:
+        _method:  GET|POST 
+        _format:  html
 
 sked_app_consultant_edit:
-    pattern:  /consultant/edit/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:edit }
+    pattern:  /consultant/edit/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:edit , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_update:
-    pattern:  /consultant/update/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:update }
+    pattern:  /consultant/update/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:update , _format: html }
     requirements:
         id:  \d+
+        _method:  GET|POST 
+        _format:  html
 
 sked_app_consultant_show:
-    pattern:  /consultant/show/details/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:show }
+    pattern:  /consultant/show/details/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:show , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_booking_show:
-    pattern:  /consultant/booking/show/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookings }
+    pattern:  /consultant/booking/show/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookings , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_booking_show_to_consultant:
-    pattern:  /consultant/booking/details/{bookingId}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookingToConsultant }
+    pattern:  /consultant/booking/details/{bookingId}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookingToConsultant , _format: html }
     requirements:
         bookingId:  \d+
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_delete:
-    pattern:  /consultant/delete/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:delete }
+    pattern:  /consultant/delete/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:delete , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html
 
 sked_app_consultant_ajax_get_by_category:
-    pattern:  /consultant/ajaxGetByCategory/{categoryId}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory }
+    pattern:  /consultant/ajaxGetByCategory/{categoryId}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCategory , _format: html }
     requirements:
         categoryId:  \d+
+        _method:  GET 
+        _format:  html        
     options:
         expose: true
 
 sked_app_consultant_ajax_get_all_bookings:
-    pattern:  /consultant/ajaxGetAllBookings/{consultantId}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetAllBookings }
+    pattern:  /consultant/ajaxGetAllBookings/{consultantId}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetAllBookings , _format: html }
     requirements:
         consultantId:  \d+
+        _method:  GET 
+        _format:  html        
     options:
         expose: true
 
 sked_app_consultant_view:
-    pattern:  /consultant/profile/{slug}/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:view }
+    pattern:  /consultant/profile/{slug}/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:view , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html        
     options:
         expose: true
 
 sked_app_consultant_booking_day_print:
-    pattern:  /consultant/print/details/{id}
-    defaults: { _controller: SkedAppConsultantBundle:Consultant:print }
+    pattern:  /consultant/print/details/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:print , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html        

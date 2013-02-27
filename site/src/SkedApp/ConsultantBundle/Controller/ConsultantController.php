@@ -19,7 +19,7 @@ use Ivory\GoogleMap\Events\MouseEvent;
 /**
  * SkedApp\ConsultantBundle\Controller\ConsultantController
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppConsultantBundle
  * @subpackage Controller
  * @version 0.0.1
@@ -28,11 +28,10 @@ class ConsultantController extends Controller
 {
 
     /**
-     * list consultants
-     *
-     * @return View
-     * @throws AccessDeniedException
-     *
+     * List consultants
+     * 
+     * @param Integer $page paginator
+     * 
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function listAction($page = 1)
@@ -63,11 +62,8 @@ class ConsultantController extends Controller
     }
 
     /**
-     * Create a new consultant
-     *
-     * @return View
-     * @throws AccessDeniedException
-     *
+     * add a consultant
+     * 
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function newAction()

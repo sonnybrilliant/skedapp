@@ -2,6 +2,10 @@
 {% extends "SkedAppConsultantBundle::layout.html.twig" %}
 {% block title %}Manage consultants{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-secondary">
     <div class="span12">
@@ -11,7 +15,7 @@
             {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
             </div>
             <div style="width: 350px" class="span6 pull-right">
-                <a href="{{ path('sked_app_consultant_new') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add consultant</strong></a>
+                <a href="{{ path('sked_app_consultant_new') }}.html" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add consultant</strong></a>
                 <form class="form-inline pull-right">
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-search" ></i></span>

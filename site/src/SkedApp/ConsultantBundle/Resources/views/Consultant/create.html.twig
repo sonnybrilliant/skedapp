@@ -1,24 +1,26 @@
 {% extends "SkedAppConsultantBundle::layout.html.twig" %}
 {% block title %}Add a new consultant{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
-    {% block content %}
-    <div class="row-fluid body-secondary">
-      <div class="span12">
+<div class="row-fluid body-secondary">
+    <div class="span5">
+        <div class="dash-forms-background">
         <h3>Add a new consultant</h3>
-        <div class="span7" style="margin-left: 0px">
-           {% set vars = {'action': 'Create'} %}
-           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
+        {% include "SkedAppConsultantBundle:Consultant:form.create.html.twig" %}
         </div>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span7" style="margin-left: 0px">
-        {#start form display===============================#}
-            {% include "SkedAppConsultantBundle:Consultant:form.create.html.twig" %}
-        {#end form display===============================#} 
+    </div>
+    <div class="span7">
+        <div class="map-box">
+            <h3><span class="asterisk">*</span>Hint</h3>
+            <ol>
+                <li>Provide a unique <span class="label label-inverse">Email Address</span> for the consultant.</li>
+                <br />
+            </ol>
         </div>
-      </div>     
-    </div>  
-    {% endblock content %}   
+    </div>
+</div> 
 {% endblock body %}
