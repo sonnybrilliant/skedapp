@@ -205,14 +205,8 @@ class ServiceProviderController extends Controller
         $this->get('logger')->info('edit service provider id:' . $id);
 
         try {
-
             $company = $this->get('company.manager')->getById($id);
-
-            $form = $this->createForm(new CompanyUpdateType(), $company);
-            $company_photos = $this->container->get('company.photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
-
-            $company_photo = new CompanyPhotos ();
-            $photo_form = $this->createForm(new CompanyPhotosCreateType(), $company_photo);
+            $form = $this->createForm(new CompanyUpdateType(), $company);            
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
@@ -222,8 +216,6 @@ class ServiceProviderController extends Controller
         return $this->render('SkedAppCompanyBundle:ServiceProvider:edit.html.twig', array(
                 'form' => $form->createView(),
                 'company' => $company,
-                'company_photos' => $company_photos,
-                'photo_form' => $photo_form->createView(),
             ));
     }
 
