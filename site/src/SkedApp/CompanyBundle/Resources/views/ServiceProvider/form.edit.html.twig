@@ -1,4 +1,4 @@
-<form action="{{ path('sked_app_company_update',{id:id}) }}" method="POST" {{ form_enctype(form) }}>
+<form action="{{ path('sked_app_service_provider_update',{ 'id': company.id}) }}" method="POST" {{ form_enctype(form) }}>
     <fieldset>
         <div class="control-group {% if form_errors(form.name) %} error {% endif %}">
             <div class="control-label" for="first_name">{{ form_label(form.name) }}</div>
@@ -38,13 +38,13 @@
                 {{ form_widget(form.lng) }}
                 <span class="help-inline">{{form_errors(form.address)}}</span>    
             </div>
-        </div>  
+        </div>
         <div class="btn-toolbar pull-right">
             <div class="btn-group">
                 <button class="btn btn-warning">Update <i class="icon-white icon-circle-arrow-right"></i></button>
             </div>
             <div class="btn-group">
-                <button class="btn btn-small">Cancel</button>
+                <a href="{{ path('sked_app_service_provider_list') }}" class="btn btn-small">Cancel</a>
             </div>
         </div>
         <script type="text/javascript">

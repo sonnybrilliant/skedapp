@@ -35,7 +35,7 @@ class CompanyRepository extends EntityRepository
         }
 
         $qb = $this->createQueryBuilder('c')->select('c');
-        //$qb->where('c.isDeleted =  :status')->setParameter('status', false);
+        $qb->where('c.isDeleted =  :status')->setParameter('status', false);
         
         // search
         if ($options['searchText']) {

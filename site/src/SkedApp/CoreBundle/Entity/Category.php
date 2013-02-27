@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\CategoryRepository")
  * @ORM\Table(name="category")
  * @ORM\HasLifecycleCallbacks
- * @DoctrineAssert\UniqueEntity(fields={"name"}, message="Company name must be unique, please choose another name.")
+ * @DoctrineAssert\UniqueEntity(fields={"name"}, message="Category name must be unique, please choose another name.")
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppCoreBundle
@@ -74,8 +74,8 @@ class Category
      * @Assert\File(
      * maxSize="1M",
      * maxSizeMessage= "The file is too large ({{ size }}). Allowed maximum size is {{ limit }}",
-     * mimeTypes = {"image/jpeg", "image/jpg"},
-     * mimeTypesMessage = "Please upload a valid image file, we current only support jpeg.",
+     * mimeTypes = {"image/jpeg", "image/jpg" , "image/png"},
+     * mimeTypesMessage = "Please upload a valid image file, we current only support jpeg and png.",
      * uploadErrorMessage = "The file could not be uploaded"
      * )
      */

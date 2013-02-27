@@ -77,7 +77,7 @@ class SecurityListener
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if ($this->redirectToAdmin) {
-            $event->setResponse(new RedirectResponse($this->router->generate('sked_app_company_list')));
+            $event->setResponse(new RedirectResponse($this->router->generate('sked_app_service_provider_list')));
         } else {
             if ($this->isLoggedIn) {
                 $user = $this->security->getToken()->getUser();

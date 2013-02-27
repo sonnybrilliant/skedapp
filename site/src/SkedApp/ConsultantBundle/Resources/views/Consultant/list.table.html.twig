@@ -62,7 +62,7 @@
               </td>
               {% if is_granted('ROLE_ADMIN') %}
               <td>
-                  <a href='{{path('sked_app_company_show', {'id': consultant.company.id }) }}' >{{consultant.company.name}}</a>
+                  <a href='{{path('sked_app_service_provider_show', {'id': consultant.company.id }) }}' >{{consultant.company.name}}</a>
               </td>
              {% endif %}
               <td>

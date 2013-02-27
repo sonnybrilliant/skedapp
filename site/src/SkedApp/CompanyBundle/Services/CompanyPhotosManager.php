@@ -82,6 +82,29 @@ final class CompanyPhotosManager
     }
 
     /**
+     * upload service provider photo
+     *
+     * @param SkedAppCoreBundle:CompanyPhotos $serviceProviderPhoto
+     * @param Integer $serviceProviderId Service provider id
+     * @return void
+     */
+    public function upload($serviceProviderPhoto, $serviceProviderId)
+    {
+        $this->logger->info('Upload service provider photo');
+
+        try {
+            $company = $this->getContainer()->get('company.manager')->getById($serviceProviderId);
+            $serviceProviderPhoto->setCompany($company);
+            $this->em->persist($serviceProviderPhoto);
+            $this->em->flush();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        
+        return;
+    }
+
+    /**
      * update service provider photo
      *
      * @param type $company_photo

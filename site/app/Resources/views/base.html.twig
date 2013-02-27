@@ -40,10 +40,10 @@
     
                                 <ul class="nav pull-right">
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>   
+                                        <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>   
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}   
-                                        <li><a href="{{ path("sked_app_company_list") }}" title="View your admin dashboard">Dashboard</a></li>
+                                        <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_USER') %}   
                                         <li><a href="{{ path("sked_app_consultant_show", {'id': app.user.id }) }}" title="View your calender">Bookings</a></li>    

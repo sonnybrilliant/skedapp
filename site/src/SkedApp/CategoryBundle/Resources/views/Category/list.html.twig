@@ -1,6 +1,10 @@
 {% extends "SkedAppCategoryBundle::layout.html.twig" %}
 {% block title %}Manage categories{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-secondary">
     <div class="span12">
