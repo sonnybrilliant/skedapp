@@ -34,10 +34,10 @@ class CategoryController extends Controller
         $searchText = $this->get('request')->query->get('searchText');
         $sort = $this->get('request')->query->get('sort', 'c.id');
         $direction = $this->get('request')->query->get('direction', 'asc');
-        
+
         $options = array('searchText' => $searchText,
             'sort' => $sort,
-            'direction' => $direction,           
+            'direction' => $direction,
         );
 
 
@@ -56,17 +56,11 @@ class CategoryController extends Controller
     /**
      * Create a new category
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction()
     {
         $this->get('logger')->info('create a new category');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('create category, access denied.');
-            throw new AccessDeniedException();
-        }
 
         $category = new Category();
         $form = $this->createForm(new CategoryCreateType(), $category);
@@ -77,17 +71,11 @@ class CategoryController extends Controller
     /**
      * Create a new category
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function createAction()
     {
         $this->get('logger')->info('create a new category');
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('create category, access denied.');
-            throw new AccessDeniedException();
-        }
 
         $category = new Category();
         $form = $this->createForm(new CategoryCreateType(), $category);
@@ -112,26 +100,22 @@ class CategoryController extends Controller
     /**
      * Edit category
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @param Integer $id
+     *  
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function editAction($id)
     {
         $this->get('logger')->info('edit category');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('edit category, access denied.');
-            throw new AccessDeniedException();
+        try {
+            $category = $this->get('category.manager')->getById($id);
+            $form = $this->createForm(new CategoryUpdateType(), $category);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
         }
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $category = $em->getRepository('SkedAppCoreBundle:Category')->find($id);
-
-        if (!$category) {
-            $this->createNotFoundException('Category does not exist');
-        }
-
-        $form = $this->createForm(new CategoryUpdateType(), $category);
 
         return $this->render('SkedAppCategoryBundle:Category:edit.html.twig', array(
                 'form' => $form->createView(),
@@ -142,40 +126,35 @@ class CategoryController extends Controller
     /**
      * Update a category
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @param Integer $id
+     *  
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function updateAction($id)
     {
         $this->get('logger')->info('update category');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('update category, access denied.');
-            throw new AccessDeniedException();
-        }
+        try {
+            $category = $this->get('category.manager')->getById($id);
+            $form = $this->createForm(new CategoryUpdateType(), $category);
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $category = $em->getRepository('SkedAppCoreBundle:Category')->find($id);
+            if ($this->getRequest()->getMethod() == 'POST') {
+                $form->bindRequest($this->getRequest());
 
-        if (!$category) {
-            $this->createNotFoundException('Category does not exist');
-        }
-
-        $form = $this->createForm(new CategoryUpdateType(), $category);
-
-
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bindRequest($this->getRequest());
-
-            if ($form->isValid()) {
-                $this->get('category.manager')->createAndUpdateCategory($category);
-                $this->getRequest()->getSession()->setFlash(
-                    'success', 'Update category successfully');
-                return $this->redirect($this->generateUrl('sked_app_category_list'));
-            } else {
-                $this->getRequest()->getSession()->setFlash(
-                    'error', 'Failed to update category');
+                if ($form->isValid()) {
+                    $this->get('category.manager')->createAndUpdateCategory($category);
+                    $this->getRequest()->getSession()->setFlash(
+                        'success', 'Update category successfully');
+                    return $this->redirect($this->generateUrl('sked_app_category_list'));
+                } else {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Failed to update category');
+                }
             }
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
         }
 
         return $this->render('SkedAppCategoryBundle:Category:edit.html.twig', array('form' => $form->createView()));
@@ -184,26 +163,23 @@ class CategoryController extends Controller
     /**
      * Delete category
      *
-     * @return Response
-     * @throws AccessDeniedException
+     * @param Integer $id
+     *  
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction($id)
     {
         $this->get('logger')->info('delete category');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('delete category, access denied.');
-            throw new AccessDeniedException();
+        try {
+            $category = $this->get('category.manager')->getById($id);
+            $this->get('service.manager')->deleteServicesByCategory($category);
+            $this->get('category.manager')->delete($category);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
         }
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $category = $em->getRepository('SkedAppCoreBundle:Category')->find($id);
-
-        $this->get('service.manager')->deleteServicesByCategory($category);
-
-        $category->setIsDeleted(true);
-        $em->persist($category);
-        $em->flush();
 
         $this->getRequest()->getSession()->setFlash(
             'success', 'Category was successfully deleted');
@@ -213,28 +189,23 @@ class CategoryController extends Controller
     /**
      * Show category
      *
-     * @return View
-     * @throws AccessDeniedException
+     *  
+     * @Secure(roles="ROLE_ADMIN")
      */
-    public function showAction ($id) {
+    public function showAction($id)
+    {
 
         $this->get('logger')->info('view category');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('view category, access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $category = $em->getRepository('SkedAppCoreBundle:Category')->find($id);
-
-        if (!$category) {
-            $this->get('logger')->warn("category not found $id");
-            return $this->createNotFoundException();
+        try {
+            $category = $this->get('category.manager')->getById($id);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
         }
 
         return $this->render('SkedAppCategoryBundle:Category:show.html.twig', array('category' => $category));
-
     }
 
 }

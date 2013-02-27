@@ -9,7 +9,7 @@ use Monolog\Logger;
 /**
  * Category manager 
  * 
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppCategoryBundle
  * @subpackage Services
  * @version 0.0.1
@@ -101,6 +101,21 @@ final class CategoryManager
 
         return $category;
     }   
+    
+    /**
+     * delete category
+     * 
+     * @param SkedApp\CoreBundle\Entity\Category $category
+     * @return void
+     */
+    public function delete($category)
+    {
+        $this->logger->info('Save category');
+        $category->setIsDeleted(true);
+        $this->em->persist($category);
+        $this->em->flush();
+        return;
+    }
     
     /**
      * Create and update category

@@ -89,7 +89,7 @@ class ServiceProviderController extends Controller
                 $this->get('company.manager')->create($company);
 
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Created service provider sucessfully');
+                    'success', 'Created service provider successfully');
                 return $this->redirect($this->generateUrl('sked_app_service_provider_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -243,7 +243,7 @@ class ServiceProviderController extends Controller
                     $em->persist($company);
                     $em->flush();
                     $this->getRequest()->getSession()->setFlash(
-                        'success', 'Updated service provider sucessfully');
+                        'success', 'Updated service provider successfully');
                     return $this->redirect($this->generateUrl('sked_app_service_provider_list'));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -277,7 +277,7 @@ class ServiceProviderController extends Controller
             $company = $this->get('company.manager')->getById($id);
             $this->container->get('company.manager')->delete($company);
             $this->getRequest()->getSession()->setFlash(
-                'success', 'Deleted service provider sucessfully');
+                'success', 'Deleted service provider successfully');
             return $this->redirect($this->generateUrl('sked_app_service_provider_list'));
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
