@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Service controller test 
  * 
- * @author Ronald Conco <ronald.conco@kaizania.co.za>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppServiceBundle
  * @subpackage Tests/Controller
  * @version 0.0.1
@@ -16,11 +16,12 @@ class ServiceControllerTest extends WebTestCase
 {
 
     /**
-     * Show list view
+     * List services
+     * 
+     * @return void
      */
     public function testList()
     {
-
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -31,8 +32,7 @@ class ServiceControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         //check if words are available on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
         // select the login form
         $form = $crawler->selectButton('submit')->form();
@@ -40,7 +40,7 @@ class ServiceControllerTest extends WebTestCase
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            '_username' => 'ronald.conco@kaizania.co.za',
+            '_username' => 'ronald.conco@creativecloud.co.za',
             '_password' => '654321',
             )
         );
@@ -50,35 +50,27 @@ class ServiceControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //check if words are not available on the page
-        $this->assertEquals(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
-
+        $this->assertEquals(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
         //go to list view page
-        $crawler = $client->request('GET', '/service/list');
+        $crawler = $client->request('GET', '/service/list.html');
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List services")')->count());
+        //check if user landed on the service provider list pager
+        $this->assertEquals(1, $crawler->filter('title:contains("Manage services")')->count());
 
-
-        //test edit screen
-        $crawler = $client->request('GET', '/service/edit/1');
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-
-        //test delete screen
-        //$crawler = $client->request('GET', '/service/delete/1');
-        //$this->assertEquals(200, $client->getResponse()->getStatusCode());
+        return;
     }
 
     /**
-     * Add new service
+     * create services
+     * 
+     * @return void
      */
     public function testCreate()
     {
-
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -89,8 +81,7 @@ class ServiceControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         //check if words are available on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
         // select the login form
         $form = $crawler->selectButton('submit')->form();
@@ -98,7 +89,7 @@ class ServiceControllerTest extends WebTestCase
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            '_username' => 'ronald.conco@kaizania.co.za',
+            '_username' => 'ronald.conco@creativecloud.co.za',
             '_password' => '654321',
             )
         );
@@ -108,26 +99,27 @@ class ServiceControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //check if words are not available on the page
-        $this->assertEquals(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
-
+        $this->assertEquals(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
         //go to list view page
-        $crawler = $client->request('GET', '/service/new');
+        $crawler = $client->request('GET', '/service/create.html');
 
-        //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("Add a new service")')->count());
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        // select the add new service form
+        //check if user landed on the service provider list pager
+        $this->assertEquals(1, $crawler->filter('title:contains("Add service")')->count());
+        
+        // select the add new company form
         $form = $crawler->selectButton('submit')->form();
 
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            'Service[name]' => 'functional test',
-            'Service[description]' => 'this is a description',
+            'Service[name]' => 'service-' . rand(1, 2000),
+            'Service[description]' => 'Service description',
             'Service[category]' => '1',
-            'Service[appointmentDuration]' => '1',
+            'Service[appointmentDuration]' => '2',
             )
         );
 
@@ -136,15 +128,18 @@ class ServiceControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List services")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Manage services")')->count());
+        return;
     }
 
+    
     /**
-     * Update service
+     * Edit services
+     * 
+     * @return void
      */
-    public function testUpdate()
+    public function testEdit()
     {
-
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -155,8 +150,7 @@ class ServiceControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         //check if words are available on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
         // select the login form
         $form = $crawler->selectButton('submit')->form();
@@ -164,7 +158,7 @@ class ServiceControllerTest extends WebTestCase
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            '_username' => 'ronald.conco@kaizania.co.za',
+            '_username' => 'ronald.conco@creativecloud.co.za',
             '_password' => '654321',
             )
         );
@@ -174,26 +168,27 @@ class ServiceControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //check if words are not available on the page
-        $this->assertEquals(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+        $this->assertEquals(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
+        //go to list view page
+        $crawler = $client->request('GET', '/service/edit/5.html');
 
-        //Edit service
-        $crawler = $client->request('GET', '/service/edit/1');
+        // response should be success
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
-        //we are at the list view page
+        //check if user landed on the service provider list pager
         $this->assertEquals(1, $crawler->filter('title:contains("Edit service")')->count());
-
-        // select the add new service form
+        
+        // select the add new company form
         $form = $crawler->selectButton('submit')->form();
 
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            'Service[name]' => 'update functional test',
-            'Service[description]' => 'this is an update description',
+            'Service[name]' => 'service-' . rand(1, 2000),
+            'Service[description]' => 'Service description',
             'Service[category]' => '1',
-            'Service[appointmentDuration]' => '1',
+            'Service[appointmentDuration]' => '2',
             )
         );
 
@@ -202,15 +197,17 @@ class ServiceControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List services")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Manage services")')->count());
+        return;
     }
 
     /**
-     * Delete service
+     * Delete services
+     * 
+     * @return void
      */
     public function testDelete()
     {
-
         $client = static::createClient();
         $client->followRedirects(true);
 
@@ -221,8 +218,7 @@ class ServiceControllerTest extends WebTestCase
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         //check if words are available on the page
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertGreaterThan(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+        $this->assertGreaterThan(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
         // select the login form
         $form = $crawler->selectButton('submit')->form();
@@ -230,7 +226,7 @@ class ServiceControllerTest extends WebTestCase
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            '_username' => 'ronald.conco@kaizania.co.za',
+            '_username' => 'ronald.conco@creativecloud.co.za',
             '_password' => '654321',
             )
         );
@@ -240,45 +236,17 @@ class ServiceControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //check if words are not available on the page
-        $this->assertEquals(0, $crawler->filter('html:contains("Please login")')->count());
-        $this->assertEquals(0, $crawler->filter('html:contains("Having login trouble?")')->count());
+        $this->assertEquals(0, $crawler->filter('title:contains("Welcome, please login")')->count());
 
-
-         //go to list view page
-        $crawler = $client->request('GET', '/service/new');
-
-        //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("Add a new service")')->count());
-
-        // select the add new service form
-        $form = $crawler->selectButton('submit')->form();
-
-        // submit the form with valid credentials
-        $crawler = $client->submit(
-            $form, array(
-            'Service[name]' => 'functional for deleting',
-            'Service[description]' => 'this is a description',
-            'Service[category]' => '1',
-            'Service[appointmentDuration]' => '1',
-            )
-        );
+        //go to list view page
+        $crawler = $client->request('GET', '/service/delete/8.html');
 
         // response should be success
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List services")')->count());
-        
-        //delete service
-        $crawler = $client->request('GET', '/service/delete/11');
-        
-        // response should be success
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertTrue($client->getResponse()->isSuccessful());
-
-        //we are at the list view page
-        $this->assertEquals(1, $crawler->filter('title:contains("List services")')->count());
-    }
-
+        $this->assertEquals(1, $crawler->filter('title:contains("Manage services")')->count());
+        return;
+    }    
 }

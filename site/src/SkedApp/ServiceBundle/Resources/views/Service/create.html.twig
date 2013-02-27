@@ -1,6 +1,10 @@
 {% extends "SkedAppServiceBundle::layout.html.twig" %}
 {% block title %}Add service{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-secondary">
     <div class="span5">
@@ -11,16 +15,13 @@
     </div>
     <div class="span7">
         <div class="map-box">
-                <h3><span class="asterisk">*</span>Hint</h3>
-            Remember to validate your email as soon as you have submitted the form.
+            <h3><span class="asterisk">*</span>Hint</h3>
+            <ol>
+                <li>Provide a unique <span class="label label-inverse">Name</span> for the service.</li>
+                <br />
+            </ol>
             <div class="spacer1"></div>
-                <div class="g-maps"></div> <!-- Temp Map -->
-                <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
-                <div class="clearfix"></div>  
-                <div class="spacer2"></div>
-                  
-            </div> <!-- End map-box -->
-           
+        </div> <!-- End map-box -->           
     </div>
  </div>	 
 {% endblock body %}

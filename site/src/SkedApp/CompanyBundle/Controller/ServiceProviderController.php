@@ -3,14 +3,12 @@
 namespace SkedApp\CompanyBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\CoreBundle\Entity\Company;
 use SkedApp\CoreBundle\Entity\CompanyPhotos;
 use SkedApp\CompanyBundle\Form\CompanyCreateType;
 use SkedApp\CompanyBundle\Form\CompanyUpdateType;
 use SkedApp\CompanyBundle\Form\CompanyPhotosCreateType;
-use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
 use Ivory\GoogleMap\Overlays\Animation;
 use Ivory\GoogleMap\MapTypeId;
 use Ivory\GoogleMap\Events\MouseEvent;
@@ -29,7 +27,7 @@ class ServiceProviderController extends Controller
     /**
      * List all available agencies
      * 
-     * @param integer $page
+     * @param Integer $page
      * 
      * @Secure(roles="ROLE_ADMIN")
      */

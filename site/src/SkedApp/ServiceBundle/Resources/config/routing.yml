@@ -1,31 +1,46 @@
 sked_app_service_list:
-    pattern:  /service/list
-    defaults: { _controller: SkedAppServiceBundle:Service:list }
-
+    pattern:  /service/list.{_format}
+    defaults: { _controller: SkedAppServiceBundle:Service:list , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html  
+        
 sked_app_service_new:
-    pattern:  /service/new
-    defaults: { _controller: SkedAppServiceBundle:Service:new }
-
+    pattern:  /service/new.{_format}
+    defaults: { _controller: SkedAppServiceBundle:Service:new , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html  
+        
 sked_app_service_create:
-    pattern:  /service/create
-    defaults: { _controller: SkedAppServiceBundle:Service:create }
+    pattern:  /service/create.{_format}
+    defaults: { _controller: SkedAppServiceBundle:Service:create , _format: html }
+    requirements:
+        _method:  GET|POST 
+        _format:  html      
 
 sked_app_service_edit:
-    pattern:  /service/edit/{id}
-    defaults: { _controller: SkedAppServiceBundle:Service:edit }
+    pattern:  /service/edit/{id}.{_format}
+    defaults: { _controller: SkedAppServiceBundle:Service:edit , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html          
 
 sked_app_service_update:
-    pattern:  /service/update/{id}
-    defaults: { _controller: SkedAppServiceBundle:Service:update }
+    pattern:  /service/update/{id}.{_format}
+    defaults: { _controller: SkedAppServiceBundle:Service:update , _format: html }
     requirements:
         id:  \d+
+        _method:  GET|POST 
+        _format:  html          
         
 sked_app_service_delete:
-    pattern:  /service/delete/{id}
-    defaults: { _controller: SkedAppServiceBundle:Service:delete }
+    pattern:  /service/delete/{id}.{_format}
+    defaults: { _controller: SkedAppServiceBundle:Service:delete , _format: html }
     requirements:
-        id:  \d+   
+        id:  \d+ 
+        _method:  GET 
+        _format:  html          
 
 
