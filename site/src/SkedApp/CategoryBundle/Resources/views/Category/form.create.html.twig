@@ -7,7 +7,7 @@
                 <span class="help-inline">{{form_errors(form.name)}}</span>
             </div>
         </div>
-        <div class="control-group {% if form_error(form.picture) %} error {% endif %}">
+        <div class="control-group {% if form_errors(form.picture) %} error {% endif %}">
             <div class="control-label" for="picture">{{ form_label(form.picture) }}</div>
             <div class="controls">
                 {{ form_widget(form.picture) }}
