@@ -213,7 +213,7 @@ class ServiceProviderController extends Controller
             $company = $this->get('company.manager')->getById($id);
 
             $form = $this->createForm(new CompanyUpdateType(), $company);
-            $company_photos = $this->container->get('company_photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
+            $company_photos = $this->container->get('company.photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
 
             $company_photo = new CompanyPhotos ();
             $photo_form = $this->createForm(new CompanyPhotosCreateType(), $company_photo);

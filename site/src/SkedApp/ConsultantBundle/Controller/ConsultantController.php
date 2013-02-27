@@ -587,7 +587,7 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        $company_photos = $this->container->get('company_photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
+        $company_photos = $this->container->get('company.photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
 
         $arrBookingDate = $this->getRequest()->get('Search', array('booking_date' => ''));
 
