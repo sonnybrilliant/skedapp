@@ -66,7 +66,12 @@ class ServiceProviderController extends Controller
     {
         $this->get('logger')->info('create a new service provider');
         $form = $this->createForm(new CompanyCreateType(), new Company());
-        return $this->render('SkedAppCompanyBundle:ServiceProvider:create.html.twig', array('form' => $form->createView()));
+        $marker = $this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png';
+        
+        return $this->render('SkedAppCompanyBundle:ServiceProvider:create.html.twig', array(
+            'form' => $form->createView(),
+            'marker' => $marker
+            ));
     }
 
     /**
@@ -81,7 +86,9 @@ class ServiceProviderController extends Controller
 
         $company = new Company();
         $form = $this->createForm(new CompanyCreateType(), $company);
-
+        $marker = $this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png';
+        
+        
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
 
@@ -97,7 +104,10 @@ class ServiceProviderController extends Controller
             }
         }
 
-        return $this->render('SkedAppCompanyBundle:ServiceProvider:create.html.twig', array('form' => $form->createView()));
+        return $this->render('SkedAppCompanyBundle:ServiceProvider:create.html.twig', array(
+            'form' => $form->createView(),
+            'marker' => $marker,
+            ));
     }
 
     /**
@@ -203,7 +213,8 @@ class ServiceProviderController extends Controller
     public function editAction($id)
     {
         $this->get('logger')->info('edit service provider id:' . $id);
-
+        $marker = $this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png';
+        
         try {
             $company = $this->get('company.manager')->getById($id);
             $form = $this->createForm(new CompanyUpdateType(), $company);            
@@ -216,6 +227,7 @@ class ServiceProviderController extends Controller
         return $this->render('SkedAppCompanyBundle:ServiceProvider:edit.html.twig', array(
                 'form' => $form->createView(),
                 'company' => $company,
+                'marker' => $marker,
             ));
     }
 
