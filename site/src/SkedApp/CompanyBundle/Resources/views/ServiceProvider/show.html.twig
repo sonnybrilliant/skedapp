@@ -24,7 +24,6 @@
 
             </div>
             <div class="spacer1"></div>
-            <div class="spacer2"></div>
             <h3>Photos</h3>
             <div class="bs-docs-example bs-docs-example-images">
                 {% for photo in company.companyPhotos %}
@@ -35,9 +34,9 @@
                     <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
                 {% endfor %}    
                 <div class="clearfix"></div>
+                <div class="spacer1"></div>
                 <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="pull-right btn btn-warning">Add photo</a>
-                <div class="spacer2"></div>
-            </div>
+                </div>
         </div>
     </div>
     <div class="span7">
