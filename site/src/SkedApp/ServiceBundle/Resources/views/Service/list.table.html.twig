@@ -83,7 +83,7 @@
             <td>{{service.createdAt|date('Y-m-d H:i A')}}</td>
             <td>
                 <small>
-                    <a href='{{path('sked_app_service_edit', {'id': service.id }) }}.html' rel="tooltip" title="click to view" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a> &nbsp;
+                    <a href='{{path('sked_app_service_edit', {'id': service.id }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a> &nbsp;
                     <a href='{{path('sked_app_service_delete', {'id': service.id }) }}.html' onclick="if(confirm('You are about to delete {{service.name}} service, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
                 </small>
             </td>
