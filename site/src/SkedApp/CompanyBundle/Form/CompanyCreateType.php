@@ -64,12 +64,12 @@ class CompanyCreateType extends AbstractType
             ->add('lat', null, array(
                 'required'      => false,
                 'read_only'      => true,
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12', 'value' => '-25.73134')
             ))
             ->add('lng', null, array(
                 'required'      => false,
                 'read_only'      => true,
-                'attr' => array('class' => 'span12')
+                'attr' => array('class' => 'span12' , 'value' => '28.21837000000005')
             ))
 
         ;

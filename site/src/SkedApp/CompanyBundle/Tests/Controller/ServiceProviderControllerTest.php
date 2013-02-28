@@ -55,7 +55,7 @@ class ServiceProviderControllerTest extends WebTestCase
 
 
         //check if user landed on the service provider list pager
-        $this->assertEquals(1, $crawler->filter('title:contains("List service providers")')->count());
+        $this->assertEquals(1, $crawler->filter('title:contains("Manage service providers")')->count());
 
         return;
     }
