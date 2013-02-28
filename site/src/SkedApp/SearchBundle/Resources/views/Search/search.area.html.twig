@@ -5,16 +5,7 @@
     {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
 </div>
 <div class="span7">
-    <div class="map-box">
-        <div id="map_canvas" class="img-polaroid mapRadius"></div>
-            <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
-        <div class="clearfix"></div>
-        <div class="social-box">
-                Find us on Facebook or Twitter
-                <a href="http://www.facebook.com/pages/Skedapp/420977264645890" target="_blank"><img src="{{ asset('/img/facebook.png') }}"/></a>
-                <a href="https://twitter.com/skedapp" target="_blank"><img src="{{ asset('/img/twitter.png') }}"/></a>
-        </div>
-    </div>
+    {% include "SkedAppSearchBundle:Search:search.map.html.twig" %}
 </div>
 
 {% block stylesheets %}

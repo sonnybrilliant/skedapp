@@ -27,7 +27,7 @@
                     {{ form_widget(form.booking_date) }}
                     <div class="spacer1"></div>
                     {{ form_label(form.consultantServices) }} <!-- Service Label -->
-                    {{ form_widget(form.consultantServices) }}    
+                    {{ form_widget(form.consultantServices) }}
                     <div class="btn-toolbar pull-right">
                         <div class="btn-group">
                                 <button class="btn btn-primary">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
@@ -36,16 +36,11 @@
                 <div class="clearfix"></div>
                 <div class="spacer2"></div>
                 </fieldset>
-                {{ form_rest(form) }}    
+                {{ form_rest(form) }}
             </form>
         </div>
     </div>
     <div class="span7">
-        <div class="map-box">
-            <div id="map_canvas" class="img-polaroid mapRadius"></div>
-            Use the controls on the map to pinpoint your position.<br />
-            Click and hold to drag the marker to where you are.
-            <div class="social-box">Find us on Facebook or Twitter <a href="http://www.facebook.com/pages/Skedapp/420977264645890" target="_blank"><img src="{{ asset('/img/facebook.png') }}" width="32" height="32" alt="facebook" /></a> <a href="https://twitter.com/skedapp" target="_blank"><img src="{{ asset('/img/twitter.png') }}" width="32" height="32" alt="twitter" /></a></div>
-        </div> <!-- End map-box -->
+        {% include "SkedAppSearchBundle:Search:search.map.html.twig" %}
     </div>
 </div> <!-- End .row-fluid .body-main -->
