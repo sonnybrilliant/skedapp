@@ -15,31 +15,25 @@
                         <h4>Consultant Profile</h4>
                         <div class="spacer"></div>
                         <div class="white-bg">
-                            <div class="row-fluid">
-                                <div class="span4">
-                                    {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="img-polaroid"/>
-                                        {% else %}
-                                        {% if consultant.gender.name == "Male" %}
-                                        <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="img-polaroid"/>
-                                        {% else %}
-                                        <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="img-polaroid"/>
-                                        {% endif %}
-                                    {% endif %}
-                                </div>
-                                <div class="span6">
-                                    <ul class="unstyled">
-                                        <li><strong>Fullname:</strong> <a href="#">{{ consultant.fullName }}</a></li>
-                                        <li><strong>Services:</strong> <span class="label label-warning">Mens Cut</span> <span class="label label-info">Womans Cut</span> <span class="label label-warning">Blow Wave</span></li>
-                                        <li><strong>Service Provider:</strong> SkedApp</li>
-                                        <li><strong>Address:</strong> Kempton Park, South Africa</li>
-                                        <li><strong>Distance from you:</strong> 5km</li>
-                                        <li><strong>GPS:</strong> 26° 6' 27.094" S 28° 3' 23.964" E</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="pull-left space-right img-polaroid"/>
+                                {% else %}
+                                {% if consultant.gender.name == "Male" %}
+                                <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="pull-left space-right img-polaroid"/>
+                                {% else %}
+                                <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="pull-left space-right img-polaroid"/>
+                                {% endif %}
+                            {% endif %}
+                            <ul class="pull-left unstyled">
+                                <li><strong>Fullname:</strong> <a href="#">{{ consultant.fullName }}</a></li>
+                                <li><strong>Services:</strong> <span class="label label-warning">Mens Cut</span> <span class="label label-info">Womans Cut</span> <span class="label label-warning">Blow Wave</span></li>
+                                <li><strong>Service Provider:</strong> SkedApp</li>
+                                <li><strong>Address:</strong> Kempton Park, South Africa</li>
+                                <li><strong>Distance from you:</strong> 5km</li>
+                                <li><strong>GPS:</strong> 26° 6' 27.094" S 28° 3' 23.964" E</li>
+                            </ul>
+                            <div class="clearfix"></div>
                         </div>    
-                        <div class="clearfix"></div>
                         <div class="spacer1"></div>
                         <table class="table table-bordered">
                             <tbody>

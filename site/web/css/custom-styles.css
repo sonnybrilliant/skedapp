@@ -131,19 +131,21 @@ html, body {
 .large-thin-text {
 	font-size: 20px;
 }
-.space-left {
-	margin-left: 10px;
-}
-
 .space-top {
 	margin-top: 20px;
 }
-
+.space-left {
+	margin-left: 10px;
+}
 .space-right {
 	margin-right: 10px;
 }
-
-
+.pad-left {
+    padding-left: 10px !important;
+}
+.padding-right {
+    padding-right: 10px !important;
+}
 .space-right7 {
 	margin-right: 7px;
 }
