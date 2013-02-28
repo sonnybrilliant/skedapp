@@ -36,11 +36,11 @@ html, body {
 	height: 80px;
 }
 
-.span7 .map-box {
+.map-box {
     padding: 1.25em;
 }
 
-.span7 .map-box #map_canvas {
+.map-box #map_canvas {
     border: 1px solid #ddd;
     background-color: #FFFFFF;
     border-radius: 5px 5px 5px 5px;
@@ -77,6 +77,9 @@ html, body {
 .container-fluid {
 	padding-top: 0px;
 }
+.spacer {
+	height: 1.25em;
+}
 .spacer1 {
 	height: 1em;
 }
@@ -106,6 +109,8 @@ html, body {
 
 .white-bg {
 	background-color: #FFFFFF;
+        border: 1px solid #ddd;
+        padding: 10px;
 }
 .light-gray-text {
 	color: #cccccc;
