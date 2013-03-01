@@ -55,12 +55,18 @@
               <td> 
                     <a href='{{path('sked_app_consultant_show', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to view">
                        {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="20" height="20" class="space-left space-right pull-left"/>
+                       <div class="image-dimensions20 pull-left">
+                           <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="20" height="20" class="space-left space-right"/>
+                       </div>
                        {% else %}
                             {% if consultant.gender.name == "Male" %}
-                                <img src="{{ asset('/img/male.jpg') }}" width="20" height="20" class="space-left space-right pull-left"/>
+                           <div class="image-dimensions20 pull-left">
+                               <img src="{{ asset('/img/male.jpg') }}" width="20" height="20" class="space-left space-right"/>
+                           </div>
                             {% else %}
-                                <img src="{{ asset('/img/female.jpg') }}" width="20" height="20" class="space-left space-right pull-left"/>
+                           <div class="image-dimensions20 pull-left">
+                               <img src="{{ asset('/img/female.jpg') }}" width="20" height="20" class="space-left space-right"/>
+                           </div>
                             {% endif %}                        
                         {% endif %}
                     </a>

@@ -3,18 +3,24 @@
 {% block title %}Consultant Profile{% endblock %}
 
 {% block body %}
-<div class="row-fluid body-main rounded-all">
+<div class="row-fluid body-main rounded-bottom">
     <div class="span5">
-        <div class="forms-background">
-        <h4>Consultant Profile</h4>
-            <div class="whiteBackground">
+        <div class="consultant-background">
+        <h3>Consultant Profile</h3>
+            <div class="white-bg">
                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="140" height="140" class="space-left space-right pull-left img-polaroid"/>
+                        <div class="image-dimensions140 pull-left space-right20">
+                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="140" height="140" class="img-polaroid"/>
+                        </div>
                 {% else %}
                         {% if consultant.gender.name == "Male" %}
-                            <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="space-right pull-left img-polaroid"/>
+                        <div class="image-dimensions140 pull-left space-right20">
+                            <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                        </div>
                         {% else %}
-                            <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="space-right pull-left img-polaroid"/>
+                        <div class="image-dimensions140 pull-left space-right20">
+                            <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                        </div>
                         {% endif %}
                         
                 {% endif %}
@@ -34,16 +40,16 @@
 
                 </div>
                 <div class="clearfix"></div>
-                <div class="spacer1"></div>
+                <div class="spacer2"></div>
                 <table class="table table-bordered">
-                <tbody>
-                <tr>
-                  {% set arrSlots = consultant.getAvailableBookingSlots() %}  
-                    {% for time_slot in arrSlots.time_slots %}      
-                    <td class="dark-gray-text"><strong>{{ time_slot.start_time }}</strong><br><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
-                    {% endfor %}
-                </tr>
-                </tbody>
+                    <tbody>
+                        <tr>
+                          {% set arrSlots = consultant.getAvailableBookingSlots() %}  
+                            {% for time_slot in arrSlots.time_slots %}      
+                            <td class="dark-gray-text"><strong>{{ time_slot.start_time }}</strong><br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         <h4>Service Provider Pictures</h4>
@@ -61,11 +67,12 @@
         <div class="clearfix"></div>
         </div>
         <div class="spacer2"></div>
-        <div class="spacer1"></div>
         </div>
     </div>
     <div class="span7">
+        <div class="map-box pad-right20">
         {% render url('sked_app_service_provider_show_map', { 'id': consultant.company.id }) %}
+        </div>
     </div> <!-- End .row-fluid -->
 </div>    
 {% endblock body %}
