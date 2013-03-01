@@ -64,6 +64,22 @@ sked_app_consultant_delete:
         id:  \d+
         _method:  GET 
         _format:  html
+        
+sked_app_consultant_list_bookings:
+    pattern:  /consultant/bookings/{slug}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Booking:list , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html        
+        
+sked_app_consultant_booking_show:
+    pattern:  /consultant/booking/details/{id}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Booking:show , _format: html }
+    requirements:
+        id:  \d+
+        _method:  GET 
+        _format:  html        
+        
 
 sked_app_consultant_ajax_get_by_category:
     pattern:  /consultant/ajaxGetByCategory/{categoryId}.{_format}

@@ -143,7 +143,22 @@ final class BookingManager
 
         return $bookings;
     }
-
+    
+    /**
+     * Get consultant bookings
+     * 
+     * @param array $options
+     * @return array
+     */
+    public function getConsultantBookings($options)
+    {
+        $this->logger->info('Get all consultant bookings');
+        
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
+        return $bookings;        
+    }
+    
+    
     /**
      * Get all bookings between given dates
      *

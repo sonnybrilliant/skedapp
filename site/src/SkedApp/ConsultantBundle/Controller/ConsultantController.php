@@ -295,12 +295,11 @@ class ConsultantController extends Controller
                 'options' => $options
             ));
     }
-
+    
     /**
-     * Show consultant
+     * Show consultant bookings consultant
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @param String $slug 
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */

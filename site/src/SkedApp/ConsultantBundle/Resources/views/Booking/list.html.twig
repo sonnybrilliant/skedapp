@@ -1,0 +1,24 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}Consultant Bookings{% endblock %}
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li><a href="{{ path('sked_app_consultant_show',{'slug': consultant.slug})}}.html" title="View Consultant profle">Personal Details</a></li>
+                <li class="active"><a href="#tab2" data-toggle="tab">Bookings</a></li>
+            </ul>
+            <div class="tab-content" id="tab1">
+                <div class="tab-pane active">
+                        <div class="span12">
+                            <h3>Consultant Bookings</h3>
+                            {% include "SkedAppConsultantBundle:Booking:list.table.html.twig" %} 
+                        </div> <!-- Dashboard Content --> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End .row-fluid -->
+
+{% endblock body %}

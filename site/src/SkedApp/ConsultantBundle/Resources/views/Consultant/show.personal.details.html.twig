@@ -7,7 +7,7 @@
         <div class="tabbable"> <!-- Only required for left/right tabs -->
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#tab1" data-toggle="tab">Personal Details</a></li>
-                <li><a href="#tab2" data-toggle="tab">Bookings</a></li>
+                <li><a href="{{ path('sked_app_consultant_list_bookings',{'slug': consultant.slug})}}.html" title="View bookings">Bookings</a></li>
             </ul>
             <div class="tab-content" id="tab1">
                 <div class="tab-pane active">

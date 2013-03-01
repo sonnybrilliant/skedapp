@@ -74,8 +74,24 @@ class BookingRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAllConsultantBookings($consultantId)
+    public function getAllConsultantBookings($options)
     {
+        $defaultOptions = array(
+            'searchText' => '',
+            'sort' => 'c.id',
+            'direction' => 'asc'
+        );
+
+        if (!isset($options['searchText']))
+            $options['searchText'] = '';
+
+        foreach ($options as $key => $values) {
+            if (!$values) {
+                $options[$key] = $defaultOptions[$key];
+            }
+        }
+
+
         $qb = $this->createQueryBuilder('b')
             ->select('b')
             ->where("b.isDeleted = :delete")
@@ -86,8 +102,10 @@ class BookingRepository extends EntityRepository
             'delete' => false,
             'active' => true,
             'cancelled' => false,
-            'consultant' => $consultantId
+            'consultant' => $options['consultantId']
             ));
+
+        $qb->orderBy($options['sort'], $options['direction']);
         return $qb->getQuery()->execute();
     }
 
@@ -142,7 +160,6 @@ class BookingRepository extends EntityRepository
                 'end' => $objEndDate->format('Y-m-d H:i:s')
                 ));
             return $qb->getQuery()->execute();
-
         } elseif ($companyId > 0) {
 
             $qb = $this->createQueryBuilder('b')
@@ -163,7 +180,6 @@ class BookingRepository extends EntityRepository
                 'end' => $objEndDate->format('Y-m-d H:i:s')
                 ));
             return $qb->getQuery()->execute();
-
         }
     }
 
@@ -235,15 +251,15 @@ class BookingRepository extends EntityRepository
                 OR  ( b.hiddenAppointmentEndTime > ?5 AND b.hiddenAppointmentEndTime < ?6 )
                 OR  ( b.hiddenAppointmentStartTime <= ?5 AND b.hiddenAppointmentEndTime > ?6 ))";
         $resOut = $this->getEntityManager()->createQuery($dql)
-                ->setParameters(array(
-                    1 => $consultant,
-                    2 => false,
-                    3 => true,
-                    4 => false,
-                    5 => $bookingStartDate,
-                    6 => $bookingEndDate
-                ))
-                ->getResult();
+            ->setParameters(array(
+                1 => $consultant,
+                2 => false,
+                3 => true,
+                4 => false,
+                5 => $bookingStartDate,
+                6 => $bookingEndDate
+            ))
+            ->getResult();
 
         return $resOut;
     }
@@ -298,7 +314,6 @@ class BookingRepository extends EntityRepository
             'isMainReminderSent' => false,
             'isHourReminderSent' => false,
             'appointmentDate' => $todayDate->format('Y-m-d'),
-
             ));
         return $qb->getQuery()->execute();
     }
@@ -332,11 +347,9 @@ class BookingRepository extends EntityRepository
             'isHourReminderSent' => false,
             'appointmentDate' => $todayDate->format('Y-m-d'),
             'nowDate' => $todayDate->format('Y-m-d H:m:s'),
-
             ));
 
         return $qb->getQuery()->execute();
-
     }
 
     /**
