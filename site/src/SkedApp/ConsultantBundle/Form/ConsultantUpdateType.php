@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * SkedApp\ConsultantBundle\Form\ConsultantUpdateType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppConsultantBundle
  * @subpackage Form
  * @version 0.0.1
@@ -67,7 +67,7 @@ class ConsultantUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => true,
-                'required' => true,
+                'required' => false,
                 'attr' => array('class' => 'span12' ),
 
             ))
@@ -83,6 +83,7 @@ class ConsultantUpdateType extends AbstractType
             ))
             ->add('monday', 'checkbox', array(
                 'label' => 'M'> false,
+                'required'  => false,
             ))
             ->add('tuesday', 'checkbox', array(
                 'label' => 'T',

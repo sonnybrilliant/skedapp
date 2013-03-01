@@ -114,7 +114,7 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
+            return $this->redirect($this->generateUrl('sked_app_category_list') . '.html');
         }
 
         return $this->render('SkedAppCategoryBundle:Category:edit.html.twig', array(
@@ -154,7 +154,7 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
+            return $this->redirect($this->generateUrl('sked_app_category_list') . '.html');
         }
 
         return $this->render('SkedAppCategoryBundle:Category:edit.html.twig', array('form' => $form->createView()));
@@ -178,7 +178,7 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
+            return $this->redirect($this->generateUrl('sked_app_category_list') . '.html');
         }
 
         $this->getRequest()->getSession()->setFlash(
@@ -202,7 +202,7 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-            return $this->redirect($this->generateUrl('ssked_app_category_list') . '.html');
+            return $this->redirect($this->generateUrl('sked_app_category_list') . '.html');
         }
 
         return $this->render('SkedAppCategoryBundle:Category:show.html.twig', array('category' => $category));

@@ -9,7 +9,7 @@ use SkedApp\CoreBundle\Entity\Consultant;
 /**
  * Consultant manager
  *
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppServiceBundle
  * @subpackage Consultant
  * @version 0.0.1
@@ -100,6 +100,26 @@ final class ConsultantManager
         }
 
         return $consultant;
+    }
+
+    /**
+     * Get consultant by slug
+     *
+     * @param integer $slug
+     * @return SkedAppCoreBundle:Consultant
+     * @throws \Exception
+     */
+    public function getBySlug($slug)
+    {
+        $consultant = $this->em->getRepository('SkedAppCoreBundle:Consultant')
+            ->findBySlug($slug);
+
+        if (!$consultant) {
+            throw new \Exception('Consultant not found for slug:' . $slug);
+            $this->logger->err('Failed to find Consultant by slug:' . $slug);
+        }
+
+        return $consultant[0];
     }
 
     /**
@@ -288,7 +308,7 @@ final class ConsultantManager
     public function listAllWithinRadius($options = array())
     {
         $this->logger->info("Search for consultants");
-        
+
         $output = array(
             'results' => array(),
             'radius' => $options['radius'],

@@ -20,7 +20,7 @@ sked_app_consultant_create:
         _format:  html
 
 sked_app_consultant_edit:
-    pattern:  /consultant/edit/{id}.{_format}
+    pattern:  /consultant/edit/{slug}.{_format}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:edit , _format: html }
     requirements:
         id:  \d+
@@ -28,7 +28,7 @@ sked_app_consultant_edit:
         _format:  html
 
 sked_app_consultant_update:
-    pattern:  /consultant/update/{id}.{_format}
+    pattern:  /consultant/update/{slug}.{_format}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:update , _format: html }
     requirements:
         id:  \d+
@@ -36,18 +36,16 @@ sked_app_consultant_update:
         _format:  html
 
 sked_app_consultant_show:
-    pattern:  /consultant/show/details/{id}.{_format}
+    pattern:  /consultant/show/details/{slug}.{_format}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:show , _format: html }
     requirements:
-        id:  \d+
         _method:  GET 
         _format:  html
 
 sked_app_consultant_booking_show:
-    pattern:  /consultant/booking/show/{id}.{_format}
+    pattern:  /consultant/booking/show/{slug}.{_format}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:showBookings , _format: html }
     requirements:
-        id:  \d+
         _method:  GET 
         _format:  html
 
@@ -60,7 +58,7 @@ sked_app_consultant_booking_show_to_consultant:
         _format:  html
 
 sked_app_consultant_delete:
-    pattern:  /consultant/delete/{id}.{_format}
+    pattern:  /consultant/delete/{slug}.{_format}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:delete , _format: html }
     requirements:
         id:  \d+
@@ -88,10 +86,9 @@ sked_app_consultant_ajax_get_all_bookings:
         expose: true
 
 sked_app_consultant_view:
-    pattern:  /consultant/profile/{slug}/{id}.{_format}
+    pattern:  /consultant/profile/{slug}.{_format}
     defaults: { _controller: SkedAppConsultantBundle:Consultant:view , _format: html }
     requirements:
-        id:  \d+
         _method:  GET 
         _format:  html        
     options:

@@ -53,7 +53,7 @@
           {% for consultant in pagination %}
           <tr>
               <td> 
-                    <a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}' rel="tooltip" title="click to view">
+                    <a href='{{path('sked_app_consultant_show', {'slug': consultant.slug }) }}' rel="tooltip" title="click to view">
                        {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
                         <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="20px" height="20px" class="space-left space-right pull-left"/>
                        {% else %}
@@ -66,7 +66,7 @@
                     </a>
               </td>
               <td>
-                  <a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}.html' rel="tooltip" title="click to view">{{consultant.fullName}}</a>
+                  <a href='{{path('sked_app_consultant_show',{'slug': consultant.slug }) }}.html' rel="tooltip" title="click to view">{{consultant.fullName}}</a>
               </td>
               {% if is_granted('ROLE_ADMIN') %}
               <td>
@@ -75,16 +75,16 @@
              {% endif %}
               <td>
                   {% for service in consultant.consultantServices %}
-                      <span {{ cycle(['label-inverse', ''], service.id) }}">{{ service.name }}</span>
+                      <span class=" label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
                   {% else %}
-                       No listed services found.
+                       No listed services.
                   {% endfor %}
               </td>
             <td>
                 <small>
-                    <a href='{{path('sked_app_consultant_show', {'id': consultant.id }) }}.html' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
-                    <a href='{{path('sked_app_consultant_edit', {'id': consultant.id }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
-                    <a href='{{path('sked_app_consultant_delete', {'id': consultant.id }) }}.html' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
+                    <a href='{{path('sked_app_consultant_show', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                    <a href='{{path('sked_app_consultant_edit', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                    <a href='{{path('sked_app_consultant_delete', {'slug': consultant.slug }) }}.html' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
                 </small>
             </td>
           </tr>

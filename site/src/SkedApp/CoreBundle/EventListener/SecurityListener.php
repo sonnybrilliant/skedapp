@@ -87,7 +87,7 @@ class SecurityListener
                        $event->setResponse(new RedirectResponse($this->router->generate('sked_app_customer_list_bookings'))); 
                     } else {
                         $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_booking_show', array(
-                                    'id' => $this->security->getToken()->getUser()->getId()))));
+                                    'slug' => $this->security->getToken()->getUser()->getSlug()))));
                     }
                 }
             }

@@ -9,7 +9,7 @@
         <h4>Consultant Profile</h4>
             <div class="whiteBackground">
                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="space-left space-right pull-left img-polaroid"/>
+                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="140px" height="140px" class="space-left space-right pull-left img-polaroid"/>
                 {% else %}
                         {% if consultant.gender.name == "Male" %}
                             <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="space-right pull-left img-polaroid"/>
@@ -48,30 +48,24 @@
             </div>
         <h4>Service Provider Pictures</h4>
         <div class="bs-docs-example bs-docs-example-images">
-        <img src="{{ asset('/uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" style="width:100px; height:100px" class="img-polaroid space-right7">
-        <img src="{{ asset('/img/gallery.png') }}" style="width:100px; height:100px" class="img-polaroid space-right7">
-        <img src="{{ asset('/img/gallery.png') }}" style="width:100px; height:100px" class="img-polaroid space-right7">
+        {% for photo in consultant.company.companyPhotos %}
+                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">   
+        {% else %}
+                    <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
+                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
+                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
+        {% endfor %} 
         <div class="clearfix"></div>
         <div class="spacer1"></div>
         <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn btn-warning pull-right">Back to Search <i class="icon-white icon-circle-arrow-right"></i></a>
         <div class="clearfix"></div>
         </div>
+        <div class="spacer2"></div>
+        <div class="spacer1"></div>
         </div>
     </div>
     <div class="span7">
-        <div class="map-box">
-        <h4>Location Details</h4>
-         {{ google_map_container(map) }}
-        <address>
-          <h4>Employer: Skedapp</h4>
-          <strong>Location:</strong><br>
-          {{ consultant.company.address}}
-        </address>
-        <div class="spacer1"></div>
-        <div class="social-box">Find us on Facebook or Twitter <a href="http://www.facebook.com/pages/Skedapp/420977264645890" target="_blank"><img src="{{ asset('/img/facebook.png') }}"></img> <a href="https://twitter.com/skedapp" target="_blank"><img src="{{ asset('/img/twitter.png') }}"></img></a></div>
-        </div>
-    </div>
-
-</div> <!-- End .row-fluid -->
-{{ google_map_js(map) }}
+        {% render url('sked_app_service_provider_show_map', { 'id': consultant.company.id }) %}
+    </div> <!-- End .row-fluid -->
+</div>    
 {% endblock body %}

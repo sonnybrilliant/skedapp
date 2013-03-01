@@ -59,6 +59,11 @@ sked_app_service_provider_add_photo:
         _method:  GET|POST 
         _format:  html
         
-sked_app_service_provider_photo_delete:
-    pattern:  /service_provider/photo_delete/{service_provider_id}/{id}
-    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:photo_delete , _format: html}
+sked_app_service_provider_show_map:
+    pattern:  /service_provider/show/map/{id}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:showMap , _format: html}
+    requirements:
+        id:  \d+
+        _method:  GET 
+        _format:  html        
+

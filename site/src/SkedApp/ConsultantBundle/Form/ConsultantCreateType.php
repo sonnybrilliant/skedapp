@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * SkedApp\ConsultantBundle\Form\ConsultantCreateType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppConsultantBundle
  * @subpackage Form
  * @version 0.0.1
@@ -78,7 +78,6 @@ class ConsultantCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => true,
-                'required' => false,
                 'attr' => array('class' => 'span12' , 'disabled' => 'disabled'),
 
             ))
@@ -94,7 +93,6 @@ class ConsultantCreateType extends AbstractType
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
-                'required' => false,
                 'attr' => array('class' => 'span12')
             ))
             ->add('monday', 'checkbox', array(

@@ -5,10 +5,8 @@ namespace SkedApp\CompanyBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\CoreBundle\Entity\Company;
-use SkedApp\CoreBundle\Entity\CompanyPhotos;
 use SkedApp\CompanyBundle\Form\CompanyCreateType;
 use SkedApp\CompanyBundle\Form\CompanyUpdateType;
-use SkedApp\CompanyBundle\Form\CompanyPhotosCreateType;
 use Ivory\GoogleMap\Overlays\Animation;
 use Ivory\GoogleMap\MapTypeId;
 use Ivory\GoogleMap\Events\MouseEvent;
@@ -67,10 +65,10 @@ class ServiceProviderController extends Controller
         $this->get('logger')->info('create a new service provider');
         $form = $this->createForm(new CompanyCreateType(), new Company());
         $marker = $this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png';
-        
+
         return $this->render('SkedAppCompanyBundle:ServiceProvider:create.html.twig', array(
-            'form' => $form->createView(),
-            'marker' => $marker
+                'form' => $form->createView(),
+                'marker' => $marker
             ));
     }
 
@@ -87,8 +85,8 @@ class ServiceProviderController extends Controller
         $company = new Company();
         $form = $this->createForm(new CompanyCreateType(), $company);
         $marker = $this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png';
-        
-        
+
+
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
 
@@ -105,8 +103,8 @@ class ServiceProviderController extends Controller
         }
 
         return $this->render('SkedAppCompanyBundle:ServiceProvider:create.html.twig', array(
-            'form' => $form->createView(),
-            'marker' => $marker,
+                'form' => $form->createView(),
+                'marker' => $marker,
             ));
     }
 
@@ -123,74 +121,7 @@ class ServiceProviderController extends Controller
         $this->get('logger')->info('view service provider');
 
         try {
-
             $company = $this->get('company.manager')->getById($id);
-
-            $infoWindow = $this->get('ivory_google_map.info_window');
-
-            // Configure your info window options
-            $infoWindow->setPrefixJavascriptVariable('info_window_');
-            $infoWindow->setPosition(0, 0, true);
-            $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
-            $infoWindow->setContent('<p><strong>' . $company->getName() . '</strong> <br /> Tel:' . $company->getContactNumber() . '</p>');
-            $infoWindow->setOpen(false);
-            $infoWindow->setAutoOpen(true);
-            $infoWindow->setOpenEvent(MouseEvent::CLICK);
-            $infoWindow->setAutoClose(false);
-            $infoWindow->setOption('disableAutoPan', true);
-            $infoWindow->setOption('zIndex', 10);
-            $infoWindow->setOptions(array(
-                'disableAutoPan' => true,
-                'zIndex' => 10
-            ));
-
-
-
-            $marker = $this->get('ivory_google_map.marker');
-
-
-            // Configure your marker options
-            $marker->setPrefixJavascriptVariable('marker_');
-            $marker->setPosition($company->getLat(), $company->getLng(), true);
-            $marker->setAnimation(Animation::DROP);
-            $marker->setOptions(array(
-                'clickable' => true,
-                'flat' => true
-            ));
-
-            $marker->setIcon($this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png');
-            $marker->setShadow($this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png');
-
-            $map = $this->get('ivory_google_map.map');
-            // Configure your map options
-            $map->setPrefixJavascriptVariable('map_');
-            $map->setHtmlContainerId('map_canvas');
-
-            $map->setAsync(false);
-
-            $map->setAutoZoom(false);
-
-            $map->setCenter($company->getLat(), $company->getLng(), true);
-            $map->setMapOption('zoom', 16);
-
-            $map->setBound(0, 0, 0, 0, false, false);
-
-            // Sets your map type
-            $map->setMapOption('mapTypeId', MapTypeId::ROADMAP);
-            $map->setMapOption('mapTypeId', 'roadmap');
-
-            $map->setMapOption('disableDefaultUI', false);
-            $map->setMapOption('disableDoubleClickZoom', false);
-            $map->setStylesheetOptions(array(
-                'width' => '100%',
-                'height' => '300px'
-            ));
-
-            $map->setLanguage('en');
-
-
-            $map->addMarker($marker);
-            $marker->setInfoWindow($infoWindow);
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
@@ -199,7 +130,6 @@ class ServiceProviderController extends Controller
 
         return $this->render('SkedAppCompanyBundle:ServiceProvider:show.html.twig', array(
                 'company' => $company,
-                'map' => $map
             ));
     }
 
@@ -214,10 +144,10 @@ class ServiceProviderController extends Controller
     {
         $this->get('logger')->info('edit service provider id:' . $id);
         $marker = $this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png';
-        
+
         try {
             $company = $this->get('company.manager')->getById($id);
-            $form = $this->createForm(new CompanyUpdateType(), $company);            
+            $form = $this->createForm(new CompanyUpdateType(), $company);
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
@@ -296,6 +226,100 @@ class ServiceProviderController extends Controller
                 'error', 'Invalid request: ' . $e->getMessage());
             return $this->redirect($this->generateUrl('sked_app_service_provider_list'));
         }
+    }
+
+    /**
+     * Show map
+     * 
+     * @param integer $id
+     * 
+     * @return 
+     */
+    public function showMapAction($id)
+    {
+        $this->get('logger')->info('show service provider map id:' . $id);
+
+        try {
+            $company = $this->get('company.manager')->getById($id);
+
+
+            $infoWindow = $this->get('ivory_google_map.info_window');
+
+            // Configure your info window options
+            $infoWindow->setPrefixJavascriptVariable('info_window_');
+            $infoWindow->setPosition(0, 0, true);
+            $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
+            $infoWindow->setContent('<p><strong>' . $company->getName() . '</strong> <br /> Tel:' . $company->getContactNumber() . '</p>');
+            $infoWindow->setOpen(false);
+            $infoWindow->setAutoOpen(true);
+            $infoWindow->setOpenEvent(MouseEvent::CLICK);
+            $infoWindow->setAutoClose(false);
+            $infoWindow->setOption('disableAutoPan', true);
+            $infoWindow->setOption('zIndex', 10);
+            $infoWindow->setOptions(array(
+                'disableAutoPan' => true,
+                'zIndex' => 10
+            ));
+
+
+
+            $marker = $this->get('ivory_google_map.marker');
+
+
+            // Configure your marker options
+            $marker->setPrefixJavascriptVariable('marker_');
+            $marker->setPosition($company->getLat(), $company->getLng(), true);
+            $marker->setAnimation(Animation::DROP);
+            $marker->setOptions(array(
+                'clickable' => true,
+                'flat' => true
+            ));
+
+            $marker->setIcon($this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png');
+            $marker->setShadow($this->container->getParameter('site_url') . 'img/assets/icons/skedapp-map-icon.png');
+
+            $map = $this->get('ivory_google_map.map');
+            // Configure your map options
+            $map->setPrefixJavascriptVariable('map_');
+            $map->setHtmlContainerId('map_canvas');
+
+            $map->setAsync(false);
+
+            $map->setAutoZoom(false);
+
+            $map->setCenter($company->getLat(), $company->getLng(), true);
+            $map->setMapOption('zoom', 16);
+
+            $map->setBound(0, 0, 0, 0, false, false);
+
+            // Sets your map type
+            $map->setMapOption('mapTypeId', MapTypeId::ROADMAP);
+            $map->setMapOption('mapTypeId', 'roadmap');
+
+            $map->setMapOption('disableDefaultUI', false);
+            $map->setMapOption('disableDoubleClickZoom', false);
+            $map->setStylesheetOptions(array(
+                'width' => '100%',
+                'height' => '300px'
+            ));
+
+            $map->setLanguage('en');
+
+
+            $map->addMarker($marker);
+            $marker->setInfoWindow($infoWindow);
+           
+            
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_service_provider_list'));
+        }
+
+        return $this->render('SkedAppCompanyBundle:ServiceProvider:map.html.twig', array(
+                'company' => $company,
+                'map' => $map
+            ));
     }
 
 }

@@ -46,7 +46,7 @@
                                         <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_USER') %}   
-                                        <li><a href="{{ path("sked_app_consultant_show", {'id': app.user.id }) }}" title="View your calender">Bookings</a></li>    
+                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">Bookings</a></li>    
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% elseif is_granted('ROLE_SITE_USER') %}   
                                         <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>    

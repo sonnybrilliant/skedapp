@@ -1,5 +1,5 @@
 {% extends "SkedAppConsultantBundle::layout.html.twig" %}
-{% block title %}View consultant details{% endblock %}
+{% block title %}Consultant Profile{% endblock %}
 
 {% block body %}
 <div class="row-fluid body-secondary">
@@ -12,11 +12,10 @@
             <div class="tab-content" id="tab1">
                 <div class="tab-pane active">
                     <div class="span6">
-                        <h4>Consultant Profile</h4>
-                        <div class="spacer"></div>
+                        <h3>Consultant Profile</h3>
                         <div class="white-bg">
                             {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="pull-left space-right img-polaroid"/>
+                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}"  width="140px" height="140px" class="pull-left space-right img-polaroid"/>
                                 {% else %}
                                 {% if consultant.gender.name == "Male" %}
                                 <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="pull-left space-right img-polaroid"/>
@@ -24,34 +23,46 @@
                                 <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="pull-left space-right img-polaroid"/>
                                 {% endif %}
                             {% endif %}
-                            <ul class="pull-left unstyled">
-                                <li><strong>Fullname:</strong> <a href="#">{{ consultant.fullName }}</a></li>
-                                <li><strong>Services:</strong> <span class="label label-warning">Mens Cut</span> <span class="label label-info">Womans Cut</span> <span class="label label-warning">Blow Wave</span></li>
-                                <li><strong>Service Provider:</strong> SkedApp</li>
-                                <li><strong>Address:</strong> Kempton Park, South Africa</li>
-                                <li><strong>Distance from you:</strong> 5km</li>
-                                <li><strong>GPS:</strong> 26° 6' 27.094" S 28° 3' 23.964" E</li>
-                            </ul>
+                            <table>
+                                <tr>
+                                    <td>Fullname:</td>
+                                    <td><strong>{{ consultant.fullName }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Services:</td>
+                                    <td>
+                                        {% for service in consultant.consultantServices %}
+                                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                                        {% else %}
+                                         No listed services.
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Service Provider:</td>
+                                    <td><strong>{{ consultant.company.name }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>Contact Number:</td>
+                                    <td><strong>{{ consultant.company.contactNumber }}</strong></td>
+                                </tr>
+                            </table>    
                             <div class="clearfix"></div>
                         </div>    
                         <div class="spacer1"></div>
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    {{ consultant.getAvailableBookingSlots | ladybug_dump }}    
+                                  {% set arrSlots = consultant.getAvailableBookingSlots() %}  
+                                    {% for time_slot in arrSlots.time_slots %}      
+                                    <td class="dark-gray-text"><strong>{{ time_slot.start_time }}</strong><br><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
+                                    {% endfor %}
                                 </tr>
                             </tbody>
                         </table>
                     </div> <!-- End .span6 -->
-                    <div class="span6">
-                        <h4>Consultant Location</h4>
-                        <div class="map-box">
-                            <div class="g-maps">
-                                <div id="map_canvas"></div>
-                            </div>
-                            <small>Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
-                            <div class="spacer1"></div>
-                        </div>
+                    <div class="span6" style="margin-top: -20px;">
+                        {% render url('sked_app_service_provider_show_map', { 'id': consultant.company.id }) %}
                     </div>
                 </div>
             </div>

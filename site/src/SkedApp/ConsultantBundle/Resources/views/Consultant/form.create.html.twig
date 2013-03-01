@@ -108,10 +108,14 @@
 
         </div>
       </div>
-      <div class="btn-toolbar pull-right">
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('sked_app_consultant_list') }}" class="btn">Cancel</a>
-      </div> 
+        <div class="btn-toolbar pull-right">
+            <div class="btn-group">
+                <button type="submit" name="submit" class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
+            </div>
+            <div class="btn-group">
+                <a href="{{ path('sked_app_consultant_list') }}.html" class="btn btn-small">Cancel</a>
+            </div>
+        </div>          
       {{ form_rest(form) }} 
   </fieldset>
 </form>

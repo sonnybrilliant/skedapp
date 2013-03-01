@@ -1,0 +1,16 @@
+<div class="map-box">
+    <h3>Location Details</h3>
+    {{ google_map_container(map) }}
+    <address>
+        <h4>Service Provider: {{ company.name }}</h4>
+        <strong>Location:</strong><br>
+        {{ company.address }}
+    </address>  
+    <div class="spacer1"></div>
+    <div class="social-box">
+                Find us on Facebook or Twitter
+                <a href="http://www.facebook.com/pages/Skedapp/420977264645890" target="_blank"><img src="{{ asset('/img/facebook.png') }}"/></a>
+                <a href="https://twitter.com/skedapp" target="_blank"><img src="{{ asset('/img/twitter.png') }}"/></a>
+    </div>    
+</div>
+{{ google_map_js(map) }}

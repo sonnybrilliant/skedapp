@@ -2,15 +2,15 @@
     <ul class="nav nav-tabs pull-right">
         {% if is_granted('ROLE_CONSULTANT_USER') %}
             {% if controller == 'profile'%}
-                <li class="active"><a href="{{ path('sked_app_consultant_show' , {'id':consultant.id }) }}" title="my profile">Profile</a></li>
+                <li class="active"><a href="{{ path('sked_app_consultant_show' , {'slug':consultant.slug }) }}" title="my profile">Profile</a></li>
             {% else %}
-                <li><a href="{{ path('sked_app_consultant_show' , {'id':consultant.id }) }}" title="my profile">Profile</a></li>
+                <li><a href="{{ path('sked_app_consultant_show' , {'slug':consultant.slug  }) }}" title="my profile">Profile</a></li>
             {% endif %}
                 
             {% if controller == 'bookings'%}
-                <li class="active"><a href="{{ path('sked_app_consultant_booking_show' , {'id':consultant.id }) }}" title="my bookings">Bookings</a></li>
+                <li class="active"><a href="{{ path('sked_app_consultant_booking_show' , {'slug':consultant.slug }) }}" title="my bookings">Bookings</a></li>
             {% else %}
-                <li><a href="{{ path('sked_app_consultant_booking_show' , {'id':consultant.id }) }}" title="my bookings">Bookings</a></li>
+                <li><a href="{{ path('sked_app_consultant_booking_show' , {'slug':consultant.slug }) }}" title="my bookings">Bookings</a></li>
             {% endif %}
                 
             {% if controller == 'print'%}

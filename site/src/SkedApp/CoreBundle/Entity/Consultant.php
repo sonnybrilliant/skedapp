@@ -87,6 +87,13 @@ class Consultant implements AdvancedUserInterface, \Serializable
     /**
      * @var string
      *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    protected $slug;
+
+    /**
+     * @var string
+     *
      * @Assert\NotBlank(message = "Password cannot be blank!")
      * @Assert\MinLength(limit= 5, message="Password must have at least {{ limit }} characters.")
      *
@@ -331,7 +338,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
     public $picture;
     public $category = null;
     public $available_slots;
-    public $slug;
 
     public function __construct()
     {
@@ -381,22 +387,23 @@ class Consultant implements AdvancedUserInterface, \Serializable
     {
         return md5($this->getUsername()) == md5($user->getUsername());
     }
-    
+
     /**
      * Create slug
      * 
-     * @param string $text
-     * @return string
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
-    public function slugify($text)
+    public function slugify()
     {
+        $text = $this->getFullName() . ' ' . $this->getCompany()->getId();
         // replace all non letters or digits by -
         $text = preg_replace('/\W+/', '-', $text);
 
         // trim and lowercase
         $text = strtolower(trim($text, '-'));
 
-        return $text;
+        $this->slug = $text;
     }
 
     /**
@@ -1437,6 +1444,18 @@ class Consultant implements AdvancedUserInterface, \Serializable
         );
     }
 
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Consultant
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     /**
      * Get slug
@@ -1445,8 +1464,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
      */
     public function getSlug()
     {
-        $fullName = $this->getFullName();
-        $this->slug = $this->slugify($fullName);
         return $this->slug;
     }
+
 }

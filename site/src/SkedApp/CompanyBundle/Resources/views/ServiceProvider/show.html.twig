@@ -7,7 +7,7 @@
 
 {% block body %}        
 <div class="row-fluid body-secondary">
-    <div class="span5">
+    <div class="span6">
         <div class="dash-forms-background">
             <h3>Service Provider Profile</h3>
             <div class="whiteBackground">
@@ -39,17 +39,9 @@
                 </div>
         </div>
     </div>
-    <div class="span7">
-        <div class="map-box">
-            <h3>Location Details</h3>
-            {{ google_map_container(map) }}
-            <address>
-                <h4>Service Provider: {{ company.name }}</h4>
-                <strong>Location:</strong><br>
-                {{ company.address }}
-            </address>
-        </div>
+    <div class="span6">
+        {% render url('sked_app_service_provider_show_map', { 'id': company.id }) %}
     </div>
 </div> <!-- End .row-fluid -->
-{{ google_map_js(map) }}
+
 {% endblock body %}
