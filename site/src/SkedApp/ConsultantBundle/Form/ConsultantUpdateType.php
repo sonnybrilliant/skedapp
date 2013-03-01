@@ -69,7 +69,11 @@ class ConsultantUpdateType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => array('class' => 'span12' ),
-
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->where('s.isDeleted = :status')
+                        ->setParameter('status', false);
+                },    
             ))
             ->add('speciality', 'textarea', array(
                 'label' => 'Speciality:',

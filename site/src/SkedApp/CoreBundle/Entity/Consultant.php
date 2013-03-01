@@ -186,6 +186,15 @@ class Consultant implements AdvancedUserInterface, \Serializable
     protected $professionalStatement;
 
     /**
+     * @var SkedApp\CoreBundle\Entity\Category
+     * 
+     *
+     * @ORM\OneToOne(targetEntity="SkedApp\CoreBundle\Entity\Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    protected $category;     
+        
+    /**
      * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="SkedApp\CoreBundle\Entity\Service")
@@ -336,7 +345,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
      * )
      */
     public $picture;
-    public $category = null;
+
     public $available_slots;
 
     public function __construct()
@@ -1467,4 +1476,27 @@ class Consultant implements AdvancedUserInterface, \Serializable
         return $this->slug;
     }
 
+
+    /**
+     * Set category
+     *
+     * @param \SkedApp\CoreBundle\Entity\Category $category
+     * @return Consultant
+     */
+    public function setCategory(\SkedApp\CoreBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+    
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \SkedApp\CoreBundle\Entity\Category 
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 }
