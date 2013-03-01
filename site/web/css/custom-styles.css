@@ -30,12 +30,13 @@ html, body {
 
 
 .tab-content{
-  overflow:auto; 
+  overflow:auto;
 }
 #push {
 	height: 80px;
 }
 
+/* Removed by Otto on 28 Deb 2013
 .map-box {
     padding: 1.25em;
 }
@@ -46,6 +47,7 @@ html, body {
     border-radius: 5px 5px 5px 5px;
     height: 280px;
 }
+*/
 
 .tabbable .nav-tabs > .active > a, .tabbable .nav-tabs > .active > a:hover, .tabbable .nav-tabs > .active > a:focus {
     -moz-border-bottom-colors: none;
@@ -59,7 +61,7 @@ html, body {
     border-width: 1px;
     box-shadow: 0 1px #02B2E9 inset, 1px 0 #02B2E9 inset, -1px 0 #02B2E9 inset;
     color: #FFFFFF;
-    cursor: default;
+    cursor: pointer;
     position: relative;
     z-index: 4;
 }
@@ -443,6 +445,8 @@ input.span12{
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
+
+/* Removed bby Otto on 28 Feb 2013
 .span7 .map-box {
 	padding: 1.25em;
 }
@@ -453,8 +457,11 @@ input.span12{
 	border-radius: 5px;
 	height: 280px;
 }
+*/
+
 .social-box {
-	padding-top: 1.25em;
+	padding: 1.25em;
+    padding-right: 2.2em;
 	text-align: right;
 }
 
@@ -543,7 +550,7 @@ Dashboard Navigation
 .table-heading-blue {
 	color: #FFFFFF;
 	background-color: #0394c8 !important;
-	
+
 }
 .table-heading-orange {
 	color: #FFFFFF;
@@ -563,8 +570,49 @@ Footer Styles
 	-moz-box-shadow: inset 0px 1px #888888;
 	-webkit-box-shadow: inset 0px 1px #888888;
 	box-shadow: inset 0px 1px #888888;
-	border-top: 1px solid #333333;	
+	border-top: 1px solid #333333;
 }
 #footer p {
 	margin-top: 20px;
+}
+
+/* SkedAppSearchBundle:Search:search.map.html.twig
+*  Added by Otto Saayman on 28 Feb 2013
+*/
+
+.map-box {
+    width: auto;
+    margin: auto;
+}
+
+.map-container {
+	background-color: #ffffff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+    margin-right: 1.7em;
+    padding: 1em;
+}
+
+.map-box #map_canvas {
+    border: none;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    height: 320px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.map-box-instructions {
+    margin: 6px;
+    margin-left: 0;
+}
+
+/* SkedAppSearchBundle:Search:search.results.html.twig/ /web/js/search-results.js
+*  Added by Otto Saayman on 28 Feb 2013
+*/
+
+.divMarkerText {
+    color: #333333;
 }

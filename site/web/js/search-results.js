@@ -13,6 +13,8 @@ function addMarkers()
 
     markerBounds.extend(myMarker.getPosition());
 
+    var intResultCnt = 1;
+
     for (intSPCnt = 0; intSPCnt < serviceProviderIDs.length; intSPCnt++) {
         //Loop through service providers in the search results
 
@@ -23,6 +25,7 @@ function addMarkers()
 
             consultantNames += '<p><a href="' + Routing.generate('sked_app_consultant_view', {
                   id: serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['id'],
+                  slug: '',
                   pos_lat: searchLatitude,
                   pos_lng: searchLongitude,
                   booking_date: searchDate,
@@ -31,11 +34,13 @@ function addMarkers()
                 }, true) + '">' + serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['fullName'] + '</a></p>';
         } //for each consultant
 
-        markerText = '<strong>' + serviceProviders[serviceProviderIDs[intSPCnt]]['name'] + '</strong>' + consultantNames + '<p>' + serviceProviders[serviceProviderIDs[intSPCnt]]['address'] + '</p>';
+        markerText = '<div class="divMarkerText"><strong>' + intResultCnt + ' '
+          + serviceProviders[serviceProviderIDs[intSPCnt]]['name'] + '</strong>' + consultantNames + '<p>' + serviceProviders[serviceProviderIDs[intSPCnt]]['address'] + '</p></div>';
 
         markerPoint = addOneMarker(searchResultsMap, serviceProviders[serviceProviderIDs[intSPCnt]]['lat'], serviceProviders[serviceProviderIDs[intSPCnt]]['lng'], markerText)
 
         markerBounds.extend(markerPoint);
+        intResultCnt++;
 
     } //for each service provider
 
@@ -57,9 +62,9 @@ function addOneMarker(mapObject, lat, lng, infoHTML)
 
     var infoWindow = new google.maps.InfoWindow();
 
-    var image = new google.maps.MarkerImage("http://labs.google.com/ridefinder/images/mm_20_red.png",
-        // This marker is 12 pixels wide by 20 pixels tall.
-        new google.maps.Size(12, 20)
+    var image = new google.maps.MarkerImage("/img/assets/icons/service-icon.png",
+        // This marker is 26 pixels wide by 38 pixels tall.
+        new google.maps.Size(26, 38)
         );
 
     marker.setIcon (image);

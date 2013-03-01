@@ -3,15 +3,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="description" content="Appointment scheduling tool">
-        <meta name="author" content="">    
+        <meta name="author" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome to SkedApp{% endblock %}</title>    
+        <title>{% block title %}Welcome to SkedApp{% endblock %}</title>
         <!-- Bootstrap Assets -->
         <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/bootstrap-responsive.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/chosen.css') }}" rel="stylesheet">
          <!-- Custom Styles for Bootstrap -->
-        <link href="{{ asset('/css/custom-styles.css') }}" rel="stylesheet">   
+        <link href="{{ asset('/css/custom-styles.css') }}" rel="stylesheet">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -21,8 +21,8 @@
         <!-- Fav- and touch- icons -->
         <link rel="shortcut icon" href="{{ asset('/ico/favicon.ico') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('/ico/favicon.ico') }}" />
-        <!-- load dynamic style sheet -->    
-        {% block stylesheets %}{% endblock %} 
+        <!-- load dynamic style sheet -->
+        {% block stylesheets %}{% endblock %}
         <!-- load jquery -->
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
         <!-- load jquery ui -->
@@ -30,31 +30,31 @@
     </head>
     <body>
         <div id="wrap">
-        {% block navigation %}            
+        {% block navigation %}
             <div class="navbar navbar-static-top">
                 <div class="navbar navbar-inverse">
                     <div class="navbar-inner">
                             <div class="container">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <span class="brand"><small>Welcome, {{app.user.firstName}} {{app.user.lastName}}.</small></span>
-    
+
                                 <ul class="nav pull-right">
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>   
-                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
-                                    {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}   
                                         <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
-                                    {% elseif is_granted('ROLE_CONSULTANT_USER') %}   
-                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">Bookings</a></li>    
+                                    {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}
+                                        <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
-                                    {% elseif is_granted('ROLE_SITE_USER') %}   
-                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>    
+                                    {% elseif is_granted('ROLE_CONSULTANT_USER') %}
+                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">Bookings</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
-                                    {% endif %}  
+                                    {% elseif is_granted('ROLE_SITE_USER') %}
+                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                    {% endif %}
                                     <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
                                 </ul>
-                                {% else %}    
+                                {% else %}
                                 <ul class="nav pull-right">
                                     <li class="active"><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                     {% if booking_attempt is defined %}
@@ -63,7 +63,7 @@
                                         <li><a href="{{ path("sked_app_customer_register") }}" title="Register an account">Register an Account</a></li>
                                     {% endif %}
                                     <li><a href="{{ path("_security_login")}}" title="Login into your account"><i class="icon-user icon-white"></i> Login</a></li>
-                                </ul>  
+                                </ul>
                                 {% endif %}
                         </div>
                     </div>
@@ -72,7 +72,7 @@
 
         {% endblock navigation%}
             <div class="container">
-                
+
                 <div class="row-fluid">
                     <div class="span3">
                         <a href="{{ path('_welcome')}}" class="logo"><img src="{{ asset('/img/skedapp-logo.png') }}" width="172" height="130" alt="SkedApp" title="SkedApp" /></a>
@@ -80,14 +80,14 @@
                     <div class="span9">
                         <h3 class="pull-right">Search, Locate and Schedule services in your area.</h3>
                     </div>
-                  
+
                 </div> <!-- End .row-fluid -->
-                <div class="spacer2"></div>  
+                <div class="spacer2"></div>
                 {% block menu%}
-                
+
                 {% endblock menu %}
-            
-            {% block alert%}    
+
+            {% block alert%}
                {% if error is defined %}
                 <div class="spacer2"></div>
                 {% if error %}
@@ -96,17 +96,17 @@
                     <h4 class="alert-heading">Warning!</h4>
                     Your username and password are invalid, please try again or contact support.
                 </div>
-               {% endif %}                      
+               {% endif %}
             {% endif %}
             {% endblock alert%}
-            {% block body %} 
+            {% block body %}
 
-            {% endblock body %}        
+            {% endblock body %}
 
             <div id="push"><!-- This #push div ALWAYS need to be above the end of the .container div --></div>
         </div> <!-- End container -->
-        </div><!-- End .wrap -->    
-            
+        </div><!-- End .wrap -->
+
         {% block footer %}
            <div id="footer">
                 <p>SkedApp © 2013  |  Make a Booking  |  Contact Us  |  Privacy Statement  |  Terms & Conditions</p>
@@ -117,7 +117,7 @@
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>
-            <script src="{{ asset('/js/search.js') }}"></script>            
+            <script src="{{ asset('/js/search.js') }}"></script>
             {% block javascripts %}{% endblock %}
         </body>
     </html>
