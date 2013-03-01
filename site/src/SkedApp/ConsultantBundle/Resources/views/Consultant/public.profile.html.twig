@@ -9,12 +9,12 @@
         <h4>Consultant Profile</h4>
             <div class="whiteBackground">
                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="140px" height="140px" class="space-left space-right pull-left img-polaroid"/>
+                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="140" height="140" class="space-left space-right pull-left img-polaroid"/>
                 {% else %}
                         {% if consultant.gender.name == "Male" %}
-                            <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="space-right pull-left img-polaroid"/>
+                            <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="space-right pull-left img-polaroid"/>
                         {% else %}
-                            <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="space-right pull-left img-polaroid"/>
+                            <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="space-right pull-left img-polaroid"/>
                         {% endif %}
                         
                 {% endif %}

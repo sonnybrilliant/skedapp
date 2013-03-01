@@ -15,12 +15,12 @@
                         <h3>Consultant Profile</h3>
                         <div class="white-bg">
                             {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}"  width="140px" height="140px" class="pull-left space-right img-polaroid"/>
+                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}"  width="140" height="140" class="pull-left space-right img-polaroid"/>
                                 {% else %}
                                 {% if consultant.gender.name == "Male" %}
-                                <img src="{{ asset('/img/male.jpg') }}" width="140px" height="140px" class="pull-left space-right img-polaroid"/>
+                                <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="pull-left space-right img-polaroid"/>
                                 {% else %}
-                                <img src="{{ asset('/img/female.jpg') }}" width="140px" height="140px" class="pull-left space-right img-polaroid"/>
+                                <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="pull-left space-right img-polaroid"/>
                                 {% endif %}
                             {% endif %}
                             <table>
