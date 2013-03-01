@@ -1,5 +1,5 @@
 <div class="row-fluid">
-    <ul class="nav nav-tabs pull-right">
+    <ul class="nav nav-tabs pull-right"> 
         {% if is_granted('ROLE_ADMIN') %}
             {% if controller == 'service_provider'%}
                 <li class="active"><a href="{{ path('sked_app_service_provider_list') }}.html" title="manage service providers">Service Providers</a></li>

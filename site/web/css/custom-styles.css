@@ -61,7 +61,7 @@ html, body {
     border-width: 1px;
     box-shadow: 0 1px #02B2E9 inset, 1px 0 #02B2E9 inset, -1px 0 #02B2E9 inset;
     color: #FFFFFF;
-    cursor: default;
+    cursor: pointer;
     position: relative;
     z-index: 4;
 }
@@ -576,7 +576,7 @@ Footer Styles
 	margin-top: 20px;
 }
 
-/* SkedAppSearchBundle:Search:search.area.html.twig
+/* SkedAppSearchBundle:Search:search.map.html.twig
 *  Added by Otto Saayman on 28 Feb 2013
 */
 
@@ -605,6 +605,14 @@ Footer Styles
 }
 
 .map-box-instructions {
-    margin: 12px;
+    margin: 6px;
     margin-left: 0;
+}
+
+/* SkedAppSearchBundle:Search:search.results.html.twig/ /web/js/search-results.js
+*  Added by Otto Saayman on 28 Feb 2013
+*/
+
+.divMarkerText {
+    color: #333333;
 }

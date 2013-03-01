@@ -92,9 +92,9 @@ $(document).ready(function() {
         var gmarker = addresspickerMap.addresspicker( "marker");
         gmarker.setVisible(true);
 
-        var image = new google.maps.MarkerImage("http://maps.google.com/mapfiles/marker.png",
-            // This marker is 20 pixels wide by 34 pixels tall.
-            new google.maps.Size(20, 34)
+        var image = new google.maps.MarkerImage("/img/assets/icons/skedapp-map-icon.png",
+            // This marker is 34 pixels wide by 46 pixels tall.
+            new google.maps.Size(34, 46)
             );
 
         gmarker.setIcon (image);
