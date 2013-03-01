@@ -4,71 +4,73 @@
 
 {% block body %}
 <div class="row-fluid body-secondary">
-    <div class="span6">
-        <h3>Booking details</h3>
-        <div class="white-bg">
-            {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
-                <div class="image-dimensions140 pull-left space-right20">
-                    <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}"  width="140" height="140" class="img-polaroid"/>
-                </div>
-                {% else %}
-                {% if booking.consultant.gender.name == "Male" %}
-                <div class="image-dimensions140 pull-left space-right20">
-                    <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="img-polaroid"/>
-                </div>
-                {% else %}
-                <div class="image-dimensions140 pull-left space-right20">
-                    <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="img-polaroid"/>
-                </div>
+    <div class="span12">
+        <div class="span6">
+            <h3>Booking details</h3>
+            <div class="white-bg">
+                {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
+                    <div class="image-dimensions140 pull-left space-right20">
+                        <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}"  width="140" height="140" class="img-polaroid"/>
+                    </div>
+                    {% else %}
+                    {% if booking.consultant.gender.name == "Male" %}
+                    <div class="image-dimensions140 pull-left space-right20">
+                        <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                    </div>
+                    {% else %}
+                    <div class="image-dimensions140 pull-left space-right20">
+                        <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                    </div>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-            <table>
-                <tr>
-                    <td><strong>Fullname:</td>
-                    <td>{{ booking.consultant.fullName }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Services:</strong></td>
-                    <td>
-                        {% for service in booking.consultant.consultantServices %}
-                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
-                        {% else %}
-                         No listed services.
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Service Provider:</strong></td>
-                    <td>{{ booking.consultant.company.name }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Contact Number:</strong></td>
-                    <td>{{ booking.consultant.company.contactNumber }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Customer:</strong></td>
-                    <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Date:</strong></td>
-                    <td>{{ booking.appointmentDateString }}</td>
-                </tr>
-                <tr>
-                    <td><strong>Time:</strong></td>
-                    <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
-                </tr>
-                <tr>
-                    <td><strong>Confirmed:</strong></td>
-                    <td>{{booking.isConfirmedString}}</td>
-                </tr>
-            </table>
-            <div class="clearfix"></div>
-            <div class="spacer2"></div>
+                <table>
+                    <tr>
+                        <td><strong>Fullname:</td>
+                        <td>{{ booking.consultant.fullName }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Services:</strong></td>
+                        <td>
+                            {% for service in booking.consultant.consultantServices %}
+                              <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                            {% else %}
+                             No listed services.
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Service Provider:</strong></td>
+                        <td>{{ booking.consultant.company.name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contact Number:</strong></td>
+                        <td>{{ booking.consultant.company.contactNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Customer:</strong></td>
+                        <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date:</strong></td>
+                        <td>{{ booking.appointmentDateString }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Time:</strong></td>
+                        <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confirmed:</strong></td>
+                        <td>{{booking.isConfirmedString}}</td>
+                    </tr>
+                </table>
+                <div class="clearfix"></div>
+                <div class="spacer2"></div>
 
-        </div>    
-    </div> <!-- End .span6 -->
-    <div class="span6">
-        {% render url('sked_app_service_provider_show_map', { 'id': booking.consultant.company.id }) %}
+            </div>    
+        </div> <!-- End .span6 -->
+        <div class="span6">
+            {% render url('sked_app_service_provider_show_map', { 'id': booking.consultant.company.id }) %}
+        </div>
     </div>
 </div> <!-- End .row-fluid -->
 
