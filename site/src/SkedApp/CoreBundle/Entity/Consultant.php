@@ -189,7 +189,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
      * @var SkedApp\CoreBundle\Entity\Category
      * 
      *
-     * @ORM\OneToOne(targetEntity="SkedApp\CoreBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Category")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     protected $category;     
@@ -1475,7 +1475,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
     {
         return $this->slug;
     }
-
 
     /**
      * Set category
