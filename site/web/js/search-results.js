@@ -26,11 +26,11 @@ function addMarkers()
             consultantNames += '<p><a href="' + Routing.generate('sked_app_consultant_view', {
                   id: serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['id'],
                   slug: '',
-                  pos_lat: searchLatitude,
-                  pos_lng: searchLongitude,
-                  booking_date: searchDate,
-                  category_id: searchCategoryId,
-                  serviceIds: searchServiceIds
+                  lat: searchLatitude,
+                  lng: searchLongitude,
+                  date: searchDate,
+                  categoryId: searchCategoryId,
+                  serviceId: searchServiceIds
                 }, true) + '">' + serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['fullName'] + '</a></p>';
         } //for each consultant
 

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\SearchBundle\Form\SearchType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
+use Ivory\GoogleMap\Services\Geocoding\Geocoder;
 
 /**
  * SkedApp\SearchBundle\Controller\ConsultantController
@@ -24,7 +25,22 @@ class SearchController extends Controller
         $this->get('logger')->info('search results');
 
         $options = array();
-        $form = $this->createForm(new SearchType());
+
+        //In order to display the default value of TODAY for the booking date and to display the chosen dat in search result, the form post data needs to be passed to
+        // the search form if it is there
+
+        $data = $this->getRequest()->get('Search');
+
+        if(!is_array($data)){
+          //Populate values from query string
+            $data['lat'] = $this->getRequest()->get('lat');
+            $data['lng'] = $this->getRequest()->get('lng');
+            $data['consultantServices'] = $this->getRequest()->get('serviceId');
+            $data['category'] = $this->getRequest()->get('categoryId');
+            $data['booking_date'] = $this->getRequest()->get('date');
+        }
+
+        $form = $this->createForm(new SearchType($data['category'], $data['booking_date']));
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -45,19 +61,9 @@ class SearchController extends Controller
                     'error', 'Failed search');
             }
         } else {
-           
-            $data = $this->getRequest()->get('Search');
-            
-            if(!is_array($data)){
-              $data['lat'] = $this->getRequest()->get('lat');  
-              $data['lng'] = $this->getRequest()->get('lng');  
-              $data['serviceId'] = $this->getRequest()->get('serviceId');  
-              $data['categoryId'] = $this->getRequest()->get('categoryId');  
-              $data['date'] = $this->getRequest()->get('date');  
-            }
-            
-            $service = $this->get('service.manager')->getById($data['serviceId']);
-            $category = $this->get('category.manager')->getById($data['categoryId']);
+
+            $service = $this->get('service.manager')->getById($data['consultantServices']);
+            $category = $this->get('category.manager')->getById($data['category']);
 
             $options['lat'] = $data['lat'];
             $options['lng'] = $data['lng'];
@@ -66,7 +72,54 @@ class SearchController extends Controller
             $options['categoryId'] = $category->getId();
             $options['service'] = $service;
             $options['serviceId'] = $service->getId();
-            $options['date'] = $data['date'];
+            $options['date'] = $data['booking_date'];
+
+            //Get address from lat/ long
+            $geocoder = new Geocoder();
+            $adapter  = new \Geocoder\HttpAdapter\BuzzHttpAdapter();
+
+            $geocoder->registerProviders(array(
+                new \Geocoder\Provider\GoogleMapsProvider(
+                    $adapter
+                ),
+            ));
+
+            $address = $geocoder->reverse($data['lat'], $data['lng']);
+
+            $addressString = $address->getStreetNumber();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ' ';
+
+            $addressString .= $address->getStreetName();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getCityDistrict();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getCity();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getZipcode();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getRegion();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getCountry();
+
+            $form->setData(array('address' => $addressString, 'lat' => $options['lat'], 'lng' => $options['lng'], 'service' => $service, 'category' => $category));
+
         }
 
         $searchResults = $this->container

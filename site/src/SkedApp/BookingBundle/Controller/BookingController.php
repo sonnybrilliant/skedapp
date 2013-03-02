@@ -681,7 +681,7 @@ class BookingController extends Controller
         //Format the date correctly
 
         $date = new \DateTime($date);
-        $date = $date->format('Y-m-d');
+        $date = $date->format('d-m-Y');
 
         if (!$this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
             //User is not logged in
@@ -717,8 +717,8 @@ class BookingController extends Controller
             ), $booking, array('em' => $this->getDoctrine()->getEntityManager())
         );
 
-        
-        
+
+
          $infoWindow = $this->get('ivory_google_map.info_window');
 
         // Configure your info window options
@@ -736,12 +736,12 @@ class BookingController extends Controller
             'disableAutoPan' => true,
             'zIndex' => 10
         ));
-        
-        
-        
+
+
+
         $marker = $this->get('ivory_google_map.marker');
-        
-       
+
+
         // Configure your marker options
         $marker->setPrefixJavascriptVariable('marker_');
         $marker->setPosition($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(),true);
@@ -750,9 +750,9 @@ class BookingController extends Controller
             'clickable' => true,
             'flat' => true
         ));
-        $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
-        $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
-        
+        $marker->setIcon('/img/assets/icons/skedapp-map-icon.png');
+        $marker->setShadow('/img/assets/icons/skedapp-map-icon.png');
+
         $map = $this->get('ivory_google_map.map');
         // Configure your map options
         $map->setPrefixJavascriptVariable('map_');
@@ -774,16 +774,16 @@ class BookingController extends Controller
         $map->setMapOption('disableDefaultUI', false);
         $map->setMapOption('disableDoubleClickZoom', false);
         $map->setStylesheetOptions(array(
-            'width' => '100%',
-            'height' => '300px'
+            'width' => '96%',
+            'height' => '372px'
         ));
 
         $map->setLanguage('en');
-        
-        
+
+
         $map->addMarker($marker);
         $marker->setInfoWindow($infoWindow);
-        
+
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
                 'booking_date' => $date,
@@ -887,8 +887,8 @@ class BookingController extends Controller
         $timeSlotEnd = new \DateTime($values['startTimeslot']);
         $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
 
-        
-                
+
+
          $infoWindow = $this->get('ivory_google_map.info_window');
 
         // Configure your info window options
@@ -906,12 +906,12 @@ class BookingController extends Controller
             'disableAutoPan' => true,
             'zIndex' => 10
         ));
-        
-        
-        
+
+
+
         $marker = $this->get('ivory_google_map.marker');
-        
-       
+
+
         // Configure your marker options
         $marker->setPrefixJavascriptVariable('marker_');
         $marker->setPosition($consultant->getCompany()->getLat(), $consultant->getCompany()->getLng(),true);
@@ -922,7 +922,7 @@ class BookingController extends Controller
         ));
         $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
         $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
-        
+
         $map = $this->get('ivory_google_map.map');
         // Configure your map options
         $map->setPrefixJavascriptVariable('map_');
@@ -949,11 +949,11 @@ class BookingController extends Controller
         ));
 
         $map->setLanguage('en');
-        
-        
+
+
         $map->addMarker($marker);
         $marker->setInfoWindow($infoWindow);
-        
+
         return $this->render('SkedAppBookingBundle:Booking:make.html.twig', array(
                 'form' => $form->createView(),
                 'booking_date' => $values['appointmentDate'],

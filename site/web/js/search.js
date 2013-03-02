@@ -34,7 +34,7 @@ $(document).ready(function() {
         selectOtherMonths: true,
         minDate: 0,
         maxDate: "+1M +10D",
-        dateFormat: 'yy-mm-dd'
+        dateFormat: 'dd-mm-yy'
     });
 
 
@@ -102,6 +102,15 @@ $(document).ready(function() {
 
         searchResultsMap = gmarker.getMap();
         myMarker = gmarker;
+
+        google.maps.event.addListener(gmarker, 'dragend', function()
+        {
+            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#Search_lat').val() + ',' + $('#Search_lng').val() + '&sensor=true', function(data) {
+
+                alert(data.formattedAddress);
+
+            });
+        });
 
     }
 

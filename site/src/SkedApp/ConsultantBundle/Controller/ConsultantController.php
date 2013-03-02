@@ -29,9 +29,9 @@ class ConsultantController extends Controller
 
     /**
      * List consultants
-     * 
+     *
      * @param Integer $page paginator
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function listAction($page = 1)
@@ -63,7 +63,7 @@ class ConsultantController extends Controller
 
     /**
      * add a consultant
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
     public function newAction()
@@ -137,9 +137,9 @@ class ConsultantController extends Controller
 
     /**
      * Show consultant
-     * 
-     * @param String $slug 
-     * 
+     *
+     * @param String $slug
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function showAction($slug)
@@ -165,7 +165,7 @@ class ConsultantController extends Controller
     /**
      * Edit consultant
      *
-     * @param String $slug 
+     * @param String $slug
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
@@ -192,7 +192,7 @@ class ConsultantController extends Controller
     /**
      * Update consultant
      *
-     * @param String $slug 
+     * @param String $slug
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
@@ -233,7 +233,7 @@ class ConsultantController extends Controller
     /**
      * Update consultant
      *
-     * @param String $slug 
+     * @param String $slug
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
@@ -258,16 +258,16 @@ class ConsultantController extends Controller
     /**
      * View consultant (Public)
      *
-     * @param String $slug 
+     * @param String $slug
      */
-    public function viewAction($slug)
+    public function viewAction($slug = '')
     {
-        $this->get('logger')->info('delete consultant slug:' . $slug);
+        $this->get('logger')->info('view consultant slug:' . $slug);
 
         $options = array();
 
         try {
-            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+            $consultant = $this->get('consultant.manager')->getById($this->getRequest()->get('id'));
 
             $service = $this->get('service.manager')->getById($this->getRequest()->get('serviceId'));
             $category = $this->get('category.manager')->getById($this->getRequest()->get('categoryId'));
@@ -295,11 +295,11 @@ class ConsultantController extends Controller
                 'options' => $options
             ));
     }
-    
+
     /**
      * Show consultant bookings consultant
      *
-     * @param String $slug 
+     * @param String $slug
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
@@ -321,8 +321,8 @@ class ConsultantController extends Controller
         }
 
         return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array(
-             'consultant' => $consultant, 
-             'form' => $form->createView(), 
+             'consultant' => $consultant,
+             'form' => $form->createView(),
              'companyId' => $companyId
             ));
     }

@@ -23,7 +23,7 @@ class SearchType extends AbstractType
      *
      * @var Integer
      */
-    private $categoryId = null;
+    private $category = null;
 
     /**
      *
@@ -31,13 +31,13 @@ class SearchType extends AbstractType
      */
     private $date = null;
 
-    public function __construct($categoryId = 0, $date = '')
+    public function __construct($category = null, $date = '')
     {
 
         if (strlen($date) <= 0)
             $date = date('d-m-Y');
 
-        $this->categoryId = $categoryId;
+        $this->categoryId = $category;
         $this->date = $date;
     }
 
@@ -51,7 +51,7 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $categoryId = $this->categoryId;
+        $category = $this->category;
         $date = $this->date;
 
         $builder
@@ -91,7 +91,7 @@ class SearchType extends AbstractType
                 'attr' => array('class' => 'span12', 'value' => $date),
 
             ))
-            ->add('hidden_category', 'hidden', array('attr' => array('value' => $categoryId)))
+            ->add('hidden_category', 'hidden', array('attr' => array('value' => $category)))
         ;
     }
 
@@ -107,11 +107,11 @@ class SearchType extends AbstractType
     public function getDefaultOptions(array $options)
     {
 
-        $categoryId = $this->categoryId;
+        $category = $this->category;
         $date = $this->date;
 
         return array(
-            'category' => $categoryId,
+            'category' => $category,
             'booking_date' => $date,
         );
     }
@@ -119,11 +119,11 @@ class SearchType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 
-        $categoryId = $this->categoryId;
+        $category = $this->category;
         $date = $this->date;
 
         $resolver->setDefaults(array(
-            'category' => $this->categoryId,
+            'category' => $this->category,
             'booking_date' => $date,
         ));
     }

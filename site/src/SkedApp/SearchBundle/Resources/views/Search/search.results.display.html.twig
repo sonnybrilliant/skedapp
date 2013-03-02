@@ -1,3 +1,16 @@
+<script language="JavaScript">
+
+var serviceProviderIDs = new Array();
+var serviceProviders = new Array();
+var searchLatitude = '{{ options.lat  }}';
+var searchLongitude = '{{ options.lng }}';
+var searchDate = '{{ options.date }}';
+var searchCategoryId = '{{ options.category.id }}';
+var searchServiceIds = '{{ options.service.id }}';
+var intCCnt = 0;
+var intSPCnt = 0;
+
+</script>
 <div class="row-fluid body-secondary rounded-bottom">
     <div class="span12">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">
@@ -10,7 +23,7 @@
                 <span class="large-thin-text">
                     {% if options.service is defined %}
                         {{ options.service.name }}
-                    {% endif %}    
+                    {% endif %}
                 </span>
             </td>
             <td width="10%">
@@ -46,17 +59,17 @@
                         {% else %}
                             <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="img-polaroid span4" />
                         {% endif %}
-                        
+
                     {% endif %}
                 <ul class="span8 unstyled">
                     <li><a href="{{ path('sked_app_consultant_view', { 'id': consultant.id , 'slug': consultant.getSlug() , 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}">{{ consultant.fullName }}</a></li>
                     <li>{% for service in consultant.consultantServices %}
-                            <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                            <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
                         {% else %}
                         {% endfor %}
                     <li>{{ consultant.company.name }}</li>
                     <li>{{ consultant.company.address }}</li>
-                    <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>                    
+                    <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
                 </ul>
             </td>
             <td>
@@ -69,12 +82,12 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>        
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
            </td>
-           
+
             <td>
                  <!-- tuesday -->
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
@@ -85,12 +98,12 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>      
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
-            </td>        
-           
+            </td>
+
             <td>
                                  <!-- tuesday -->
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
@@ -101,12 +114,12 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>      
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
-            </td>        
-            
+            </td>
+
             <td>
                  <!-- tuesday -->
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
@@ -117,12 +130,12 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>      
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
-            </td> 
-            
+            </td>
+
             <td>
                 <!-- tuesday -->
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
@@ -133,12 +146,12 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>      
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
             </td>
-            
+
             <td>
                                  <!-- tuesday -->
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
@@ -149,12 +162,12 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>      
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
-            </td>        
-            
+            </td>
+
             <td>
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
                 <ul class="unstyled">
@@ -164,23 +177,13 @@
                         <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 {{ time_slot.start_time }}
                         </a>
-                      </li>      
-                   {% endif %} 
+                      </li>
+                   {% endif %}
                 {% endfor %}
                 </ul>
-            </td>  
+            </td>
             <script language="JavaScript">
 
-            var serviceProviderIDs = new Array();
-            var serviceProviders = new Array();
-            var searchLatitude = '{{ options.lat  }}';
-            var searchLongitude = '{{ options.lng }}';
-            var searchDate = '{{ options.date }}';
-            var searchCategoryId = '{{ options.category.id }}';
-            var searchServiceIds = '{{ options.service.id }}';
-            var intCCnt = 0;
-            var intSPCnt = 0;
-            
             if (!serviceProviders[{{ consultant.company.id }}]) {
 
                 serviceProviderIDs[intSPCnt] = {{ consultant.company.id }};
@@ -205,13 +208,14 @@
             intCCnt++;
 
             </script>
-            
-            
-            
-            
+
+            {% else %}
+                <div>
+                    <p><span class="label label-important">Sorry!!</span> We could not find anyone to help you out. Please try another search.</p>
+                </div>
             {% endfor %}
 
-          </tr>        
+          </tr>
         </table>
         <div class="btn-group pull-right">
             {{ knp_pagination_render(pagination, null , paginationParams) }}

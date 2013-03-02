@@ -4,56 +4,56 @@
             <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Cunsultant', 'b.consultant') }}
                 {% if isDirectionSet == false %}
-                    <span class="pull-right"><i class="icon-chevron-up"></i></span>  
+                    <span class="pull-right"><i class="icon-chevron-up"></i></span>
                 {% else %}
-                    {% if pagination.isSorted('b.consultant') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                    {% if pagination.isSorted('b.consultant') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
                     {% endif %}
-                {% endif %} 
+                {% endif %}
             </th>
             <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Service', 'b.service') }}
-                {% if pagination.isSorted('b.service') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                {% if pagination.isSorted('b.service') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
-               {% endif %}    
+               {% endif %}
             </th>
             <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Confirmed', 'b.isConfirmed') }}
-                {% if pagination.isSorted('b.isConfirmed') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                {% if pagination.isSorted('b.isConfirmed') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
-                {% endif %}    
+                {% endif %}
             </th>
             <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Booking date', 'b.hiddenAppointmentStartTime') }}
-                {% if pagination.isSorted('b.hiddenAppointmentStartTime') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                {% if pagination.isSorted('b.hiddenAppointmentStartTime') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
-                {% endif %}                    
+                {% endif %}
             </th>
             <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Booking Time', 'b.hiddenAppointmentStartTime') }}
-                {% if pagination.isSorted('b.hiddenAppointmentStartTime') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                {% if pagination.isSorted('b.hiddenAppointmentStartTime') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
-                {% endif %}                    
+                {% endif %}
             </th>
             <th scope="col" class="table-heading-blue"></th>
         </tr>
@@ -62,7 +62,11 @@
         {% for booking in pagination %}
         <tr>
            <td><a href="#myModal_consultant_{{booking.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to view booking details" title="click to view booking details">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }}</a></td>
-           <td>{{ booking.service.name }}</td>
+           <td>
+               {% if booking.service is not null %}
+                   {{ booking.service.name }}
+               {% endif %}
+           </td>
            <td>{{ booking.isConfirmedString }}</td>
            <td>{{ booking.hiddenAppointmentStartTime|date('M jS Y') }}</td>
            <td>{{ booking.hiddenAppointmentStartTime|date('G:s a') }}</td>
@@ -72,10 +76,10 @@
                     <a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-remove"></i>&nbsp;Cancel</a>
                     <a href="{{ path("sked_app_customer_invite_friend", {'consultant': booking.consultant.id})}}" title="invite a friend"><li class="icon-star"></li>&nbsp;Invite</a>
                 </small>
-           </td>  
+           </td>
          </tr>
         {% endfor %}
-    </tbody>  
+    </tbody>
 </table>
 <div class="btn-group pull-right">
     {{ knp_pagination_render(pagination) }}

@@ -505,7 +505,7 @@ input.span12{
 */
 
 .social-box {
-	padding: 1.25em;
+	padding: 0.5em;
     padding-right: 2.2em;
 	text-align: right;
 }
@@ -663,4 +663,18 @@ Footer Styles
 
 .divMarkerText {
     color: #333333;
+}
+
+/* SkedAppBookingBundle:Booking:form.make.html.twig
+*  Added by Otto Saayman on 2 Mar 2013
+*/
+
+.divPrompt {
+    width: 30%;
+    float: left;
+}
+
+.divValue {
+    width: 65%;
+    float: right;
 }

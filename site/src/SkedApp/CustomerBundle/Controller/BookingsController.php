@@ -31,6 +31,26 @@ class BookingsController extends Controller
     public function listAction($page = 1)
     {
 
+        //Check if a booking exists in the session and redirect to the booking confirm screen if it does
+        if (isset($_SESSION['booking_params'])) {
+
+            $bookingParameters = unserialize($_SESSION['booking_params']);
+
+            unset($_SESSION['booking_params']);
+
+            return $this->redirect($this->generateUrl(
+                    'sked_app_booking_make',
+                    array(
+                        'companyId' => $bookingParameters['company_id'],
+                        'consultantId' => $bookingParameters['consultant_id'],
+                        'date' => $bookingParameters['booking_date'],
+                        'timeSlotStart' => $bookingParameters['timeslot_start'],
+                        'serviceIds' => $bookingParameters['service_ids'],
+                        )
+                    ));
+
+        }
+
         $this->get('logger')->info('list customer bookings');
 
         $isDirectionSet = $this->get('request')->query->get('direction', false);
@@ -104,8 +124,8 @@ class BookingsController extends Controller
                 'clickable' => true,
                 'flat' => true
             ));
-            $marker->setIcon('http://maps.gstatic.com/mapfiles/markers/marker.png');
-            $marker->setShadow('http://maps.gstatic.com/mapfiles/markers/marker.png');
+            $marker->setIcon('/img/assets/icons/skedapp-map-icon.png');
+            $marker->setShadow('/img/assets/icons/skedapp-map-icon.png');
 
             $map = $this->get('ivory_google_map.map');
             // Configure your map options
@@ -138,7 +158,7 @@ class BookingsController extends Controller
             $map->addMarker($marker);
             $marker->setInfoWindow($infoWindow);
         } catch (\Exception $e) {
-            
+
         }
 
         return $this->render('SkedAppCustomerBundle:Bookings:booking.detail.html.twig', array(

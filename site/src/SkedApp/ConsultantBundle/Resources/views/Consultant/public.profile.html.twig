@@ -22,7 +22,7 @@
                             <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="img-polaroid"/>
                         </div>
                         {% endif %}
-                        
+
                 {% endif %}
                 <div style="padding-right: 10px;"class="">
                     <strong class="dark-gray-text">Full name: </strong><span class="gray-text">{{ consultant.fullName }}</span></br>
@@ -30,11 +30,11 @@
                     <strong class="dark-gray-text">Employer: </strong><span class="gray-text">{{ consultant.company.name }}</span></br>
                     <strong class="dark-gray-text">Services: </strong>
                                         {% for service in consultant.consultantServices %}
-                                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
                                         {% else %}
                                          No listed services found.
                                         {% endfor %}
-                    <br />                     
+                    <br />
                     <strong class="dark-gray-text">Speciality: </strong><span class="gray-text">{{ consultant.speciality | striptags }}</span></br>
                     <strong class="dark-gray-text">Professional statement: </strong><span class="gray-text">{{ consultant.professionalStatement | striptags }}</span></br>
 
@@ -44,8 +44,8 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                          {% set arrSlots = consultant.getAvailableBookingSlots() %}  
-                            {% for time_slot in arrSlots.time_slots %}      
+                          {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                            {% for time_slot in arrSlots.time_slots %}
                             <td class="dark-gray-text"><strong>{{ time_slot.start_time }}</strong><br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
                             {% endfor %}
                         </tr>
@@ -55,12 +55,12 @@
         <h4>Service Provider Pictures</h4>
         <div class="bs-docs-example bs-docs-example-images">
         {% for photo in consultant.company.companyPhotos %}
-                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">   
+                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">
         {% else %}
                     <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
                     <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
                     <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-        {% endfor %} 
+        {% endfor %}
         <div class="clearfix"></div>
         <div class="spacer1"></div>
         <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn btn-warning pull-right">Back to Search <i class="icon-white icon-circle-arrow-right"></i></a>
@@ -74,5 +74,5 @@
         {% render url('sked_app_service_provider_show_map', { 'id': consultant.company.id }) %}
         </div>
     </div> <!-- End .row-fluid -->
-</div>    
+</div>
 {% endblock body %}

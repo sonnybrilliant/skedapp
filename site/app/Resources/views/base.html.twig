@@ -109,7 +109,7 @@
 
         {% block footer %}
            <div id="footer">
-                <p>SkedApp © 2013  |  Make a Booking  |  Contact Us  |  Privacy Statement  |  Terms & Conditions</p>
+                <p>SkedApp &copy; {{ date().format('Y') }}  |  <a href="{{ path('_welcome')}}">Make a Booking</a>  |  Contact Us  |  Privacy Statement  |  Terms & Conditions</p>
            </div> <!-- End footer -->
         {% endblock %}
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>

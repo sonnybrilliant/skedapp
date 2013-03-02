@@ -4,8 +4,8 @@
 
 
 {% block menu %}
-           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer , 'controller' : 'bookings' } %} 
-{% endblock menu %} 
+           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer , 'controller' : 'bookings' } %}
+{% endblock menu %}
 
 {% block body %}
 <div class="row-fluid body-secondary">
@@ -24,7 +24,7 @@
                             {% else %}
                                 <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="space-right pull-left img-polaroid"/>
                             {% endif %}
-                        
+
                         {% endif %}
                         </div>
                         <div class="span9">
@@ -33,7 +33,7 @@
                             <li><strong>Contact number :</strong> {{ booking.consultant.company.contactNumber }}</li>
                             <li><strong>Service to be tendered:</strong><span class="label label-warning"> {{ booking.service.name}} </span></li>
                             <li><strong>Time:</strong> {{ booking.hiddenAppointmentStartTime|date('G:s a') }}, {{ booking.hiddenAppointmentStartTime|date('d-m-Y') }}</li>
-                            <li><strong>GPS:</strong> 26° 6' 27.094" S 28° 3' 23.964" E</li>
+                            <li><strong>GPS:</strong> {{ booking.consultant.company.completeGPS }}</li>
                         </ul>
                         </div>
                     </div>
@@ -41,7 +41,6 @@
             </div>
             <div class="span7">
                 <div class="map-box">
-                <h3>Location Details</h3>
                 {{ google_map_container(map) }}
                 <address>
                 <h4>Service Provider: {{ booking.consultant.company.name }}</h4>
@@ -52,7 +51,7 @@
             </div>
             <div class="clearfix"></div>
         </div>
-    </div> <!-- Dashboard Content --> 
+    </div> <!-- Dashboard Content -->
 </div>
 {{ google_map_js(map) }}
 {% endblock body %}
