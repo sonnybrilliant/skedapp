@@ -678,3 +678,12 @@ Footer Styles
     width: 65%;
     float: right;
 }
+
+/*
+Fix re-Captcha label issue
+*/
+
+.recaptcha_input_area_text {
+    line-height: normal !important;
+    font-size: inherit !important;
+}

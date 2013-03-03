@@ -12,8 +12,40 @@
                 {{ form_widget(form.service) }}
                     <h3>Appointment Details</h3>
                     <ul class="unstyled space-left">
-                        <li><div class="divPrompt">Service Provider:</div> <div class="divValue"><span class="gray-text"><strong>{{ consultant.company.name }}</strong></span></div></li>
-                        <li><div class="divPrompt">Consultant:</div> <div class="divValue"><span class="gray-text"><strong>{{ consultant.getFullName() }}</strong></span></div></li>
+                        <li>
+                            <div class="divPrompt">Service Provider:</div>
+                            <div class="divValue">
+                                {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
+                                 <div class="image-dimensions180">
+                                     <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" class="space-left space-right"/>
+                                 </div>
+                                  {% endif %}
+                                <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+                        <li>
+                            <div class="divPrompt">Consultant:</div>
+                            <div class="divValue">
+                                {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                                 <div class="image-dimensions180">
+                                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" class="space-left space-right"/>
+                                 </div>
+                                 {% else %}
+                                      {% if consultant.gender.name == "Male" %}
+                                     <div class="image-dimensions180">
+                                         <img src="{{ asset('/img/male.jpg') }}" width="180" class="space-left space-right"/>
+                                     </div>
+                                      {% else %}
+                                     <div class="image-dimensions180">
+                                         <img src="{{ asset('/img/female.jpg') }}" width="180" class="space-left space-right"/>
+                                     </div>
+                                      {% endif %}
+                                  {% endif %}
+                                <span class="gray-text"><strong>{{ consultant.getFullName() }}</strong></span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
                         <li>
                             <div class="divPrompt">Location:</div> <div class="divValue"><span class="gray-text"><strong>{{ consultant.company.address }}</strong></span></div>
                             <div class="divValue"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</div>

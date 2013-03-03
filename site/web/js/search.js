@@ -8,6 +8,9 @@ $(document).ready(function() {
         $('#searchResults').toggle();
     });
 
+    //Store the selected service
+    var currentServiceId = $('#Search_consultantServices').val();
+
     //update services
     $('#Search_category').change(function(){
         var categoryId = this.value;
@@ -19,8 +22,15 @@ $(document).ready(function() {
                 var el = $('#Search_consultantServices');
                 el.empty();
                 $.each(response.results, function(key,value) {
+
+                    var selectedService = false;
+
+                    if (key == currentServiceId) {
+                        selectedService = true;
+                    }
+
                     el.append($("<option></option>")
-                        .attr("value", value.id).text(value.name));
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
 
                 });
 
@@ -56,8 +66,15 @@ $(document).ready(function() {
             var el = $('#Search_consultantServices');
             el.empty();
             $.each(response.results, function(key,value) {
+
+                var selectedService = false;
+
+                if (key == currentServiceId) {
+                    selectedService = true;
+                }
+
                 el.append($("<option></option>")
-                    .attr("value", value.id).text(value.name));
+                    .attr("value", value.id).text(value.name).attr('selected', selectedService));
 
             });
 
