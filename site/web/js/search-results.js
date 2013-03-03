@@ -37,7 +37,7 @@ function addMarkers()
         markerText = '<div class="divMarkerText"><strong>' + intResultCnt + ' '
           + serviceProviders[serviceProviderIDs[intSPCnt]]['name'] + '</strong>' + consultantNames + '<p>' + serviceProviders[serviceProviderIDs[intSPCnt]]['address'] + '</p></div>';
 
-        markerPoint = addOneMarker(searchResultsMap, serviceProviders[serviceProviderIDs[intSPCnt]]['lat'], serviceProviders[serviceProviderIDs[intSPCnt]]['lng'], markerText)
+        markerPoint = addOneMarker(searchResultsMap, serviceProviders[serviceProviderIDs[intSPCnt]]['lat'], serviceProviders[serviceProviderIDs[intSPCnt]]['lng'], markerText, intResultCnt)
 
         markerBounds.extend(markerPoint);
         intResultCnt++;
@@ -50,7 +50,7 @@ function addMarkers()
 
 }
 
-function addOneMarker(mapObject, lat, lng, infoHTML)
+function addOneMarker(mapObject, lat, lng, infoHTML, intResultCnt)
 {
 
     var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
@@ -62,7 +62,13 @@ function addOneMarker(mapObject, lat, lng, infoHTML)
 
     var infoWindow = new google.maps.InfoWindow();
 
-    var image = new google.maps.MarkerImage("/img/assets/icons/service-icon.png",
+    if (intResultCnt > 0) {
+        var iconName = intResultCnt;
+    } else {
+        var iconName = '';
+    }
+
+    var image = new google.maps.MarkerImage("/img/assets/icons/service-icon" + iconName + ".png",
         // This marker is 26 pixels wide by 38 pixels tall.
         new google.maps.Size(26, 38)
         );

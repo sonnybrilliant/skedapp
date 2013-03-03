@@ -48,7 +48,16 @@ var intSPCnt = 0;
                 <strong>Sun</strong><br />
             </td>
           </tr>
+          {% set count = 0 %}
+          {% set previousCompany = 0 %}
           {% for consultant in pagination %}
+
+              {% if previousCompany != consultant.company.id %}
+                  {% set count = count + 1 %}
+              {% endif %}
+
+              {% set previousCompany = consultant.company.id %}
+
           <tr>
             <td>
                    {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
@@ -67,7 +76,7 @@ var intSPCnt = 0;
                             <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
                         {% else %}
                         {% endfor %}
-                    <li>{{ consultant.company.name }}</li>
+                    <li>{{ count }} - {{ consultant.company.name }}</li>
                     <li>{{ consultant.company.address }}</li>
                     <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
                 </ul>
@@ -209,13 +218,13 @@ var intSPCnt = 0;
 
             </script>
 
+            </tr>
             {% else %}
                 <div>
                     <p><span class="label label-important">Sorry!!</span> We could not find anyone to help you out. Please try another search.</p>
                 </div>
             {% endfor %}
 
-          </tr>
         </table>
         <div class="btn-group pull-right">
             {{ knp_pagination_render(pagination, null , paginationParams) }}

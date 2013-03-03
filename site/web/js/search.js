@@ -105,11 +105,14 @@ $(document).ready(function() {
 
         google.maps.event.addListener(gmarker, 'dragend', function()
         {
-            $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + $('#Search_lat').val() + ',' + $('#Search_lng').val() + '&sensor=true', function(data) {
-
-                alert(data.formattedAddress);
-
-            });
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                latLng: gmarker.getPosition()
+              }, function(responses) {
+                if (responses && responses.length > 0) {
+                  $("#Search_address").val(responses[0].formatted_address);
+                }
+              });
         });
 
     }
