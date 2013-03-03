@@ -46,7 +46,13 @@
                         <tr>
                           {% set arrSlots = consultant.getAvailableBookingSlots() %}
                             {% for time_slot in arrSlots.time_slots %}
-                            <td class="dark-gray-text"><strong>{{ time_slot.start_time }}</strong><br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
+                            <td class="dark-gray-text">
+                                <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                <strong>
+                                    {{ time_slot.start_time }}
+                                </strong>
+                                </a>
+                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
                             {% endfor %}
                         </tr>
                     </tbody>

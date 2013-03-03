@@ -60,7 +60,8 @@ class ConsultantUpdateType extends AbstractType
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
-                        ->setParameter('status', false);
+                        ->setParameter('status', false)
+                        ->orderBy('c.name');
                 },
             ))
             ->add('consultantServices', 'entity', array(
@@ -72,8 +73,9 @@ class ConsultantUpdateType extends AbstractType
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('s')
                         ->where('s.isDeleted = :status')
-                        ->setParameter('status', false);
-                },    
+                        ->setParameter('status', false)
+                        ->orderBy('s.name');
+                },
             ))
             ->add('speciality', 'textarea', array(
                 'label' => 'Speciality:',
@@ -128,6 +130,7 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Session length:',
                 'attr' => array('class' => 'span4')
             ))
+            ->add('currentId', 'hidden')
 
 
         ;

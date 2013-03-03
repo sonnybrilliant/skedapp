@@ -28,14 +28,15 @@ $(document).ready(function() {
         });
     });
 
-
-    $( "#Search_booking_date" ).datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        minDate: 0,
-        maxDate: "+1M +10D",
-        dateFormat: 'dd-mm-yy'
-    });
+    if (jQuery.ui) {
+        $( "#Search_booking_date" ).datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            minDate: 0,
+            maxDate: "+1M +10D",
+            dateFormat: 'dd-mm-yy'
+        });
+    }
 
 
     //Run the ajax call to show only selected services

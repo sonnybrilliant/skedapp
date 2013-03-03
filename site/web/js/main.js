@@ -10,8 +10,10 @@ $(document).ready(function() {
     //update services
     $('#Consultant_category').change(function(){
         var categoryId = this.value;
+        var consultantId = $('#Consultant_currentId').val();
         $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_category', {
-            categoryId: categoryId
+            categoryId: categoryId,
+            consultantId: consultantId
         }, true),function(response){
             if(response.results){
 
@@ -19,8 +21,20 @@ $(document).ready(function() {
                 el.empty();
                 el.removeAttr("disabled");
                 $.each(response.results, function(key,value) {
+
+                    selectedService = false;
+
+                    //Check if service should be selected
+                    if (response.selectedServices) {
+                        $.each(response.selectedServices, function(count,serviceId) {
+                            if (serviceId == key) {
+                                selectedService = true;
+                            }
+                        });
+                    }
+
                     el.append($("<option></option>")
-                        .attr("value", value.id).text(value.name));
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
 
                 });
             }
@@ -55,16 +69,31 @@ $(document).ready(function() {
         if (categoryId <= 0)
             categoryId = 0;
 
+        var consultantId = $('#Consultant_currentId').val();
+
         $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_category', {
-            categoryId: categoryId
+            categoryId: categoryId,
+            consultantId: consultantId
         }, true),function(response){
             if(response.results){
 
                 var el = $('#Consultant_consultantServices');
                 el.empty();
                 $.each(response.results, function(key,value) {
+
+                    selectedService = false;
+
+                    //Check if service should be selected
+                    if (response.selectedServices) {
+                        $.each(response.selectedServices, function(count,serviceId) {
+                            if (serviceId == key) {
+                                selectedService = true;
+                            }
+                        });
+                    }
+
                     el.append($("<option></option>")
-                        .attr("value", value.id).text(value.name));
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
 
                 });
 

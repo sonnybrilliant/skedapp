@@ -25,6 +25,10 @@
         {% block stylesheets %}{% endblock %}
         <!-- load jquery -->
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+        <script language="JavaScript">
+            //Make sure address test value exists to avoid errors in search.js
+            var blnAddress = false;
+        </script>
         <!-- load jquery ui -->
         {% block jquery_ui %}{% endblock jquery_ui %}
     </head>

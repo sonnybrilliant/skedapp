@@ -27,17 +27,24 @@ class SearchType extends AbstractType
 
     /**
      *
+     * @var Integer
+     */
+    private $service = null;
+
+    /**
+     *
      * @var String
      */
     private $date = null;
 
-    public function __construct($category = null, $date = '')
+    public function __construct($category = null, $date = '', $service = null)
     {
 
         if (strlen($date) <= 0)
             $date = date('d-m-Y');
 
-        $this->categoryId = $category;
+        $this->category = $category;
+        $this->service = $service;
         $this->date = $date;
     }
 
@@ -52,6 +59,7 @@ class SearchType extends AbstractType
     {
 
         $category = $this->category;
+        $service = $this->service;
         $date = $this->date;
 
         $builder
@@ -109,10 +117,12 @@ class SearchType extends AbstractType
 
         $category = $this->category;
         $date = $this->date;
+        $service = $this->service;
 
         return array(
             'category' => $category,
             'booking_date' => $date,
+            'consultantServices' => $service,
         );
     }
 
@@ -121,10 +131,12 @@ class SearchType extends AbstractType
 
         $category = $this->category;
         $date = $this->date;
+        $service = $this->service;
 
         $resolver->setDefaults(array(
-            'category' => $this->category,
+            'category' => $category,
             'booking_date' => $date,
+            'consultantServices' => $service,
         ));
     }
 

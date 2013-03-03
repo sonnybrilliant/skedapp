@@ -435,7 +435,7 @@ class ConsultantController extends Controller
      * @throws AccessDeniedException
      *
      */
-    public function ajaxGetByCategoryAction($categoryId)
+    public function ajaxGetByCategoryAction($categoryId, $consultantId = 0)
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
             $this->get('logger')->info('get services by category');
@@ -466,6 +466,17 @@ class ConsultantController extends Controller
             $return->status = 'success';
             $return->count = sizeof($results);
             $return->results = $results;
+
+            if ($consultantId > 0) {
+                $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($consultantId);
+
+                $services = $consultant->getConsultantServices();
+                $return->selectedServices = array();
+
+                foreach ($services as $service) {
+                    $return->selectedServices[] = $service->getId();
+                }
+            }
 
             $response = new Response(json_encode($return));
             $response->headers->set('Content-Type', 'application/json');

@@ -15,7 +15,7 @@ class ServiceRepository extends EntityRepository
 
     /**
      * Get all active services query
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
@@ -31,7 +31,7 @@ class ServiceRepository extends EntityRepository
         foreach ($options as $key => $values) {
             if (!$values){
                 $options[$key] = $defaultOptions[$key];
-            }    
+            }
         }
 
         $qb = $this->createQueryBuilder('s')->select('s');
@@ -44,14 +44,14 @@ class ServiceRepository extends EntityRepository
                     ));
             }
         }
-        
+
         $qb->orderBy($options['sort'], $options['direction']);
         return $qb->getQuery()->execute();
     }
 
     /**
      * Delete services by category
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Void
      */
@@ -66,7 +66,7 @@ class ServiceRepository extends EntityRepository
 
     /**
      * Delete services by category
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
@@ -75,7 +75,8 @@ class ServiceRepository extends EntityRepository
         $objQueuryBuilder = $this->createQueryBuilder('s')->select('s');
         $objQueuryBuilder->where('s.isDeleted = :status')
             ->andWhere('s.category =  :category')
-            ->setParameters(array('category' => $category,'status'=>false));
+            ->setParameters(array('category' => $category,'status'=>false))
+            ->orderBy('s.name');
         return $objQueuryBuilder->getQuery()->execute();
     }
 

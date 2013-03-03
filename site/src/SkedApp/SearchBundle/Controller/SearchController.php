@@ -40,7 +40,7 @@ class SearchController extends Controller
             $data['booking_date'] = $this->getRequest()->get('date');
         }
 
-        $form = $this->createForm(new SearchType($data['category'], $data['booking_date']));
+        $form = $this->createForm(new SearchType($data['category'], $data['booking_date'], $data['consultantServices']));
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
