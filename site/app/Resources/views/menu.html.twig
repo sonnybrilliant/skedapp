@@ -7,6 +7,12 @@
             {% else %}
                 <li><a href="{{ path('sked_app_service_provider_list') }}.html" title="manage service providers">Service Providers</a></li>
             {% endif %}
+                
+            {% if controller == 'members'%}
+                <li class="active"><a href="{{ path('sked_app_member_list') }}.html" title="manage members">Members</a></li>
+            {% else %}
+                <li><a href="{{ path('sked_app_member_list') }}.html" title="manage members">Members</a></li>
+            {% endif %}
 
             {% if controller == 'categories'%}
                 <li class="active"><a href="{{ path('sked_app_category_list')}}.html" title="manage categories">Categories</a></li>

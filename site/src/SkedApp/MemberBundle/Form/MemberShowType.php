@@ -9,14 +9,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * SkedApp\MemberBundle\Form\MemberCreateType
+ * SkedApp\MemberBundle\Form\MemberShowType
  *
  * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppMemberBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class MemberCreateType extends AbstractType
+class MemberShowType extends AbstractType
 {
 
     /**
@@ -38,29 +38,13 @@ class MemberCreateType extends AbstractType
                 'label' => 'Last name:',
                 'attr' => array('class' => 'span12')
             ))
+            ->add('email', 'text', array(
+                'label' => 'Email address:',
+                'attr' => array('class' => 'span12')
+            ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Cellphone:',
                 'attr' => array('class' => 'span12')
-            ))
-            ->add('email', 'repeated', array(
-                'type' => 'email',
-                'first_name' => 'first',
-                'first_options'  => array('label' => 'Email address:'),
-                'options' => array('attr' => array('class' => 'span12')),
-                'second_name' => 'second',
-                'second_options' => array('label' => 'Confirm Email address:'),
-                'invalid_message' => 'Email addresses do not match',
-
-            ))
-            ->add('password', 'repeated', array(
-                'type' => 'password',
-                'first_name' => 'first',
-                'first_options'  => array('label' => 'Password:'),
-                'options' => array('attr' => array('class' => 'span12')),
-                'second_name' => 'second',
-                'second_options' => array('label' => 'Confirm password:'),
-                'invalid_message' => 'passwords do not match',
-
             ))
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',

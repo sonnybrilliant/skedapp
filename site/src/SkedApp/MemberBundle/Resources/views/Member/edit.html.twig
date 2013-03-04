@@ -1,0 +1,27 @@
+
+{% extends "SkedAppMemberBundle::layout.html.twig" %}
+{% block title %}Edit member{% endblock %}
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span5">
+        <div class="dash-forms-background">
+            <h3>Edit member</h3>
+            {% include "SkedAppMemberBundle:Member:form.edit.html.twig" %}
+        </div>
+     </div>
+     <div class="span7">
+        <div class="hint-box">
+            <h3><span class="asterisk">*</span>Hints</h3>
+            <ol>
+                <li>Please select a <span class="label label-inverse">Service provider</span> to associate with member, <span class="label label-inverse">Super admin</span> accounts can only be linked with Skedapp service provider.</li>
+                <br />
+            </ol>
+        </div>            	
+    </div>
+</div> <!-- End .row-fluid -->
+{% endblock body %}

@@ -181,7 +181,6 @@ final class MemberManager
         //get user
         $securityContext = $this->container->get('security.context');
         $user = $securityContext->getToken()->getUser();
-        $member->setCreatedBy($user);
 
         //assign roles
         $group = $this->em->getRepository('SkedAppCoreBundle:Group')->find($member->getGroup()->getId());

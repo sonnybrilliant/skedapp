@@ -1,26 +1,70 @@
 sked_app_member_list:
-    pattern:  /member/list
-    defaults: { _controller: SkedAppMemberBundle:Member:list }
+    pattern:  /member/list.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:list , _format: html }
     requirements:
-        _method: GET    
+        _method:  GET 
+        _format:  html  
     
 sked_app_member_new:
-    pattern:  /member/new
-    defaults: { _controller: SkedAppMemberBundle:Member:new }
+    pattern:  /member/new.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:new  , _format: html}
     requirements:
-        _method: GET    
+        _method:  GET 
+        _format:  html  
+        
+sked_app_member_create:
+    pattern:  /member/add.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:create  , _format: html}
+    requirements:
+        _method:  GET|POST 
+        _format:  html   
+        
+sked_app_member_show:
+    pattern:  /member/show/{id}.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:show  , _format: html}
+    requirements:
+        _method:  GET 
+        _format:  html 
+        
+sked_app_member_edit:
+    pattern:  /member/edit/{id}.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:edit  , _format: html}
+    requirements:
+        _method:  GET 
+        _format:  html 
+        
+sked_app_member_update:
+    pattern:  /member/update/{id}.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:update  , _format: html}
+    requirements:
+        _method:  GET|POST 
+        _format:  html   
+        
+sked_app_member_delete:
+    pattern:  /member/delete/{id}.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Member:delete  , _format: html}
+    requirements:
+        _method:  GET 
+        _format:  html   
   
 
 sked_app_member_reset:
-    pattern:  /reset/password
-    defaults: { _controller: SkedAppMemberBundle:Reset:resetPassword}
+    pattern:  /reset/password.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Reset:resetPassword , _format: html}
+    requirements:
+        _method:  GET 
+        _format:  html      
 
 sked_app_member_reset_sent:
-    pattern:  /reset/emailsent
-    defaults: { _controller: SkedAppMemberBundle:Reset:resetPasswordSuccess}
-
+    pattern:  /reset/emailsent.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Reset:resetPasswordSuccess , _format: html}
+    requirements:
+        _method:  GET 
+        _format:  html  
+        
 sked_app_member_reset_token:
-    pattern: /reset/token/{token}
-    defaults: { _controller: SkedAppMemberBundle:Reset:resetToken}
+    pattern: /reset/token/{token}.{_format}
+    defaults: { _controller: SkedAppMemberBundle:Reset:resetToken , _format: html}
     requirements:
         _method: GET|POST
+        _format:  html  
