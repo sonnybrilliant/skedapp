@@ -8,9 +8,6 @@ $(document).ready(function() {
         $('#searchResults').toggle();
     });
 
-    //Store the selected service
-    var currentServiceId = $('#Search_consultantServices').val();
-
     //update services
     $('#Search_category').change(function(){
         var categoryId = this.value;
