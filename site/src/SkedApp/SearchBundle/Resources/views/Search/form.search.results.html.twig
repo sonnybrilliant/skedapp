@@ -8,33 +8,46 @@
         <div class="results-background">
             <form class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
                 <fieldset>
-                    {{ form_label(form.category) }} <!-- Category Label -->
-                    {{ form_widget(form.category) }}
-                    <div class="spacer1"></div>
-                    {{ form_label(form.address) }} <!-- Location Label -->
-                    {{ form_widget(form.address) }}
-                    {{ form_widget(form.locality) }}
-                    {{ form_widget(form.administrative_area_level_2) }}
-                    {{ form_widget(form.administrative_area_level_1) }}
-                    {{ form_widget(form.country) }}
-                    {{ form_widget(form.lat) }}
-                    {{ form_widget(form.lng) }}
-                    <script type="text/javascript">
-                        var blnAddress = true;
-                    </script>
-                    <div class="spacer1"></div>
-                    {{ form_label(form.booking_date) }} <!-- Date Label -->
-                    {{ form_widget(form.booking_date) }}
-                    <div class="spacer1"></div>
-                    {{ form_label(form.consultantServices) }} <!-- Service Label -->
-                    {{ form_widget(form.consultantServices) }}
-                    <div class="btn-toolbar pull-right">
-                        <div class="btn-group">
-                                <button class="btn btn-primary">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
-                        </div>
+                    <div class="{% if form_errors(form.category) %} error {% endif %}">
+                        <div class="pull-left" for="company">{{ form_label(form.category) }} <!-- Category Label --></div>
+                        {{ form_widget(form.category) }}
+                        
+                        <span class="help-inline">{{form_errors(form.category)}}</span>
+                    </div>
+                    <div class="{% if form_errors(form.address) %} error {% endif %}">
+                        <div class="pull-left" for="address">{{ form_label(form.address) }} <!-- Location Label --></div>
+                        {{ form_widget(form.address) }}
+                        {{ form_widget(form.locality) }}
+                        {{ form_widget(form.administrative_area_level_2) }}
+                        {{ form_widget(form.administrative_area_level_1) }}
+                        {{ form_widget(form.country) }}
+                        {{ form_widget(form.lat) }}
+                        {{ form_widget(form.lng) }}
+
+                        <script type="text/javascript">
+                            var blnAddress = true;
+                        </script>
+                        <span class="help-inline">{{ form_errors(form.address) }}</span>
+                    </div>
+                    <div class="{% if form_errors(form.booking_date) %} error {% endif %}">
+                        <div class="pull-left" for="booking_date">{{ form_label(form.booking_date) }} <!-- Date Label --></div>
+
+                           {{ form_widget(form.booking_date) }}
+                           <span class="help-inline">{{form_errors(form.booking_date)}}</span>
+
+                    </div>
+                    <div class="{% if form_errors(form.consultantServices) %} error {% endif %}">
+                        <div class="pull-left" for="consultant_services">{{ form_label(form.consultantServices) }}</div>
+
+                        {{ form_widget(form.consultantServices) }}
+                        <span class="help-inline">{{form_errors(form.consultantServices)}}</span>
+
+                    </div>
+                    <div class="submitButton">
+                        <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
                     </div>
                 <div class="clearfix"></div>
-                <div class="spacer2"></div>
+
                 </fieldset>
                 {{ form_rest(form) }}
             </form>
