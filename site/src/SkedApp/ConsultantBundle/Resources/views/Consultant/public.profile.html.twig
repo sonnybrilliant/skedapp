@@ -24,21 +24,39 @@
                         {% endif %}
 
                 {% endif %}
-                <div style="padding-right: 10px;"class="">
-                    <strong class="dark-gray-text">Full name: </strong><span class="gray-text">{{ consultant.fullName }}</span></br>
-                    <strong class="dark-gray-text">Gender: </strong><span class="gray-text">{{ consultant.gender.name }}</span></br>
-                    <strong class="dark-gray-text">Employer: </strong><span class="gray-text">{{ consultant.company.name }}</span></br>
-                    <strong class="dark-gray-text">Services: </strong>
-                                        {% for service in consultant.consultantServices %}
-                                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
-                                        {% else %}
-                                         No listed services found.
-                                        {% endfor %}
-                    <br />
-                    <strong class="dark-gray-text">Speciality: </strong><span class="gray-text">{{ consultant.speciality | striptags }}</span></br>
-                    <strong class="dark-gray-text">Professional statement: </strong><span class="gray-text">{{ consultant.professionalStatement | striptags }}</span></br>
+                    <table>
+                        <tr>
+                            <td><strong>Full name: </strong></td>
+                            <td>{{ consultant.fullName }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gender: </strong></td>
+                            <td>{{ consultant.gender.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Employer: </strong></td>
+                            <td{{ consultant.company.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Services: </strong></td>
+                            <td>
+                                {% for service in consultant.consultantServices %}
+                                    <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
+                                    {% else %}
+                                    No listed services found.
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speciality: </strong></td>
+                            <td>{{ consultant.speciality | striptags }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Professional statement: </strong></td>
+                            <td>{ consultant.professionalStatement | striptags }}</td>
+                        </tr>
+                    </table>
 
-                </div>
                 <div class="clearfix"></div>
                 <div class="spacer2"></div>
                 <table class="table table-bordered">
