@@ -142,6 +142,11 @@ html, body {
 .space-left {
 	margin-left: 10px;
 }
+
+.space-left20 {
+	margin-left: 20px;
+}
+
 .space-right {
 	margin-right: 10px;
 }

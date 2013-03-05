@@ -1,10 +1,3 @@
-$(document).ready(function () {
-
-    addMarkers();
-
-    //$('#searchFrm').hide();
-
-});
 
 function addMarkers()
 {

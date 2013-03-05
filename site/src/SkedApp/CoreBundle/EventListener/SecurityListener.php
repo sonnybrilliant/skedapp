@@ -82,8 +82,10 @@ class SecurityListener
             if ($this->isLoggedIn) {
                 $user = $this->security->getToken()->getUser();
                 if ($user) {
-
-                    if ("SkedApp\CoreBundle\Entity\Customer" == get_class($user)) {
+                    //consultant admin
+                    if ("SkedApp\CoreBundle\Entity\Member" == get_class($user)) {
+                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list'))); 
+                    }else if ("SkedApp\CoreBundle\Entity\Customer" == get_class($user)) {
                        $event->setResponse(new RedirectResponse($this->router->generate('sked_app_customer_list_bookings'))); 
                     } else {
                         $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list_bookings', array(

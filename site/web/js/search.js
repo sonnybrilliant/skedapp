@@ -22,7 +22,7 @@ $(document).ready(function() {
 
                     var selectedService = false;
 
-                    if (key == currentServiceId) {
+                    if (value.id == currentServiceId) {
                         selectedService = true;
                     }
 
@@ -66,12 +66,17 @@ $(document).ready(function() {
 
                 var selectedService = false;
 
-                if (key == currentServiceId) {
+                if (value.id == currentServiceId) {
                     selectedService = true;
                 }
 
-                el.append($("<option></option>")
-                    .attr("value", value.id).text(value.name).attr('selected', selectedService));
+                if (selectedService) {
+                    el.append($("<option></option>")
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
+                } else {
+                    el.append($("<option></option>")
+                        .attr("value", value.id).text(value.name));
+                }
 
             });
 
@@ -129,6 +134,13 @@ $(document).ready(function() {
                 }
               });
         });
+
+    }
+
+    //Check if the page is the search results page and markers need to be added
+    if (typeof serviceProviderIDs != 'undefined') {
+
+        addMarkers();
 
     }
 
