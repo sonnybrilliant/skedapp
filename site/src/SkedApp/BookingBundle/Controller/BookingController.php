@@ -35,11 +35,6 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('manage bookings');
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('list consultants, access denied.');
-            throw new AccessDeniedException();
-        }
-
         $user = $this->get('member.manager')->getLoggedInUser();
 
         $em = $this->getDoctrine()->getEntityManager();
