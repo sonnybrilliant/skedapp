@@ -36,19 +36,19 @@ class BookingsController extends Controller
 
             $bookingParameters = unserialize($_SESSION['booking_params']);
 
-            unset($_SESSION['booking_params']);
+            if (($bookingParameters['company_id'] != 0) || ($bookingParameters['consultant_id'] != 0) || ($bookingParameters['booking_date'] != 'nodate')) {
+                unset($_SESSION['booking_params']);
 
-            return $this->redirect($this->generateUrl(
-                    'sked_app_booking_make',
-                    array(
-                        'companyId' => $bookingParameters['company_id'],
-                        'consultantId' => $bookingParameters['consultant_id'],
-                        'date' => $bookingParameters['booking_date'],
-                        'timeSlotStart' => $bookingParameters['timeslot_start'],
-                        'serviceIds' => $bookingParameters['service_ids'],
-                        )
-                    ));
-
+                return $this->redirect($this->generateUrl(
+                            'sked_app_booking_make', array(
+                            'companyId' => $bookingParameters['company_id'],
+                            'consultantId' => $bookingParameters['consultant_id'],
+                            'date' => $bookingParameters['booking_date'],
+                            'timeSlotStart' => $bookingParameters['timeslot_start'],
+                            'serviceIds' => $bookingParameters['service_ids'],
+                            )
+                        ));
+            }
         }
 
         $this->get('logger')->info('list customer bookings');
@@ -99,7 +99,7 @@ class BookingsController extends Controller
             $infoWindow->setPrefixJavascriptVariable('info_window_');
             $infoWindow->setPosition(0, 0, true);
             $infoWindow->setPixelOffset(1.1, 2.1, 'px', 'pt');
-            $infoWindow->setContent('<p>' . $booking->getConsultant()->getCompany()->getName() . '<br/><small>Telphone:'.$booking->getConsultant()->getCompany()->getContactNumber().' </p>');
+            $infoWindow->setContent('<p>' . $booking->getConsultant()->getCompany()->getName() . '<br/><small>Telphone:' . $booking->getConsultant()->getCompany()->getContactNumber() . ' </p>');
             $infoWindow->setOpen(false);
             $infoWindow->setAutoOpen(true);
             $infoWindow->setOpenEvent(MouseEvent::CLICK);
@@ -158,7 +158,7 @@ class BookingsController extends Controller
             $map->addMarker($marker);
             $marker->setInfoWindow($infoWindow);
         } catch (\Exception $e) {
-
+            
         }
 
         return $this->render('SkedAppCustomerBundle:Bookings:booking.detail.html.twig', array(
