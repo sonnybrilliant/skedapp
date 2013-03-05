@@ -38,7 +38,7 @@ class ConsultantAccountControllerTest extends WebTestCase
         // submit the form with valid credentials
         $crawler = $client->submit(
             $form, array(
-            '_username' => 'qa2@creativecloud.co.za',
+            '_username' => 'qa1@creativecloud.co.za',
             '_password' => '654321',
             )
         );

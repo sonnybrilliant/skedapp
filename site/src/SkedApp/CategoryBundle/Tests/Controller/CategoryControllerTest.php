@@ -176,7 +176,7 @@ class CategoryControllerTest extends WebTestCase
 
 
         //create a category
-        $crawler = $client->request('GET', '/category/edit/6.html');
+        $crawler = $client->request('GET', '/category/edit/2.html');
 
         //we are at the list view page
         $this->assertEquals(1, $crawler->filter('title:contains("Edit category")')->count());
