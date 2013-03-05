@@ -4,11 +4,11 @@
 {% block body %}
     {% include "SkedAppSearchBundle:Search:form.search.results.html.twig" %}
     <div class="row-fluid content-devider"><!-- This is just a visual devider to seperate the content from the navigation --></div>
-    
+
     {% if pagination is defined %}
         {% include "SkedAppSearchBundle:Search:search.results.display.html.twig" %}
     {% endif %}
-    
+
     {% block stylesheets %}
     <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
     {% endblock %}
@@ -20,7 +20,6 @@
     {% endblock jquery_ui %}
 
     {% block javascripts %}
-        <script src="{{ asset('/js/search.js') }}"></script>
         <script src="{{ asset('/js/search-results.js') }}"></script>
     {% endblock javascripts %}
 {% endblock %}
