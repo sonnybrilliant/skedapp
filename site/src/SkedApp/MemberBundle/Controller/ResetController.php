@@ -10,7 +10,7 @@ use SkedApp\MemberBundle\Form\PasswordUpdateType;
 /**
  * Reset password controller
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppMemberBundle
  * @subpackage Controller
  * @version 0.0.1
@@ -168,6 +168,9 @@ class ResetController extends Controller
                         $this->getRequest()->getSession()->setFlash('success', 'Password change was successfully.');
                         return $this->redirect($this->generateUrl('_security_login'));
                     }
+                }else{
+                     $this->getRequest()->getSession()->setFlash(
+                    'error', 'Failed to change password');
                 }
             }
 
