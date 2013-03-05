@@ -138,7 +138,7 @@ $(document).ready(function() {
     }
 
     //Check if the page is the search results page and markers need to be added
-    if (serviceProviderIDs != 'undefined') {
+    if (typeof serviceProviderIDs != 'undefined') {
 
         addMarkers();
 
