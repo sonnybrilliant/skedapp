@@ -63,26 +63,33 @@ var currentServiceId = {{ options.service.id }};
 
           <tr>
             <td>
-                   {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="138" class="img-polaroid span4"/>
+               {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                    <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="138" class="img-polaroid span4"/>
+                {% else %}
+                    {% if consultant.gender.name == "Male" %}
+                        <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="img-polaroid span4" />
                     {% else %}
-                        {% if consultant.gender.name == "Male" %}
-                            <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="img-polaroid span4" />
-                        {% else %}
-                            <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="img-polaroid span4" />
-                        {% endif %}
-
+                        <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="img-polaroid span4" />
                     {% endif %}
-                <ul class="span8 unstyled">
-                    <li><a href="{{ path('sked_app_consultant_view', { 'id': consultant.id , 'slug': consultant.getSlug() , 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}">{{ consultant.fullName }}</a></li>
-                    <li>{% for service in consultant.consultantServices %}
-                            <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
-                        {% else %}
-                        {% endfor %}
-                    <li>{{ count }} - {{ consultant.company.name }}</li>
-                    <li>{{ consultant.company.address }}</li>
-                    <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
-                </ul>
+
+                {% endif %}
+
+                <div class="span8">
+                    <div class="span2 pull-right">
+                        <img src="{{ asset('img/assets/icons/service-icon' ~ count ~ '.png') }}" />
+                    </div>
+
+                    <ul class="span10 unstyled">
+                        <li><a href="{{ path('sked_app_consultant_view', { 'id': consultant.id , 'slug': consultant.getSlug() , 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}">{{ consultant.fullName }}</a></li>
+                        <li>{% for service in consultant.consultantServices %}
+                                <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
+                            {% else %}
+                            {% endfor %}
+                        <li>{{ consultant.company.name }}</li>
+                        <li>{{ consultant.company.address }}</li>
+                        <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
+                    </ul>
+                </div>
             </td>
             <td>
                 <!-- monday -->
