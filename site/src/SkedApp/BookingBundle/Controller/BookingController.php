@@ -677,9 +677,13 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking public');
 
         $user = $this->get('member.manager')->getLoggedInUser();
-
+        
+        if(($companyId == 0) || ($consultantId == 0)){
+            return $this->redirect('sked_app_booking_manager');
+        }
+        
+        
         //Format the date correctly
-
         $date = new \DateTime($date);
         $date = $date->format('d-m-Y');
 
