@@ -3,9 +3,9 @@
 {% block title %}Consultant Profile{% endblock %}
 
 {% block body %}
-<div class="row-fluid body-main rounded-bottom">
+<div class="row-fluid body-main rounded-all">
     <div class="span5">
-        <div class="consultant-background">
+        <div class="consultant-background rounded-left">
         <h3>Consultant Profile</h3>
             <div class="white-bg">
                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
@@ -24,7 +24,7 @@
                         {% endif %}
 
                 {% endif %}
-                    <table>
+                    <table class="gray-text">
                         <tr>
                             <td><strong>Full name: </strong></td>
                             <td>{{ consultant.fullName }}</td>
@@ -52,8 +52,10 @@
                             <td>{{ consultant.speciality | striptags }}</td>
                         </tr>
                         <tr>
-                            <td><strong>Professional statement: </strong></td>
-                            <td>{ consultant.professionalStatement | striptags }}</td>
+                            <td colspan="2"><strong>Professional statement: </strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">{{ consultant.professionalStatement | striptags }}</td>
                         </tr>
                     </table>
 
