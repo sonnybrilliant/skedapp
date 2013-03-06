@@ -95,8 +95,8 @@ final class ConsultantManager
             ->find($id);
 
         if (!$consultant) {
-            throw new \Exception('Consultant not found for id:' . $id);
-            $this->logger->err('Failed to find Consultant by id:' . $id);
+            throw new \Exception('Consultant not found for id: ' . $id);
+            $this->logger->err('Failed to find Consultant by id: ' . $id);
         }
 
         return $consultant;
@@ -115,8 +115,8 @@ final class ConsultantManager
             ->findBySlug($slug);
 
         if (!$consultant) {
-            throw new \Exception('Consultant not found for slug:' . $slug);
-            $this->logger->err('Failed to find Consultant by slug:' . $slug);
+            throw new \Exception('Consultant not found for slug: ' . $slug);
+            $this->logger->err('Failed to find Consultant by slug: ' . $slug);
         }
 
         return $consultant[0];

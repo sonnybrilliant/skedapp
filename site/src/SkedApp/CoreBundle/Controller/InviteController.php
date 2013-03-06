@@ -64,6 +64,8 @@ class InviteController extends Controller
                 );
 
                 $this->get('notification.manager')->sendInviteFriendLoggedIn($arguments);
+                 $this->getRequest()->getSession()->setFlash(
+                    'success', 'You invite has been sent.');
                 return $this->redirect($this->generateUrl('_welcome'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -80,7 +82,7 @@ class InviteController extends Controller
      * Invite friend to a consultant
      * @return type
      */
-    public function inviteConsultantAction($id)
+    public function inviteConsultantAction($slug)
     {
         $this->get('logger')->info('invite a friend to a consultant');
 
@@ -99,7 +101,7 @@ class InviteController extends Controller
 
                 try {
 
-                    $consultant = $this->get('consultant.manager')->getById($id);
+                    $consultant = $this->get('consultant.manager')->getBySlug($slug);
 
                     $invite = new InviteFriends();
                     $invite->setFriendName($data['friendName']);
@@ -121,16 +123,19 @@ class InviteController extends Controller
                     $arguments = array(
                         'friendName' => $data['friendName'],
                         'senderName' => $usr->getFullName(),
-                        'link' => $this->generateUrl('sked_app_consultant_view', array('id'=>$id), true),
+                        'link' => $this->generateUrl('sked_app_consultant_view_with_slug', array('slug'=>$slug), true).'.html',
                         'email' => $data['email'],
                         'consultantName' => $consultant->getFullName()
                     );
 
                     $this->get('notification.manager')->sendInviteFriendConsultant($arguments);
-                    return $this->redirect($this->generateUrl('sked_app_consultant_view', array('id'=>$id)));
+                    $this->getRequest()->getSession()->setFlash(
+                    'success', 'You invite has been sent.');
+                    return $this->redirect($this->generateUrl('sked_app_consultant_view_with_slug', array('slug'=>$slug)).'.html');
+                    
                 } catch (\Exception $e) {
                     $this->getRequest()->getSession()->setFlash(
-                        'error', 'Failed, invalid url');
+                        'error', 'Failed, invalid url:'.$e->getMessage());
                 }
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -140,7 +145,7 @@ class InviteController extends Controller
 
         return $this->render('SkedAppCoreBundle:Invite:invite.friend.consultant.html.twig', array(
                 'form' => $form->createView(),
-                'id' => $id
+                'slug' => $slug
             ));
     }
 

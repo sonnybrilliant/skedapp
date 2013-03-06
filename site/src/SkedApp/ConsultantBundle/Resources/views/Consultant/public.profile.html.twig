@@ -2,6 +2,15 @@
 
 {% block title %}Consultant Profile{% endblock %}
 
+{% block menu %}
+      {% set vars = {'controller': 'no_menu'} %}
+      {% include "::menu.html.twig" with vars  %}     
+{% endblock %}
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
 <div class="row-fluid body-main rounded-all">
     <div class="span5">
@@ -67,31 +76,53 @@
                           {% set arrSlots = consultant.getAvailableBookingSlots() %}
                             {% for time_slot in arrSlots.time_slots %}
                             <td class="dark-gray-text">
+                                {% if options|length > 0 %}
                                 <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
                                 <strong>
                                     {{ time_slot.start_time }}
                                 </strong>
                                 </a>
-                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
+                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em>
+                                {% else %}
+                                <strong>
+                                    {{ time_slot.start_time }}
+                                </strong>
+                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em>
+                                {% endif %}
+                           </td>
                             {% endfor %}
                         </tr>
                     </tbody>
                 </table>
+                <div class="spacer1"></div>
+                <a href="{{ path('sked_app_invite_friends_consultant',{ 'slug' : consultant.slug})}}.html"  class="btn btn-primary pull-right">Refer a friend <i class="icon-white icon-circle-arrow-right"></i></a>
+                <div class="spacer2"></div>
+            </div> 
+         {% if consultant.company.companyPhotos|length > 0 %}
+            <h4>Service Provider Pictures</h4>
+            <div class="bs-docs-example bs-docs-example-images">
+            {% for photo in consultant.company.companyPhotos %}
+                       <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">
+            {% endfor %}
+            <div class="clearfix"></div>
+            <div class="spacer1"></div>
+            {% if options|length > 0 %}
+            <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn btn-warning pull-right">Back to Search <i class="icon-white icon-circle-arrow-right"></i></a>
+            {% endif %}
+            <div class="clearfix"></div>
             </div>
-        <h4>Service Provider Pictures</h4>
-        <div class="bs-docs-example bs-docs-example-images">
-        {% for photo in consultant.company.companyPhotos %}
-                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">
-        {% else %}
-                    <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
-                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-        {% endfor %}
-        <div class="clearfix"></div>
-        <div class="spacer1"></div>
-        <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn btn-warning pull-right">Back to Search <i class="icon-white icon-circle-arrow-right"></i></a>
-        <div class="clearfix"></div>
-        </div>
+         {% else %} 
+            <div class="clearfix"></div>
+            <div class="spacer2"></div>
+            <div class="spacer2"></div>
+            <div class="spacer2"></div>
+            <div class="spacer2"></div>
+            {% if options|length > 0 %}
+                <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn btn-warning pull-right">Back to Search <i class="icon-white icon-circle-arrow-right"></i></a>
+            {% endif %}
+            <div class="clearfix"></div>
+            
+         {% endif %}   
         <div class="spacer2"></div>
         </div>
     </div>

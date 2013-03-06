@@ -267,21 +267,26 @@ class ConsultantController extends Controller
         $options = array();
 
         try {
-            $consultant = $this->get('consultant.manager')->getById($this->getRequest()->get('id'));
+            if ($this->getRequest()->get('id') != null) {
+                $consultant = $this->get('consultant.manager')->getById($this->getRequest()->get('id'));
 
-            $service = $this->get('service.manager')->getById($this->getRequest()->get('serviceId'));
-            $category = $this->get('category.manager')->getById($this->getRequest()->get('categoryId'));
+                $service = $this->get('service.manager')->getById($this->getRequest()->get('serviceId'));
+                $category = $this->get('category.manager')->getById($this->getRequest()->get('categoryId'));
 
-            $options['lat'] = $this->getRequest()->get('lat');
-            $options['lng'] = $this->getRequest()->get('lng');
-            $options['radius'] = 20;
-            $options['category'] = $category;
-            $options['categoryId'] = $category->getId();
-            $options['service'] = $service;
-            $options['serviceId'] = $service->getId();
-            $options['date'] = $this->getRequest()->get('date');
-
-            $date = new \DateTime($options['date']);
+                $options['lat'] = $this->getRequest()->get('lat');
+                $options['lng'] = $this->getRequest()->get('lng');
+                $options['radius'] = 20;
+                $options['category'] = $category;
+                $options['categoryId'] = $category->getId();
+                $options['service'] = $service;
+                $options['serviceId'] = $service->getId();
+                $options['date'] = $this->getRequest()->get('date');
+                $date = new \DateTime($options['date']);
+            } else {
+                $consultant = $this->get('consultant.manager')->getBySlug($slug);
+                $date = new \DateTime(date('Y-m-d'));
+            }
+            
             $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
             $consultant->setAvailableBookingSlots($slots);
         } catch (\Exception $e) {
@@ -321,9 +326,9 @@ class ConsultantController extends Controller
         }
 
         return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array(
-             'consultant' => $consultant,
-             'form' => $form->createView(),
-             'companyId' => $companyId
+                'consultant' => $consultant,
+                'form' => $form->createView(),
+                'companyId' => $companyId
             ));
     }
 

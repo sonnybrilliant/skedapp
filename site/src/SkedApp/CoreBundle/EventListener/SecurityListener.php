@@ -84,12 +84,12 @@ class SecurityListener
                 if ($user) {
                     //consultant admin
                     if ("SkedApp\CoreBundle\Entity\Member" == get_class($user)) {
-                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list'))); 
+                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list').'.html')); 
                     }else if ("SkedApp\CoreBundle\Entity\Customer" == get_class($user)) {
-                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_customer_list_bookings'))); 
+                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_customer_list_bookings').'.html')); 
                     } else {
                         $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list_bookings', array(
-                                    'slug' => $this->security->getToken()->getUser()->getSlug()))));
+                                    'slug' => $this->security->getToken()->getUser()->getSlug()).'.html')));
                     }
                 }
             }

@@ -2,29 +2,26 @@
 
 {% block title %}Refer a friend{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
-<div class="span12">
-    <div class="span8" style="margin-left: 0px">
-        <h3>Refer a friend</h3>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-
-        {% include "SkedAppCoreBundle:Invite:form.invite.friend.consultant.html.twig" %}
-    </div>
-    <div class="span3">
-        <div class="well emphasize-dark">
-            <h4><i class="icon-info-sign"></i>&nbsp; Hints </h4>
-            <br />
-            <p class="pull-right">
-                    <ol>
-                        <li>Provide your friends email address.</li>
-                        <br />
-                        <li>Fill in recaptcha field or reload it if you cannot read the cryptic text.</li>
-                    </ol>
-
-            </p>
+<div class="row-fluid body-main rounded-all">
+    <div class="span5">
+        <div class="forms-background">
+            <h3>Refer a friend</h3>
+            {% include "SkedAppCoreBundle:Invite:form.invite.friend.consultant.html.twig" %}
         </div>
+     </div>
+     <div class="span7">
+        <div class="hint-box">
+            <h3><span class="asterisk">*</span>Hints</h3>
+            <ol>
+                    <li>Provide your friend's name.</li>
+                    <li>Provide your friend's email address.</li>                    
+            </ol>
+        </div>            	
     </div>
-</div>
+</div> <!-- End .row-fluid -->
 {% endblock body %}

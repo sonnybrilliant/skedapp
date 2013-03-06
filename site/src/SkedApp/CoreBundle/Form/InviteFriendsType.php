@@ -37,11 +37,11 @@ class InviteFriendsType extends AbstractType
         $builder
             ->add('friendName', 'text', array(
                 'label' => "Friend's name:",
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('email', 'email', array(
                 'label' => "Friend's email address:",
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
             ));
         
     }
