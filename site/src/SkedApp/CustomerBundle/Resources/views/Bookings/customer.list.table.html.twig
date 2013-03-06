@@ -61,7 +61,7 @@
     <tbody>
         {% for booking in pagination %}
         <tr>
-           <td><a href="#myModal_consultant_{{booking.id}}" rel="tooltip" data-placement="right" data-toggle="modal" data-original-title="click to view booking details" title="click to view booking details">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }}</a></td>
+           <td><a href="{{ path('sked_app_consultant_view_with_slug',{'slug': booking.consultant.slug })}}" rel="tooltip" title="click to view consultant details">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }}</a></td>
            <td>
                {% if booking.service is not null %}
                    {{ booking.service.name }}
@@ -74,7 +74,6 @@
                 <small>
                     <a href="{{ path('sked_app_customer_booking_details', {'id' : booking.id}) }}" rel="tooltip" title="click to view" class="btn btn-small btn-primary"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
                     <a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-remove"></i>&nbsp;Cancel</a>
-                    <a href="{{ path("sked_app_customer_invite_friend", {'consultant': booking.consultant.id})}}" title="invite a friend" class="btn btn-small btn-info"><li class="icon-star"></li>&nbsp;Invite</a>
                 </small>
            </td>
          </tr>
@@ -84,7 +83,3 @@
 <div class="btn-group pull-right">
     {{ knp_pagination_render(pagination) }}
 </div>
-{% for booking in pagination %}
-     {% include "SkedAppCustomerBundle:Customer:booking.details.html.twig" with { 'booking':booking}  %}
-     {% include "SkedAppCustomerBundle:Customer:consultant.details.html.twig" with { 'booking':booking}  %}
-{% endfor %}
