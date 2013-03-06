@@ -27,7 +27,11 @@
         <div style="margin-left: 0px;" class="span5">{% set vars = {'action': 'Edit booking'} %}
            {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
         </div>
+        <div class="clearfix"></div>
+        <div class="spacer2"></div>
+        <div style="margin-left: 0px;" class="span5">
         {% include "SkedAppBookingBundle:Booking:form.edit.html.twig" %}
+        </div>
     </div> <!-- Dashboard Content -->
 </div>
 
