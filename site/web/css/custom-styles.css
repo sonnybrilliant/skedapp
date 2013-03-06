@@ -269,6 +269,12 @@ Page Styles
 	padding-left: 1.25em;
 }
 
+.logo-other {
+	display: block;
+    margin-top: 0.1em;
+    padding-left: 3.75em;
+    width: auto;
+}
 
 .space-right-bottom{
   margin-bottom: 10px;
