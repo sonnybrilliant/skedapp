@@ -65,7 +65,7 @@ class InviteController extends Controller
 
                 $this->get('notification.manager')->sendInviteFriendLoggedIn($arguments);
                  $this->getRequest()->getSession()->setFlash(
-                    'success', 'You invite has been sent.');
+                    'success', 'Your invite has been sent.');
                 return $this->redirect($this->generateUrl('_welcome'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -130,7 +130,7 @@ class InviteController extends Controller
 
                     $this->get('notification.manager')->sendInviteFriendConsultant($arguments);
                     $this->getRequest()->getSession()->setFlash(
-                    'success', 'You invite has been sent.');
+                    'success', 'Your invite has been sent.');
                     return $this->redirect($this->generateUrl('sked_app_consultant_view_with_slug', array('slug'=>$slug)).'.html');
                     
                 } catch (\Exception $e) {
