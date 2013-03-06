@@ -63,7 +63,7 @@ class BookingCreateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span4 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
+                'attr' => array('class' => 'span7 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
