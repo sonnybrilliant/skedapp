@@ -13,13 +13,21 @@
             <h3>Service Provider Profile</h3>
             <div class="whiteBackground">
                 <img src="{{ asset('/uploads/companies/'~company.id~'.'~company.path) }}" style="width:140px; height:140px" class="space-left space-right pull-left img-polaroid"/>
-                <div style="padding-right: 10px;">
-                        <strong class="dark-gray-text">Name: </strong><span class="gray-text">{{ company.name }}</span>
-                        <div class="spacer1"></div>
-                        <strong class="dark-gray-text">Contact Details: </strong><span class="gray-text">{{ company.contactNumber }}</span>
-                        <div class="spacer1"></div>
-                        <strong class="dark-gray-text">Description: </strong><span class="gray-text">{{ company.description|raw }}</span>
-                </div>
+                <table class="pad-right gray-text">
+                    <tr>
+                        <td><strong>Name: </strong></td>
+                        <td>{{ company.name }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contact Details: </strong></td>
+                        <td>{{ company.contactNumber }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Description: </strong></td>
+                        <td>{{ company.description|raw }}</td>
+                    </tr>
+                </table>
+                
                 <div class="clearfix"></div>
                 <div class="spacer1"></div>
 
