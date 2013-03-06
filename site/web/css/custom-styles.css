@@ -169,6 +169,25 @@ html, body {
 	margin-right: 7px;
 }
 
+.service-add-buttons{
+  width: 350px;
+}
+.member-add-buttons{
+  width: 355px;
+}
+.consultant-add-buttons{
+  width: 371px
+}
+.booking-add-buttons{
+  width: 372px
+}
+.category-add-buttons{
+  width: 358px;
+}
+.service-provider-add-buttons{
+  width: 416px;
+}
+
 .whiteBackground{
   background: #fff;
   border: 1px solid #ddd;
