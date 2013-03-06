@@ -122,7 +122,7 @@ class BookingUpdateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span6')
+                'attr' => array('class' => 'span5')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
