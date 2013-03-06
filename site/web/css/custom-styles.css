@@ -289,10 +289,12 @@ Page Styles
 }
 
 .logo-other {
-	display: block;
-    margin-top: 0.1em;
-    padding-left: 3.75em;
-    width: auto;
+  display: block;
+  margin-top: 0.1em;
+  padding-left: 3.75em;
+  padding-bottom: 2em;
+  padding-top: 1.1em;
+  width: auto;
 }
 
 .space-right-bottom{
