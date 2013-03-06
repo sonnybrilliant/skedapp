@@ -74,7 +74,7 @@
                 <small>
                     <a href="{{ path('sked_app_customer_booking_details', {'id' : booking.id}) }}" rel="tooltip" title="click to view" class="btn btn-small btn-primary"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
                     <a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-remove"></i>&nbsp;Cancel</a>
-                    <a href="{{ path("sked_app_customer_invite_friend", {'consultant': booking.consultant.id})}}" title="invite a friend"><li class="icon-star"></li>&nbsp;Invite</a>
+                    <a href="{{ path("sked_app_customer_invite_friend", {'consultant': booking.consultant.id})}}" title="invite a friend" class="btn btn-small btn-info"><li class="icon-star"></li>&nbsp;Invite</a>
                 </small>
            </td>
          </tr>
