@@ -51,7 +51,7 @@ class BookingUpdateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span4 datepicker'),
+                'attr' => array('class' => 'span7 datepicker'),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
@@ -122,12 +122,12 @@ class BookingUpdateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span6')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time to:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span3')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',

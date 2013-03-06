@@ -297,6 +297,18 @@ Page Styles
   width: auto;
 }
 
+.date-time{
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 389px;
+}
+.date-time-container{
+  width: 191px;
+}
+.time-slots {
+  margin: 8px 8px 0 0;
+  padding-top: 5px;
+}
 .space-right-bottom{
   margin-bottom: 10px;
 }
