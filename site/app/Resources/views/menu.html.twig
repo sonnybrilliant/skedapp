@@ -1,47 +1,65 @@
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-<div class="row-fluid">
-    <ul class="nav nav-tabs pull-right"> 
-        {% if is_granted('ROLE_ADMIN') %}
-            {% if controller == 'service_provider'%}
-                <li class="active"><a href="{{ path('sked_app_service_provider_list') }}.html" title="manage service providers">Service Providers</a></li>
-            {% else %}
-                <li><a href="{{ path('sked_app_service_provider_list') }}.html" title="manage service providers">Service Providers</a></li>
-            {% endif %}
-                
-            {% if controller == 'members'%}
-                <li class="active"><a href="{{ path('sked_app_member_list') }}.html" title="manage members">Members</a></li>
-            {% else %}
-                <li><a href="{{ path('sked_app_member_list') }}.html" title="manage members">Members</a></li>
-            {% endif %}
+    {%if controller != 'no_menu' %}
+    <div class="row-fluid">
+        <ul class="nav nav-tabs pull-right"> 
+            {% if is_granted('ROLE_ADMIN') %}
+                {% if controller == 'service_provider'%}
+                    <li class="active"><a href="{{ path('sked_app_service_provider_list') }}.html" title="manage service providers">Service Providers</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_service_provider_list') }}.html" title="manage service providers">Service Providers</a></li>
+                {% endif %}
 
-            {% if controller == 'categories'%}
-                <li class="active"><a href="{{ path('sked_app_category_list')}}.html" title="manage categories">Categories</a></li>
-            {% else %}
-                <li><a href="{{ path('sked_app_category_list')}}.html" title="manage categories">Categories</a></li>
-            {% endif %}
+                {% if controller == 'members'%}
+                    <li class="active"><a href="{{ path('sked_app_member_list') }}.html" title="manage members">Members</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_member_list') }}.html" title="manage members">Members</a></li>
+                {% endif %}
 
-            {% if controller == 'service'%}
-                <li class="active"><a href="{{ path('sked_app_service_list')}}.html" title="manage services">Services</a></li>
-            {% else %}
-                <li><a href="{{ path('sked_app_service_list')}}.html" title="manage services">Services</a></li>
-            {% endif %}
+                {% if controller == 'categories'%}
+                    <li class="active"><a href="{{ path('sked_app_category_list')}}.html" title="manage categories">Categories</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_category_list')}}.html" title="manage categories">Categories</a></li>
+                {% endif %}
 
-            {% if controller == 'consultants'%}
-                <li class="active"><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
-            {% else %}
-                <li><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
-            {% endif %}
+                {% if controller == 'service'%}
+                    <li class="active"><a href="{{ path('sked_app_service_list')}}.html" title="manage services">Services</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_service_list')}}.html" title="manage services">Services</a></li>
+                {% endif %}
 
-            {% if controller == 'bookings'%}
-                <li class="active"><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
-            {% else %}
-                <li><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
-            {% endif %}
+                {% if controller == 'consultants'%}
+                    <li class="active"><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
+                {% endif %}
 
-        <li><a href="#" title="manage customers">Customers</a></li>
-        {% endif%}
-    </ul>
-</div> <!-- End .row-fluid -->
-<div class="row-fluid nav-active"><!-- This is just a spacer to show which page is active --></div>
-<div class="row-fluid content-devider"><!-- This is just a visual devider to seperate the content from the navigation --></div>
+                {% if controller == 'bookings'%}
+                    <li class="active"><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
+                {% endif %}
+
+            <li><a href="#" title="manage customers">Customers</a></li>
+            {% elseif is_granted('ROLE_CONSULTANT_ADMIN')  %}
+               {% if controller == 'consultants'%}
+                    <li class="active"><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
+                {% endif %}
+
+                {% if controller == 'bookings'%}
+                    <li class="active"><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_booking_manager')}}" title="manage bookings">Bookings</a></li>
+                {% endif %}
+
+                <li><a href="#" title="manage customers">Customers</a></li>
+            {% endif%}
+
+        </ul>
+    </div> <!-- End .row-fluid -->
+    <div class="row-fluid nav-active"><!-- This is just a spacer to show which page is active --></div>
+    <div class="row-fluid content-devider"><!-- This is just a visual devider to seperate the content from the navigation --></div>
+    {% endif %}
+
 {% endif %}
