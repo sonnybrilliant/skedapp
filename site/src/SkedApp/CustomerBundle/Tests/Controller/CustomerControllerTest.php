@@ -4,8 +4,6 @@ namespace SkedApp\CustomerBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 /**
  * Customer controller test 
  * 

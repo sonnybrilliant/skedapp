@@ -52,7 +52,7 @@ sked_app_member_reset:
     pattern:  /reset/password.{_format}
     defaults: { _controller: SkedAppMemberBundle:Reset:resetPassword , _format: html}
     requirements:
-        _method:  GET 
+        _method:  GET|POST 
         _format:  html      
 
 sked_app_member_reset_sent:
