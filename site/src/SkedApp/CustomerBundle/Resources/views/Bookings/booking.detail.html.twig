@@ -20,9 +20,9 @@
                             <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="82" height="118" class="space-left space-right pull-left img-polaroid"/>
                         {% else %}
                             {% if booking.consultant.gender.name == "Male" %}
-                                <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="space-right pull-left img-polaroid"/>
+                                <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="space-right space-left pull-left img-polaroid"/>
                             {% else %}
-                                <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="space-right pull-left img-polaroid"/>
+                                <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="space-right space-left pull-left img-polaroid"/>
                             {% endif %}
 
                         {% endif %}
@@ -30,8 +30,8 @@
                         <div class="span9">
                           <ul class="unstyled">
                             <li><strong>Consultant:</strong> {{ booking.consultant.fullName }}</li>
-                            <li><strong>Contact number :</strong> {{ booking.consultant.company.contactNumber }}</li>
-                            <li><strong>Service to be tendered:</strong><span class="label label-warning"> {{ booking.service.name}} </span></li>
+                            <li><strong>Contact number:</strong> {{ booking.consultant.company.contactNumber }}</li>
+                            <li><strong>Service to be tendered:</strong> <span class="label label-warning"> {{ booking.service.name}}</span></li>
                             <li><strong>Time:</strong> {{ booking.hiddenAppointmentStartTime|date('G:s a') }}, {{ booking.hiddenAppointmentStartTime|date('d-m-Y') }}</li>
                             <li><strong>GPS:</strong> {{ booking.consultant.company.completeGPS }}</li>
                         </ul>
