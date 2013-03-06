@@ -626,6 +626,9 @@ Dashboard Navigation
 	color: #FFFFFF;
 	background-color: #ff9c05 !important;
 }
+.table-heading-orange a{
+  color: #fff;
+}
 .table-valign {
 	vertical-align: middle !important;
 }

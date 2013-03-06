@@ -1,17 +1,18 @@
 
-{% extends "SkedAppCustomerBundle::layout.html.twig" %}
+{% extends "SkedAppCustomerBundle::layout.customer.html.twig" %}
 {% block title %}My bookings{% endblock %}
 
-
-{% block menu %}
-           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer , 'controller' : 'bookings' } %}
-{% endblock menu %}
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}
 
 {% block body %}
-<div class="row-fluid body-secondary">
+<div class="row-fluid body-secondary rounded-bottom">
+
     <div class="span12">
+
         <h3>My bookings</h3>
-        <div style="width: 378px;" class="span6 pull-right">
+        <div class="span5 pull-right">
 
                 <a href="{{ path('_welcome') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Make a Booking</strong></a>
 
@@ -23,6 +24,7 @@
                     </div>
                 </form>
             </div>
+        <div class="clearfix"></div>
         {% include "SkedAppCustomerBundle:Bookings:customer.list.table.html.twig" %}
     </div> <!-- Dashboard Content -->
 </div>

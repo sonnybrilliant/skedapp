@@ -149,7 +149,7 @@ class BookingsController extends Controller
             $map->setMapOption('disableDoubleClickZoom', false);
             $map->setStylesheetOptions(array(
                 'width' => '100%',
-                'height' => '300px'
+                'height' => '436px'
             ));
 
             $map->setLanguage('en');
@@ -158,7 +158,7 @@ class BookingsController extends Controller
             $map->addMarker($marker);
             $marker->setInfoWindow($infoWindow);
         } catch (\Exception $e) {
-            
+
         }
 
         return $this->render('SkedAppCustomerBundle:Bookings:booking.detail.html.twig', array(
