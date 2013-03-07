@@ -68,7 +68,7 @@ class CustomerCreateType extends AbstractType
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
-                'attr' => array('class' => 'span12 chosen')
+                'attr' => array('class' => 'span12')
             ))
             ->add('captcha', 'genemu_recaptcha')
             ->add('radio', 'checkbox', array(
