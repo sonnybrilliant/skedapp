@@ -38,13 +38,13 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
         $company = null;
 
-        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
             $company = $user->getCompany();
 
         $em = $this->getDoctrine()->getEntityManager();
         $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery(array('company' => $company));
 
-        if (is_object($user->getCompany()))
+        if (is_object($company))
             $companyId = $user->getCompany()->getId();
         else
             $companyId = 0;
@@ -395,7 +395,7 @@ class BookingController extends Controller
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
-        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
             $company = $user->getCompany();
 
         $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime, $company);
@@ -649,7 +649,7 @@ class BookingController extends Controller
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
-        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
             $companyId = $user->getCompany()->getId();
 
         $startDate = new \DateTime($filterDate->format('Y-m-d 00:00:00'));

@@ -110,3 +110,7 @@ $(document).ready(function() {
     }
 
 });
+
+function sendInviteEMail() {
+    window.location = 'mailto:?subject=Make an appoint with us on SkedApp&body=Click on this link to register and find us on SkedApp: ' + Routing.generate('_welcome', null, true);
+}

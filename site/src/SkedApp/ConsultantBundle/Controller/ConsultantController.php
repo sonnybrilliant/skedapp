@@ -51,7 +51,7 @@ class ConsultantController extends Controller
             'direction' => $direction,
         );
 
-        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
             $options['company'] = $user->getCompany();
 
         $paginator = $this->get('knp_paginator');
