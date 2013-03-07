@@ -356,6 +356,8 @@ class Consultant implements AdvancedUserInterface, \Serializable
         $this->setIsLocked(false);
         $this->setIsActive(true);
         $this->isDeleted = false;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function __toString()

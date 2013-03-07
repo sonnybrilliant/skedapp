@@ -21,7 +21,7 @@ sked_app_api_register_customer:
     defaults: { _controller: SkedAppApiBundle:Api:registerCustomer}
 
 sked_app_api_login_customer:
-    pattern:  /api/get/login/{session}/{email}/{password}
+    pattern:  /api/get/login/{session}/{password}/{email}
     defaults: { _controller: SkedAppApiBundle:Api:login}
 
 sked_app_api_get_consultant:

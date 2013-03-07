@@ -36,10 +36,10 @@ class ApiController extends Controller
             $return->status = false;
             $return->message = $params->error;
         }
-        
-        
-        if(isset($params->code)){
-          $return->code = $params->code;  
+
+
+        if (isset($params->code)) {
+            $return->code = $params->code;
         }
 
         $return->request = $params->request;
@@ -70,7 +70,7 @@ class ApiController extends Controller
             $response->callback = 'test';
         }
 
-        
+
         $response->results = array(
             'session' => $session->getSession(),
             'isLoggedIn' => '',
@@ -182,7 +182,7 @@ class ApiController extends Controller
         $sort = $this->get('request')->query->get('sort');
         $direction = $this->get('request')->query->get('direction', 'desc');
         $consultantsList = array();
-        
+
         $options = array('sort' => $sort,
             'direction' => $direction
         );
@@ -203,35 +203,35 @@ class ApiController extends Controller
         }
 
         if ($isValid) {
-            $options['lat'] = $lat;
-            $options['lng'] = $long;
-            $options['radius'] = 5;
+            $options['lat'] = '-26.1075261';
+            $options['lng'] = '28.056656699999962';
+            $options['radius'] = 20;
             $options['category'] = $category;
-            $options['consultantServices'] = $service;
+            $options['service'] = $service;
 
             $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
-                        
-            foreach($consultants['arrResult'] as $consultant)
-            {
-               $consultant = array(
-                   'fullName' => $consultant->getFullName(),
-                   'gender' => $consultant->getGender()->getName(),
-                   'address' => $consultant->getCompany()->getAddress(),
-                   'image' => '/uploads/consultants/'.$consultant->getId().'.'.$consultant->getPath(),
-                   'distance' => round($consultant->getDistanceFromPosition($lat,$long)),
-               );
-               
-               $consultantsList[] = $consultant;
+
+            foreach ($consultants['results'] as $consultant) {
+                $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, new \DateTime($date));
+                $tmp = array(
+                    'fullName' => $consultant->getFullName(),
+                    'gender' => $consultant->getGender()->getName(),
+                    'address' => $consultant->getCompany()->getAddress(),
+                    'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
+                    'distance' => round($consultant->getDistanceFromPosition($lat, $long)),
+                    'slots' => $slots
+                );
+
+                $consultantsList[] = $tmp;
             }
-            
+
 //            $paginator = $this->get('knp_paginator');
 //            $pagination = $paginator->paginate(
 //                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
 //            );
-            
         }
 
-        
+
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'search';
@@ -244,7 +244,7 @@ class ApiController extends Controller
 
         return $this->respond($response);
     }
-    
+
     /**
      * Register customer
      * 
@@ -256,28 +256,54 @@ class ApiController extends Controller
      * @param string $email
      * @return string JSON
      */
-    public function registerCustomerAction($session,$firstName,$lastName,$mobile,$password,$email)
+    public function registerCustomerAction($session, $firstName, $lastName, $mobile, $password, $email)
     {
         $this->get('logger')->info('register an account');
         $isValid = true;
         $code = 1;
         //check if email is unique;
         $customer = $this->get("customer.manager")->getByEmail($email);
-        if($customer){
-          //email address is already in use
-          $code = 2;  
-        }else{            
+        if ($customer) {
+            //email address is already in use
+            $code = 2;
+        } else {
             $customer = new Customer();
             $customer->setFirstName($firstName);
             $customer->setLastName($lastName);
             $customer->setMobileNumber($mobile);
             $customer->setPassword($password);
             $customer->setEmail($email);
-            $customer->setIsActive(true);
-            $customer->setEnabled(true);            
+            $customer->isEnabled(true);
+
+            $token = $this->container->get('token.generator')->generateToken();
+            $customer->setConfirmationToken($token);
+
             $this->get('customer.manager')->createCustomer($customer);
+
+            $tmp = array(
+                'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
+                'link' => $this->generateUrl("sked_app_customer_account_activate", array('token' => $token), true)
+            );
+
+            $options = array();
+            $emailBodyHtml = $this->render(
+                    'SkedAppCoreBundle:EmailTemplates:customer.account.register.html.twig', $tmp
+                )->getContent();
+
+
+            $emailBodyTxt = $this->render(
+                    'SkedAppCoreBundle:EmailTemplates:customer.account.register.txt.twig', $tmp
+                )->getContent();
+
+            $options['bodyHTML'] = $emailBodyHtml;
+            $options['bodyTEXT'] = $emailBodyTxt;
+            $options['bodyTEXT'] = 'hello';
+            $options['email'] = $customer->getEmail();
+            $options['fullName'] = $tmp['fullName'];
+
+            $this->get("notification.manager")->customerAccountVerification($options);
         }
-                
+
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'register';
@@ -294,39 +320,51 @@ class ApiController extends Controller
         }
 
         return $this->respond($response);
-        
     }
-    
-    public function loginAction($session,$email,$password)
+
+    public function loginAction($session, $password, $email)
     {
         $this->get('logger')->info('customer login');
         $isValid = true;
         $code = 1;
         $member = array();
-        
+
         $customer = $this->get("customer.manager")->getByEmail($email);
-        if($customer){
+
+        if ($customer) {
             $salt = $customer->getSalt();
             $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
             $password = $encoder->encodePassword($password, $salt);
-            
-            if($password != $customer->getPassword()){
-                $code = 2;
-            }else{
-                $member['firstName'] = $customer->getFirstName();
-                $member['lastName'] = $customer->getLastName();
-                $member['email'] = $customer->getEmail();
-                $member['mobile'] = $customer->getMobileNumber();
-                
-                $session = $this->get('mobile.session.manager')->getBySession($session);
-                
-                if($session){
-                    $session->setCustomer($customer);
-                    $session = $this->get('mobile.session.manager')->updateSession($session);
-                }                
+
+            if ($password != $customer->getPassword()) {
+                //invalid password
+                $code = 3;
+            } else {
+                if (!$customer->getIsActive()) {
+                    //account not active
+                    $code = 4;
+                } elseif (!$customer->IsEnabled()) {
+                    //account not enabled 
+                    $code = 5;
+                } else {
+                    $member['firstName'] = $customer->getFirstName();
+                    $member['lastName'] = $customer->getLastName();
+                    $member['email'] = $customer->getEmail();
+                    $member['mobile'] = $customer->getMobileNumber();
+
+                    $session = $this->get('mobile.session.manager')->getBySession($session);
+
+                    if ($session) {
+                        $session->setCustomer($customer);
+                        $session = $this->get('mobile.session.manager')->updateSession($session);
+                    }
+                }
             }
+        } else {
+            //email account not found
+            $code = 2;
         }
-        
+
         $response = new \stdClass();
         $response->status = $isValid;
         $response->request = 'login';
@@ -339,10 +377,7 @@ class ApiController extends Controller
         }
 
         return $this->respond($response);
-        
     }
-    
-
 
     /**
      * Get consultant by service Id and other criteria
@@ -699,8 +734,8 @@ class ApiController extends Controller
             $this->get('booking.manager')->save($booking);
 
             $options = array(
-              'booking' => $booking,
-              'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                'booking' => $booking,
+                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
             );
 
             //send booking created notification emails
@@ -708,7 +743,6 @@ class ApiController extends Controller
 
             $return->results = array(1);
             $return->status = true;
-
         } else {
             $return->results = array();
             $return->status = false;
