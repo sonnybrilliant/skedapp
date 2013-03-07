@@ -1,3 +1,6 @@
+{% if not is defined search_results %}
+    {% set search_results = false %}
+{% endif %}
 <div class="spacer2"></div>
 <div class="row-fluid body-main rounded-top">
     <div class="span12 tabs-img">
@@ -11,7 +14,7 @@
                     <div class="{% if form_errors(form.category) %} error {% endif %}">
                         <div class="pull-left" for="company">{{ form_label(form.category) }} <!-- Category Label --></div>
                         {{ form_widget(form.category) }}
-                        
+
                         <span class="help-inline">{{form_errors(form.category)}}</span>
                     </div>
                     <div class="{% if form_errors(form.address) %} error {% endif %}">
@@ -54,6 +57,6 @@
         </div>
     </div>
     <div class="span7">
-        {% include "SkedAppSearchBundle:Search:search.map.html.twig" %}
+        {% include "SkedAppSearchBundle:Search:search.map.html.twig" with {'search_results': search_results %}
     </div>
 </div> <!-- End .row-fluid .body-main -->

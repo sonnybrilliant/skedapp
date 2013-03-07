@@ -2,7 +2,7 @@
 {% block title %}Search Results{% endblock %}
 
 {% block body %}
-    {% include "SkedAppSearchBundle:Search:form.search.results.html.twig" %}
+    {% include "SkedAppSearchBundle:Search:form.search.results.html.twig" with {'search_results': true} %}
     <div class="row-fluid content-devider"><!-- This is just a visual devider to seperate the content from the navigation --></div>
 
     {% if pagination is defined %}
