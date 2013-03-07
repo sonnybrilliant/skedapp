@@ -65,10 +65,10 @@
       </div>
 
       <div class="control-group">
-         <div class="control-label" for="time_slots">Default time slots</div> 
+         <label class="control-label" for="time_slots">Default time slots</label> 
         <div class="controls">
             <div style="border: 1px solid #ccc; padding: 5px;width: 96%;">
-                <table style="font-size: 12px;">
+                <table>
                     <tr>
                         <td>Days:<td>
                         <td>&nbsp;{{ form_widget(form.monday) }}<strong class="text-top">M</strong>&nbsp;<td>
@@ -80,13 +80,13 @@
                         <td>&nbsp;{{ form_widget(form.sunday) }}<strong class="text-top">S</strong>&nbsp;</td>
                     </tr>
                 </table>
-                <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
+                <div class="time-slots pull-left start-time-container">
                     Time from:{{ form_widget(form.startTimeslot) }} 
                 </div>
-                <div style="margin: 8px 8px 0 0;padding-top: 5px;">
+                <div class="time-slots">
                     Time to:{{ form_widget(form.endTimeslot) }} 
                 </div>
-                <div style="margin-top: 13px;">
+                <div class="space-top">
                      Session length: {{ form_widget(form.appointmentDuration) }} 
                 </div>
 
