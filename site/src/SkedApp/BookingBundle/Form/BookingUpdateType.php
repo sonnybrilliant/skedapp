@@ -58,7 +58,7 @@ class BookingUpdateType extends AbstractType
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span12'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -147,7 +147,7 @@ class BookingUpdateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span12'),
+                'attr' => array('class' => 'span12 chosen'),
             ))
 
         ;

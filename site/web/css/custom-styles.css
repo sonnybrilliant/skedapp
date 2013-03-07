@@ -126,7 +126,6 @@ html, body {
 .gray-text {
 	color: #555555;
 }
-
 .small-thin-text {
 	font-size: 16px;
 }
@@ -139,14 +138,15 @@ html, body {
 .space-top {
 	margin-top: 20px;
 }
+.space-top {
+	margin-top: 10px;
+}
 .space-left {
 	margin-left: 10px;
 }
-
 .space-left20 {
 	margin-left: 20px;
 }
-
 .space-right {
 	margin-right: 10px;
 }

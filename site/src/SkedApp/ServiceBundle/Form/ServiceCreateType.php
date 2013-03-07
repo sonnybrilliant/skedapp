@@ -38,7 +38,7 @@ class ServiceCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Category',
                 'label' => 'Category:',
                 'empty_value' => 'Select a category',
-                'attr' => array('class' => 'span12 input-small'),
+                'attr' => array('class' => 'span12 chosen input-small'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
@@ -48,7 +48,7 @@ class ServiceCreateType extends AbstractType
             ->add('appointmentDuration', 'entity', array(
                 'class' => 'SkedAppCoreBundle:AppointmentDuration',
                 'label' => 'Length:',
-                'attr' => array('class' => 'span12 input-small')
+                'attr' => array('class' => 'span12 chosen input-small')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
