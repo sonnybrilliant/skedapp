@@ -54,11 +54,11 @@
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                         <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">Bookings</a></li>
+                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">My Calendar</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                         <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% elseif is_granted('ROLE_SITE_USER') %}
-                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>
+                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">My Bookings</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                         <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% endif %}
@@ -90,7 +90,7 @@
                             <a href="{{ path('_welcome')}}" class="logo logo-other"><img src="{{ asset('/img/skedapp-logo-icon.png') }}" width="98" height="68" alt="SkedApp" title="SkedApp" /></a>
                         </div>
                         <div class="span9">
-                            <h3 class="pull-right">Search, Locate and Schedule services in your area.</h3>
+                            <h3 class="pull-right">Search, Locate and Schedule services in your area 24/7.</h3>
                         </div>
                     </div> <!-- End .row-fluid -->
                     <div class="spacer1"></div>
@@ -110,11 +110,11 @@
                     Your username and password are invalid, please try again or contact support.
                 </div>
                {% else %}
-                 {% include "::alert.html.twig" %} 
+                 {% include "::alert.html.twig" %}
                {% endif %}
             {% endif %}
             {% endblock alert%}
-                
+
             {% block body %}
 
             {% endblock body %}

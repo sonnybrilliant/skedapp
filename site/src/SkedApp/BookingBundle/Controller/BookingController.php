@@ -36,9 +36,13 @@ class BookingController extends Controller
         $this->get('logger')->info('manage bookings');
 
         $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+
+        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+            $company = $user->getCompany();
 
         $em = $this->getDoctrine()->getEntityManager();
-        $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
+        $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery(array('company' => $company));
 
         if (is_object($user->getCompany()))
             $companyId = $user->getCompany()->getId();
@@ -387,8 +391,14 @@ class BookingController extends Controller
         $earliestStart = new \Datetime($startSlotsDateTime->format('Y-m-d H:i:00'));
         $latestEnd = new \Datetime($endSlotsDateTime->format('Y-m-d H:i:00'));
         $isSingleDay = false;
+        $company = null;
 
-        $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime);
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+            $company = $user->getCompany();
+
+        $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime, $company);
 
         if ($bookings) {
             foreach ($bookings as $booking) {
@@ -458,7 +468,7 @@ class BookingController extends Controller
 
         if ((!is_null($start)) && (!is_null($end))) {
             //Adding empty slots
-            $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc'));
+            $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc', 'company' => $company));
 
             foreach ($consultants as $consultant) {
 
@@ -639,6 +649,9 @@ class BookingController extends Controller
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
+        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+            $companyId = $user->getCompany()->getId();
+
         $startDate = new \DateTime($filterDate->format('Y-m-d 00:00:00'));
         $endDate = new \DateTime($filterDate->format('Y-m-d 23:59:59'));
 
@@ -672,12 +685,12 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking public');
 
         $user = $this->get('member.manager')->getLoggedInUser();
-        
+
         if(($companyId == 0) || ($consultantId == 0)){
             return $this->redirect('sked_app_booking_manager');
         }
-        
-        
+
+
         //Format the date correctly
         $date = new \DateTime($date);
         $date = $date->format('d-m-Y');

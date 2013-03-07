@@ -114,7 +114,7 @@ class BookingRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate)
+    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate, SkedApp\CoreBundle\Entity\Company $company = null)
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b')
@@ -124,12 +124,18 @@ class BookingRepository extends EntityRepository
             ->andWhere("b.hiddenAppointmentStartTime >= :start")
             ->andWhere("b.hiddenAppointmentEndTime <= :end")
             ->setParameters(array(
-            'delete' => false,
-            'active' => true,
-            'cancelled' => false,
-            'start' => $objStartDate->format('Y-m-d H:i:s'),
-            'end' => $objEndDate->format('Y-m-d H:i:s')
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
+                'start' => $objStartDate->format('Y-m-d H:i:s'),
+                'end' => $objEndDate->format('Y-m-d H:i:s')
             ));
+
+        if (is_object($company)) {
+            $qb->join('SkedApp\CoreBundle\Entity\Consultant', 'c')->
+                    ->andWhere('c.company = :company')->setParameter('company', $company);
+        }
+
         return $qb->getQuery()->execute();
     }
 

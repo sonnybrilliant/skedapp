@@ -1,9 +1,18 @@
+{% if not is defined search_results %}
+    {% set search_results = false %}
+{% endif %}
 <div class="map-box">
     <div class="map-container">
         <div id="map_canvas" class="img-polaroid mapRadius"></div>
     </div>
     <div class="map-box-instructions">
-        <small class="whiteText">Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.</small>
+        <small class="whiteText">
+            Use the controls on the map to pinpoint your position.</br> Click and hold to drag the marker to where you are.
+            {% if search_results %}
+                <br /><br />
+                Click the markers displaying the locations of consultants for more information.
+            {% endif %}
+        </small>
     </div>
     <div class="clearfix"></div>
     <div class="social-box">

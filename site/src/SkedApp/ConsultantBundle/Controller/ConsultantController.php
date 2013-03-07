@@ -39,6 +39,8 @@ class ConsultantController extends Controller
 
         $this->get('logger')->info('list consultants');
 
+        $user = $this->get('member.manager')->getLoggedInUser();
+
         $isDirectionSet = $this->get('request')->query->get('direction', false);
         $searchText = $this->get('request')->query->get('searchText');
         $sort = $this->get('request')->query->get('sort', 'c.id');
@@ -48,6 +50,9 @@ class ConsultantController extends Controller
             'sort' => $sort,
             'direction' => $direction,
         );
+
+        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+            $options['company'] = $user->getCompany();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -286,7 +291,7 @@ class ConsultantController extends Controller
                 $consultant = $this->get('consultant.manager')->getBySlug($slug);
                 $date = new \DateTime(date('Y-m-d'));
             }
-            
+
             $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
             $consultant->setAvailableBookingSlots($slots);
         } catch (\Exception $e) {

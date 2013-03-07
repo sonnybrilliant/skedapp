@@ -26,11 +26,15 @@ class ConsultantRepository extends EntityRepository
         $defaultOptions = array(
             'searchText' => '',
             'sort' => 'c.id',
-            'direction' => 'asc'
+            'direction' => 'asc',
+            'company' => null,
         );
 
         if (!isset($options['searchText']))
             $options['searchText'] = '';
+
+        if (!isset($options['company']))
+            $options['company'] = null;
 
         foreach ($options as $key => $values) {
             if (!$values) {
@@ -48,6 +52,11 @@ class ConsultantRepository extends EntityRepository
                         $qb->expr()->like('c.firstName', $qb->expr()->literal('%' . $options['searchText'] . '%')), $qb->expr()->like('c.lastName', $qb->expr()->literal('%' . $options['searchText'] . '%')), $qb->expr()->like('c.email', $qb->expr()->literal('%' . $options['searchText'] . '%'))
                     ));
             }
+        }
+
+        //Filter by company ID
+        if (is_object($options['company'])) {
+            $qb->andWhere('c.company = :company')->setParameter('company', $options['company']);
         }
 
         $qb->orderBy($options['sort'], $options['direction']);
@@ -91,7 +100,7 @@ class ConsultantRepository extends EntityRepository
     {
 
         $config = $this->getEntityManager()->getConfiguration();
-        
+
         $config->addCustomNumericFunction('ACOS', 'DoctrineExtensions\Query\Mysql\Acos');
         $config->addCustomNumericFunction('COS', 'DoctrineExtensions\Query\Mysql\Cos');
         $config->addCustomNumericFunction('RADIANS', 'DoctrineExtensions\Query\Mysql\Radians');
@@ -107,7 +116,7 @@ class ConsultantRepository extends EntityRepository
             ->setParameters(array('status' => false, 'latitude' => $options['lat'], 'longitude' => $options['lng'], 'radius' => $options['radius']));
 
         $service = $options['service'];
-        
+
         if ($service instanceof Service) {
             $qb->andWhere('s.id IN (:consultants)')
                 ->setParameter('consultants', $service);
@@ -118,9 +127,9 @@ class ConsultantRepository extends EntityRepository
         //Order consultants from nearest to furthest from location
         for ($x = 0; $x < (count($output) - 1); $x++) {
             for ($y = 1; $y < count($output); $y++) {
-                
+
                 $isValid = $output[$x]->getDistanceFromPosition($options['lat'], $options['lng']) > $output[$y]->getDistanceFromPosition($options['lat'], $options['lng']);
-                
+
                 if ($isValid) {
                     $tmp = $output[$y];
                     $output[$y] = $output[$x];
@@ -154,10 +163,15 @@ class ConsultantRepository extends EntityRepository
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
-    public function getAllActiveQuery()
+    public function getAllActiveQuery($options = array())
     {
         $qb = $this->createQueryBuilder('c')->select('c');
         $qb->where('c.isDeleted =  :status')->setParameter('status', false);
+
+        if (isset($options['company'])) {
+            $qb->andWhere('c.company =  :company')->setParameter('company', $options['company']);
+        }
+
         return $qb->getQuery()->execute();
     }
 
