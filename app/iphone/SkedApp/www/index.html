@@ -13,7 +13,8 @@
   <script src="lib/jquery.mobile-1.2.0.min.js"></script>
   <script type="text/javascript" src="cordova-2.3.0.js"></script>
   <script src="js/my.js"></script>
-  <script type="text/javascript" src="js/db.js"></script>        
+  <script type="text/javascript" src="js/db.js"></script>
+  <script type="text/javascript" src="js/login.js"></script>     
   <script type="text/javascript" src="js/registration.js"></script>        
   <script type="text/javascript" src="js/search.js"></script>
   <script type="text/javascript" src="js/services.js"></script>
@@ -40,7 +41,7 @@
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-login" href="#page3" data-role="button" data-transition="none" data-theme="c">
+                      <a id="link-login" href="#page2" data-role="button" data-transition="none" data-theme="c">
                           Login
                       </a>
                   </div>
@@ -95,7 +96,7 @@
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                      <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
@@ -104,7 +105,7 @@
       </div>
   </div>
   <!-- Login -->
-  <div data-role="page" id="page3">
+  <div data-role="page" id="page2">
       <div data-theme="d" data-role="header">
           <h4>
               Login
@@ -122,24 +123,20 @@
                   <fieldset data-role="controlgroup" data-mini="true">
                       <label for="text-email">
                       </label>
-                      <input name="text-email" id="text-email" placeholder="Email address" value=""
-                      type="email">
+                      <input name="text-login-email" id="text-login-email" placeholder="Email address" value="" type="email">
                   </fieldset>
               </div>
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
                       <label for="text-password">
                       </label>
-                      <input name="text-password" id="text-password" placeholder="Password"
-                      value="" type="password">
+                      <input name="text-login-password" id="text-login-password" placeholder="Password" value="" type="password">
                   </fieldset>
               </div>
-              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none"
-              data-theme="a" href="#page1" data-icon="delete" data-iconpos="left">
+              <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
                   Cancel
               </a>
-              <a id="btn-search" data-role="button" data-inline="true" data-transition="none"
-              data-theme="e" href="#page10" data-icon="check" data-iconpos="left">
+              <a id="btn-login" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
                   Login
               </a>
           </form>
@@ -155,7 +152,7 @@
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                      <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
@@ -164,7 +161,7 @@
       </div>
   </div>
   <!-- Settings -->
-  <div data-role="page" id="page6">
+  <div data-role="page" id="page3">
       <div data-theme="d" data-role="header">
           <h4>
               Settings
@@ -194,7 +191,7 @@
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                      <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
@@ -216,7 +213,7 @@
           <div class="greyBackground">
           </div>
           <div data-role="content" class="-box-blue-wrapper">
-            <p class="titleHeader">Create an account.</p>
+            <p class="titleHeader">Register an account.</p>
           <form action="" id="form-registration" name="form-registration">
               <div data-role="fieldcontain">
                   <fieldset data-role="controlgroup" data-mini="true">
@@ -273,7 +270,7 @@
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                      <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
@@ -282,41 +279,30 @@
       </div>
   </div>
   <!-- Registration Success -->
-  <div data-role="page" id="page9">
+  <div data-role="page" id="page5">
       <div data-theme="d" data-role="header">
           <h5>
-              Registration
+              Successful Registration
           </h5>
       </div>
       <div data-role="content">
-          <div style=" text-align:center">
-              <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
-          </div>
-          <h4>
-              Successful registration
-          </h4>
-          <div>
-              <p>
-                  Please procceed to the
-                  <a data-mce-href="#page3" href="#page3" title="please login" style="">
-                      login
-                  </a>
-                  page.
-              </p>
-          </div>
+          <div class="ui-body ui-body-a">
+             <h4>Successful Registration.</h4>
+              <p>You have successfully created an account. <br /><br /> We need to confirm your email address before we can activate your account, check your mail box and follow the instructions on the email.</p>
+          </div>          
       </div>
       <div data-theme="d" data-role="footer" data-position="fixed">
           <div class="ui-grid-a">
               <div class="ui-block-a">
                   <div>
-                      <a href="#page1" data-transition="fade">
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
                           Home
                       </a>
                   </div>
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-transition="fade">
+                      <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
@@ -325,7 +311,7 @@
       </div>
   </div>
   <!-- Search Results -->
-  <div data-role="page" id="page2">
+  <div data-role="page" id="page6">
       <div data-theme="c" data-role="header">
           <div class="ui-grid-a">
               <div class="ui-block-a">
@@ -369,7 +355,7 @@
       </div>
   </div>
   <!-- Bookings -->
-  <div data-role="page" id="page10">
+  <div data-role="page" id="page7">
       <div data-theme="d" data-role="header">
           <span class="ui-title">
           </span>
@@ -403,32 +389,48 @@
       </div>
   </div>
   <!-- Bookings Profile -->
-  <div data-role="page" id="page11">
+  <div data-role="page" id="page8">
       <div data-theme="d" data-role="header">
           <span class="ui-title">
           </span>
-          <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
-          class="ui-btn-left">
+          <a data-role="button" href="#page1" data-icon="home" data-iconpos="left" class="ui-btn-left">
               Home
+          </a>
+          <a data-role="button" href="#page1" data-icon="home" data-iconpos="right" class="ui-btn-right">
+              Bookings
           </a>
       </div>
       <div data-role="content">
-          <h4>
-              Booking Profile
-          </h4>
+          <div class="ui-body ui-body-a">
+          <h4>My Profile</h4>
+          <table>
+              <tr>
+                  <td>Full Name:</td>
+                  <td><span id="span-profile-name"></span></td>
+              </tr>
+              <tr>
+                  <td>Email address:</td>
+                  <td><span id="span-profile-email"></span></td>
+              </tr>
+              <tr>
+                  <td>Mobile:</td>
+                  <td><span id="span-profile-mobile"></span></td>
+              </tr>
+          </table>
+         </div>
       </div>
       <div data-theme="d" data-role="footer" data-position="fixed">
           <div class="ui-grid-a">
               <div class="ui-block-a">
                   <div>
-                      <a href="#page1" data-transition="fade">
+                      <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
                           Home
                       </a>
                   </div>
               </div>
               <div class="ui-block-b">
                   <div>
-                      <a id="link-settings" href="#page6" data-transition="fade">
+                      <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
                           Settings
                       </a>
                   </div>
@@ -437,7 +439,7 @@
       </div>
   </div>
   <!-- Profile -->
-  <div data-role="page" id="page7">
+  <div data-role="page" id="page9">
       <div data-theme="d" data-role="header">
           <span class="ui-title">
           </span>

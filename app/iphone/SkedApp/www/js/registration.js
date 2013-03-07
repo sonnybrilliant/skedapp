@@ -132,10 +132,11 @@ var Registration =
                     console.log('registration: form field-> email');
                 }else{
 					var str = Registration.email;
-					if(!Registration.isEmailAddress(str)){
+                   if(!Registration.isEmailAddress(str)){
                     	message = 'Invalid, please enter a valid email address';
                     	isValid = false;
 						$('#text-email-address').focus();
+                       console.log('registration: form field-> email');
 					}
 				}
             }	
@@ -158,13 +159,13 @@ var Registration =
 				var fullUrl   = Conf.site._baseUrl+"/api/get/"+Conf.methods._register+'/'+Session.session.id+'/';
 					fullUrl  += Registration.firstName+'/'+Registration.lastName+'/'+Registration.mobile+'/'+Registration.password+'/'+Registration.email;
 				
-				console.log(fullUrl);
-									
-//				$.ajax({
-//				  dataType: 'jsonp',
-//				  jsonpCallback: 'Conf.remoteAjaxCall',
-//				  url: fullUrl
-//				});
+                console.log(fullUrl);
+                
+                $.ajax({
+                       dataType: 'jsonp',
+                       jsonpCallback: 'Conf.remoteAjaxCall',
+                       url: fullUrl
+                });
 					
 			}
         }catch(err){
@@ -175,7 +176,7 @@ var Registration =
 	
 	isEmailAddress: function(str)
 	{
-		var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+		var pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		return str.match(pattern);    
 	},
 		
@@ -191,9 +192,29 @@ var Registration =
 		var pattern = new RegExp(/^(\+\d+)?( |\-)?(\(?\d+\)?)?( |\-)?(\d+( |\-)?)*\d+$/);
 		return str.match(pattern);
 		    
-	},	
+	},
 	
-};
+    onResult: function(data)
+    {
+        console.log('registration: results->'+data.count);
+        
+        if(data.count > 0){
+            console.log("registration results");
+            //check if registration was successful
+            if(data.code == 1){
+              window.location.href = "#page5";  
+            }else{
+                if(data.code == 2){
+                  Conf.showAlert(Conf.alert._error,'Email address is already in use,please use another email address');
+                  $('#text-email-address').focus();
+                }
+            }
+            
+        }else{
+            console.log("search: count equal to 0");
+        }
+        
+    }};
 
 
 
