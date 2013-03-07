@@ -127,6 +127,9 @@ var Search =
             console.log("search: count is greater than 0");
             var consultants = data.results;
             $.each( consultants , function(index, consultant) {
+                   
+                   
+                   
                    var strImage = Conf.site._url+consultant.image;
                    var str = '';
                    str +="<div id='blockWrapper'>";
@@ -139,10 +142,15 @@ var Search =
                    str +="     <table class='tableWrapper'>";
                    str +="         <tbody>";
                    str +="             <tr>";
-                   str +="                 <td class='tableDetails'>16:00</td>";
-                   str +="                 <td class='tableDetails'>16:45</td>";
-                   str +="                 <td class='tableDetails'>17:30</td>";
-                   str +="                 <td class='rightDetails'>18:15</td>";
+                   
+                   for(var y=0; y < consultant.slots.time_slots.length; y++){
+                   
+                   var slots = consultant.slots.time_slots[y];
+                   
+                   console.log('loop inside'+y);
+                     str +="                 <td class='tableDetails'>"+slots.start_time+"</td>";
+                   }
+                   
                    str +="             </tr>";
                    str +="         </tbody>";
                    str +="     </table>";
@@ -151,7 +159,7 @@ var Search =
                    $("#div-search-results").append(str);
             });
 
-            window.location.href = "#page2";
+            window.location.href = "#page6";
         }else{
             console.log("search: count equal to 0");
         }

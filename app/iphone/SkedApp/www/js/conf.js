@@ -19,7 +19,9 @@ var Conf =
       	_categories: "categories",
       	_services: "services",
       	_search: "search",
-		_register: "register"
+		_register: "register",
+        _login: "login"
+        
     },
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
@@ -43,6 +45,7 @@ var Conf =
 		   Categories.getCategories();
            Search.init();
            Registration.init();
+           Login.init();
            //alert($('#form-registration'));
 		}       
     },	
@@ -52,11 +55,18 @@ var Conf =
           //set session
           Session.sessionSet(data);
        }else if(data.request == Conf.methods._categories){
+          //get catgories 
           Categories.setCategories(data)
        }else if(data.request == Conf.methods._services){
+          //get services
           Services.setServices(data)
        }else if(data.request == Conf.methods._search){
+          //get search results
           Search.onResult(data);
+       }else if(data.request == Conf.methods._register){
+          Registration.onResult(data);
+       }else if(data.request == Conf.methods._login){
+          Login.onResult(data);
        }
 
     },

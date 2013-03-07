@@ -1,500 +1,526 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>Skedapp</title>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-    <link rel="stylesheet" href="lib/jquery.mobile-1.2.0.css" />
-    <link rel="stylesheet" href="css/my.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="lib/jquery-1.8.3.min.js"></script>
-    <script src="lib/jquery.mobile-1.2.0.min.js"></script>
-    <script type="text/javascript" src="cordova-2.3.0.js"></script>
-    <script src="js/my.js"></script>
-    <script type="text/javascript" src="js/db.js"></script>        
-    <script type="text/javascript" src="js/registration.js"></script>        
-    <script type="text/javascript" src="js/search.js"></script>
-    <script type="text/javascript" src="js/services.js"></script>
-    <script type="text/javascript" src="js/categories.js"></script>
-    <script type="text/javascript" src="js/session.js"></script>
-    <script type="text/javascript" src="js/conf.js"></script>
-  </head>
-  <body>
-    <!-- Home -->
-    <div data-role="page" id="page1" data-theme="c" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1><a href="#page4" data-transition="slide">Register</a> an account or <a href="#page3">Login</a></h1>
-      </div>
-      <div class="skedappLogo">
-        <img src="img/logo.jpg"/>
-      </div>
-      <div class="greyBackground">
-      </div>
-      <div data-role="content" class="-box-blue-wrapper">
-        <p class="titleHeader">Search, Locate services in your area.</p>  
-        <form action="">
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <select name="select-choice-categories" id="select-choice-categories">
-                <option value="standard">Select a category</option>
-              </select>
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-location" id="text-location" placeholder="Use my location" value="" type="text" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-date" id="text-date" placeholder="Choose date" type="date" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <select name="select-choice-services" id="select-choice-services">
-                <option value="standard">Select a service</option>
-              </select>
-            </fieldset>
-          </div>
-          <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#page01" >
-            Search
-          </a>
-        </form>
-      </div>    
-
-      <div class="marginTop20px"></div>
-      <div class="clearfloat"></div>
-
-      <div data-role="navbar">
-        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page01" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Login -->
-    <div data-role="page" id="page3" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1>Please Login</h1>
-        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
-        <a class="marginTop0px" href="#page6" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
-      </div>
-      <div class="skedappLogo">
-        <img src="img/logo.jpg"/>
-      </div>
-      <div class="greyBackground">
-      </div>
-      <div data-role="content" class="-box-blue-wrapper">
-        <p class="titleHeader">Please login</p>
-
-        <span class="yellowBackground">Log in with your email address</span>
-        <div class="paddingTop10px"></div>
-        <form action="">
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <label for="text-email">Email address
-              </label>
-              <input name="text-email" id="text-email" placeholder="Email address" value=""
-                     type="email">
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <label for="text-password">Password
-              </label>
-              <input name="text-password" id="text-password" placeholder="Password"
-                     value="" type="password">
-            </fieldset>
-          </div>
-
-        </form>
-        <div class="ui-body ui-body-b">
-          <fieldset class="ui-grid-a">
-            <div class="ui-block-a"><a id="btn-cancel" href="#page1" data-icon="delete" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
-            <div class="ui-block-b"><a id="btn-search" href="#page10" data-role="button" data-icon="check" data-mini="true" data-theme="e">Login</a></div>
-          </fieldset>
-        </div>
-        <div class="marginTop20px"></div>
-        <div class="center"><a class="centerLinks" href="">Forgot your password</a></div>
-        <div class="center">Don't have an account yet?</div>
-        <div class="center"><a class="centerLinks" href="#page4">Sign up for a free account here</a></div>
-      </div>
-      <div data-role="navbar">
-        <h3 id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page01" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-    </div>
-    <!-- Settings -->
-    <div data-role="page" id="page6" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1>Settings</h1>
-        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
-      </div>
-
-      <div class="skedappLogo">
-        <img src="img/logo.jpg"/>
-      </div>
-      <div class="greyBackground">
-      </div>
-      <div data-role="content" class="-box-blue-wrapper">
-        <p>Please feel free to contact us</p>
-        <form action="">
-          <a data-role="button" href="#page6">
-            Call Skedapp
-          </a>
-          <a data-role="button" href="#page6">
-            Email Skedapp
-          </a>
-        </form>
-      </div>
-      <div data-role="navbar">
-        <h3 id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page1" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-    </div>
-    <!-- Registration -->
-    <div data-role="page" id="page4" data-theme="c" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1>Registration</h1>
-        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
-        <a class="marginTop0px" href="#page6" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
-      </div>
-
-      <div class="skedappLogo">
-        <img src="img/logo.jpg"/>
-      </div>
-      <div class="greyBackground">
-      </div>
-      <div data-role="content" class="-box-blue-wrapper">
-        <p class="titleHeader">Create an account.</p>
-        <form action="" id="form-registration" name="form-registration">
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-first-name" id="text-first-name" placeholder="First name" value="" type="text" class="required" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-last-name" id="text-last-name" placeholder="Last name" value="" type="text"  class="required requiredNotWhitespace" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-mobile" id="text-mobile" placeholder="Cellphone number" value="" type="text" class="required" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-password" id="text-password-field" placeholder="Password" value="" type="password" class="required" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-confirm-password" id="text-confirm-password-field" placeholder="Confirm password" value="" type="password" class="required" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-email-address" id="text-email-address" placeholder="Email address" value="" type="email" class="required" />
-            </fieldset>
-          </div>
-          <div data-role="fieldcontain">
-            <fieldset data-role="controlgroup" data-mini="true">
-              <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
-            </fieldset>
-          </div>
-
-        </form>
-        <div class="ui-body ui-body-b">
-          <fieldset class="ui-grid-a">
-            <div class="ui-block-a"><a id="btn-cancel" href="#page1" data-role="button" data-rel="back" data-theme="a" data-mini="true">Cancel</a></div>
-            <div class="ui-block-b"><a id="btn-registration" href="#page9" data-role="button" data-mini="true" data-theme="e">Register</a></div>
-          </fieldset>
-        </div>
-      </div>
-      <div class="marginTop20px"></div>
-      <div class="clearfloat"></div>
-
-      <div data-role="navbar">
-        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page01" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-
-    </div>
-    <!-- Registration Success -->
-    <div data-role="page" id="page9" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1>Registration</h1>
-        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
-        <a class="marginTop0px" href="#page6" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
-      </div>
-      <div class="skedappLogo">
-        <img src="img/logo.jpg"/>
-      </div>
-      <div class="greyBackground">
-      </div>
-      <div data-role="content" class="-box-blue-wrapper">
-        <p class="titleHeader">Successful registration</p>
-
-        <span><p>Please procceed to the <a href="#page3" title="please login">login</a> page.</p></span>
-        <div class="paddingTop10px"></div></div>
-      <div data-role="navbar">
-        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page1" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-
-    </div>
-    <!-- Search Results -->
-    <div data-role="page" id="page2" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1 class="topHeader">Search Results</h1>
-        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" data-transition="flip">Home</a>
-        <a class="marginTop0px" href="index.html" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" data-transition="flip">Settings</a>
-      </div>
-      <div style="margin-top: 31px;" class="greyBackground">
-      </div>
-      <div data-role="content" style="margin-top: -316px;" class="-box-blue-wrapper">
-        <p class="titleHeader"></p>
-        <div class="searchListings">Today, 30 Jan</div>
-        <div id="blockWrapper">
-          <img class="imageWrapper" src="img/Tuminail.jpg"/>
-          <div class="paddingBottom15px">
-            <div class="nameTags">Tumelo Mogoboya</div>
-            <div class="descriptionDetails">169 Troye Street</div>
-            <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
-            <div class="descriptionDetails">Sunnyside, 0002</div>
-          </div>
-          <table class="tableWrapper">
-            <tbody>
-              <tr>
-                <td class="tableDetails">16:00</td>
-                <td class="tableDetails">16:45</td>
-                <td class="tableDetails">17:30</td>
-                <td class="rightDetails">18:15</td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="marginTop10px"></div>
-        </div>
-        <div class="marginTop10px">
-          <div id="blockWrapper">
-            <img class="imageWrapper" src="img/tzn.jpg"/>
-            <div class="paddingBottom15px">
-              <div class="nameTags">Robert Gilbert</div>
-              <div class="descriptionDetails">169 Troye Street</div>
-              <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
-              <div class="descriptionDetails">Sunnyside, 0002</div>
+    <head>
+        <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+                <meta name="apple-mobile-web-app-capable" content="yes">
+                    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+                        <title>Skedapp</title>
+                        <link rel="stylesheet" href="lib/jquery.mobile-1.2.0.css" />
+                        <link rel="stylesheet" href="css/my.css" />
+                        <link rel="stylesheet" href="css/style.css" />
+                        <script src="lib/jquery-1.8.3.min.js"></script>
+                        <script src="lib/jquery.mobile-1.2.0.min.js"></script>
+                        <script type="text/javascript" src="cordova-2.3.0.js"></script>
+                        <script src="js/my.js"></script>
+                        <script type="text/javascript" src="js/db.js"></script>
+                        <script type="text/javascript" src="js/login.js"></script>
+                        <script type="text/javascript" src="js/registration.js"></script>
+                        <script type="text/javascript" src="js/search.js"></script>
+                        <script type="text/javascript" src="js/services.js"></script>
+                        <script type="text/javascript" src="js/categories.js"></script>
+                        <script type="text/javascript" src="js/session.js"></script>
+                        <script type="text/javascript" src="js/conf.js"></script>
+    </head>
+    <body>
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Welcome
+                </h4>
             </div>
-            <table class="tableWrapper">
-              <tbody>
-                <tr>
-                  <td class="tableDetails">16:00</td>
-                  <td class="tableDetails">16:45</td>
-                  <td class="tableDetails">17:30</td>
-                  <td class="rightDetails">18:15</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="marginTop10px"></div>
-          </div>
-          <div class="marginTop20px"></div>
-          <div class="clearfloat"></div>
-        </div>
-      </div>
-      <div data-role="navbar">
-        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page01" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-    </div>
-    <!-- Bookings -->
-    <div data-role="page" id="page10">
-      <div data-theme="d" data-role="header">
-        <span class="ui-title">
-        </span>
-        <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
-           class="ui-btn-left">
-          Home
-        </a>
-      </div>
-      <div data-role="content">
-        <h4>
-          Bookings
-        </h4>
-      </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-            <div>
-              <a href="#page1" data-transition="fade">
-                Home
-              </a>
+            <div data-role="content">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-registration" href="#page4" data-role="button" data-transition="none" data-theme="c">
+                                Register
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-login" href="#page2" data-role="button" data-transition="none" data-theme="c">
+                                Login
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div style=" text-align:center" class="skedappLogo">
+                    <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
+                </div>
+                <div class="greyBackground">
+                </div>
+                <div data-role="content" class="-box-blue-wrapper">
+                    <p class="titleHeader">Search, Locate services in your area.</p>
+                    <form action="">
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <select name="select-choice-categories" id="select-choice-categories">
+                                    <option value="standard">Select a category</option>
+                                </select>
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-location" id="text-location" placeholder="Use my location" value="" type="text" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-date" id="text-date" placeholder="Choose date" type="date" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <select name="select-choice-services" id="select-choice-services">
+                                    <option value="standard">Select a service</option>
+                                </select>
+                            </fieldset>
+                        </div>
+                        <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#" >
+                            Search
+                        </a>
+                    </form>
+                </div>
             </div>
-          </div>
-          <div class="ui-block-b">
-            <div>
-              <a id="link-settings" href="#page6" data-transition="fade">
-                Settings
-              </a>
+            <div data-theme="d" data-role="footer" >
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <!-- Bookings Profile -->
-    <div data-role="page" id="page01" class="backgroundImages">
-      <div data-role="header" class="page-header home-page-header">
-        <h1 class="topHeader">Bookings</h1>
-        <a class="marginTop0px" data-transition="fade" href="index.html" data-theme="c" data-icon="home" data-iconpos="notext" data-direction="reverse" >Home</a>
-        <a class="marginTop0px" data-transition="fade" href="index.html" data-theme="c" data-icon="gear" data-iconpos="notext" data-direction="reverse" >Settings</a>
-      </div>
-      <div style="margin-top: 31px;" class="greyBackground">
-      </div>
-      <div data-role="content" style="margin-top: -316px;" class="-box-blue-wrapper">
-        <p class="titleHeader"></p>
-        <div class="searchListings">Today, 30 Jan</div>
-        <div id="blockWrapper">
-          <img class="imageWrapper" src="img/hellen.jpg"/>
-          <div class="paddingBottom15px">
-            <div class="nameTags">Tumelo Mogoboya</div>
-            <div class="descriptionDetails">169 Troye Street</div>
-            <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
-            <div class="descriptionDetails">Sunnyside, 0002</div>
-          </div>
-          <a id="btn-search" data-role="button" data-transition="none" data-theme="e" data-mini="true" data-transition="flip" href="#page2">
-            Bookings
-          </a>
-          <div class="marginTop10px"></div>
-        </div>
-        <div class="marginTop10px">
-          <div id="blockWrapper">
-            <img class="imageWrapper" src="img/tzn.jpg"/>
-            <div class="paddingBottom15px">
-              <div class="nameTags">Robert Gilbert</div>
-              <div class="descriptionDetails">169 Troye Street</div>
-              <div class="descriptionDetails">405 Troye Villa, Pretoria</div>
-              <div class="descriptionDetails">Sunnyside, 0002</div>
+        <!-- Login -->
+        <div data-role="page" id="page2">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Login
+                </h4>
             </div>
-            <a id="btn-search" data-role="button" data-transition="none" data-theme="e" data-mini="true" data-transition="flip" href="#page2">
-              Bookings
-            </a>
-            <div class="marginTop10px"></div>
-          </div>
-          <div class="marginTop20px"></div>
-          <div class="clearfloat"></div>
-        </div>
-      </div>
-      <div data-role="navbar">
-        <h3  id="skedappCustom">SkedApp &#169; 2013</h3>
-        <ul>
-          <li><a href="#page6" data-transition="slide">Contact us</a></li>
-          <li><a href="#page01" data-transition="slide">Bookings</a></li>
-        </ul>
-      </div>
-    </div>
-    <!-- Profile -->
-    <div data-role="page" id="page7">
-      <div data-theme="d" data-role="header">
-        <span class="ui-title">
-        </span>
-        <a data-role="button" href="#page2" data-icon="home" data-iconpos="left"
-           class="ui-btn-left">
-          Home
-        </a>
-      </div>
-      <div data-role="content">
-        <h3>
-          Profile
-        </h3>
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-            <div style="">
-              <img style="width: 130px; height: 100px" src="http://assets.codiqa.com/fleCRLtZRMqtwjeYrsB9_1.jpeg">
+            <div style=" text-align:center" class="skedappLogo">
+                <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
             </div>
-          </div>
-          <div class="ui-block-b">
-            <div>
-              <p>
-                <b>
-                  Dr Ronald Conco&nbsp;
-                </b>
-              </p>
-              <p>
-                <b>
-                </b>
-                181 langenhoven street
-              </p>
-              <p>
-                Distance: 5 kms
-              </p>
-              <p>
-                <strong>
-                  Gender:
-                </strong>
-                Female
-              </p>
-              <p>
-                <br>
-              </p>
+            <div class="greyBackground">
             </div>
-          </div>
-        </div>
-        <div data-role="collapsible-set">
-          <div data-role="collapsible">
-            <h3>
-              Services
-            </h3>
-          </div>
-          <div data-role="collapsible">
-            <h3>
-              Professional statement
-            </h3>
-          </div>
-        </div>
-        <img id="map" src="https://maps.googleapis.com/maps/api/staticmap?center=Madison, WI&amp;zoom=14&amp;size=270x200&amp;markers=Madison, WI&amp;sensor=false"
-             width="270" height="200">
-      </div>
-      <div data-theme="d" data-role="footer" data-position="fixed">
-        <div class="ui-grid-a">
-          <div class="ui-block-a">
-            <div>
-              <a href="#page1" data-transition="fade">
-                Home
-              </a>
+            <div data-role="content" class="-box-blue-wrapper">
+                <p class="titleHeader">Search, Locate services in your area.</p>
+                <form action="">
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+                            <label for="text-email">
+                            </label>
+                            <input name="text-login-email" id="text-login-email" placeholder="Email address" value="" type="email">
+                                </fieldset>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <fieldset data-role="controlgroup" data-mini="true">
+                            <label for="text-password">
+                            </label>
+                            <input name="text-login-password" id="text-login-password" placeholder="Password" value="" type="password">
+                                </fieldset>
+                    </div>
+                    <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
+                        Cancel
+                    </a>
+                    <a id="btn-login" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
+                        Login
+                    </a>
+                </form>
             </div>
-          </div>
-          <div class="ui-block-b">
-            <div>
-              <a id="link-settings" href="#page6" data-transition="fade">
-                Settings
-              </a>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <script type="text/javascript">
-      Conf.init();
-    </script>
-  </body>
+        <!-- Settings -->
+        <div data-role="page" id="page3">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Settings
+                </h4>
+            </div>
+            <div data-role="content">
+                <div style=" text-align:center">
+                    <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+                        </div>
+                <form action="">
+                    <a data-role="button" href="#page6">
+                        Call Skedapp
+                    </a>
+                    <a data-role="button" href="#page6">
+                        Email Skedapp
+                    </a>
+                </form>
+            </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Registration -->
+        <div data-role="page" id="page4">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Registration
+                </h4>
+            </div>
+            <div data-role="content">
+                <div style=" text-align:center" class="skedappLogo">
+                    <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
+                </div>
+                <div class="greyBackground">
+                </div>
+                <div data-role="content" class="-box-blue-wrapper">
+                    <p class="titleHeader">Register an account.</p>
+                    <form action="" id="form-registration" name="form-registration">
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-first-name" id="text-first-name" placeholder="First name" value="" type="text" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-last-name" id="text-last-name" placeholder="Last name" value="" type="text"  class="required requiredNotWhitespace" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-mobile" id="text-mobile" placeholder="Cellphone number" value="" type="text" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-password" id="text-password-field" placeholder="Password" value="" type="password" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-confirm-password" id="text-confirm-password-field" placeholder="Confirm password" value="" type="password" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-email-address" id="text-email-address" placeholder="Email address" value="" type="email" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
+                            </fieldset>
+                        </div>
+                        <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
+                            Cancel
+                        </a>
+                        <a id="btn-registration" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
+                            Register
+                        </a>
+                    </form>
+                </div>
+            </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Registration Success -->
+        <div data-role="page" id="page5">
+            <div data-theme="d" data-role="header">
+                <h5>
+                    Successful Registration
+                </h5>
+            </div>
+            <div data-role="content">
+                <div class="ui-body ui-body-a">
+                    <h4>Successful Registration.</h4>
+                    <p>You have successfully created an account. <br /><br /> We need to confirm your email address before we can activate your account, check your mail box and follow the instructions on the email.</p>
+                </div>
+            </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Search Results -->
+        <div data-role="page" id="page6">
+            <div data-theme="c" data-role="header">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
+                                class="ui-btn-left">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <p style="margin-top: 10px; margin-left: -35px;">Today, 30 Jan</p>
+                    </div>
+                </div>
+            </div>
+            <div data-role="content" style="margin-top: 10px;" class="-box-blue-wrapper">
+                <p style="color: #FFFFFF;">
+                Records: <span id="span-results-count">0</span> found.
+                </p>
+                <div id="div-search-results"></div>
+                
+                
+            </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bookings -->
+        <div data-role="page" id="page7">
+            <div data-theme="d" data-role="header">
+                <span class="ui-title">
+                </span>
+                <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
+                    class="ui-btn-left">
+                    Home
+                </a>
+            </div>
+            <div data-role="content">
+                <h4>
+                    Bookings
+                </h4>
+            </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a href="#page1" data-transition="fade">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page6" data-transition="fade">
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bookings Profile -->
+        <div data-role="page" id="page8">
+            <div data-theme="d" data-role="header">
+                <span class="ui-title">
+                </span>
+                <a data-role="button" href="#page1" data-icon="home" data-iconpos="left" class="ui-btn-left">
+                    Home
+                </a>
+                <a data-role="button" href="#page1" data-icon="home" data-iconpos="right" class="ui-btn-right">
+                    Bookings
+                </a>
+            </div>
+            <div data-role="content">
+                <div class="ui-body ui-body-a">
+                    <h4>My Profile</h4>
+                    <table>
+                        <tr>
+                            <td>Full Name:</td>
+                            <td><span id="span-profile-name"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Email address:</td>
+                            <td><span id="span-profile-email"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Mobile:</td>
+                            <td><span id="span-profile-mobile"></span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Profile -->
+        <div data-role="page" id="page9">
+            <div data-theme="d" data-role="header">
+                <span class="ui-title">
+                </span>
+                <a data-role="button" href="#page2" data-icon="home" data-iconpos="left"
+                    class="ui-btn-left">
+                    Home
+                </a>
+            </div>
+            <div data-role="content">
+                <h3>
+                    Profile
+                </h3>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div style="">
+                            <img style="width: 130px; height: 100px" src="http://assets.codiqa.com/fleCRLtZRMqtwjeYrsB9_1.jpeg">
+                                </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <p>
+                            <b>
+                                Dr Ronald Conco&nbsp;
+                            </b>
+                            </p>
+                            <p>
+                            <b>
+                            </b>
+                            181 langenhoven street
+                            </p>
+                            <p>
+                            Distance: 5 kms
+                            </p>
+                            <p>
+                            <strong>
+                                Gender:
+                            </strong>
+                            Female
+                            </p>
+                            <p>
+                            <br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div data-role="collapsible-set">
+                    <div data-role="collapsible">
+                        <h3>
+                            Services
+                        </h3>
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>
+                            Professional statement
+                        </h3>
+                    </div>
+                </div>
+                <img id="map" src="https://maps.googleapis.com/maps/api/staticmap?center=Madison, WI&amp;zoom=14&amp;size=270x200&amp;markers=Madison, WI&amp;sensor=false"
+                    width="270" height="200">
+                    </div>
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a href="#page1" data-transition="fade">
+                                Home
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page6" data-transition="fade">
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            Conf.init();
+            </script>
+    </body>
 </html>
