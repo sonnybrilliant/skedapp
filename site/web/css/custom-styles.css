@@ -329,6 +329,14 @@ Page Styles
 	position:relative;
 	z-index: 4;
 }
+.body-main .chzn-container .chzn-results .active-result {
+  cursor: pointer;
+  display: list-item;
+  color: #000;
+}
+.body-main .chzn-container .chzn-results .highlighted {
+  color: #fff;
+}
 .booking-background {
 	margin: 0 0 -1px -1px;
 	padding: 0;
