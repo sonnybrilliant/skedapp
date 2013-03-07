@@ -32,11 +32,11 @@ class CompanyPhotosCreateType extends AbstractType
         $builder
             ->add('caption', 'text', array(
                 'label' => 'Caption:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('picture', 'file', array(
                 'label' => 'Upload Photo:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
 
         ;

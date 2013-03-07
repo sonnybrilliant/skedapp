@@ -51,14 +51,14 @@ class BookingUpdateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span3 datepicker'),
+                'attr' => array('class' => 'span4 datepicker'),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -77,6 +77,48 @@ class BookingUpdateType extends AbstractType
 
                 },
             ))
+            ->add('customerOrNot', 'choice', array(
+                'label' => 'Please select:',
+                'required' => true,
+                'expanded' => true,
+                'choices' => array(true => 'Link an existing customer', false => 'Add customer details'),
+            ))
+            ->add('customer', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Customer',
+                'label' => 'Customer:',
+                'empty_value' => 'Select a customer',
+                'attr' => array('class' => 'span12 chosen'),
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                     return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->andWhere('c.enabled  = :enabled')
+                        ->andWhere('c.isActive  = :isActive')
+                        ->setParameters(array(
+                            'status' => false,
+                            'enabled' => true,
+                            'isActive' => true
+                        ));
+                },
+            ))
+            ->add('customerPotential', 'entity', array(
+                'class' => 'SkedAppCoreBundle:CustomerPotential',
+                'label' => 'Offline Customer:',
+                'empty_value' => 'Select an offline customer',
+                'attr' => array('class' => 'span12 chosen'),
+                'required' => false,
+                'query_builder' => function(EntityRepository $er) {
+                     return $er->createQueryBuilder('c')
+                        ->where('c.isDeleted = :status')
+                        ->andWhere('c.enabled  = :enabled')
+                        ->andWhere('c.isActive  = :isActive')
+                        ->setParameters(array(
+                            'status' => false,
+                            'enabled' => true,
+                            'isActive' => true
+                        ));
+                },
+            ))
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
@@ -89,7 +131,7 @@ class BookingUpdateType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple'),
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
                 'required' => false
             ))
             ->add('isLeave', 'checkbox', array(
@@ -105,7 +147,7 @@ class BookingUpdateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
             ))
 
         ;

@@ -77,17 +77,19 @@ class SecurityListener
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if ($this->redirectToAdmin) {
-            $event->setResponse(new RedirectResponse($this->router->generate('sked_app_company_list')));
+            $event->setResponse(new RedirectResponse($this->router->generate('sked_app_service_provider_list')));
         } else {
             if ($this->isLoggedIn) {
                 $user = $this->security->getToken()->getUser();
                 if ($user) {
-
-                    if ("SkedApp\CoreBundle\Entity\Customer" == get_class($user)) {
-                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_customer_list_bookings', array('id'=>$user->getId())))); 
+                    //consultant admin
+                    if ("SkedApp\CoreBundle\Entity\Member" == get_class($user)) {
+                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list'))); 
+                    }else if ("SkedApp\CoreBundle\Entity\Customer" == get_class($user)) {
+                       $event->setResponse(new RedirectResponse($this->router->generate('sked_app_customer_list_bookings'))); 
                     } else {
-                        $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_booking_show', array(
-                                    'id' => $this->security->getToken()->getUser()->getId()))));
+                        $event->setResponse(new RedirectResponse($this->router->generate('sked_app_consultant_list_bookings', array(
+                                    'slug' => $this->security->getToken()->getUser()->getSlug())).'.html'));
                     }
                 }
             }

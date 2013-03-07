@@ -39,15 +39,15 @@ class LoadConsultant extends AbstractFixture implements OrderedFixtureInterface 
         $consultantManagerService = $this->container->get('consultant.manager');
 
         $arrConsultant = array(
-                'gender' => $this->getReference('gender-male'),
+                'gender' => $this->getReference('gender-female'),
                 'company' => $this->getReference('company-sonny'),
                 'startTimeSlot' => $this->getReference('time-slot-8-00'),
                 'endTimeSlot' => $this->getReference('time-slot-17-00'),
                 'appointmentDuration' => $this->getReference('service-30'),
-                'firstName' => 'Sonny',
-                'lastName' => 'Brilliant',
-                'email' => 'otto.saayman@kaizania.co.za',
-                'username' => 'sonnyhairconsultant',
+                'firstName' => 'Lisa',
+                'lastName' => 'Joy',
+                'email' => 'qa2@creativecloud.co.za',
+                'username' => 'qa2@creativecloud.co.za',
                 'password' => '654321',
                 'enabled' => true,
                 'expired' => false,
@@ -62,7 +62,6 @@ class LoadConsultant extends AbstractFixture implements OrderedFixtureInterface 
                 'sunday' => false,
                 'sunday' => false,
                 'consultantService' => $this->getReference('service-womans-cut'),
-                'consultantRoleAdmin' => $this->getReference('role-consultant-admin'),
                 'consultantRoleUser' => $this->getReference('role-consultant-user'),
             );
 

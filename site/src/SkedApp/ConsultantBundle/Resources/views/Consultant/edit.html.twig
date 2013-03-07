@@ -1,27 +1,26 @@
 {% extends "SkedAppConsultantBundle::layout.html.twig" %}
 {% block title %}Edit consultant{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
 {% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-         {% include "::menu.html.twig" %} 
-    </div>       
-    {% endblock menu %}    
-    {% block content %}
-    <div class="span9">
+<div class="row-fluid body-secondary">
+    <div class="span5">
+        <div class="dash-forms-background">
         <h3>Edit consultant</h3>
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Edit'} %}
-           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
+        {% include "SkedAppConsultantBundle:Consultant:form.edit.html.twig" %}
         </div>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-        {#start form display===============================#}
-            {% include "SkedAppConsultantBundle:Consultant:form.edit.html.twig" %}
-        {#end form display===============================#} 
-        </div>        
-    </div>  
-    {% endblock content %}   
+    </div>
+    <div class="span7">
+        <div class="map-box">
+            <h3><span class="asterisk">*</span>Hint</h3>
+            <ol>
+                <li>Provide a unique <span class="label label-inverse">Email Address</span> for the consultant.</li>
+                <br />
+            </ol>
+        </div>
+    </div>
+</div>  
 {% endblock body %}

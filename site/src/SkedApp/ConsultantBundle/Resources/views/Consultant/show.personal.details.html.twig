@@ -1,56 +1,80 @@
 {% extends "SkedAppConsultantBundle::layout.html.twig" %}
-{% block title %}View consultant details{% endblock %}
+{% block title %}Consultant Profile{% endblock %}
 
 {% block body %}
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-       {% if is_granted('ROLE_ADMIN') %}
-            {% include "::menu.html.twig" %}        
-       {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" %}             
-       {% endif %}            
-    </div>       
-    {% endblock menu %}   
-    {% block content %}
-    <div class="span9">
-        <h3>Consultant profile</h3>                
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Profile'} %}
-           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
-        </div>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-                <div class="tabbable"> <!-- Only required for left/right tabs -->
-                    <ul class="nav nav-tabs">
-                        <li class="active"><a href="{{ path("sked_app_consultant_show",{"id":consultant.id})}}">Personal details</a></li>                        
-                        <li><a href="{{ path("sked_app_consultant_booking_show",{'id':consultant.id})}}">Bookings</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="tab1">
-                            <div class="row">
-                                <div class="span2"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
-                                <div class="span4">
-                                    <p><strong>Fullname</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
-                                    <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
-                                    <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
-                                    <p>
-                                        <strong>Services</strong>: 
-                                        {% for service in consultant.consultantServices %}
-                                          <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>                                         
-                                        {% else %}
-                                         No listed services found.
-                                        {% endfor %}
-
-                                    </p>
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tab1" data-toggle="tab">Personal Details</a></li>
+                <li><a href="{{ path('sked_app_consultant_list_bookings',{'slug': consultant.slug})}}.html" title="View bookings">Bookings</a></li>
+            </ul>
+            <div class="tab-content" id="tab1">
+                <div class="tab-pane active">
+                    <div class="span6">
+                        <h3>Consultant Profile</h3>
+                        <div class="white-bg">
+                            {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                                <div class="image-dimensions140 pull-left space-right20">
+                                    <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}"  width="140" height="140" class="img-polaroid"/>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="tab2">
-                            <p>Howdy, I'm in Section 2.</p>
-                        </div>
+                                {% else %}
+                                {% if consultant.gender.name == "Male" %}
+                                <div class="image-dimensions140 pull-left space-right20">
+                                    <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                                </div>
+                                {% else %}
+                                <div class="image-dimensions140 pull-left space-right20">
+                                    <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                                </div>
+                                {% endif %}
+                            {% endif %}
+                            <table>
+                                <tr>
+                                    <td><strong>Fullname:</strong></td>
+                                    <td>{{ consultant.fullName }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Services:</strong></td>
+                                    <td>
+                                        {% for service in consultant.consultantServices %}
+                                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>                                         
+                                        {% else %}
+                                         No listed services.
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Service Provider:</strong></td>
+                                    <td>{{ consultant.company.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Contact Number:</strong></td>
+                                    <td>{{ consultant.company.contactNumber }}</td>
+                                </tr>
+                            </table>
+                            <div class="clearfix"></div>
+                            <div class="spacer2"></div>
+                            
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                      {% set arrSlots = consultant.getAvailableBookingSlots() %}  
+                                        {% for time_slot in arrSlots.time_slots %}      
+                                        <td class="dark-gray-text"><strong>{{ time_slot.start_time }}</strong><br><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em></td>
+                                        {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>    
+                    </div> <!-- End .span6 -->
+                    <div class="span6">
+                        {% render url('sked_app_service_provider_show_map', { 'id': consultant.company.id }) %}
                     </div>
                 </div>
-    </div>  
-    {% endblock content %}   
+            </div>
+        </div>
+    </div>
+</div> <!-- End .row-fluid -->
+
 {% endblock body %}

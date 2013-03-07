@@ -12,3 +12,8 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+genemu_form:
+    recaptcha:
+        validation:
+            code: 15551   

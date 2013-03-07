@@ -27,9 +27,6 @@ class LoadGenders extends AbstractFixture implements OrderedFixtureInterface
         $male = new Gender('Male') ;
         $manager->persist($male) ;
 
-        $other = new Gender('Other') ;
-        $manager->persist($other) ;
-
         $manager->flush() ;
 
         $this->addReference('gender-female' , $female) ;

@@ -1,34 +1,31 @@
 {# default Sliding pagination control implementation #}
 
 {% if pageCount > 1 %}
-<div class="pagination">
-  <ul>
+<div class="btn-group pull-right">
     {% if first is defined and current != first %}
-      <li class="active">
-            <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">First</a>
-      </li>
+            <a href="{{ path(route, query|merge({(pageParameterName): first})) }}" class="btn">First</a>
     {% endif %}
 
          {% if previous is defined %}
-      <li><a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">Prev</a></li>
+            <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" class="btn">Prev</a>
     {% endif %}
 
 
     {% for page in pagesInRange %}
         {% if page != current %}
-         <li><a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a></li>
+         <a href="{{ path(route, query|merge({(pageParameterName): page})) }}"  class="btn">{{ page }}</a>
         {% else %}
-         <li class="active"> <a href="">{{ page }}</a></li>
+         <a href="" class="btn active">{{ page }}</a>
         {% endif %}
 
     {% endfor %}
 
     {% if next is defined %}
-        <li><a href="{{ path(route, query|merge({(pageParameterName): next})) }}">Next</a></li>
+        <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" class="btn">Next</a>
     {% endif %}
 
     {% if last is defined and current != last %}
-        <li><a href="{{ path(route, query|merge({(pageParameterName): last})) }}">Last</a></li>
+        <a href="{{ path(route, query|merge({(pageParameterName): last})) }}" class="btn">Last</a>
     {% endif %}
     </ul>
 </div>

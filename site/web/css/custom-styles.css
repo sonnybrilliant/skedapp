@@ -1,0 +1,714 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body {
+	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
+	height: 100%;
+}
+#Booking_customerOrNot_0{
+  float: left;
+  margin-right: 5px;
+}
+
+#Booking_customerOrNot_1{
+  float: left;
+  margin-right: 5px;
+}
+
+#wrap {
+	min-height: 100%;
+	height: auto !important;
+	/*height: 100%;*/
+	margin: 0 auto -61px;
+}
+
+.text-top{
+  vertical-align: text-top;
+  margin-left: 3px;
+}
+
+
+
+.tab-content{
+  overflow:auto;
+}
+#push {
+	height: 80px;
+}
+
+/* Removed by Otto on 28 Deb 2013
+.map-box {
+    padding: 1.25em;
+}
+
+.map-box #map_canvas {
+    border: 1px solid #ddd;
+    background-color: #FFFFFF;
+    border-radius: 5px 5px 5px 5px;
+    height: 280px;
+}
+*/
+
+.tabbable .nav-tabs > .active > a, .tabbable .nav-tabs > .active > a:hover, .tabbable .nav-tabs > .active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #0394C8;
+    border-color: #0394C8 #0394C8 transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px #02B2E9 inset, 1px 0 #02B2E9 inset, -1px 0 #02B2E9 inset;
+    color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    z-index: 4;
+}
+
+.tabbable .nav-tabs > li > a {
+    background-color: #888888;
+    border: 1px solid #888888;
+    box-shadow: 0 1px #AAAAAA inset, 1px 0 #AAAAAA inset, -1px 0 #AAAAAA inset;
+    color: #FFFFFF;
+}
+
+.container {
+	padding-top: 0px;
+}
+.container-fluid {
+	padding-top: 0px;
+}
+.spacer {
+	height: 1.25em;
+}
+.spacer1 {
+	height: 1em;
+}
+.spacer2 {
+	height: 2em;
+}
+.spacer3 {
+	height: 3em;
+}
+.spacer4 {
+	height: 4em;
+}
+.spacer5 {
+	height: 5em;
+}
+.content-devider {
+	background-color: #959595;
+	height: 10px;
+	border: 1px solid #959595;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	margin-top: -1px;
+	position: relative;
+	z-index: 2;
+}
+
+.white-bg {
+	background-color: #FFFFFF;
+        border: 1px solid #ddd;
+        padding: 10px;
+}
+.whiteText{
+    color: #ffffff;
+}
+.light-gray-text {
+	color: #cccccc;
+}
+.med-gray-text {
+	color: #999999;
+}
+.gray-text {
+	color: #555555;
+}
+
+.small-thin-text {
+	font-size: 16px;
+}
+.med-thin-text {
+	font-size: 18px;
+}
+.large-thin-text {
+	font-size: 20px;
+}
+.space-top {
+	margin-top: 20px;
+}
+.space-left {
+	margin-left: 10px;
+}
+
+.space-left20 {
+	margin-left: 20px;
+}
+
+.space-right {
+	margin-right: 10px;
+}
+.space-right20 {
+	margin-right: 20px;
+}
+.pad-left {
+    padding-left: 10px !important;
+}
+.pad-left20 {
+    padding-left: 20px !important;
+}
+.pad-right {
+    padding-right: 10px !important;
+}
+.pad-right20 {
+    padding-right: 20px !important;
+}
+.space-right7 {
+	margin-right: 7px;
+}
+
+.whiteBackground{
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 10px 0 0 0;
+}
+
+.dark-gray-text{
+  color: #333;
+}
+.image-dimensions20 {
+    width: 20px !important;
+    height: 20px !important;
+}
+.image-dimensions140 {
+    width: 140px !important;
+    height: 140px !important;
+}
+.asterisk {
+	color: #F00;
+}
+/*********************
+Custom Styles
+*********************/
+/*********************
+Navbar Top Styles
+*********************/
+.navbar-inverse .navbar-inner {
+	background-color: #333;
+	background-image: -moz-linear-gradient(top, #333333, #333333);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#333333), to(#333333));
+	background-image: -webkit-linear-gradient(top, #333333, #333333);
+	background-image: -o-linear-gradient(top, #333333, #333333);
+	background-image: linear-gradient(to bottom, #333333, #333333);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff333333', endColorstr='#ff333333', GradientType=0);
+	-moz-box-shadow: inset 0px -1px #888888;
+	-webkit-box-shadow: inset 0px -1px #888888;
+	box-shadow: inset 0px -1px #888888;
+}
+.navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
+    background-color: #0394c8;
+    color: #FFFFFF;
+}
+/*********************
+Generic Styles
+*********************/
+.body-main {
+	color: #FFFFFF;
+	background-color: #333333;
+	border: 1px solid #333333;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	position: relative;
+	z-index: 3;
+}
+.rounded-all {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+.rounded-top {
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+}
+.rounded-bottom {
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+}
+.rounded-left {
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+}
+.body-secondary {
+	color: #333333;
+	background-color: #eeeeee;
+	border: 1px solid #e1e1e1;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+}
+/*********************
+Page Styles
+*********************/
+.logo {
+	padding-left: 1.25em;
+}
+
+.logo-other {
+	display: block;
+    margin-top: 0.1em;
+    padding-left: 3.75em;
+    width: auto;
+}
+
+.space-right-bottom{
+  margin-bottom: 10px;
+}
+.paddingBottom5px{
+  margin-bottom: 5px;
+}
+.row-fluid.body-main .span5 {
+	padding-left: 0px;
+	margin-left: 0px;
+}
+.row-fluid.body-main .span12.tabs-img {
+	margin-top: -15px;
+	margin-left: -1px;
+	margin-bottom: -3px;
+	position:relative;
+	z-index: 4;
+}
+.booking-background {
+	margin: 0 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #025b99;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+	background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+	background-image: linear-gradient(top, #02aee4, #0379aa);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+.results-background {
+	margin: 0 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #ff8a00;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #feb80a, #ff8400);
+	background-image: -ms-linear-gradient(top, #feb80a, #ff8400);
+	background-image: -o-linear-gradient(top, #feb80a, #ff8400);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#feb80a), to(#ff8400));
+	background-image: -webkit-linear-gradient(top, #feb80a, #ff8400);
+	background-image: linear-gradient(top, #feb80a, #ff8400);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+
+.confirm-background {
+	margin: 0 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #9dae01;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-right-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#b9cc00', endColorstr = '#9dae01');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#b9cc00', endColorstr = '#9dae01')";
+	background-image: -moz-linear-gradient(top, #b9cc00, #9dae01);
+	background-image: -ms-linear-gradient(top, #b9cc00, #9dae01);
+	background-image: -o-linear-gradient(top, #0b9cc00, #9dae01);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#b9cc00), to(#9dae01));
+	background-image: -webkit-linear-gradient(top, #b9cc00, #9dae01);
+	background-image: linear-gradient(top, #b9cc00, #9dae01);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+
+.dash-forms-background {
+	padding: 1.25em 1.25em 0 1.25em;
+}
+.forms-background {
+	margin: -1px 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #025b99;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+	background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+	background-image: linear-gradient(top, #02aee4, #0379aa);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+}
+.consultant-background {
+	margin: -1px 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #025b99;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-left-radius: 10px;
+	/*-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;*/
+        /*** The top-left border will be added again after that dashboard navigation has been removed ***/
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+	background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+	background-image: linear-gradient(top, #02aee4, #0379aa);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 0 1.25em 1.25em 1.25em;
+	z-index: 3;
+}
+.booking-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+
+.results-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+.forms-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+.confirm-background form label {
+	color: #FFFFFF;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+.table-heading-blue a{
+  color: #fff;
+}
+.dash-forms-background form label {
+	color: #555555;
+	font-size: 1.5em;
+	line-height: 1.5em;
+}
+
+.width{
+  width: 100%;
+}
+select.span12{
+	border: 1px solid #bbb;
+	-moz-box-shadow: 0px 0px 0px #333333;
+	-webkit-box-shadow: 0px 0px 0px #333333;
+	box-shadow: 0px 0px 0px #333333;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+.booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
+	-moz-box-shadow: 0px 0px 5px #333333;
+	-webkit-box-shadow: 0px 0px 5px #333333;
+	box-shadow: 0px 0px 5px #333333;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+input.span12{
+	border: 1px solid #bbb;
+	-moz-box-shadow: 0px 0px 0px #333333;
+	-webkit-box-shadow: 0px 0px 0px #333333;
+	box-shadow: 0px 0px 0px #333333;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background-color:#FFFFFF;
+}
+.booking-background input.span12:active, .booking-background input.span12:focus, .forms-background input.span12:active, .forms-background input.span12:focus {
+	-moz-box-shadow: 0px 0px 5px #333333;
+	-webkit-box-shadow: 0px 0px 5px #333333;
+	box-shadow: 0px 0px 5px #333333;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+/* Removed bby Otto on 28 Feb 2013
+.span7 .map-box {
+	padding: 1.25em;
+}
+.span7 .map-box .g-maps {
+	background-color: #ffffff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	height: 280px;
+}
+*/
+
+.social-box {
+	padding: 0.5em;
+    padding-right: 2.2em;
+	text-align: right;
+}
+
+.facebook{
+  background-image:url('../img/fb.png');
+  height: 32px;
+  width: 32px;
+  position: absolute;
+}
+
+.twitter{
+  background-image:url('../img/twitter.png');
+  height: 32px;
+  width: 32px;
+  position: absolute;
+}
+
+.hint-box {
+	padding: 1.25em;
+}
+/*******************
+Dashboard Styles
+*******************/
+/*******************
+Dashboard Navigation
+*******************/
+.nav-tabs {
+    border-bottom: 1px solid #888888;
+}
+.nav-tabs > li > a {
+	background-color: #eee;
+	border: 1px solid #eee;
+	-moz-box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
+	-webkit-box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
+	box-shadow: inset 0px 1px #fcfcfc, inset 1px 0px #fcfcfc, inset -1px 0px #fcfcfc;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #0394c8;
+    border-color: #0394c8 #0394c8 transparent;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px;
+    color: #FFFFFF;
+    cursor: default;
+	position: relative;
+	z-index: 4;
+	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+}
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+	border-color: #0394c8;
+	background-color: #0394c8;
+	color: #FFFFFF;
+	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+	position: relative;
+	z-index: 4;
+}
+.nav-active {
+	color: #FFFFFF;
+	background-color: #0394c8;
+	border: 1px solid #0394c8;
+	-moz-box-shadow: inset 0px 0px 1px #fff;
+	-webkit-box-shadow: inset 0px 0px 1px #fff;
+	box-shadow: inset 0px 0px 1px #fff;
+	height: 10px;
+	margin-top: -22px;
+	position: relative;
+	z-index: 3;
+}
+.row-fluid.body-secondary {
+	margin-top: -1px;
+	position: relative;
+	z-index:1;
+}
+.row-fluid.body-secondary > .span12 {
+	padding: 20px;
+}
+.white-bg > .table {
+    margin-bottom: 0px !important;
+}
+.table-heading-blue {
+	color: #FFFFFF;
+	background-color: #0394c8 !important;
+
+}
+.table-heading-orange {
+	color: #FFFFFF;
+	background-color: #ff9c05 !important;
+}
+.table-heading-orange a{
+  color: #fff;
+}
+.table-valign {
+	vertical-align: middle !important;
+}
+/*******************
+Footer Styles
+*******************/
+#footer {
+	background-color: #333333;
+	text-align:center;
+	color: #FFFFFF;
+	height: 60px;
+	-moz-box-shadow: inset 0px 1px #888888;
+	-webkit-box-shadow: inset 0px 1px #888888;
+	box-shadow: inset 0px 1px #888888;
+	border-top: 1px solid #333333;
+}
+#footer p {
+	margin-top: 20px;
+}
+
+/* SkedAppSearchBundle:Search:search.map.html.twig
+*  Added by Otto Saayman on 28 Feb 2013
+*/
+
+.map-box {
+    width: auto;
+    margin: auto;
+}
+
+.map-container {
+	background-color: #ffffff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+    margin-right: 1.7em;
+    padding: 1em;
+}
+
+.map-box #map_canvas {
+    border: none;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    height: 320px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.map-box-instructions {
+    margin: 6px;
+    margin-left: 0;
+}
+
+/* SkedAppSearchBundle:Search:search.results.html.twig/ /web/js/search-results.js
+*  Added by Otto Saayman on 28 Feb 2013
+*/
+
+.divMarkerText {
+    color: #333333;
+}
+
+/* SkedAppBookingBundle:Booking:form.make.html.twig
+*  Added by Otto Saayman on 2 Mar 2013
+*/
+
+.divPrompt {
+    width: 30%;
+    float: left;
+}
+
+.divValue {
+    width: 65%;
+    float: right;
+}
+
+/*
+Fix re-Captcha label issue
+*/
+
+.recaptcha_input_area_text {
+    line-height: normal !important;
+    font-size: inherit !important;
+}

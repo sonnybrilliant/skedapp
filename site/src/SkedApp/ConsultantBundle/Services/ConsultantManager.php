@@ -9,7 +9,7 @@ use SkedApp\CoreBundle\Entity\Consultant;
 /**
  * Consultant manager
  *
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppServiceBundle
  * @subpackage Consultant
  * @version 0.0.1
@@ -95,11 +95,31 @@ final class ConsultantManager
             ->find($id);
 
         if (!$consultant) {
-            throw new \Exception('Consultant not found for id:' . $id);
-            $this->logger->err('Failed to find Consultant by id:' . $id);
+            throw new \Exception('Consultant not found for id: ' . $id);
+            $this->logger->err('Failed to find Consultant by id: ' . $id);
         }
 
         return $consultant;
+    }
+
+    /**
+     * Get consultant by slug
+     *
+     * @param integer $slug
+     * @return SkedAppCoreBundle:Consultant
+     * @throws \Exception
+     */
+    public function getBySlug($slug)
+    {
+        $consultant = $this->em->getRepository('SkedAppCoreBundle:Consultant')
+            ->findBySlug($slug);
+
+        if (!$consultant) {
+            throw new \Exception('Consultant not found for slug: ' . $slug);
+            $this->logger->err('Failed to find Consultant by slug: ' . $slug);
+        }
+
+        return $consultant[0];
     }
 
     /**
@@ -168,7 +188,6 @@ final class ConsultantManager
         $consultant->setSunday($params['sunday']);
         $consultant->setSunday($params['sunday']);
         $consultant->addConsultantService($params['consultantService']);
-        $consultant->addConsultantRole($params['consultantRoleAdmin']);
         $consultant->addConsultantRole($params['consultantRoleUser']);
 
         $this->em->persist($consultant);
@@ -254,6 +273,19 @@ final class ConsultantManager
     }
 
     /**
+     * Get all consultants by Company query
+     *
+     * @param array $options
+     * @return Doctrine Query
+     */
+    public function listAllByCompany(\SkedApp\CoreBundle\Entity\Company $company, $options = array())
+    {
+        return $this->em
+                ->getRepository('SkedAppCoreBundle:Consultant')
+                ->getAllActiveConsultantsByCompanyQuery($company, $options);
+    }
+
+    /**
      * Get consultant active bookings
      *
      * @param integer $consultantId
@@ -275,33 +307,25 @@ final class ConsultantManager
      */
     public function listAllWithinRadius($options = array())
     {
+        $this->logger->info("Search for consultants");
 
-        if (!isset($options['radius']))
-            $options['radius'] = 5;
-
-        if (!isset($options['lat']))
-            $options['lat'] = null;
-
-        if (!isset($options['lng']))
-            $options['lng'] = null;
-
-        $results = array(
-            'arrResult' => array(),
+        $output = array(
+            'results' => array(),
             'radius' => $options['radius'],
         );
 
         if ((is_null($options['lat'])) || (is_null($options['lng'])))
-            return $results;
+            return $output;
 
-        while ((count($results['arrResult']) <= 0) && ($options['radius'] <= 200)) {
-            $results['arrResult'] = $this->em
+        while ((count($output['results']) <= 0) && ($options['radius'] <= 200)) {
+            $output['results'] = $this->em
                 ->getRepository('SkedAppCoreBundle:Consultant')
                 ->getAllActiveConsultantsQueryWithinRadius($options);
-            $results['radius'] = $options['radius'];
+            $output['radius'] = $options['radius'];
             $options['radius'] += 5;
         } //while
 
-        return $results;
+        return $output;
     }
 
     /**

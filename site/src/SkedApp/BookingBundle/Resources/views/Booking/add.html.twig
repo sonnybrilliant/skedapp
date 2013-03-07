@@ -1,50 +1,64 @@
-
-{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% extends "SkedAppCategoryBundle::layout.html.twig" %}
 {% block title %}Add a booking{% endblock %}
 
 {% block stylesheets %}
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" />
 {% endblock %}
-
 
 {% block jquery_ui %}
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
 {% endblock jquery_ui %}
 
-{% block body %}
+{% block javascripts %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock %}
 
-    {% block menu %}
-    <div class="span3 bs-docs-sidenav">
-           {% include "::menu.html.twig" %} 
-    </div>       
-    {% endblock menu %}    
-    {% block content %}
-    <div class="span9">
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
         <h3>Add a booking</h3>
-        <div class="span9" style="margin-left: -15px">
-           {% set vars = {'action': 'Create booking'} %}
-           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
-        </div>
+        
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-            {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
-        </div>        
-    </div>  
-    {% endblock content %}   
+
+        <div style="margin-left: 0px;" class="span6">{% set vars = {'action': 'Create booking'} %}
+           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
+        </div>
+        <div class="clearfix"></div>
+        <div class="spacer2"></div>
+        <div style="margin-left: 0px;" class="span5">
+        {% include "SkedAppBookingBundle:Booking:form.add.html.twig" %}
+        </div>
+    </div> <!-- Dashboard Content -->
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
-    
+
     jQuery(function($){
-        $( ".datepicker" ).datepicker({
+        $( "#Booking_appointmentDate" ).datepicker({
             showOtherMonths: true,
             selectOtherMonths: true,
-            minDate: 0, 
-            maxDate: "+1M +10D", 
+            minDate: 0,
+            maxDate: "+1M +10D",
             dateFormat: 'yy-mm-dd'
         });
     });
+
+    $('#divCustomerSelect').hide();
+    $('#divCustomerPotentialSelect').hide();
+
+    $('#Booking_customerOrNot_1').click(function() {
+        $('#divCustomerPotentialSelect').show();
+        $('#divCustomerSelect').hide();
+        });
+
+    $('#Booking_customerOrNot_0').click(function() {
+        $('#divCustomerPotentialSelect').hide();
+        $('#divCustomerSelect').show();
+        });
+
 });
 </script>
 {% endblock body %}

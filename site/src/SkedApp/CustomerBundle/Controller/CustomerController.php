@@ -35,11 +35,14 @@ class CustomerController extends Controller
 
         $this->get('logger')->info('list customers');
 
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'c.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
 
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,
         );
 
 
@@ -83,37 +86,27 @@ class CustomerController extends Controller
      * @return View
      * @throws createNotFoundException
      *
-     * @Secure(roles="ROLE_ADMIN,ROLE_SITE_USER")
+     * @Secure(roles="ROLE_SITE_USER")
      */
-    public function listBookingsAction($id, $page = 1)
+    public function listBookingsAction()
     {
-
-        $bookingParameters = unserialize($_SESSION['booking_params']);
-
-        if ((is_array($bookingParameters)) && ($bookingParameters['booking_attempt'] == 1)) {
-            $_SESSION['booking_params'] = null;
-            return $this->redirect($this->generateUrl('sked_app_booking_make', array(
-                        'companyId' => $bookingParameters['company_id'],
-                        'consultantId' => $bookingParameters['consultant_id'],
-                        'date' => $bookingParameters['booking_date'],
-                        'timeSlotStart' => $bookingParameters['timeslot_start'],
-                        'serviceIds' => $bookingParameters['service_ids'],
-                        )
-                    ));
-        }
-
         $this->get('logger')->info('show customers');
+
 
         try {
 
-            $customer = $this->get("customer.manager")->getById($id);
+            $securityContext = $container->get('security.context');
+            $token = $securityContext->getToken();
+            $user = $token->getUser();
 
-            $sort = $this->get('request')->query->get('sort');
-            $direction = $this->get('request')->query->get('direction', 'desc');
+            $isDirectionSet = $this->get('request')->query->get('direction', false);
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'c.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
 
-            $options = array('sort' => $sort,
+            $options = array('searchText' => $searchText,
+                'sort' => $sort,
                 'direction' => $direction,
-                'customer' => $customer
             );
 
             $allBookings = $this->container->get('booking.manager')->getAllCustomerBookings($options);
@@ -133,9 +126,8 @@ class CustomerController extends Controller
 
         return $this->render('SkedAppCustomerBundle:Customer:bookings.list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
-                'customer' => $customer
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 
@@ -282,7 +274,7 @@ class CustomerController extends Controller
         }
 
         $this->getRequest()->getSession()->setFlash(
-            'success', 'Deleted customer sucessfully');
+            'success', 'Deleted customer successfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list'));
     }
 

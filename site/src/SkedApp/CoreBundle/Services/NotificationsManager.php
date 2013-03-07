@@ -139,6 +139,29 @@ final class NotificationsManager
     }
 
     /**
+     * Message for booking sent by Service Provider or consultant
+     *
+     * @param Array $params
+     * @return void
+     */
+    public function messageBooking ($params)
+    {
+        $this->container->get('email.manager')->bookingMessageFromCompany($params);
+    }
+
+    /**
+     * Message for booking sent by Service Provider or consultant with cancellation
+     *
+     * @param Array $params
+     * @return void
+     */
+    public function messageAndCancelBooking ($params)
+    {
+        $this->container->get('email.manager')->bookingMessageCancelFromCompany($params);
+        $this->container->get('email.manager')-> bookingCancellationConsultant($params);
+    }
+
+    /**
      * Created booking
      *
      * @param Array $params
@@ -219,6 +242,20 @@ final class NotificationsManager
             $this->em->flush();
         }
 
+        return;
+    }
+
+    public function sendInviteFriendLoggedIn($params)
+    {
+        $this->logger->info("send invite friends logged in");
+        $this->container->get('email.manager')->inviteFriendLoggedin($params);
+        return;
+    }
+
+    public function sendInviteFriendConsultant($params)
+    {
+        $this->logger->info("send invite friends to consultant");
+        $this->container->get('email.manager')->inviteFriendConsultant($params);
         return;
     }
 

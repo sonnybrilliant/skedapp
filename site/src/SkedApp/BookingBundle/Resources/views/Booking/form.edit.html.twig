@@ -1,11 +1,29 @@
+<div class="spacer2"></div>
 <form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id }) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <legend><span class="label label-info">Info</span> <small>Booking details.</small></legend>
       <div class="control-group">
-        <label class="control-label" for="time_slots">Date and time</label>
+        <label class="control-label" for="consultants">Customer Name:</label>
         <div class="controls">
-            <div style="border: 1px solid #ccc; padding: 10px;width: 350px;">
-                <div style="margin: 8px 8px 0 0;padding-top: 5px;">
+          {{ customer.fullName }}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="consultants">Customer Mobile Number:</label>
+        <div class="controls">
+          {{ customer.mobileNumber }}
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="consultants">Customer E-Mail:</label>
+        <div class="controls">
+          <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="time_slots">Date and time:</label>
+        <div class="controls">
+            <div style="border: 1px solid #ccc; padding: 10px;width: 389px;">
+                <div style="margin: 8px 8px 0 0;padding-top: 5px; width: 191px;">
                     Date:&nbsp;{{ form_widget(form.appointmentDate) }}
                 </div>
                 <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
@@ -24,6 +42,77 @@
           <span class="help-inline">{{form_errors(form.consultant)}}</span>
         </div>
       </div>
+
+      <div class="control-group {% if form_errors(form.customerOrNot) %} error {% endif %}">
+        <label class="control-label" for="customer">{{ form_label(form.customerOrNot) }}</label>
+        <div class="controls">
+          {{ form_widget(form.customerOrNot) }}
+          <span class="help-inline">{{form_errors(form.customerOrNot)}}</span>
+        </div>
+      </div>
+
+      <div id="divCustomerSelect">
+          <div class="control-group {% if form_errors(form.customer) %} error {% endif %}">
+            <label class="control-label" for="customer">{{ form_label(form.customer) }}</label>
+            <div class="controls">
+              {{ form_widget(form.customer) }}
+              <span class="help-inline">{{form_errors(form.customer)}}</span>
+            </div>
+          </div>
+      </div>
+
+      <div id="divCustomerPotentialSelect">
+
+          <div class="control-group {% if form_errors(form.customerPotential) %} error {% endif %}">
+            <label class="control-label" for="customer_potential">{{ form_label(form.customerPotential) }}</label>
+            <div class="controls">
+              {{ form_widget(form.customerPotential) }}
+              <span class="help-inline">{{form_errors(form.customerPotential)}}</span>
+            </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.firstName) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.firstName) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.firstName) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.firstName)}}</span>
+                </div>
+              </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.lastName) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.lastName) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.lastName) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.lastName)}}</span>
+                </div>
+              </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.email) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.email) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.email) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.email)}}</span>
+                </div>
+              </div>
+          </div>
+
+          <div id="divCustomerPotentialCreate">
+              <div class="control-group {% if form_errors(formCustomerPotential.mobileNumber) %} error {% endif %}">
+                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.mobileNumber) }}</label>
+                <div class="controls">
+                  {{ form_widget(formCustomerPotential.mobileNumber) }}
+                  <span class="help-inline">{{form_errors(formCustomerPotential.mobileNumber)}}</span>
+                </div>
+              </div>
+          </div>
+
+      </div>
+
       <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
         <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
         <div class="controls">
@@ -52,7 +141,7 @@
           <span class="help-inline">{{form_errors(form.description)}}</span>
         </div>
       </div>
-      <div class="form-actions">
+      <div class="btn-toolbar pull-right">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn">Cancel</a>
       </div>

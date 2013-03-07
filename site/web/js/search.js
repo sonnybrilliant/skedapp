@@ -19,8 +19,15 @@ $(document).ready(function() {
                 var el = $('#Search_consultantServices');
                 el.empty();
                 $.each(response.results, function(key,value) {
+
+                    var selectedService = false;
+
+                    if (value.id == currentServiceId) {
+                        selectedService = true;
+                    }
+
                     el.append($("<option></option>")
-                        .attr("value", value.id).text(value.name));
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
 
                 });
 
@@ -28,14 +35,15 @@ $(document).ready(function() {
         });
     });
 
-
-    $( "#Search_booking_date" ).datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        minDate: 0,
-        maxDate: "+1M +10D",
-        dateFormat: 'yy-mm-dd'
-    });
+    if (jQuery.ui) {
+        $( "#Search_booking_date" ).datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            minDate: 0,
+            maxDate: "+1M +10D",
+            dateFormat: 'dd-mm-yy'
+        });
+    }
 
 
     //Run the ajax call to show only selected services
@@ -55,8 +63,20 @@ $(document).ready(function() {
             var el = $('#Search_consultantServices');
             el.empty();
             $.each(response.results, function(key,value) {
-                el.append($("<option></option>")
-                    .attr("value", value.id).text(value.name));
+
+                var selectedService = false;
+
+                if (value.id == currentServiceId) {
+                    selectedService = true;
+                }
+
+                if (selectedService) {
+                    el.append($("<option></option>")
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
+                } else {
+                    el.append($("<option></option>")
+                        .attr("value", value.id).text(value.name));
+                }
 
             });
 
@@ -92,9 +112,9 @@ $(document).ready(function() {
         var gmarker = addresspickerMap.addresspicker( "marker");
         gmarker.setVisible(true);
 
-        var image = new google.maps.MarkerImage("http://maps.google.com/mapfiles/marker.png",
-            // This marker is 20 pixels wide by 34 pixels tall.
-            new google.maps.Size(20, 34)
+        var image = new google.maps.MarkerImage("/img/assets/icons/skedapp-map-icon.png",
+            // This marker is 34 pixels wide by 46 pixels tall.
+            new google.maps.Size(34, 46)
             );
 
         gmarker.setIcon (image);
@@ -102,6 +122,25 @@ $(document).ready(function() {
 
         searchResultsMap = gmarker.getMap();
         myMarker = gmarker;
+
+        google.maps.event.addListener(gmarker, 'dragend', function()
+        {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode({
+                latLng: gmarker.getPosition()
+              }, function(responses) {
+                if (responses && responses.length > 0) {
+                  $("#Search_address").val(responses[0].formatted_address);
+                }
+              });
+        });
+
+    }
+
+    //Check if the page is the search results page and markers need to be added
+    if (typeof serviceProviderIDs != 'undefined') {
+
+        addMarkers();
 
     }
 

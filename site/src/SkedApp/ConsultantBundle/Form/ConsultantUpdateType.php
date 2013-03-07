@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * SkedApp\ConsultantBundle\Form\ConsultantUpdateType
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppConsultantBundle
  * @subpackage Form
  * @version 0.0.1
@@ -32,57 +32,63 @@ class ConsultantUpdateType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('company', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Company',
                 'label' => 'Company:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:gender',
                 'label' => 'Gender:',
-                'attr' => array('class' => 'span4 chosen')
+                'attr' => array('class' => 'span12 chosen')
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
              ->add('category', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Category',
                 'label' => 'Category:',
-                'attr' => array('class' => 'span4 chosen'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
-                        ->setParameter('status', false);
+                        ->setParameter('status', false)
+                        ->orderBy('c.name');
                 },
             ))
             ->add('consultantServices', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => true,
-                'required' => true,
-                'attr' => array('class' => 'span4' ),
-
+                'required' => false,
+                'attr' => array('class' => 'span12' ),
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->where('s.isDeleted = :status')
+                        ->setParameter('status', false)
+                        ->orderBy('s.name');
+                },
             ))
             ->add('speciality', 'textarea', array(
                 'label' => 'Speciality:',
                 'required' => false,
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
             ))
             ->add('professionalStatement', 'textarea', array(
                 'label' => 'Professional Statement:',
                 'required' => false,
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
             ))
             ->add('monday', 'checkbox', array(
-                'label' => 'M',
+                'label' => 'M'> false,
                 'required'  => false,
             ))
             ->add('tuesday', 'checkbox', array(
@@ -102,7 +108,7 @@ class ConsultantUpdateType extends AbstractType
                 'required'  => false,
             ))
             ->add('saturday', 'checkbox', array(
-                'label' => 'F',
+                'label' => 'S',
                 'required'  => false,
             ))
             ->add('sunday', 'checkbox', array(
@@ -112,18 +118,19 @@ class ConsultantUpdateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span6')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time to:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span3')
             ))
             ->add('appointmentDuration', 'entity', array(
                 'class' => 'SkedAppCoreBundle:AppointmentDuration',
                 'label' => 'Session length:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span4')
             ))
+            ->add('currentId', 'hidden')
 
 
         ;

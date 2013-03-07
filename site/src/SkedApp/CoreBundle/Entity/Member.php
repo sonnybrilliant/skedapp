@@ -849,6 +849,11 @@ class Member implements AdvancedUserInterface , \Serializable
         return $this->enabled;
     }
 
+    public function isAdmin()
+    {
+        return $this->isAdmin;
+    }
+    
     /**
      * Get full name of member
      *
@@ -856,13 +861,7 @@ class Member implements AdvancedUserInterface , \Serializable
      */
     public function getFullName ()
     {
-        $strOut = $this->firstName;
-
-        if (strlen ($this->lastName) > 0)
-                $strOut .= ' ' . $this->lastName;
-
-        return $strOut;
-
+        return $this->firstName.' '.$this->lastName;
     }
 
 }

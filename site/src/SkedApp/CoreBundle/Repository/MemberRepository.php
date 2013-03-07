@@ -14,6 +14,52 @@ class MemberRepository extends EntityRepository
 {
 
     /**
+     * Get all members query
+     *
+     * @return type
+     */
+    public function getAllMembersQuery($options)
+    {
+        $user = $options['user'];
+
+        $defaultOptions = array('searchText' => '',
+            'filterBy' => '',
+            'sort' => 'm.id',
+            'direction' => 'asc');
+
+        foreach ($options as $key => $values) {
+            if (!$values)
+                $options[$key] = $defaultOptions[$key];
+        }
+
+        $qb = null;
+
+        if ($user->isAdmin()) {
+            $qb = $this->createQueryBuilder('m');
+        } else {
+            $qb = $this->createQueryBuilder('m')
+                ->select('m')
+                ->where("m.enabled = :enabled")
+                ->andWhere("m.isAdmin = :isAdmin")
+                ->andWhere("m.company = :company")
+                ->setParameters(array(
+                'enabled' => true,
+                'isAdmin' => false,
+                'company' => $user->getCompany()->getId(),
+                ));
+        }
+
+        // search
+        if ($options['searchText']) {
+            $qb->andWhere($qb->expr()->orx(
+                    $qb->expr()->like('m.firstName', $qb->expr()->literal('%' . $options['searchText'] . '%')), $qb->expr()->like('m.lastName', $qb->expr()->literal('%' . $options['searchText'] . '%')), $qb->expr()->like('m.email', $qb->expr()->literal('%' . $options['searchText'] . '%')), $qb->expr()->like('m.mobileNumber', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                ));
+        }
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
      * Get consultant admins for service provider
      *
      * @return array
@@ -28,9 +74,10 @@ class MemberRepository extends EntityRepository
             ->andWhere("m.company = :company")
             ->setParameters(array(
             'enabled' => true,
-            'isAdmin' => false,
+            'isAdmin' => true,
             'company' => $companyId,
             ));
         return $qb->getQuery()->execute();
     }
+
 }

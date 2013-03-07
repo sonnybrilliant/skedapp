@@ -2,16 +2,16 @@
 
 {% block title %}Please check your email{% endblock %}
 
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
 
 {% block body %}
-<div class="span12">
-    <h3 class="align_header">Please check your email</h3>
-    <br />
-    {% block alert %}
-        {% include "::alert.html.twig" %}
-    {% endblock %} 
-    <section class="content">
-           <p style="margin-left: 30px">Invalid link, Please follow the instructions sent you via email.</p>
-    </section>
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <h3>Please check your email</h3>
+        <div class="spacer1"></div>
+        <p><span class="label label-important">Invalid link</span>, Please follow the instructions sent you via email.</p>
+     </div> <!-- Dashboard Content --> 
 </div>
 {% endblock body %}

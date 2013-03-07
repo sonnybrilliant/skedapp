@@ -160,10 +160,10 @@ class ApiController extends Controller
 
         return $this->respond($results);
     }
-    
+
     /**
      * Search for consultant
-     * 
+     *
      * @param string $session
      * @param string $category
      * @param string $service
@@ -343,6 +343,7 @@ class ApiController extends Controller
     }
     
 
+
     /**
      * Get consultant by service Id and other criteria
      *
@@ -467,6 +468,8 @@ class ApiController extends Controller
     public function geoEncodeAddressAction()
     {
 
+        $return = new \stdClass();
+
         $formData = $this->getRequest()->get('Search');
 
         if (!isset($formData['lat'])) {
@@ -484,14 +487,18 @@ class ApiController extends Controller
         $address = $this->get('geo_encode.manager')->getGeoEncodedAddress($formData);
 
         if (isset($address['error_message'])) {
-            $address['results'] = array();
-            $results_field = 'results';
+            $return->results = array();
+            $return->status = false;
+            $return->error = 'Unable to geo encode the address. Please try again.';
         } else {
-            $address['results'] = array(1);
-            $results_field = 'results';
+            $return->results = array('address' => $address);
+            $return->status = true;
         }
 
-        return $this->respond($address, $results_field);
+        $return->request = 'registerCustomer';
+        $return->callback = '';
+
+        return $this->respond($return);
     }
 
     /**
@@ -501,60 +508,212 @@ class ApiController extends Controller
      */
     public function registerCustomersAction()
     {
+
         $return = new \stdClass();
         $formData = $this->getRequest()->get('Customer');
+        $isValid = true;
+        $errorMessage = '';
+
+        if (!isset($formData['firstName']))
+            $formData['firstName'] = '';
+
+        if (!isset($formData['lastName']))
+            $formData['lastName'] = '';
+
+        if (!isset($formData['email']))
+            $formData['email'] = '';
+
+        if (!isset($formData['password']))
+            $formData['password'] = '';
+
+        if (!isset($formData['mobileNumber']))
+            $formData['mobileNumber'] = '';
 
         $customer = new Customer();
-        $form = $this->createForm(new CustomerCreateApiType(), $customer);
 
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bindRequest($this->getRequest());
+        if (strlen($formData['firstName']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'First name is required';
+        }
 
-            if ($form->isValid()) {
+        if (strlen($formData['email']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'E-Mail is required';
+        }
 
-                $this->get('customer.manager')->createCustomer($customer);
+        if (strlen($formData['password']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'Password is required';
+        }
 
-                //Set customer to active on mobi/ app registration
-                $customer->setIsActive(true);
-                $customer->setEnabled(true);
-                $customer->setConfirmationToken('');
-                $this->container->get('customer.manager')->update($customer);
+        if (strlen($formData['mobileNumber']) <= 0) {
+            $isValid = false;
+            $errorMessage = 'Mobile number is required';
+        }
 
-                //TODO send email
-                $tmp = array(
-                    'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
-                    'link' => $this->generateUrl("_security_login", null, true)
-                );
+        if ($isValid) {
 
-                $options = array();
-                $emailBodyHtml = $this->render(
-                        'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.html.twig', $tmp
-                    )->getContent();
+            $customer->setFirstName($formData['firstName']);
+            $customer->setLastName($formData['lastName']);
+            $customer->setEmail($formData['email']);
+            $customer->setPassword($formData['password']);
+            $customer->setMobileNumber($formData['mobileNumber']);
+
+            $this->get('customer.manager')->createCustomer($customer);
+
+            //Set customer to active on mobi/ app registration
+            $customer->setIsActive(true);
+            $customer->setEnabled(true);
+            $customer->setConfirmationToken('');
+            $this->container->get('customer.manager')->update($customer);
+
+            //TODO send email
+            $tmp = array(
+                'fullName' => $customer->getFirstName() . ' ' . $customer->getLastName(),
+                'link' => $this->generateUrl("_security_login", array(), true)
+            );
+
+            $options = array();
+            $emailBodyHtml = $this->render(
+                    'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.html.twig', $tmp
+                )->getContent();
 
 
-                $emailBodyTxt = $this->render(
-                        'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.txt.twig', $tmp
-                    )->getContent();
+            $emailBodyTxt = $this->render(
+                    'SkedAppCoreBundle:EmailTemplates:customer.account.register.active.txt.twig', $tmp
+                )->getContent();
 
-                $options['bodyHTML'] = $emailBodyHtml;
-                $options['bodyTEXT'] = $emailBodyTxt;
-                $options['email'] = $customer->getEmail();
-                $options['fullName'] = $tmp['fullName'];
+            $options['bodyHTML'] = $emailBodyHtml;
+            $options['bodyTEXT'] = $emailBodyTxt;
+            $options['email'] = $customer->getEmail();
+            $options['fullName'] = $tmp['fullName'];
 
-                $this->get("notification.manager")->customerAccountVerification($options);
+            $this->get("notification.manager")->customerAccountVerification($options);
 
-                $return->results = array('message' => 'You have successfully registered and activated your account. You are now logged in.', 'customer' => $customer->getObjectAsArray());
-            } else {
-                $return->status = false;
-                $return->error = $form->getErrorsAsString();
-            }
+            $return->status = true;
+            $return->results = array('message' => 'You have successfully registered and activated your account. You are now logged in.', 'customer' => $customer->getObjectAsArray());
         } else {
             $return->status = false;
-            $return->error = 'Form submission failed';
+            $return->error = $errorMessage;
         }
 
         $return->request = 'registerCustomer';
         $return->callback = '';
+
+        return $this->respond($return);
+    }
+
+    /**
+     * Check if a consultant is available
+     *
+     * @return json response
+     */
+    public function checkConsultantAvailableAction($consultantId, $bookingDateTime)
+    {
+
+        $bookingStartDateTime = new \DateTime($bookingDateTime);
+
+        //Instantiate a mock booking entity to check availability
+        $booking = new \SkedApp\CoreBundle\Entity\Booking();
+        $consultant = $this->get('consultant.manager')->getById($consultantId);
+        $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('P' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+        $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+
+        $booking->setConsultant($consultant);
+        $booking->setAppointmentDate($bookingStartDateTime);
+        $booking->setStartTimeslot($startTimeSlot);
+        $booking->setEndTimeslot($endTimeSlot);
+
+        //Send the text string address typed by the user and any other information received from the search form to be properly geo-coded
+        $available = $this->get('booking.manager')->isBookingDateAvailable($booking);
+
+        $return = new \stdClass();
+        $return->request = 'consultantAvailable';
+        $return->callback = null;
+
+        if ($available) {
+            $return->results = array(1);
+            $return->status = true;
+        } else {
+            $return->results = array();
+            $return->status = false;
+            $return->error = 'This consultant is not available at that time';
+        }
+
+        return $this->respond($return);
+    }
+
+    /**
+     * Make a booking
+     *
+     * @return json response
+     */
+    public function makeBookingAction($consultantId, $serviceId, $bookingDateTime, $customerId)
+    {
+
+        $bookingStartDateTime = new \DateTime($bookingDateTime);
+
+        //Instantiate a mock booking entity to check availability
+        $booking = new \SkedApp\CoreBundle\Entity\Booking();
+        $consultant = $this->get('consultant.manager')->getById($consultantId);
+        $service = $this->get('service.manager')->getById($serviceId);
+        $customer = $this->get('customer.manager')->getById($customerId);
+        $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+        $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+
+        $isValid = true;
+
+        $booking->setConsultant($consultant);
+        $booking->setService($service);
+        $booking->setAppointmentDate($bookingStartDateTime);
+        $booking->setStartTimeslot($startTimeSlot);
+        $booking->setEndTimeslot($endTimeSlot);
+        $booking->setHiddenAppointmentStartTime($bookingStartDateTime->format('Y-m-d H:i'));
+        $booking->setHiddenAppointmentEndTime($bookingEndDateTime->format('Y-m-d H:i'));
+        $booking->setIsConfirmed(false);
+        $booking->setIsLeave(false);
+
+        if (!$this->get('booking.manager')->isTimeValid($booking)) {
+            $errMsg = "End time must be greater than start time";
+            $isValid = false;
+        }
+
+        if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+            $errMsg = "Booking not available, please choose another time.";
+            $isValid = false;
+        }
+
+        if (!$customer instanceOf Customer) {
+            $errMsg = "Please register on the site and log in to create a booking.";
+            $isValid = false;
+        }
+
+        $return = new \stdClass();
+        $return->request = 'makeBooking';
+        $return->callback = null;
+
+        if ($isValid) {
+
+            $this->get('booking.manager')->save($booking);
+
+            $options = array(
+              'booking' => $booking,
+              'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+            );
+
+            //send booking created notification emails
+            $this->get("notification.manager")->createdBooking($options);
+
+            $return->results = array(1);
+            $return->status = true;
+
+        } else {
+            $return->results = array();
+            $return->status = false;
+            $return->error = $errMsg;
+        }
 
         return $this->respond($return);
     }

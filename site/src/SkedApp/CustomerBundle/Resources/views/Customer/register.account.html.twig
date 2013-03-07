@@ -1,20 +1,20 @@
+
+
 {% extends "SkedAppCustomerBundle::layout.html.twig" %}
 
 {% block title %}Register account{% endblock %}
-
 {% block body %}
-<div class="span12">
-    <div class="span8" style="margin-left: 0px">
-        <h3>Register account</h3>
+<div class="row-fluid body-main rounded-all">
+<div class="span5">
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
 
         {% include "SkedAppCustomerBundle:Customer:form.register.account.html.twig" %}
     </div>
-    <div class="span3">
-        <div class="well emphasize-dark">
-            <h4><i class="icon-info-sign"></i>&nbsp; Hints </h4>
+<div class="span6">
+        <div class="hint-box">
+            <h3><span class="asterisk">*</span>Hints</h3>
             <br />
             <p class="pull-right">
                     <ol>
@@ -25,6 +25,6 @@
 
             </p>
         </div>
-    </div>
+</div>
 </div>
 {% endblock body %}

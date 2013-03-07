@@ -35,15 +35,11 @@ class CompanyPhotos
     /**
      * @var string
      *
-     * @Assert\NotBlank(message = "First name cannot be blank!")
-     * @Assert\MinLength(limit= 2, message="First name must have at least {{ limit }} characters.")
-     * @Assert\MaxLength(limit= 100, message="First name has a limit of {{ limit }} characters.")
-     * @Assert\Regex(pattern="/\d/",
-     *               match=false,
-     *               message="First name cannot contain a number"
-     *  )
+     * @Assert\NotBlank(message = "Caption cannot be blank!")
+     * @Assert\MinLength(limit= 2, message="Caption must have at least {{ limit }} characters.")
+     * @Assert\MaxLength(limit= 100, message="Caption has a limit of {{ limit }} characters.")
      *
-     * @ORM\Column(name="first_name", type="string", length=100)
+     * @ORM\Column(name="caption", type="string", length=100)
      */
     protected $caption;
 
@@ -51,7 +47,7 @@ class CompanyPhotos
      * @var SkedApp\CoreBundle\Entity\Company
      *
      *
-     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="consultants")
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Company", inversedBy="companyPhotos")
      * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
      */
     protected $company;
@@ -107,6 +103,8 @@ class CompanyPhotos
         $this->setIsLocked(false);
         $this->setIsActive(true);
         $this->isDeleted = false;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function __toString()

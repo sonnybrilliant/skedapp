@@ -15,11 +15,15 @@ sked_app_customer_delete:
         id:  \d+
 
 sked_app_customer_list_bookings:
-    pattern:  /customer/bookings/list/{id}
-    defaults: { _controller: SkedAppCustomerBundle:Customer:listBookings }
+    pattern:  /customer/bookings/list/
+    defaults: { _controller: SkedAppCustomerBundle:Bookings:list }
+
+sked_app_customer_booking_details:
+    pattern:  /customer/booking/detail/{id}
+    defaults: { _controller: SkedAppCustomerBundle:Bookings:details }
     requirements:
-        id:  \d+
-        
+        id:  \d+    
+
 sked_app_customer_register:
     pattern:  /customer/register
     defaults: { _controller: SkedAppCustomerBundle:Customer:register }
@@ -27,13 +31,23 @@ sked_app_customer_register:
 sked_app_customer_register_account:
     pattern:  /customer/register/account
     defaults: { _controller: SkedAppCustomerBundle:Customer:registerAccount }
-    
+
 sked_app_customer_register_success:
     pattern:  /customer/register/success/{email}
-    defaults: { _controller: SkedAppCustomerBundle:Customer:registerSuccess } 
-    
+    defaults: { _controller: SkedAppCustomerBundle:Customer:registerSuccess }
+
 sked_app_customer_account_activate:
     pattern: /customer/account/activate/{token}
     defaults: { _controller: SkedAppCustomerBundle:Customer:accountActivate}
     requirements:
-        _method: GET|POST    
+        _method: GET|POST
+
+sked_app_customer_invite_friend:
+    pattern: /customer/friend/invite/{consultant}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:inviteFriend}
+    requirements:
+        _method: GET|POST
+
+sked_app_customer_customer_potential_update:
+    pattern: /customer/potential/update
+    defaults: { _controller: SkedAppCustomerBundle:CustomerPotential:update}

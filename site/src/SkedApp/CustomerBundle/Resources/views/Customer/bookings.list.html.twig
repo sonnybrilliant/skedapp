@@ -2,21 +2,26 @@
 {% extends "SkedAppCustomerBundle::layout.html.twig" %}
 {% block title %}My bookings{% endblock %}
 
+
+{% block menu %}
+           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer , 'controller' : 'bookings' } %} 
+{% endblock menu %} 
+
 {% block body %}
-    {% block menu %}
-     <div class="span3 bs-docs-sidenav">
-           {% include "SkedAppCustomerBundle::menu.html.twig" with {'customer' : customer } %} 
-     </div>       
-    {% endblock menu %}    
-    {% block content %}
-     <div class="span9">
+<div class="row-fluid body-secondary">
+    <div class="span12">
         <h3>My bookings</h3>
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
-        <div class="span9" style="margin-left: 0px">
-            {% include "SkedAppCustomerBundle:Customer:bookings.list.table.html.twig" %}
-        </div>        
-     </div>  
-    {% endblock content %}   
+        <div style="width: 414px;" class="span6 pull-right">
+                
+                <form class="form-inline pull-right">
+                    <div class="input-prepend space-left20">
+                        <span class="add-on"><i class="icon-search" ></i></span>
+                        <input style="border-radius: 0;" name="searchText" title="search" type="text" value="" placeholder="search" class="input-small search" />
+                        <input style="height: 30px; border-radius: 0 4px 4px 0;" type="submit" value="GO!" class="btn btn-warning search-button" />
+                    </div>
+                </form>
+            </div>
+        {% include "SkedAppCustomerBundle:Customer:bookings.list.table.html.twig" %}
+    </div> <!-- Dashboard Content --> 
+</div>  
 {% endblock body %}

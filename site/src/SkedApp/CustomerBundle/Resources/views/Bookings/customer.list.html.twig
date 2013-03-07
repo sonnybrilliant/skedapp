@@ -1,0 +1,31 @@
+
+{% extends "SkedAppCustomerBundle::layout.customer.html.twig" %}
+{% block title %}My bookings{% endblock %}
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid body-secondary rounded-bottom">
+
+    <div class="span12">
+
+        <h3>My bookings</h3>
+        <div class="span5 pull-right">
+
+                <a href="{{ path('_welcome') }}" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Make a Booking</strong></a>
+
+                <form class="form-inline pull-right">
+                    <div class="input-prepend space-left20">
+                        <span class="add-on"><i class="icon-search" ></i></span>
+                        <input style="border-radius: 0;" name="searchText" title="search" type="text" value="" placeholder="search" class="input-small search" />
+                        <input style="height: 30px; border-radius: 0 4px 4px 0;" type="submit" value="GO!" class="btn btn-warning search-button" />
+                    </div>
+                </form>
+            </div>
+        <div class="clearfix"></div>
+        {% include "SkedAppCustomerBundle:Bookings:customer.list.table.html.twig" %}
+    </div> <!-- Dashboard Content -->
+</div>
+{% endblock body %}

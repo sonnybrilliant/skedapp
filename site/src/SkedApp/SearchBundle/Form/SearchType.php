@@ -23,7 +23,13 @@ class SearchType extends AbstractType
      *
      * @var Integer
      */
-    private $categoryId = null;
+    private $category = null;
+
+    /**
+     *
+     * @var Integer
+     */
+    private $service = null;
 
     /**
      *
@@ -31,13 +37,14 @@ class SearchType extends AbstractType
      */
     private $date = null;
 
-    public function __construct($categoryId = 0, $date = '')
+    public function __construct($category = null, $date = '', $service = null)
     {
 
         if (strlen($date) <= 0)
             $date = date('d-m-Y');
 
-        $this->categoryId = $categoryId;
+        $this->category = $category;
+        $this->service = $service;
         $this->date = $date;
     }
 
@@ -51,7 +58,8 @@ class SearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $categoryId = $this->categoryId;
+        $category = $this->category;
+        $service = $this->service;
         $date = $this->date;
 
         $builder
@@ -60,7 +68,7 @@ class SearchType extends AbstractType
                 'empty_value' => 'Select a category',
                 'label' => 'Category:',
                 'required' => true,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
@@ -69,7 +77,7 @@ class SearchType extends AbstractType
             ))
             ->add('address', 'text', array(
                 'label' => 'Type your current location:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('locality', 'hidden')
             ->add('country', 'hidden', array ('attr' => array ('value' => 'South Africa')))
@@ -82,16 +90,16 @@ class SearchType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => true,
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
 
             ))
             ->add('booking_date', 'text', array(
                 'label' => 'Date:',
                 'required' => true,
-                'attr' => array('class' => 'span4', 'value' => $date),
+                'attr' => array('class' => 'span12', 'value' => $date),
 
             ))
-            ->add('hidden_category', 'hidden', array('attr' => array('value' => $categoryId)))
+            ->add('hidden_category', 'hidden', array('attr' => array('value' => $category)))
         ;
     }
 
@@ -107,24 +115,28 @@ class SearchType extends AbstractType
     public function getDefaultOptions(array $options)
     {
 
-        $categoryId = $this->categoryId;
+        $category = $this->category;
         $date = $this->date;
+        $service = $this->service;
 
         return array(
-            'category' => $categoryId,
+            'category' => $category,
             'booking_date' => $date,
+            'consultantServices' => $service,
         );
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 
-        $categoryId = $this->categoryId;
+        $category = $this->category;
         $date = $this->date;
+        $service = $this->service;
 
         $resolver->setDefaults(array(
-            'category' => $this->categoryId,
+            'category' => $category,
             'booking_date' => $date,
+            'consultantServices' => $service,
         ));
     }
 

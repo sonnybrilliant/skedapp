@@ -1,35 +1,52 @@
 sked_app_category_list:
-    pattern:  /category/list
-    defaults: { _controller: SkedAppCategoryBundle:Category:list }
+    pattern:  /category/list.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:list , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html    
 
 sked_app_category_new:
-    pattern:  /category/new
-    defaults: { _controller: SkedAppCategoryBundle:Category:new }
+    pattern:  /category/new.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:new , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html    
 
 sked_app_category_create:
-    pattern:  /category/create
-    defaults: { _controller: SkedAppCategoryBundle:Category:create }
+    pattern:  /category/create.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:create , _format: html }
+    requirements:
+        _method:  GET|POST 
+        _format:  html    
 
 sked_app_category_edit:
-    pattern:  /category/edit/{id}
-    defaults: { _controller: SkedAppCategoryBundle:Category:edit }
+    pattern:  /category/edit/{id}.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:edit , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html           
 
 sked_app_category_update:
-    pattern:  /category/update/{id}
-    defaults: { _controller: SkedAppCategoryBundle:Category:update }
+    pattern:  /category/update/{id}.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:update , _format: html }
     requirements:
         id:  \d+
+        _method:  GET|POST
+        _format:  html           
 
 sked_app_category_show:
-    pattern:  /category/show/{id}
-    defaults: { _controller: SkedAppCategoryBundle:Category:show }
+    pattern:  /category/show/{id}.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:show  , _format: html }
     requirements:
         id:  \d+
-
+        _method:  GET 
+        _format:  html   
+        
 sked_app_category_delete:
-    pattern:  /category/delete/{id}
-    defaults: { _controller: SkedAppCategoryBundle:Category:delete }
+    pattern:  /category/delete/{id}.{_format}
+    defaults: { _controller: SkedAppCategoryBundle:Category:delete , _format: html }
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html           

@@ -3,18 +3,15 @@
 namespace SkedApp\SearchBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use SkedApp\CoreBundle\Entity\company;
-use SkedApp\CoreBundle\Entity\Category;
-use SkedApp\CoreBundle\Entity\Consultant;
-use SkedApp\CoreBundle\Entity\Service;
 use SkedApp\SearchBundle\Form\SearchType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
+use Ivory\GoogleMap\Services\Geocoding\Geocoder;
 
 /**
- * SkedApp\ConsultantBundle\Controller\ConsultantController
+ * SkedApp\SearchBundle\Controller\ConsultantController
  *
- * @author Otto Saayman <otto.saayman@kaizania.co.za>
+ * @author Otto Saayman <otto.saayman@creativecloud.co.za>
  * @package SkedAppSearchBundle
  * @subpackage Controller
  * @version 0.0.1
@@ -22,49 +19,192 @@ use Symfony\Component\HttpFoundation\Response;
 class SearchController extends Controller
 {
 
-    /**
-     * ssearch results
-     *
-     * @return View
-     * @throws AccessDeniedException
-     */
     public function resultsAction($page = 1)
     {
 
         $this->get('logger')->info('search results');
 
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
+        $options = array();
 
-        $options = array('sort' => $sort,
-            'direction' => $direction
-        );
+        //In order to display the default value of TODAY for the booking date and to display the chosen dat in search result, the form post data needs to be passed to
+        // the search form if it is there
 
-        //Instantiate search form
-        $formData = $this->getRequest()->get('Search');
+        $data = $this->getRequest()->get('Search');
 
-        if (!isset($formData['booking_date'])){
-          $formData['booking_date'] = $this->getRequest()->get('date', '');
+        if(!is_array($data)){
+          //Populate values from query string
+            $data['lat'] = $this->getRequest()->get('lat');
+            $data['lng'] = $this->getRequest()->get('lng');
+            $data['consultantServices'] = $this->getRequest()->get('serviceId');
+            $data['category'] = $this->getRequest()->get('categoryId');
+            $data['booking_date'] = $this->getRequest()->get('date');
         }
 
-        if (!isset($formData['lat'])){
-          $formData['lat'] = $this->getRequest()->get('pos_lat', null);
+        $form = $this->createForm(new SearchType($data['category'], $data['booking_date'], $data['consultantServices']));
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+            if ($form->isValid()) {
+
+                $data = $form->getData();
+
+                $options['lat'] = $data['lat'];
+                $options['lng'] = $data['lng'];
+                $options['radius'] = 20;
+                $options['category'] = $data['category'];
+                $options['categoryId'] = $data['category']->getId();
+                $options['service'] = $data['consultantServices'];
+                $options['serviceId'] = $data['consultantServices']->getId();
+                $options['date'] = $data['booking_date'];
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Failed search');
+            }
+        } else {
+
+            $service = $this->get('service.manager')->getById($data['consultantServices']);
+            $category = $this->get('category.manager')->getById($data['category']);
+
+            $options['lat'] = $data['lat'];
+            $options['lng'] = $data['lng'];
+            $options['radius'] = 20;
+            $options['category'] = $category;
+            $options['categoryId'] = $category->getId();
+            $options['service'] = $service;
+            $options['serviceId'] = $service->getId();
+            $options['date'] = $data['booking_date'];
+
+            //Get address from lat/ long
+            $geocoder = new Geocoder();
+            $adapter  = new \Geocoder\HttpAdapter\BuzzHttpAdapter();
+
+            $geocoder->registerProviders(array(
+                new \Geocoder\Provider\GoogleMapsProvider(
+                    $adapter
+                ),
+            ));
+
+            $address = $geocoder->reverse($data['lat'], $data['lng']);
+
+            $addressString = $address->getStreetNumber();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ' ';
+
+            $addressString .= $address->getStreetName();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getCityDistrict();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getCity();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getZipcode();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getRegion();
+
+            if (strlen($addressString) > 0)
+                $addressString .= ', ';
+
+            $addressString .= $address->getCountry();
+
+            $form->setData(array('address' => $addressString, 'lat' => $options['lat'], 'lng' => $options['lng'], 'service' => $service, 'category' => $category));
+
+        }
+
+        $searchResults = $this->container
+            ->get('consultant.manager')
+            ->listAllWithinRadius($options);
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $searchResults['results'], $this->getRequest()->query->get('page', $page), 5
+        );
+
+        $paginationParams = array();
+
+        //Read form variables into an array
+        foreach ($options as $strKey => $strValue) {
+            $paginationParams['Search[' . $strKey . ']'] = $strValue;
+        }
+
+        foreach ($pagination as $consultant) {
+            $date = new \DateTime($options['date']);
+            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
+            $consultant->setAvailableBookingSlots($slots);
+        }
+
+        return $this->render('SkedAppSearchBundle:Search:search.html.twig', array(
+                'form' => $form->createView(),
+                'pagination' => $pagination,
+                'options' => $options,
+                'paginationParams' => $paginationParams
+            ));
+    }
+
+    public function resultAction($page = 1)
+    {
+
+        $this->get('logger')->info('search results');
+
+        $options = array();
+        $form = $this->createForm(new SearchType());
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+            if ($form->isValid()) {
+
+                $data = $form->getData();
+
+                $options['lat'] = $data('lat');
+                $options['lng'] = $data('lng');
+                $options['radius'] = 20;
+                $options['category'] = $data('category');
+
+
+                ladybug_dump($data);
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Failed search');
+            }
+        }
+
+
+        $formData = $this->getRequest()->get('Search');
+
+        if (!isset($formData['booking_date'])) {
+            $formData['booking_date'] = $this->getRequest()->get('date', '');
+        }
+
+        if (!isset($formData['lat'])) {
+            $formData['lat'] = $this->getRequest()->get('pos_lat', null);
         }
 
         if (!isset($formData['lng']))
-          $formData['lng'] = $this->getRequest()->get('pos_lng', null);
+            $formData['lng'] = $this->getRequest()->get('pos_lng', null);
 
-        if (!isset ($formData['consultantServices']))
+        if (!isset($formData['consultantServices']))
             $formData['consultantServices'] = $this->getRequest()->get('service_ids', array());
         if (!is_array($formData['consultantServices']))
             $formData['consultantServices'] = explode(',', $formData['consultantServices']);
 
-        if (!isset ($formData['category']))
+        if (!isset($formData['category'])) {
             $formData['category'] = $this->getRequest()->get('category_id', 0);
+        }
 
         $form = $this->createForm(new SearchType($formData['category'], $formData['booking_date']));
 
-        if ( (!is_null($formData['lat'])) && (!is_null($formData['lng'])) && ($formData['category'] > 0) ) {
+        if ((!is_null($formData['lat'])) && (!is_null($formData['lng'])) && ($formData['category'] > 0)) {
 
             if ($this->getRequest()->getMethod() == 'POST')
                 $form->bindRequest($this->getRequest());
@@ -74,9 +214,8 @@ class SearchController extends Controller
             $options['radius'] = 20;
             $options['categoryId'] = $formData['category'];
 
-            if ( (isset ($formData['consultantServices'])) && (count($formData['consultantServices']) > 0) )
-              $options['consultantServices'] = $formData['consultantServices'];
-
+            if ((isset($formData['consultantServices'])) && (count($formData['consultantServices']) > 0))
+                $options['consultantServices'] = $formData['consultantServices'];
         }
 
         $arrResults = $this->container->get('consultant.manager')->listAllWithinRadius($options);
@@ -102,13 +241,11 @@ class SearchController extends Controller
 
         foreach ($pagination as $objConsultant) {
             $objDateSend = new \DateTime($formData['booking_date']);
-            $objConsultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($objConsultant, $objDateSend));
+            $objConsultant->setAvailableBookingSlots($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($objConsultant, $objDateSend));
         }
 
         return $this->render('SkedAppSearchBundle:Search:search.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
                 'form' => $form->createView(),
                 'intPositionLat' => $formData['lat'],
                 'intPositionLong' => $formData['lng'],

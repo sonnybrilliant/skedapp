@@ -32,27 +32,27 @@ class CustomerCreateApiType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(
                 'label' => 'Last name:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('mobileNumber', 'text', array(
                 'label' => 'Mobile number:',
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('landLineNumber', 'text', array(
                 'label' => 'Land line number:',
                 'required' => false,
-                'attr' => array('class' => 'span4')
+                'attr' => array('class' => 'span12')
             ))
             ->add('email', 'email', array(
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'label' => 'Email address:'
             ))
             ->add('password', 'password', array(
-                'attr' => array('class' => 'span4'),
+                'attr' => array('class' => 'span12'),
                 'label' => 'Password:'
             ))
             ->add('internet', 'checkbox', array(

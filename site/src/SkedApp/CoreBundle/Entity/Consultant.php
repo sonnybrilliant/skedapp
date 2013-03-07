@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
- * SkedApp\CoreBundle\Entity\Company
+ * SkedApp\CoreBundle\Entity\Consultant
  *
  * @ORM\Table(name="consultant")
  * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\ConsultantRepository")
@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
  * @subpackage Entity
  * @version 0.0.1
  */
-class Consultant implements AdvancedUserInterface , \Serializable
+class Consultant implements AdvancedUserInterface, \Serializable
 {
 
     /**
@@ -83,6 +83,13 @@ class Consultant implements AdvancedUserInterface , \Serializable
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    protected $slug;
 
     /**
      * @var string
@@ -177,6 +184,15 @@ class Consultant implements AdvancedUserInterface , \Serializable
      * @ORM\Column(name="professional_statement", type="text", length=10000, nullable=true)
      */
     protected $professionalStatement;
+
+    /**
+     * @var SkedApp\CoreBundle\Entity\Category
+     *
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Category")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    protected $category;
 
     /**
      * @var ArrayCollection
@@ -329,7 +345,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
      * )
      */
     public $picture;
-    public $category = null;
+
     public $available_slots;
 
     public function __construct()
@@ -379,6 +395,24 @@ class Consultant implements AdvancedUserInterface , \Serializable
     public function equals(AdvancedUserInterface $user)
     {
         return md5($this->getUsername()) == md5($user->getUsername());
+    }
+
+    /**
+     * Create slug
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function slugify()
+    {
+        $text = $this->getFullName() . ' ' . $this->getCompany()->getId();
+        // replace all non letters or digits by -
+        $text = preg_replace('/\W+/', '-', $text);
+
+        // trim and lowercase
+        $text = strtolower(trim($text, '-'));
+
+        $this->slug = $text;
     }
 
     /**
@@ -1337,14 +1371,14 @@ class Consultant implements AdvancedUserInterface , \Serializable
         return $this->consultantRoles;
     }
 
-        /**
+    /**
      * @see \Serializable::serialize()
      */
     public function serialize()
     {
         return serialize(array(
-            $this->id,
-        ));
+                $this->id,
+            ));
     }
 
     /**
@@ -1354,7 +1388,7 @@ class Consultant implements AdvancedUserInterface , \Serializable
     {
         list (
             $this->id,
-        ) = unserialize($serialized);
+            ) = unserialize($serialized);
     }
 
     public function isAccountNonExpired()
@@ -1382,20 +1416,14 @@ class Consultant implements AdvancedUserInterface , \Serializable
      *
      * @return string
      */
-    public function getFullName ()
+    public function getFullName()
     {
-        $strOut = $this->firstName;
-
-        if (strlen ($this->lastName) > 0)
-                $strOut .= ' ' . $this->lastName;
-
-        return $strOut;
-
+        return $this->firstName . ' ' . $this->lastName;
     }
 
-    public function getObjectAsArray ()
+    public function getObjectAsArray()
     {
-        return array (
+        return array(
             'id' => $this->getId(),
             'gender' => $this->getGender()->getName(),
             'company' => $this->getCompany()->getObjectAsArray(),
@@ -1425,4 +1453,70 @@ class Consultant implements AdvancedUserInterface , \Serializable
         );
     }
 
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Consultant
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \SkedApp\CoreBundle\Entity\Category $category
+     * @return Consultant
+     */
+    public function setCategory(\SkedApp\CoreBundle\Entity\Category $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \SkedApp\CoreBundle\Entity\Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set current id - Fake to accommodate id on the edit form which is used to select services
+     *
+     * @param integer $currentId
+     * @return Consultant
+     */
+    public function setCurrentId($currentId)
+    {
+        return $this;
+    }
+
+    /**
+     * Get current id - Fake to accommodate id on the edit form which is used to select services
+     *
+     * @return integer
+     */
+    public function getCurrentId()
+    {
+        return $this->id;
+    }
 }

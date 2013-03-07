@@ -3,6 +3,38 @@
 
 {% block body %}
     {% block content %}
+
+        <script language="JavaScript">
+
+        var serviceProviderIDs = new Array();
+        var serviceProviders = new Array();
+        var searchLatitude = '{{ intPositionLat }}';
+        var searchLongitude = '{{ intPositionLong }}';
+        var searchDate = '{{ dateFull }}';
+        var searchCategoryId = '{{ category_id }}';
+        var searchServiceIds = '{{ serviceIds }}';
+        var intCCnt = 0;
+        var intSPCnt = 0;
+
+        serviceProviderIDs[intSPCnt] = {{ consultant.company.id }};
+        intSPCnt++;
+
+        serviceProviders[{{ consultant.company.id }}] = new Array();
+        serviceProviders[{{ consultant.company.id }}]['name'] = '{{ consultant.company.name }}';
+        serviceProviders[{{ consultant.company.id }}]['address'] = '{{ consultant.company.address }}';
+        serviceProviders[{{ consultant.company.id }}]['lat'] = '{{ consultant.company.lat }}';
+        serviceProviders[{{ consultant.company.id }}]['lng'] = '{{ consultant.company.lng }}';
+        serviceProviders[{{ consultant.company.id }}]['consultants'] = new Array();
+
+        intCCnt = 0;
+
+        serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt] = new Array();
+        serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt]['id'] = '{{ consultant.id }}';
+        serviceProviders[{{ consultant.company.id }}]['consultants'][intCCnt]['fullName'] = '{{ consultant.fullName }}';
+        intCCnt++;
+
+        </script>
+
             <div class="span12">
                 <h4>Consultant profile</h4>
                 <div class="pull-right">
@@ -14,7 +46,7 @@
                     {#end form display===============================#}
 
                 </div>
-                <div style="clear:both;"></div>
+
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
@@ -28,38 +60,59 @@
                         <div class="tab-pane active" id="tab1">
                             <div class="row">
                                 <div class="span2"><img src="/uploads/consultants/{{ consultant.id }}.{{ consultant.path }}" width="150px" height="120px" alt="profile picture" class="img-polaroid"></div>
-                                <div class="span4">
-                                    <p><strong>Fullname</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
-                                    <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
-                                    <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
-                                    <p><strong>Speciality</strong>: <br /> {{ consultant.speciality|raw }}</p>
-                                    <p><strong>Professional Statement</strong>: <br /> {{ consultant.professionalStatement|raw }}</p>
+                                <div class="span4 margintop15px">
 
-                                    {% if intPositionLat > 0 and intPositionLng > 0 %}
-                                    <span>
-                                          <label class="lblView">
-                                              Distance from you:<br />
-                                              <span class="spnNotes">(Point to point)</span>
-                                          </label>
-                                          <div class="divViewData">
-                                              {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
-                                          </div>
-                                          <div style="clear: both;"></div>
-                                    </span>
-                                    {% endif %}
+                                    <div class="span2">
+                                      <p><strong>Full name</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
+                                      <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
+                                      <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
+                                      <p><strong>Speciality</strong>: <br /> {{ consultant.speciality|raw }}</p>
+                                      <p><strong>Professional Statement</strong>: <br /> {{ consultant.professionalStatement|raw }}</p>
 
-                                    <p>
-                                        <strong>Services</strong>:
-                                        {% for service in consultant.consultantServices %}
-                                          <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
-                                        {% else %}
-                                         No listed services found.
-                                        {% endfor %}
+                                      {% if intPositionLat != 0 and intPositionLong != 0 %}
+                                      <span>
+                                            <label class="lblView">
+                                                Distance from you:<br />
+                                                <span class="spnNotes">(Point to point)</span>
+                                            </label>
+                                            <div class="divViewData">
+                                                {{consultant.distanceFromPositionString (intPositionLat, intPositionLong)}}
+                                            </div>
 
-                                    </p>
+                                      </span>
+                                      {% endif %}
+
+                                      <p>
+                                          <strong>Services</strong>:
+                                          {% for service in consultant.consultantServices %}
+                                            <span class="label {{ cycle(['label-inverse', 'label-success'], service.id) }}">{{ service.name }}</span>
+                                          {% else %}
+                                           No listed services found.
+                                          {% endfor %}
+
+                                      </p>
+                                      <p><a href="{{ path("sked_app_invite_friends_consultant",{'id':consultant.id})}}" class="btn btn-warning" data-toggle="button" >"Refer a friend</a></p>
+                                    </div>
+
+                                    <div class="span2 pull-right mapInterface">
+                                        <div id="map_canvas" class="img-polaroid mapRadius"></div>
+                                    </div>
+                                    <div style="clear: both;"></div>
+
+                                    <input type="hidden" id="Search_address" name="Search[address]" value="" />
+                                    <input type="hidden" id="Search_locality" name="Search[locality]" value="" />
+                                    <input type="hidden" id="Search_administrative_area_level_2" name="Search[administrative_area_level_2]" value="" />
+                                    <input type="hidden" id="Search_administrative_area_level_1" name="Search[administrative_area_level_1]" value="" />
+                                    <input type="hidden" id="Search_country" name="Search[country]" value="" />
+                                    <input type="hidden" id="Search_lat" name="Search[lat]" value="{{ intPositionLat }}" />
+                                    <input type="hidden" id="Search_lng" name="Search[lng]" value="{{ intPositionLong }}" />
+                                    <script type="text/javascript">
+                                    var blnAddress = true;
+                                    </script>
+
                                 </div>
 
-                                <div style="clear: both;"></div>
+
                                 <p>&nbsp;</p>
 
                                 <div class="divTimeSlotsAround">
@@ -74,7 +127,7 @@
                                                   <div class="divTimeSlotTaken">Taken</div>
                                               {% else %}
                                                   <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': serviceIds}) }}"><div class="divTimeSlotAvailable">
-                                                      {{ time_slot.start_time }} to {{ time_slot.end_time }}<br />
+                                                      {{ time_slot.start_time }}<br />
                                                       <span class="spnTimeSlotNotes">{{ time_slot.dow }} {{ time_slot.date }} {{ time_slot.year }}</span>
                                                   </div></a>
                                               {% endif %}
@@ -85,18 +138,27 @@
                                           Please set a date to view available booking slots
                                     {% endif %}
                                 </div>
-                                <div style="clear: both;"></div>
 
                             </div>
                         </div>
                         <div class="tab-pane" id="tab2">
                             <p><strong>Employer</strong>: {{ company.name }}</p>
+                            <p><strong>Summary</strong>: <br /> {{ company.description|raw }}</p>
                             <p>
                                 <strong>Location</strong>:<br />
-                                {{ company.address }} <br />
-                                {{ company.locality }} <br />
-                                {{ company.country }} <br />
+                                {{ company.address }}
                             </p>
+
+                            <p>
+                                <strong>Other Consultants Available</strong>: <br />
+                                {% for consultant in otherConsultants %}
+                                    {% include "SkedAppSearchBundle:Search:consultant.html.twig" %}
+                                    <div style="clear: both;"></div>
+                                {% else %}
+                                    <p>No other consultants found</p>
+                                {% endfor %}
+                            </p>
+
                         </div>
                         <div class="tab-pane" id="tab3">
 
@@ -108,3 +170,13 @@
             </div>
     {% endblock content %}
 {% endblock body %}
+
+{% block jquery_ui %}
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+{% endblock jquery_ui %}
+
+{% block javascripts %}
+<script src="{{ asset('/js/search-results.js') }}"></script>
+{% endblock javascripts %}

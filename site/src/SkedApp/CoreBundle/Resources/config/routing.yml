@@ -1,9 +1,25 @@
 _security_login:
-    pattern:  /login
-    defaults: { _controller: SkedAppCoreBundle:Security:login }
-
+    pattern:  /login.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Security:login , _format: html }
+    requirements:
+        _format:  html
+        
 _security_check:
     pattern:  /login_check
 
 _security_logout:
-    pattern:  /logout
+    pattern:  /logout    
+
+sked_app_invite_friends_loggedin:
+    pattern: /invite/friend.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Invite:inviteLoggedIn , _format: html }
+    requirements:
+        _method: GET|POST
+        _format:  html        
+        
+sked_app_invite_friends_consultant:
+    pattern: /invite/friend/{slug}.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Invite:inviteConsultant , _format: html }
+    requirements:
+        _method: GET|POST 
+        _format:  html        

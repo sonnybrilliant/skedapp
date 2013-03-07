@@ -2,13 +2,13 @@
     <table id="sortable" class="table table-striped table-condensed tablesorter">
         <thead>
           <tr>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('#', 'c.id')|raw }}</th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('First name', 'c.firstName')|raw }} </th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Last name', 'c.lastName')|raw }} </th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Email address', 'c.email')|raw }} </th>
-            <th><span class="sort-image"><img src="{{sort_img}}" title="Sort" class="{{sort}}" /></span>{{ pagination.sortable('Mobile number', 'c.mobileNumber')|raw }} </th>
+            <th>{{ knp_pagination_sortable(pagination,'#', 'c.id')}}</th>
+            <th>{{ knp_pagination_sortable(pagination,'First name', 'c.firstName')}} </th>
+            <th>{{ knp_pagination_sortable(pagination,'Last name', 'c.lastName') }} </th>
+            <th>{{ knp_pagination_sortable(pagination,'Email address', 'c.email') }} </th>
+            <th>{{ knp_pagination_sortable(pagination,'Mobile number', 'c.mobileNumber') }} </th>
             <th>Bookings</th>
-            <th>Actions</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -26,7 +26,7 @@
         </tbody>
  </table>
     <div class="pagination pull-right">
-        {{ pagination.render()|raw }}
+     {{ knp_pagination_render(pagination) }}
     </div>
 </section>
 

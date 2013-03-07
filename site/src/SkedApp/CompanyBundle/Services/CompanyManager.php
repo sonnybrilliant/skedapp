@@ -6,9 +6,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
 
 /**
- * Company manager
+ * Service provider manager
  *
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppServiceBundle
  * @subpackage Company
  * @version 0.0.1
@@ -82,6 +82,40 @@ final class CompanyManager
     }
 
     /**
+     * Get service provider by id
+     *
+     * @param integer $id
+     * @return SkedAppCoreBundle:Company
+     * @throws \Exception
+     */
+    public function getById($id)
+    {
+        $company = $this->em->getRepository('SkedAppCoreBundle:Company')
+            ->find($id);
+
+        if (!$company) {
+            throw new \Exception(' Service Provider not found for id:' . $id);
+            $this->logger->err(' Failed to find Service Provider by id:' . $id);
+        }
+
+        return $company;
+    }
+
+    /**
+     * Create new service provider
+     *
+     * @param type $company
+     * @return void
+     */
+    public function create($company)
+    {
+        $this->logger->info('Create new service provider');
+        $this->em->persist($company);
+        $this->em->flush();
+        return;
+    }
+
+    /**
      * update company
      *
      * @param type $company
@@ -89,7 +123,7 @@ final class CompanyManager
      */
     public function update($company)
     {
-        $this->logger->info('Save company');
+        $this->logger->info('Save Service Provider');
         $this->em->persist($company);
         $this->em->flush();
         return;
@@ -103,7 +137,7 @@ final class CompanyManager
      */
     public function delete($company)
     {
-        $this->logger->info('delete company');
+        $this->logger->info('delete Service Provider');
 
         $company->setIsDeleted(true);
         $company->setIsActive(false);

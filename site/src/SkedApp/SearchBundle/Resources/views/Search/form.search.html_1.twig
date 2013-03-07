@@ -1,0 +1,139 @@
+<!--<div class='tabs' style="margin-bottom: 0px; margin-left: 0px; margin-top: 2px;">
+          <div><a class="blueTab" href='#tab1'>Start Here</a></div>
+          <div><a class="orangeTab" href='#tab2'>Search</a></div>
+          <div><a class="greenTab" href='#tab3'>Confirm</a></div>
+</div>-->
+
+<div class="clearfix"></div>
+<div class="booking-background" id='tab1'>
+    <form  class="form-horizontal formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
+      <fieldset>
+        <div class="pull-left" for="company">{{ form_label(form.category) }}</div></br>
+      <div class="{% if form_errors(form.category) %} error {% endif %}">
+        
+          {{ form_widget(form.category) }}
+          <span class="help-inline">{{form_errors(form.category)}}</span>
+        
+      </div>
+      <div class="{% if form_errors(form.address) %} error {% endif %}">
+        <label class="pull-left" for="address">{{ form_label(form.address) }}</label>
+        
+
+          {{ form_widget(form.address) }}
+          {{ form_widget(form.locality) }}
+          {{ form_widget(form.administrative_area_level_2) }}
+          {{ form_widget(form.administrative_area_level_1) }}
+          {{ form_widget(form.country) }}
+          {{ form_widget(form.lat) }}
+          {{ form_widget(form.lng) }}
+
+
+          <script type="text/javascript">
+          var blnAddress = true;
+          </script>
+          <span class="help-inline">{{form_errors(form.address)}}</span>
+        
+      </div>
+      <div class="{% if form_errors(form.booking_date) %} error {% endif %}">
+        <label class="pull-left" for="booking_date">{{ form_label(form.booking_date) }}</label>
+        
+          {{ form_widget(form.booking_date) }}
+          <span class="help-inline">{{form_errors(form.booking_date)}}</span>
+        
+      </div>
+      <div class="{% if form_errors(form.consultantServices) %} error {% endif %}">
+        <label class="pull-left" for="consultant_services">{{ form_label(form.consultantServices) }}</label>
+        
+          {{ form_widget(form.consultantServices) }}
+          <span class="help-inline">{{form_errors(form.consultantServices)}}</span>
+        
+      </div>
+      <div class="submitButton">
+          <button type="submit" name="submit" class="btn pull-right" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+      </div>
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+</div>
+<div class="clesrfix"></div>
+<!--<div id='tab2'>
+  <div  class="formOrangeBackground">
+  </div>
+</div>
+
+<div id='tab3'>
+    <div  class="formGreenBackground">
+      <div>
+          <div style="margin-left:23px;">
+            <h3 class="white">Booking Details:
+            </h3>
+            <div style="float: left; width: 200px;">
+              <div class="searchResultsText white">Appointment Date:
+              </div>
+              <div class="searchResultsText white">Appointment Time:
+              </div>
+              <div class="searchResultsText white">Consultant:
+              </div>
+              <div class="searchResultsText white">Service:
+              </div>
+              <div class="searchResultsText white">Notes:</div>
+            </div>
+          </div>
+      </div>
+      <div style="float: left; width: 199px;">
+          <div class="searchResultsText">2012-02-08
+          </div>
+          <div class="searchResultsText">12:15 - 15:45
+          </div>
+          <div class="searchResultsText">Funky Guy
+          </div>
+          <div class="searchResultsText">Mens Cut
+          </div>
+      </div>
+      <div class="marginBottom10px marginLeft20px">
+            <textarea rows="3"></textarea>
+            <div class="submitButton margintop15px">
+                <button type="submit" name="submit" class="btn" data-toggle="button">
+                Create &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
+            </div>
+      </div>
+    </div>
+</div>-->
+
+
+<script>
+$('div.tabs').each(function(){
+    // For each set of tabs, we want to keep track of
+    // which tab is active and it's associated content
+    var $active, $content, $links = $(this).find('a');
+
+    // If the location.hash matches one of the links, use that as the active tab.
+    // If no match is found, use the first link as the initial active tab.
+    $active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
+    $active.addClass('active');
+    $content = $($active.attr('href'));
+
+    // Hide the remaining content
+    $links.not($active).each(function () {
+        $($(this).attr('href')).hide();
+    });
+
+    // Bind the click event handler
+    $(this).on('click', 'a', function(e){
+        // Make the old tab inactive.
+        $active.removeClass('active');
+        $content.hide();
+
+        // Update the variables with the new link and content
+        $active = $(this);
+        $content = $($(this).attr('href'));
+
+        // Make the tab active.
+        $active.addClass('active');
+        $content.show();
+
+        // Prevent the anchor's default click action
+        e.preventDefault();
+    });
+});
+</script>

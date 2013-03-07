@@ -23,7 +23,11 @@
               </tr>
               <tr>
                   <td><strong>Service</strong>:</td>
-                  <td>{{ booking.service.name }}</td>
+                  <td>
+                      {% if booking.service is not null %}
+                          {{ booking.service.name }}
+                      {% endif %}
+                  </td>
               </tr>
               <tr>
                   <td><strong>Confirmed</strong>:</td>

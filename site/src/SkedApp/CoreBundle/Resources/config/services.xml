@@ -11,6 +11,7 @@
         <parameter key="email_manager.class">SkedApp\CoreBundle\Services\EmailerManager</parameter>  
         <parameter key="notification_manager.class">SkedApp\CoreBundle\Services\NotificationsManager</parameter>  
         <parameter key="mobile_session_manager.class">SkedApp\CoreBundle\Services\MobileSessionManager</parameter>  
+        <parameter key="twig_extension.class">SkedApp\CoreBundle\Services\Extension\TwigExtension</parameter>  
     </parameters>
     <services>
         <service id="kernel.listener.login_redirect" class="%kernel_listener_login_redirect_class%">
@@ -38,6 +39,9 @@
         <service id="mobile.session.manager" class="%mobile_session_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
+        </service>                    
+        <service id="skedapp.twig.extension" class="%twig_extension.class%"> 
+            <tag name="twig.extension" />
         </service>                    
     </services>
 </container>

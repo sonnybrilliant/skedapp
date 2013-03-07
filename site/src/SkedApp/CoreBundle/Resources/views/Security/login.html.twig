@@ -1,60 +1,44 @@
 {% extends "SkedAppCoreBundle::security.layout.html.twig" %}
-{% block title %}Welcome, please sign in{% endblock %}
+{% block title %}Welcome, please login{% endblock %}
 
 {% block body %}
-    <div class="span8">
-        <h3>Please login</h3>
-        <br />
-        {% if error %}
-        <div class="alert alert-error">
-            <button class="close" data-dismiss="alert">×</button>
-            <h4 class="alert-heading">Warning!</h4>
-            Your username and password are invalid, please try again or contact support.
-        </div>
-        {% endif %}
+<div class="row-fluid body-main rounded-all">
+    <div class="span5">
+        <div class="forms-background">
+            <h3>Login</h3>
 
-        {% if booking_attempt is defined %}
-            <form class="form-horizontal" action="{{ path('_security_check', {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}" method="POST">
-        {% else %}
-            <form class="form-horizontal" action="{{ path('_security_check') }}" method="POST">
-        {% endif %}
-            <legend><span class="label label-info">Info</span> <small>All form fields are required.</small></legend>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-            <fieldset>
-                <div class="control-group">
-                    <label class="control-label" for="username">Email address</label>
-                    <div class="controls">
-                        <input type="text" class="input-xlarge inputHelper" id="username" name="_username" rel="popover" value="john.smith@example.com" data-content="Enter your assigned username." data-original-title="Username" required>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="password">Password</label>
-                    <div class="controls">
-                        <input type="password" class="input-xlarge" id="password" name="_password" rel="popover" data-content="Enter your choosen password." data-original-title="Password" required>
-                    </div>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Login &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    <a href="{{ path('_welcome')}}" class="btn">Cancel</a>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="span3 pull-right">
-        <div class="well emphasize-dark">
-            <h4><i class="icon-info-sign"></i> Having login trouble? </h4>
-            <br />
-            <p class="pull-right">
-                Please provide the email address and password combination you used when creating the account.
-            </p>
-            <br />
-            <p>
-              {% if booking_attempt is defined %}
-                <a href="{{ path('sked_app_member_reset', {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids})}}" >Forgot password</a>
-              {% else %}
-                <a href="{{ path('sked_app_member_reset')}}" >Forgot password</a>
-              {% endif %}
-            </p>
+            {% if booking_attempt is defined %}
+                <form action="{{ path('_security_check', {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}" method="POST">
+            {% else %}
+                <form action="{{ path('_security_check') }}" method="POST">
+            {% endif %}
+                    <fieldset>
+                        <label>Email Address</label>
+                        <input type="text" class="span12" id="username" name="_username" placeholder="john.smith@example.com" required>
+                        <div class="spacer1"></div>
+                        <label>Password</label>
+                        <input type="password" type="password" class="span12" id="password" name="_password" placeholder="password" required>
+                        <div class="btn-toolbar pull-right">
+                            <div class="btn-group">
+                                <button type="submit" name="submit" class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
+                            </div>
+                            <div class="btn-group">
+                                <a href="{{ path('_welcome') }}" class="btn btn-small">Cancel</a>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    </fieldset>
+                </form>
         </div>
+     </div>
+     <div class="span7">
+        <div class="hint-box">
+            <h3><span class="asterisk">*</span>Hints</h3>
+            <ol>
+                    <li>Provide a valid email address.</li>
+                    <li><a href="{{ path('sked_app_member_reset')}}">Forgot your password?</a></li>
+            </ol>
+        </div>            	
     </div>
+</div> <!-- End .row-fluid -->
 {% endblock body %}

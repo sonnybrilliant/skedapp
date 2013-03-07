@@ -4,12 +4,12 @@ namespace SkedApp\ServiceBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
-use SkedApp\CoreBundle\Entity\Service;
+
 
 /**
  * Service manager
  *
- * @author Ronald Conco <ronald.conco@kaizania.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppServiceBundle
  * @subpackage Services
  * @version 0.0.1
@@ -111,6 +111,21 @@ final class ServiceManager
     public function createAndUpdateService($service)
     {
         $this->logger->info('Save service');
+        $this->em->persist($service);
+        $this->em->flush();
+        return;
+    }
+
+    /**
+     * Create and update service
+     *
+     * @param type $service
+     * @return void
+     */
+    public function delete($service)
+    {
+        $this->logger->info('Save service');
+        $service->setIsDeleted(true);
         $this->em->persist($service);
         $this->em->flush();
         return;

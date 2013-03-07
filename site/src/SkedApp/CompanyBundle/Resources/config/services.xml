@@ -13,7 +13,7 @@
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>
-        <service id="company_photos.manager" class="%company_photos_manager.class%">
+        <service id="company.photos.manager" class="%company_photos_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>

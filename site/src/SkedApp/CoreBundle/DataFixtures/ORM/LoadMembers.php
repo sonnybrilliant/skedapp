@@ -41,13 +41,13 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
         $adminUserMfana = array(
             'firstName' => 'Mfana',
             'lastName' => 'Conco',
-            'email' => 'ronald.conco@kaizania.co.za',
+            'email' => 'ronald.conco@creativecloud.co.za',
             'mobile' => '27713264125',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
-            'group' => $this->getReference('group-admin'),
+            'group' => $this->getReference('group-super-admin'),
             'isAdmin' => true, 
         );
 
@@ -56,13 +56,13 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
         $adminUserOtto = $adminUserOtto = array(
             'firstName' => 'Otto',
             'lastName' => 'Saayman',
-            'email' => 'otto.saayman@kaizania.co.za',
+            'email' => 'otto.saayman@creativecloud.co.za',
             'mobile' => '27713264122',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
-            'group' => $this->getReference('group-admin'),
+            'group' => $this->getReference('group-super-admin'),
             'isAdmin' => true, 
         );
 
@@ -77,7 +77,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
-            'group' => $this->getReference('group-admin'),
+            'group' => $this->getReference('group-super-admin'),
             'isAdmin' => true, 
         );
 
@@ -87,13 +87,13 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
         $adminUserBernard = array(
             'firstName' => 'Bernard',
             'lastName' => 'Brand',
-            'email' => 'bernard.brand@kaizania.co.za',
+            'email' => 'bernard.brand@creativecloud.co.za',
             'mobile' => '27713264124',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
-            'group' => $this->getReference('group-admin'),
+            'group' => $this->getReference('group-super-admin'),
             'isAdmin' => true, 
         );
 
@@ -108,26 +108,57 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
-            'group' => $this->getReference('group-admin'),
+            'group' => $this->getReference('group-super-admin'),
             'isAdmin' => true, 
         );
 
         $memberManagerService->createDefaultMember($adminUserWynand);
 
-         $adminUserBrilliant = array(
-            'firstName' => 'Sonny',
-            'lastName' => 'Brilliant',
-            'email' => 'dev@kaizania.co.za',
-            'mobile' => '27713265638',
+        $adminUserArno = array(
+            'firstName' => 'Arno',
+            'lastName' => 'Hattingh',
+            'email' => 'arno.hattingh@creativecloud.co.za',
+            'mobile' => '27717704563',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
-            'group' => $this->getReference('group-admin'),
+            'group' => $this->getReference('group-super-admin'),
+            'isAdmin' => true, 
+        );
+
+        $memberManagerService->createDefaultMember($adminUserArno); 
+        
+        
+        $adminUserTumelo = array(
+            'firstName' => 'Tumelo',
+            'lastName' => 'Mogoboya',
+            'email' => 'tumelo.mogoboya@creativecloud.co.za',
+            'mobile' => '27717704567',
+            'password' => '654321',
+            'company' => $this->getReference('company-default'),
+            'title' => $this->getReference('title-mr'),
+            'gender' => $this->getReference('gender-male'),
+            'group' => $this->getReference('group-super-admin'),
+            'isAdmin' => true, 
+        );
+
+        $memberManagerService->createDefaultMember($adminUserTumelo);        
+        
+        $adminUserJanet = array(
+            'firstName' => 'Janet',
+            'lastName' => 'Davis',
+            'email' => 'qa1@creativecloud.co.za',
+            'mobile' => '27713265638',
+            'password' => '654321',
+            'company' => $this->getReference('company-default'),
+            'title' => $this->getReference('title-mr'),
+            'gender' => $this->getReference('gender-female'),
+            'group' => $this->getReference('group-consultant-admin'),
             'isAdmin' => false, 
         );
 
-        $memberManagerService->createDefaultMember($adminUserBrilliant);
+        $memberManagerService->createDefaultMember($adminUserJanet);
 
         $this->addReference('member-default' , $savedAdminUserOtto) ;
     }

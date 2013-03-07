@@ -1,12 +1,12 @@
 <?php
 
-namespace SkedApp\CoreBundle\Entity ;
+namespace SkedApp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\Role\RoleInterface ;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * SkedApp\CoreBundle\Entity\Group
@@ -28,14 +28,14 @@ class Group
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @var integer
      */
-    protected $id ;
+    protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string",length=20)
+     * @ORM\Column(name="name", type="string",length=50)
      */
-    protected $name ;
+    protected $name;
 
     /**
      * @var ArrayCollection
@@ -46,23 +46,32 @@ class Group
      *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
      * )
      */
-    protected $roles ;
+    protected $roles;
+
+    /**
+     * @var boolean
+     * is admin group
+     * 
+     * @ORM\Column(name="is_admin", type="boolean" )
+     */
+    protected $isAdmin;
 
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string",length=254)
      */
-    protected $description ;
+    protected $description;
 
-    public function __construct( $name )
+    public function __construct($name)
     {
-        $this->name = $name ;
+        $this->name = $name;
+        $this->isAdmin = false;
     }
 
     public function __toString()
     {
-        return $this->name ;
+        return $this->name;
     }
 
     /**
@@ -72,7 +81,7 @@ class Group
      */
     public function getId()
     {
-        return $this->id ;
+        return $this->id;
     }
 
     /**
@@ -80,9 +89,9 @@ class Group
      *
      * @param string $name
      */
-    public function setName( $name )
+    public function setName($name)
     {
-        $this->name = $name ;
+        $this->name = $name;
     }
 
     /**
@@ -92,7 +101,7 @@ class Group
      */
     public function getName()
     {
-        return $this->name ;
+        return $this->name;
     }
 
     /**
@@ -100,9 +109,9 @@ class Group
      *
      * @param SkedApp\CoreBundle\Entity\Role $roles
      */
-    public function addRole( \SkedApp\CoreBundle\Entity\Role $roles )
+    public function addRole(\SkedApp\CoreBundle\Entity\Role $roles)
     {
-        $this->roles[] = $roles ;
+        $this->roles[] = $roles;
     }
 
     /**
@@ -112,7 +121,7 @@ class Group
      */
     public function getRoles()
     {
-        return $this->roles ;
+        return $this->roles;
     }
 
     /**
@@ -143,5 +152,29 @@ class Group
     public function removeRole(\SkedApp\CoreBundle\Entity\Role $roles)
     {
         $this->roles->removeElement($roles);
+    }
+
+
+    /**
+     * Set isAdmin
+     *
+     * @param boolean $isAdmin
+     * @return Group
+     */
+    public function setIsAdmin($isAdmin)
+    {
+        $this->isAdmin = $isAdmin;
+    
+        return $this;
+    }
+
+    /**
+     * Get isAdmin
+     *
+     * @return boolean 
+     */
+    public function getIsAdmin()
+    {
+        return $this->isAdmin;
     }
 }

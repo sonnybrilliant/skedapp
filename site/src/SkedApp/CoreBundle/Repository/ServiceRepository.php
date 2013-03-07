@@ -15,7 +15,7 @@ class ServiceRepository extends EntityRepository
 
     /**
      * Get all active services query
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
@@ -23,24 +23,35 @@ class ServiceRepository extends EntityRepository
     {
 
         $defaultOptions = array(
-            'sort' => 's.id',
+            'searchText' => '',
+            'sort' => 'c.id',
             'direction' => 'asc'
         );
 
         foreach ($options as $key => $values) {
-            if (!$values)
+            if (!$values){
                 $options[$key] = $defaultOptions[$key];
+            }
         }
 
-        $objQueuryBuilder = $this->createQueryBuilder('s')->select('s');
-        $objQueuryBuilder->where('s.isDeleted =  :status')->setParameter('status', false);
-        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
-        return $objQueuryBuilder->getQuery()->execute();
+        $qb = $this->createQueryBuilder('s')->select('s');
+
+                // search
+        if ($options['searchText']) {
+            if ($options['searchText'] != "search..") {
+                $qb->andWhere($qb->expr()->orx(
+                        $qb->expr()->like('s.name', $qb->expr()->literal('%' . $options['searchText'] . '%'))
+                    ));
+            }
+        }
+
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
     }
 
     /**
      * Delete services by category
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Void
      */
@@ -55,7 +66,7 @@ class ServiceRepository extends EntityRepository
 
     /**
      * Delete services by category
-     * 
+     *
      * @author Ronald Conco <ronald.conco@kaizania.com>
      * @return Resultset
      */
@@ -64,7 +75,8 @@ class ServiceRepository extends EntityRepository
         $objQueuryBuilder = $this->createQueryBuilder('s')->select('s');
         $objQueuryBuilder->where('s.isDeleted = :status')
             ->andWhere('s.category =  :category')
-            ->setParameters(array('category' => $category,'status'=>false));
+            ->setParameters(array('category' => $category,'status'=>false))
+            ->orderBy('s.name');
         return $objQueuryBuilder->getQuery()->execute();
     }
 

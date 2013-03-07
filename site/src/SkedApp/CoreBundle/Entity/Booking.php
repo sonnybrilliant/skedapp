@@ -51,6 +51,16 @@ class Booking
     protected $customer;
 
     /**
+     * @var CustomerPotential
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\CustomerPotential")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="customer_potential_id", referencedColumnName="id")
+     * })
+     */
+    protected $customerPotential;
+
+    /**
      * @var Service
      *
      * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Service")
@@ -595,12 +605,44 @@ class Booking
     }
 
     /**
+     * Set customer potential
+     *
+     * @param \SkedApp\CoreBundle\Entity\CustomerPotential $customerPotential
+     * @return Booking
+     */
+    public function setCustomerPotential(\SkedApp\CoreBundle\Entity\CustomerPotential $customerPotential = null)
+    {
+        $this->customerPotential = $customerPotential;
+
+        return $this;
+    }
+
+    /**
+     * Get customer potential
+     *
+     * @return \SkedApp\CoreBundle\Entity\CustomerPotential
+     */
+    public function getCustomerPotential()
+    {
+        return $this->customerPotential;
+    }
+
+    /**
      * Get timeSlotStartString
      *
      * @return string
      */
     public function getStartTimeslotString () {
       return $this->getStartTimeslot()->getSlot();
+    }
+
+    /**
+     * Get timeSlotEndString
+     *
+     * @return string
+     */
+    public function getEndTimeslotString () {
+      return $this->getEndTimeslot()->getSlot();
     }
 
     /**
@@ -669,6 +711,69 @@ class Booking
         if ($this->isConfirmed)
           return 'Yes';
         return 'No';
+    }
+
+    /**
+     * Get Customer as string
+     *
+     * @return string
+     */
+    public function getCustomerString()
+    {
+        if (is_object($this->customer))
+          return $this->customer->getFullName();
+        return '';
+    }
+
+    /**
+     * Get Customer contact number as string
+     *
+     * @return string
+     */
+    public function getCustomerNumberString()
+    {
+        if (is_object($this->customer))
+          return $this->customer->getMobileNumber();
+        return '';
+    }
+
+    /**
+     * Get Consultant as string
+     *
+     * @return string
+     */
+    public function getConsultantString()
+    {
+        if (is_object($this->consultant))
+          return $this->consultant->getFullName();
+        return '';
+    }
+
+    /**
+     * Get Consultant link to customer or to customer potential
+     *
+     * @return boolean
+     */
+    public function getCustomerOrNot ()
+    {
+        if ($this->getId() <= 0)
+            return null;
+
+        if (is_object($this->getCustomer()))
+                return true;
+        else
+                return false;
+    }
+
+    /**
+     * Set Consultant link to customer or to customer potential
+     *
+     * @param boolean $customerOrNot
+     * @return Booking
+     */
+    public function setCustomerOrNot ($customerOrNot)
+    {
+        return $this;
     }
 
 }

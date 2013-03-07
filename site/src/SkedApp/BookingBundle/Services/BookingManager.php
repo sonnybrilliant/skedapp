@@ -143,6 +143,35 @@ final class BookingManager
 
         return $bookings;
     }
+    
+    /**
+     * Get consultant bookings
+     * 
+     * @param array $options
+     * @return array
+     */
+    public function getConsultantBookings($options)
+    {
+        $this->logger->info('Get all consultant bookings');
+        
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
+        return $bookings;        
+    }
+    
+    
+    /**
+     * Get all bookings between given dates
+     *
+     * @return Array
+     */
+    public function getAllBetweenDates(\DateTime $startDateTime, \DateTime $endDateTime)
+    {
+        $this->logger->info("get all bookings between dates");
+
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllBookingsByDate($startDateTime, $endDateTime);
+
+        return $bookings;
+    }
 
     /**
      * Is booking time slots valid
@@ -191,7 +220,7 @@ final class BookingManager
             ->isConsultantAvailable($booking->getConsultant(), $bookingStartDate, $bookingEndDate);
 
         if (is_null($results))
-          return false;
+            return false;
 
         /*
          * confirm if the new appointment start time is equal to the
@@ -199,6 +228,8 @@ final class BookingManager
          */
 
         if (sizeof($results) == 1) {
+            return false;
+            //Caused problems when checking availability on the calendar
             $oldBooking = $results[0];
             if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
                 return true;
@@ -245,7 +276,7 @@ final class BookingManager
             ->getAllTomorrowsBookings();
         return $bookings;
     }
-    
+
     /**
      * Get all today bookings
      *
@@ -259,8 +290,8 @@ final class BookingManager
             ->getRepository("SkedAppCoreBundle:Booking")
             ->getAllTodaysBookings();
         return $bookings;
-    }    
-    
+    }
+
     /**
      * Get all today bookings before the hour
      *
@@ -274,8 +305,7 @@ final class BookingManager
             ->getRepository("SkedAppCoreBundle:Booking")
             ->getAllTodaysHourBookings();
         return $bookings;
-    }    
-    
+    }
 
     /**
      * Get all bookings
@@ -285,6 +315,12 @@ final class BookingManager
     public function getAllCustomerBookings($options)
     {
         $this->logger->info("get all customer bookings");
+
+        $securityContext = $this->getContainer()->get('security.context');
+        $token = $securityContext->getToken();
+        $customer = $token->getUser();
+        
+        $options['customer'] = $customer;
 
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllCustomerBooking($options);
 
@@ -308,6 +344,22 @@ final class BookingManager
         $this->em->persist($booking);
         $this->em->flush();
         return;
+    }
+
+    /**
+     * Get consultant Timeslots
+     * 
+     * @param SkedApp\CoreBundle\Entity\Consultant $consultant
+     * @param \Datetime $date
+     * @return array
+     */
+    public function getBookingSlotsForConsultantSearch($consultant, $date)
+    {
+        $this->logger->info('Get consultant open slots');
+
+        $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
+            ->getBookingSlotsForConsultantSearch($consultant, $date);
+        return $output;
     }
 
 }

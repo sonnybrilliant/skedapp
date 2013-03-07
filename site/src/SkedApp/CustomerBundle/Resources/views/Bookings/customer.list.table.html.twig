@@ -1,0 +1,85 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" class="table-heading-orange">
+                {{ knp_pagination_sortable(pagination,'Cunsultant', 'b.consultant') }}
+                {% if isDirectionSet == false %}
+                    <span class="pull-right"><i class="icon-chevron-up"></i></span>
+                {% else %}
+                    {% if pagination.isSorted('b.consultant') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </th>
+            <th scope="col" class="table-heading-orange">
+                {{ knp_pagination_sortable(pagination,'Service', 'b.service') }}
+                {% if pagination.isSorted('b.service') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+               {% endif %}
+            </th>
+            <th scope="col" class="table-heading-orange">
+                {{ knp_pagination_sortable(pagination,'Confirmed', 'b.isConfirmed') }}
+                {% if pagination.isSorted('b.isConfirmed') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                {% endif %}
+            </th>
+            <th scope="col" class="table-heading-orange">
+                {{ knp_pagination_sortable(pagination,'Booking date', 'b.hiddenAppointmentStartTime') }}
+                {% if pagination.isSorted('b.hiddenAppointmentStartTime') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                {% endif %}
+            </th>
+            <th scope="col" class="table-heading-orange">
+                {{ knp_pagination_sortable(pagination,'Booking Time', 'b.hiddenAppointmentStartTime') }}
+                {% if pagination.isSorted('b.hiddenAppointmentStartTime') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
+                        {% else %}
+                            <span class="pull-right"><i class="icon-chevron-down"></i></span>
+                        {% endif %}
+                {% endif %}
+            </th>
+            <th scope="col" class="table-heading-orange"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in pagination %}
+        <tr>
+           <td><a href="{{ path('sked_app_consultant_view_with_slug',{'slug': booking.consultant.slug })}}" rel="tooltip" title="click to view consultant details">{{ booking.consultant.firstName }}&nbsp;{{ booking.consultant.lastName }}</a></td>
+           <td>
+               {% if booking.service is not null %}
+                   {{ booking.service.name }}
+               {% endif %}
+           </td>
+           <td>{{ booking.isConfirmedString }}</td>
+           <td>{{ booking.hiddenAppointmentStartTime|date('M jS Y') }}</td>
+           <td>{{ booking.hiddenAppointmentStartTime|date('G:s a') }}</td>
+           <td>
+                <small>
+                    <a href="{{ path('sked_app_customer_booking_details', {'id' : booking.id}) }}" rel="tooltip" title="click to view" class="btn btn-small btn-primary"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
+                    <a href='{{path('sked_app_booking_cancel', {'bookingId': booking.id }) }}' onclick="if(confirm('You are about to cancel the booking, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-remove"></i>&nbsp;Cancel</a>
+                </small>
+           </td>
+         </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="btn-group pull-right">
+    {{ knp_pagination_render(pagination) }}
+</div>

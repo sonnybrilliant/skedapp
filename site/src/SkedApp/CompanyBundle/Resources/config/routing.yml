@@ -1,43 +1,69 @@
-sked_app_company_list:
-    pattern:  /company/list
-    defaults: { _controller: SkedAppCompanyBundle:Company:list }
+sked_app_service_provider_list:
+    pattern:  /service_provider/list.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:list , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html
 
-sked_app_company_new:
-    pattern:  /company/new
-    defaults: { _controller: SkedAppCompanyBundle:Company:new }
+sked_app_service_provider_new:
+    pattern:  /service_provider/new.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:new , _format: html }
+    requirements:
+        _method:  GET 
+        _format:  html
 
-sked_app_company_create:
-    pattern:  /company/create
-    defaults: { _controller: SkedAppCompanyBundle:Company:create }
+sked_app_service_provider_create:
+    pattern:  /service_provider/create.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:create , _format: html }
+    requirements:
+        _method:  GET|POST
+        _format:  html
 
-sked_app_company_edit:
-    pattern:  /company/edit/{id}
-    defaults: { _controller: SkedAppCompanyBundle:Company:edit }
+sked_app_service_provider_edit:
+    pattern:  /service_provider/edit/{id}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:edit , _format: html}
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html
 
-sked_app_company_update:
-    pattern:  /company/update/{id}
-    defaults: { _controller: SkedAppCompanyBundle:Company:update }
+sked_app_service_provider_update:
+    pattern:  /service_provider/update/{id}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:update , _format: html}
     requirements:
         id:  \d+
+        _method:  GET|POST
+        _format:  html
 
-sked_app_company_show:
-    pattern:  /company/show/{id}
-    defaults: { _controller: SkedAppCompanyBundle:Company:show }
+sked_app_service_provider_show:
+    pattern:  /service_provider/show/{id}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:show , _format: html}
     requirements:
         id:  \d+
+        _method:  GET 
+        _format:  html
 
-sked_app_company_delete:
-    pattern:  /company/delete/{id}
-    defaults: { _controller: SkedAppCompanyBundle:Company:delete }
+sked_app_service_provider_delete:
+    pattern:  /service_provider/delete/{id}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:delete , _format: html}
     requirements:
         id:  \d+
+        _method:  GET
+        _format:  html
+        
+sked_app_service_provider_add_photo:
+    pattern:  /service_provider/add/photo/{serviceProviderId}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProviderPhoto:addPhoto , _format: html}
+    requirements:
+        serviceProviderId:  \d+    
+        _method:  GET|POST 
+        _format:  html
+        
+sked_app_service_provider_show_map:
+    pattern:  /service_provider/show/map/{id}.{_format}
+    defaults: { _controller: SkedAppCompanyBundle:ServiceProvider:showMap , _format: html}
+    requirements:
+        id:  \d+
+        _method:  GET 
+        _format:  html        
 
-sked_app_company_photo_update:
-    pattern:  /company/photo_update/{company_id}/{id}
-    defaults: { _controller: SkedAppCompanyBundle:Company:photo_update }
-
-sked_app_company_photo_delete:
-    pattern:  /company/photo_delete/{company_id}/{id}
-    defaults: { _controller: SkedAppCompanyBundle:Company:photo_delete }

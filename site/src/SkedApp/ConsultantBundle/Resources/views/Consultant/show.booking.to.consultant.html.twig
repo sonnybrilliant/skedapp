@@ -6,7 +6,6 @@
 <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
 {% endblock %}
 
-
 {% block jquery_ui %}
 <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
 {% endblock jquery_ui %}
@@ -16,22 +15,22 @@
     {% block menu %}
     <div class="span3 bs-docs-sidenav">
        {% if is_granted('ROLE_ADMIN') %}
-            {% include "::menu.html.twig" %}        
+            {% include "::menu.html.twig" %}
        {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : booking.consultant } %}             
-       {% endif %}            
-    </div>       
-    {% endblock menu %}  
+            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : booking.consultant } %}
+       {% endif %}
+    </div>
+    {% endblock menu %}
     {% block content %}
     <div class="span9">
         <h3>Booking details</h3>
         <br />
-        
+
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
         <br />
         {% include "SkedAppConsultantBundle:Consultant:form.show.booking.to.consultant.html.twig" %}
-    </div>  
-    {% endblock content %}   
+    </div>
+    {% endblock content %}
 {% endblock body %}

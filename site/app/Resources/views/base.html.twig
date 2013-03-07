@@ -1,92 +1,139 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome to SkedApp{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="Appointment scheduling tool">
         <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Welcome to SkedApp{% endblock %}</title>
+        <!-- Bootstrap Assets -->
         <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/bootstrap-responsive.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/chosen.css') }}" rel="stylesheet">
-        <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
-        <link href="{{ asset('/css/main.css') }}" rel="stylesheet">
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+         <!-- Custom Styles for Bootstrap -->
+        <link href="{{ asset('/css/custom-styles.css') }}" rel="stylesheet">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+        </script>
         <![endif]-->
+        <!-- Fav- and touch- icons -->
+        <link rel="shortcut icon" href="{{ asset('/ico/favicon.ico') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('/ico/favicon.ico') }}" />
+        <!-- load dynamic style sheet -->
+        {% block stylesheets %}{% endblock %}
+        <!-- load jquery -->
         <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+        <script language="JavaScript">
+            //Make sure address test value exists to avoid errors in search.js
+            var blnAddress = false;
+            var currentServiceId = 0;
+        </script>
+        <!-- load jquery ui -->
         {% block jquery_ui %}{% endblock jquery_ui %}
     </head>
     <body>
-        {% block header %}
-            <div class="container">
-                <div class="row">
-                    <div class="span5 pull-left">
-                        <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" width="180px" title="logo" /></a>
-                    </div>
-                    <div class="span7 pull-right" style="margin-top: 50px;">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <ul class="nav nav-pills pull-right">
-                                <li>
+        <!-- Set variable for logo display -->
+        {% set displayLogo = 'other_pages' %}
+        <div id="wrap">
+        {% block navigation %}
+            <div class="navbar navbar-static-top">
+                <div class="navbar navbar-inverse">
+                    <div class="navbar-inner">
+                            <div class="container">
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <span class="brand"><small>Welcome, {{app.user.firstName}} {{app.user.lastName}}.</small></span>
+
+                                <ul class="nav pull-right">
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <a href="{{ path("sked_app_company_list")}}">My admin</a>
+                                        <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                    {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}
+                                        <li><a href="{{ path("sked_app_consultant_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                        <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
+                                    {% elseif is_granted('ROLE_CONSULTANT_USER') %}
+                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">Bookings</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                        <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% elseif is_granted('ROLE_SITE_USER') %}
-                                        <a href="{{ path("sked_app_customer_list_bookings", {'id':app.user.id })}}">My bookings</a>
-                                    {% elseif is_granted('ROLE_CONSULTANT_USER')  %}
-                                        <a href="{{ path("sked_app_consultant_show", {'id': app.user.id })}}">My admin</a>
+                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>
+                                        <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                        <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% endif %}
-                                </li>
-                                <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
-                            </ul>
-                        {% else %}
-                            <span class="pull-right">
-                                {% if booking_attempt is defined %}
-                                    <a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}">Register</a>
+                                    <li class="active"><a href="{{ path("_security_logout")}}"><i class="icon-white icon-off"></i> Logout</a></li>
+                                </ul>
                                 {% else %}
-                                    <a href="{{ path("sked_app_customer_register") }}">Register</a>
+                                <ul class="nav pull-right">
+                                    <li class="active"><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                    {% if booking_attempt is defined %}
+                                        <li><a href="{{ path("sked_app_customer_register", {'booking_attempt': booking_attempt, 'company_id': company_id, 'consultant_id': consultant_id, 'booking_date': booking_date, 'timeslot_start': timeslot_start, 'service_ids': service_ids}) }}" title="Register an account">Register an Account</a></li>
+                                    {% else %}
+                                        <li><a href="{{ path("sked_app_customer_register") }}" title="Register an account">Register an Account</a></li>
+                                    {% endif %}
+                                    <li><a href="{{ path("_security_login")}}.html" title="Login into your account"><i class="icon-user icon-white"></i> Login</a></li>
+                                </ul>
                                 {% endif %}
-                                an account or <a href="{{ path("_security_login")}}" class="btn btn-primary"><i class="icon-white icon-user"></i> Login</a></span>
-                        {% endif %}
-                        <span class="pull-right">
-                            <a href="{{ path("_welcome")}}">Make a Booking</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                        </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endblock %}
+            </div> <!-- End .navbar -->
 
-        <div class="container">
-            <div class="row">
-        {% block body %}{% endblock %}
-            </div>
-        </div>
+        {% endblock navigation%}
+
+            <div class="container">
+
+                {% block display_logo %}
+                    <div class="row-fluid">
+                        <div class="span3">
+                            <a href="{{ path('_welcome')}}" class="logo logo-other"><img src="{{ asset('/img/skedapp-logo-icon.png') }}" width="98" height="68" alt="SkedApp" title="SkedApp" /></a>
+                        </div>
+                        <div class="span9">
+                            <h3 class="pull-right">Search, Locate and Schedule services in your area.</h3>
+                        </div>
+                    </div> <!-- End .row-fluid -->
+                    <div class="spacer1"></div>
+                {% endblock display_logo %}
+
+                {% block menu%}
+
+                {% endblock menu %}
+
+            {% block alert%}
+               {% if error is defined %}
+                <div class="spacer2"></div>
+                {% if error %}
+                <div class="alert alert-error">
+                    <button class="close" data-dismiss="alert">×</button>
+                    <h4 class="alert-heading">Warning!</h4>
+                    Your username and password are invalid, please try again or contact support.
+                </div>
+               {% else %}
+                 {% include "::alert.html.twig" %} 
+               {% endif %}
+            {% endif %}
+            {% endblock alert%}
+                
+            {% block body %}
+
+            {% endblock body %}
+
+            <div id="push"><!-- This #push div ALWAYS need to be above the end of the .container div --></div>
+        </div> <!-- End container -->
+        </div><!-- End .wrap -->
 
         {% block footer %}
-            <!-- start of footer container -->
-            <div class="container">
-                <div class="row">
-                    <hr />
-                    <div class="span12">
-                        <footer>
-                            <p>SkedApp © {{ date().format('Y') }}</p>
-                        </footer>
-                    </div>
-                </div>
-            </div>
-            <!-- end of footer container -->
+           <div id="footer">
+                <p>SkedApp &copy; {{ date().format('Y') }}  |  <a href="{{ path('_welcome')}}">Make a Booking</a>  |  Contact Us  |  Privacy Statement  |  Terms & Conditions</p>
+           </div> <!-- End footer -->
         {% endblock %}
-
-        <!-- Le javascript
-                    ================================================== -->
-            <!-- Placed at the end of the document so the pages load faster -->
-            <script src="{{ asset('/js/bootstrap.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>
+            <script src="{{ asset('/js/search.js') }}"></script>
             {% block javascripts %}{% endblock %}
         </body>
     </html>

@@ -1,0 +1,12 @@
+{% extends "SkedAppCoreBundle::base.mail.html.twig" %}
+{% block body %}
+    <p style="margin-bottom: 6pt;">Hi {{ booking.customer.fullName }},</p>
+    <p style="margin-bottom: 6pt;">Your booking has been cancelled.</p>
+    <p style="margin-bottom: 6pt;">{{ messageText }}</p>
+    <p style="margin-bottom: 6pt;"></p>
+    <p style="margin-bottom: 6pt;">Your cancelled booking details are as follows:</p>
+    <p style="margin-bottom: 6pt;">
+        <strong>Consultant</strong>: {{ booking.consultant.fullName }} <br/>
+        <strong>Service to be tendered </strong>: {{ booking.service.name }} <br />
+        <strong>Date</strong>: {{ booking.appointmentDate.format('j F Y') }} {{ booking.startTimeSlotString }}</p>
+{% endblock body %}

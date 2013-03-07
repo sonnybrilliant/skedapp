@@ -31,12 +31,26 @@ sked_app_api_get_consultant:
        serviceId: \d+
 
 sked_app_api_get_consultants:
-    pattern:  /api/get/consultants/{serviceId}
-    defaults: { _controller: SkedAppApiBundle:Api:getConsultants , serviceId: 1}
+    pattern:  /api/get/consultants/{session}/{category}/{service}/{address}/{date}/{lat}/{lng}/{page}
+    defaults: { _controller: SkedAppApiBundle:Api:searchConsultant , serviceId: 1}
     requirements:
-       serviceId: \d+
+       service: \d+
 
 sked_app_api_geo_encode_address:
     pattern:  /api/geocode/address
     defaults: { _controller: SkedAppApiBundle:Api:geoEncodeAddress }
 
+
+sked_app_api_check_availability:
+    pattern:  /api/check/consultant/available/{consultantId}/{bookingDateTime}
+    defaults: { _controller: SkedAppApiBundle:Api:checkConsultantAvailable }
+    requirements:
+       consultantId: \d+
+
+sked_app_api_make_booking:
+    pattern:  /api/make/booking/{consultantId}/{serviceId}/{bookingDateTime}/{customerId}
+    defaults: { _controller: SkedAppApiBundle:Api:makeBooking }
+    requirements:
+       consultantId: \d+
+       serviceId: \d+
+       customerId: \d+

@@ -76,6 +76,16 @@ class Customer implements AdvancedUserInterface, \Serializable
      * @ORM\Column(name="email", type="string", length=254)
      */
     protected $email;
+    
+    /**
+     * @var Gender
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Gender")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="gender_id", referencedColumnName="id")
+     * })
+     */
+    protected $gender;    
 
     /**
      * @var string
@@ -1075,13 +1085,7 @@ class Customer implements AdvancedUserInterface, \Serializable
      */
     public function getFullName ()
     {
-        $strOut = $this->firstName;
-
-        if (strlen ($this->lastName) > 0)
-                $strOut .= ' ' . $this->lastName;
-
-        return $strOut;
-
+        return $this->firstName.' '.$this->lastName;
     }
 
     public function getObjectAsArray ()
@@ -1097,12 +1101,33 @@ class Customer implements AdvancedUserInterface, \Serializable
             'expired' => $this->getExpired(),
             'last_login' => $this->getLastLogin(),
             'expires_at' => $this->getExpiresAt(),
-            'speciality' => $this->getSpeciality(),
-            'professional_statement' => $this->getProfessionalStatement(),
             'is_active' => $this->getIsActive(),
             'is_deleted' => $this->getIsDeleted(),
             'is_locked' => $this->getIsLocked(),
         );
     }
 
+
+    /**
+     * Set gender
+     *
+     * @param \SkedApp\CoreBundle\Entity\Gender $gender
+     * @return Customer
+     */
+    public function setGender(\SkedApp\CoreBundle\Entity\Gender $gender = null)
+    {
+        $this->gender = $gender;
+    
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return \SkedApp\CoreBundle\Entity\Gender 
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
 }

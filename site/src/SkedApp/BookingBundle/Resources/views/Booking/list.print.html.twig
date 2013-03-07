@@ -1,6 +1,6 @@
 <section>
     {% if not print %}
-    <span><a href="{{ path('sked_app_consultant_booking_day_print', {'id': consultant.id, 'print_out': 1, 'Search[booking_date]': selected_date}) }}" class="btn btn-warning btn-small pull-right"
+    <span><a href="{{ path('sked_app_consultant_booking_day_print', {'id': consultant.id, 'print_out': 1, 'Search[booking_date]': selected_date}) }}" class="btn btn-warning pull-right"
              target="_blank"><i class="icon-white icon-plus-sign"></i> Print</a></span>
     {% endif %}
     <div style="clear: both;"></div>
@@ -10,20 +10,26 @@
             <th colspan="5">Bookings for {{ consultant.fullName }} on {{ selected_date }}</th>
           </tr>
           <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Service</th>
-            <th>Created</th>
+            <th class="table-heading-blue">#</th>
+            <th class="table-heading-blue">Customer</th>
+            <th class="table-heading-blue">Date</th>
+            <th class="table-heading-blue">Time</th>
+            <th class="table-heading-blue">Consultant</th>
+            <th class="table-heading-blue">Service</th>
+            <th class="table-heading-blue">Confirmed</th>
+            <th class="table-heading-blue">Created</th>
           </tr>
         </thead>
         <tbody>
           {% for booking in bookings %}
           <tr>
             <td>{{booking.id}}</td>
-            <td>{{booking.appointmentDate}}</td>
-            <td>{{booking.hiddenAppointmentStartTime}} - {{booking.hiddenAppointmentEndTime}}</td>
+            <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+            <td>{{booking.appointmentDateString}}</td>
+            <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
+            <td>{{booking.consultantString}}</td>
             <td>{{booking.service.name}}</td>
+            <td>{{booking.isConfirmedString}}</td>
             <td>{{booking.createdAt|date('M jS Y')}}</td>
           </tr>
           {% endfor %}

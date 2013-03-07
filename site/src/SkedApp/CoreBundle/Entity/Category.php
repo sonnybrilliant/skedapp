@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="SkedApp\CoreBundle\Repository\CategoryRepository")
  * @ORM\Table(name="category")
  * @ORM\HasLifecycleCallbacks
- * @DoctrineAssert\UniqueEntity(fields={"name"}, message="Company name must be unique, please choose another name.")
+ * @DoctrineAssert\UniqueEntity(fields={"name"}, message="Category name must be unique, please choose another name.")
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppCoreBundle
@@ -38,20 +38,12 @@ class Category
      * @Assert\NotBlank(message = "Category name cannot be blank!")
      * @Assert\MinLength(limit= 3, message="Category name must have at least {{ limit }} characters.")
      * @Assert\MaxLength(limit= 30, message="Category name has a limit of {{ limit }} characters.")
-     *
+     * 
      * @ORM\Column(name="name", type="string", length=30)
      */
 
     protected $name ;
 
-    /**
-     * @var string $description
-     * 
-     * @Assert\MaxLength(limit= 100, message="Category description has a limit of {{ limit }} characters.")
-     *
-     * @ORM\Column(name="description", type="text", length=500, nullable=true)
-     */
-    protected $description;
     /**
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Service", mappedBy="category")
      */
@@ -74,8 +66,8 @@ class Category
      * @Assert\File(
      * maxSize="1M",
      * maxSizeMessage= "The file is too large ({{ size }}). Allowed maximum size is {{ limit }}",
-     * mimeTypes = {"image/jpeg", "image/jpg"},
-     * mimeTypesMessage = "Please upload a valid image file, we current only support jpeg.",
+     * mimeTypes = {"image/jpeg", "image/jpg" , "image/png"},
+     * mimeTypesMessage = "Please upload a valid image file, we current only support jpeg and png.",
      * uploadErrorMessage = "The file could not be uploaded"
      * )
      */
@@ -299,29 +291,6 @@ class Category
     public function getUpdatedAt()
     {
         return $this->updatedAt;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Category
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 
     /**

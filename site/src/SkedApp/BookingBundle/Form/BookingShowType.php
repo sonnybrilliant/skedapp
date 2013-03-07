@@ -33,12 +33,12 @@ class BookingShowType extends AbstractType
                 'attr' => array('class' => 'span3 datepicker'),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled' ), 
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled' ), 
             ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled' ),                
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled' ),                
             ))
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
@@ -52,14 +52,14 @@ class BookingShowType extends AbstractType
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span4', 'data-theme' => 'simple' , 'disabled' => 'disabled' )
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple' , 'disabled' => 'disabled' )
             ))
             ->add('service', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span4' , 'disabled' => 'disabled' ),
+                'attr' => array('class' => 'span12' , 'disabled' => 'disabled' ),
             ))
 
         ;

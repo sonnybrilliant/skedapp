@@ -1,21 +1,19 @@
+<div class="span12 tabs-img">
+    <img src="{{ asset('/img/tabs-set1.png') }}" width="362" height="55" alt="step-tabs;" />
+</div>
 <div class="span5">
     {% include "SkedAppSearchBundle:Search:form.search.html.twig" %}
 </div>
-<div class="span6 pull-right" style="padding-left: 5px">
-    <div id="map_canvas" class="img-polaroid" style="margin-right: 30px;"></div>
-    <small>Use the controls on the map to pinpoint your position. Click and hold to drag the marker to where you are.</small>
+<div class="span7">
+    {% include "SkedAppSearchBundle:Search:search.map.html.twig" %}
 </div>
 
 {% block stylesheets %}
-<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+    <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
 {% endblock %}
 
 {% block jquery_ui %}
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
-<script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
 {% endblock jquery_ui %}
-
-{% block javascripts %}
-<script src="{{ asset('/js/search.js') }}"></script>
-{% endblock javascripts %}

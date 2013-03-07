@@ -1,0 +1,7 @@
+{% extends "SkedAppCoreBundle::base.mail.html.twig" %}
+{% block body %}
+    <p style="margin-bottom: 6pt;">Hi {{ fullName }},</p>
+    <p style="margin-bottom: 6pt;">Your friend {{ senderName }} thought you might be interested to SkedApp an appointment with {{ consultantName }}. </p>
+    <p style="margin-bottom: 6pt;"></p>
+    <p style="margin-bottom: 6pt;">Click link to SkedApp now.<br /><a style="color: #006699;" href="{{ link }}">{{ link }}</a></p>
+{% endblock body %}

@@ -312,11 +312,114 @@ final class EmailerManager
         );
 
         $emailBodyHtml = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.html.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.customer.html.twig', $tmp
         );
 
         $emailBodyTxt = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.customer.txt.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['user']->getFullName();
+
+        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
+          $options['attachments_data'] = $params['attachments_data'];
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Send booking message to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingMessageFromCompany($params)
+    {
+        $this->logger->info("send booking message to customer");
+        $options['subject'] = "Message regarding your SkedApp booking";
+
+        $booking = $params['booking'];
+
+        if (!isset ($params['messageText']))
+            $params['messageText'] = '';
+
+        if (strlen ($params['messageText']) > 0)
+            $params['messageText'] = 'This is the message from ' . $booking->getConsultant()->getCompany()->getName() . ': ' . $params['messageText'];
+        else
+            $params['messageText'] = 'Please take note of your booking details.';
+
+        $tmp = array(
+            'user' => $booking->getCustomer(),
+            'consultant' => $booking->getConsultant(),
+            'provider' => $booking->getConsultant()->getCompany(),
+            'service' => $booking->getService(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
+            'company' => $booking->getConsultant()->getCompany(),
+            'messageText' => $params['messageText'],
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.message.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.message.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['user']->getFullName();
+
+        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
+          $options['attachments_data'] = $params['attachments_data'];
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Send booking message to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingMessageCancelFromCompany($params)
+    {
+        $this->logger->info("send booking message with cancellation to customer");
+        $options['subject'] = "Your SkedApp booking has been cancelled";
+
+        $booking = $params['booking'];
+
+        if (!isset ($params['messageText']))
+            $params['messageText'] = '';
+
+        if (strlen ($params['messageText']) > 0)
+            $params['messageText'] = 'This is the message from ' . $booking->getConsultant()->getCompany()->getName() . ': ' . $params['messageText'];
+        else
+            $params['messageText'] = 'Please take note of your cancelled booking.';
+
+        $tmp = array(
+            'user' => $booking->getCustomer(),
+            'consultant' => $booking->getConsultant(),
+            'provider' => $booking->getConsultant()->getCompany(),
+            'service' => $booking->getService(),
+            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
+            'company' => $booking->getConsultant()->getCompany(),
+            'messageText' => $params['messageText'],
+            'booking' => $booking,
+        );
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.message.cancel.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.message.cancel.customer.txt.twig', $tmp
         );
 
         $options['bodyHTML'] = $emailBodyHtml;
@@ -486,6 +589,65 @@ final class EmailerManager
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getCustomer()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }
+
+    public function inviteFriendLoggedin($params)
+    {
+        $this->logger->info("send invite friend to logged in");
+        $options['subject'] = "Your SkedApp friend invite";
+
+        $tmp = array(
+            'fullName' => $params['friendName'],
+            'senderName' => $params['senderName'],
+            'link' => $params['link'],
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.loggedin.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.loggedin.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $params['email'];
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }
+
+    public function inviteFriendConsultant($params)
+    {
+        $this->logger->info("send invite friend to consultant");
+        $options['subject'] = "Your SkedApp friend invite";
+
+        $tmp = array(
+            'fullName' => $params['friendName'],
+            'senderName' => $params['senderName'],
+            'link' => $params['link'],
+            'consultantName' => $params['consultantName']
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.consultant.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:invite.friend.consultant.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $params['email'];
         $options['fullName'] = $tmp['fullName'];
 
         $this->sendMail($options);

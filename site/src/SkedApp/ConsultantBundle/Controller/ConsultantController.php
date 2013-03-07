@@ -6,16 +6,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\CoreBundle\Entity\Consultant;
 use SkedApp\ConsultantBundle\Form\ConsultantCreateType;
 use SkedApp\ConsultantBundle\Form\ConsultantUpdateType;
+use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\SearchBundle\Form\SearchType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use SkedApp\BookingBundle\Form\BookingShowType;
+use Ivory\GoogleMap\Overlays\Animation;
+use Ivory\GoogleMap\MapTypeId;
+use Ivory\GoogleMap\Events\MouseEvent;
 
 /**
  * SkedApp\ConsultantBundle\Controller\ConsultantController
  *
- * @author Ronald Conco <ronald.conco@gmail.com>
+ * @author Mfana Ronald Conco <ronald.conco@creativecloud.co.za>
  * @package SkedAppConsultantBundle
  * @subpackage Controller
  * @version 0.0.1
@@ -24,10 +28,9 @@ class ConsultantController extends Controller
 {
 
     /**
-     * list consultants
+     * List consultants
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @param Integer $page paginator
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
@@ -36,11 +39,14 @@ class ConsultantController extends Controller
 
         $this->get('logger')->info('list consultants');
 
-        $sort = $this->get('request')->query->get('sort');
-        $direction = $this->get('request')->query->get('direction', 'desc');
+        $isDirectionSet = $this->get('request')->query->get('direction', false);
+        $searchText = $this->get('request')->query->get('searchText');
+        $sort = $this->get('request')->query->get('sort', 'c.id');
+        $direction = $this->get('request')->query->get('direction', 'asc');
 
-        $options = array('sort' => $sort,
-            'direction' => $direction
+        $options = array('searchText' => $searchText,
+            'sort' => $sort,
+            'direction' => $direction,
         );
 
         $paginator = $this->get('knp_paginator');
@@ -50,16 +56,13 @@ class ConsultantController extends Controller
 
         return $this->render('SkedAppConsultantBundle:Consultant:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 
     /**
-     * Create a new consultant
-     *
-     * @return View
-     * @throws AccessDeniedException
+     * add a consultant
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
      */
@@ -121,7 +124,7 @@ class ConsultantController extends Controller
 
 
                 $this->getRequest()->getSession()->setFlash(
-                    'success', 'Created consultant sucessfully');
+                    'success', 'Created consultant successfully');
                 return $this->redirect($this->generateUrl('sked_app_consultant_list'));
             } else {
                 $this->getRequest()->getSession()->setFlash(
@@ -129,54 +132,204 @@ class ConsultantController extends Controller
             }
         }
 
-       return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
+        return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
     }
 
     /**
      * Show consultant
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @param String $slug
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
-    public function showAction($id)
+    public function showAction($slug)
     {
         $this->get('logger')->info('view consultant');
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
 
-        if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
+            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, new \DateTime());
+            $consultant->setAvailableBookingSlots($slots);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
         }
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show.personal.details.html.twig', array('consultant' => $consultant));
+        return $this->render('SkedAppConsultantBundle:Consultant:show.personal.details.html.twig', array(
+                'consultant' => $consultant
+            ));
     }
 
     /**
-      /**
-     * Show consultant
+     * Edit consultant
      *
-     * @return View
-     * @throws AccessDeniedException
+     * @param String $slug
      *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
-    public function showBookingsAction($id)
+    public function editAction($slug)
     {
-        $this->get('logger')->info('show consultant booking details');
+        $this->get('logger')->info('edit consultant :' . $slug);
 
-        $em = $this->getDoctrine()->getEntityManager();
-        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
-
-        if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
         }
 
-        return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array('consultant' => $consultant));
+        $form = $this->createForm(new ConsultantUpdateType(), $consultant);
+
+        return $this->render('SkedAppConsultantBundle:Consultant:edit.html.twig', array(
+                'form' => $form->createView(),
+                'company' => $consultant
+            ));
+    }
+
+    /**
+     * Update consultant
+     *
+     * @param String $slug
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function updateAction($slug)
+    {
+        $this->get('logger')->info('update consultant :' . $slug);
+
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+
+            $form = $this->createForm(new ConsultantUpdateType(), $consultant);
+
+            if ($this->getRequest()->getMethod() == 'POST') {
+                $form->bindRequest($this->getRequest());
+
+                if ($form->isValid()) {
+                    $this->get('consultant.manager')->update($consultant);
+                    $this->getRequest()->getSession()->setFlash(
+                        'success', 'Updated consultant successfully');
+                    return $this->redirect($this->generateUrl('sked_app_consultant_list'));
+                } else {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Failed to update consultant');
+                }
+            }
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:edit.html.twig', array(
+                'form' => $form->createView(),
+                'consultant' => $consultant
+            ));
+    }
+
+    /**
+     * Update consultant
+     *
+     * @param String $slug
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
+     */
+    public function deleteAction($slug)
+    {
+        $this->get('logger')->info('delete consultant slug:' . $slug);
+
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+            $this->get('consultant.manager')->delete($consultant);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+        }
+
+        $this->getRequest()->getSession()->setFlash(
+            'success', 'Deleted consultant successfully');
+        return $this->redirect($this->generateUrl('sked_app_consultant_list'));
+    }
+
+    /**
+     * View consultant (Public)
+     *
+     * @param String $slug
+     */
+    public function viewAction($slug = '')
+    {
+        $this->get('logger')->info('view consultant slug:' . $slug);
+
+        $options = array();
+
+        try {
+            if ($this->getRequest()->get('id') != null) {
+                $consultant = $this->get('consultant.manager')->getById($this->getRequest()->get('id'));
+
+                $service = $this->get('service.manager')->getById($this->getRequest()->get('serviceId'));
+                $category = $this->get('category.manager')->getById($this->getRequest()->get('categoryId'));
+
+                $options['lat'] = $this->getRequest()->get('lat');
+                $options['lng'] = $this->getRequest()->get('lng');
+                $options['radius'] = 20;
+                $options['category'] = $category;
+                $options['categoryId'] = $category->getId();
+                $options['service'] = $service;
+                $options['serviceId'] = $service->getId();
+                $options['date'] = $this->getRequest()->get('date');
+                $date = new \DateTime($options['date']);
+            } else {
+                $consultant = $this->get('consultant.manager')->getBySlug($slug);
+                $date = new \DateTime(date('Y-m-d'));
+            }
+            
+            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
+            $consultant->setAvailableBookingSlots($slots);
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('_welcome'));
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:public.profile.html.twig', array(
+                'consultant' => $consultant,
+                'options' => $options
+            ));
+    }
+
+    /**
+     * Show consultant bookings consultant
+     *
+     * @param String $slug
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function showBookingsAction($slug)
+    {
+        $this->get('logger')->info('show consultant booking details:' . $slug);
+
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+
+            $companyId = $consultant->getCompany()->getId();
+            $consultantId = $consultant->getId();
+
+            $form = $this->createForm(new BookingListFilterType($companyId, new \DateTime()));
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:show.bookings.html.twig', array(
+                'consultant' => $consultant,
+                'form' => $form->createView(),
+                'companyId' => $companyId
+            ));
     }
 
     /**
@@ -206,119 +359,6 @@ class ConsultantController extends Controller
     }
 
     /**
-     * Edit consultant
-     *
-     * @return View
-     * @throws AccessDeniedException
-     *
-     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
-     */
-    public function editAction($id)
-    {
-        $this->get('logger')->info('edit consultant id:' . $id);
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('edit consultant id:' . $id . ', access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
-
-        if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
-        }
-
-        $form = $this->createForm(new ConsultantUpdateType(), $consultant);
-
-        return $this->render('SkedAppConsultantBundle:Consultant:edit.html.twig', array(
-                'form' => $form->createView(),
-                'id' => $consultant->getId()
-            ));
-    }
-
-    /**
-     * Update consultant
-     *
-     * @return View
-     * @throws AccessDeniedException
-     *
-     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
-     */
-    public function updateAction($id)
-    {
-        $this->get('logger')->info('update consultant id:' . $id);
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('update consultant id:' . $id . ', access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
-
-        if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
-        }
-
-        $form = $this->createForm(new ConsultantUpdateType(), $consultant);
-
-        if ($this->getRequest()->getMethod() == 'POST') {
-            $form->bindRequest($this->getRequest());
-
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getEntityManager();
-                $em->persist($consultant);
-                $em->flush();
-                $this->getRequest()->getSession()->setFlash(
-                    'success', 'Updated consultant sucessfully');
-                return $this->redirect($this->generateUrl('sked_app_consultant_list'));
-            } else {
-                $this->getRequest()->getSession()->setFlash(
-                    'error', 'Failed to update consultant');
-            }
-        }
-
-        return $this->render('SkedAppConsultantBundle:Consultant:edit.html.twig', array(
-                'form' => $form->createView(),
-                'id' => $consultant->getId()
-            ));
-    }
-
-    /**
-     * Delete consultant
-     *
-     * @return View
-     * @throws AccessDeniedException
-     *
-     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN")
-     */
-    public function deleteAction($id)
-    {
-        $this->get('logger')->info('delete consultant id:' . $id);
-
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $this->get('logger')->warn('delete consultant id:' . $id . ', access denied.');
-            throw new AccessDeniedException();
-        }
-
-        $em = $this->getDoctrine()->getEntityManager();
-        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
-
-        if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
-        }
-
-        $this->container->get('consultant.manager')->delete($consultant);
-        $this->getRequest()->getSession()->setFlash(
-            'success', 'Deleted consultant sucessfully');
-        return $this->redirect($this->generateUrl('sked_app_consultant_list'));
-    }
-
-    /**
      * Get all consultant active bookings
      *
      * @param integer $consultantId
@@ -342,8 +382,38 @@ class ConsultantController extends Controller
                     $allDay = true;
                     $bookingName = "On leave";
                 } else {
-                    $bookingName = $booking->getService()->getName();
+                    if (is_object($booking->getService()))
+                        $bookingName = $booking->getService()->getName();
+                    else
+                        $bookingName = 'Unknown Service';
                 }
+
+                $bookingTooltip = '<div class="divBookingTooltip">';
+
+                if (is_object($booking->getCustomer())) {
+
+                    $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
+                    $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
+                    $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
+
+                    $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
+                }
+
+                $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
+                $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
+                $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
+
+                if (is_object($booking->getConsultant())) {
+                    $bookingTooltip .= '<strong>Consultant:</strong> ' . $booking->getConsultant()->getFullName() . "<br />";
+                    $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $booking->getConsultant()->getEmail() . "<br />";
+                }
+
+                if (is_object($booking->getService()))
+                    $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
+
+                $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
+
+                $bookingTooltip .= '</div>';
 
                 $results[] = array(
                     'allDay' => $allDay,
@@ -352,6 +422,7 @@ class ConsultantController extends Controller
                     'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
                     //'start' => "2012-11-29",
                     'url' => $this->generateUrl("sked_app_consultant_booking_show_to_consultant", array("bookingId" => $booking->getId())),
+                    'description' => $bookingTooltip,
                 );
             }
         }
@@ -369,7 +440,7 @@ class ConsultantController extends Controller
      * @throws AccessDeniedException
      *
      */
-    public function ajaxGetByCategoryAction($categoryId)
+    public function ajaxGetByCategoryAction($categoryId, $consultantId = 0)
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
             $this->get('logger')->info('get services by category');
@@ -401,6 +472,17 @@ class ConsultantController extends Controller
             $return->count = sizeof($results);
             $return->results = $results;
 
+            if ($consultantId > 0) {
+                $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($consultantId);
+
+                $services = $consultant->getConsultantServices();
+                $return->selectedServices = array();
+
+                foreach ($services as $service) {
+                    $return->selectedServices[] = $service->getId();
+                }
+            }
+
             $response = new Response(json_encode($return));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
@@ -416,9 +498,9 @@ class ConsultantController extends Controller
      * @return View
      *
      */
-    public function viewAction($id)
+    public function viewOldAction($slug, $id)
     {
-        $this->get('logger')->info('view consultant public');
+        $this->get('logger')->info('consultant public profile');
 
         $em = $this->getDoctrine()->getEntityManager();
         $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
@@ -435,31 +517,42 @@ class ConsultantController extends Controller
             return $this->createNotFoundException();
         }
 
-        $company_photos = $this->container->get('company_photos.manager')->listAll (array ('company_id' => $company->getId (), 'sort' => 'c.caption', 'direction' => 'asc'));
+        $company_photos = $this->container->get('company.photos.manager')->listAll(array('company_id' => $company->getId(), 'sort' => 'c.caption', 'direction' => 'asc'));
 
         $arrBookingDate = $this->getRequest()->get('Search', array('booking_date' => ''));
 
         $strBookingDate = $this->getRequest()->get('booking_date', $arrBookingDate['booking_date']);
 
-        if (strlen ($strBookingDate) > 0) {
-          $objDateSend = new \DateTime($strBookingDate);
-          $consultant->setAvailableBookingSlots ($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $objDateSend));
+        if (strlen($strBookingDate) > 0) {
+            $objDateSend = new \DateTime($strBookingDate);
+            $consultant->setAvailableBookingSlots($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($consultant, $objDateSend));
+        }
+
+        $otherConsultants = $this->get('consultant.manager')->listAllByCompany($company, array('sort' => 'c.lastName', 'direction' => 'Asc'));
+        $otherConsultantsArray = array();
+
+        foreach ($otherConsultants as $otherConsultant) {
+            if ($otherConsultant->getId() != $consultant->getId()) {
+                $objDateSend = new \DateTime($strBookingDate);
+                $otherConsultant->setAvailableBookingSlots($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($otherConsultant, $objDateSend));
+                $otherConsultantsArray[] = $otherConsultant;
+            }
         }
 
         $form = $this->createForm(new SearchType());
 
-        return $this->render('SkedAppConsultantBundle:Consultant:view.html.twig',
-                array(
-                    'consultant' => $consultant,
-                    'company' => $company,
-                    'company_photos' => $company_photos,
-                    'intPositionLat' => $this->getRequest()->get('pos_lat', 0),
-                    'intPositionLong' => $this->getRequest()->get('pos_lng', 0),
-                    'dateFull' => $strBookingDate,
-                    'category_id' => $this->getRequest()->get('category_id', 0),
-                    'serviceIds' => $this->getRequest()->get('serviceIds'),
-                    'form' => $form->createView(),
-                    ));
+        return $this->render('SkedAppConsultantBundle:Consultant:view.html.twig', array(
+                'consultant' => $consultant,
+                'company' => $company,
+                'company_photos' => $company_photos,
+                'intPositionLat' => $this->getRequest()->get('pos_lat', 0),
+                'intPositionLong' => $this->getRequest()->get('pos_lng', 0),
+                'dateFull' => $strBookingDate,
+                'category_id' => $this->getRequest()->get('category_id', 0),
+                'serviceIds' => $this->getRequest()->get('serviceIds'),
+                'form' => $form->createView(),
+                'otherConsultants' => $otherConsultantsArray,
+            ));
     }
 
     /**
@@ -492,13 +585,13 @@ class ConsultantController extends Controller
         $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objDateSelected->setTime(0, 0, 0), $objDateSelected->setTime(23, 59, 59));
 
         $arrTwigOptions = array(
-                    'consultant' => $consultant,
-                    'print_bookings' => true,
-                    'form' => $form->createView(),
-                    'bookings' => $bookings,
-                    'selected_date' => $objDateSelected->format('d-m-Y'),
-                    'print' => $this->getRequest()->get('print_out', 0)
-                );
+            'consultant' => $consultant,
+            'print_bookings' => true,
+            'form' => $form->createView(),
+            'bookings' => $bookings,
+            'selected_date' => $objDateSelected->format('d-m-Y'),
+            'print' => $this->getRequest()->get('print_out', 0)
+        );
 
         if ($this->getRequest()->get('print_out', 0) <= 0) {
             $twigName = 'SkedAppConsultantBundle:Consultant:show.bookings.day.html.twig';

@@ -1,3 +1,4 @@
+/site/web/uploads/emails.csv
 /site/composer.lock
 site/app/bootstrap*
 site/app/config/parameters.yml

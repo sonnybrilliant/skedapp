@@ -1,10 +1,3 @@
-$(document).ready(function () {
-
-    addMarkers();
-
-    //$('#searchFrm').hide();
-
-});
 
 function addMarkers()
 {
@@ -12,6 +5,8 @@ function addMarkers()
     var markerBounds = new google.maps.LatLngBounds();
 
     markerBounds.extend(myMarker.getPosition());
+
+    var intResultCnt = 1;
 
     for (intSPCnt = 0; intSPCnt < serviceProviderIDs.length; intSPCnt++) {
         //Loop through service providers in the search results
@@ -23,19 +18,22 @@ function addMarkers()
 
             consultantNames += '<p><a href="' + Routing.generate('sked_app_consultant_view', {
                   id: serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['id'],
-                  pos_lat: searchLatitude,
-                  pos_lng: searchLongitude,
-                  booking_date: searchDate,
-                  category_id: searchCategoryId,
-                  serviceIds: searchServiceIds
+                  slug: '',
+                  lat: searchLatitude,
+                  lng: searchLongitude,
+                  date: searchDate,
+                  categoryId: searchCategoryId,
+                  serviceId: searchServiceIds
                 }, true) + '">' + serviceProviders[serviceProviderIDs[intSPCnt]]['consultants'][intCCnt]['fullName'] + '</a></p>';
         } //for each consultant
 
-        markerText = '<strong>' + serviceProviders[serviceProviderIDs[intSPCnt]]['name'] + '</strong>' + consultantNames + '<p>' + serviceProviders[serviceProviderIDs[intSPCnt]]['address'] + '</p>';
+        markerText = '<div class="divMarkerText"><strong>' + intResultCnt + ' '
+          + serviceProviders[serviceProviderIDs[intSPCnt]]['name'] + '</strong>' + consultantNames + '<p>' + serviceProviders[serviceProviderIDs[intSPCnt]]['address'] + '</p></div>';
 
-        markerPoint = addOneMarker(searchResultsMap, serviceProviders[serviceProviderIDs[intSPCnt]]['lat'], serviceProviders[serviceProviderIDs[intSPCnt]]['lng'], markerText)
+        markerPoint = addOneMarker(searchResultsMap, serviceProviders[serviceProviderIDs[intSPCnt]]['lat'], serviceProviders[serviceProviderIDs[intSPCnt]]['lng'], markerText, intResultCnt)
 
         markerBounds.extend(markerPoint);
+        intResultCnt++;
 
     } //for each service provider
 
@@ -45,7 +43,7 @@ function addMarkers()
 
 }
 
-function addOneMarker(mapObject, lat, lng, infoHTML)
+function addOneMarker(mapObject, lat, lng, infoHTML, intResultCnt)
 {
 
     var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
@@ -57,9 +55,15 @@ function addOneMarker(mapObject, lat, lng, infoHTML)
 
     var infoWindow = new google.maps.InfoWindow();
 
-    var image = new google.maps.MarkerImage("http://labs.google.com/ridefinder/images/mm_20_red.png",
-        // This marker is 12 pixels wide by 20 pixels tall.
-        new google.maps.Size(12, 20)
+    if (intResultCnt > 0) {
+        var iconName = intResultCnt;
+    } else {
+        var iconName = '';
+    }
+
+    var image = new google.maps.MarkerImage("/img/assets/icons/service-icon" + iconName + ".png",
+        // This marker is 26 pixels wide by 38 pixels tall.
+        new google.maps.Size(26, 38)
         );
 
     marker.setIcon (image);
