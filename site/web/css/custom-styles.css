@@ -227,6 +227,10 @@ Navbar Top Styles
 	-webkit-box-shadow: inset 0px -1px #888888;
 	box-shadow: inset 0px -1px #888888;
 }
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+    color: #FFFFFF
+}
 .navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
     background-color: #0394c8;
     color: #FFFFFF;
@@ -328,6 +332,14 @@ Page Styles
 	margin-bottom: -3px;
 	position:relative;
 	z-index: 4;
+}
+.body-main .chzn-container .chzn-results .active-result {
+  cursor: pointer;
+  display: list-item;
+  color: #000;
+}
+.body-main .chzn-container .chzn-results .highlighted {
+  color: #fff;
 }
 .booking-background {
 	margin: 0 0 -1px -1px;
