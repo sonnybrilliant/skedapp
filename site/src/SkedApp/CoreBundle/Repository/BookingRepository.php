@@ -132,7 +132,7 @@ class BookingRepository extends EntityRepository
             ));
 
         if (is_object($company)) {
-            $qb->join('SkedApp\CoreBundle\Entity\Consultant', 'c')->
+            $qb->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
                     ->andWhere('c.company = :company')->setParameter('company', $company);
         }
 

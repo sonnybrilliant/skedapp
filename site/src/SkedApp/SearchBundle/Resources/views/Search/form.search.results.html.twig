@@ -1,4 +1,4 @@
-{% if not is defined search_results %}
+{% if search_results is not defined %}
     {% set search_results = false %}
 {% endif %}
 <div class="spacer2"></div>
@@ -57,6 +57,6 @@
         </div>
     </div>
     <div class="span7">
-        {% include "SkedAppSearchBundle:Search:search.map.html.twig" with {'search_results': search_results %}
+        {% include "SkedAppSearchBundle:Search:search.map.html.twig" with {'search_results': search_results} %}
     </div>
 </div> <!-- End .row-fluid .body-main -->
