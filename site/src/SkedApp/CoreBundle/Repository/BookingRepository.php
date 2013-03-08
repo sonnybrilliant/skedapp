@@ -147,6 +147,9 @@ class BookingRepository extends EntityRepository
     public function getAllConsultantBookingsByDate($consultantId, \DateTime $objStartDate, \DateTime $objEndDate, $companyId = 0)
     {
 
+        if (is_object($consultantId))
+            $consultantId = $consultantId->getId();
+
         if ($consultantId > 0) {
 
             $qb = $this->createQueryBuilder('b')

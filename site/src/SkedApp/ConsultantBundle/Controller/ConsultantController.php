@@ -582,12 +582,14 @@ class ConsultantController extends Controller
 
         $arrSearch = $this->getRequest()->get('Search');
         $objDateSelected = new \DateTime($arrSearch['booking_date']);
+        $objStartDateTime = new \DateTime($arrSearch['booking_date']);
+        $objEndDateTime = new \DateTime($arrSearch['booking_date']);
 
         $form = $this->createForm(new SearchType(0, $objDateSelected->format('d-m-Y')));
 
         $form->bindRequest($this->getRequest());
 
-        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objDateSelected->setTime(0, 0, 0), $objDateSelected->setTime(23, 59, 59));
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objStartDateTime->setTime(0, 0, 0), $objEndDateTime->setTime(23, 59, 59));
 
         $arrTwigOptions = array(
             'consultant' => $consultant,

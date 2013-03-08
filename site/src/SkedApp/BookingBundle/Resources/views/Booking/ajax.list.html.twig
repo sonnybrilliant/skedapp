@@ -11,6 +11,13 @@
       </div>
   </fieldset>
 
+  {% if consultantId > 0 %}
+      <div class="span2 pull-right">
+          <a href="{{ path('sked_app_consultant_booking_day_print', {'id': consultantId, 'Search[booking_date]': filterDate, 'print_out': 1}) }}" class="btn btn-warning pull-right" target="_blank"><i
+              class="icon-white icon-plus-sign"></i>&nbsp;<strong>Print bookings</strong></a>
+      </div>
+  {% endif %}
+
   <table id="sortable" class="table table-striped table-condensed tablesorter">
     <thead>
       <tr>

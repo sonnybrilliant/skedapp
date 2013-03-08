@@ -684,6 +684,7 @@ class BookingController extends Controller
                 'filterDate' => $filterDate->format('j F Y'),
                 'print' => true,
                 'form' => $form->createView(),
+                'consultantId' => $consultantId
             ));
     }
 
