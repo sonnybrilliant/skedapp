@@ -400,26 +400,38 @@ class BookingController extends Controller
 
         $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime, $company);
 
+        if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) >= (60 * 60 * 24 * 28)) {
+            $isMonth = true;
+        } else {
+            $isMonth = false;
+        }
+
         if ($bookings) {
             foreach ($bookings as $booking) {
                 $allDay = false;
 
+                $bookingName = '';
 
-                if (true == $booking->getIsLeave()) {
-                    $allDay = true;
-                    $bookingName = "On leave";
-                } else {
-                    if (is_object($booking->getService()))
-                        $bookingName = $booking->getService()->getName();
-                    else
-                        $bookingName = 'Unknown Service';
+                if (!$isMonth) {
+                    if (true == $booking->getIsLeave()) {
+                        $allDay = true;
+                        $bookingName = "On leave";
+                    } else {
+                        if (is_object($booking->getService()))
+                            $bookingName = $booking->getService()->getName();
+                        else
+                            $bookingName = 'Unknown Service';
+                    }
                 }
 
                 $bookingTooltip = '<div class="divBookingTooltip">';
 
                 if (is_object($booking->getConsultant())) {
 
-                    $bookingName = $booking->getConsultant()->getFullName() . ' - ' . $bookingName;
+                    if ((isset($bookingName)) && (strlen($bookingName) > 0) )
+                        $bookingName = ' - ' . $bookingName;
+
+                    $bookingName = $booking->getConsultant()->getFullName() . $bookingName;
                 }
 
                 if (is_object($booking->getCustomer())) {
@@ -428,7 +440,10 @@ class BookingController extends Controller
                     $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
                     $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
 
-                    $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
+                    if ((isset($bookingName)) && (strlen($bookingName) > 0) )
+                        $bookingName = ' - ' . $bookingName;
+
+                    $bookingName = $booking->getCustomer()->getFullName() . $bookingName;
                 }
 
                 $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
@@ -495,8 +510,8 @@ class BookingController extends Controller
 
                 if (($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time())) {
                     //If its a single day, add empty slots for each resource
-                    //Make sure start time slot is more than 2 hours in the future
-                    while ($startSlotsDateTime->getTimestamp() < (time() + (60 * 60 * 2))) {
+                    //Make sure start time slot is in the future
+                    while ($startSlotsDateTime->getTimestamp() < time()) {
 
                         $durationInterval = new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M');
                         $startSlotsDateTime->add($durationInterval);
@@ -559,8 +574,7 @@ class BookingController extends Controller
                                     'Booking[consultant]' => $consultant->getId(),
                                 )),
                                 'description' => $bookingTooltip,
-                                'color' => 'white',
-                                'textColor' => 'black'
+                                'className' => 'addBookingTimeSlot'
                             );
                         } //if slot is available
 
@@ -586,7 +600,7 @@ class BookingController extends Controller
 
                     $durationInterval = new \DateInterval('PT15M');
 
-                    $startSlot = new \DateTime($earliestStart->format('Y-m-d H:i:00'));
+                    $startSlot = new \DateTime($earliestStart->format('Y-m-d 06:00:00'));
                     $endSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
                     $endSlot->add($durationInterval);
 
