@@ -622,8 +622,7 @@ class BookingController extends Controller
                             'Booking[appointmentDate]' => $startSlot->format("Y-m-d")
                         )),
                         'description' => $bookingTooltip,
-                        'color' => 'white',
-                        'textColor' => 'black'
+                        'className' => 'addBookingTimeSlot'
                     );
 
                     $earliestStart->add($durationInterval);
