@@ -319,6 +319,11 @@ Page Styles
 .space-right-bottom{
   margin-bottom: 10px;
 }
+
+.space-right-bottom25{
+  margin-bottom: 25px;
+}
+
 .paddingBottom5px{
   margin-bottom: 5px;
 }

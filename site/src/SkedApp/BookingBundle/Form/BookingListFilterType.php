@@ -53,7 +53,7 @@ class BookingListFilterType extends AbstractType
 
         $builder
             ->add('filterDate', 'date', array(
-                'attr' => array('class' => 'span3 datepicker', 'value' => $this->filterDate->format('Y-m-d')),
+                'attr' => array('class' => 'span12 datepicker', 'value' => $this->filterDate->format('Y-m-d')),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
