@@ -27,7 +27,7 @@ $(document).ready(function() {
                     //Check if service should be selected
                     if (response.selectedServices) {
                         $.each(response.selectedServices, function(count,serviceId) {
-                            if (serviceId == key) {
+                            if (serviceId == value.id) {
                                 selectedService = true;
                             }
                         });
@@ -86,7 +86,7 @@ $(document).ready(function() {
                     //Check if service should be selected
                     if (response.selectedServices) {
                         $.each(response.selectedServices, function(count,serviceId) {
-                            if (serviceId == key) {
+                            if (serviceId == value.id) {
                                 selectedService = true;
                             }
                         });
