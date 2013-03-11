@@ -208,7 +208,7 @@ class BookingController extends Controller
             throw new AccessDeniedException();
         }
 
-        try {
+//        try {
 
             $user = $this->get('member.manager')->getLoggedInUser();
             $booking = $this->get('booking.manager')->getById($bookingId);
@@ -219,10 +219,11 @@ class BookingController extends Controller
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
             $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
-        } catch (\Exception $e) {
-            $this->get('logger')->err("booking id:$booking invalid");
-            $this->createNotFoundException($e->getMessage());
-        }
+//        } catch (\Exception $e) {
+//            $this->get('logger')->err("booking id:$bookingId invalid");
+//            $this->createNotFoundException($e->getMessage());
+//            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+//        }
 
         $customer = new Customer();
 

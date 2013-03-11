@@ -4,9 +4,11 @@ namespace SkedApp\BookingBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * SkedApp\ConsultantBundle\Form\BookingUpdateType
@@ -31,10 +33,16 @@ class BookingUpdateType extends AbstractType
      */
     private $companyId = null;
 
-    public function __construct($companyId, $isAdmin = false)
+    /**
+     * @var Validator
+     */
+    private $validator;
+
+    public function __construct($companyId, $isAdmin = false, Validator $validator = null)
     {
         $this->companyId = $companyId;
         $this->isAdmin = $isAdmin;
+        $this->validator = $validator;
     }
 
     /**
@@ -118,6 +126,8 @@ class BookingUpdateType extends AbstractType
                             'isActive' => true
                         ));
                 },
+                // Added a constraint that will be applied if online customer is selected
+                'constraints' => new Assert\NotBlank (array('groups' => array('CustomerProvided'))),
             ))
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
@@ -173,6 +183,22 @@ class BookingUpdateType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'SkedApp\CoreBundle\Entity\Booking',
+        ));
+
+        $validator = $this->validator;
+
+        $resolver->setDefaults(array(
+            'validation_groups' => function(FormInterface $form) use ($validator) {
+                // Get submitted data
+                $data = $form->getData();
+                $customerOrNot = $data['customerOrNot'];
+
+                // If marked that offline customer is used, first name must be populated
+                // Then we add a validation group so we can also check message field
+                if ($customerOrNot == 0) {
+                    return array('CustomerProvided');
+                }
+            },
         ));
     }
 
