@@ -203,7 +203,7 @@ html, body {
 }
 .image-dimensions140 {
     width: 140px !important;
-    height: 140px !important;
+    height: auto;
 }
 .asterisk {
 	color: #F00;

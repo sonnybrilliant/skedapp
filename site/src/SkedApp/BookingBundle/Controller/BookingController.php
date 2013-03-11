@@ -901,9 +901,13 @@ class BookingController extends Controller
                         'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                    //send booking created notification emails
-                    $this->get("notification.manager")->createdBooking($options);
-
+                    try {
+                        //send booking created notification emails
+                        $this->get("notification.manager")->createdBooking($options);
+                    } catch (Exception $e) {
+                        $this->getRequest()->getSession()->setFlash(
+                            'error', $e->getMessage());
+                    }
                     return $this->redirect($this->generateUrl('sked_app_customer_booking_details',array('id'=>$booking->getId())));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
