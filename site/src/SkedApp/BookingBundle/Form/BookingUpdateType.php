@@ -4,9 +4,14 @@ namespace SkedApp\BookingBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Event\DataEvent;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
+use SkedApp\CustomerBundle\Form\CustomerPotentialType;
 
 /**
  * SkedApp\ConsultantBundle\Form\BookingUpdateType
@@ -148,9 +153,7 @@ class BookingUpdateType extends AbstractType
                 'multiple' => false,
                 'required' => false,
                 'attr' => array('class' => 'span12 chosen'),
-            ))
-
-        ;
+            ));
     }
 
     /**

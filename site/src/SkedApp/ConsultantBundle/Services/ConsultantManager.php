@@ -235,6 +235,7 @@ final class ConsultantManager
     public function update($consultant)
     {
         $this->logger->info('Save consultant');
+        $consultant->upload();
         $this->em->persist($consultant);
         $this->em->flush();
         return;

@@ -218,10 +218,12 @@ class BookingController extends Controller
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
-            $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
+            $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
+
         } catch (\Exception $e) {
-            $this->get('logger')->err("booking id:$booking invalid");
+            $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
         }
 
         $customer = new Customer();
@@ -263,7 +265,7 @@ class BookingController extends Controller
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
-            $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
+            $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
 
             if ($this->getRequest()->getMethod() == 'POST') {
                 $form->bindRequest($this->getRequest());
@@ -274,6 +276,7 @@ class BookingController extends Controller
                     if (strlen($customerPotential->getFirstName()) > 0) {
                         $this->get('customer.potential.manager')->update($customerPotential);
                         $booking->setCustomerPotential($customerPotential);
+                        $booking->setCustomer(null);
                     }
 
                     $this->get('booking.manager')->save($booking);
@@ -297,6 +300,8 @@ class BookingController extends Controller
             }
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
+            $this->getRequest()->getSession()->setFlash(
+                        'error', $e->getMessage());
             $this->createNotFoundException($e->getMessage());
         }
 

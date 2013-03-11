@@ -66,7 +66,7 @@ class CustomerPotential implements \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=254)
+     * @ORM\Column(name="email", type="string", length=254, nullable=true)
      */
     protected $email;
 
