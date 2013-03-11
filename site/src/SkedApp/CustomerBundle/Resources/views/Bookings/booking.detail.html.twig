@@ -50,7 +50,6 @@
                         </li>
                         <li>
                             <div class="divPrompt">Location:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.consultant.company.address }}</strong></span></div>
-                            <div class="divValue"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</div>
                             <div class="clearfix"></div>
                             <div class="divPrompt">Contact Number:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.consultant.company.contactNumber }}</strong></span></div>
                             <div class="clearfix"></div>
@@ -64,6 +63,7 @@
             </div>
             <div class="span7">
                 <div class="map-box">
+                    <div class="divValue"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</div>
                     <div class="map-container">
                         {{ google_map_container(map) }}
                     </div>

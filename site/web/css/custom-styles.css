@@ -324,6 +324,10 @@ Page Styles
   margin-bottom: 25px;
 }
 
+#BookingMessage_messageText{
+  width: 78%;
+}
+
 .paddingBottom5px{
   margin-bottom: 5px;
 }
