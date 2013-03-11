@@ -140,7 +140,7 @@ class BookingUpdateType extends AbstractType
                 'required' => false
             ))
             ->add('isLeave', 'checkbox', array(
-                'label' => 'Is leave:',
+                'label' => 'Blocked out:',
                 'required' => false,
             ))
             ->add('isConfirmed', 'checkbox', array(
@@ -152,7 +152,7 @@ class BookingUpdateType extends AbstractType
                 'label' => 'Services:',
                 'multiple' => false,
                 'required' => false,
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
             ));
     }
 
