@@ -27,8 +27,6 @@ html, body {
   margin-left: 3px;
 }
 
-
-
 .tab-content{
   overflow:auto;
 }
@@ -134,6 +132,9 @@ html, body {
 }
 .large-thin-text {
 	font-size: 20px;
+}
+.space-top-80 {
+	margin-top: 80px;
 }
 .space-top {
 	margin-top: 20px;
