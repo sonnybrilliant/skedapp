@@ -71,7 +71,7 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
 
         $booking = new Booking();
-        $customerPotential = new CustomerPotential();
+        $customerPotential = new CustomerPotential(false);
 
         $bookingValues = $this->getRequest()->get('Booking');
 
@@ -92,7 +92,7 @@ class BookingController extends Controller
                 $this->get('member.manager')->isAdmin(),
                 new \DateTime($bookingValues['appointmentDate'])
             ), $booking);
-        $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
+        $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
