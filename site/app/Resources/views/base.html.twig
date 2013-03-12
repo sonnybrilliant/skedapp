@@ -38,8 +38,8 @@
         {% set displayLogo = 'other_pages' %}
         <div id="wrap">
         {% block navigation %}
-            <div class="navbar navbar-inverse navbar-fixed-top">
-                
+             <div class="navbar navbar-static-top">
+                <div class="navbar navbar-inverse">
                     <div class="navbar-inner">
                             <div class="container">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -78,12 +78,12 @@
                                 {% endif %}
                         </div>
                 </div>
-                
+                </div>
             </div> <!-- End .navbar -->
             
         {% endblock navigation%}
         
-            <div class="container space-top-80">
+            <div class="container">
 
                 {% block display_logo %}
                     <div class="row-fluid">
