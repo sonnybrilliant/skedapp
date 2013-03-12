@@ -421,10 +421,10 @@ class BookingRepository extends EntityRepository
 
         $slot_cnt = 0;
 
-        if ($bookingDate->getTimestamp() <= $end_time->getTimeStamp()) {
+        if ($bookingDate->getTimestamp() < $end_time->getTimeStamp()) {
             //Still enough time to book today
             //Start by identifying time slots on the same day
-            while (($slot_cnt < 5) && ($start_time->getTimestamp() <= $end_time->getTimeStamp())) {
+            while (($slot_cnt < 5) && ($start_time->getTimestamp() < $end_time->getTimeStamp())) {
                 $new_timestamp = $start_time->getTimestamp() + (60 * $appointment_duration);
 
                 $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));
