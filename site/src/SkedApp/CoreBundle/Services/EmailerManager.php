@@ -105,6 +105,10 @@ final class EmailerManager
      */
     public function sendMail($params)
     {
+
+        if (strlen($params['email']) <= 0)
+            return;
+
         $this->logger->info('sending mail to:' . $params['email']);
         $message = \Swift_Message::newInstance()
             ->setSubject($params['subject'])
@@ -424,8 +428,8 @@ final class EmailerManager
 
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
-        $options['email'] = $booking->getCustomer()->getEmail();
-        $options['fullName'] = $tmp['user']->getFullName();
+        $options['email'] = $booking->getCustomerEmail();
+        $options['fullName'] = $booking->getCustomerFullName();
 
         if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
           $options['attachments_data'] = $params['attachments_data'];
@@ -588,7 +592,7 @@ final class EmailerManager
 
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
-        $options['email'] = $booking->getCustomer()->getEmail();
+        $options['email'] = $booking->getConsultant()->getEmail();
         $options['fullName'] = $tmp['fullName'];
 
         $this->sendMail($options);

@@ -689,11 +689,6 @@ class BookingController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
         $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $startDate, $endDate, $companyId);
 
-        if (is_object($user->getCompany()))
-            $companyId = $user->getCompany()->getId();
-        else
-            $companyId = 0;
-
         $form = $this->createForm(new BookingMessageType());
 
         return $this->render('SkedAppBookingBundle:Booking:ajax.list.html.twig', array(

@@ -1,5 +1,11 @@
 function updateConsultantServices(consultantSelect) {
+
     var consultantId = consultantSelect.attr('value');
+
+    if (typeof consultantId == 'undefined') {
+        return false;
+    }
+
     $.getJSON(Routing.generate('sked_app_booking_ajax_get_by_consultant', {
         consultantId : consultantId
     }, true ),function(response){
