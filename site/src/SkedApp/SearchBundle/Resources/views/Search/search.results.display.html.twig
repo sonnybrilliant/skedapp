@@ -91,116 +91,127 @@ var currentServiceId = {{ options.service.id }};
                     </ul>
                 </div>
             </td>
-            <td>
-                <!-- monday -->
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Mon'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-           </td>
 
-            <td>
-                 <!-- tuesday -->
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Tue'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-            </td>
+            {% if not consultant.timeSlotsSetUp %}
+                <td colspan="7">
+                    <div class="span12">
+                        <span class="text-error"><strong>This consultant is not officially registered with SkedApp</strong></span>
+                    </div>
+                </td>
+            {% else %}
+              <td>
+                  <!-- monday -->
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Mon'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+             </td>
 
-            <td>
-                                 <!-- tuesday -->
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Wed'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-            </td>
+              <td>
+                   <!-- tuesday -->
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Tue'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+              </td>
 
-            <td>
-                 <!-- tuesday -->
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Thu'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-            </td>
+              <td>
+                                   <!-- tuesday -->
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Wed'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+              </td>
 
-            <td>
-                <!-- tuesday -->
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Fri'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-            </td>
+              <td>
+                   <!-- tuesday -->
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Thu'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+              </td>
 
-            <td>
-                                 <!-- tuesday -->
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Sat'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-            </td>
+              <td>
+                  <!-- tuesday -->
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Fri'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+              </td>
 
-            <td>
-                {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                <ul class="unstyled">
-                {% for time_slot in arrSlots.time_slots %}
-                   {% if time_slot.dow == 'Sun'%}
-                      <li>
-                        <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                {{ time_slot.start_time }}
-                        </a>
-                      </li>
-                   {% endif %}
-                {% endfor %}
-                </ul>
-            </td>
+              <td>
+                                   <!-- tuesday -->
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Sat'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+              </td>
+
+              <td>
+                  {% set arrSlots = consultant.getAvailableBookingSlots() %}
+                  <ul class="unstyled">
+                  {% for time_slot in arrSlots.time_slots %}
+                     {% if time_slot.dow == 'Sun'%}
+                        <li>
+                          <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
+                                  {{ time_slot.start_time }}
+                          </a>
+                        </li>
+                     {% endif %}
+                  {% endfor %}
+                  </ul>
+              </td>
+
+            {% endif %}
+
             <script language="JavaScript">
 
             if (!serviceProviders[{{ consultant.company.id }}]) {

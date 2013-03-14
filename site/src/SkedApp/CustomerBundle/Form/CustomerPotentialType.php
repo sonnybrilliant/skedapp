@@ -19,6 +19,13 @@ use Doctrine\ORM\EntityRepository;
 class CustomerPotentialType extends AbstractType
 {
 
+    private $firstNameRequired;
+
+    public function __construct($firstNameRequired = true)
+    {
+        $this->firstNameRequired = $firstNameRequired;
+    }
+
     /**
      * Build Form
      *
@@ -32,6 +39,7 @@ class CustomerPotentialType extends AbstractType
         $builder
             ->add('firstName', 'text', array(
                 'label' => 'First name:',
+                'required' => $this->firstNameRequired,
                 'attr' => array('class' => 'span12')
             ))
             ->add('lastName', 'text', array(

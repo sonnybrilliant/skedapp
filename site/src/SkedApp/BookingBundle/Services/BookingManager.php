@@ -4,6 +4,7 @@ namespace SkedApp\BookingBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
+use SkedApp\CoreBundle\Entity\Company;
 
 /**
  * Booking manager
@@ -143,32 +144,32 @@ final class BookingManager
 
         return $bookings;
     }
-    
+
     /**
      * Get consultant bookings
-     * 
+     *
      * @param array $options
      * @return array
      */
     public function getConsultantBookings($options)
     {
         $this->logger->info('Get all consultant bookings');
-        
+
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
-        return $bookings;        
+        return $bookings;
     }
-    
-    
+
+
     /**
      * Get all bookings between given dates
      *
      * @return Array
      */
-    public function getAllBetweenDates(\DateTime $startDateTime, \DateTime $endDateTime)
+    public function getAllBetweenDates(\DateTime $startDateTime, \DateTime $endDateTime, Company $company = null)
     {
         $this->logger->info("get all bookings between dates");
 
-        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllBookingsByDate($startDateTime, $endDateTime);
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllBookingsByDate($startDateTime, $endDateTime, $company);
 
         return $bookings;
     }
@@ -319,7 +320,7 @@ final class BookingManager
         $securityContext = $this->getContainer()->get('security.context');
         $token = $securityContext->getToken();
         $customer = $token->getUser();
-        
+
         $options['customer'] = $customer;
 
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllCustomerBooking($options);
@@ -348,7 +349,7 @@ final class BookingManager
 
     /**
      * Get consultant Timeslots
-     * 
+     *
      * @param SkedApp\CoreBundle\Entity\Consultant $consultant
      * @param \Datetime $date
      * @return array

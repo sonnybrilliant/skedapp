@@ -1,5 +1,10 @@
 {% extends "::base.print.html.twig" %}
 
+{% block menu %}
+      {% set vars = {'controller': 'consultants'} %}
+      {% include "::menu.html.twig" with vars  %}
+{% endblock %}
+
 {% block body %}
    {% block content %}
    {% endblock content %}

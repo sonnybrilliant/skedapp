@@ -4,9 +4,14 @@ namespace SkedApp\BookingBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\Event\DataEvent;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
+use SkedApp\CustomerBundle\Form\CustomerPotentialType;
 
 /**
  * SkedApp\ConsultantBundle\Form\BookingUpdateType
@@ -51,14 +56,14 @@ class BookingUpdateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span4 datepicker'),
+                'attr' => array('class' => 'span7 datepicker'),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
-                'attr' => array('class' => 'span12'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -122,12 +127,12 @@ class BookingUpdateType extends AbstractType
             ->add('startTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time from:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span5')
             ))
             ->add('endTimeslot', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Timeslots',
                 'label' => 'Time to:',
-                'attr' => array('class' => 'span1')
+                'attr' => array('class' => 'span3')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
@@ -135,7 +140,7 @@ class BookingUpdateType extends AbstractType
                 'required' => false
             ))
             ->add('isLeave', 'checkbox', array(
-                'label' => 'Is leave:',
+                'label' => 'Blocked out:',
                 'required' => false,
             ))
             ->add('isConfirmed', 'checkbox', array(
@@ -148,9 +153,7 @@ class BookingUpdateType extends AbstractType
                 'multiple' => false,
                 'required' => false,
                 'attr' => array('class' => 'span12'),
-            ))
-
-        ;
+            ));
     }
 
     /**

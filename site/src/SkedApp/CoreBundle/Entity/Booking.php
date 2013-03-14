@@ -776,4 +776,37 @@ class Booking
         return $this;
     }
 
+    /**
+     * Get Customer or offline customer full name
+     *
+     * @return string
+     */
+    public function getCustomerFullName()
+    {
+        if ( ($this->getCustomerOrNot()) && (is_object($this->getCustomer())) ) {
+            //Online Customer
+            return $this->getCustomer()->getFullName();
+        } elseif (is_object($this->getCustomerPotential())) {
+            return $this->getCustomerPotential()->getFullName();
+        }
+
+        return '';
+    }
+
+    /**
+     * Get Customer or offline customer e-mail
+     *
+     * @return string
+     */
+    public function getCustomerEmail()
+    {
+        if ( ($this->getCustomerOrNot()) && (is_object($this->getCustomer())) ) {
+            //Online Customer
+            return $this->getCustomer()->getEmail();
+        } elseif (is_object($this->getCustomerPotential())) {
+            return $this->getCustomerPotential()->getEmail();
+        }
+
+        return '';
+    }
 }

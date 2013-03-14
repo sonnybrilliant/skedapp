@@ -470,6 +470,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
         // which the UploadedFile move() method does
 
         $this->picture->move($this->getUploadRootDir(), $this->id . '.' . $this->picture->guessExtension());
+        $this->setPath($this->picture->guessExtension());
         unset($this->picture);
     }
 
@@ -1520,5 +1521,19 @@ class Consultant implements AdvancedUserInterface, \Serializable
     public function getCurrentId()
     {
         return $this->id;
+    }
+
+    /**
+     * Check if consultant has proper times set up
+     *
+     * @return boolean
+     */
+    public function getTimeSlotsSetUp()
+    {
+
+        if ($this->getStartTimeslot()->getSlot() == $this->getEndTimeslot()->getSlot())
+            return false;
+        else
+            return true;
     }
 }

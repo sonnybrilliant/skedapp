@@ -38,7 +38,7 @@
         {% set displayLogo = 'other_pages' %}
         <div id="wrap">
         {% block navigation %}
-            <div class="navbar navbar-static-top">
+             <div class="navbar navbar-static-top">
                 <div class="navbar navbar-inverse">
                     <div class="navbar-inner">
                             <div class="container">
@@ -49,16 +49,17 @@
                                     {% if is_granted('ROLE_ADMIN') %}
                                         <li><a href="{{ path("sked_app_service_provider_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
+                                        <li><a href="{{ path('_welcome') }}" onclick="sendInviteEMail(); return false;">Send Invite E-Mail</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_ADMIN') %}
                                         <li><a href="{{ path("sked_app_consultant_list") }}.html" title="View your admin dashboard">Dashboard</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                         <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">Bookings</a></li>
+                                        <li><a href="{{ path("sked_app_consultant_show", {'slug': app.user.slug }) }}" title="View your calender">My Calendar</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                         <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% elseif is_granted('ROLE_SITE_USER') %}
-                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">Bookings</a></li>
+                                        <li><a href="{{ path("sked_app_customer_list_bookings") }}" title="View my bookings">My Bookings</a></li>
                                         <li><a href="{{ path('_welcome')}}">Make a Booking</a></li>
                                         <li><a href="{{ path('sked_app_invite_friends_loggedin')}}">Invite a Friend</a></li>
                                     {% endif %}
@@ -76,12 +77,12 @@
                                 </ul>
                                 {% endif %}
                         </div>
-                    </div>
+                </div>
                 </div>
             </div> <!-- End .navbar -->
-
+            
         {% endblock navigation%}
-
+        
             <div class="container">
 
                 {% block display_logo %}
@@ -90,7 +91,7 @@
                             <a href="{{ path('_welcome')}}" class="logo logo-other"><img src="{{ asset('/img/skedapp-logo-icon.png') }}" width="98" height="68" alt="SkedApp" title="SkedApp" /></a>
                         </div>
                         <div class="span9">
-                            <h3 class="pull-right">Search, Locate and Schedule services in your area.</h3>
+                            <h3 class="pull-right">Search, Locate and Schedule services in your area 24/7.</h3>
                         </div>
                     </div> <!-- End .row-fluid -->
                     <div class="spacer1"></div>
@@ -102,19 +103,19 @@
 
             {% block alert%}
                {% if error is defined %}
-                <div class="spacer2"></div>
                 {% if error %}
-                <div class="alert alert-error">
-                    <button class="close" data-dismiss="alert">×</button>
-                    <h4 class="alert-heading">Warning!</h4>
-                    Your username and password are invalid, please try again or contact support.
-                </div>
+                    <div class="spacer2"></div>
+                    <div class="alert alert-error">
+                        <button class="close" data-dismiss="alert">×</button>
+                        <h4 class="alert-heading">Warning!</h4>
+                        Your username and password are invalid, please try again or contact support.
+                    </div>
                {% else %}
-                 {% include "::alert.html.twig" %} 
+                 {% include "::alert.html.twig" %}
                {% endif %}
             {% endif %}
             {% endblock alert%}
-                
+
             {% block body %}
 
             {% endblock body %}
@@ -134,6 +135,10 @@
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>
             <script src="{{ asset('/js/search.js') }}"></script>
+            <script language="JavaScript">
+                var AbsoluteUrl = "{{ app.request.scheme ~  '://' ~  app.request.host }}{% if app.environment != "prod" %}/app_{{ app.environment }}.php{% endif %}";
+                Routing.setBaseUrl(AbsoluteUrl);
+            </script>
             {% block javascripts %}{% endblock %}
         </body>
     </html>

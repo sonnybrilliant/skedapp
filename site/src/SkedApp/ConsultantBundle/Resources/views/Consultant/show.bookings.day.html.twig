@@ -13,16 +13,16 @@
 
 {% block menu %}
        {% if is_granted('ROLE_ADMIN') %}
-            {% include "::menu.html.twig" %}
+            {% include "::menu.html.twig" with {'controller': 'consultants'} %}
        {% elseif is_granted('ROLE_CONSULTANT_USER') %}
-            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant } %}
+            {% include "SkedAppConsultantBundle:Consultant:menu.html.twig" with {'consultant' : consultant, 'controller': 'consultants' } %}
        {% endif %}
 {% endblock menu%}
     {% block body %}
     {% block content %}
     <div class="row-fluid body-secondary">
     <div class="span12" style="margin-left: 0px">
-        <h3>Print bookings</h3>                
+        <h3>Print bookings</h3>
         <div class="span5" style="margin-left: 0px">
            {% set vars = {'action': 'Print'} %}
            {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
@@ -34,9 +34,9 @@
         {% endblock %}
 
         {#start form display===============================#}
-        
+
             {% include "SkedAppSearchBundle:Search:form.search.date.html.twig" %}
-        
+
         <div class="clearfix"></div>
         {#end form display===============================#}
 

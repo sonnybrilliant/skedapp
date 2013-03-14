@@ -70,11 +70,9 @@ class MemberRepository extends EntityRepository
         $qb = $this->createQueryBuilder('m')
             ->select('m')
             ->where("m.enabled = :enabled")
-            ->andWhere("m.isAdmin = :isAdmin")
             ->andWhere("m.company = :company")
             ->setParameters(array(
             'enabled' => true,
-            'isAdmin' => true,
             'company' => $companyId,
             ));
         return $qb->getQuery()->execute();

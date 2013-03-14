@@ -235,6 +235,7 @@ final class ConsultantManager
     public function update($consultant)
     {
         $this->logger->info('Save consultant');
+        $consultant->upload();
         $this->em->persist($consultant);
         $this->em->flush();
         return;
@@ -309,10 +310,19 @@ final class ConsultantManager
     {
         $this->logger->info("Search for consultants");
 
+        if (!isset($options['radius']))
+            $options['radius'] = 20;
+
         $output = array(
             'results' => array(),
             'radius' => $options['radius'],
         );
+
+        if (!isset($options['lat']))
+            return $output;
+
+        if (!isset($options['lng']))
+            return $output;
 
         if ((is_null($options['lat'])) || (is_null($options['lng'])))
             return $output;

@@ -63,7 +63,7 @@ class BookingCreateType extends AbstractType
 
         $builder
             ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span4 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
+                'attr' => array('class' => 'span7 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
@@ -71,7 +71,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
                 'empty_value' => 'Select a consultant',
-                'attr' => array('class' => 'span12'),
+                'attr' => array('class' => 'span12 chosen'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -117,7 +117,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
                 'empty_value' => 'Select an offline customer',
-                'attr' => array('class' => 'span12'),
+                'attr' => array('class' => 'span12 chosen'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -148,7 +148,7 @@ class BookingCreateType extends AbstractType
                 'required' => false
             ))
             ->add('isLeave', 'checkbox', array(
-                'label' => 'Is leave:',
+                'label' => 'Blocked out:',
                 'required' => false,
             ))
             ->add('isConfirmed', 'checkbox', array(

@@ -39,6 +39,8 @@ class ConsultantController extends Controller
 
         $this->get('logger')->info('list consultants');
 
+        $user = $this->get('member.manager')->getLoggedInUser();
+
         $isDirectionSet = $this->get('request')->query->get('direction', false);
         $searchText = $this->get('request')->query->get('searchText');
         $sort = $this->get('request')->query->get('sort', 'c.id');
@@ -48,6 +50,9 @@ class ConsultantController extends Controller
             'sort' => $sort,
             'direction' => $direction,
         );
+
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+            $options['company'] = $user->getCompany();
 
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -286,7 +291,7 @@ class ConsultantController extends Controller
                 $consultant = $this->get('consultant.manager')->getBySlug($slug);
                 $date = new \DateTime(date('Y-m-d'));
             }
-            
+
             $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
             $consultant->setAvailableBookingSlots($slots);
         } catch (\Exception $e) {
@@ -569,20 +574,27 @@ class ConsultantController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();
         $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+        $companyId = 0;
 
         if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
+            $consultant = new Consultant();
         }
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+            $companyId = $user->getCompany()->getId();
 
         $arrSearch = $this->getRequest()->get('Search');
         $objDateSelected = new \DateTime($arrSearch['booking_date']);
+        $objStartDateTime = new \DateTime($arrSearch['booking_date']);
+        $objEndDateTime = new \DateTime($arrSearch['booking_date']);
 
         $form = $this->createForm(new SearchType(0, $objDateSelected->format('d-m-Y')));
 
         $form->bindRequest($this->getRequest());
 
-        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objDateSelected->setTime(0, 0, 0), $objDateSelected->setTime(23, 59, 59));
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant->getId(), $objStartDateTime->setTime(0, 0, 0), $objEndDateTime->setTime(23, 59, 59), $companyId);
 
         $arrTwigOptions = array(
             'consultant' => $consultant,
