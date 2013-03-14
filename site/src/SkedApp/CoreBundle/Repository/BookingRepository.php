@@ -4,6 +4,7 @@ namespace SkedApp\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use SkedApp\CoreBundle\Entity\Consultant;
+use SkedApp\CoreBundle\Entity\Company;
 
 /**
  * BookingRepository
@@ -114,7 +115,7 @@ class BookingRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate, SkedApp\CoreBundle\Entity\Company $company = null)
+    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate, Company $company = null)
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b')

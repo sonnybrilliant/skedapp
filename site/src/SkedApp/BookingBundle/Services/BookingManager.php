@@ -4,6 +4,7 @@ namespace SkedApp\BookingBundle\Services;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Monolog\Logger;
+use SkedApp\CoreBundle\Entity\Company;
 
 /**
  * Booking manager
@@ -164,7 +165,7 @@ final class BookingManager
      *
      * @return Array
      */
-    public function getAllBetweenDates(\DateTime $startDateTime, \DateTime $endDateTime, SkedApp\CoreBundle\Entity\Company $company = null)
+    public function getAllBetweenDates(\DateTime $startDateTime, \DateTime $endDateTime, Company $company = null)
     {
         $this->logger->info("get all bookings between dates");
 
