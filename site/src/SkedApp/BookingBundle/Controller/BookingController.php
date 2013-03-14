@@ -665,7 +665,8 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('see list of bookings');
 
-        if ((!$this->get('security.context')->isGranted('ROLE_ADMIN')) || (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))) {
+        if ((!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+                && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))) {
             $this->get('logger')->warn('Ajax list bookings, access denied.');
             throw new AccessDeniedException();
         }
