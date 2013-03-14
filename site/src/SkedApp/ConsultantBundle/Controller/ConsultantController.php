@@ -574,11 +574,16 @@ class ConsultantController extends Controller
 
         $em = $this->getDoctrine()->getEntityManager();
         $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+        $companyId = 0;
 
         if (!$consultant) {
-            $this->get('logger')->warn("consultant not found $id");
-            return $this->createNotFoundException();
+            $consultant = new Consultant();
         }
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+            $companyId = $user->getCompany()->getId();
 
         $arrSearch = $this->getRequest()->get('Search');
         $objDateSelected = new \DateTime($arrSearch['booking_date']);
@@ -589,7 +594,7 @@ class ConsultantController extends Controller
 
         $form->bindRequest($this->getRequest());
 
-        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant, $objStartDateTime->setTime(0, 0, 0), $objEndDateTime->setTime(23, 59, 59));
+        $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultant->getId(), $objStartDateTime->setTime(0, 0, 0), $objEndDateTime->setTime(23, 59, 59), $companyId);
 
         $arrTwigOptions = array(
             'consultant' => $consultant,

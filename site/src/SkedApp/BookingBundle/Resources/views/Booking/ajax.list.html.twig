@@ -11,7 +11,7 @@
       </div>
   </fieldset>
 
-  {% if consultantId > 0 %}
+  {% if bookings %}
       <div class="span3 pull-right space-right-bottom25">
           <a href="{{ path('sked_app_consultant_booking_day_print', {'id': consultantId, 'Search[booking_date]': filterDate, 'print_out': 1}) }}" class="btn btn-warning pull-right" target="_blank"><i
               class="icon-white icon-plus-sign"></i>&nbsp;<strong>Print bookings</strong></a>
@@ -50,9 +50,11 @@
       {% endfor %}
     </tbody>
   </table>
-  <div class="btn-toolbar pull-right">
-            <div class="btn-group">
-      <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Go &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-  </div>
-</div>
+  {% if bookings %}
+      <div class="btn-toolbar pull-right">
+          <div class="btn-group">
+              <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Go &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+          </div>
+      </div>
+  {% endif %}
 </form>

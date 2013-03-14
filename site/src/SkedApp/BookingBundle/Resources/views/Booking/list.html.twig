@@ -155,6 +155,18 @@
                 loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
             });
 
+        if (jQuery.ui) {
+            $( "#BookingListFilter_filterDate" ).datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                minDate: 0,
+                maxDate: "+1M +10D",
+                dateFormat: 'dd-mm-yy'
+            });
+        }
+
+        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
+
     });
 
 </script>

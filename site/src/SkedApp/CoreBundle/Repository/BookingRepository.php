@@ -189,6 +189,24 @@ class BookingRepository extends EntityRepository
                 'end' => $objEndDate->format('Y-m-d H:i:s')
                 ));
             return $qb->getQuery()->execute();
+        } else {
+
+            $qb = $this->createQueryBuilder('b')
+                ->select('b')
+                ->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
+                ->where("b.isDeleted = :delete")
+                ->andWhere("b.isActive = :active")
+                ->andWhere("b.isCancelled = :cancelled")
+                ->andWhere("b.hiddenAppointmentStartTime >= :start")
+                ->andWhere("b.hiddenAppointmentEndTime <= :end")
+                ->setParameters(array(
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
+                'start' => $objStartDate->format('Y-m-d H:i:s'),
+                'end' => $objEndDate->format('Y-m-d H:i:s')
+                ));
+            return $qb->getQuery()->execute();
         }
     }
 

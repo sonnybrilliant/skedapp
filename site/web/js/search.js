@@ -45,7 +45,6 @@ $(document).ready(function() {
         });
     }
 
-
     //Run the ajax call to show only selected services
     var categoryId = 0;
     if (document.getElementById('Search_category')) {

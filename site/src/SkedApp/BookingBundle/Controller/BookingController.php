@@ -688,7 +688,7 @@ class BookingController extends Controller
                 'filterDate' => $filterDate->format('j F Y'),
                 'print' => true,
                 'form' => $form->createView(),
-                'consultantId' => $consultantId
+                'consultantId' => ($consultantId + 0)
             ));
     }
 
@@ -1119,11 +1119,11 @@ class BookingController extends Controller
             $this->getRequest()->getSession()->setFlash('error', 'Please select at least one booking.');
         }
 
-        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) {
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) ) {
 
             $user = $this->get('member.manager')->getLoggedInUser();
 
-            return $this->redirect($this->generateUrl('sked_app_consultant_booking_show', array('id' => $user->getId())));
+            return $this->redirect($this->generateUrl('sked_app_consultant_show', array('slug' => $user->getSlug())));
         } else {
             return $this->redirect($this->generateUrl('sked_app_booking_manager'));
         }
