@@ -30,6 +30,7 @@
         <th class="table-heading-blue">Service</th>
         <th class="table-heading-blue">Confirmed</th>
         <th class="table-heading-blue">Created</th>
+        <th class="table-heading-blue">Edit</th>
         <th class="table-heading-blue">Cancel</th>
       </tr>
     </thead>
@@ -38,13 +39,14 @@
       <tr>
         <td><input type="checkbox" name="selectBookings[]" value="{{booking.id}}" /></td>
         <td>{{booking.id}}</td>
-        <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+        <td><a href="{{ path('sked_app_booking_edit', {'bookingId': booking.id }) }}">{{booking.customerString}} - {{booking.customerNumberString}}</a></td>
         <td>{{booking.appointmentDateString}}</td>
         <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
         <td>{{booking.consultantString}}</td>
         <td>{{booking.service.name}}</td>
         <td>{{booking.isConfirmedString}}</td>
         <td>{{booking.createdAt|date('M jS Y')}}</td>
+        <td><a href='{{path('sked_app_booking_edit', {'bookingId': booking.id }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a></td>
         <td><input type="checkbox" name="cancelBookings[]" value="{{booking.id}}" /></td>
       </tr>
       {% endfor %}
