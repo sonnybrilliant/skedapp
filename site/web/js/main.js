@@ -1,3 +1,22 @@
+function updateConsultantServices(consultantSelect) {
+    var consultantId = consultantSelect.attr('value');
+    $.getJSON(Routing.generate('sked_app_booking_ajax_get_by_consultant', {
+        consultantId : consultantId
+    }, true ),function(response){
+        if(response.results){
+
+            var el = $('#Booking_service');
+            el.empty();
+            el.removeAttr("disabled");
+            $.each(response.results, function(key,value) {
+                el.append($("<option></option>")
+                    .attr("value", value.id).text(value.name));
+
+            });
+        }
+    });
+}
+
 $(document).ready(function() {
 
     $('select.chosen').chosen();
@@ -43,23 +62,10 @@ $(document).ready(function() {
 
     //update services
     $('#Booking_consultant').change(function(){
-        var consultantId = this.value;
-        $.getJSON(Routing.generate('sked_app_booking_ajax_get_by_consultant', {
-            consultantId : consultantId
-        }, true ),function(response){
-            if(response.results){
-
-                var el = $('#Booking_service');
-                el.empty();
-                el.removeAttr("disabled");
-                $.each(response.results, function(key,value) {
-                    el.append($("<option></option>")
-                        .attr("value", value.id).text(value.name));
-
-                });
-            }
-        });
+        updateConsultantServices($('#Booking_consultant'));
     });
+
+    updateConsultantServices($('#Booking_consultant'));
 
     //Run the ajax call to show only selected services
     var categoryId = 0;

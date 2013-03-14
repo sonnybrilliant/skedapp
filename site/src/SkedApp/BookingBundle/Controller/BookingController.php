@@ -154,26 +154,33 @@ class BookingController extends Controller
                         $booking->setCustomerPotential($customerPotential);
                     }
 
-                    $this->get('booking.manager')->save($booking);
+                    if ( (!is_object($booking->getCustomerPotential())) && (!is_object($booking->getCustomer())) ) {
+                        $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select a customer, or complete the details of an offline customer');
+                    } else {
 
-                    $this->getRequest()->getSession()->setFlash(
-                        'success', 'Created booking successfully');
-                    $options = array(
-                        'booking' => $booking,
-                        'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
-                    );
+                        $this->get('booking.manager')->save($booking);
 
-                    if (is_object($booking->getCustomer())) {
-                        if ($booking->getIsConfirmed()) {
-                            //send booking confirmation emails
-                            $this->get("notification.manager")->confirmationBooking($options);
-                        } else {
-                            //send booking created notification emails
-                            $this->get("notification.manager")->createdByCompanyBooking($options);
+                        $this->getRequest()->getSession()->setFlash(
+                            'success', 'Created booking successfully');
+                        $options = array(
+                            'booking' => $booking,
+                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                        );
+
+                        if (is_object($booking->getCustomer())) {
+                            if ($booking->getIsConfirmed()) {
+                                //send booking confirmation emails
+                                $this->get("notification.manager")->confirmationBooking($options);
+                            } else {
+                                //send booking created notification emails
+                                $this->get("notification.manager")->createdByCompanyBooking($options);
+                            }
                         }
-                    }
 
-                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                    } //if customer and potential is null
+
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
@@ -279,20 +286,26 @@ class BookingController extends Controller
                         $booking->setCustomer(null);
                     }
 
-                    $this->get('booking.manager')->save($booking);
-                    $this->getRequest()->getSession()->setFlash(
-                        'success', 'Updated booking successfully');
+                    if ( (!is_object($booking->getCustomerPotential())) && (!is_object($booking->getCustomer())) ) {
+                        $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select a customer, or complete the details of an offline customer');
+                    } else {
 
-                    if ((!$oldIsConfirmed) && ($booking->getIsConfirmed())) {
-                        $options = array(
-                            'booking' => $booking,
-                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
-                        );
-                        //send booking confirmation emails
-                        $this->get("notification.manager")->confirmationBooking($options);
-                    }
+                        $this->get('booking.manager')->save($booking);
+                        $this->getRequest()->getSession()->setFlash(
+                            'success', 'Updated booking successfully');
 
-                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                        if ((!$oldIsConfirmed) && ($booking->getIsConfirmed())) {
+                            $options = array(
+                                'booking' => $booking,
+                                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                            );
+                            //send booking confirmation emails
+                            $this->get("notification.manager")->confirmationBooking($options);
+                        }
+
+                        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                    } //if customer and potential is null
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'Failed to update booking');

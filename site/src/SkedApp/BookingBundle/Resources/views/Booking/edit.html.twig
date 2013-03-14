@@ -66,6 +66,11 @@ $(document).ready(function() {
         $('#divCustomerSelect').hide();
     }
 
+    if ($('#Booking_customerOrNot_0').attr('checked')) {
+        $('#divCustomerPotentialSelect').hide();
+        $('#divCustomerSelect').show();
+    }
+
 });
 </script>
 {% endblock body %}
