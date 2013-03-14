@@ -468,7 +468,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
         // which the UploadedFile move() method does
 
         $this->picture->move($this->getUploadRootDir(), $this->id . '.' . $this->picture->guessExtension());
-        chmod($_SERVER['DOCUMENT_ROOT'] . '/' . $this->getWebPath() . $this->id . '.' . $this->picture->guessExtension(), 755);
+        $this->setPath($this->picture->guessExtension());
         unset($this->picture);
     }
 
