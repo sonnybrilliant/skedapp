@@ -23,7 +23,7 @@ security:
 
     providers:
         chain_provider:
-                   chain: 
+                   chain:
                       providers: [custom_members,consultant_user_provider,customer_user_provider]
         custom_members:
            entity: { class: SkedAppCoreBundle:Member, property: username }
@@ -39,6 +39,10 @@ security:
             form_login:
                 check_path: /login_check
                 login_path: /login
+                always_use_default_target_path: false
+                default_target_path: /
+                target_path_parameter: _target_path
+                use_referer: false
             logout: true
             security: true
             anonymous: true
