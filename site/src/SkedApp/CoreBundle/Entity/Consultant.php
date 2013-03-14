@@ -345,7 +345,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
      * )
      */
     public $picture;
-
     public $available_slots;
 
     public function __construct()
@@ -375,7 +374,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
      */
     public function eraseCredentials()
     {
-
+        
     }
 
     /**
@@ -415,6 +414,14 @@ class Consultant implements AdvancedUserInterface, \Serializable
         $text = strtolower(trim($text, '-'));
 
         $this->slug = $text;
+    }
+
+    /**
+     * @ORM\PostLoad()
+     */
+    public function postLoad()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -464,13 +471,12 @@ class Consultant implements AdvancedUserInterface, \Serializable
         if (null === $this->picture) {
             return;
         }
-
+ 
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
 
         $this->picture->move($this->getUploadRootDir(), $this->id . '.' . $this->picture->guessExtension());
-        $this->setPath($this->picture->guessExtension());
         unset($this->picture);
     }
 
@@ -1536,4 +1542,5 @@ class Consultant implements AdvancedUserInterface, \Serializable
         else
             return true;
     }
+
 }

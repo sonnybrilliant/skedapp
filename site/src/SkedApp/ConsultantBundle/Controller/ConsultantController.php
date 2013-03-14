@@ -190,7 +190,7 @@ class ConsultantController extends Controller
 
         return $this->render('SkedAppConsultantBundle:Consultant:edit.html.twig', array(
                 'form' => $form->createView(),
-                'company' => $consultant
+                'consultant' => $consultant
             ));
     }
 
@@ -207,7 +207,9 @@ class ConsultantController extends Controller
 
         try {
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
-
+            
+            $path = $consultant->getPath();
+            
             $form = $this->createForm(new ConsultantUpdateType(), $consultant);
 
             if ($this->getRequest()->getMethod() == 'POST') {
@@ -217,7 +219,7 @@ class ConsultantController extends Controller
                     $this->get('consultant.manager')->update($consultant);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Updated consultant successfully');
-                    return $this->redirect($this->generateUrl('sked_app_consultant_list'));
+                    //return $this->redirect($this->generateUrl('sked_app_consultant_list'));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'Failed to update consultant');
@@ -226,7 +228,7 @@ class ConsultantController extends Controller
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+            //return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
         }
 
         return $this->render('SkedAppConsultantBundle:Consultant:edit.html.twig', array(

@@ -203,6 +203,14 @@ class Company
     {
         return $this->getName();
     }
+    
+    /**
+     * @ORM\PostLoad()
+     */
+    public function postLoad()
+    {
+        $this->updatedAt = new \DateTime();
+    }    
 
     /**
      * Get id

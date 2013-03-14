@@ -1,4 +1,4 @@
-<form action="{{ path('sked_app_consultant_update',{'slug':company.slug}) }}" method="POST" {{ form_enctype(form) }}>
+<form action="{{ path('sked_app_consultant_update',{'slug':consultant.slug}) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
       <div class="control-group {% if form_errors(form.company) %} error {% endif %}">
           <div class="control-label" for="company">{{ form_label(form.company) }}</div>
