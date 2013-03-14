@@ -1519,4 +1519,18 @@ class Consultant implements AdvancedUserInterface, \Serializable
     {
         return $this->id;
     }
+
+    /**
+     * Check if consultant has proper times set up
+     *
+     * @return boolean
+     */
+    public function getTimeSlotsSetUp()
+    {
+
+        if ($this->getStartTimeslot()->getSlot() == $this->getEndTimeslot()->getSlot())
+            return false;
+        else
+            return true;
+    }
 }
