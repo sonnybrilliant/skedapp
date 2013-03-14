@@ -122,5 +122,4 @@ sked_app_consultant_booking_day_print:
     defaults: { _controller: SkedAppConsultantBundle:Consultant:print , _format: html }
     requirements:
         id:  \d+
-        _method:  GET
         _format:  html
