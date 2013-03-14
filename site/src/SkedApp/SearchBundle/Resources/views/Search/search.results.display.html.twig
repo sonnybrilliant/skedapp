@@ -80,9 +80,6 @@ var currentServiceId = {{ options.service.id }};
                     </div>
 
                     <ul class="span10 unstyled">
-                        {% if not consultant.timeSlotsSetUp %}
-                            <li class="text-error"><strong>This consultant is not officially registered with SkedApp</strong></li>
-                        {% endif %}
                         <li><a href="{{ path('sked_app_consultant_view', { 'id': consultant.id , 'slug': consultant.getSlug() , 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}">{{ consultant.fullName }}</a></li>
                         <li>{% for service in consultant.consultantServices %}
                                 <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
@@ -98,6 +95,9 @@ var currentServiceId = {{ options.service.id }};
                 <!-- monday -->
                 {% set arrSlots = consultant.getAvailableBookingSlots() %}
                 <ul class="unstyled">
+                    {% if not consultant.timeSlotsSetUp %}
+                        <span class="text-error"><strong>This consultant is not officially registered with SkedApp</strong></span>
+                    {% endif %}
                 {% for time_slot in arrSlots.time_slots %}
                    {% if time_slot.dow == 'Mon'%}
                       <li>
