@@ -15,6 +15,11 @@ html, body {
   margin-right: 5px;
 }
 
+.image-dimensions180 {
+    width: 180px !important;
+    height: 180px !important;
+}
+
 #wrap {
 	min-height: 100%;
 	height: auto !important;
