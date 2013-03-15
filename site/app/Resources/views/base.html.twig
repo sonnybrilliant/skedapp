@@ -38,9 +38,8 @@
         {% set displayLogo = 'other_pages' %}
         <div id="wrap">
         {% block navigation %}
-             <div class="navbar navbar-static-top">
-                <div class="navbar navbar-inverse">
-                    <div class="navbar-inner">
+             <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="navbar-inner">
                             <div class="container">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <span class="brand"><small>Welcome, {{app.user.firstName}} {{app.user.lastName}}.</small></span>
@@ -78,9 +77,8 @@
                                 {% endif %}
                         </div>
                 </div>
-                </div>
             </div> <!-- End .navbar -->
-            
+            <div id="nav-push"></div>
         {% endblock navigation%}
         
             <div class="container">
