@@ -25,6 +25,11 @@ html, body {
     height: 180px !important;
 }
 
+.image-dimensions120 {
+    width: 120px !important;
+    height: 120px !important;
+}
+
 #wrap {
 	min-height: 100%;
 	height: auto !important;
