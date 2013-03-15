@@ -28,7 +28,7 @@
                             <div class="divPrompt">Consultant:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                 <div class="image-dimensions-width180 img-polaroid">
+                                 <div class="image-dimensions180 img-polaroid">
                                      <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" class="height100 space-right"/>
                                  </div>
                                  {% else %}
