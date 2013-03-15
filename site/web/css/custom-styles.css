@@ -30,9 +30,6 @@ html, body {
     height: 120px !important;
 }
 
-.image-dimensions-width180 {
-    width: 180px !important;
-}
 #wrap {
 	min-height: 100%;
 	height: auto !important;

@@ -16,7 +16,7 @@
                             <div class="divPrompt">Service Provider:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
-                                 <div class="image-dimensions-width180 img-polaroid">
+                                 <div class="image-dimensions180 img-polaroid">
                                      <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" class="height100 space-right"/>
                                  </div>
                                   {% endif %}
@@ -33,11 +33,11 @@
                                  </div>
                                  {% else %}
                                       {% if consultant.gender.name == "Male" %}
-                                     <div class="image-dimensions-width180 img-polaroid">
+                                     <div class="image-dimensions180 img-polaroid">
                                          <img src="{{ asset('/img/male.jpg') }}" width="180" class="height100 space-right"/>
                                      </div>
                                       {% else %}
-                                     <div class="image-dimensions-width180 img-polaroid">
+                                     <div class="image-dimensions180 img-polaroid">
                                          <img src="{{ asset('/img/female.jpg') }}" width="180" class="height100 space-right"/>
                                      </div>
                                       {% endif %}
