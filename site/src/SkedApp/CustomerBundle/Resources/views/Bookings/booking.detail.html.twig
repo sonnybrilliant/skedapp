@@ -18,8 +18,8 @@
                             <div class="divPrompt">Service Provider:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path)) %}
-                                 <div class="image-dimensions180">
-                                     <img src="{{ asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path) }}" width="180" class="img-polaroid space-right"/>
+                                 <div class="image-dimensions180 img-polaroid">
+                                     <img src="{{ asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path) }}" width="180" class="space-right"/>
                                  </div>
                                   {% endif %}
                                 <span class="gray-text"><strong>{{ booking.consultant.company.name }}</strong></span>
