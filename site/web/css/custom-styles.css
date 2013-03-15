@@ -5,6 +5,11 @@ html, body {
 	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
 	height: 100%;
 }
+
+body {
+  padding-top: 60px;
+}
+
 #Booking_customerOrNot_0{
   float: left;
   margin-right: 5px;
@@ -326,7 +331,7 @@ Page Styles
   width: 78%;
 }
 .bookingDetails{
-  width: 100%; 
+  width: 100%;
 }
 .paddingBottom5px{
   margin-bottom: 5px;
