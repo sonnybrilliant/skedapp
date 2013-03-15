@@ -30,6 +30,11 @@ html, body {
 .tab-content{
   overflow:auto;
 }
+
+#nav-push {
+ height: 60px;
+}
+
 #push {
 	height: 80px;
 }
