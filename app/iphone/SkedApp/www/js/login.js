@@ -65,14 +65,15 @@ var Login =
 					fullUrl  += Login.password+'/'+Login.email;
 				
                 console.log(fullUrl);
-                
+                $.mobile.showPageLoadingMsg();
                 $.ajax({
                        dataType: 'jsonp',
                        jsonpCallback: 'Conf.remoteAjaxCall',
                        url: fullUrl
                 });
+                $.mobile.hidePageLoadingMsg();
 					
-			}
+           }
         }catch(err){
             Conf.showAlert(Conf.alert._error,'Opps,\n An error occured:'+error+', please contact support');
         }
@@ -111,13 +112,14 @@ var Login =
             localStorage.setItem("last_name",data.results.lastName);
             localStorage.setItem("email",data.results.email);
             localStorage.setItem("mobile",data.results.mobile);
+            localStorage.setItem("user_id",data.results.id);
+            localStorage.setItem("user_type",data.results.type);
             
             $('#span-profile-name').html(data.results.firstName+' '+data.results.lastName);
             $('#span-profile-email').html(data.results.email);
             $('#span-profile-mobile').html(data.results.mobile);
-            
-            window.location.href = "#page8";
-            
+            window.location.href = "#profile";
+	
         }else{
             if(data.code == 2){
                Conf.showAlert(Conf.alert._error,message_invalid);

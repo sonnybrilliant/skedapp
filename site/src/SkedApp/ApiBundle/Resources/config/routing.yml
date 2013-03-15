@@ -25,10 +25,8 @@ sked_app_api_login_customer:
     defaults: { _controller: SkedAppApiBundle:Api:login}
 
 sked_app_api_get_consultant:
-    pattern:  /api/get/consultant/{id}
-    defaults: { _controller: SkedAppApiBundle:Api:getConsultant , id: 1}
-    requirements:
-       serviceId: \d+
+    pattern:  /api/get/consultant/{session}/{slug}
+    defaults: { _controller: SkedAppApiBundle:Api:getConsultant }
 
 sked_app_api_get_consultants:
     pattern:  /api/get/consultants/{session}/{category}/{service}/{address}/{date}/{lat}/{lng}/{page}

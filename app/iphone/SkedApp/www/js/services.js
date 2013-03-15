@@ -6,11 +6,14 @@ var Services =
             console.log("services: initialize");
             var fullUrl = Conf.site._baseUrl+"/api/get/"+Conf.methods._services+'/'+Session.session.id+'/'+categoryId;
 
+            $.mobile.showPageLoadingMsg();
             $.ajax({
-              dataType: 'jsonp',
-              jsonpCallback: 'Conf.remoteAjaxCall',
-              url: fullUrl
+                 dataType: 'jsonp',
+                 jsonpCallback: 'Conf.remoteAjaxCall',
+                 url: fullUrl
             });
+            $.mobile.hidePageLoadingMsg();
+            
         }else{
             Conf.showAlert(Conf.alert._warning,"Please select a category");
         }
