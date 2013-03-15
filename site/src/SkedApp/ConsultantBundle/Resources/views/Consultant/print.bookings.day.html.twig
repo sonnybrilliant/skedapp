@@ -14,19 +14,22 @@
 {% block body %}
     {% block content %}
         <h3>Print bookings</h3>
-        <div class="span5" style="margin-left: 0px">
-           {% set vars = {'action': 'Print'} %}
-           {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
-        </div>
-
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
 
         {% if not print %}
+
+            <div class="span5" style="margin-left: 0px">
+               {% set vars = {'action': 'Print'} %}
+               {% include 'SkedAppConsultantBundle::breadcrumb.html.twig' with vars  %}
+            </div>
+
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
+
             {#start form display===============================#}
                 {% include "SkedAppSearchBundle:Search:form.search.date.html.twig" %}
             {#end form display===============================#}
+
         {% endif %}
 
         {% include "SkedAppBookingBundle:Booking:list.print.html.twig" %}

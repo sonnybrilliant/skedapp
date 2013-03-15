@@ -57,14 +57,16 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><strong>Speciality: </strong></td>
-                            <td>{{ consultant.speciality | striptags }}</td>
+                            <td colspan="2"><strong>Speciality: </strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">{{ consultant.speciality | raw }}</td>
                         </tr>
                         <tr>
                             <td colspan="2"><strong>Professional statement: </strong></td>
                         </tr>
                         <tr>
-                            <td colspan="2">{{ consultant.professionalStatement | striptags }}</td>
+                            <td colspan="2">{{ consultant.professionalStatement | raw }}</td>
                         </tr>
                     </table>
 
