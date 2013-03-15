@@ -16,6 +16,10 @@ html, body {
   margin-right: 5px;
 }
 
+.height100 {
+  width:100%;
+}
+
 .image-dimensions180 {
     width: 180px !important;
     height: 180px !important;
