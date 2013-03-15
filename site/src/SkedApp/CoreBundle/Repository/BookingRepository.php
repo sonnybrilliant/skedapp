@@ -79,8 +79,8 @@ class BookingRepository extends EntityRepository
     {
         $defaultOptions = array(
             'searchText' => '',
-            'sort' => 'c.id',
-            'direction' => 'asc'
+            'sort' => 'b.hiddenAppointmentStartTime',
+            'direction' => 'desc'
         );
 
         if (!isset($options['searchText']))
