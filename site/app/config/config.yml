@@ -8,6 +8,8 @@ parameters:
     mailer_from_name: "SkedApp"
     web_path: %kernel.root_dir%/../web
     site_url: %site_path%
+    mono_log_subject: "Test:Error"
+    mono_log_email: "dev@creativecloud.co.za"
 
 framework:
     #esi:             ~
@@ -70,6 +72,30 @@ swiftmailer:
     encryption: tls
     port:  587
     logging:  "%kernel.debug%"
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      grouped
+        grouped:
+            type:    group
+            members: [streamed, buffered]
+        streamed:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+        buffered:
+            type:    buffer
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: %mailer_from_mail%
+            to_email:   %mono_log_email%
+            subject:    %mono_log_subject%
+            level:      error
+
 
 knp_paginator:
     page_range: 2                      # default page range used in pagination control

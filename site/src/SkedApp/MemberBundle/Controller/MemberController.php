@@ -45,6 +45,7 @@ class MemberController extends Controller
         $pagination = $paginator->paginate(
             $this->container->get('member.manager')->listAll($options), $this->getRequest()->query->get('page', $page), 10);
 
+        
         return $this->render('SkedAppMemberBundle:Member:list.html.twig', array(
                 'pagination' => $pagination,
                 'direction' => $direction,
