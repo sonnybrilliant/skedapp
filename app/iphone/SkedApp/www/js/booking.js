@@ -77,7 +77,8 @@ var Booking =
             $("#div-confirm-booking").html(str);
             
             $.mobile.hidePageLoadingMsg();
-            window.location.href = "#booking_confirm";           
+            window.location.href = "#booking_confirm"; 
+            return false;
         }else{
             console.log("booking confirm 0");
         }
