@@ -152,11 +152,12 @@ class ApiController extends Controller
         $this->get('logger')->info('get consultant by slug');
         $isValid = true;
         $results = array();
-        
+
         try {
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
 
             $consultantService = array();
+
 
             foreach ($consultant->getConsultantServices() as $service) {
                 $tmp = array(
@@ -164,6 +165,8 @@ class ApiController extends Controller
                     'name' => $service->getName()
                 );
                 $consultantService[] = $tmp;
+
+                echo 'inside';
             }
 
 
@@ -223,12 +226,13 @@ class ApiController extends Controller
             'direction' => $direction
         );
 
-        if ($isValid) {
+
+        try {
             $options['lat'] = $lat;
             $options['lng'] = $lng;
             $options['radius'] = 20;
             $options['category'] = $category;
-            $options['service'] = $service;
+            $options['service'] = $this->get('service.manager')->getById($service);
 
             $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
 
@@ -250,18 +254,14 @@ class ApiController extends Controller
                     'date' => $strdate->format('l') . ', ' . $strdate->format('j') . ' ' . $strdate->format('M'),
                     'slots' => $slots
                 );
-                //ladybug_dump();
+
                 if ($slots['time_slots']) {
                     $consultantsList[] = $tmp;
                 }
             }
-
-//            $paginator = $this->get('knp_paginator');
-//            $pagination = $paginator->paginate(
-//                $consultants['arrResult'], $this->getRequest()->query->get('page', $page), 10
-//            );
+        } catch (\Exception $e) {
+            $isValid = false;
         }
-
 
         $response = new \stdClass();
         $response->status = $isValid;

@@ -54,6 +54,7 @@ var Booking =
             for(var x=0; x < consultant.services.length ; x++){
                 if(localStorage.getItem("search_service") == consultant.services[x].id){
                     serviceName = consultant.services[x].name
+                    console.debug('found service name');
                 }
             }
             
