@@ -22,12 +22,12 @@ html, body {
 
 .image-dimensions180 {
     width: 180px !important;
-    height: 180px !important;
+    height: 100% !important;
 }
 
 .image-dimensions120 {
     width: 120px !important;
-    height: 120px !important;
+    height: 100% !important;
 }
 
 #wrap {

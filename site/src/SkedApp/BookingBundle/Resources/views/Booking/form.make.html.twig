@@ -17,10 +17,11 @@
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
                                  <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" class="height100 space-right"/>
+                                     <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" />
                                  </div>
                                   {% endif %}
-                                <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
+                                <span class="gray-text"><h4>{{ consultant.company.name }}</h4></span>
+                                <div class="spacer1"></div>
                             </div>
                             <div class="clearfix"></div>
                         </li>
@@ -29,16 +30,16 @@
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
                                  <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" class="height100 space-right"/>
+                                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" />
                                  </div>
                                  {% else %}
                                       {% if consultant.gender.name == "Male" %}
                                      <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/male.jpg') }}" width="180" class="height100 space-right"/>
+                                         <img src="{{ asset('/img/male.jpg') }}" width="180" />
                                      </div>
                                       {% else %}
                                      <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/female.jpg') }}" width="180" class="height100 space-right"/>
+                                         <img src="{{ asset('/img/female.jpg') }}" width="180" />
                                      </div>
                                       {% endif %}
                                   {% endif %}
