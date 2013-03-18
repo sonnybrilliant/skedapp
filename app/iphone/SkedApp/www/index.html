@@ -27,7 +27,6 @@
         <script type="text/javascript" src="js/session.js"></script>
         <script type="text/javascript" src="js/conf.js"></script>
         <script>
-        Modernizr.load();    
 	$(function() {
 		var addresspicker = $( "#addresspicker" ).addresspicker();
 		var addresspickerMap = $( "#text-location" ).addresspicker({
@@ -680,7 +679,50 @@
             </div>
         </div>
         <script type="text/javascript">
+            //add place holder
+            if(!Modernizr.input.placeholder){
+
+                    $('[placeholder]').focus(function() {
+                      var input = $(this);
+                      if (input.val() == input.attr('placeholder')) {
+                            input.val('');
+                            input.removeClass('placeholder');
+                      }
+                    }).blur(function() {
+                      var input = $(this);
+                      if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                            input.addClass('placeholder');
+                            input.val(input.attr('placeholder'));
+                      }
+                    }).blur();
+                    $('[placeholder]').parents('form').submit(function() {
+                      $(this).find('[placeholder]').each(function() {
+                            var input = $(this);
+                            if (input.val() == input.attr('placeholder')) {
+                              input.val('');
+                            }
+                      })
+                    });
+
+            }
+            
+            $(document).ready(function() {
+                var date = new Date();
+
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+
+                if (("0" + month).length == 2)
+                    month = "0" + month; 
+
+                if (("0" + day).length == 2)
+                    day = "0" + day; 
+
+                var today = year + "-" + month + "-" + day;
+                $("#text-date").attr("value", today);
+            });
             Conf.init();
-            </script>
+        </script>
     </body>
 </html>
