@@ -78,11 +78,12 @@ var Booking =
             
             $.mobile.hidePageLoadingMsg();
             window.location.href = "#booking_confirm"; 
-            return false;
+            
         }else{
             console.log("booking confirm 0");
         }
         
+        return true;
     }
     
 

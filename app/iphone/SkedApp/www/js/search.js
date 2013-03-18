@@ -160,7 +160,7 @@ var Search =
                    var slots = consultant.slots.time_slots[y];
                    
                    console.log('loop inside'+y);
-                     str +="                 <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#booking_confirm' class='timeslot'>"+slots.start_time+"</a></span></td>";
+                     str +="                 <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#' class='timeslot'>"+slots.start_time+"</a></span></td>";
                    }
                    
                    str +="             </tr>";

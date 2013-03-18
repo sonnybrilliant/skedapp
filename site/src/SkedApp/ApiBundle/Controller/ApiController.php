@@ -165,8 +165,6 @@ class ApiController extends Controller
                     'name' => $service->getName()
                 );
                 $consultantService[] = $tmp;
-
-                echo 'inside';
             }
 
 
