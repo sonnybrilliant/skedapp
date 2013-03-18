@@ -239,8 +239,6 @@ class ApiController extends Controller
         }
 
         if ($isValid) {
-            $options['lat'] = '-26.1075261';
-            $options['lng'] = '28.056656699999962';
             $options['radius'] = 20;
             $options['category'] = $category;
             $options['service'] = $service;
