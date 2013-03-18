@@ -41,8 +41,9 @@ var Search =
                     Search.longitude = localStorage.getItem("longitude");
                     
                 }else{
-                    Search.latitude = null;
-                    Search.longitude = null;
+                    
+                    Search.latitude = $('#lat').val();
+                    Search.longitude = $('#lng').val();
                 }
             
                 //validate date
@@ -83,7 +84,7 @@ var Search =
                     console.log('Cat:'+Search.category+' location:'+Search.location+' date:'+Search.date+' service:'+Search.service);
                     
                     var fullUrl  = Conf.site._baseUrl+"/api/get/"+Conf.methods._search+'/'+Session.session.id+'/';
-                        fullUrl += Search.category+'/'+Search.service+'/'+Search.location+'/'+Search.date+'/'+Search.latitude+'/'+Search.longitude+'/1';
+                        fullUrl += Search.category+'/'+Search.service+'/'+Search.date+'/'+Search.latitude+'/'+Search.longitude+'/1';
                     
                     console.log(fullUrl);
                       

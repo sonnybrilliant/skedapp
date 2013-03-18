@@ -210,7 +210,7 @@ class ApiController extends Controller
      * @param string $page
      * @return string JSONP
      */
-    public function searchConsultantAction($session, $category, $service, $address = null, $date = null, $lat = null, $long = null, $page = 1)
+    public function searchConsultantAction($session, $category, $service, $date = null, $lat = null, $lng = null, $page = 1)
     {
         $this->get('logger')->info('search for consultant by service id and location');
 
@@ -223,22 +223,9 @@ class ApiController extends Controller
             'direction' => $direction
         );
 
-        //if address is not empty, do geo encode
-        if (($address != 'null')) {
-            $results = $this->get('geo_encode.manager')->getGeoEncodedAddress($address);
-            if ($results['isValid']) {
-                $lat = $results['lat'];
-                $long = $results['long'];
-            } else {
-                $isValid = false;
-            }
-        } else {
-            if (($lat == 'undefined') || ($long == 'undefined')) {
-                $isValid = false;
-            }
-        }
-
         if ($isValid) {
+            $options['lat'] = $lat;
+            $options['lng'] = $lng;
             $options['radius'] = 20;
             $options['category'] = $category;
             $options['service'] = $service;
@@ -259,7 +246,7 @@ class ApiController extends Controller
                     'address' => $consultant->getCompany()->getAddress(),
                     'servicesProvider' => $consultant->getCompany()->getName(),
                     'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
-                    'distance' => round($consultant->getDistanceFromPosition($lat, $long)),
+                    'distance' => round($consultant->getDistanceFromPosition($lat, $lng)),
                     'date' => $strdate->format('l') . ', ' . $strdate->format('j') . ' ' . $strdate->format('M'),
                     'slots' => $slots
                 );

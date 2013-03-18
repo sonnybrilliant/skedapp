@@ -13,7 +13,7 @@ sked_app_api_get_services:
        id: \d+
 
 sked_app_api_search_consultants:
-    pattern:  /api/get/search/{session}/{category}/{service}/{address}/{date}/{lat}/{long}/{page}
+    pattern:  /api/get/search/{session}/{category}/{service}/{date}/{lat}/{lng}/{page}
     defaults: { _controller: SkedAppApiBundle:Api:searchConsultant, page: 1 }
 
 sked_app_api_register_customer:
