@@ -143,22 +143,58 @@ class ApiController extends Controller
     }
 
     /**
-     * Get consultant by Id
+     * Get consultant by slug
      *
      * @return json response
      */
-    public function getConsultantAction($id = 1)
+    public function getConsultantAction($session, $slug)
     {
-        $this->get('logger')->info('get consultant by id');
-        $em = $this->getDoctrine()->getEntityManager();
-        $consultant = $em->getRepository('SkedAppCoreBundle:Consultant')->find($id);
+        $this->get('logger')->info('get consultant by slug');
+        $isValid = true;
         $results = array();
+        
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
 
-        if ($consultant) {
-            $results[] = $this->buildConsultant($consultant);
+            $consultantService = array();
+
+            foreach ($consultant->getConsultantServices() as $service) {
+                $tmp = array(
+                    'id' => $service->getId(),
+                    'name' => $service->getName()
+                );
+                $consultantService[] = $tmp;
+            }
+
+
+            $results = array(
+                'id' => $consultant->getId(),
+                'slug' => $consultant->getSlug(),
+                'fullName' => $consultant->getFullName(),
+                'gender' => $consultant->getGender()->getName(),
+                'address' => $consultant->getCompany()->getAddress(),
+                'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
+                'services' => $consultantService,
+                'servicesProvider' => $consultant->getCompany()->getName(),
+                'contact' => $consultant->getCompany()->getContactNumber(),
+            );
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
         }
 
-        return $this->respond($results);
+        $response = new \stdClass();
+        $response->status = $isValid;
+        $response->request = 'consultant';
+        $response->results = $results;
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
+        }
+
+        return $this->respond($response);
     }
 
     /**
@@ -213,16 +249,26 @@ class ApiController extends Controller
 
             foreach ($consultants['results'] as $consultant) {
                 $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, new \DateTime($date));
+                $strdate = new \DateTime($date);
+
+
+
                 $tmp = array(
+                    'id' => $consultant->getId(),
+                    'slug' => $consultant->getSlug(),
                     'fullName' => $consultant->getFullName(),
                     'gender' => $consultant->getGender()->getName(),
                     'address' => $consultant->getCompany()->getAddress(),
+                    'servicesProvider' => $consultant->getCompany()->getName(),
                     'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
                     'distance' => round($consultant->getDistanceFromPosition($lat, $long)),
+                    'date' => $strdate->format('l') . ', ' . $strdate->format('j') . ' ' . $strdate->format('M'),
                     'slots' => $slots
                 );
-
-                $consultantsList[] = $tmp;
+                //ladybug_dump();
+                if ($slots['time_slots']) {
+                    $consultantsList[] = $tmp;
+                }
             }
 
 //            $paginator = $this->get('knp_paginator');
@@ -351,6 +397,8 @@ class ApiController extends Controller
                     $member['lastName'] = $customer->getLastName();
                     $member['email'] = $customer->getEmail();
                     $member['mobile'] = $customer->getMobileNumber();
+                    $member['id'] = $customer->getId();
+                    $member['type'] = 'customer';
 
                     $session = $this->get('mobile.session.manager')->getBySession($session);
 
