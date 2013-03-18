@@ -46,7 +46,7 @@ class Company
     /**
      * @var string $accountNumber
      *
-     * @ORM\Column(name="description", type="string", length=254, nullable=false)
+     * @ORM\Column(name="description", type="string", length=254, nullable=true)
      */
     protected $description;
 
@@ -137,7 +137,7 @@ class Company
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\Consultant", mappedBy="company")
      */
     protected $consultants;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="SkedApp\CoreBundle\Entity\CompanyPhotos", mappedBy="company")
      */
@@ -203,14 +203,14 @@ class Company
     {
         return $this->getName();
     }
-    
+
     /**
      * @ORM\PostLoad()
      */
     public function postLoad()
     {
         $this->updatedAt = new \DateTime();
-    }    
+    }
 
     /**
      * Get id
@@ -800,7 +800,7 @@ class Company
     public function addCompanyPhoto(\SkedApp\CoreBundle\Entity\CompanyPhotos $companyPhotos)
     {
         $this->companyPhotos[] = $companyPhotos;
-    
+
         return $this;
     }
 
@@ -817,7 +817,7 @@ class Company
     /**
      * Get companyPhotos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCompanyPhotos()
     {
