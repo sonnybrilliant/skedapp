@@ -48,7 +48,7 @@ class CompanyUpdateType extends AbstractType
                 'label' => 'Type your address:',
                 'required'      => true,
                'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
-                
+
             ))
             ->add('contactNumber', 'text', array(
                 'label' => 'Contact number:',
