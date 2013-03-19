@@ -5,6 +5,7 @@ namespace SkedApp\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use SkedApp\CoreBundle\Entity\Customer;
+use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CustomerBundle\Form\CustomerCreateApiType;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 
@@ -481,7 +482,6 @@ class ApiController extends Controller
                 'servicesProvider' => $consultant->getCompany()->getName(),
                 'contact' => $consultant->getCompany()->getContactNumber(),
             );
-            
         } catch (\Exception $e) {
             $isValid = false;
             $error = $e->getMessage();
@@ -506,52 +506,51 @@ class ApiController extends Controller
      *
      * @return json response
      */
-    public function bookAction($consultantId, $serviceId, $bookingDateTime, $customerId)
+    public function bookAction($session, $service, $consultant, $user, $date, $timeslot)
     {
-
-        $bookingStartDateTime = new \DateTime($bookingDateTime);
-
-        //Instantiate a mock booking entity to check availability
-        $booking = new \SkedApp\CoreBundle\Entity\Booking();
-        $consultant = $this->get('consultant.manager')->getById($consultantId);
-        $service = $this->get('service.manager')->getById($serviceId);
-        $customer = $this->get('customer.manager')->getById($customerId);
-        $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
-        $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
-        $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
-
+        $this->get('logger')->info('make a booking for');
         $isValid = true;
+        $error = '';
 
-        $booking->setConsultant($consultant);
-        $booking->setService($service);
-        $booking->setAppointmentDate($bookingStartDateTime);
-        $booking->setStartTimeslot($startTimeSlot);
-        $booking->setEndTimeslot($endTimeSlot);
-        $booking->setHiddenAppointmentStartTime($bookingStartDateTime->format('Y-m-d H:i'));
-        $booking->setHiddenAppointmentEndTime($bookingEndDateTime->format('Y-m-d H:i'));
-        $booking->setIsConfirmed(false);
-        $booking->setIsLeave(false);
+        try {
+            $this->validateSession($session);
 
-        if (!$this->get('booking.manager')->isTimeValid($booking)) {
-            $errMsg = "End time must be greater than start time";
-            $isValid = false;
-        }
+            $bookingStartDateTime = new \DateTime($date);
 
-        if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
-            $errMsg = "Booking not available, please choose another time.";
-            $isValid = false;
-        }
+            //Instantiate a mock booking entity to check availability
 
-        if (!$customer instanceOf Customer) {
-            $errMsg = "Please register on the site and log in to create a booking.";
-            $isValid = false;
-        }
+            $consultant = $this->get('consultant.manager')->getBySlug($consultant);
+            $service = $this->get('service.manager')->getById($service);
+            $customer = $this->get('customer.manager')->getById($user);
+            $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
+            $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+            $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
 
-        $return = new \stdClass();
-        $return->request = 'makeBooking';
-        $return->callback = null;
+            $booking = new Booking();
 
-        if ($isValid) {
+            $booking->setConsultant($consultant);
+            $booking->setService($service);
+            $booking->setAppointmentDate($bookingStartDateTime);
+            $booking->setStartTimeslot($startTimeSlot);
+            $booking->setEndTimeslot($endTimeSlot);
+            $booking->setHiddenAppointmentStartTime($bookingStartDateTime->format('Y-m-d H:i'));
+            $booking->setHiddenAppointmentEndTime($bookingEndDateTime->format('Y-m-d H:i'));
+            $booking->setCustomer($customer);
+            $booking->setIsConfirmed(false);
+            $booking->setIsLeave(false);
+
+
+            if (!$this->get('booking.manager')->isTimeValid($booking)) {
+                $error = "End time must be greater than start time";
+                $isValid = false;
+            }
+
+//            if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+//                $error = "Booking not available, please choose another time.";
+//                $isValid = false;
+//            }
+
+
 
             $this->get('booking.manager')->save($booking);
 
@@ -562,16 +561,23 @@ class ApiController extends Controller
 
             //send booking created notification emails
             $this->get("notification.manager")->createdBooking($options);
-
-            $return->results = array(1);
-            $return->status = true;
-        } else {
-            $return->results = array();
-            $return->status = false;
-            $return->error = $errMsg;
+        } catch (\Exception $e) {
+            $isValid = false;
+            $error = $e->getMessage();
         }
 
-        return $this->respond($return);
+        $response = new \stdClass();
+        $response->status = $isValid;
+        $response->error = $error;
+        $response->request = 'book';
+        $response->results = array();
+        if (isset($_GET['callback'])) {
+            $response->callback = $_GET['callback'];
+        } else {
+            $response->callback = 'test';
+        }
+
+        return $this->respond($response);
     }
 
 }

@@ -23,6 +23,7 @@ var Conf =
         _login: "login",
         _consultant: "consultant",
         _book: "book"
+
         
     },
     // Bind any events that are required on startup. Common events are:
@@ -73,6 +74,8 @@ var Conf =
             Login.onResult(data);
         }else if(data.request == Conf.methods._consultant){
             Booking.onConfirmResult(data);
+        }else if (data.request == Conf.methods._book){
+            Booking.onBookResult(data);
         }
 
     },
