@@ -36,11 +36,13 @@ class CompanyCreateType extends AbstractType
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
-                'attr' => array('class' => 'span12 width')
+                'attr' => array('class' => 'span12 width'),
+                'required' => false,
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
-                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple')
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
+                'required' => false,
             ))
             ->add('address', null, array(
                 'label' => 'Type your address:',

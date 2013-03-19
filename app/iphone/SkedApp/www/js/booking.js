@@ -27,7 +27,7 @@ var Booking =
         
     },
     
-    bookNow: function()
+    bookNow: function(event)
     {
         console.log("make booking");
         
@@ -37,6 +37,14 @@ var Booking =
         fullUrl += localStorage.getItem("booking_date");
         
         console.log(fullUrl);
+        
+        $.mobile.showPageLoadingMsg();
+        $.ajax({
+            dataType: 'jsonp',
+            jsonpCallback: 'Conf.remoteAjaxCall',
+            url: fullUrl
+        });
+        console.log("made booking");
     },
     
     onConfirmResult: function(data)
@@ -54,6 +62,7 @@ var Booking =
             for(var x=0; x < consultant.services.length ; x++){
                 if(localStorage.getItem("search_service") == consultant.services[x].id){
                     serviceName = consultant.services[x].name
+                    console.debug('found service name');
                 }
             }
             
@@ -76,12 +85,29 @@ var Booking =
             $("#div-confirm-booking").html(str);
             
             $.mobile.hidePageLoadingMsg();
-            window.location.href = "#booking_confirm";           
+            window.location.href = "#booking_confirm"; 
+            
         }else{
             console.log("booking confirm 0");
         }
         
-    }
+        return true;
+    },
     
+    onBookResult: function(data)
+    {
+        console.log('booking confirmed: status->'+data.status);
+        console.log('booking confirmed: message->'+data.error);
+        $.mobile.hidePageLoadingMsg();
+        if(data.status == true){
+            console.log('booking confirmed successful');  
+            window.location.href = "#booking_success"; 
+            
+        }else{
+            console.log("booking failed");
+        }
+        
+        return true;
+    }
 
 };
