@@ -8,8 +8,8 @@ parameters:
     mailer_from_name: "SkedApp"
     web_path: %kernel.root_dir%/../web
     site_url: %site_path%
-    mono_log_subject: "Test:Error"
-    mono_log_email: "dev@creativecloud.co.za"
+    mono_log_subject: %mono_email_subject%
+    mono_log_email: %mono_email_address%
 
 framework:
     #esi:             ~
