@@ -117,7 +117,7 @@ class ApiController extends Controller
         $results = array();
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             $em = $this->getDoctrine()->getEntityManager();
             $categories = $em->getRepository('SkedAppCoreBundle:Category')->findAll();
@@ -162,7 +162,7 @@ class ApiController extends Controller
         $error = '';
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             $em = $this->getDoctrine()->getEntityManager();
             $services = $em->getRepository('SkedAppCoreBundle:Service')->findByCategory($category);
@@ -211,7 +211,7 @@ class ApiController extends Controller
         $member = array();
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             $customer = $this->get("customer.manager")->getByEmail($email);
 
@@ -290,7 +290,7 @@ class ApiController extends Controller
         $code = 1;
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             //check if email is unique;
             $customer = $this->get("customer.manager")->getByEmail($email);
@@ -380,7 +380,7 @@ class ApiController extends Controller
         $consultantsList = array();
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             $sort = $this->get('request')->query->get('sort');
             $direction = $this->get('request')->query->get('direction', 'desc');
@@ -456,7 +456,7 @@ class ApiController extends Controller
         $results = array();
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
 
@@ -513,7 +513,7 @@ class ApiController extends Controller
         $error = '';
 
         try {
-            $this->validateSession($session);
+            //$this->validateSession($session);
 
             $bookingStartDateTime = new \DateTime($date);
 

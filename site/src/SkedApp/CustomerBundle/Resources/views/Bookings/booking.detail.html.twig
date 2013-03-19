@@ -31,16 +31,16 @@
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
                                  <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="180" class="height100 space-right"/>
+                                     <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="180" class="space-right"/>
                                  </div>
                                  {% else %}
                                       {% if booking.consultant.gender.name == "Male" %}
                                      <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/male.jpg') }}" width="180" class="height100 space-right"/>
+                                         <img src="{{ asset('/img/male.jpg') }}" width="180" class="space-right"/>
                                      </div>
                                       {% else %}
                                      <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/female.jpg') }}" width="180" class="height100 space-right"/>
+                                         <img src="{{ asset('/img/female.jpg') }}" width="180" class="space-right"/>
                                      </div>
                                       {% endif %}
                                   {% endif %}
