@@ -1,56 +1,358 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-                <meta name="apple-mobile-web-app-capable" content="yes">
-                    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-                        <title>Skedapp</title>
-                        <link rel="stylesheet" href="lib/jquery.mobile-1.2.0.css" />
-                        <link rel="stylesheet" href="css/my.css" />
-                        <link rel="stylesheet" href="css/style.css" />
-                        <script src="lib/jquery-1.8.3.min.js"></script>
-                        <script src="lib/jquery.mobile-1.2.0.min.js"></script>
-                        <script type="text/javascript" src="cordova-2.3.0.js"></script>
-                        <script src="js/my.js"></script>
-                        <script type="text/javascript" src="js/db.js"></script>
-                        <script type="text/javascript" src="js/login.js"></script>
-                        <script type="text/javascript" src="js/registration.js"></script>
-                        <script type="text/javascript" src="js/search.js"></script>
-                        <script type="text/javascript" src="js/services.js"></script>
-                        <script type="text/javascript" src="js/categories.js"></script>
-                        <script type="text/javascript" src="js/session.js"></script>
-                        <script type="text/javascript" src="js/conf.js"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<title>Skedapp</title>
+        <link rel="stylesheet" href="css/jquery-ui-1.10.2.custom.min.css">
+        <link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+        <script src="lib/jquery-1.8.3.min.js"></script>
+        <script src="lib/jquery-ui-1.10.2.custom.min.js"></script>  
+        <script src="lib/jquery.ui.addresspicker.js"></script>
+        <script src="lib/jquery.mobile-1.3.0.min.js"></script>
+        <script type="text/javascript" src="cordova-2.3.0.js"></script>
+        <script src="js/my.js"></script>
+        <script type="text/javascript" src="js/random.js"></script>
+        <script type="text/javascript" src="js/booking.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
+        <script type="text/javascript" src="js/registration.js"></script>
+        <script type="text/javascript" src="js/search.js"></script>
+        <script type="text/javascript" src="js/services.js"></script>
+        <script type="text/javascript" src="js/categories.js"></script>
+        <script type="text/javascript" src="js/session.js"></script>
+        <script type="text/javascript" src="js/conf.js"></script>
+        <script>
+	$(function() {
+		var addresspicker = $( "#addresspicker" ).addresspicker();
+		var addresspickerMap = $( "#text-location" ).addresspicker({
+		  elements: {
+		    lat:      "#lat",
+		    lng:      "#lng"
+		  }
+		});
+		
+	});
+	</script>
     </head>
     <body>
-        <!-- Home -->
-        <div data-role="page" id="page1">
-            <div data-theme="d" data-role="header">
-                <h4>
-                    Welcome
-                </h4>
-            </div>
+        <!-- ---------------------------------------------------------Landing page- login page --------------------------------------------->
+          <div data-role="page" id="login">
             <div data-role="content">
+                <div style=" text-align:center" class="skedappLogo">
+                    <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
+                </div>
+                <div class="-box-blue-wrapper">
+                    <p class="titleHeader">Search, Locate services in your area.</p>
+                    <form action="">
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <label for="text-email"></label>
+                                <input name="text-login-email" id="text-login-email" placeholder="Email address" value="" type="email" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <label for="text-password"></label>
+                                <input name="text-login-password" id="text-login-password" placeholder="Password" value="" type="password" />
+                             </fieldset>
+                        </div>
+                        <a id="btn-login" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
+                            Login
+                        </a>
+                    </form>
+                </div>
+            </div>
+            <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" >
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
                         <div>
-                            <a id="link-registration" href="#page4" data-role="button" data-transition="none" data-theme="c">
-                                Register
+                            <a id="link-home" href="#register" data-role="button" data-transition="none" data-theme="c" >
+                                Create an account
                             </a>
                         </div>
                     </div>
                     <div class="ui-block-b">
                         <div>
-                            <a id="link-login" href="#page2" data-role="button" data-transition="none" data-theme="c">
-                                Login
+                            <a id="link-settings" href="#about_us" data-role="button" data-transition="none" data-theme="c" >
+                                About Us
                             </a>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!----------------------------------end of footer-->
+        </div>
+      
+        <!-- ---------------------------------------------------------Registration page --------------------------------------------->
+        <div data-role="page" id="register">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Registration
+                </h4>
+            </div>
+            <div data-role="content">
                 <div style=" text-align:center" class="skedappLogo">
                     <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
                 </div>
-                <div class="greyBackground">
+                <div class="-box-blue-wrapper">
+                    <p class="titleHeader">Register an account.</p>
+                    <form action="" id="form-registration" name="form-registration">
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-first-name" id="text-first-name" placeholder="First name" value="" type="text" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-last-name" id="text-last-name" placeholder="Last name" value="" type="text"  class="required requiredNotWhitespace" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-mobile" id="text-mobile" placeholder="Cellphone number" value="" type="text" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-password" id="text-password-field" placeholder="Password" value="" type="password" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-confirm-password" id="text-confirm-password-field" placeholder="Confirm password" value="" type="password" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-email-address" id="text-email-address" placeholder="Email address" value="" type="email" class="required" />
+                            </fieldset>
+                        </div>
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-mini="true">
+                                <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
+                            </fieldset>
+                        </div>
+                        <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#login">
+                            Cancel
+                        </a>
+                        <a id="btn-registration" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
+                            Register
+                        </a>
+                    </form>
+                </div>
+            </div>
+            <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" >
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#login" data-role="button" data-transition="none" data-theme="c" >
+                                Login
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#about_us" data-role="button" data-transition="none" data-theme="c" >
+                                About Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---------------------------------end of footer-->
+        </div>
+        
+        <!-- ---------------------------------------------------------Registration successful page --------------------------------------------->
+          <div data-role="page" id="registration_success">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Successful Registration
+                </h4>
+            </div>
+            <div data-role="content">
+               <div style=" text-align:center">
+                   <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+                </div>
+                <h4>Successful Registration.</h4>
+                <div class="ui-body ui-body-e">
+                    <p>You have successfully created an account. <br /><br /> We need to confirm your email address before we can activate your account, check your mail box and follow the instructions on the email.</p>
+                </div>
+            </div>
+            <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" >
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#login" data-role="button" data-transition="none" data-theme="c" >
+                                Login
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#about_us" data-role="button" data-transition="none" data-theme="c" >
+                                About Us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---------------------------------end of footer-->
+        </div>
+        
+        <!-- ---------------------------------------------------------About us page --------------------------------------------->
+        
+       <div data-role="page" id="about_us">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    About us
+                </h4>
+            </div>
+            <div data-role="content">
+                <div style=" text-align:center">
+                    <img style="width: 201px; height: 140px" src="http://assets.codiqa.com/55fyvPpzRvuPBD8v7nam_logo.jpg">
+                </div>
+                <h4>About us</h4>
+                <p>Skedapp is a location based service finder, We work we various service vendors such as:
+                    <ul>
+                        <li>Doctors</li>
+                        <li>Hair Salons</li>
+                        <li>Lawyers</li>
+                        <li>Dentist</li>
+                        <li>Etc...</li>
+                    </ul>
+                    
+                    We list all this services using their geographic location to help you get a service provider nearest to you.</p>
+            </div>
+           <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#login" data-role="button" data-transition="none" data-theme="c" >
+                                Login
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#register" data-role="button" data-transition="none" data-theme="c" >
+                                Create an account
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <!---------------------------------end of footer-->
+        </div>
+        
+        <!-- ---------------------------------------------------------Profile page --------------------------------------------->
+        <div data-role="page" id="profile">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    My Profile
+                </h4>
+            </div>
+            <div data-role="content">
+                <span style="float:right">
+                    <a href="#bookings" data-role="button" data-inline="true" data-theme="c">
+                        My Bookings
+                    </a>
+                </span>
+                <div class="ui-body ui-body-e">
+                    <h4>Profile details:</h4>
+                    <table>
+                        <tr>
+                            <td>Full Name:</td>
+                            <td><strong><span id="span-profile-name"></span></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Email address:</td>
+                            <td><strong><span id="span-profile-email"></span></strong></td>
+                        </tr>
+                        <tr>
+                            <td>Mobile:</td>
+                            <td><strong><span id="span-profile-mobile"></span></strong></td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
+            </div>
+            <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#search" data-role="button" data-transition="none" data-theme="c" >
+                                Start Now
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#settings" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!---------------------------------end of footer-->
+        </div>
+        
+        <!-- ---------------------------------------------------------Bookings page --------------------------------------------->
+        <div data-role="page" id="bookings">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    My Bookings
+                </h4>
+            </div>
+            <div data-role="content">
+                <span style="float:right">
+                    <a href="#profile" data-role="button" data-inline="true" data-theme="c">
+                    My Profile
+                    </a>
+                </span>
+            </div>
+            <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a id="link-home" href="#search" data-role="button" data-transition="none" data-theme="c" >
+                                Book Now
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#settings" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!---------------------------------end of footer-->
+        </div>
+        
+        
+        <!-- ---------------------------------------------------------Search page --------------------------------------------->
+        <div data-role="page" id="search">
+            <div data-theme="d" data-role="header">
+                <h4>
+                    Search for a service
+                </h4>
+            </div>
+            <div data-role="content">
+                <div style=" text-align:center" class="skedappLogo">
+                    <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
                 </div>
                 <div data-role="content" class="-box-blue-wrapper">
                     <p class="titleHeader">Search, Locate services in your area.</p>
@@ -64,7 +366,7 @@
                         </div>
                         <div data-role="fieldcontain">
                             <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-location" id="text-location" placeholder="Use my location" value="" type="text" />
+                                <input name="text-location" id="text-location" placeholder="Use my location" value="" type="text" class="" />
                             </fieldset>
                         </div>
                         <div data-role="fieldcontain">
@@ -79,18 +381,21 @@
                                 </select>
                             </fieldset>
                         </div>
+                        <input type="hidden" name="lat" id="lat" />
+                        <input type="hidden" name="lng" id="lng" />
                         <a id="btn-search" data-role="button" data-transition="none" data-theme="e" href="#" >
                             Search
                         </a>
                     </form>
                 </div>
             </div>
+            <!---------------------------------end of content-->
             <div data-theme="d" data-role="footer" >
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
                         <div>
-                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                                Home
+                            <a class="link-profile" href="#profile" data-role="button" data-transition="none" data-theme="c" >
+                                Profile
                             </a>
                         </div>
                     </div>
@@ -103,42 +408,36 @@
                     </div>
                 </div>
             </div>
+            <!----------------------------------end of footer-->
         </div>
-        <!-- Login -->
-        <div data-role="page" id="page2">
-            <div data-theme="d" data-role="header">
-                <h4>
-                    Login
-                </h4>
-            </div>
-            <div style=" text-align:center" class="skedappLogo">
-                <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
-            </div>
-            <div class="greyBackground">
-            </div>
-            <div data-role="content" class="-box-blue-wrapper">
-                <p class="titleHeader">Search, Locate services in your area.</p>
-                <form action="">
-                    <div data-role="fieldcontain">
-                        <fieldset data-role="controlgroup" data-mini="true">
-                            <label for="text-email"></label>
-                            <input name="text-login-email" id="text-login-email" placeholder="Email address" value="" type="email">
-                        </fieldset>
+
+        <!-- ---------------------------------------------------------Search results page --------------------------------------------->
+        
+        <div data-role="page" id="search_results">
+            <div data-theme="c" data-role="header">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a data-role="button" href="#search" data-icon="search" data-iconpos="left"
+                                class="ui-btn-left">
+                                Back
+                            </a>
+                        </div>
                     </div>
-                    <div data-role="fieldcontain">
-                        <fieldset data-role="controlgroup" data-mini="true">
-                            <label for="text-password"></label>
-                            <input name="text-login-password" id="text-login-password" placeholder="Password" value="" type="password">
-                        </fieldset>
+                    <div class="ui-block-b">
+                        <p style="margin-top: 10px; margin-left: -35px;"><span id="span-search-results-date"></span></p>
                     </div>
-                    <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
-                        Cancel
-                    </a>
-                    <a id="btn-login" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
-                        Login
-                    </a>
-                </form>
+                </div>
             </div>
+            <div data-role="content" style="margin-top: 10px;" class="-box-blue-wrapper">
+                <p style="color: #FFFFFF;">
+                Records: <span id="span-results-count">0</span> found.
+                </p>
+                <div id="div-search-results"></div>
+                
+                
+            </div>
+            <!---------------------------------end of content-->
             <div data-theme="d" data-role="footer" data-position="fixed">
                 <div class="ui-grid-a">
                     <div class="ui-block-a">
@@ -150,16 +449,74 @@
                     </div>
                     <div class="ui-block-b">
                         <div>
-                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
+                            <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
                                 Settings
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+            <!----------------------------------end of footer-->
         </div>
+        
+        <!-- ---------------------------------------------------------Confirm booking page --------------------------------------------->
+        
+        <div data-role="page" id="booking_confirm">
+            <div data-theme="c" data-role="header">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a data-role="button" href="#search" data-icon="search" data-iconpos="left"
+                                class="ui-btn-left">
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <p style="margin-top: 10px; margin-left: -35px;">&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+            <div data-role="content" style="margin-top: 10px;" class="-box-blue-wrapper">
+                <p style="color: #FFFFFF;">
+                    Confirm booking details
+                </p>
+                <div id="div-confirm-booking">
+
+                </div>
+                <br />
+                <span style="float:right">
+                    <a href="#" id="link-book" data-role="button" data-inline="true" data-theme="c">
+                    Book now
+                    </a>
+                </span>
+            </div>     
+            <!---------------------------------end of content-->
+            <div data-theme="d" data-role="footer" data-position="fixed">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <div>
+                            <a class="link-profile" href="#profile" data-role="button" data-transition="none" data-theme="c" >
+                                Profile
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div>
+                            <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!----------------------------------end of footer-->
+        </div>
+        
+        
+        
         <!-- Settings -->
-        <div data-role="page" id="page3">
+        <div data-role="page" id="page15">
             <div data-theme="d" data-role="header">
                 <h4>
                     Settings
@@ -198,160 +555,11 @@
             </div>
         </div>
         <!-- Registration -->
-        <div data-role="page" id="page4">
-            <div data-theme="d" data-role="header">
-                <h4>
-                    Registration
-                </h4>
-            </div>
-            <div data-role="content">
-                <div style=" text-align:center" class="skedappLogo">
-                    <img style="width: 201px; height: 140px" src="img/logo.jpg"/>
-                </div>
-                <div class="greyBackground">
-                </div>
-                <div data-role="content" class="-box-blue-wrapper">
-                    <p class="titleHeader">Register an account.</p>
-                    <form action="" id="form-registration" name="form-registration">
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-first-name" id="text-first-name" placeholder="First name" value="" type="text" class="required" />
-                            </fieldset>
-                        </div>
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-last-name" id="text-last-name" placeholder="Last name" value="" type="text"  class="required requiredNotWhitespace" />
-                            </fieldset>
-                        </div>
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-mobile" id="text-mobile" placeholder="Cellphone number" value="" type="text" class="required" />
-                            </fieldset>
-                        </div>
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-password" id="text-password-field" placeholder="Password" value="" type="password" class="required" />
-                            </fieldset>
-                        </div>
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-confirm-password" id="text-confirm-password-field" placeholder="Confirm password" value="" type="password" class="required" />
-                            </fieldset>
-                        </div>
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-email-address" id="text-email-address" placeholder="Email address" value="" type="email" class="required" />
-                            </fieldset>
-                        </div>
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-mini="true">
-                                <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
-                            </fieldset>
-                        </div>
-                        <a id="btn-cancel" data-role="button" data-inline="true" data-transition="none" data-theme="a" href="#page1">
-                            Cancel
-                        </a>
-                        <a id="btn-registration" data-role="button" data-inline="true" data-transition="none" data-theme="e" href="#">
-                            Register
-                        </a>
-                    </form>
-                </div>
-            </div>
-            <div data-theme="d" data-role="footer" data-position="fixed">
-                <div class="ui-grid-a">
-                    <div class="ui-block-a">
-                        <div>
-                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                                Home
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui-block-b">
-                        <div>
-                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
-                                Settings
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- Registration Success -->
-        <div data-role="page" id="page5">
-            <div data-theme="d" data-role="header">
-                <h5>
-                    Successful Registration
-                </h5>
-            </div>
-            <div data-role="content">
-                <div class="ui-body ui-body-a">
-                    <h4>Successful Registration.</h4>
-                    <p>You have successfully created an account. <br /><br /> We need to confirm your email address before we can activate your account, check your mail box and follow the instructions on the email.</p>
-                </div>
-            </div>
-            <div data-theme="d" data-role="footer" data-position="fixed">
-                <div class="ui-grid-a">
-                    <div class="ui-block-a">
-                        <div>
-                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                                Home
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui-block-b">
-                        <div>
-                            <a id="link-settings" href="#page3" data-role="button" data-transition="none" data-theme="c" >
-                                Settings
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- Search Results -->
-        <div data-role="page" id="page6">
-            <div data-theme="c" data-role="header">
-                <div class="ui-grid-a">
-                    <div class="ui-block-a">
-                        <div>
-                            <a data-role="button" href="#page1" data-icon="home" data-iconpos="left"
-                                class="ui-btn-left">
-                                Home
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui-block-b">
-                        <p style="margin-top: 10px; margin-left: -35px;">Today, 30 Jan</p>
-                    </div>
-                </div>
-            </div>
-            <div data-role="content" style="margin-top: 10px;" class="-box-blue-wrapper">
-                <p style="color: #FFFFFF;">
-                Records: <span id="span-results-count">0</span> found.
-                </p>
-                <div id="div-search-results"></div>
-                
-                
-            </div>
-            <div data-theme="d" data-role="footer" data-position="fixed">
-                <div class="ui-grid-a">
-                    <div class="ui-block-a">
-                        <div>
-                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                                Home
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui-block-b">
-                        <div>
-                            <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                                Settings
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <!-- Bookings -->
         <div data-role="page" id="page7">
             <div data-theme="d" data-role="header">
@@ -387,55 +595,7 @@
             </div>
         </div>
         <!-- Bookings Profile -->
-        <div data-role="page" id="page8">
-            <div data-theme="d" data-role="header">
-                <span class="ui-title">
-                </span>
-                <a data-role="button" href="#page1" data-icon="home" data-iconpos="left" class="ui-btn-left">
-                    Home
-                </a>
-                <a data-role="button" href="#page1" data-icon="home" data-iconpos="right" class="ui-btn-right">
-                    Bookings
-                </a>
-            </div>
-            <div data-role="content">
-                <div class="ui-body ui-body-a">
-                    <h4>My Profile</h4>
-                    <table>
-                        <tr>
-                            <td>Full Name:</td>
-                            <td><span id="span-profile-name"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Email address:</td>
-                            <td><span id="span-profile-email"></span></td>
-                        </tr>
-                        <tr>
-                            <td>Mobile:</td>
-                            <td><span id="span-profile-mobile"></span></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div data-theme="d" data-role="footer" data-position="fixed">
-                <div class="ui-grid-a">
-                    <div class="ui-block-a">
-                        <div>
-                            <a id="link-home" href="#page1" data-role="button" data-transition="none" data-theme="c" >
-                                Home
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui-block-b">
-                        <div>
-                            <a id="link-settings" href="#page6" data-role="button" data-transition="none" data-theme="c" >
-                                Settings
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <!-- Profile -->
         <div data-role="page" id="page9">
             <div data-theme="d" data-role="header">

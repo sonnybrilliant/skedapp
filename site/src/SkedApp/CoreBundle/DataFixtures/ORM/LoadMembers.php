@@ -48,7 +48,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
         $memberManagerService->createDefaultMember($adminUserMfana);
@@ -63,7 +63,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
         $savedAdminUserOtto = $memberManagerService->createDefaultMember($adminUserOtto);
@@ -71,14 +71,14 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
         $adminUserRyan = array(
             'firstName' => 'Ryan',
             'lastName' => 'Webster',
-            'email' => 'ryan@skedapp.co.za',
+            'email' => 'admin1@skedapp.co.za',
             'mobile' => '2771326412',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
         $memberManagerService->createDefaultMember($adminUserRyan);
@@ -94,7 +94,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
         $memberManagerService->createDefaultMember($adminUserBernard);
@@ -102,14 +102,14 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
         $adminUserWynand = array(
             'firstName' => 'Wynand',
             'lastName' => 'Wynand',
-            'email' => 'wynand@skedapp.co.za',
+            'email' => 'admin2@skedapp.co.za',
             'mobile' => '27713264124',
             'password' => '654321',
             'company' => $this->getReference('company-default'),
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
         $memberManagerService->createDefaultMember($adminUserWynand);
@@ -124,12 +124,12 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
-        $memberManagerService->createDefaultMember($adminUserArno); 
-        
-        
+        $memberManagerService->createDefaultMember($adminUserArno);
+
+
         $adminUserTumelo = array(
             'firstName' => 'Tumelo',
             'lastName' => 'Mogoboya',
@@ -140,11 +140,11 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-male'),
             'group' => $this->getReference('group-super-admin'),
-            'isAdmin' => true, 
+            'isAdmin' => true,
         );
 
-        $memberManagerService->createDefaultMember($adminUserTumelo);        
-        
+        $memberManagerService->createDefaultMember($adminUserTumelo);
+
         $adminUserJanet = array(
             'firstName' => 'Janet',
             'lastName' => 'Davis',
@@ -155,7 +155,7 @@ class  LoadMembers extends AbstractFixture implements OrderedFixtureInterface , 
             'title' => $this->getReference('title-mr'),
             'gender' => $this->getReference('gender-female'),
             'group' => $this->getReference('group-consultant-admin'),
-            'isAdmin' => false, 
+            'isAdmin' => false,
         );
 
         $memberManagerService->createDefaultMember($adminUserJanet);

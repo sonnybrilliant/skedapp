@@ -4,47 +4,47 @@
            <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'#', 'c.id') }}
                 {% if isDirectionSet == false %}
-                    <span class="pull-right"><i class="icon-chevron-up"></i></span>  
+                    <span class="pull-right"><i class="icon-chevron-up"></i></span>
                 {% else %}
-                    {% if pagination.isSorted('c.id') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                    {% if pagination.isSorted('c.id') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
                     {% endif %}
-                {% endif %} 
-            </th>   
+                {% endif %}
+            </th>
            <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Full names', 'c.firstName') }}
                 {% if isDirectionSet == false %}
-                    <span class="pull-right"><i class="icon-chevron-up"></i></span>  
+                    <span class="pull-right"><i class="icon-chevron-up"></i></span>
                 {% else %}
-                    {% if pagination.isSorted('c.firstName') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                    {% if pagination.isSorted('c.firstName') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
                     {% endif %}
-                {% endif %} 
-            </th>   
+                {% endif %}
+            </th>
             {% if is_granted('ROLE_ADMIN') %}
             <th scope="col" class="table-heading-blue">
                 {{ knp_pagination_sortable(pagination,'Company', 'c.company') }}
                 {% if isDirectionSet == false %}
-                    <span class="pull-right"><i class="icon-chevron-up"></i></span>  
+                    <span class="pull-right"><i class="icon-chevron-up"></i></span>
                 {% else %}
-                    {% if pagination.isSorted('c.company') %} 
-                        {% if direction == 'asc'%} 
-                            <span class="pull-right"><i class="icon-chevron-up"></i></span> 
+                    {% if pagination.isSorted('c.company') %}
+                        {% if direction == 'asc'%}
+                            <span class="pull-right"><i class="icon-chevron-up"></i></span>
                         {% else %}
                             <span class="pull-right"><i class="icon-chevron-down"></i></span>
                         {% endif %}
                     {% endif %}
-                {% endif %} 
-            </th>   
-            {% endif %}  
+                {% endif %}
+            </th>
+            {% endif %}
             <th  scope="col" class="table-heading-blue">Services </th>
             <th  scope="col" class="table-heading-blue"></th>
           </tr>
@@ -52,7 +52,7 @@
    <tbody>
           {% for consultant in pagination %}
           <tr>
-              <td> 
+              <td>
                     <a href='{{path('sked_app_consultant_show', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to view">
                        {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
                        <div class="image-dimensions20 pull-left">
@@ -67,7 +67,7 @@
                            <div class="image-dimensions20 pull-left">
                                <img src="{{ asset('/img/female.jpg') }}" width="20" height="20" class="space-left space-right"/>
                            </div>
-                            {% endif %}                        
+                            {% endif %}
                         {% endif %}
                     </a>
               </td>

@@ -41,8 +41,9 @@ var Search =
                     Search.longitude = localStorage.getItem("longitude");
                     
                 }else{
-                    Search.latitude = null;
-                    Search.longitude = null;
+                    
+                    Search.latitude = $('#lat').val();
+                    Search.longitude = $('#lng').val();
                 }
             
                 //validate date
@@ -83,15 +84,24 @@ var Search =
                     console.log('Cat:'+Search.category+' location:'+Search.location+' date:'+Search.date+' service:'+Search.service);
                     
                     var fullUrl  = Conf.site._baseUrl+"/api/get/"+Conf.methods._search+'/'+Session.session.id+'/';
-                        fullUrl += Search.category+'/'+Search.service+'/'+Search.location+'/'+Search.date+'/'+Search.latitude+'/'+Search.longitude+'/1';
+                        fullUrl += Search.category+'/'+Search.service+'/'+Search.date+'/'+Search.latitude+'/'+Search.longitude+'/1';
                     
                     console.log(fullUrl);
-                                        
+                      
+                    //set query details
+                    localStorage.setItem("search_catgory",Search.category);
+                    localStorage.setItem("search_service",Search.service);
+                    localStorage.setItem("search_location",Search.location);
+                    localStorage.setItem("search_date",Search.date);
+                  
+                      
+                    $.mobile.showPageLoadingMsg();
                     $.ajax({
-                      dataType: 'jsonp',
-                      jsonpCallback: 'Conf.remoteAjaxCall',
-                      url: fullUrl
+                           dataType: 'jsonp',
+                           jsonpCallback: 'Conf.remoteAjaxCall',
+                           url: fullUrl
                     });
+                    
                 }
             
                 
@@ -122,7 +132,7 @@ var Search =
     {
         console.log('search: results->'+data.count);
         $('#span-results-count').html(data.count);
-        
+        $("#div-search-results").append('');
         if(data.count > 0){
             console.log("search: count is greater than 0");
             var consultants = data.results;
@@ -132,10 +142,12 @@ var Search =
                    
                    var strImage = Conf.site._url+consultant.image;
                    var str = '';
-                   str +="<div id='blockWrapper'>";
+                   str +="<div class='blockWrapper'>";
                    str +=" <img class='imageWrapper' width='60px' width='60px' src='"+strImage+"'/>";
                    str +="     <div class='paddingBottom15px'>";
                    str +="         <div class='nameTags'>"+consultant.fullName+"</div>";
+                   str +="         <div class='descriptionDetails'>"+consultant.servicesProvider+"</div>";
+                   str +="         <div class='descriptionDetails'>"+consultant.gender+"</div>";
                    str +="         <div class='descriptionDetails'>"+consultant.address+"</div>";
                    str +="         <div class='descriptionDetails'>"+consultant.distance+" km</div>";
                    str +="     </div>";
@@ -148,7 +160,7 @@ var Search =
                    var slots = consultant.slots.time_slots[y];
                    
                    console.log('loop inside'+y);
-                     str +="                 <td class='tableDetails'>"+slots.start_time+"</td>";
+                     str +="                 <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#' class='timeslot'>"+slots.start_time+"</a></span></td>";
                    }
                    
                    str +="             </tr>";
@@ -157,9 +169,11 @@ var Search =
                    str +="     <div class='marginTop10px'></div>";
                    str +="</div>";
                    $("#div-search-results").append(str);
+                   $('#span-search-results-date').html(consultant.date);
+                   Random.bindSearchResults();
             });
-
-            window.location.href = "#page6";
+            $.mobile.hidePageLoadingMsg();
+            window.location.href = "#search_results";
         }else{
             console.log("search: count equal to 0");
         }

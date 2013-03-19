@@ -93,6 +93,7 @@ class ConsultantCreateType extends AbstractType
             ))
             ->add('picture', 'file', array(
                 'label' => 'Profile picture:',
+                'required' => false,
                 'attr' => array('class' => 'span12')
             ))
             ->add('monday', 'checkbox', array(

@@ -4,6 +4,7 @@ namespace SkedApp\CoreBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use SkedApp\CoreBundle\Entity\Consultant;
+use SkedApp\CoreBundle\Entity\Company;
 
 /**
  * BookingRepository
@@ -78,8 +79,8 @@ class BookingRepository extends EntityRepository
     {
         $defaultOptions = array(
             'searchText' => '',
-            'sort' => 'c.id',
-            'direction' => 'asc'
+            'sort' => 'b.hiddenAppointmentStartTime',
+            'direction' => 'desc'
         );
 
         if (!isset($options['searchText']))
@@ -114,7 +115,7 @@ class BookingRepository extends EntityRepository
      *
      * @return array
      */
-    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate)
+    public function getAllBookingsByDate(\DateTime $objStartDate, \DateTime $objEndDate, Company $company = null)
     {
         $qb = $this->createQueryBuilder('b')
             ->select('b')
@@ -124,12 +125,18 @@ class BookingRepository extends EntityRepository
             ->andWhere("b.hiddenAppointmentStartTime >= :start")
             ->andWhere("b.hiddenAppointmentEndTime <= :end")
             ->setParameters(array(
-            'delete' => false,
-            'active' => true,
-            'cancelled' => false,
-            'start' => $objStartDate->format('Y-m-d H:i:s'),
-            'end' => $objEndDate->format('Y-m-d H:i:s')
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
+                'start' => $objStartDate->format('Y-m-d H:i:s'),
+                'end' => $objEndDate->format('Y-m-d H:i:s')
             ));
+
+        if (is_object($company)) {
+            $qb->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
+                    ->andWhere('c.company = :company')->setParameter('company', $company);
+        }
+
         return $qb->getQuery()->execute();
     }
 
@@ -140,6 +147,9 @@ class BookingRepository extends EntityRepository
      */
     public function getAllConsultantBookingsByDate($consultantId, \DateTime $objStartDate, \DateTime $objEndDate, $companyId = 0)
     {
+
+        if (is_object($consultantId))
+            $consultantId = $consultantId->getId();
 
         if ($consultantId > 0) {
 
@@ -176,6 +186,24 @@ class BookingRepository extends EntityRepository
                 'active' => true,
                 'cancelled' => false,
                 'company' => $companyId,
+                'start' => $objStartDate->format('Y-m-d H:i:s'),
+                'end' => $objEndDate->format('Y-m-d H:i:s')
+                ));
+            return $qb->getQuery()->execute();
+        } else {
+
+            $qb = $this->createQueryBuilder('b')
+                ->select('b')
+                ->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
+                ->where("b.isDeleted = :delete")
+                ->andWhere("b.isActive = :active")
+                ->andWhere("b.isCancelled = :cancelled")
+                ->andWhere("b.hiddenAppointmentStartTime >= :start")
+                ->andWhere("b.hiddenAppointmentEndTime <= :end")
+                ->setParameters(array(
+                'delete' => false,
+                'active' => true,
+                'cancelled' => false,
                 'start' => $objStartDate->format('Y-m-d H:i:s'),
                 'end' => $objEndDate->format('Y-m-d H:i:s')
                 ));
@@ -412,10 +440,10 @@ class BookingRepository extends EntityRepository
 
         $slot_cnt = 0;
 
-        if ($bookingDate->getTimestamp() <= $end_time->getTimeStamp()) {
+        if ($bookingDate->getTimestamp() < $end_time->getTimeStamp()) {
             //Still enough time to book today
             //Start by identifying time slots on the same day
-            while (($slot_cnt < 5) && ($start_time->getTimestamp() <= $end_time->getTimeStamp())) {
+            while (($slot_cnt < 5) && ($start_time->getTimestamp() < $end_time->getTimeStamp())) {
                 $new_timestamp = $start_time->getTimestamp() + (60 * $appointment_duration);
 
                 $booking_time_slot = $this->isConsultantAvailable($consultant, $start_time->format('Y-m-d H:i:00'), date('Y-m-d H:i:00', $new_timestamp));

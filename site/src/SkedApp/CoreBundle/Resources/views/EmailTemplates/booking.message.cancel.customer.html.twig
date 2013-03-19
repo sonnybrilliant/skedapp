@@ -1,6 +1,6 @@
 {% extends "SkedAppCoreBundle::base.mail.html.twig" %}
 {% block body %}
-    <p style="margin-bottom: 6pt;">Hi {{ booking.customer.fullName }},</p>
+    <p style="margin-bottom: 6pt;">Hi {{ booking.customerFullName }},</p>
     <p style="margin-bottom: 6pt;">Your booking has been cancelled.</p>
     <p style="margin-bottom: 6pt;">{{ messageText }}</p>
     <p style="margin-bottom: 6pt;"></p>

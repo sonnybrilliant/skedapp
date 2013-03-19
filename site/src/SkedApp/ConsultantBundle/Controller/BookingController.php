@@ -19,10 +19,10 @@ class BookingController extends Controller
 
     /**
      * List consultants
-     * 
+     *
      * @param String $slug consultant slug
      * @param Integer $page paginator
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function listAction($slug, $page = 1)
@@ -35,8 +35,8 @@ class BookingController extends Controller
 
             $isDirectionSet = $this->get('request')->query->get('direction', false);
             $searchText = $this->get('request')->query->get('searchText');
-            $sort = $this->get('request')->query->get('sort', 'b.id');
-            $direction = $this->get('request')->query->get('direction', 'asc');
+            $sort = $this->get('request')->query->get('sort', 'b.hiddenAppointmentStartTime');
+            $direction = $this->get('request')->query->get('direction', 'desc');
 
             $options = array('searchText' => $searchText,
                 'sort' => $sort,
@@ -44,9 +44,10 @@ class BookingController extends Controller
                 'consultantId' => $consultant->getId()
             );
 
+            $consultants = $this->container->get('booking.manager')->getConsultantBookings($options);
+
             $paginator = $this->get('knp_paginator');
-            $pagination = $paginator->paginate(
-                $this->container->get('booking.manager')->getConsultantBookings($options), $this->getRequest()->query->get('page', $page), 10
+            $pagination = $paginator->paginate($consultants, $this->getRequest()->query->get('page', $page), 10
             );
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
@@ -61,12 +62,12 @@ class BookingController extends Controller
                 'isDirectionSet' => $isDirectionSet
             ));
     }
-    
+
     /**
      * Show booking details
-     * 
+     *
      * @param Integer $id
-     * 
+     *
      * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
      */
     public function showAction($id)

@@ -16,11 +16,12 @@
                             <div class="divPrompt">Service Provider:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
-                                 <div class="image-dimensions180">
-                                     <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" class="space-left space-right"/>
+                                 <div class="image-dimensions180 img-polaroid">
+                                     <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" />
                                  </div>
                                   {% endif %}
-                                <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
+                                <span class="gray-text"><h4>{{ consultant.company.name }}</h4></span>
+                                <div class="spacer1"></div>
                             </div>
                             <div class="clearfix"></div>
                         </li>
@@ -28,17 +29,17 @@
                             <div class="divPrompt">Consultant:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                 <div class="image-dimensions180">
-                                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" class="space-left space-right"/>
+                                 <div class="image-dimensions180 img-polaroid">
+                                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" />
                                  </div>
                                  {% else %}
                                       {% if consultant.gender.name == "Male" %}
-                                     <div class="image-dimensions180">
-                                         <img src="{{ asset('/img/male.jpg') }}" width="180" class="space-left space-right"/>
+                                     <div class="image-dimensions180 img-polaroid">
+                                         <img src="{{ asset('/img/male.jpg') }}" width="180" />
                                      </div>
                                       {% else %}
-                                     <div class="image-dimensions180">
-                                         <img src="{{ asset('/img/female.jpg') }}" width="180" class="space-left space-right"/>
+                                     <div class="image-dimensions180 img-polaroid">
+                                         <img src="{{ asset('/img/female.jpg') }}" width="180" />
                                      </div>
                                       {% endif %}
                                   {% endif %}
@@ -61,6 +62,7 @@
                 <div class="submitButton">
                     <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
                 </div>
+                <div class="spacer1"></div>
               </fieldset>
               {{ form_rest(form) }}
             </form>

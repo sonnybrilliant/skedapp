@@ -36,11 +36,15 @@ class BookingController extends Controller
         $this->get('logger')->info('manage bookings');
 
         $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+            $company = $user->getCompany();
 
         $em = $this->getDoctrine()->getEntityManager();
-        $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery($user->getCompany());
+        $consultants = $em->getRepository('SkedAppCoreBundle:Consultant')->getAllActiveQuery(array('company' => $company));
 
-        if (is_object($user->getCompany()))
+        if (is_object($company))
             $companyId = $user->getCompany()->getId();
         else
             $companyId = 0;
@@ -67,7 +71,7 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
 
         $booking = new Booking();
-        $customerPotential = new CustomerPotential();
+        $customerPotential = new CustomerPotential(false);
 
         $bookingValues = $this->getRequest()->get('Booking');
 
@@ -88,7 +92,7 @@ class BookingController extends Controller
                 $this->get('member.manager')->isAdmin(),
                 new \DateTime($bookingValues['appointmentDate'])
             ), $booking);
-        $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
+        $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
 
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
@@ -150,26 +154,33 @@ class BookingController extends Controller
                         $booking->setCustomerPotential($customerPotential);
                     }
 
-                    $this->get('booking.manager')->save($booking);
+                    if ( (!is_object($booking->getCustomerPotential())) && (!is_object($booking->getCustomer())) ) {
+                        $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select a customer, or complete the details of an offline customer');
+                    } else {
 
-                    $this->getRequest()->getSession()->setFlash(
-                        'success', 'Created booking successfully');
-                    $options = array(
-                        'booking' => $booking,
-                        'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
-                    );
+                        $this->get('booking.manager')->save($booking);
 
-                    if (is_object($booking->getCustomer())) {
-                        if ($booking->getIsConfirmed()) {
-                            //send booking confirmation emails
-                            $this->get("notification.manager")->confirmationBooking($options);
-                        } else {
-                            //send booking created notification emails
-                            $this->get("notification.manager")->createdByCompanyBooking($options);
+                        $this->getRequest()->getSession()->setFlash(
+                            'success', 'Created booking successfully');
+                        $options = array(
+                            'booking' => $booking,
+                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                        );
+
+                        if (is_object($booking->getCustomer())) {
+                            if ($booking->getIsConfirmed()) {
+                                //send booking confirmation emails
+                                $this->get("notification.manager")->confirmationBooking($options);
+                            } else {
+                                //send booking created notification emails
+                                $this->get("notification.manager")->createdByCompanyBooking($options);
+                            }
                         }
-                    }
 
-                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                    } //if customer and potential is null
+
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', $errMsg);
@@ -199,7 +210,7 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('edit booking id:' . $bookingId);
 
-        if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        if ( (!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) ) {
             $this->get('logger')->warn('list consultants, access denied.');
             throw new AccessDeniedException();
         }
@@ -214,10 +225,12 @@ class BookingController extends Controller
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
-            $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
+            $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
+
         } catch (\Exception $e) {
-            $this->get('logger')->err("booking id:$booking invalid");
+            $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
         }
 
         $customer = new Customer();
@@ -259,7 +272,7 @@ class BookingController extends Controller
                     $user->getCompany()->getId(),
                     $this->get('member.manager')->isAdmin()
                 ), $booking);
-            $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
+            $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
 
             if ($this->getRequest()->getMethod() == 'POST') {
                 $form->bindRequest($this->getRequest());
@@ -270,22 +283,29 @@ class BookingController extends Controller
                     if (strlen($customerPotential->getFirstName()) > 0) {
                         $this->get('customer.potential.manager')->update($customerPotential);
                         $booking->setCustomerPotential($customerPotential);
+                        $booking->setCustomer(null);
                     }
 
-                    $this->get('booking.manager')->save($booking);
-                    $this->getRequest()->getSession()->setFlash(
-                        'success', 'Updated booking successfully');
+                    if ( (!is_object($booking->getCustomerPotential())) && (!is_object($booking->getCustomer())) ) {
+                        $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select a customer, or complete the details of an offline customer');
+                    } else {
 
-                    if ((!$oldIsConfirmed) && ($booking->getIsConfirmed())) {
-                        $options = array(
-                            'booking' => $booking,
-                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
-                        );
-                        //send booking confirmation emails
-                        $this->get("notification.manager")->confirmationBooking($options);
-                    }
+                        $this->get('booking.manager')->save($booking);
+                        $this->getRequest()->getSession()->setFlash(
+                            'success', 'Updated booking successfully');
 
-                    return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                        if ((!$oldIsConfirmed) && ($booking->getIsConfirmed())) {
+                            $options = array(
+                                'booking' => $booking,
+                                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                            );
+                            //send booking confirmation emails
+                            $this->get("notification.manager")->confirmationBooking($options);
+                        }
+
+                        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                    } //if customer and potential is null
                 } else {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'Failed to update booking');
@@ -293,6 +313,8 @@ class BookingController extends Controller
             }
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
+            $this->getRequest()->getSession()->setFlash(
+                        'error', $e->getMessage());
             $this->createNotFoundException($e->getMessage());
         }
 
@@ -387,29 +409,47 @@ class BookingController extends Controller
         $earliestStart = new \Datetime($startSlotsDateTime->format('Y-m-d H:i:00'));
         $latestEnd = new \Datetime($endSlotsDateTime->format('Y-m-d H:i:00'));
         $isSingleDay = false;
+        $company = null;
 
-        $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime);
+        $user = $this->get('member.manager')->getLoggedInUser();
+
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+            $company = $user->getCompany();
+
+        $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime, $company);
+
+        if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) >= (60 * 60 * 24 * 28)) {
+            $isMonth = true;
+        } else {
+            $isMonth = false;
+        }
 
         if ($bookings) {
             foreach ($bookings as $booking) {
                 $allDay = false;
 
+                $bookingName = '';
 
-                if (true == $booking->getIsLeave()) {
-                    $allDay = true;
-                    $bookingName = "On leave";
-                } else {
-                    if (is_object($booking->getService()))
-                        $bookingName = $booking->getService()->getName();
-                    else
-                        $bookingName = 'Unknown Service';
+                if (!$isMonth) {
+                    if (true == $booking->getIsLeave()) {
+                        $allDay = true;
+                        $bookingName = "On leave";
+                    } else {
+                        if (is_object($booking->getService()))
+                            $bookingName = $booking->getService()->getName();
+                        else
+                            $bookingName = 'Unknown Service';
+                    }
                 }
 
                 $bookingTooltip = '<div class="divBookingTooltip">';
 
                 if (is_object($booking->getConsultant())) {
 
-                    $bookingName = $booking->getConsultant()->getFullName() . ' - ' . $bookingName;
+                    if ((isset($bookingName)) && (strlen($bookingName) > 0) )
+                        $bookingName = ' - ' . $bookingName;
+
+                    $bookingName = $booking->getConsultant()->getFullName() . $bookingName;
                 }
 
                 if (is_object($booking->getCustomer())) {
@@ -418,7 +458,10 @@ class BookingController extends Controller
                     $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
                     $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
 
-                    $bookingName = $booking->getCustomer()->getFullName() . ' - ' . $bookingName;
+                    if ((isset($bookingName)) && (strlen($bookingName) > 0) )
+                        $bookingName = ' - ' . $bookingName;
+
+                    $bookingName = $booking->getCustomer()->getFullName() . $bookingName;
                 }
 
                 $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
@@ -458,7 +501,7 @@ class BookingController extends Controller
 
         if ((!is_null($start)) && (!is_null($end))) {
             //Adding empty slots
-            $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc'));
+            $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc', 'company' => $company));
 
             foreach ($consultants as $consultant) {
 
@@ -485,8 +528,8 @@ class BookingController extends Controller
 
                 if (($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time())) {
                     //If its a single day, add empty slots for each resource
-                    //Make sure start time slot is more than 2 hours in the future
-                    while ($startSlotsDateTime->getTimestamp() < (time() + (60 * 60 * 2))) {
+                    //Make sure start time slot is in the future
+                    while ($startSlotsDateTime->getTimestamp() < time()) {
 
                         $durationInterval = new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M');
                         $startSlotsDateTime->add($durationInterval);
@@ -549,8 +592,7 @@ class BookingController extends Controller
                                     'Booking[consultant]' => $consultant->getId(),
                                 )),
                                 'description' => $bookingTooltip,
-                                'color' => 'white',
-                                'textColor' => 'black'
+                                'className' => 'addBookingTimeSlot'
                             );
                         } //if slot is available
 
@@ -576,7 +618,7 @@ class BookingController extends Controller
 
                     $durationInterval = new \DateInterval('PT15M');
 
-                    $startSlot = new \DateTime($earliestStart->format('Y-m-d H:i:00'));
+                    $startSlot = new \DateTime($earliestStart->format('Y-m-d 06:00:00'));
                     $endSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
                     $endSlot->add($durationInterval);
 
@@ -598,8 +640,7 @@ class BookingController extends Controller
                             'Booking[appointmentDate]' => $startSlot->format("Y-m-d")
                         )),
                         'description' => $bookingTooltip,
-                        'color' => 'white',
-                        'textColor' => 'black'
+                        'className' => 'addBookingTimeSlot'
                     );
 
                     $earliestStart->add($durationInterval);
@@ -624,7 +665,8 @@ class BookingController extends Controller
     {
         $this->get('logger')->info('see list of bookings');
 
-        if ((!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))) {
+        if ((!$this->get('security.context')->isGranted('ROLE_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN'))
+                && (!$this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))) {
             $this->get('logger')->warn('Ajax list bookings, access denied.');
             throw new AccessDeniedException();
         }
@@ -639,16 +681,14 @@ class BookingController extends Controller
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+            $companyId = $user->getCompany()->getId();
+
         $startDate = new \DateTime($filterDate->format('Y-m-d 00:00:00'));
         $endDate = new \DateTime($filterDate->format('Y-m-d 23:59:59'));
 
         $em = $this->getDoctrine()->getEntityManager();
         $bookings = $em->getRepository('SkedAppCoreBundle:Booking')->getAllConsultantBookingsByDate($consultantId, $startDate, $endDate, $companyId);
-
-        if (is_object($user->getCompany()))
-            $companyId = $user->getCompany()->getId();
-        else
-            $companyId = 0;
 
         $form = $this->createForm(new BookingMessageType());
 
@@ -657,6 +697,7 @@ class BookingController extends Controller
                 'filterDate' => $filterDate->format('j F Y'),
                 'print' => true,
                 'form' => $form->createView(),
+                'consultantId' => ($consultantId + 0)
             ));
     }
 
@@ -672,12 +713,12 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking public');
 
         $user = $this->get('member.manager')->getLoggedInUser();
-        
+
         if(($companyId == 0) || ($consultantId == 0)){
             return $this->redirect('sked_app_booking_manager');
         }
-        
-        
+
+
         //Format the date correctly
         $date = new \DateTime($date);
         $date = $date->format('d-m-Y');
@@ -869,9 +910,13 @@ class BookingController extends Controller
                         'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
                     );
 
-                    //send booking created notification emails
-                    $this->get("notification.manager")->createdBooking($options);
-
+                    try {
+                        //send booking created notification emails
+                        $this->get("notification.manager")->createdBooking($options);
+                    } catch (Exception $e) {
+                        $this->getRequest()->getSession()->setFlash(
+                            'error', $e->getMessage());
+                    }
                     return $this->redirect($this->generateUrl('sked_app_customer_booking_details',array('id'=>$booking->getId())));
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -1083,11 +1128,11 @@ class BookingController extends Controller
             $this->getRequest()->getSession()->setFlash('error', 'Please select at least one booking.');
         }
 
-        if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) {
+        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) ) {
 
             $user = $this->get('member.manager')->getLoggedInUser();
 
-            return $this->redirect($this->generateUrl('sked_app_consultant_booking_show', array('id' => $user->getId())));
+            return $this->redirect($this->generateUrl('sked_app_consultant_show', array('slug' => $user->getSlug())));
         } else {
             return $this->redirect($this->generateUrl('sked_app_booking_manager'));
         }

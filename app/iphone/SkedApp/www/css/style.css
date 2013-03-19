@@ -210,15 +210,12 @@ iframe { border: none; }
 .-box-blue-wrapper {
   background-clip: padding-box;
   background-color: #00395F;
-  margin: -314px auto 41px auto;
   background-image: linear-gradient( to bottom, #00395F , #00395F );
   border: none;
   box-shadow: 0 0 100px #00395F  inset;
-  position: relative;
   width: 85%;
   border-radius: 8px 8px 8px 8px;	
   box-shadow: 0px 0px 6px #000;
-  min-height: 300px;
   padding: 15px;
 }
 
@@ -230,7 +227,7 @@ iframe { border: none; }
 	border-radius: 5px;
 }
 
-#blockWrapper{
+.blockWrapper{
 	background: #fff;
 	padding: 10px 10px 0 10px;
 	border: 1px solid #000;

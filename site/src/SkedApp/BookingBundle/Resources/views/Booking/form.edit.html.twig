@@ -22,14 +22,14 @@
       <div class="control-group">
         <label class="control-label" for="time_slots">Date and time:</label>
         <div class="controls">
-            <div style="border: 1px solid #ccc; padding: 10px;width: 389px;">
-                <div style="margin: 8px 8px 0 0;padding-top: 5px; width: 191px;">
+            <div class="date-time">
+                <div class="date-container time-slots">
                     Date:&nbsp;{{ form_widget(form.appointmentDate) }}
                 </div>
-                <div style="float: left; margin: 8px 8px 0 0;padding-top: 5px;">
+                <div class="start-time-container time-slots pull-left">
                     Start time:{{ form_widget(form.startTimeslot) }}
                 </div>
-                <div style="margin: 8px 8px 0 0;padding-top: 5px;">
+                <div class="time-slots">
                     End time:{{ form_widget(form.endTimeslot) }}
                 </div>
             </div>

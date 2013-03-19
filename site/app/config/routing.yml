@@ -1,6 +1,8 @@
 _welcome:
     pattern:  /
     defaults: { _controller: SkedAppCoreBundle:Site:index }
+    options:
+        expose: true
 
 sked_app_member:
     resource: "@SkedAppMemberBundle/Resources/config/routing.yml"

@@ -345,7 +345,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
      * )
      */
     public $picture;
-
     public $available_slots;
 
     public function __construct()
@@ -356,6 +355,8 @@ class Consultant implements AdvancedUserInterface, \Serializable
         $this->setIsLocked(false);
         $this->setIsActive(true);
         $this->isDeleted = false;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     public function __toString()
@@ -373,7 +374,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
      */
     public function eraseCredentials()
     {
-
+        
     }
 
     /**
@@ -413,6 +414,14 @@ class Consultant implements AdvancedUserInterface, \Serializable
         $text = strtolower(trim($text, '-'));
 
         $this->slug = $text;
+    }
+
+    /**
+     * @ORM\PostLoad()
+     */
+    public function postLoad()
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -462,7 +471,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
         if (null === $this->picture) {
             return;
         }
-
+ 
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
@@ -1519,4 +1528,19 @@ class Consultant implements AdvancedUserInterface, \Serializable
     {
         return $this->id;
     }
+
+    /**
+     * Check if consultant has proper times set up
+     *
+     * @return boolean
+     */
+    public function getTimeSlotsSetUp()
+    {
+
+        if ($this->getStartTimeslot()->getSlot() == $this->getEndTimeslot()->getSlot())
+            return false;
+        else
+            return true;
+    }
+
 }

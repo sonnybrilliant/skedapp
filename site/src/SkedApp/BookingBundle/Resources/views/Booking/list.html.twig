@@ -3,6 +3,7 @@
 
 {% block stylesheets %}
 <link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/custom-full-calendar.css') }}" rel="stylesheet">
 <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
 {% endblock %}
 
@@ -93,6 +94,9 @@
             },
             titleFormat: 'ddd, MMM dd, yyyy',
             defaultView: 'resourceDay',
+            slotMinutes: 15,
+            minTime: 6,
+            maxTime: 22,
             selectable: false,
             selectHelper: true,
             select: function(start, end, allDay, event, resourceId) {
@@ -116,7 +120,8 @@
                 console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
             },
 
-            editable: true,
+            editable: false,
+            lazyFetching: false,
             resources: [
                 {% for consultant in consultants %}
                     {
@@ -149,6 +154,18 @@
                 //When selecting a consultant, update the booking list
                 loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
             });
+
+        if (jQuery.ui) {
+            $( "#BookingListFilter_filterDate" ).datepicker({
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                minDate: 0,
+                maxDate: "+1M +10D",
+                dateFormat: 'dd-mm-yy'
+            });
+        }
+
+        loadBookingList ($('#BookingListFilter_consultant'), $('#BookingListFilter_filterDate'));
 
     });
 

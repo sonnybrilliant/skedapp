@@ -5,6 +5,7 @@ html, body {
 	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
 	height: 100%;
 }
+
 #Booking_customerOrNot_0{
   float: left;
   margin-right: 5px;
@@ -13,6 +14,20 @@ html, body {
 #Booking_customerOrNot_1{
   float: left;
   margin-right: 5px;
+}
+
+.height100 {
+  height:100%;
+}
+
+.image-dimensions180 {
+    width: 180px !important;
+    height: 100% !important;
+}
+
+.image-dimensions120 {
+    width: 120px !important;
+    height: 100% !important;
 }
 
 #wrap {
@@ -27,11 +42,14 @@ html, body {
   margin-left: 3px;
 }
 
-
-
 .tab-content{
   overflow:auto;
 }
+
+#nav-push {
+ height: 60px;
+}
+
 #push {
 	height: 80px;
 }
@@ -126,7 +144,6 @@ html, body {
 .gray-text {
 	color: #555555;
 }
-
 .small-thin-text {
 	font-size: 16px;
 }
@@ -139,14 +156,15 @@ html, body {
 .space-top {
 	margin-top: 20px;
 }
+.space-top {
+	margin-top: 10px;
+}
 .space-left {
 	margin-left: 10px;
 }
-
 .space-left20 {
 	margin-left: 20px;
 }
-
 .space-right {
 	margin-right: 10px;
 }
@@ -169,6 +187,25 @@ html, body {
 	margin-right: 7px;
 }
 
+.service-add-buttons{
+  width: 350px;
+}
+.member-add-buttons{
+  width: 355px;
+}
+.consultant-add-buttons{
+  width: 371px
+}
+.booking-add-buttons{
+  width: 372px
+}
+.category-add-buttons{
+  width: 358px;
+}
+.service-provider-add-buttons{
+  width: 416px;
+}
+
 .whiteBackground{
   background: #fff;
   border: 1px solid #ddd;
@@ -184,7 +221,7 @@ html, body {
 }
 .image-dimensions140 {
     width: 140px !important;
-    height: 140px !important;
+    height: auto;
 }
 .asterisk {
 	color: #F00;
@@ -207,6 +244,10 @@ Navbar Top Styles
 	-moz-box-shadow: inset 0px -1px #888888;
 	-webkit-box-shadow: inset 0px -1px #888888;
 	box-shadow: inset 0px -1px #888888;
+}
+
+.navbar-inverse .brand, .navbar-inverse .nav > li > a {
+    color: #FFFFFF
 }
 .navbar-inverse .nav .active > a, .navbar-inverse .nav .active > a:hover, .navbar-inverse .nav .active > a:focus {
     background-color: #0394c8;
@@ -270,14 +311,42 @@ Page Styles
 }
 
 .logo-other {
-	display: block;
-    margin-top: 0.1em;
-    padding-left: 3.75em;
-    width: auto;
+  display: block;
+  margin-top: 0.1em;
+  padding-left: 3.75em;
+  padding-bottom: 2em;
+  padding-top: 1.1em;
+  width: auto;
 }
 
+.date-time{
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 389px;
+}
+.start-time-container{
+  width: 198px;
+}
+.date-container{
+  width: 240px;
+}
+.time-slots {
+  margin: 8px 8px 0 0;
+  padding-top: 5px;
+}
 .space-right-bottom{
   margin-bottom: 10px;
+}
+
+.space-right-bottom25{
+  margin-bottom: 25px;
+}
+
+#BookingMessage_messageText{
+  width: 78%;
+}
+.bookingDetails{
+  width: 100%;
 }
 .paddingBottom5px{
   margin-bottom: 5px;
@@ -292,6 +361,14 @@ Page Styles
 	margin-bottom: -3px;
 	position:relative;
 	z-index: 4;
+}
+.body-main .chzn-container .chzn-results .active-result {
+  cursor: pointer;
+  display: list-item;
+  color: #000;
+}
+.body-main .chzn-container .chzn-results .highlighted {
+  color: #fff;
 }
 .booking-background {
 	margin: 0 0 -1px -1px;
