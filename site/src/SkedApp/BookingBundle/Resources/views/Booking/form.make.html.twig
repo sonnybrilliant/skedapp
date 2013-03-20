@@ -4,7 +4,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="span5">
-        <div class="confirm-background">
+        <div class="confirm-background rounded-confirm">
             <form action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
                 {{ form_widget(form.appointmentDate) }}
                 {{ form_widget(form.startTimeslot) }}
@@ -19,7 +19,7 @@
                                 {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
                                 
                                 <div class="image-dimensions120 img-polaroid">
-                                    <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" />
+                                    <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="120" />
                                 </div>
                                 {% endif %}
                                 <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
@@ -33,20 +33,20 @@
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
                                 <div class="img-polaroid polaroid-width120">
                                     <div class="image-dimensions120">
-                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" />
+                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="120" />
                                     </div>
                                 </div>
                                 {% else %}
                                 {% if consultant.gender.name == "Male" %}
                                 <div class="img-polaroid polaroid-width120">
                                     <div class="image-dimensions120>
-                                        <img src="{{ asset('/img/male.jpg') }}" width="180" />
+                                        <img src="{{ asset('/img/male.jpg') }}" width="120" />
                                     </div>
                                 </div>
                                 {% else %}
                                 <div class="img-polaroid polaroid-width120">
                                     <div class="image-dimensions120">
-                                        <img src="{{ asset('/img/female.jpg') }}" width="180" />
+                                        <img src="{{ asset('/img/female.jpg') }}" width="120" />
                                     </div>
                                 </div>
                                 {% endif %}

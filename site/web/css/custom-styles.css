@@ -43,7 +43,7 @@ Styles for images
 end of Styles for images
 *******************/
 #wrap {
-    in-height: 100%;
+    min-height: 100%;
     height: auto !important;
     /*height: 100%;*/
     margin: 0 auto -61px;
@@ -303,6 +303,14 @@ Generic Styles
 	-moz-border-radius-bottomleft: 10px;
 	border-bottom-left-radius: 10px;
 }
+.rounded-confirm {
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-right-radius: 10px;
+}
 .body-secondary {
 	color: #333333;
 	background-color: #eeeeee;
@@ -436,18 +444,11 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
-
 .confirm-background {
 	margin: 0 0 -1px -1px;
 	padding: 0;
 	background-color: #ffffff;
 	border: 1px solid #9dae01;
-	-webkit-border-bottom-left-radius: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	border-bottom-left-radius: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-moz-border-radius-topright: 10px;
-	border-top-right-radius: 10px;
 	-moz-box-shadow: inset 0px 0px 1px #ffffff;
 	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
 	box-shadow: inset 0px 0px 1px #ffffff;
@@ -750,6 +751,9 @@ Footer Styles
     border-radius: 5px;
     margin-right: 1.7em;
     padding: 1em;
+}
+.map-margin-fix {
+    margin-right: 0px !important;
 }
 .map-box #map_canvas {
     border: none;
