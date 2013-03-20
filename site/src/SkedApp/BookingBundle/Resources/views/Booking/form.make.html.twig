@@ -10,17 +10,19 @@
                 {{ form_widget(form.startTimeslot) }}
                 {{ form_widget(form.consultant) }}
                 {{ form_widget(form.service) }}
+                
                     <h3>Appointment Details</h3>
                     <ul class="unstyled space-left pull-left">
                         <li>
                             <div class="divPrompt">Service Provider:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
-                                 <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" />
-                                 </div>
-                                  {% endif %}
-                                <span class="gray-text"><h4>{{ consultant.company.name }}</h4></span>
+                                
+                                <div class="image-dimensions120 img-polaroid">
+                                    <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="180" />
+                                </div>
+                                {% endif %}
+                                <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
                                 <div class="spacer1"></div>
                             </div>
                             <div class="clearfix"></div>
@@ -29,20 +31,26 @@
                             <div class="divPrompt">Consultant:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                 <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" />
-                                 </div>
-                                 {% else %}
-                                      {% if consultant.gender.name == "Male" %}
-                                     <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/male.jpg') }}" width="180" />
-                                     </div>
-                                      {% else %}
-                                     <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/female.jpg') }}" width="180" />
-                                     </div>
-                                      {% endif %}
-                                  {% endif %}
+                                <div class="img-polaroid polaroid-width120">
+                                    <div class="image-dimensions120">
+                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="180" />
+                                    </div>
+                                </div>
+                                {% else %}
+                                {% if consultant.gender.name == "Male" %}
+                                <div class="img-polaroid polaroid-width120">
+                                    <div class="image-dimensions120>
+                                        <img src="{{ asset('/img/male.jpg') }}" width="180" />
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="img-polaroid polaroid-width120">
+                                    <div class="image-dimensions120">
+                                        <img src="{{ asset('/img/female.jpg') }}" width="180" />
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endif %}
                                 <span class="gray-text"><strong>{{ consultant.getFullName() }}</strong></span>
                             </div>
                             <div class="clearfix"></div>
@@ -52,9 +60,16 @@
                             <div class="divValue"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</div>
                             <div class="clearfix"></div>
                         </li>
-                        <li><div class="divPrompt">Service:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_service }}</strong></span></div></li>
-                        <li><div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_date }}</strong></span></div></li>
-                        <li><div class="divPrompt">Appointment Time:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_time_start }} - {{ booking_time_end }}</strong></span></div></li>
+                        <li>
+                            <div class="divPrompt">Service:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_service }}</strong></span></div>
+                        </li>
+                        <li>
+                            <div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_date }}</strong></span></div>
+                        </li>
+                        <li>
+                            <div class="divPrompt">Appointment Time:</div>
+                            <div class="divValue"><span class="gray-text"><strong>{{ booking_time_start }} - {{ booking_time_end }}</strong></span></div>
+                        </li>
                     </ul>
                 <label>Add Notes:</label>
                 {{ form_widget(form.description) }}
@@ -63,15 +78,14 @@
                     <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
                 </div>
                 <div class="spacer1"></div>
-              </fieldset>
-              {{ form_rest(form) }}
+                {{ form_rest(form) }}
             </form>
         </div>
     </div>
     <div class="span7">
         <div class="map-box">
             <h3>Location Details</h3>
-            {{ google_map_container(map) }}
+            <div class="map-container">{{ google_map_container(map) }}</div>
         </div>
     </div>
 </div> <!-- End .row-fluid -->

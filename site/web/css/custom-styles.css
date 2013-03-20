@@ -19,37 +19,45 @@ html, body {
 .height100 {
   height:100%;
 }
-
+/*******************
+Styles for images
+*******************/
+.polaroid-width120 {
+    width: 120px;
+}
+.polaroid-width180 {
+    width: 180px;
+}
 .image-dimensions180 {
     width: 180px !important;
-    height: 100% !important;
+    height: 180px !important;
+    overflow: hidden;
 }
 
 .image-dimensions120 {
     width: 120px !important;
-    height: 100% !important;
+    height: 120px !important;
+    overflow: hidden;
 }
-
+/*******************
+end of Styles for images
+*******************/
 #wrap {
 	min-height: 100%;
 	height: auto !important;
 	/*height: 100%;*/
 	margin: 0 auto -61px;
 }
-
 .text-top{
   vertical-align: text-top;
   margin-left: 3px;
 }
-
 .tab-content{
   overflow:auto;
 }
-
 #nav-push {
  height: 60px;
 }
-
 #push {
 	height: 80px;
 }
