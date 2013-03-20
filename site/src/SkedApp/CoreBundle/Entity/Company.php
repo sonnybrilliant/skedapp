@@ -121,8 +121,8 @@ class Company
      * @Assert\File(
      * maxSize="1M",
      * maxSizeMessage= "The file is too large ({{ size }}). Allowed maximum size is {{ limit }}",
-     * mimeTypes = {"image/jpeg", "image/jpg"},
-     * mimeTypesMessage = "Please upload a valid image file, we current only support jpeg.",
+     * mimeTypes = {"image/jpeg", "image/jpg" , "image/png"},
+     * mimeTypesMessage = "Please upload a valid image file, we only support jpeg and png",
      * uploadErrorMessage = "The file could not be uploaded"
      * )
      */
