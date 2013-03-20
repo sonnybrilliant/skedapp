@@ -11,8 +11,8 @@ sked_app_booking_create:
     defaults: { _controller: SkedAppBookingBundle:Booking:create }
 
 sked_app_booking_edit:
-    pattern:  /booking/edit/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:edit }
+    pattern:  /booking/edit/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:edit , _format: html}
     requirements:
         bookingId:  \d+
 
