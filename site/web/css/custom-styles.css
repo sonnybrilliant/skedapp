@@ -43,23 +43,23 @@ Styles for images
 end of Styles for images
 *******************/
 #wrap {
-	min-height: 100%;
-	height: auto !important;
-	/*height: 100%;*/
-	margin: 0 auto -61px;
+    in-height: 100%;
+    height: auto !important;
+    /*height: 100%;*/
+    margin: 0 auto -61px;
 }
 .text-top{
-  vertical-align: text-top;
-  margin-left: 3px;
+    vertical-align: text-top;
+    margin-left: 3px;
 }
 .tab-content{
-  overflow:auto;
+    overflow:auto;
 }
 #nav-push {
- height: 60px;
+    height: 60px;
 }
 #push {
-	height: 80px;
+    height: 80px;
 }
 
 /* Removed by Otto on 28 Deb 2013
@@ -744,22 +744,21 @@ Footer Styles
 }
 
 .map-container {
-	background-color: #ffffff;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    background-color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     margin-right: 1.7em;
     padding: 1em;
 }
-
 .map-box #map_canvas {
     border: none;
     background-color: #FFFFFF;
     border-radius: 5px;
     height: 320px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .map-box-instructions {
