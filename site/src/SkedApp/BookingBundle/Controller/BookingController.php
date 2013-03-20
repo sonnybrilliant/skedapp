@@ -746,7 +746,7 @@ class BookingController extends Controller
         $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($timeSlotStart));
         $timeSlotEnd = new \DateTime($timeSlotStart);
 
-        $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
+        $timeSlotEnd = $timeSlotEnd->add(new \DateInterval('PT' . $service->getAppointmentDuration()->getDuration() . 'M'));
 
         $form = $this->createForm(new BookingMakeType(
                 $companyId,
@@ -875,9 +875,11 @@ class BookingController extends Controller
 
                 $isValid = true;
                 $errMsg = "";
+                
 
 //                $booking->setStartTimeslot($this->get('timeslots.manager')->getById($values['startTimeslot']));
                 $booking->setEndTimeslot($this->get('timeslots.manager')->getById($booking->getStartTimeslot()->getId() + $consultant->getAppointmentDuration()->getId()));
+                //$booking->setEndTimeslot($this->get('timeslots.manager')->getById(36));
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
