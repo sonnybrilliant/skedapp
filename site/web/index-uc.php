@@ -47,7 +47,7 @@
             }
 
             .divSubmitForm {
-                padding-top: 42px;
+                padding-top: 12px;
             }
 
             .inpEMail {
@@ -101,10 +101,10 @@
                             We will be live soon!
                             <br />
                             <h4>BUT</h4>
-                            Don't leave yet, give us your e-mail address and you will receive PREFERRENTIAL access to our website!
+                            Don't leave yet, give us your e-mail address and you will receive PREFERENTIAL access to our website!
                         </p><br />
                         <div class="divSubmitForm">
-                        <form action="index-uc.php" method="post">
+                        <form action="index.php" method="post">
                             <input type="text" class="inpEMail" value="<?php echo $strValue; ?>" onfocus="if (this.value == 'your e-mail address') { this.value = ''; }"
                                    onblur="if (this.value == '') { this.value = 'your e-mail address'; }" name="email" />
                             <br /><br />
