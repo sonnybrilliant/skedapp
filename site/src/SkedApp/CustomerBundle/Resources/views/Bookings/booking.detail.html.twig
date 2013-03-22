@@ -7,90 +7,118 @@
 {% endblock %}
 
 {% block body %}
-<div class="row-fluid body-secondary">
-    <div class="span12">
-        <h3>Booking details</h3>
-        <div class="row-fluid">
-            <div class="span5">
-                <div class="confirm-background height100">
-                    <ul class="unstyled space-left pull-left">
-                        <li>
-                            <div class="divPrompt whiteText">Service Provider:</div>
+<div class="row-fluid body-main rounded-all">
+    <div class="span5">
+        <div class="consultant-background rounded-left">
+            <h3>My Booking Details</h3>
+            <div class="white-bg">
+                <table class="gray-text">
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Service Provider:</div>
                             <div class="divValue">
-                                {% if file_exists(web_path~asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path)) %}
+                            {% if file_exists(web_path~asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path)) %}
                                 <div class="img-polaroid polaroid-width120">
                                     <div class="image-dimensions120">
                                         <img src="{{ asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path) }}" width="120" class="space-right"/>
                                     </div>
                                 </div>
-                                {% endif %}
-                                <span class="gray-text"><strong>{{ booking.consultant.company.name }}</strong></span>
+                            {% endif %}
+                            <span><strong>{{ booking.consultant.company.name }}</strong></span>
                             </div>
                             <div class="clearfix"></div>
                             <div class="spacer1"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt whiteText">Consultant:</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Consultant:</div>
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
-                                 <div class="img-polaroid polaroid-width120">
+                                <div class="img-polaroid polaroid-width120">
                                     <div class="image-dimensions120">
                                         <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="120" class="space-right"/>
                                     </div>
-                                 </div>
-                                 {% else %}
-                                      {% if booking.consultant.gender.name == "Male" %}
-                                 <div class="img-polaroid polaroid-width120">
-                                     <div class="image-dimensions120">
-                                         <img src="{{ asset('/img/male.jpg') }}" width="120" class="space-right"/>
-                                     </div>
-                                 </div>
-                                 {% else %}
-                                 <div class="img-polaroid polaroid-width120">
-                                     <div class="image-dimensions120">
-                                         <img src="{{ asset('/img/female.jpg') }}" width="120" class="space-right"/>
-                                     </div>
-                                 </div>
-                                 {% endif %}
-                                 {% endif %}
-                                 <span class="gray-text"><strong>{{ booking.consultant.getFullName() }}</strong></span>
+                                </div>
+                                {% else %}
+                                {% if booking.consultant.gender.name == "Male" %}
+                                <div class="img-polaroid polaroid-width120">
+                                    <div class="image-dimensions120">
+                                        <img src="{{ asset('/img/male.jpg') }}" width="120" class="space-right"/>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="img-polaroid polaroid-width120">
+                                    <div class="image-dimensions120">
+                                        <img src="{{ asset('/img/female.jpg') }}" width="120" class="space-right"/>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                                <span><strong>{{ booking.consultant.getFullName() }}</strong></span>
                             </div>
                             <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt whiteText">Location:</div>
-                            <div class="divValue whiteText">
-                                <span class="gray-text"><strong>{{ booking.consultant.company.address }}</strong></span><br />
+                            <hr />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Location:</div>
+                            <div class="divValue">
+                                <span><strong>{{ booking.consultant.company.address }}</strong></span><br />
                                 <span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.
                             </div>
                             <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt whiteText">Contact Number:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.consultant.company.contactNumber }}</strong></span></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt whiteText">Service:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.service.name }}</strong></span></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt whiteText">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.appointmentDateString }}</strong></span></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt whiteText">Appointment Time:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.startTimeSlot.slot }} - {{ booking.endTimeSlot.slot }}</strong></span></div>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="span7">
-                <div class="map-box">
-                     <div class="map-container map-margin-fix">
-                        {{ google_map_container(map) }}
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Contact Number:</div>
+                            <div class="divValue">
+                                <span><strong>{{ booking.consultant.company.contactNumber }}</strong></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Service:</div>
+                            <div class="divValue">
+                                <span><strong>{{ booking.service.name }}</strong></span>
+                            </div>
+                            <div class="clearfix"></div>
+                            <hr />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Appointment Date:</div>
+                            <div class="divValue">
+                                <span><strong>{{ booking.appointmentDateString }}</strong></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="divPrompt">Appointment Time:</div>
+                            <div class="divValue">
+                                <span><strong>{{ booking.startTimeSlot.slot }} - {{ booking.endTimeSlot.slot }}</strong></span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="clearfix"></div>
         </div>
-    </div> <!-- Dashboard Content -->
+    </div>
+    <div class="span7">
+        <h3>Location Details</h3>
+        <div class="map-box pad-right20">
+            <div class="map-container map-margin-fix">
+                {{ google_map_container(map) }}
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
 </div>
 {{ google_map_js(map) }}
 {% endblock body %}
