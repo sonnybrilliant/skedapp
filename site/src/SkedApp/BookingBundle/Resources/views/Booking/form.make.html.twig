@@ -18,8 +18,10 @@
                             <div class="divValue">
                                 {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
                                 
-                                <div class="image-dimensions120 img-polaroid">
-                                    <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="120" />
+                                <div class="img-polaroid polaroid-width120">
+                                    <div class="image-dimensions120>
+                                        <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="120" />
+                                    </div>
                                 </div>
                                 {% endif %}
                                 <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
