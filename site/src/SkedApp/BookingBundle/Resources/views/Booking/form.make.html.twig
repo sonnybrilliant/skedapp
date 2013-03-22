@@ -42,15 +42,16 @@
                                 <div class="divValue">
                                     <table>
                                         <tr>
-                                            <td colspan="2">
+                                            <td width="30%">Consultant</td>
+                                            <td width="70%">
                                                 <strong>{{ consultant.getFullName() }}</strong>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="30%">
+                                            <td>
                                                 Service:
                                             </td>
-                                            <td width="70%">
+                                            <td>
                                                 <strong>{{ booking_service }}</strong>
                                             </td>
                                         </tr>
@@ -83,9 +84,10 @@
                         </ul>
                         <div class="clearfix"></div>
                     </div>
+                <div class="spacer1"></div>
                 <label>Add Notes:</label>
-                <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
                 {{ form_widget(form.description) }}
+                <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
                 <div class="spacer1"></div>
                 <div class="submitButton">
                     <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
