@@ -12,67 +12,92 @@
                 {{ form_widget(form.service) }}
                 
                     <h3>Appointment Details</h3>
-                    <ul class="unstyled space-left pull-left">
-                        <li>
-                            <div class="divPrompt">Service Provider:</div>
-                            <div class="divValue">
-                                {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
-                                
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120>
-                                        <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="120" />
+                    <div class="white-bg">
+                        <ul class="unstyled space-left gray-text">
+                            <li>Consultant:</li>
+                            <li>
+                                <div class="divPrompt">
+                                    {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="120" />
+                                        </div>
                                     </div>
-                                </div>
-                                {% endif %}
-                                <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
-                                <div class="spacer1"></div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Consultant:</div>
-                            <div class="divValue">
-                                {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120">
-                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="120" />
+                                    {% else %}
+                                    {% if consultant.gender.name == "Male" %}
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120>
+                                            <img src="{{ asset('/img/male.jpg') }}" width="120" />
+                                        </div>
                                     </div>
-                                </div>
-                                {% else %}
-                                {% if consultant.gender.name == "Male" %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120>
-                                        <img src="{{ asset('/img/male.jpg') }}" width="120" />
+                                    {% else %}
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('/img/female.jpg') }}" width="120" />
+                                        </div>
                                     </div>
+                                    {% endif %}
+                                    {% endif %}
                                 </div>
-                                {% else %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120">
-                                        <img src="{{ asset('/img/female.jpg') }}" width="120" />
+                                <div class="divValue">
+                                    <table>
+                                        <tr>
+                                            <td width="35%">Name:</td>
+                                            <td  width="65%">
+                                                <strong>{{ consultant.getFullName() }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Service:
+                                            </td>
+                                            <td>
+                                                <strong>{{ booking_service }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top">
+                                                Location:
+                                            </td>
+                                            <td>
+                                                <strong>{{ consultant.company.address }}</strong><br />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="clearfix"></div>
+                            </li>
+                            <li>
+                                <div class="divPrompt">Service Provider:</div>
+                                <div class="divValue">
+                                    {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
+
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120>
+                                            <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="120" />
+                                        </div>
                                     </div>
+                                    {% endif %}
+                                    <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
+                                    <div class="spacer1"></div>
                                 </div>
-                                {% endif %}
-                                {% endif %}
-                                <span class="gray-text"><strong>{{ consultant.getFullName() }}</strong></span>
-                            </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Location:</div> <div class="divValue"><span class="gray-text"><strong>{{ consultant.company.address }}</strong></span></div>
-                            <div class="divValue"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Service:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_service }}</strong></span></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_date }}</strong></span></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Appointment Time:</div>
-                            <div class="divValue"><span class="gray-text"><strong>{{ booking_time_start }} - {{ booking_time_end }}</strong></span></div>
-                        </li>
-                    </ul>
+                                <div class="clearfix"></div>
+                            </li>
+                            <li>
+                                 <div class="divValue"><span class="gray-text"></span></div>
+                                <div class="divValue"></div>
+                                <div class="clearfix"></div>
+                            </li>
+                            <li>
+                                <div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_date }}</strong></span></div>
+                            </li>
+                            <li>
+                                <div class="divPrompt">Appointment Time:</div>
+                                <div class="divValue"><span class="gray-text"><strong>{{ booking_time_start }} - {{ booking_time_end }}</strong></span></div>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
                 <label>Add Notes:</label>
                 {{ form_widget(form.description) }}
                 <div class="spacer1"></div>
@@ -88,6 +113,7 @@
         <div class="map-box">
             <h3>Location Details</h3>
             {{ google_map_container(map) }}
+            <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</span>
         </div>
     </div>
 </div> <!-- End .row-fluid -->
