@@ -42,17 +42,22 @@
                                 <div class="divValue">
                                     <table>
                                         <tr>
-                                            <td width="35%">Name:</td>
-                                            <td  width="65%">
+                                            <td colspan="2">
                                                 <strong>{{ consultant.getFullName() }}</strong>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td width="30%">
                                                 Service:
                                             </td>
-                                            <td>
+                                            <td width="70%">
                                                 <strong>{{ booking_service }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Service Provider:</td>
+                                            <td>
+                                                <strong>{{ consultant.company.name }}</strong>
                                             </td>
                                         </tr>
                                         <tr>
@@ -68,27 +73,7 @@
                                 <div class="clearfix"></div>
                             </li>
                             <li>
-                                <div class="divPrompt">Service Provider:</div>
-                                <div class="divValue">
-                                    {% if file_exists(web_path~asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path)) %}
-
-                                    <div class="img-polaroid polaroid-width120">
-                                        <div class="image-dimensions120>
-                                            <img src="{{ asset('uploads/companies/'~consultant.company.id~'.'~consultant.company.path) }}" width="120" />
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                    <span class="gray-text"><strong>{{ consultant.company.name }}</strong></span>
-                                    <div class="spacer1"></div>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                 <div class="divValue"><span class="gray-text"></span></div>
-                                <div class="divValue"></div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
+                                <div class="spacer1"></div>
                                 <div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_date }}</strong></span></div>
                             </li>
                             <li>
@@ -99,10 +84,11 @@
                         <div class="clearfix"></div>
                     </div>
                 <label>Add Notes:</label>
+                <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
                 {{ form_widget(form.description) }}
                 <div class="spacer1"></div>
                 <div class="submitButton">
-                    <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+                    <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
                 </div>
                 <div class="spacer1"></div>
                 {{ form_rest(form) }}
