@@ -39,6 +39,12 @@ Styles for images
     max-height: 120px !important;
     overflow: hidden;
 }
+
+.image-404{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 /*******************
 Media Queries for screens with a width smaller than 1024
 *******************/
@@ -152,6 +158,11 @@ end of Styles for images
 	background-color: #FFFFFF;
         border: 1px solid #ddd;
         padding: 10px;
+}
+.error-text-404 {
+  font-family: inherit;
+  color: #333;
+  text-align: center;
 }
 .whiteText{
     color: #ffffff;
