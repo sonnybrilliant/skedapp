@@ -102,6 +102,7 @@ final class TimeslotsManager
 
     /**
      * Get timeslot by time
+     * 
      * @param string $time
      * @return SkedAppCoreBundle:Timeslots
      * @throws \Exception
@@ -118,5 +119,6 @@ final class TimeslotsManager
 
         return $timeslot;
     }
+
 
 }
