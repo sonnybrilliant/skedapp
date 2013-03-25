@@ -12,102 +12,97 @@
                 {{ form_widget(form.service) }}
                 
                     <h3>Appointment Details</h3>
-                    <div class="white-bg">
-                        <ul class="unstyled space-left gray-text">
-                            <li>Consultant:</li>
-                            <li>
-                                <div class="divPrompt">
-                                    {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                    <div class="img-polaroid polaroid-width120">
-                                        <div class="image-dimensions120">
-                                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="120" />
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    {% if consultant.gender.name == "Male" %}
-                                    <div class="img-polaroid polaroid-width120">
-                                        <div class="image-dimensions120>
-                                            <img src="{{ asset('/img/male.jpg') }}" width="120" />
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    <div class="img-polaroid polaroid-width120">
-                                        <div class="image-dimensions120">
-                                            <img src="{{ asset('/img/female.jpg') }}" width="120" />
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                    {% endif %}
+                    <div class="row-fluid whiteBackground gray-text">
+                        <div class="span5 pad-left">
+                            Consultant:                        
+                            {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
                                 </div>
-                                <div class="divValue">
-                                    <table>
-                                        <tr>
-                                            <td width="35%">Consultant</td>
-                                            <td width="65%">
-                                                <strong>{{ consultant.getFullName() }}</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Service:
-                                            </td>
-                                            <td>
-                                                <strong class="label label-info">{{ booking_service }}</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Appointment Date:</td>
-                                            <td valign="bottom">
-                                                <strong>{{ booking_date }}</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Appointment Time:</td>
-                                            <td valign="bottom">
-                                                <strong>{{ booking_time_start }} - {{ booking_time_end }}</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Service Provider:</td>
-                                            <td valign="bottom">
-                                                <strong>{{ consultant.company.name }}</strong>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td valign="top">
-                                                Location:
-                                            </td>
-                                            <td>
-                                                <strong>{{ consultant.company.address }}</strong><br />
-                                            </td>
-                                        </tr>
-                                    </table>
+                            </div>
+                            {% else %}
+                            {% if consultant.gender.name == "Male" %}
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120>
+                                    <img src="{{ asset('/img/male.jpg') }}" />
                                 </div>
-                                <div class="clearfix"></div>
-                            </li>
-                        </ul>
+                            </div>
+                            {% else %}
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('/img/female.jpg') }}" />
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="span7">
+                            <table>
+                                <tr>
+                                    <td width="35%">Consultant</td>
+                                    <td width="65%">
+                                        <strong>{{ consultant.getFullName() }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Service:
+                                    </td>
+                                    <td>
+                                        <strong class="label label-info">{{ booking_service }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Appointment Date:</td>
+                                    <td valign="bottom">
+                                        <strong>{{ booking_date }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Appointment Time:</td>
+                                    <td valign="bottom">
+                                        <strong>{{ booking_time_start }} - {{ booking_time_end }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Service Provider:</td>
+                                    <td valign="bottom">
+                                        <strong>{{ consultant.company.name }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">
+                                        Location:
+                                    </td>
+                                    <td>
+                                        <strong>{{ consultant.company.address }}</strong><br />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
-                <div class="spacer1"></div>
-                <label>Add Notes:</label>
-                {{ form_widget(form.description) }}
-                <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
-                <div class="spacer1"></div>
-                <div class="submitButton">
-                    <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
-                </div>
-                <div class="spacer1"></div>
-                {{ form_rest(form) }}
-            </form>
+                    <div class="spacer1"></div>
+                    <label>Add Notes:</label>
+                    {{ form_widget(form.description) }}
+                    <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
+                    <div class="spacer1"></div>
+                    <div class="submitButton">
+                        <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+                    </div>
+                    <div class="spacer1"></div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="span7">
-        <div class="map-box">
-            <div class="spacer1"></div>
-            <h3>Location Details</h3>
-            {{ google_map_container(map) }}
-            <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</span>
+        <div class="span7">
+            <div class="map-box">
+                <div class="spacer1"></div>
+                <h3>Location Details</h3>
+                {{ google_map_container(map) }}
+                <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</span>
+            </div>
         </div>
-    </div>
-</div> <!-- End .row-fluid -->
-{{ tinymce_init() }}
+    </div> <!-- End .row-fluid -->
+    {{ tinymce_init() }}

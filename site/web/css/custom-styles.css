@@ -36,8 +36,21 @@ Styles for images
 
 .image-dimensions120 {
     width: 120px !important;
-    height: 120px !important;
+    max-height: 120px !important;
     overflow: hidden;
+}
+/*******************
+Media Queries for screens with a width smaller than 1024
+*******************/
+@media only screen and (max-width: 1024px) {
+    .image-dimensions120 {
+        width: 100px !important;
+        max-height: 100px !important;
+        overflow: hidden;
+    }
+    .polaroid-width120 {
+        width: 100px;
+    }
 }
 /*******************
 end of Styles for images
