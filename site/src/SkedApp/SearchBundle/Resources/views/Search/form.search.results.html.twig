@@ -8,7 +8,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="span5">
-        <div class="results-background">
+        <div class="booking-background rounded-top-right">
             <form class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
                 <fieldset>
                     <div class="{% if form_errors(form.category) %} error {% endif %}">
@@ -47,7 +47,7 @@
 
                     </div>
                     <div class="submitButton">
-                        <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+                        <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
                 <div class="clearfix"></div>
                 <div class="spacer2"></div>    
                 </div>

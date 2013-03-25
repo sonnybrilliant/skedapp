@@ -4,7 +4,7 @@
     </div>
     <div class="clearfix"></div>
     <div class="span5">
-        <div class="confirm-background rounded-confirm">
+        <div class="booking-background rounded-cross">
             <form action="{{ path('sked_app_booking_made') }}" method="POST" {{ form_enctype(form) }}>
                 {{ form_widget(form.appointmentDate) }}
                 {{ form_widget(form.startTimeslot) }}
@@ -95,7 +95,7 @@
                     <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
                     <div class="spacer1"></div>
                     <div class="submitButton">
-                        <button type="submit" name="submit" class="btn btn-primary pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+                        <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
                     </div>
                     <div class="spacer1"></div>
                     {{ form_rest(form) }}
