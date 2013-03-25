@@ -42,8 +42,8 @@
                                 <div class="divValue">
                                     <table>
                                         <tr>
-                                            <td width="30%">Consultant</td>
-                                            <td width="70%">
+                                            <td width="35%">Consultant</td>
+                                            <td width="65%">
                                                 <strong>{{ consultant.getFullName() }}</strong>
                                             </td>
                                         </tr>
@@ -52,12 +52,24 @@
                                                 Service:
                                             </td>
                                             <td>
-                                                <strong>{{ booking_service }}</strong>
+                                                <strong class="label label-info">{{ booking_service }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Appointment Date:</td>
+                                            <td valign="bottom">
+                                                <strong>{{ booking_date }}</strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Appointment Time:</td>
+                                            <td valign="bottom">
+                                                <strong>{{ booking_time_start }} - {{ booking_time_end }}</strong>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Service Provider:</td>
-                                            <td>
+                                            <td valign="bottom">
                                                 <strong>{{ consultant.company.name }}</strong>
                                             </td>
                                         </tr>
@@ -72,14 +84,6 @@
                                     </table>
                                 </div>
                                 <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="spacer1"></div>
-                                <div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking_date }}</strong></span></div>
-                            </li>
-                            <li>
-                                <div class="divPrompt">Appointment Time:</div>
-                                <div class="divValue"><span class="gray-text"><strong>{{ booking_time_start }} - {{ booking_time_end }}</strong></span></div>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
