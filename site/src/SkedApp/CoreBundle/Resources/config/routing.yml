@@ -22,4 +22,8 @@ sked_app_invite_friends_consultant:
     defaults: { _controller: SkedAppCoreBundle:Invite:inviteConsultant , _format: html }
     requirements:
         _method: GET|POST 
-        _format:  html        
+        _format:  html   
+
+_security_access_denied:
+    pattern:  /accessdenied  
+    defaults: { _controller: SkedAppCoreBundle:Security:accessDenied , _format: html }        
