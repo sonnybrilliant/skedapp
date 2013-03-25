@@ -1,11 +1,14 @@
 {% extends "SkedAppCoreBundle::security.layout.html.twig" %}
-{% block title %}{% endblock %}
+{% block display_logo %}
+
+{% endblock display_logo %}
+{% block title %}Access Denied{% endblock %}
 
 {% block body %}
         <div style="margin-top: 8%;">
-        <h3 class="error-text-404">403 Access Denied</h3>
-        <h4 class="error-text-404">You do not have restricted permissions, you cannot view content.</h4>
-        <img class="image-404" src="../img/404-error.png">
-        <h4 class="error-text-404">Click <a href="">here</a> to return to the homepage</h4>
+        <p class="error-text-404">403 Access Denied</p>
+        <p class="error-text-404">You do not have restricted permissions, you cannot view content.</p>
+        <img class="image-404" src="{{ asset('/img/404-error.png') }}">
+        <p class="error-text-404">Click <a href="">here</a> to return to the homepage</p>
         </div>
 {% endblock body %}
