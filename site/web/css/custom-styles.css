@@ -39,6 +39,12 @@ Styles for images
     height: 120px !important;
     overflow: hidden;
 }
+
+.image-404{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 /*******************
 end of Styles for images
 *******************/
@@ -139,6 +145,11 @@ end of Styles for images
 	background-color: #FFFFFF;
         border: 1px solid #ddd;
         padding: 10px;
+}
+.error-text-404 {
+  font-family: inherit;
+  color: #333;
+  text-align: center;
 }
 .whiteText{
     color: #ffffff;
