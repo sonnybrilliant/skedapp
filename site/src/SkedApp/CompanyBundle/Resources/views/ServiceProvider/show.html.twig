@@ -1,5 +1,5 @@
 {% extends "SkedAppCompanyBundle::layout.html.twig" %}
-{% block title %}Service Provider Profile{% endblock %}
+{% block title %}SkedApp | Service Provider Profile{% endblock %}
 
 {% block alert %}
     {% include "::alert.html.twig" %}
@@ -11,8 +11,14 @@
     <div class="span6">
         
             <h3>Service Provider Profile</h3>
-            <div class="whiteBackground">
-                <img src="{{ asset('/uploads/companies/'~company.id~'.'~company.path) }}" style="width:140px; height:140px" class="space-left space-right pull-left img-polaroid"/>
+            <div class="white-bg">
+                <div class="image-shadow pull-left space-right20">
+                    <div class="img-polaroid polaroid-width120">
+                        <div class="image-dimensions120">
+                            <img src="{{ asset('/uploads/companies/'~company.id~'.'~company.path) }}" />
+                        </div>
+                    </div>
+                </div>
                 <table class="pad-right gray-text">
                     <tr>
                         <td><strong>Name: </strong></td>
