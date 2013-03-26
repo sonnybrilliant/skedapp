@@ -16,22 +16,28 @@
                         <div class="row-fluid">
                             <div class="span4">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120">
-                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                                        </div>
                                     </div>
                                 </div>
                                 {% else %}
                                 {% if consultant.gender.name == "Male" %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120>
-                                        <img src="{{ asset('/img/male.jpg') }}" />
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120>
+                                            <img src="{{ asset('/img/male.jpg') }}" />
+                                        </div>
                                     </div>
                                 </div>
                                 {% else %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120">
-                                        <img src="{{ asset('/img/female.jpg') }}" />
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('/img/female.jpg') }}" />
+                                        </div>
                                     </div>
                                 </div>
                                 {% endif %}

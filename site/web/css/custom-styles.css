@@ -39,7 +39,13 @@ Styles for images
     max-height: 120px !important;
     overflow: hidden;
 }
-
+.image-shadow {
+    width: 130px;
+    height: 138px;
+    background-image: url('../img/image-shadow.png');
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
 .image-404{
   display: block;
   margin-left: auto;
@@ -56,6 +62,13 @@ Media Queries for screens with a width smaller than 1024
     }
     .polaroid-width120 {
         width: 90px;
+    }
+    .image-shadow {
+        width: 100px;
+        height: 106px;
+        background-image: url('../img/image-shadow100.png');
+        background-position: bottom;
+        background-repeat: no-repeat;
     }
 }
 /*******************
@@ -352,16 +365,16 @@ Generic Styles
 Page Styles
 *********************/
 .logo {
-	padding-left: 1.25em;
+    padding-left: 1.25em;
 }
 
 .logo-other {
-  display: block;
-  margin-top: 0.1em;
-  padding-left: 3.75em;
-  padding-bottom: 2em;
-  padding-top: 1.1em;
-  width: auto;
+    display: block;
+    margin-top: 0.1em;
+    padding-left: 3.75em;
+    padding-bottom: 2em;
+    padding-top: 1.1em;
+    width: auto;
 }
 
 .date-time{
