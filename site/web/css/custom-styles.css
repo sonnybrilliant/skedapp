@@ -24,6 +24,7 @@ Styles for images
 *******************/
 .polaroid-width120 {
     width: 120px;
+    height: 120px;
 }
 .polaroid-width180 {
     width: 180px;
@@ -62,6 +63,7 @@ Media Queries for screens with a width smaller than 1024
     }
     .polaroid-width120 {
         width: 90px;
+        height: 90px;
     }
     .image-shadow {
         width: 100px;
