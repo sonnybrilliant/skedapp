@@ -5,10 +5,10 @@
 {% block title %}SkedApp | Access Denied{% endblock %}
 
 {% block body %}
-        <div style="margin-top: 8%;">
-        <h2 class="error-text-404">403 Access Denied</h2>
-        <p class="error-text-404">You do not have restricted permissions, you cannot view content.</p>
-        <img class="image-404" src="{{ asset('/img/404-error.png') }}">
-        <p class="error-text-404">Click <a href="">here</a> to return to the homepage</p>
-        </div>
+ <div style="margin-top: 8%;">
+    <h2 class="error-text-404">Access Denied</h2>
+    <p class="error-text-404">You do not have sufficient permissions to access this page.</p>
+    <img class="image-404" src="{{ asset('/img/404-error.png') }}">
+    <p class="error-text-404">Click <a href="{{ path('_welcome')}}" title="Go to home page">here</a> to return to the homepage.</p>
+ </div>
 {% endblock body %}
