@@ -829,7 +829,7 @@ Dashboard Navigation
 	background-color: #0394c8 !important;
 
 }
-.table-bordered {
+.body-secondary .table-bordered {
     border-top: none;
     border-right: none;
 }
@@ -838,7 +838,7 @@ Dashboard Navigation
     -moz-border-radius-topright: 0px !important;
     border-top-right-radius: 0px !important;
 }
-tr td:last-of-type {
+.body-secondary  tr td:last-of-type {
     border-right: 1px solid #DDDDDD;
 } 
 .table-heading-orange {
