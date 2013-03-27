@@ -28,6 +28,10 @@ _security_access_denied:
     pattern:  /accessdenied  
     defaults: { _controller: SkedAppCoreBundle:Security:accessDenied , _format: html }  
     
+_test_internal_error:
+    pattern:  /test500  
+    defaults: { _controller: SkedAppCoreBundle:Security:test500 , _format: html } 
+    
 _test_time_slots:
     pattern:  /testtime  
     defaults: { _controller: SkedAppCoreBundle:Security:test , _format: html }  

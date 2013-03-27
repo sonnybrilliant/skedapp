@@ -72,7 +72,12 @@ class SecurityController extends Controller
     {
         $consultant = $this->get('consultant.manager')->getById(1);
         //$this->get('timeslots.manager')->generateTimeSlots($consultant);
-        throw new \Exception('hello');
+        //throw new \Exception('hello');
         //exit('hello');
+    }
+    
+    public function test500Action()
+    {
+        throw new \Exception('oops');
     }
 }
