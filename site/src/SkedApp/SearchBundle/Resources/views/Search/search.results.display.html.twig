@@ -64,7 +64,13 @@ var currentServiceId = {{ options.service.id }};
           <tr>
             <td>
                {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                    <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="138" class="img-polaroid span4"/>
+                    <div class="image-shadow span5">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                            </div>
+                        </div>
+                    </div>
                 {% else %}
                     {% if consultant.gender.name == "Male" %}
                     <div class="image-shadow span5">
