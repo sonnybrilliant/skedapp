@@ -18,8 +18,8 @@ var currentServiceId = {{ options.service.id }};
     <div class="span12">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">
           <tr>
-            <th scope="col" class="table-heading-blue"><i class="icon-folder-open icon-white"></i> Choose a Consultant</th>
-            <th scope="col" class="table-heading-blue" colspan="7"><i class="icon-calendar icon-white"></i> Choose an Appointment Date</th>
+            <th scope="col" class="table-heading-blue header-cutout"><i class="icon-folder-open icon-white"></i> Choose a Consultant</th>
+            <th scope="col" class="table-heading-blue header-cutout no-rounded-corner" colspan="7"><i class="icon-calendar icon-white"></i> Choose an Appointment Date</th>
           </tr>
           <tr>
             <td width="30%" class="table-valign">
@@ -63,28 +63,21 @@ var currentServiceId = {{ options.service.id }};
 
           <tr>
             <td>
-               {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                    <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="138" class="img-polaroid span4"/>
-                {% else %}
-                    {% if consultant.gender.name == "Male" %}
-                    <div class="image-shadow span5">
-                        <div class="img-polaroid polaroid-width120">
-                            <div class="image-dimensions120">
-                                <img src="{{ asset('/img/male.jpg') }}" />
-                            </div>
+                <div class="image-shadow span5">
+                    <div class="img-polaroid polaroid-width120">
+                        <div class="image-dimensions120">
+                        {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                        {% else %}
+                        {% if consultant.gender.name == "Male" %}
+                            <img src="{{ asset('/img/male.jpg') }}" />
+                        {% else %}
+                            <img src="{{ asset('/img/female.jpg') }}" />
+                        {% endif %}
+                        {% endif %}
                         </div>
                     </div>
-                    {% else %}
-                    <div class="image-shadow span5">
-                        <div class="img-polaroid polaroid-width120">
-                            <div class="image-dimensions120">
-                                <img src="{{ asset('/img/female.jpg') }}" />
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
-
-                {% endif %}
+                </div>
 
                 <div class="span7">
                     <div class="span2 pull-right">

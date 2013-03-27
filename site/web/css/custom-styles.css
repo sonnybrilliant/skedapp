@@ -70,7 +70,7 @@ Styles for images
 }
 .image-shadow {
     width: 130px;
-    height: 138px;
+    height: 137px;
     background-image: url('../img/image-shadow.png');
     background-position: bottom;
     background-repeat: no-repeat;
@@ -719,6 +719,7 @@ Button Styles by Arno Hattingh
 /*********************
 End of Button Styles
 *********************/
+
 /* Removed bby Otto on 28 Feb 2013
 .span7 .map-box {
 	padding: 1.25em;
@@ -733,16 +734,16 @@ End of Button Styles
 */
 
 .social-box {
-	padding: 0.5em;
+    padding: 0.5em;
     padding-right: 2.2em;
-	text-align: right;
+    text-align: right;
 }
 
 .facebook{
-  background-image:url('../img/fb.png');
-  height: 32px;
-  width: 32px;
-  position: absolute;
+    background-image:url('../img/fb.png');
+    height: 32px;
+    width: 32px;
+    position: absolute;
 }
 
 .twitter{
@@ -754,6 +755,11 @@ End of Button Styles
 
 .hint-box {
 	padding: 1.25em;
+}
+.header-cutout {
+    background-image: url('../img/header-cutout.png');
+    background-position: right;
+    background-repeat: no-repeat;
 }
 /*******************
 Dashboard Styles
@@ -783,11 +789,11 @@ Dashboard Navigation
     border-width: 1px;
     color: #FFFFFF;
     cursor: default;
-	position: relative;
-	z-index: 4;
-	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+    position: relative;
+    z-index: 4;
+    -moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+    -webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+    box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
 }
 .nav-tabs > li > a:hover,
 .nav-tabs > li > a:focus {
@@ -828,16 +834,28 @@ Dashboard Navigation
 	background-color: #0394c8 !important;
 
 }
+.table-bordered {
+    border-top: none;
+    border-right: none;
+}
+.no-rounded-corner {
+    -webkit-border-top-right-radius: 0px !important;
+    -moz-border-radius-topright: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+tr td:last-of-type {
+    border-right: 1px solid #DDDDDD;
+} 
 .table-heading-orange {
-	color: #FFFFFF;
-	background-color: #ff9c05 !important;
+    color: #FFFFFF;
+    background-color: #ff9c05 !important;
 }
 .table-heading-blue {
-	color: #FFFFFF;
-	background-color: #0393c6 !important;
+    color: #FFFFFF;
+    background-color: #0393c6 !important;
 }
 .table-heading-orange a{
-  color: #fff;
+    color: #fff;
 }
 .table-valign {
 	vertical-align: middle !important;
