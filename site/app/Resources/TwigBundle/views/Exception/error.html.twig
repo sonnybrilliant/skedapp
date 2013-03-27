@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <title>{% block title %}SkedApp | An Error Occurred: Not Found{% endblock %}</title>
+        <title>{% block title %}SkedApp | An Error Occurred{% endblock %}</title>
         <link href="{{ asset('/css/bootstrap.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/bootstrap-responsive.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/chosen.css') }}" rel="stylesheet">
@@ -16,14 +16,6 @@
         <link rel="shortcut icon" href="{{ asset('/ico/favicon.ico') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('/ico/favicon.ico') }}" />
         <!-- load dynamic style sheet -->
-        {% block stylesheets %}{% endblock %}
-        <!-- load jquery -->
-        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
-        <script language="JavaScript">
-            //Make sure address test value exists to avoid errors in search.js
-            var blnAddress = false;
-            var currentServiceId = 0;
-        </script>
 </head>
 <body>
 
@@ -33,7 +25,7 @@
      </div>
       <div id="nav-push"></div>
       <div class="container" style="margin-top: 8%;">
-      <h2 class="error-text-404">Oops! An Error Occurred</h2>
+      <h2 class="error-text-404">OOPS! An error occurred</h2>
         <p class="error-text-404">The server returned a "{{ status_code }} {{ status_text }}".</p>
         <div >
             <img class="image-404" src="{{ asset('/img/404-error.png') }}">

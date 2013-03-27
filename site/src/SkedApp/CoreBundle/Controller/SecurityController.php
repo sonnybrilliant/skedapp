@@ -71,8 +71,8 @@ class SecurityController extends Controller
     public function testAction()
     {
         $consultant = $this->get('consultant.manager')->getById(1);
-        $this->get('timeslots.manager')->generateTimeSlots($consultant);
-        
-        exit('hello');
+        //$this->get('timeslots.manager')->generateTimeSlots($consultant);
+        throw new \Exception('hello');
+        //exit('hello');
     }
 }
