@@ -16,22 +16,28 @@
                         <div class="row-fluid">
                             <div class="span4">
                                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120">
-                                        <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                                        </div>
                                     </div>
                                 </div>
                                 {% else %}
                                 {% if consultant.gender.name == "Male" %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120>
-                                        <img src="{{ asset('/img/male.jpg') }}" />
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120>
+                                            <img src="{{ asset('/img/male.jpg') }}" />
+                                        </div>
                                     </div>
                                 </div>
                                 {% else %}
-                                <div class="img-polaroid polaroid-width120">
-                                    <div class="image-dimensions120">
-                                        <img src="{{ asset('/img/female.jpg') }}" />
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('/img/female.jpg') }}" />
+                                        </div>
                                     </div>
                                 </div>
                                 {% endif %}
@@ -95,7 +101,7 @@
                     <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes If you have additional things you want to consultant to be aware of.</span>
                     <div class="spacer1"></div>
                     <div class="submitButton">
-                        <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+                        <button type="submit" name="submit" class="btn pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
                     </div>
                     <div class="spacer1"></div>
                     {{ form_rest(form) }}

@@ -20,10 +20,39 @@ html, body {
   height:100%;
 }
 /*******************
+Styles for alert boxes
+*******************/
+.alert-error {
+    background-color: #da1921 !important;
+    border-color: #AC131A;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.alert-error h4 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.close {
+    color: #FFFFFF;
+    opacity: 0.9;
+    text-shadow: none;
+}
+.alert-success {
+    background-color: #a6c630;
+    border-color: #849C26;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.alert-success h4 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+/*******************
 Styles for images
 *******************/
 .polaroid-width120 {
     width: 120px;
+    height: 120px;
 }
 .polaroid-width180 {
     width: 180px;
@@ -39,7 +68,13 @@ Styles for images
     max-height: 120px !important;
     overflow: hidden;
 }
-
+.image-shadow {
+    width: 130px;
+    height: 138px;
+    background-image: url('../img/image-shadow.png');
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
 .image-404{
   display: block;
   margin-left: auto;
@@ -56,6 +91,14 @@ Media Queries for screens with a width smaller than 1024
     }
     .polaroid-width120 {
         width: 90px;
+        height: 90px;
+    }
+    .image-shadow {
+        width: 100px;
+        height: 106px;
+        background-image: url('../img/image-shadow100.png');
+        background-position: bottom;
+        background-repeat: no-repeat;
     }
 }
 /*******************
@@ -352,48 +395,48 @@ Generic Styles
 Page Styles
 *********************/
 .logo {
-	padding-left: 1.25em;
+    padding-left: 1.25em;
 }
 
 .logo-other {
-  display: block;
-  margin-top: 0.1em;
-  padding-left: 3.75em;
-  padding-bottom: 2em;
-  padding-top: 1.1em;
-  width: auto;
+    display: block;
+    margin-top: 0.1em;
+    padding-left: 3.75em;
+    padding-bottom: 2em;
+    padding-top: 1.1em;
+    width: auto;
 }
 
-.date-time{
+.date-time {
   border: 1px solid #ccc;
   padding: 10px;
   width: 389px;
 }
-.start-time-container{
+.start-time-container {
   width: 198px;
 }
-.date-container{
+.date-container {
   width: 240px;
 }
 .time-slots {
   margin: 8px 8px 0 0;
   padding-top: 5px;
 }
-.space-right-bottom{
+.space-right-bottom {
   margin-bottom: 10px;
 }
 
-.space-right-bottom25{
+.space-right-bottom25 {
   margin-bottom: 25px;
 }
 
-#BookingMessage_messageText{
+#BookingMessage_messageText {
   width: 78%;
 }
-.bookingDetails{
+.bookingDetails {
   width: 100%;
 }
-.paddingBottom5px{
+.paddingBottom5px {
   margin-bottom: 5px;
 }
 .row-fluid.body-main .span5 {
@@ -593,41 +636,89 @@ Page Styles
   width: 100%;
 }
 select.span12{
-	border: 1px solid #bbb;
-	-moz-box-shadow: 0px 0px 0px #333333;
-	-webkit-box-shadow: 0px 0px 0px #333333;
-	box-shadow: 0px 0px 0px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	border: none;
+	-moz-box-shadow: 0px 2px 2px #555;
+	-webkit-box-shadow: 0px 2px 2px #555;
+	box-shadow: 0px 2px 2px #555;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 }
 .booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
 	-webkit-box-shadow: 0px 0px 5px #333333;
 	box-shadow: 0px 0px 5px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 }
 input.span12{
-	border: 1px solid #bbb;
-	-moz-box-shadow: 0px 0px 0px #333333;
-	-webkit-box-shadow: 0px 0px 0px #333333;
-	box-shadow: 0px 0px 0px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	border: none;
+	-moz-box-shadow: 0px 2px 2px #555;
+	-webkit-box-shadow: 0px 2px 2px #555;
+	box-shadow: 0px 2px 2px #555;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 	background-color:#FFFFFF;
 }
 .booking-background input.span12:active, .booking-background input.span12:focus, .forms-background input.span12:active, .forms-background input.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
 	-webkit-box-shadow: 0px 0px 5px #333333;
 	box-shadow: 0px 0px 5px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 }
-
+/*********************
+Button Styles by Arno Hattingh
+*********************/
+.btn {
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+    border: none;
+}
+.btn-danger {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-image: none;
+}
+.btn-info {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-image: none;
+}
+.btn-primary {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-image: none;
+}
+.btn-warning {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background-image: none;
+}
+.forms-background .btn-warning {
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+}
+.consultant-background .btn-warning {
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+}
+/*********************
+End of Button Styles
+*********************/
 /* Removed bby Otto on 28 Feb 2013
 .span7 .map-box {
 	padding: 1.25em;

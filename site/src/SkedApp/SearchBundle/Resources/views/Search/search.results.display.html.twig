@@ -67,14 +67,26 @@ var currentServiceId = {{ options.service.id }};
                     <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="82" height="138" class="img-polaroid span4"/>
                 {% else %}
                     {% if consultant.gender.name == "Male" %}
-                        <img src="{{ asset('/img/male.jpg') }}" width="82" height="118" class="img-polaroid span4" />
+                    <div class="image-shadow span5">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <img src="{{ asset('/img/male.jpg') }}" />
+                            </div>
+                        </div>
+                    </div>
                     {% else %}
-                        <img src="{{ asset('/img/female.jpg') }}" width="82" height="118" class="img-polaroid span4" />
+                    <div class="image-shadow span5">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <img src="{{ asset('/img/female.jpg') }}" />
+                            </div>
+                        </div>
+                    </div>
                     {% endif %}
 
                 {% endif %}
 
-                <div class="span8">
+                <div class="span7">
                     <div class="span2 pull-right">
                         <img src="{{ asset('img/assets/icons/service-icon' ~ count ~ '.png') }}" />
                     </div>

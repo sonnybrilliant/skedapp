@@ -1,6 +1,6 @@
 
 {% extends "SkedAppCustomerBundle::layout.customer.html.twig" %}
-{% block title %}My bookings{% endblock %}
+{% block title %}SkedApp | My Booking Details{% endblock %}
 
 {% block alert %}
     {% include "::alert.html.twig" %}
@@ -15,22 +15,28 @@
                 <div class="row-fluid">
                     <div class="span4">
                         {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
-                        <div class="img-polaroid polaroid-width120">
-                            <div class="image-dimensions120">
-                                <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="120" class="space-right"/>
+                        <div class="image-shadow">
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="120" class="space-right"/>
+                                </div>
                             </div>
                         </div>
                         {% else %}
                         {% if booking.consultant.gender.name == "Male" %}
-                        <div class="img-polaroid polaroid-width120">
-                            <div class="image-dimensions120">
-                                <img src="{{ asset('/img/male.jpg') }}" width="120" class="space-right"/>
+                        <div class="image-shadow">
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('/img/male.jpg') }}" width="120" class="space-right"/>
+                                </div>
                             </div>
                         </div>
                         {% else %}
-                        <div class="img-polaroid polaroid-width120">
-                            <div class="image-dimensions120">
-                                <img src="{{ asset('/img/female.jpg') }}" width="120" class="space-right"/>
+                        <div class="image-shadow">
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('/img/female.jpg') }}" width="120" class="space-right"/>
+                                </div>
                             </div>
                         </div>
                         {% endif %}

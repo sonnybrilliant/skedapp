@@ -1,6 +1,6 @@
 {% extends "SkedAppConsultantBundle::layout.html.twig" %}
 
-{% block title %}Consultant Profile{% endblock %}
+{% block title %}SkedApp | Consultant Profile{% endblock %}
 
 {% block menu %}
       {% set vars = {'controller': 'no_menu'} %}
@@ -18,25 +18,31 @@
         <h3>Consultant Profile</h3>
             <div class="white-bg">
                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                    <div class="img-polaroid polaroid-width120 pull-left space-right20">
-                        <div class="image-dimensions120">
-                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="120" height="120" />
+                    <div class="image-shadow pull-left space-right20">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="120" height="120" />
+                            </div>
                         </div>
                     </div>
                 {% else %}
                 {% if consultant.gender.name == "Male" %}
-                    <div class="img-polaroid polaroid-width120 pull-left space-right20">
-                        <div class="image-dimensions120">
-                            <img src="{{ asset('/img/male.jpg') }}" width="120" height="120" />
+                    <div class="image-shadow pull-left space-right20">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <img src="{{ asset('/img/male.jpg') }}" width="120" height="120" />
+                            </div>
                         </div>
                     </div>
                 {% else %}
-                    <div class="img-polaroid polaroid-width120 pull-left space-right20">
-                        <div class="image-dimensions120">
-                            <img src="{{ asset('/img/female.jpg') }}" width="120" height="120" />
+                    <div class="image-shadow pull-left space-right20">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <img src="{{ asset('/img/female.jpg') }}" width="120" height="120" />
+                            </div>
                         </div>
                     </div>
-                        {% endif %}
+                    {% endif %}
 
                 {% endif %}
                     <table class="gray-text">
