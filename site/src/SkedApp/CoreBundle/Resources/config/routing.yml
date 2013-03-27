@@ -26,4 +26,8 @@ sked_app_invite_friends_consultant:
 
 _security_access_denied:
     pattern:  /accessdenied  
-    defaults: { _controller: SkedAppCoreBundle:Security:accessDenied , _format: html }        
+    defaults: { _controller: SkedAppCoreBundle:Security:accessDenied , _format: html }  
+    
+_test_time_slots:
+    pattern:  /testtime  
+    defaults: { _controller: SkedAppCoreBundle:Security:test , _format: html }  
