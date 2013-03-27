@@ -20,6 +20,34 @@ html, body {
   height:100%;
 }
 /*******************
+Styles for alert boxes
+*******************/
+.alert-error {
+    background-color: #da1921 !important;
+    border-color: #AC131A;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.alert-error h4 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.close {
+    color: #FFFFFF;
+    opacity: 0.9;
+    text-shadow: none;
+}
+.alert-success {
+    background-color: #a6c630;
+    border-color: #849C26;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.alert-success h4 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+/*******************
 Styles for images
 *******************/
 .polaroid-width120 {
