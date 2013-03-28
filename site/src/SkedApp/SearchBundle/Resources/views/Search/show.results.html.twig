@@ -1,0 +1,104 @@
+<div class="row-fluid body-secondary rounded-bottom" id="results">
+    <div class="span12">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered table-striped">
+          <tr>
+            <th scope="col" class="header-cutout-1"><i class="icon-folder-open icon-white"></i> Choose a Consultant</th>
+            <th scope="col" class="header-cutout-2 no-rounded-corner" colspan="7"><i class="icon-calendar icon-white"></i> Choose an Appointment Date</th>
+          </tr>
+          <tr>
+            <td width="30%" class="table-valign">
+                <span class="large-thin-text">
+                    {% if service is defined %}
+                        {{ service.name }}
+                    {% endif %}
+                </span>
+            </td>
+            {% for day in  weekDays %}
+            <td width="10%">
+                <strong>{{ day.dayOfWeek }}</strong><br />
+                <span class="med-gray-text">{{ day.date }}</span>
+            </td>
+            {% endfor %}
+            
+          </tr>
+          {% set count = 0 %}
+          {% set previousCompany = 0 %}
+          
+          {% for results in data %}
+          
+          {% set  consultant = results.consultant %}
+          {% set  slots = results.slots %}
+          {% if previousCompany != consultant.company.id %}
+               {% set count = count + 1 %}
+          {% endif %}
+
+          {% set previousCompany = consultant.company.id %}
+          <tr>
+            <td>
+                <div class="image-shadow span5">
+                    <div class="img-polaroid polaroid-width120">
+                        <div class="image-dimensions120">
+                        {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                        {% else %}
+                        {% if consultant.gender.name == "Male" %}
+                            <img src="{{ asset('/img/male.jpg') }}" />
+                        {% else %}
+                            <img src="{{ asset('/img/female.jpg') }}" />
+                        {% endif %}
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span7">
+                    <div class="span2 pull-right">
+                        <img src="{{ asset('img/assets/icons/service-icon' ~ count ~ '.png') }}" />
+                    </div>
+
+                    <ul class="span10 unstyled">
+                        <li><a href="{{ path('sked_app_consultant_view', { 'id': consultant.id , 'slug': consultant.getSlug() , 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}">{{ consultant.fullName }}</a></li>
+                        <li>{% for service in consultant.consultantServices %}
+                                <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
+                            {% else %}
+                            {% endfor %}
+                        <li>{{ consultant.company.name }}</li>
+                        <li>{{ consultant.company.address }}</li>
+                        <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
+                    </ul>
+                </div>
+            </td>
+
+                {% for day in  weekDays %}   
+                 <td>
+                     {% for slotDay in slots %}
+                        {% if attribute(slotDay, 'dateObject')|date('Y-m-d') == day.dateObject|date('Y-m-d') %}
+                           <ul class="unstyled">
+                           {% set slotCouter = 0%}    
+                           {% for slot in attribute(slotDay,'timeSlots') %}
+                           {% set slotCouter = loop.index %}        
+                                <li class="{{ (loop.index > 5) ? 'hiddenTimeSlots li_consultant'~consultant.id : '' }}">
+                                  <a href="">{{ attribute(slot,'startTime')|date('H:i') }}</a>
+                                </li>                                
+                           {% endfor %}  
+                           {% if slotCouter > 5%}
+                                <li><a href="#" class="li_consultant_{{consultant.id}} showHiddenSlots" title="View more">more</a></li>
+                           {% endif %}
+                           </ul> 
+
+                        {% endif %} 
+                     {% endfor %}    
+                </td>
+                {% endfor %}
+            </tr>
+            {% else %}
+                <div>
+                    <p><span class="label label-important">Sorry!!</span> We could not find anyone to help you out. Please try another search.</p>
+                </div>
+            {% endfor %}
+        </table>
+    </div>
+</div><!-- End .row-fluid .body-secondary -->
+<script language="JavaScript">
+    
+</script>

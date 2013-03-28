@@ -159,6 +159,7 @@ class SearchController extends Controller
 
         $options = array();
         $form = $this->createForm(new SearchType());
+        $consultants = array();
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
@@ -240,6 +241,7 @@ class SearchController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         foreach ($pagination as $objConsultant) {
+            $consultants[] = $objConsultant;
             $objDateSend = new \DateTime($formData['booking_date']);
             $objConsultant->setAvailableBookingSlots($em->getRepository('SkedAppCoreBundle:Booking')->getBookingSlotsForConsultantSearch($objConsultant, $objDateSend));
         }
@@ -253,7 +255,8 @@ class SearchController extends Controller
                 'dateFull' => $objDate->format('d-m-Y'),
                 'category_id' => $formData['category'],
                 'serviceIds' => implode(',', $formData['consultantServices']),
-                'paginatorVariables' => $variables
+                'paginatorVariables' => $variables,
+
             ));
     }
 
@@ -298,6 +301,40 @@ class SearchController extends Controller
             $this->get('logger')->warn('not a valid request, expected ajax call');
             throw new AccessDeniedException();
         }
+    }
+    
+    public function showResultsAction($paginator,$serviceId,$options)
+    {
+       $this->get('logger')->info('show consultants results');
+       
+       $data = array();
+       $weekDays = $this->get('timeslots.manager')->buildWeekDays();
+       foreach ($paginator as $consultant) {
+            //$consultants[] = $consultant;
+            
+            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant);
+            $data[] = array(
+                'consultant' => $consultant,
+                'slots' => $slots
+            );
+            
+            
+        }
+        ladybug_dump($data);
+        ladybug_dump($weekDays);
+        return $this->render('SkedAppSearchBundle:Search:show.results.html.twig', array(
+            'weekDays' => $weekDays,
+            'data' => $data,
+            'service' => $this->get('service.manager')->getById($serviceId),
+            'options' => $options
+        ));
+        
+       //generateTimeSlots
+//       foreach($consultants as $consultant){
+//           $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant);
+//           
+//       }
+
     }
 
 }

@@ -160,6 +160,38 @@ final class TimeslotsManager
     }
 
     /**
+     * Build week days slots
+     * 
+     * @param array $ConsultantDaysOfWeek
+     * @return array
+     */
+    public function buildWeekDays()
+    {
+        $dates = array();
+
+        //build an array of 30 days starting today
+        for ($x = 0; $x < 7; $x++) {
+            $epoch = '';
+
+            if ($x == 0) {
+                $epoch = strtotime("now");
+            } else {
+                $epoch = strtotime("+$x day");
+            }
+            $date = new \DateTime('@' . $epoch);
+            
+            $tmp = new \stdClass();
+            $tmp->date = $date->format("Y-m-d");
+            $tmp->dateObject = $date;
+            $tmp->dayOfWeek = $date->format("D");
+
+            $dates[] = $tmp;
+        }
+
+        return $dates;
+    }
+
+    /**
      * Build days slots
      * 
      * @param array $ConsultantDaysOfWeek
@@ -170,7 +202,7 @@ final class TimeslotsManager
         $dates = array();
 
         //build an array of 30 days starting today
-        for ($x = 0; $x < 10; $x++) {
+        for ($x = 0; $x < 7; $x++) {
             $epoch = '';
 
             if ($x == 0) {

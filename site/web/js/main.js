@@ -27,9 +27,19 @@ $(document).ready(function() {
 
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
-
+    
+     
     $('.inputHelper').click(function() {
        $(this).val("");
+    });
+    
+    $('.hiddenTimeSlots').hide(); 
+    $('.showHiddenSlots').click(function(e){
+        $('.hiddenTimeSlots').toggle();
+        //var link_parent = this.parent();
+        //$(this).parent().siblings().show();
+        //link_parent.sublings('.hiddenTimeSlots').show();
+        return false;
     });
 
     //update services
