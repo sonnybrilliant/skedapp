@@ -35,9 +35,24 @@ $(document).ready(function() {
     
     $('.hiddenTimeSlots').hide(); 
     $('.showHiddenSlots').click(function(e){
-        $('.hiddenTimeSlots').toggle();
+        var className = $(this).attr('class');
+        var tmp = className.split(' ');
+        var str  = tmp[0];
+        
+        tmp = str.split('_');
+        var consultant_id = tmp[2];
+        $('.li_consultant_'+consultant_id).toggle();
+        
+        var link_text = $(this).text();
+        
+        if(link_text == "more"){
+            $('.a_consultant_'+consultant_id).text("less");
+        }else{
+            $('.a_consultant_'+consultant_id).text("more");
+        }
+
         //var link_parent = this.parent();
-        //$(this).parent().siblings().show();
+        //$(this).parent().siblpings().show();
         //link_parent.sublings('.hiddenTimeSlots').show();
         return false;
     });

@@ -320,21 +320,12 @@ class SearchController extends Controller
             
             
         }
-        ladybug_dump($data);
-        ladybug_dump($weekDays);
         return $this->render('SkedAppSearchBundle:Search:show.results.html.twig', array(
             'weekDays' => $weekDays,
             'data' => $data,
             'service' => $this->get('service.manager')->getById($serviceId),
             'options' => $options
         ));
-        
-       //generateTimeSlots
-//       foreach($consultants as $consultant){
-//           $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant);
-//           
-//       }
-
     }
 
 }
