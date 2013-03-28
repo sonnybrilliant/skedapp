@@ -447,7 +447,7 @@ final class EmailerManager
     public function bookingReminderCustomer($params)
     {
         $this->logger->info("send booking reminder to customer");
-        $options['subject'] = "Your SkedApp booking reminder for day";
+        $options['subject'] = "Your SkedApp booking reminder for today";
 
         $booking = $params['booking'];
 
@@ -459,7 +459,6 @@ final class EmailerManager
             'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
             'company' => $booking->getConsultant()->getCompany()
         );
-
 
         $emailBodyHtml = $this->template->render(
             'SkedAppCoreBundle:EmailTemplates:booking.reminder.customer.html.twig', $tmp
