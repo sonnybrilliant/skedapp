@@ -110,6 +110,13 @@ final class BookingManager
     public function save($booking)
     {
         $this->logger->info("save booking");
+
+        if (is_null($booking->getIsMainReminderSent()))
+                $booking->setIsMainReminderSent(false);
+
+        if (is_null($booking->getIsHourReminderSent()))
+                $booking->setIsHourReminderSent(false);
+
         $this->em->persist($booking);
         $this->em->flush();
         return;

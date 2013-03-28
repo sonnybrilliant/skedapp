@@ -1,6 +1,6 @@
 <html>
     <head>
-        <base href="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' }}" />
+        <base href="{{ site_path }}" />
     </head>
     <body>
 
@@ -11,7 +11,7 @@
                   <tbody>
                     <tr>
                       <td style="text-align:center">
-                        <a href="{{ path("_welcome") }}" title="SkedApp logo"><img src="{{ asset("/img/logo.jpg") }}" title="logo" style="margin-top:25px" /></a>
+                        <a href="{{ site_path }}" title="SkedApp logo"><img src="{{ site_path }}img/logo.jpg" title="logo" style="margin-top:25px" /></a>
                       </td>
                     </tr>
                     <tr>
@@ -23,7 +23,7 @@
                           <br><br>
                           The SkedApp Team.
                           <br>
-                          <a href="{{ path("_welcome") }}" style="color:#4690d6;text-decoration:none"  target="_blank">www.skedapp.co.za</a>
+                          <a href="{{ site_path }}" style="color:#4690d6;text-decoration:none"  target="_blank">www.skedapp.co.za</a>
                         </p>
                       </td>
                     </tr>

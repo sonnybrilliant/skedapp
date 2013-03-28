@@ -210,7 +210,7 @@ final class NotificationsManager
         $bookings = $this->container->get("booking.manager")->getTodayBookings();
 
         foreach($bookings as $booking){
-            echo 'processing booking'.$booking->getId();
+            echo 'processing booking ' . $booking->getId() . "\n";
             $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));
 
             //update booking
