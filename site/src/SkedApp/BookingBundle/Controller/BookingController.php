@@ -721,6 +721,7 @@ class BookingController extends Controller
         $this->get('logger')->info('add a new booking public');
 
         try {
+            $errMsg = null;
             $user = $this->get('member.manager')->getLoggedInUser();
 
             if (($companyId == 0) || ($consultantId == 0)) {
@@ -768,13 +769,30 @@ class BookingController extends Controller
                 $consultant, $bookingStartTime, $bookingEndTime
             );
 
-            
-            if(!$isValid){
-                $errMsg = "Booking not available, please choose another time.";
-                $this->getRequest()->getSession()->setFlash(
-                            'error', $errMsg);
+
+
+            if (!$isValid) {
+                $errMsg = "Booking not available,some services take longer than other - please choose another time.";
+            } else {
+                //check if booking does not conflict with consultant log oof time
+                $consultantLogOffTime = null;
+                $consultantEndTimeSlot = $consultant->getEndTimeslot();
+
+                $endOfDayTime = new \DateTime($date . ' ' . $consultantEndTimeSlot->getSlot());
+                
+                if($bookingEndTime > $endOfDayTime){
+                  $isValid = false;
+                  $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
+                }
+                
             }
-            
+
+            if (!$isValid) {
+
+                $this->getRequest()->getSession()->setFlash(
+                    'error', $errMsg);
+            }
+
             $form = $this->createForm(new BookingMakeType(
                     $companyId,
                     $consultantId,
@@ -859,7 +877,8 @@ class BookingController extends Controller
                     'consultant' => $consultant,
                     'booking_service' => $service->getName(),
                     'customer' => $user,
-                    'map' => $map
+                    'map' => $map,
+                    'isValid' => $isValid
                 ));
         } catch (\Exception $e) {
             
@@ -919,7 +938,7 @@ class BookingController extends Controller
 
                     $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
 
-                    
+
                     if (!$this->get('booking.manager')->isTimeValid($booking)) {
                         $errMsg = "End time must be greater than start time";
                         $isValid = false;
@@ -1050,7 +1069,7 @@ class BookingController extends Controller
                     'map' => $map
                 ));
         } catch (\Exception $e) {
-            
+            throw new \Exception($e->getMessage());
         }
     }
 

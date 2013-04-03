@@ -269,10 +269,15 @@ final class BookingManager
             $currentDate = new \DateTime($startTime->format('Y-m-d'));
             $interval = date_diff($booking->getAppointmentDate(), $currentDate);
             if (0 == $interval->format('%d')) {
-                if (($startTime >= $booking->getHiddenAppointmentStartTime() && $startTime  <= $booking->getHiddenAppointmentEndTime()) || ($endTime > $booking->getHiddenAppointmentStartTime() && $endTime < $booking->getHiddenAppointmentEndTime())) {
-                    return false;                    
-                } else {
-                    continue;
+                
+                if($endTime > $booking->getHiddenAppointmentStartTime() && $endTime < $booking->getHiddenAppointmentEndTime()){
+                   echo '=================';
+                    return false; 
+                }
+                
+                if(($startTime > $booking->getHiddenAppointmentStartTime() && $startTime  < $booking->getHiddenAppointmentEndTime())){
+                  echo '++++++++++';
+                    return false;   
                 }
             }
         }
