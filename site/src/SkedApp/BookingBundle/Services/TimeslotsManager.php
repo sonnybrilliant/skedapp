@@ -179,7 +179,7 @@ final class TimeslotsManager
                 $epoch = strtotime("+$x day");
             }
             $date = new \DateTime('@' . $epoch);
-            
+
             $tmp = new \stdClass();
             $tmp->date = $date->format("Y-m-d");
             $tmp->dateObject = $date;
@@ -259,20 +259,34 @@ final class TimeslotsManager
             $currentTimeObject = $startTimeObj;
 
             while ($isValid) {
-
+                //todays dates
                 if ($currentTimeObject->getTimestamp() < $endTimeObj->getTimestamp()) {
+                    $doSlot = false;
                     $endTimeSlotEpoch = strtotime("+$consultantSessionDuration Minutes", $currentTimeObject->getTimestamp());
 
                     $endTimeSlotObject = new \DateTime();
                     $endTimeSlotObject->setTimestamp($endTimeSlotEpoch);
 
-                    $timeSlots[] = array(
-                        'startTime' => $currentTimeObject,
-                        'formatedStartTime' => $currentTimeObject->format('Y-m-d H:i:s'),
-                        'endTime' => $endTimeSlotObject,
-                        'formatedEndTime' => $endTimeSlotObject->format('Y-m-d H:i:s'),
-                        'code' => uniqid(),
-                    );
+                    $date = date('d/m/Y', strtotime("now"));
+                    if ($date == date('d/m/Y', $currentTimeObject->getTimestamp())) {
+                        if ((($currentTimeObject->getTimestamp() - strtotime("now")) / 3600) > 2) {
+                            $doSlot = true;
+                        } else {
+                            $doSlot = false;
+                        }
+                    } else {
+                        $doSlot = true;
+                    }
+
+                    if ($doSlot) {
+                        $timeSlots[] = array(
+                            'startTime' => $currentTimeObject,
+                            'formatedStartTime' => $currentTimeObject->format('Y-m-d H:i:s'),
+                            'endTime' => $endTimeSlotObject,
+                            'formatedEndTime' => $endTimeSlotObject->format('Y-m-d H:i:s'),
+                            'code' => uniqid(),
+                        );
+                    }
 
                     $currentTimeObject = $endTimeSlotObject;
                 } else {

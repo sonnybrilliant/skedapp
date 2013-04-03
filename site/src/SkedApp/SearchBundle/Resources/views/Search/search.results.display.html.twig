@@ -2,16 +2,16 @@
 
 var serviceProviderIDs = new Array();
 var serviceProviders = new Array();
-var searchLatitude = '{{ options.lat  }}';
-var searchLongitude = '{{ options.lng }}';
-var searchDate = '{{ options.date }}';
-var searchCategoryId = '{{ options.category.id }}';
-var searchServiceIds = '{{ options.service.id }}';
+var searchLatitude = '{% if options.lat is defined %} {{options.lat}} {% endif %}';
+var searchLongitude = '{% if options.lng is defined %}{{ options.lng }} {% endif %}';
+var searchDate = '{% if options.date is defined %} {{ options.date }} {% endif %}';
+var searchCategoryId = '{% if options.category is defined %} {{ options.category.id }} {% endif %}';
+var searchServiceIds = '{% if options.service is defined %} {{ options.service.id }} {% endif %}';
 var intCCnt = 0;
 var intSPCnt = 0;
 
 //Store the selected service
-var currentServiceId = {{ options.service.id }};
+var currentServiceId = {% if options.service is defined %} {{ options.service.id }} {% endif %};
 
 </script>
 <div class="row-fluid body-secondary rounded-bottom" id="results">

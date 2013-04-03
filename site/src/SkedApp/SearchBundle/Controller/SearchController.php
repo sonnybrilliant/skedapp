@@ -30,6 +30,9 @@ class SearchController extends Controller
         // the search form if it is there
 
         $data = $this->getRequest()->get('Search');
+        $options['lat'] = null;
+        $options['lng'] = null;
+        $options['date'] = null;
 
         if(!is_array($data)){
           //Populate values from query string
@@ -161,6 +164,9 @@ class SearchController extends Controller
         $form = $this->createForm(new SearchType());
         $consultants = array();
 
+        $options['lat'] = null;
+        $options['lng'] = null;
+                
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
             if ($form->isValid()) {
