@@ -33,16 +33,18 @@ class SearchController extends Controller
         $options['lat'] = null;
         $options['lng'] = null;
         $options['date'] = null;
-
-        if(!is_array($data)){
-          //Populate values from query string
-            $data['lat'] = $this->getRequest()->get('lat');
-            $data['lng'] = $this->getRequest()->get('lng');
-            $data['consultantServices'] = $this->getRequest()->get('serviceId');
-            $data['category'] = $this->getRequest()->get('categoryId');
-            $data['booking_date'] = $this->getRequest()->get('date');
+        
+        
+        if(!isset($data['administrative_area_level_1'])){
+           $params = $this->getRequest()->get('Search');
+            $data['lat'] = $params['lat'];
+            $data['lng'] = $params['lng'];
+            $data['consultantServices'] = $params['serviceId'];
+            $data['category'] = $params['categoryId'];
+            $data['booking_date'] = $params['date'];
         }
 
+        
         $form = $this->createForm(new SearchType($data['category'], $data['booking_date'], $data['consultantServices']));
 
         if ($this->getRequest()->getMethod() == 'POST') {

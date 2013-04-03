@@ -188,7 +188,7 @@ class ConsultantControllerTest extends WebTestCase
         $this->assertEquals(1, $crawler->filter('title:contains("Manage consultants")')->count());
         
         $this->show($this->consultantFullName);
-        $this->delete($this->consultantFullName);
+        //$this->delete($this->consultantFullName);
         
         return;
     }

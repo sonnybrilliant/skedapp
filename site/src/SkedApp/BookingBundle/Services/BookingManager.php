@@ -112,10 +112,10 @@ final class BookingManager
         $this->logger->info("save booking");
 
         if (is_null($booking->getIsMainReminderSent()))
-                $booking->setIsMainReminderSent(false);
+            $booking->setIsMainReminderSent(false);
 
         if (is_null($booking->getIsHourReminderSent()))
-                $booking->setIsHourReminderSent(false);
+            $booking->setIsHourReminderSent(false);
 
         $this->em->persist($booking);
         $this->em->flush();
@@ -165,7 +165,6 @@ final class BookingManager
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
         return $bookings;
     }
-
 
     /**
      * Get all bookings between given dates
@@ -251,6 +250,34 @@ final class BookingManager
         }
 
         return false;
+    }
+
+    public function isBookingAvailable($consultant, $startTime , $endTime)
+    {
+        $this->logger->info("check if booking is available");
+
+        $options = array(
+            'searchText' => '',
+            'sort' => 'b.hiddenAppointmentStartTime',
+            'direction' => 'desc',
+            'consultantId' => $consultant->getId()
+        );
+
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
+
+        foreach ($bookings as $booking) {
+            $currentDate = new \DateTime($startTime->format('Y-m-d'));
+            $interval = date_diff($booking->getAppointmentDate(), $currentDate);
+            if (0 == $interval->format('%d')) {
+                if (($startTime >= $booking->getHiddenAppointmentStartTime() && $startTime  <= $booking->getHiddenAppointmentEndTime()) || ($endTime > $booking->getHiddenAppointmentStartTime() && $endTime < $booking->getHiddenAppointmentEndTime())) {
+                    return false;                    
+                } else {
+                    continue;
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
