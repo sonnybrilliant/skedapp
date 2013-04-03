@@ -2,231 +2,6 @@
     background-color: #ffffff;
 }
 
-#portfolio img {
-  margin: 0 auto;
-  min-width: 50%;
-  width: 90%;
-}
-
-.bigborder {
-  border: 10px solid #FFFFFF;
-  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.5);
-  display: block;
-  margin-right: 15px;
-}
-
-.footer {
-  font-size: 8px;
-}
-
-#about_tumi img {
-  float: left;
-}
-
-.footerText{
-  font-size: 12px;
-  padding: 10px 0px;
-  text-align: center;
-}
-
-.boderBottom {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 4px;
-}
-
-.shadow {
-  position:relative;
-  top:-30px;
-  width:100%;
-  z-index:5;
-}
-
-.ui-btn-corner-all{
-  border-radius: 3px;
-}
-
-.ui-corner-all {
-  border-radius: 3px;
-}
-
-.backgroundImages{
-  background: #fff /*{global-icon-color}*/;
-}
-
-iframe { border: none; }
-
-#popupPanel-popup {
-  right: 0 !important;
-  left: auto !important;
-}
-#popupPanel {
-  width: 200px;
-  border: 1px solid #000;
-  border-right: none;
-  background: rgba(0,0,0,.5);
-  margin: -1px 0;
-}
-#popupPanel .ui-btn {
-  margin: 2em 15px;
-}
-
-.dateHeader{
-	height: 40px;
-	background: #FDA61B;
-	margin: -31px 0 10px 0;
-	text-align: center;
-	line-height: 40px;
-	-webkit-box-shadow: #000 0px 2px 3px;
-	-moz-box-shadow: #000 0px 2px 3px;
-	box-shadow: #000 0px 2px 3px;
-}
-
-.clearfloat {
-  clear: both;
-  font-size: 0;
-  height: 0;
-  line-height: 0;
-}
-
-.colorLabel{
-  color: #fff;
-  font-size: 13px;
-}
-
-.headers{
-  color: #fff;
-  text-shadow: none;
-  font-size: 18px;
-  padding:0px;
-}
-
-#footerCustom {
-  width: 100% ;
-  position: absolute;
-  background: #AE0C21;
-  color: #fff;
-  font-size: 13px;
-  border: none;
-  border-radius: 8px 8px 0 0px;
-}
-
-.greyBackground {
-  background-color: #333;
-  height: 300px;
-}
-.titleHeader{
-  color: #fff;
-  text-shadow: none;
-  font-size: 16px;
-  padding:0px;
-}
-
-.infoTitleHeader{
-  color: #fff;
-  text-shadow: none;
-  font-size: 14px;
-  padding:0px;
-}
-
-.skedappLogo{
-  text-align:center; 
-  margin: 20px 0 30px 0;
-}
-
-.marginTop20px{
-  margin-top: 20px;
-}
-
-.yellowBackground{
-  padding:3px 5px; 
-  background: #FDA61B;
-  border-radius: 5px;
-  margin-right: 5px;
-  text-shadow: none;
-  font-size: 12px;
-}
-
-.centerLinks{
-  color: #fff;
-  font-weight: normal;
-  padding-bottom: 10px;
-  font-size: 14px;
-  text-shadow: none;
-}
-
-.center{
-  text-align: center;
-  color: #fff;
-  font-weight: normal;
-  font-size: 14px;
-  padding-bottom: 8px;
-}
-.fontWeightNormal {
-  font-weight: normal;
-}
-
-.paddingTop5px{
-  padding-top: 5px;
-}
-
-.paddingTop10px{
-  padding-top: 10px;
-}
-
-.paddingBottom15px{
-  padding-bottom: 15px;
-}
-
-.marginTop10px{
-  margin-top: 10px;
-}
-
-.marginTop0px{
-  margin-top: 0px;
-}
-
-
-.whiteText{
-  color: #fff;
-  text-shadow: none;
-  font-size: 14px;
-}
-
-#skedappCustom {
-  width: 85%;
-  background: #AE0C21;
-  color: #fff;
-  font-size: 13px;
-  border: none;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 8px 8px 0 0px;
-  padding: 10px 0;
-  text-align:center;
-  margin-bottom: 0;
-  font-weight: normal;
-}
-
-.-box-blue-wrapper {
-  background-clip: padding-box;
-  background-color: #00395F;
-  background-image: linear-gradient( to bottom, #00395F , #00395F );
-  border: none;
-  box-shadow: 0 0 100px #00395F  inset;
-  width: 85%;
-  border-radius: 8px 8px 8px 8px;	
-  box-shadow: 0px 0px 6px #000;
-  padding: 15px;
-}
-
-.imageWrapper {
-	float: left;
-	margin-right: 10px;
-	padding: 2px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-}
-
 .blockWrapper{
 	background: #fff;
 	padding: 10px 10px 0 10px;
@@ -237,59 +12,76 @@ iframe { border: none; }
 	box-shadow: #000 0px 2px 5px;
 }
 
-.nameTags {
-	font-weight: bold;
-	color: #00395F;
+.-box-blue-wrapper {
+	margin: -1px 0 -1px -1px;
+	padding: 0;
+	background-color: #ffffff;
+	border: 1px solid #025b99;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+	background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+	background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+	background-image: linear-gradient(top, #02aee4, #0379aa);
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	position:relative;
+	padding: 1.25em;
+	z-index: 3;
+  box-shadow: 0px 1px 6px #555A55;
 }
-
-.descriptionDetails{
-	color: #333;
-	font-size: 12px;
+.ui-corner-all {
+    border-radius: 0.6em 0.6em 0.6em 0.6em;
+    box-shadow: 0 2px 2px #555555;
 }
-
-.tableDetails{
-	color: #00395F;
-	font-size: 12px;
-	font-weight: bold;
-	border-right: 1px solid #ccc;
+.ui-body-c, .ui-overlay-c {
+    border: none;
+    color: #333;
 }
-
-.rightDetails{
-	color: #00395F;
-	font-size: 12px;
-	font-weight: bold;
+.image-handler{
+  width: 201px;
+  height: 140px;
+  padding: 10px 0 5px 0;
 }
-
-.searchListings {
-	height: 40px;
-	margin: -31px 0 10px 0;
-	text-align: center;
-	line-height: 40px;
-	border-radius: 0 0 5px 5px;
-	-webkit-box-shadow: #000 0px 2px 3px;
-	-moz-box-shadow: #000 0px 2px 3px;
-	box-shadow: #000 0px 2px 3px;
-	background: #FDA61B;
-	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FDA61B), to(#CC6600));
-	background: -webkit-linear-gradient(#FDA61B, #CC6600);
-	background: -moz-linear-gradient(#FDA61B, #CC6600);
-	background: -ms-linear-gradient(#FDA61B, #CC6600);
-	background: -o-linear-gradient(#FDA61B, #CC6600);
-	background: linear-gradient(#FDA61B, #CC6600);
+.titleHeader{
+  color: #fff;
+  text-shadow: none;
 }
-
-.topHeader{
-	font-weight: bold;
-	color: #fff;
+.rounded-all {
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
-
-.tableWrapper{
-	width: 100%;
-	border: 1px solid #ccc;
-	background: #eee; text-align: center;
-	border-radius: 5px;
-  height: 35px;
-	-webkit-box-shadow: #666666 0 0 3px;
-	-moz-box-shadow: #666666 0 0 3px;
-	box-shadow: #666666 0 0 3px;
+.spacer1 {
+	height: 1em;
+}
+.spacer2 {
+	height: 2em;
+}
+.skedappLogo{
+  background-image: url('../img/skedapp_background.png');
+  border: 1px solid #ccc;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 2px 1px #ccc;
+  margin-top: -16px;
+  text-align: center;
+}
+.orange-buttons{
+  background: #FAA732;
+  border: 1px solid #FAA732;
+  box-shadow: 0 2px 2px #555555;
+}
+.pull-right {
+    float: right;
+}
+.white-bg {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    padding: 10px;
 }
