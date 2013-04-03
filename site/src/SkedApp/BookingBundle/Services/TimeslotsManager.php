@@ -317,7 +317,10 @@ final class TimeslotsManager
                     $interval = date_diff($booking->getAppointmentDate(), $currentDate);
                     if (0 == $interval->format('%d')) {
                         if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] <= $booking->getHiddenAppointmentEndTime()) {
-                            unset($timeSlots[$key]);
+                            if($booking->getHiddenAppointmentEndTime() != $slot['startTime']){
+                               unset($timeSlots[$key]); 
+                            }                           
+                            
                         } else {
                             continue;
                         }
