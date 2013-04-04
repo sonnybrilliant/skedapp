@@ -3,7 +3,7 @@ var blnAddress = true;
 </script>
 <div class="clearfix"></div>
 <div class="booking-background rounded-cross" id='tab1'>
-    <form  class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
+    <form  class="formSearch formBackground" action="{{ path('sked_app_search_query') }}.html#search_results" method="POST" {{ form_enctype(form) }}>
       <fieldset>
         <div class="{% if form_errors(form.category) %} error {% endif %}">
             <div class="pull-left" for="company">{{ form_label(form.category) }}</div>

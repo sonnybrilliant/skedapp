@@ -2,14 +2,14 @@
     {% set search_results = false %}
 {% endif %}
 <div class="spacer2"></div>
-<div class="row-fluid body-main rounded-top hide-div">
+<div class="row-fluid body-main rounded-top">
     <div class="span12 tabs-img">
         <img src="{{ asset('/img/tabs-set2.png') }}" width="362" height="55" alt="step-tabs" class="space-left" />
     </div>
     <div class="clearfix"></div>
     <div class="span5">
         <div class="booking-background rounded-top-right">
-            <form class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
+            <form class="formSearch formBackground" action="{{ path('sked_app_search_query') }}.html#search_results" method="POST" {{ form_enctype(form) }}>
                 <fieldset>
                     <div class="{% if form_errors(form.category) %} error {% endif %}">
                         <div class="pull-left" for="company">{{ form_label(form.category) }} <!-- Category Label --></div>
@@ -52,7 +52,7 @@
                 <div class="spacer2"></div>    
                 </div>
                 <div class="clearfix"></div>
-
+                <a href="#search_results" id="search_results"> .</a>
                 </fieldset>
                 {{ form_rest(form) }}
             </form>
