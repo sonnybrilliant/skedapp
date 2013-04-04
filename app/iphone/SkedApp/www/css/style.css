@@ -81,3 +81,6 @@
     border: 1px solid #DDDDDD;
     padding: 10px;
 }
+.ui-select {
+    text-align: left;
+}
