@@ -162,21 +162,23 @@ final class TimeslotsManager
     /**
      * Build week days slots
      * 
-     * @param array $ConsultantDaysOfWeek
+     * @param DateTime $searchDate
+     * 
      * @return array
      */
-    public function buildWeekDays()
+    public function buildWeekDays($searchDate)
     {
         $dates = array();
 
         //build an array of 30 days starting today
+        
         for ($x = 0; $x < 7; $x++) {
             $epoch = '';
 
             if ($x == 0) {
-                $epoch = strtotime("now");
+                $epoch = $searchDate->getTimestamp();
             } else {
-                $epoch = strtotime("+$x day");
+                $epoch = strtotime("+$x day",$searchDate->getTimestamp());
             }
             $date = new \DateTime('@' . $epoch);
 
@@ -197,7 +199,7 @@ final class TimeslotsManager
      * @param array $ConsultantDaysOfWeek
      * @return array
      */
-    private function buildDaysSlots($ConsultantDaysOfWeek)
+    private function buildDaysSlots($ConsultantDaysOfWeek,$searchDate)
     {
         $dates = array();
 
@@ -206,9 +208,9 @@ final class TimeslotsManager
             $epoch = '';
 
             if ($x == 0) {
-                $epoch = strtotime("now");
+                $epoch = $searchDate->getTimestamp();
             } else {
-                $epoch = strtotime("+$x day");
+                $epoch = strtotime("+$x day",$searchDate->getTimestamp());
             }
             $date = new \DateTime('@' . $epoch);
 
@@ -331,8 +333,16 @@ final class TimeslotsManager
 
         return $slots;
     }
-
-    public function generateTimeSlots($consultant)
+    
+    /**
+     * Generate timeslots
+     * 
+     * @param SkedAppCoreBundle\Entity\Consultant $consultant
+     * @param \DateTime $searchDate
+     * 
+     * @return array
+     */
+    public function generateTimeSlots($consultant,$searchDate)
     {
         $this->logger->info('generate timeslots for consultant:' . $consultant->getFullName());
 
@@ -348,7 +358,7 @@ final class TimeslotsManager
             $day['available'] = $isAvailable;
         }
 
-        $dates = $this->buildTimeSlots($consultant, $this->buildDaysSlots($ConsultantDaysOfWeek));
+        $dates = $this->buildTimeSlots($consultant, $this->buildDaysSlots($ConsultantDaysOfWeek,$searchDate));
 
         $options = array(
             'searchText' => '',
