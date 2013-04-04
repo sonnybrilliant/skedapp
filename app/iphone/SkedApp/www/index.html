@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="css/jquery-ui-1.10.2.custom.min.css">
     <link rel="stylesheet" href="css/jquery.mobile-1.3.0.min.css" />
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet"  href="css/jqm-icon-pack-2.0-original.css" />
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
     <script src="lib/modernizr.custom.37052.js"></script>
     <script src="lib/jquery-1.8.3.min.js"></script>
@@ -70,10 +69,10 @@
         <div data-role="navbar">
           <ul>
             <li>
-              <a id="link-home" href="#register" data-icon="person" data-role="button" data-transition="fade">Create an account</a>
+              <a id="link-home" href="#register" data-role="button" data-transition="fade">Create an account</a>
             </li>
             <li>
-              <a id="link-settings" href="#about_us" data-icon="info" data-role="button" data-transition="fade">About Us</a>
+              <a id="link-settings" href="#about_us" data-role="button" data-transition="fade">About Us</a>
             </li>
           </ul>
         </div><!-- /navbar -->
@@ -85,7 +84,7 @@
     <div data-role="page" id="register">
       <div data-role="header">
         <h4>Registration</h4>
-        <a href="#login" data-icon="person" data-transition="pop" class="ui-btn-right">Home</a>
+        <a href="#login" data-icon="home" data-transition="pop" class="ui-btn-right">Login</a>
       </div>
       <div data-role="content">
         <div class="skedappLogo">
@@ -120,10 +119,10 @@
         <div data-role="navbar">
           <ul>
             <li>
-              <a id="link-home" href="#login" data-icon="person" data-role="button" data-transition="none">Login</a>
+              <a id="link-home" href="#login" data-role="button" data-transition="none">Login</a>
             </li>
             <li>
-              <a id="link-settings" href="#about_us" data-icon="info" data-role="button" data-transition="none">About Us</a>
+              <a id="link-settings" href="#about_us" data-role="button" data-transition="none">About Us</a>
             </li>
           </ul>
         </div>
@@ -134,7 +133,7 @@
     <div data-role="page" id="registration_success">
       <div data-role="header">
         <h4>Successful Registration</h4>
-        <a href="#login" data-icon="person" data-transition="pop" class="ui-btn-right">Login</a>
+        <a href="#login" data-icon="home" data-transition="pop" class="ui-btn-right">Login</a>
       </div>
       <div data-role="content">
         <div class="skedappLogo">
@@ -151,10 +150,10 @@
         <div data-role="navbar">
           <ul>
             <li>
-              <a id="link-home" href="#login" data-icon="person" data-role="button" data-transition="none">Login</a>
+              <a id="link-home" href="#login"  data-role="button" data-transition="none">Login</a>
             </li>
             <li>
-              <a id="link-settings" href="#about_us" data-icon="info" data-role="button" data-transition="none">About Us</a>
+              <a id="link-settings" href="#about_us" data-role="button" data-transition="none">About Us</a>
             </li>
           </ul>
         </div>
@@ -245,10 +244,10 @@
         <div data-role="navbar">
           <ul>
             <li>
-              <a id="link-home" href="#search" data-icon="plus" data-role="button" data-transition="none">Start Now</a>
+              <a id="link-home" href="#search" data-role="button" data-transition="none">Start Now</a>
             </li>
             <li>
-              <a id="link-settings" href="#settings" data-icon="gear" data-role="button" data-transition="none">Settings</a>
+              <a id="link-settings" href="#settings"  data-role="button" data-transition="none">Settings</a>
             </li>
         </div>
       </div>
@@ -260,7 +259,7 @@
   <div data-role="page" id="bookings">
     <div data-role="header">
       <h4>My Bookings</h4>
-      <a href="#profile" data-icon="person" data-transition="fade" class="ui-btn-right">My Profile</a>
+      <a href="#profile" data-icon="info" data-transition="fade" class="ui-btn-right">My Profile</a>
     </div>
     <div data-role="content">
       
@@ -270,10 +269,10 @@
         <div data-role="navbar">
           <ul>
             <li>
-            <a id="link-home" href="#search" data-icon="plus" data-role="button" data-transition="none">Book Now</a>
+            <a id="link-home" href="#search" data-role="button" data-transition="none">Book Now</a>
           </li>
           <li>
-            <a id="link-settings" href="#settings" data-icon="gear" data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#settings"  data-role="button" data-transition="none">Settings</a>
           </li>
         </ul>
       </div>
@@ -296,9 +295,9 @@
         <p class="titleHeader">Search, Locate services in your area.</p>
         <form action="">
           <select name="select-choice-categories" id="select-choice-categories">
-            <option value="standard">Select a category</option>
+            <option  value="standard">Select a category</option>
           </select>
-          <input name="text-location" id="text-location" placeholder="Use my location" value="" type="text" class="" />
+          <input  name="text-location" id="text-location" placeholder="Use my location" value="" type="text" class="" />
           <input name="text-date" id="text-date" placeholder="Choose date" type="date" />
           <select name="select-choice-services" id="select-choice-services">
             <option value="standard">Select a service</option>
@@ -317,11 +316,11 @@
       <div data-role="navbar">
         <ul>
           <li>
-            <a class="link-profile" href="#profile" data-icon="person" data-role="button" data-transition="none">Profile</a>
+            <a class="link-profile" href="#profile" data-role="button" data-transition="none">Profile</a>
           </li>
 
           <li>
-            <a id="link-settings" href="#page3" data-icon="gear" data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#page3" data-role="button" data-transition="none">Settings</a>
           </li>
       </div>
     </div>
@@ -353,13 +352,13 @@
       <div data-role="navbar">
         <ul>
           <li>
-            <a id="link-home" href="#login" data-icon="home" data-role="button" data-transition="none">
+            <a id="link-home" href="#login" data-role="button" data-transition="none">
               Home
             </a>
           </li>
         
           <li>
-            <a id="link-settings" href="#page6" data-icon="gear" data-role="button" data-transition="none">
+            <a id="link-settings" href="#page6" data-role="button" data-transition="none">
               Settings
             </a>
           </li>
