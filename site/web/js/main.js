@@ -33,6 +33,13 @@ $(document).ready(function() {
        $(this).val("");
     });
     
+    
+    
+    $('#show-search-form').click(function(){
+        $('.hide-div').toggle("slow");
+    });
+    
+    $('.hide-div').hide(); 
     $('.hiddenTimeSlots').hide(); 
     $('.showHiddenSlots').click(function(e){
         var className = $(this).attr('class');
