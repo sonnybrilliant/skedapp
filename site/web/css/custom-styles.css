@@ -961,3 +961,7 @@ Fix re-Captcha label issue
     line-height: normal !important;
     font-size: inherit !important;
 }
+
+.hide-div{
+    display: none;
+}
