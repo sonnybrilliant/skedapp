@@ -315,18 +315,18 @@ class SearchController extends Controller
     {
        $this->get('logger')->info('show consultants results');
        
+       $searchDate = new \DateTime($options['date']);
+       
        $data = array();
-       $weekDays = $this->get('timeslots.manager')->buildWeekDays();
+       $weekDays = $this->get('timeslots.manager')->buildWeekDays($searchDate);
        foreach ($paginator as $consultant) {
             //$consultants[] = $consultant;
             
-            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant);
+            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant,$searchDate);
             $data[] = array(
                 'consultant' => $consultant,
                 'slots' => $slots
             );
-            
-            
         }
         return $this->render('SkedAppSearchBundle:Search:show.results.html.twig', array(
             'weekDays' => $weekDays,
