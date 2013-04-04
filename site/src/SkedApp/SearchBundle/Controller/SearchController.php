@@ -316,6 +316,7 @@ class SearchController extends Controller
        $this->get('logger')->info('show consultants results');
        
        $searchDate = new \DateTime($options['date']);
+       $searchDate->add(new \DateInterval('P1D'));
        
        $data = array();
        $weekDays = $this->get('timeslots.manager')->buildWeekDays($searchDate);
