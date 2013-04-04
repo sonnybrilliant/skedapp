@@ -39,6 +39,7 @@
 .ui-body-c, .ui-overlay-c {
     border: none;
     color: #333;
+    text-shadow: none;
 }
 .image-handler{
   width: 201px;
@@ -81,6 +82,17 @@
     border: 1px solid #DDDDDD;
     padding: 10px;
 }
-.ui-select {
-    text-align: left;
+input.ui-input-text {
+    font-weight: bold;
+}
+.ui-btn-text{
+  text-align: left;
+  font-weight: bold;
+  margin-left: 0px;
+}
+.ui-btn-corner-all, .ui-btn-corner-all {
+    border-radius: 0.6em 0.6em 0.6em 0.6em;
+}
+.ui-btn-inner {
+    padding: 0.6em 5px;
 }
