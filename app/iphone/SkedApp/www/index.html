@@ -44,7 +44,7 @@
     <div data-role="page" id="login">
       <div data-role="header">
         <h1>Login Page</h1>
-        <a title="Desktop Version" data-role="button" href="#search" data-icon="home" class="ui-btn-right">Main Site</a>
+        <a title="Desktop Version" data-role="button" href="http://test.skedapp.co.za" data-icon="home" class="ui-btn-right">Main Site</a>
       </div>
       <div data-role="content">
         <div class="skedappLogo">
@@ -116,7 +116,7 @@
             <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
             <div class="spacer1"></div>
             <a id="btn-registration" data-role="button" data-theme="a" href="#">Register</a>
-            <a class="orange-buttons" id="btn-cancel" data-mini="true" data-role="button" href="#login">Cancel</a>
+            <a class="orange-buttons" id="btn-cancel" data-role="button" href="#login">Cancel</a>
           </form>
         </div>
         <img alt="shadow" class="shadow" src="img/shadow.png"/>
@@ -146,16 +146,16 @@
     <div data-role="page" id="registration_success">
       <div data-role="header">
         <h4>Successful Registration</h4>
-        <a href="#login" data-icon="home" data-transition="pop" class="ui-btn-right">Login</a>
+        <a href="#login" data-icon="home" data-transition="fade" class="ui-btn-right">Login</a>
       </div>
       <div data-role="content">
         <div class="skedappLogo">
           <img class="image-handler" src="img/skedapp-logo.png"/>
         </div>
         <div class="spacer2"></div>
-
-        <p>You have successfully created an account. <br /><br /> We need to confirm your email address before we can activate your account, check your mail box and follow the instructions on the email.</p>
-
+        <div data-role="content" class="body-secondary"> 
+          <p><strong>You have successfully created an account.</strong> <br /><br /> We need to confirm your email address before we can activate your account, check your mail box and follow the instructions on the email.</p>
+        </div>
       </div>
       <div class="center-aligned">
         <p>Stay Connected</p>
@@ -190,7 +190,7 @@
           <img class="image-handler" src="img/skedapp-logo.png"/>
         </div>
         <div class="spacer2"></div>
-        <div>
+        <div data-role="content" class="body-secondary">
           <h2>About us</h2>
           <p>Skedapp is a location based service finder, We work we various service vendors such as:</p>
           <ul>
@@ -203,6 +203,7 @@
 
           <p>We list all this services using their geographic location to help you get a service provider nearest to you.</p>
         </div>
+        <div class="spacer1"></div>
         <div class="center-aligned">
         <p>Stay Connected</p>
         <a href="http://www.facebook.com/pages/Skedapp/420977264645890"><img src="img/facebook.png" title="facebook"/></a>

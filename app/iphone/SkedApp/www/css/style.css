@@ -30,6 +30,13 @@
 	z-index: 3;
   box-shadow: 0px 1px 6px #555A55;
 }
+.body-secondary {
+    background-color: #EEEEEE;
+    border: 1px solid #E1E1E1;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 1px #FFFFFF inset;
+    color: #333333;
+}
 .ui-corner-all {
     border-radius: 0.6em 0.6em 0.6em 0.6em;
     box-shadow: 0 2px 2px #555555;
@@ -38,6 +45,7 @@
     border: none;
     color: #333;
     text-shadow: none;
+    font-size: 12px;
 }
 .image-handler{
   width: 201px;
@@ -78,8 +86,9 @@
     float: left;
 }
 .white-bg {
-    background-color: #FFFFFF;
-    border: 1px solid #DDDDDD;
+    background-color: #FFF;
+    border: 1px solid #666;
+    border-radius: 5px 5px 5px 5px;
     padding: 10px;
 }
 input.ui-input-text {
