@@ -63,7 +63,6 @@
   background-image: url('../img/skedapp_background.png');
   border: 1px solid #ccc;
   border-radius: 0 0 10px 10px;
-  box-shadow: 0 2px 1px #ccc;
   margin-top: -16px;
   text-align: center;
 }
@@ -121,4 +120,13 @@ input.ui-input-text {
 }
 .descriptionDetails{
   font-size: 13px;
+}
+.center-aligned{
+  text-align: center;
+}
+.shadow {
+    position: relative;
+    top: -1px;
+    width: 100%;
+    z-index: 5;
 }
