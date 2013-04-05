@@ -196,7 +196,21 @@ end of Styles for images
 	position: relative;
 	z-index: 2;
 }
-
+.message-background {
+	background-color: #959595;
+	border: 1px solid #959595;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	margin-top: -1px;
+	position: relative;
+	z-index: 2;
+}
+.message-devider {
+        color: #FFFFFF;
+        font-weight: bold;
+	padding: 10px;
+}
 .white-bg {
 	background-color: #FFFFFF;
         border: 1px solid #ddd;

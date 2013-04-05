@@ -14,7 +14,7 @@ var intSPCnt = 0;
 var currentServiceId = {% if options.service is defined %} {{ options.service.id }} {% endif %};
 
 </script>
-<div class="row-fluid body-secondary rounded-bottom" id="results">
+<div class="row-fluid rounded-bottom" id="results">
     <div class="span12">
         {% render "SkedAppSearchBundle:Search:showResults" with { 'paginator' : pagination, 'serviceId' : options.service.id, 'options': options } %}    
         <div class="btn-group pull-right">
