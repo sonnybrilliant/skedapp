@@ -100,6 +100,9 @@ Media Queries for screens with a width smaller than 1024
         background-position: bottom;
         background-repeat: no-repeat;
     }
+    .med-gray-text {
+	font-size: 0.9em;
+    }
 }
 /*******************
 end of Styles for images
