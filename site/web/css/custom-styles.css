@@ -212,7 +212,6 @@ end of Styles for images
 .message-devider {
         color: #FFFFFF;
         font-weight: bold;
-	padding: 10px;
 }
 .white-bg {
 	background-color: #FFFFFF;
@@ -691,6 +690,7 @@ input.span12{
 Button Styles by Arno Hattingh
 *********************/
 .btn {
+    background-image: none !important;
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     border-radius: 7px;
