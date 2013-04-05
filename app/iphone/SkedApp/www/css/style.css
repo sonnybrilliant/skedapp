@@ -123,6 +123,8 @@ input.ui-input-text {
 }
 .center-aligned{
   text-align: center;
+  font-weight: bold;
+  font-size: 12px;
 }
 .shadow {
     position: relative;
