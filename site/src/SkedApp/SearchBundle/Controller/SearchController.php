@@ -33,18 +33,25 @@ class SearchController extends Controller
         $options['lat'] = null;
         $options['lng'] = null;
         $options['date'] = null;
-        
-        
-        if(!isset($data['administrative_area_level_1'])){
-           $params = $this->getRequest()->get('Search');
-            $data['lat'] = $params['lat'];
-            $data['lng'] = $params['lng'];
-            $data['consultantServices'] = $params['serviceId'];
-            $data['category'] = $params['categoryId'];
-            $data['booking_date'] = $params['date'];
+
+
+        if (!isset($data['administrative_area_level_1'])) {
+            $params = $this->getRequest()->get('Search');
+            if ($this->getRequest()->get('Search')) {
+                $data['lat'] = $params['lat'];
+                $data['lng'] = $params['lng'];
+                $data['consultantServices'] = $params['serviceId'];
+                $data['category'] = $params['categoryId'];
+                $data['booking_date'] = $params['date'];
+            }else{
+                $data['lat'] = $this->getRequest()->get('lat');
+                $data['lng'] = $this->getRequest()->get('lng');
+                $data['consultantServices'] = $this->getRequest()->get('serviceId');
+                $data['category'] = $this->getRequest()->get('categoryId');
+                $data['booking_date'] = $this->getRequest()->get('date');
+            }
         }
 
-        
         $form = $this->createForm(new SearchType($data['category'], $data['booking_date'], $data['consultantServices']));
 
         if ($this->getRequest()->getMethod() == 'POST') {
@@ -81,7 +88,7 @@ class SearchController extends Controller
 
             //Get address from lat/ long
             $geocoder = new Geocoder();
-            $adapter  = new \Geocoder\HttpAdapter\BuzzHttpAdapter();
+            $adapter = new \Geocoder\HttpAdapter\BuzzHttpAdapter();
 
             $geocoder->registerProviders(array(
                 new \Geocoder\Provider\GoogleMapsProvider(
@@ -124,7 +131,6 @@ class SearchController extends Controller
             $addressString .= $address->getCountry();
 
             $form->setData(array('address' => $addressString, 'lat' => $options['lat'], 'lng' => $options['lng'], 'service' => $service, 'category' => $category));
-
         }
 
         $searchResults = $this->container
@@ -168,7 +174,7 @@ class SearchController extends Controller
 
         $options['lat'] = null;
         $options['lng'] = null;
-                
+
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
             if ($form->isValid()) {
@@ -264,7 +270,6 @@ class SearchController extends Controller
                 'category_id' => $formData['category'],
                 'serviceIds' => implode(',', $formData['consultantServices']),
                 'paginatorVariables' => $variables,
-
             ));
     }
 
@@ -310,31 +315,31 @@ class SearchController extends Controller
             throw new AccessDeniedException();
         }
     }
-    
-    public function showResultsAction($paginator,$serviceId,$options)
+
+    public function showResultsAction($paginator, $serviceId, $options)
     {
-       $this->get('logger')->info('show consultants results');
-       
-       $searchDate = new \DateTime($options['date']);
-       $searchDate->add(new \DateInterval('P1D'));
-       
-       $data = array();
-       $weekDays = $this->get('timeslots.manager')->buildWeekDays($searchDate);
-       foreach ($paginator as $consultant) {
+        $this->get('logger')->info('show consultants results');
+
+        $searchDate = new \DateTime($options['date']);
+        $searchDate->add(new \DateInterval('P1D'));
+
+        $data = array();
+        $weekDays = $this->get('timeslots.manager')->buildWeekDays($searchDate);
+        foreach ($paginator as $consultant) {
             //$consultants[] = $consultant;
-            
-            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant,$searchDate);
+
+            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $searchDate);
             $data[] = array(
                 'consultant' => $consultant,
                 'slots' => $slots
             );
         }
         return $this->render('SkedAppSearchBundle:Search:show.results.html.twig', array(
-            'weekDays' => $weekDays,
-            'data' => $data,
-            'service' => $this->get('service.manager')->getById($serviceId),
-            'options' => $options
-        ));
+                'weekDays' => $weekDays,
+                'data' => $data,
+                'service' => $this->get('service.manager')->getById($serviceId),
+                'options' => $options
+            ));
     }
 
 }
