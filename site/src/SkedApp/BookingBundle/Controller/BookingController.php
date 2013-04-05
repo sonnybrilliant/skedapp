@@ -10,6 +10,7 @@ use SkedApp\CustomerBundle\Form\CustomerPotentialType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\BookingBundle\Form\BookingMessageType;
+use SkedApp\BookingBundle\Form\BookingSelectConsultantsType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\CustomerPotential;
@@ -30,6 +31,29 @@ use Ivory\GoogleMap\Events\MouseEvent;
  */
 class BookingController extends Controller
 {
+
+    /**
+     * Manage bookings view
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageCalenderViewAction()
+    {
+        $this->get('logger')->info('manage bookings calander view');
+        
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+        
+        if(!$user->isAdmin()){
+           $company = $user->getCompany(); 
+        }
+        
+        $form = $this->createForm(new BookingSelectConsultantsType($company ? $company->getId() : null , $user->isAdmin())); 
+        
+        return $this->render('SkedAppBookingBundle:Booking:manage.calender.view.html.twig', array(
+            'form' => $form->createView(),
+         ));
+    }
 
     /**
      * Manage bookings
@@ -779,12 +803,11 @@ class BookingController extends Controller
                 $consultantEndTimeSlot = $consultant->getEndTimeslot();
 
                 $endOfDayTime = new \DateTime($date . ' ' . $consultantEndTimeSlot->getSlot());
-                
-                if($bookingEndTime > $endOfDayTime){
-                  $isValid = false;
-                  $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
+
+                if ($bookingEndTime > $endOfDayTime) {
+                    $isValid = false;
+                    $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
                 }
-                
             }
 
             if (!$isValid) {

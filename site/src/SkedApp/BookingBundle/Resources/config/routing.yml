@@ -1,3 +1,11 @@
+sked_app_booking_manage_calender_view:
+    pattern:  /booking/manage/calender/view
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderView }
+
+sked_app_booking_manage_calender_show:
+    pattern:  /booking/manage/calender/show
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderShow }
+    
 sked_app_booking_manager:
     pattern:  /booking/manage
     defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking }

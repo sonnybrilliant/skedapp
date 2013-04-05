@@ -24,11 +24,7 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-
-        <div style="margin-left: 0px;" class="span5">
-            {% set vars = {'action': 'Calendar'} %}
-            {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
-        </div>
+        
         <div style="width: 29.718%;" class="span6 pull-right">
             <a href="{{ path('sked_app_booking_new') }}" class="btn btn-warning pull-right"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
         </div>
