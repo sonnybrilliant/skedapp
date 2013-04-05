@@ -1,13 +1,11 @@
 .body-background{
     background-color: #ffffff;
 }
-
 .blockWrapper{
 	background: #fff;
 	padding: 10px;
 	border: 1px solid #ccc;
 }
-
 .-box-blue-wrapper {
 	margin: -1px 0 -1px -1px;
 	padding: 0;
@@ -65,7 +63,6 @@
   background-image: url('../img/skedapp_background.png');
   border: 1px solid #ccc;
   border-radius: 0 0 10px 10px;
-  box-shadow: 0 2px 1px #ccc;
   margin-top: -16px;
   text-align: center;
 }
@@ -76,6 +73,9 @@
 }
 .pull-right {
     float: right;
+}
+.pull-left {
+    float: left;
 }
 .white-bg {
     background-color: #FFFFFF;
@@ -95,4 +95,38 @@ input.ui-input-text {
 }
 .ui-btn-inner {
     padding: 0.6em 5px;
+}
+.ui-header .ui-title, .ui-footer .ui-title {
+    text-align: left;
+    margin: 0.6em 2% 0.8em;
+}
+#div-search-results a{
+  background: #FAA732;
+  padding: 0 3px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #fff;
+}
+.lisa-joy-2 a:hover{
+  text-decoration: none;
+}
+.ui-body-c .ui-link {
+    color: #fff;
+    font-weight: normal;
+    border-radius: 2px 2px 2px 2px; 
+}
+.person-details-labels{
+  font-size: 13px;
+}
+.descriptionDetails{
+  font-size: 13px;
+}
+.center-aligned{
+  text-align: center;
+}
+.shadow {
+    position: relative;
+    top: -1px;
+    width: 100%;
+    z-index: 5;
 }

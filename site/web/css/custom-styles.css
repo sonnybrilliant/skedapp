@@ -5,7 +5,6 @@ html, body {
 	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
 	height: 100%;
 }
-
 #Booking_customerOrNot_0{
   float: left;
   margin-right: 5px;
@@ -99,6 +98,9 @@ Media Queries for screens with a width smaller than 1024
         background-image: url('../img/image-shadow100.png');
         background-position: bottom;
         background-repeat: no-repeat;
+    }
+    .med-gray-text {
+	font-size: 0.9em;
     }
 }
 /*******************
@@ -196,7 +198,20 @@ end of Styles for images
 	position: relative;
 	z-index: 2;
 }
-
+.message-background {
+	background-color: #959595;
+	border: 1px solid #959595;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	margin-top: -1px;
+	position: relative;
+	z-index: 2;
+}
+.message-devider {
+        color: #FFFFFF;
+        font-weight: bold;
+}
 .white-bg {
 	background-color: #FFFFFF;
         border: 1px solid #ddd;
@@ -636,13 +651,13 @@ Page Styles
   width: 100%;
 }
 select.span12{
-	border: none;
-	-moz-box-shadow: 0px 2px 2px #555;
-	-webkit-box-shadow: 0px 2px 2px #555;
-	box-shadow: 0px 2px 2px #555;
-	-moz-border-radius: 7px;
-	-webkit-border-radius: 7px;
-	border-radius: 7px;
+    border: none;
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
 }
 .booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
@@ -674,6 +689,7 @@ input.span12{
 Button Styles by Arno Hattingh
 *********************/
 .btn {
+    background-image: none !important;
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     border-radius: 7px;
