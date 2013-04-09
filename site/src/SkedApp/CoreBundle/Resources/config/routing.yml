@@ -10,6 +10,20 @@ _security_check:
 _security_logout:
     pattern:  /logout    
 
+_site_privacy_policy:
+    pattern: /privacy-policy.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Site:privacy , _format: html }
+    requirements:
+        _method: GET
+        _format:  html 
+        
+_site_terms_of_use:
+    pattern: /terms-of-use.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Site:terms , _format: html }
+    requirements:
+        _method: GET
+        _format:  html     
+
 sked_app_invite_friends_loggedin:
     pattern: /invite/friend.{_format}
     defaults: { _controller: SkedAppCoreBundle:Invite:inviteLoggedIn , _format: html }
