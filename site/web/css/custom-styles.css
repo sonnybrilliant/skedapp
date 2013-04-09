@@ -587,6 +587,14 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
+.forms-background .help-inline li {
+    color: #DA1921;
+    font-weight: bold;
+    list-style: none;
+    padding-top: 10px;
+    padding-left: 0px;
+    text-shadow: 1px 1px 0px #dddddd;
+}
 .consultant-background {
 	margin: -1px 0 -1px -1px;
 	padding: 0;

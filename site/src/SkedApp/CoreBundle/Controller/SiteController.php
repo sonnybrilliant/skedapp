@@ -1,8 +1,8 @@
 <?php
 
-namespace SkedApp\CoreBundle\Controller ;
+namespace SkedApp\CoreBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller ;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\SearchBundle\Form\SearchType;
 
 /**
@@ -23,15 +23,25 @@ class SiteController extends Controller
 
         $form = $this->createForm(new SearchType());
 
-        $arrOptions = array ('form' => $form->createView ());
+        $arrOptions = array('form' => $form->createView());
 
         if ($this->get('security.context')->isGranted('ROLE_CONSULTANT_USER'))
-          $arrOptions['logged_in_consultant'] = $user = $this->get('consultant.manager')->getLoggedInUser();
+            $arrOptions['logged_in_consultant'] = $user = $this->get('consultant.manager')->getLoggedInUser();
 
         if ($this->get('security.context')->isGranted('ROLE_SITE_USER'))
-          $arrOptions['logged_in_customer'] = $user = $this->get('customer.manager')->getLoggedInUser();
+            $arrOptions['logged_in_customer'] = $user = $this->get('customer.manager')->getLoggedInUser();
 
         return $this->render('SkedAppCoreBundle:Site:index.html.twig', $arrOptions);
+    }
+
+    public function privacyAction()
+    {
+       return $this->render('SkedAppCoreBundle:Site:privacy.html.twig'); 
+    }
+    
+    public function termsAction()
+    {
+       return $this->render('SkedAppCoreBundle:Site:terms.html.twig'); 
     }
 
 }

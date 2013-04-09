@@ -1,10 +1,14 @@
 .body-background{
     background-color: #ffffff;
 }
+.gray-text{
+  color: #333;
+}
 .blockWrapper{
-	background: #fff;
-	padding: 10px;
-	border: 1px solid #ccc;
+	background-color: #FFF;
+  border: 1px solid #666;
+  border-radius: 5px 5px 5px 5px;
+  padding: 10px;
 }
 .-box-blue-wrapper {
 	margin: -1px 0 -1px -1px;
@@ -30,6 +34,13 @@
 	z-index: 3;
   box-shadow: 0px 1px 6px #555A55;
 }
+.body-secondary {
+    background-color: #EEEEEE;
+    border: 1px solid #E1E1E1;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 1px #FFFFFF inset;
+    color: #333333;
+}
 .ui-corner-all {
     border-radius: 0.6em 0.6em 0.6em 0.6em;
     box-shadow: 0 2px 2px #555555;
@@ -38,6 +49,7 @@
     border: none;
     color: #333;
     text-shadow: none;
+    font-size: 12px;
 }
 .image-handler{
   width: 201px;
@@ -78,17 +90,29 @@
     float: left;
 }
 .white-bg {
-    background-color: #FFFFFF;
-    border: 1px solid #DDDDDD;
+    background-color: #FFF;
+    border: 1px solid #666;
+    border-radius: 5px 5px 5px 5px;
     padding: 10px;
 }
 input.ui-input-text {
-    font-weight: bold;
+    font-weight: normal;
 }
 .ui-btn-text{
   text-align: left;
-  font-weight: bold;
   margin-left: 0px;
+}
+.imageWrapper{
+  border: 1px solid #CCCCCC;
+  float: left;
+  margin-right: 5px;
+  padding: 2px;
+}
+.paddingBottom15px{
+  float: left;
+}
+.tableWrapper{
+  clear: both;
 }
 .ui-btn-corner-all, .ui-btn-corner-all {
     border-radius: 0.6em 0.6em 0.6em 0.6em;
@@ -123,10 +147,31 @@ input.ui-input-text {
 }
 .center-aligned{
   text-align: center;
+  font-size: 12px;
 }
 .shadow {
     position: relative;
     top: -1px;
     width: 100%;
     z-index: 5;
+}
+h1,h2,h3,h4,h5,h6 {
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 20px;
+  color: #fff;
+  text-rendering: optimizelegibility;
+}
+.marginTop10px {
+  *zoom: 1;
+}
+.marginTop10px:before,
+.marginTop10px:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+.marginTop10px:after {
+  clear: both;
 }
