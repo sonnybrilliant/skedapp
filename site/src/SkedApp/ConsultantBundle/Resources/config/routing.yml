@@ -90,6 +90,16 @@ sked_app_consultant_ajax_get_by_category:
         _format:  html
     options:
         expose: true
+        
+sked_app_consultant_ajax_get_by_company:
+    pattern:  /consultant/ajaxGetByCompany/{companyId}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxGetByCompany , _format: html }
+    requirements:
+        categoryId:  \d+
+        _method:  GET
+        _format:  html
+    options:
+        expose: true
 
 sked_app_consultant_ajax_get_all_bookings:
     pattern:  /consultant/ajaxGetAllBookings/{consultantId}.{_format}

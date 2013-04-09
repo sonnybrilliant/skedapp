@@ -5,6 +5,14 @@ sked_app_booking_manage_calender_view:
 sked_app_booking_manage_calender_show:
     pattern:  /booking/manage/calender/show
     defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderShow }
+
+sked_app_booking_manage_view:
+    pattern:  /booking/manage/view
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBookView }
+
+sked_app_booking_manage_show:
+    pattern:  /booking/manage/show
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBookShow }
     
 sked_app_booking_manager:
     pattern:  /booking/manage
@@ -51,7 +59,7 @@ sked_app_booking_ajax_get_by_consultant:
         expose: true
 
 sked_app_booking_ajax_get_bookings:
-    pattern:  /booking/ajaxGetBookings
+    pattern:  /booking/manage/calender/ajaxGetBookings
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
     options:
         expose: true

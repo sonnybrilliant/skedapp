@@ -10,14 +10,14 @@ use Doctrine\ORM\EntityRepository;
 use SkedApp\BookingBundle\Form\EventListener\AddServiceProviderFieldSubscriber;
 
 /**
- * SkedApp\ConsultantBundle\Form\BookingSelectConsultantsType
+ * SkedApp\ConsultantBundle\Form\BookingSelectConsultantsDateType
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppBookingBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class BookingSelectConsultantsType extends AbstractType
+class BookingSelectConsultantsDateType extends AbstractType
 {
 
     /**
@@ -31,12 +31,15 @@ class BookingSelectConsultantsType extends AbstractType
      * @var Integer
      */
     private $companyId = null;
+    
+    private $date = null;
 
 
     public function __construct($companyId, $isAdmin = false)
     {
         $this->companyId = $companyId;
         $this->isAdmin = $isAdmin;
+        $this->date = new \DateTime();
     }
 
     /**
@@ -78,6 +81,9 @@ class BookingSelectConsultantsType extends AbstractType
         
 
         $builder
+            ->add('filterDate', 'text', array(
+                'attr' => array('class' => 'span4 datepicker', 'value' => $this->date->format('d-m-Y')),
+            ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
@@ -100,6 +106,7 @@ class BookingSelectConsultantsType extends AbstractType
                     }
                 },
             ));
+                
     }
 
     /**

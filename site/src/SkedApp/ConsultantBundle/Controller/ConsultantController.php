@@ -51,7 +51,7 @@ class ConsultantController extends Controller
             'direction' => $direction,
         );
 
-        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+        if (($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')))
             $options['company'] = $user->getCompany();
 
         $paginator = $this->get('knp_paginator');
@@ -207,9 +207,9 @@ class ConsultantController extends Controller
 
         try {
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
-            
+
             $path = $consultant->getPath();
-            
+
             $form = $this->createForm(new ConsultantUpdateType(), $consultant);
 
             if ($this->getRequest()->getMethod() == 'POST') {
@@ -453,11 +453,6 @@ class ConsultantController extends Controller
             $this->get('logger')->info('get services by category');
             $results = array();
 
-//            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
-//                $this->get('logger')->warn('view agency, access denied.');
-//                throw new AccessDeniedException();
-//            }
-
             $em = $this->getDoctrine()->getEntityManager();
             $category = $em->getRepository('SkedAppCoreBundle:Category')->find($categoryId);
 
@@ -497,6 +492,52 @@ class ConsultantController extends Controller
             $this->get('logger')->warn('not a valid request, expected ajax call');
             throw new AccessDeniedException();
         }
+    }
+
+    /**
+     * Ajax call consultants by company
+     *
+     * @param integer $companyId
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     */
+    public function ajaxGetByCompanyAction($companyId)
+    {
+        //if ($this->getRequest()->isXmlHttpRequest()) {
+            $this->get('logger')->info('get consultants by company');
+            $results = array();
+
+            try {
+                $em = $this->getDoctrine()->getEntityManager();
+                $company = $em->getRepository('SkedAppCoreBundle:Company')->find($companyId);
+
+                if ($company) {
+                    $consultants = $this->get('consultant.manager')->getAllByCompany($company);
+
+                    if ($consultants) {
+                        foreach ($consultants as $consultant) {
+                            $results[] = array(
+                                'id' => $consultant->getId(),
+                                'name' => $consultant->getFullName()
+                            );
+                        }
+                    }
+                }
+
+                $return = new \stdClass();
+                $return->status = 'success';
+                $return->count = sizeof($results);
+                $return->results = $results;
+
+                $response = new Response(json_encode($return));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            } catch (\Exception $e) {
+                $response = new Response(json_encode($e->getMessage()));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+        //}
     }
 
     /**
@@ -584,7 +625,7 @@ class ConsultantController extends Controller
 
         $user = $this->get('member.manager')->getLoggedInUser();
 
-        if ( ($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')) )
+        if (($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')))
             $companyId = $user->getCompany()->getId();
 
         $arrSearch = $this->getRequest()->get('Search');

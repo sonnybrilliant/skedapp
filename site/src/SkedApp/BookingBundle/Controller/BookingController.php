@@ -11,6 +11,7 @@ use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\BookingBundle\Form\BookingMessageType;
 use SkedApp\BookingBundle\Form\BookingSelectConsultantsType;
+use SkedApp\BookingBundle\Form\BookingSelectConsultantsDateType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\CustomerPotential;
@@ -33,26 +34,154 @@ class BookingController extends Controller
 {
 
     /**
-     * Manage bookings view
+     * Manage bookings calender view
      *
      * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
      */
     public function manageCalenderViewAction()
     {
         $this->get('logger')->info('manage bookings calander view');
-        
+
         $user = $this->get('member.manager')->getLoggedInUser();
         $company = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsType($company ? $company->getId() : null, $user->isAdmin()));
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.calender.view.html.twig', array(
+                'form' => $form->createView(),
+                'isAdmin' => $user->isAdmin()
+            ));
+    }
+
+    /**
+     * Manage bookings calender show
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageCalenderShowAction()
+    {
+        $this->get('logger')->info('manage bookings calander show');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+        $consultants = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsType($company ? $company->getId() : null, $user->isAdmin()));
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $consultants = $data['consultant'];
+
+                if ($consultants->count() == 0) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select consultants');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+                }
+
+                if ($consultants->count() > 10) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'You can only select 10 consultants at a time');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+                }
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+            }
+        }
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.calender.show.html.twig', array(
+                'consultants' => $consultants,
+            ));
+    }
+
+    /**
+     * Manage bookings view
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageBookViewAction()
+    {
+        $this->get('logger')->info('manage bookings view');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsDateType($company ? $company->getId() : null, $user->isAdmin()));
         
-        if(!$user->isAdmin()){
-           $company = $user->getCompany(); 
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.view.html.twig', array(
+                'form' => $form->createView(),
+                'isAdmin' => $user->isAdmin()
+            ));
+    }
+    
+    /**
+     * Manage bookings view
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageBookShowAction()
+    {
+        $this->get('logger')->info('manage bookings show');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsDateType($company ? $company->getId() : null, $user->isAdmin()));
+        
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $consultants = $data['consultant'];
+
+                if ($consultants->count() == 0) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select consultants');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
+                }
+
+                if ($consultants->count() > 10) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'You can only select 10 consultants at a time');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
+                }
+                
+                
+                ladybug_dump($data);
+                exit();
+                
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
+            }
         }
         
-        $form = $this->createForm(new BookingSelectConsultantsType($company ? $company->getId() : null , $user->isAdmin())); 
-        
-        return $this->render('SkedAppBookingBundle:Booking:manage.calender.view.html.twig', array(
-            'form' => $form->createView(),
-         ));
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.show.html.twig', array(
+                'form' => $form->createView(),
+                'isAdmin' => $user->isAdmin()
+            ));
     }
 
     /**

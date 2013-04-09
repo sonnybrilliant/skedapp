@@ -401,5 +401,10 @@ final class BookingManager
             ->getBookingSlotsForConsultantSearch($consultant, $date);
         return $output;
     }
+    
+    public function getBookingsForConsultants($consultants,$date)
+    {
+       $this->logger->info('Get consultants bookings'); 
+    }
 
 }

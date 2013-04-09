@@ -126,6 +126,13 @@ class Booking
      * @ORM\Column(name="is_cancelled", type="boolean")
      */
     protected $isCancelled;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_closed", type="boolean")
+     */
+    protected $isClosed;
 
     /**
      * @var boolean
@@ -187,6 +194,7 @@ class Booking
 
     public function __construct()
     {
+        $this->isClosed = false;
         $this->isDeleted = false;
         $this->isLeave = false;
         $this->isActive = true;
@@ -808,5 +816,28 @@ class Booking
         }
 
         return '';
+    }
+
+    /**
+     * Set isClosed
+     *
+     * @param boolean $isClosed
+     * @return Booking
+     */
+    public function setIsClosed($isClosed)
+    {
+        $this->isClosed = $isClosed;
+    
+        return $this;
+    }
+
+    /**
+     * Get isClosed
+     *
+     * @return boolean 
+     */
+    public function getIsClosed()
+    {
+        return $this->isClosed;
     }
 }
