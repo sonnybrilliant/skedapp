@@ -405,6 +405,11 @@ final class BookingManager
     public function getBookingsForConsultants($consultants,$date)
     {
        $this->logger->info('Get consultants bookings'); 
+       
+       $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
+            ->getBookingByConsultans($consultants, $date);
+       return $output;
+
     }
 
 }

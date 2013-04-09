@@ -123,64 +123,81 @@ class BookingController extends Controller
         }
 
         $form = $this->createForm(new BookingSelectConsultantsDateType($company ? $company->getId() : null, $user->isAdmin()));
-        
+
         return $this->render('SkedAppBookingBundle:Booking:manage.booking.view.html.twig', array(
                 'form' => $form->createView(),
                 'isAdmin' => $user->isAdmin()
             ));
     }
-    
+
     /**
      * Manage bookings view
      *
      * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
      */
-    public function manageBookShowAction()
+    public function manageBookShowAction($page = 1)
     {
         $this->get('logger')->info('manage bookings show');
 
         $user = $this->get('member.manager')->getLoggedInUser();
         $company = null;
-
+        $consultants = null;
+        $date =  null;
+        
         if (!$user->isAdmin()) {
             $company = $user->getCompany();
         }
 
         $form = $this->createForm(new BookingSelectConsultantsDateType($company ? $company->getId() : null, $user->isAdmin()));
-        
+        $paginator = $this->get('knp_paginator');
+        $pagination = null;
+
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
                 $data = $form->getData();
-                $consultants = $data['consultant'];
+                $selectedConsultants = $data['consultant'];
 
-                if ($consultants->count() == 0) {
+                if ($selectedConsultants->count() == 0) {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'Please select consultants');
                     return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
                 }
 
-                if ($consultants->count() > 10) {
+                if ($selectedConsultants->count() > 10) {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'You can only select 10 consultants at a time');
                     return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
                 }
-                
-                
-                ladybug_dump($data);
-                exit();
-                
+
+
+                //ladybug_dump($data);
+
+
+                $date = new \DateTime($data['filterDate']);
+                $consultants = array();
+
+                foreach ($selectedConsultants as $consultant) {
+                    $consultants[] = $consultant->getId();
+                }
+               
+                $session = $this->getRequest()->getSession();
+                $session->set('consultants', $consultants);
+                $session->set('filterDate', $date);
             } else {
                 $this->getRequest()->getSession()->setFlash(
                     'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
                 return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
             }
-        }
-        
+        } 
+        $session = $this->getRequest()->getSession();
+        $pagination = $paginator->paginate(
+            $this->get('booking.manager')->getBookingsForConsultants($session->get('consultants'), $session->get('filterDate')), $this->getRequest()->query->get('page', $page), 10
+        );
+
         return $this->render('SkedAppBookingBundle:Booking:manage.booking.show.html.twig', array(
-                'form' => $form->createView(),
-                'isAdmin' => $user->isAdmin()
+                'pagination' => $pagination,
             ));
     }
 
