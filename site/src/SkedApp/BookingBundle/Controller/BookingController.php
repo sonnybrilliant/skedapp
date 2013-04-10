@@ -254,16 +254,25 @@ class BookingController extends Controller
         try {
             $booking = $this->get('booking.manager')->getById($bookingId);
             $this->get('booking.manager')->reject($booking);
-            
+
+            if (!$booking->getCustomerPotential()) {
+                //send email
+                $options = array(
+                    'booking' => $booking,
+                    'customerName' => $booking->getCustomer()->getFullName()
+                );
+                //send booking confirmation emails
+                $this->get("notification.manager")->sendBookingRejected($options);
+            }
+
             $this->getRequest()->getSession()->setFlash(
                 'success', 'Booking was successfully rejected');
-            
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request - ' . $e->getMessage());
             return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
         }
-        
+
         return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
     }
 
@@ -1269,6 +1278,39 @@ class BookingController extends Controller
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+    /**
+     * Confirm  booking
+     * 
+     * @param integer $bookingId
+     * @return type
+     */
+    public function confirmAction($bookingId)
+    {
+        $this->get('logger')->info('confirm booking id:' . $bookingId);
+
+        try {
+
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $booking->setIsConfirmed(true);
+            $this->get('booking.manager')->save($booking);
+
+            $options = array(
+                'booking' => $booking,
+                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+            );
+            //send booking confirmation emails
+            $this->get("notification.manager")->confirmationBooking($options);
+            $this->getRequest()->getSession()->setFlash(
+                'success', 'Booking was successfully confirmed');
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request - ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+        }
+
+        return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
     }
 
     /**

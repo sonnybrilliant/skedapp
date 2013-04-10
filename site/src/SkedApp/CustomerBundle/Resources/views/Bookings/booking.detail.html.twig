@@ -81,14 +81,7 @@
                                     Service Provider:
                                 </td>
                                 <td valign="bottom">
-                                    {% if file_exists(web_path~asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path)) %}
-                                    <div class="img-polaroid polaroid-width120">
-                                        <div class="image-dimensions120">
-                                            <img src="{{ asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path) }}" width="120" class="space-right"/>
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                    <strong>{{ booking.consultant.company.name }}</strong>
+                                    <strong><a href="{{ path('sked_app_service_provider_show',{'id':booking.consultant.company.id})}}.html" title="View service provider profile">{{ booking.consultant.company.name }}</a></strong>
                                 </td>
                             </tr>
                             <tr>

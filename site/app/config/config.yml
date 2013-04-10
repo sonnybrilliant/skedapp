@@ -73,9 +73,9 @@ swiftmailer:
     encryption: tls
     port:  587
     logging:  "%kernel.debug%"    
-    spool:     
-       type: file
-       path: "%kernel.root_dir%/spool"
+#    spool:     
+#       type: file
+#       path: "%kernel.root_dir%/spool"
 
 monolog:
     handlers:

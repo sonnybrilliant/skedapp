@@ -54,7 +54,15 @@ sked_app_booking_reject:
     defaults: { _controller: SkedAppBookingBundle:Booking:reject , _format: html}
     requirements:
         bookingId:  \d+
-        _method:  GET|POST
+        _method:  GET
+        _format:  html   
+        
+sked_app_booking_confirm:
+    pattern:  /booking/confirm/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:confirm , _format: html}
+    requirements:
+        bookingId:  \d+
+        _method:  GET
         _format:  html    
 
 sked_app_booking_update:
