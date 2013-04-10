@@ -106,7 +106,7 @@ sked_app_booking_ajax_get_by_consultant:
         expose: true
 
 sked_app_booking_ajax_get_bookings:
-    pattern:  /booking/manage/calender/ajaxGetBookings
+    pattern:  /booking/manage/calender/ajaxGetBookings/{str}
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
     options:
         expose: true

@@ -69,7 +69,9 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
         $company = null;
         $consultants = null;
-
+        $consultantsString = null;
+        
+        
         if (!$user->isAdmin()) {
             $company = $user->getCompany();
         }
@@ -101,9 +103,13 @@ class BookingController extends Controller
             }
         }
         
+        foreach($consultants as $consultant){
+          $consultantsString .= $consultant->getId().'-';  
+        }
         
         return $this->render('SkedAppBookingBundle:Booking:manage.calender.show.html.twig', array(
                 'consultants' => $consultants,
+                'consultanstString' => $consultantsString
             ));
     }
 
@@ -612,7 +618,7 @@ class BookingController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxGetBookingsAction()
+    public function ajaxGetBookingsAction($str)
     {
         $this->get('logger')->info('get bookings');
         $results = array();
@@ -627,13 +633,19 @@ class BookingController extends Controller
         $latestEnd = new \Datetime($endSlotsDateTime->format('Y-m-d H:i:00'));
         $isSingleDay = false;
         $company = null;
+        $consultantsIntergerArray = array();
 
-        $user = $this->get('member.manager')->getLoggedInUser();
+        
+        $tmp = explode("-",$str);
+        for($x = 0; $x < sizeof($tmp);$x++){
+            if(is_numeric($tmp[$x])){
+                $consultantsIntergerArray[] = $tmp[$x];
+            }
+        }
+        
 
-        if (($this->get('security.context')->isGranted('ROLE_CONSULTANT_ADMIN')) && (!$this->get('security.context')->isGranted('ROLE_ADMIN')))
-            $company = $user->getCompany();
 
-        $bookings = $this->get("booking.manager")->getAllBetweenDates($startSlotsDateTime, $endSlotsDateTime, $company);
+        $bookings = $this->get('booking.manager')->getBookingsForConsultants($consultantsIntergerArray,null);
 
         if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) >= (60 * 60 * 24 * 28)) {
             $isMonth = true;
@@ -718,8 +730,12 @@ class BookingController extends Controller
 
         if ((!is_null($start)) && (!is_null($end))) {
             //Adding empty slots
-            $consultants = $this->get("consultant.manager")->listAll(array('sort' => 'c.lastName', 'direction' => 'Asc', 'company' => $company));
-
+            $consultants = array();
+            
+            for($y = 0; $y < sizeof($consultantsIntergerArray); $y++){
+                $consultants[] = $this->get('consultant.manager')->getById($consultantsIntergerArray[$y]); 
+            }
+            
             foreach ($consultants as $consultant) {
 
                 $startSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $start));
