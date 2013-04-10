@@ -116,6 +116,16 @@
            <span class="help-inline">{{form_errors(form.captcha)}}</span>
         </div>
       </div>
+      <div class="control-group">
+        <div>
+            <table width="408px">
+                <tr>
+                    <td><input type="checkbox" name=""/>
+                    <p class="terms-conditions">I agree to skedapp <a href="{{ path('_site_terms_of_use')}}.html" target="_blank" title="Terms & Conditions" class="terms-conditions-links"><strong>Terms & Conditions</strong></a> and <a href="{{ path('_site_privacy_policy')}}.html" title="Privacy Policy" class="terms-conditions-links" target="_blank"><strong>Privacy Policy</strong></a></p></td>
+                </tr>
+           </table>
+        </div>
+      </div>
       <div class="btn-toolbar pull-right">
           
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Register &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>

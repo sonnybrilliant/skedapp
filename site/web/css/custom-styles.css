@@ -989,3 +989,11 @@ Fix re-Captcha label issue
 .hide-div{
     display: none;
 }
+
+.terms-conditions-links{
+  color: #fff;
+}
+.terms-conditions {
+    float: right;
+    margin-top: 2px;
+}
