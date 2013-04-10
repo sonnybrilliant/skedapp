@@ -61,7 +61,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Service Provider:</strong></td>
-                                        <td>{{ consultant.company.name }}</td>
+                                        <td><a href="{{ path('sked_app_service_provider_show',{'id':consultant.company.id})}}.html" title="View service provider profile">{{ consultant.company.name }}</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact Number:</strong></td>

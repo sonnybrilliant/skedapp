@@ -100,7 +100,8 @@ class BookingController extends Controller
                 return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
             }
         }
-
+        
+        
         return $this->render('SkedAppBookingBundle:Booking:manage.calender.show.html.twig', array(
                 'consultants' => $consultants,
             ));

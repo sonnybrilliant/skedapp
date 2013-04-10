@@ -113,7 +113,6 @@ class ServiceProviderController extends Controller
      * 
      * @param Integer $id Service provider id
      * 
-     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER,ROLE_SITE_USER")
      */
     public function showAction($id)
     {
