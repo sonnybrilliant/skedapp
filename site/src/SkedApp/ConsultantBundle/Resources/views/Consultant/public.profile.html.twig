@@ -116,7 +116,9 @@
             <h4>Service Provider Pictures</h4>
             <div class="bs-docs-example bs-docs-example-images">
               {% for photo in consultant.company.companyPhotos %}
+                    {% if photo.isDeleted != "true" %}
                          <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">
+                    {% endif %}
               {% endfor %}
               <div class="clearfix"></div>
               <div class="spacer1"></div>
