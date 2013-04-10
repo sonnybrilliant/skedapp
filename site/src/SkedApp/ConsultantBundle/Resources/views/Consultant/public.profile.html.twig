@@ -21,7 +21,7 @@
                     <div class="image-shadow pull-left space-right20">
                         <div class="img-polaroid polaroid-width120">
                             <div class="image-dimensions120">
-                                <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                                <a href="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="lightbox"><img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" /></a>
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                     <div class="image-shadow pull-left space-right20">
                         <div class="img-polaroid polaroid-width120">
                             <div class="image-dimensions120">
-                                <img src="{{ asset('/img/male.jpg') }}" />
+                                <a href="{{ asset('/img/male.jpg') }}" class="lightbox"><img src="{{ asset('/img/male.jpg') }}" /></a>
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                     <div class="image-shadow pull-left space-right20">
                         <div class="img-polaroid polaroid-width120">
                             <div class="image-dimensions120">
-                                <img src="{{ asset('/img/female.jpg') }}" />
+                                <a href="{{ asset('/img/female.jpg') }}" class="lightbox"><img src="{{ asset('/img/female.jpg') }}" /></a>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
             <div class="bs-docs-example bs-docs-example-images">
               {% for photo in consultant.company.companyPhotos %}
                     {% if photo.isDeleted != "true" %}
-                         <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">
+                         <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom"></a>
                     {% endif %}
               {% endfor %}
               <div class="clearfix"></div>

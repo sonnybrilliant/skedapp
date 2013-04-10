@@ -56,12 +56,12 @@ var currentServiceId = {{ options.service.id }};
                     <div class="img-polaroid polaroid-width120">
                         <div class="image-dimensions120">
                         {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                            <a href="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="lightbox"><img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" /></a>
                         {% else %}
                         {% if consultant.gender.name == "Male" %}
-                            <img src="{{ asset('/img/male.jpg') }}" />
+                            <a href="{{ asset('/img/male.jpg') }}" class="lightbox"><img src="{{ asset('/img/male.jpg') }}" /></a>
                         {% else %}
-                            <img src="{{ asset('/img/female.jpg') }}" />
+                            <a href="{{ asset('/img/female.jpg') }}" class="lightbox"><img src="{{ asset('/img/female.jpg') }}" /></a>
                         {% endif %}
                         {% endif %}
                         </div>
