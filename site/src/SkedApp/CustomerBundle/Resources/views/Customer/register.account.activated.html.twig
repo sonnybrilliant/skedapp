@@ -1,14 +1,13 @@
-{% extends "SkedAppMemberBundle::layout.html.twig" %}
+{% extends "SkedAppCustomerBundle::layout.customer.html.twig" %}
 
-{% block title %}Your account is now active{% endblock %}
+{% block title %}SkedApp | Your Account is Now Active{% endblock %}
 
 {% block body %}
-<div class="span12">
-        <h3 class="align_header">Your account is now active</h3>
-        <br />
-       <section class="content">
-           <p style="margin-left: 30px">You have successfully verified your email address and activated your account, Please proceed to the login page to get started.</p>
-       </section>
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <h3>Your Account is Now Active</h3>
+        <div class="spacer1"></div>
+        You have successfully verified your email address and activated your account, Please proceed to the login page to get started.
+     </div> <!-- Dashboard Content --> 
 </div>
 {% endblock body %}
-
