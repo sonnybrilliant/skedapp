@@ -1,5 +1,5 @@
 
-<form class="form-horizontal" action="{{ path('sked_app_booking_manage_show')}}" method="POST" {{ form_enctype(form) }}>
+<form class="form-horizontal" action="{{ path('sked_app_booking_manage_show')}}.html" method="POST" {{ form_enctype(form) }}>
   <legend>Please select consultants</legend>  
   <fieldset>
       {% if form.company is defined %}
@@ -20,6 +20,8 @@
         <label class="control-label" for="consultants">Filter date:</label>
         <div class="controls">
             {{ form_widget(form.filterDate) }}
+            {{ form_widget(form.chkDisableDate) }}
+              
         </div>
       </div>
       <div class="btn-toolbar">

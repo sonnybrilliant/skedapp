@@ -19,7 +19,7 @@ use SkedApp\CompanyBundle\Form\CompanyPhotosUpdateType;
  */
 class ServiceProviderPhotoController extends Controller
 {
-    
+
     /**
      * Add service provider photo
      * 
@@ -46,7 +46,7 @@ class ServiceProviderPhotoController extends Controller
                     return $this->redirect($this->generateUrl('sked_app_service_provider_show', array('id' => $serviceProviderId)));
                 } catch (\Exception $e) {
                     $this->getRequest()->getSession()->setFlash(
-                        'error', 'Exception occured: '.$e->getMessage());
+                        'error', 'Exception occured: ' . $e->getMessage());
                     return $this->redirect($this->generateUrl('sked_app_service_provider_show', array('id' => $serviceProviderId)));
                 }
             } else {
@@ -59,6 +59,77 @@ class ServiceProviderPhotoController extends Controller
                 'form' => $form->createView(),
                 'serviceProviderId' => $serviceProviderId
             ));
+    }
+
+    /**
+     * Add service provider photo
+     * 
+     * @param integer $serviceProviderId
+     * 
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function listAction($serviceProviderId, $page = 1)
+    {
+        $this->get('logger')->info('manage additional company images');
+        $paginator = null;
+        $pagination = null;
+
+        try {
+            $company = $this->get('company.manager')->getById($serviceProviderId);
+
+            $isDirectionSet = $this->get('request')->query->get('direction', false);
+            $searchText = $this->get('request')->query->get('searchText');
+            $sort = $this->get('request')->query->get('sort', 'c.id');
+            $direction = $this->get('request')->query->get('direction', 'asc');
+
+            $options = array(
+                'searchText' => $searchText,
+                'sort' => $sort,
+                'direction' => $direction,
+                'companyId' => $company->getId()
+            );
+
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $this->container->get('company.photos.manager')->listAll($options), $this->getRequest()->query->get('page', $page), 10
+            );
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', $e->getMessage());
+        }
+
+        return $this->render('SkedAppCompanyBundle:ServiceProviderPhotos:list.html.twig', array(
+                'pagination' => $pagination,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet,
+                'company' => $company
+            ));
+    }
+
+    /**
+     * delete service provider photo
+     * 
+     * @param integer $serviceProviderId
+     * 
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function deleteAction($serviceProviderId, $photoId)
+    {
+        $this->get('logger')->info('delete service provider photo');
+
+        try {
+            $companyPhoto = $this->container->get('company.photos.manager')->getById($photoId);
+            $this->container->get('company.photos.manager')->delete($companyPhoto);
+
+            $this->getRequest()->getSession()->setFlash(
+                'success', 'deleted photo successfully');
+
+            return $this->redirect($this->generateUrl('sked_app_service_provider_photo_list', array('serviceProviderId' => $serviceProviderId)));
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_service_provider_list'));
+        }
     }
 
 }

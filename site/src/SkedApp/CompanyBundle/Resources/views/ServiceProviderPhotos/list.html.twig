@@ -1,0 +1,29 @@
+{% extends "SkedAppCompanyBundle::layout.html.twig" %}
+{% block title %}SkedApp | Manage service providers{% endblock %}
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <h3>Manage service providers photos</h3>
+        <div style="margin-left: 0px;" class="span5">
+            {% set vars = {'action': 'Photo list','serviceProvider': company.id} %}
+            {% include 'SkedAppCompanyBundle::breadcrumb.photo.html.twig' with vars  %}
+        </div>
+        <div class="service-provider-add-buttons pull-right">
+                <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add Photo</strong></a>
+                <form class="form-inline pull-right">
+                    <div class="input-prepend space-left20">
+                        <span class="add-on"><i class="icon-search" ></i></span>
+                        <input style="border-radius: 0;" name="searchText" title="search" type="text" value="" placeholder="search" class="input-small search" />
+                        <input style="height: 30px; border-radius: 0 4px 4px 0;" type="submit" value="GO!" class="btn btn-warning search-button" />
+                    </div>
+                </form>
+         </div>
+        {% include "SkedAppCompanyBundle:ServiceProviderPhotos:list.table.html.twig" %} 
+    </div> <!-- Dashboard Content --> 
+</div>
+{% endblock body %}

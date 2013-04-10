@@ -39,16 +39,14 @@
         </tr>
     </thead>
     <tbody>
-        {% for category in pagination %}
+        {% for companyPhoto in pagination %}
         <tr>
-           <td>{{category.id}}</td>
-           <td>{{category.name}}</td>
-           <td>{{category.createdAt|date('Y-m-d H:i A')}}</td>
+            <td><a href="{{ asset('/uploads/company_photos/'~companyPhoto.id~'.'~companyPhoto.path) }}" class="lightbox"> <img src="{{ asset('/uploads/company_photos/'~companyPhoto.id~'.'~companyPhoto.path) }}" width="20" height="20" class="space-left space-right"/></a></td>
+           <td>{{companyPhoto.caption}}</td>
+           <td>{{companyPhoto.createdAt|date('Y-m-d H:i A')}}</td>
            <td>
                <small>
-                  <a href='{{path('sked_app_category_show', {'id': category.id }) }}.html' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
-                  <a href='{{path('sked_app_category_edit', {'id': category.id }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
-                  <a href='{{path('sked_app_category_delete', {'id': category.id }) }}.html' rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
+                  <a href='{{path('sked_app_service_provider_photo_delete', {'serviceProviderId': companyPhoto.company.id , 'photoId': companyPhoto.id}) }}.html' rel="tooltip" title="click to delete" class="btn btn-small btn-danger"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
                </small>
            </td>  
          </tr>
@@ -58,5 +56,3 @@
 <div class="btn-group pull-right">
     {{ knp_pagination_render(pagination) }}
 </div>
-
-

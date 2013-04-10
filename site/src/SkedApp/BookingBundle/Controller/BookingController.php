@@ -142,8 +142,8 @@ class BookingController extends Controller
         $user = $this->get('member.manager')->getLoggedInUser();
         $company = null;
         $consultants = null;
-        $date =  null;
-        
+        $date = null;
+
         if (!$user->isAdmin()) {
             $company = $user->getCompany();
         }
@@ -157,6 +157,7 @@ class BookingController extends Controller
 
             if ($form->isValid()) {
                 $data = $form->getData();
+
                 $selectedConsultants = $data['consultant'];
 
                 if ($selectedConsultants->count() == 0) {
@@ -174,14 +175,15 @@ class BookingController extends Controller
 
                 //ladybug_dump($data);
 
+                if ($data['chkDisableDate']) {
+                    $date = new \DateTime($data['filterDate']);
+                }
 
-                $date = new \DateTime($data['filterDate']);
                 $consultants = array();
-
                 foreach ($selectedConsultants as $consultant) {
                     $consultants[] = $consultant->getId();
                 }
-               
+
                 $session = $this->getRequest()->getSession();
                 $session->set('consultants', $consultants);
                 $session->set('filterDate', $date);
@@ -190,7 +192,7 @@ class BookingController extends Controller
                     'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
                 return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
             }
-        } 
+        }
         $session = $this->getRequest()->getSession();
         $pagination = $paginator->paginate(
             $this->get('booking.manager')->getBookingsForConsultants($session->get('consultants'), $session->get('filterDate')), $this->getRequest()->query->get('page', $page), 10
@@ -236,6 +238,33 @@ class BookingController extends Controller
                 'form' => $form->createView(),
                 'companyId' => $companyId
             ));
+    }
+
+    /**
+     * Reject booking 
+     * 
+     * @param integer $bookingId
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function rejectAction($bookingId)
+    {
+        $this->get('logger')->info('reject a booking');
+
+        try {
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $this->get('booking.manager')->reject($booking);
+            
+            $this->getRequest()->getSession()->setFlash(
+                'success', 'Booking was successfully rejected');
+            
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request - ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+        }
+        
+        return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
     }
 
     /**
@@ -1268,6 +1297,34 @@ class BookingController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Booking cancellation successfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
+    }
+
+    /**
+     * Edit booking
+     *
+     * @param integer $bookingId
+     * @return Response
+     */
+    public function cancelAction($bookingId)
+    {
+        $this->get('logger')->info('cancel booking id:' . $bookingId);
+
+        try {
+
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $customer = $booking->getCustomer();
+            $this->get('booking.manager')->cancelBooking($booking);
+
+            //send cofirmation emails
+            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$bookingId invalid");
+            $this->createNotFoundException($e->getMessage());
+        }
+
+        $this->getRequest()->getSession()->setFlash(
+            'success', 'Booking cancellation successfully');
+        return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
     }
 
     public function messagesAction()

@@ -84,6 +84,9 @@ class BookingSelectConsultantsDateType extends AbstractType
             ->add('filterDate', 'text', array(
                 'attr' => array('class' => 'span4 datepicker', 'value' => $this->date->format('d-m-Y')),
             ))
+            ->add('chkDisableDate', 'checkbox', array(
+                'required' => false,
+            ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',

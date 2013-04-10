@@ -59,17 +59,17 @@ class CompanyUpdateType extends AbstractType
                 'read_only'      => true,
                 'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
-            ->add('country', null, array(
+            ->add('country', 'hidden', array(
                 'required'      => false,
                 'read_only'      => true,
                 'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
-            ->add('lat', null, array(
+            ->add('lat', 'hidden', array(
                 'required'      => false,
                 'read_only'      => true,
                 'attr' => array('class' => 'span12', 'style'=>'margin-bottom: 10px;')
             ))
-            ->add('lng', null, array(
+            ->add('lng', 'hidden', array(
                 'required'      => false,
                 'read_only'      => true,
                 'attr' => array('class' => 'span12')

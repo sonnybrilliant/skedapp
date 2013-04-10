@@ -24,7 +24,7 @@ function updateConsultantServices(consultantSelect) {
 }
 
 $(document).ready(function() {
-
+    $('a.lightbox').lightBox();
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
     

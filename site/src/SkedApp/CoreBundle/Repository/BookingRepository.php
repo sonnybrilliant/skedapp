@@ -490,22 +490,36 @@ class BookingRepository extends EntityRepository
      */
     public function getBookingByConsultans($consultants, $date)
     {
+        $dql = null;
+        $bookings = array();
 
-        $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+        if (!is_null($date)) {
+            $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
                 WHERE b.isDeleted = ?1 AND b.isActive = ?2
                 AND b.isCancelled = ?3 AND b.appointmentDate = ?4
                 AND b.consultant IN (?5)";
-
-        $bookings = $this->getEntityManager()->createQuery($dql)
-            ->setParameters(array(
-                1 => false,
-                2 => true,
-                3 => false,
-                4 => $date->format("Y-m-d"),
-                5 => $consultants
-            ))
-            ->getResult();
-
+            $bookings = $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => $date->format("Y-m-d"),
+                    5 => $consultants
+                ))
+                ->getResult();
+        } else {
+            $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.isDeleted = ?1 AND b.isActive = ?2
+                AND b.isCancelled = ?3 AND b.consultant IN (?4)";
+            $bookings = $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => $consultants
+                ))
+                ->getResult();
+        }
         return $bookings;
     }
 

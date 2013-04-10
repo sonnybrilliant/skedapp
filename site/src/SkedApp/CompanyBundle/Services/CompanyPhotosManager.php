@@ -80,6 +80,39 @@ final class CompanyPhotosManager
     {
         $this->em = $em;
     }
+    
+    /**
+     * Get service provider photo by id
+     *
+     * @param integer $id
+     * @return SkedAppCoreBundle:CompanyPhotos
+     * @throws \Exception
+     */
+    public function getById($id)
+    {
+        $companyPhoto = $this->em->getRepository('SkedAppCoreBundle:CompanyPhotos')
+            ->find($id);
+
+        if (!$companyPhoto) {
+            throw new \Exception(' Service Provider photo not found for id:' . $id);
+            $this->logger->err(' Failed to find Service Provider photo by id:' . $id);
+        }
+
+        return $companyPhoto;
+    }    
+    
+    /**
+     * Get all company's photos
+     *
+     * @param array $options
+     * @return query
+     */
+    public function listAll($options = array())
+    {
+        return $this->em
+                ->getRepository('SkedAppCoreBundle:CompanyPhotos')
+                ->getAllActiveCompanyPhotosQuery($options);
+    }    
 
     /**
      * upload service provider photo
