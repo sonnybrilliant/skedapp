@@ -657,6 +657,42 @@ final class EmailerManager
         return;
     }
 
+     /**
+     * Send booking rejection to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingRejectCustomer($params)
+    {
+        $this->logger->info("send booking rejection to customer");
+        $options['subject'] = "Your SkedApp booking was rejected by service provider";
+
+        $booking = $params['booking'];
+
+        $tmp = array(
+            'fullName' => $params['customerName'],
+            'company' => $booking->getConsultant()->getCompany()->getName(),            
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.reject.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.reject.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getConsultant()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }    
+    
     /**
      * Send customer account verification after an account register
      *

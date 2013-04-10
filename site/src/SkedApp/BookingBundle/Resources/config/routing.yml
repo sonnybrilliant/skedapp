@@ -1,3 +1,31 @@
+sked_app_booking_manage_calender_view:
+    pattern:  /booking/manage/calender/view.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderView , _format: html}
+    requirements:
+        _method:  GET
+        _format:  html      
+
+sked_app_booking_manage_calender_show:
+    pattern:  /booking/manage/calender/show.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderShow , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html      
+
+sked_app_booking_manage_view:
+    pattern:  /booking/manage/view.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBookView , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html        
+
+sked_app_booking_manage_show:
+    pattern:  /booking/manage/show.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBookShow , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html        
+    
 sked_app_booking_manager:
     pattern:  /booking/manage
     defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking }
@@ -9,31 +37,66 @@ sked_app_booking_new:
 sked_app_booking_create:
     pattern:  /booking/create
     defaults: { _controller: SkedAppBookingBundle:Booking:create }
+    requirements:
+        _method:  GET|POST
+        _format:  html    
 
 sked_app_booking_edit:
     pattern:  /booking/edit/{bookingId}.{_format}
     defaults: { _controller: SkedAppBookingBundle:Booking:edit , _format: html}
     requirements:
         bookingId:  \d+
+        _method:  GET|POST
+        _format:  html    
+        
+sked_app_booking_reject:
+    pattern:  /booking/reject/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:reject , _format: html}
+    requirements:
+        bookingId:  \d+
+        _method:  GET
+        _format:  html   
+        
+sked_app_booking_confirm:
+    pattern:  /booking/confirm/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:confirm , _format: html}
+    requirements:
+        bookingId:  \d+
+        _method:  GET
+        _format:  html    
 
 sked_app_booking_update:
-    pattern:  /booking/update/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:update }
+    pattern:  /booking/update/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:update , _format: html}
     requirements:
         bookingId:  \d+
+        _method:  GET|POST
+        _format:  html    
 
 sked_app_booking_delete:
-    pattern:  /booking/delete/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:delete }
+    pattern:  /booking/delete/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:delete , _format: html}
     requirements:
         bookingId:  \d+
+        _method:  GET|POST
+        _format:  html    
 
 sked_app_booking_cancel:
-    pattern:  /booking/cancel/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:cancelBooking }
+    pattern:  /booking/cancel/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:cancelBooking ,_format: html  }
     requirements:
         bookingId:  \d+
-
+        _method:  GET
+        _format:  html 
+        
+sked_app_booking_admin_cancel:
+    pattern:  /booking/admin/cancel/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:cancel ,_format: html  }
+    requirements:
+        bookingId:  \d+
+        _method:  GET
+        _format:  html   
+        
 sked_app_booking_ajax_get_by_consultant:
     pattern:  /booking/ajaxGetByConsultant/{consultantId}
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetByConsultant }
@@ -43,7 +106,7 @@ sked_app_booking_ajax_get_by_consultant:
         expose: true
 
 sked_app_booking_ajax_get_bookings:
-    pattern:  /booking/ajaxGetBookings
+    pattern:  /booking/manage/calender/ajaxGetBookings
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
     options:
         expose: true

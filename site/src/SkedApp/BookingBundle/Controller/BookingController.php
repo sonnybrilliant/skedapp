@@ -10,6 +10,8 @@ use SkedApp\CustomerBundle\Form\CustomerPotentialType;
 use SkedApp\BookingBundle\Form\BookingUpdateType;
 use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\BookingBundle\Form\BookingMessageType;
+use SkedApp\BookingBundle\Form\BookingSelectConsultantsType;
+use SkedApp\BookingBundle\Form\BookingSelectConsultantsDateType;
 use SkedApp\CoreBundle\Entity\Booking;
 use SkedApp\CoreBundle\Entity\Customer;
 use SkedApp\CoreBundle\Entity\CustomerPotential;
@@ -30,6 +32,176 @@ use Ivory\GoogleMap\Events\MouseEvent;
  */
 class BookingController extends Controller
 {
+
+    /**
+     * Manage bookings calender view
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageCalenderViewAction()
+    {
+        $this->get('logger')->info('manage bookings calander view');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsType($company ? $company->getId() : null, $user->isAdmin()));
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.calender.view.html.twig', array(
+                'form' => $form->createView(),
+                'isAdmin' => $user->isAdmin()
+            ));
+    }
+
+    /**
+     * Manage bookings calender show
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageCalenderShowAction()
+    {
+        $this->get('logger')->info('manage bookings calander show');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+        $consultants = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsType($company ? $company->getId() : null, $user->isAdmin()));
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $consultants = $data['consultant'];
+
+                if ($consultants->count() == 0) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select consultants');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+                }
+
+                if ($consultants->count() > 10) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'You can only select 10 consultants at a time');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+                }
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+            }
+        }
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.calender.show.html.twig', array(
+                'consultants' => $consultants,
+            ));
+    }
+
+    /**
+     * Manage bookings view
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageBookViewAction()
+    {
+        $this->get('logger')->info('manage bookings view');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsDateType($company ? $company->getId() : null, $user->isAdmin()));
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.view.html.twig', array(
+                'form' => $form->createView(),
+                'isAdmin' => $user->isAdmin()
+            ));
+    }
+
+    /**
+     * Manage bookings view
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function manageBookShowAction($page = 1)
+    {
+        $this->get('logger')->info('manage bookings show');
+
+        $user = $this->get('member.manager')->getLoggedInUser();
+        $company = null;
+        $consultants = null;
+        $date = null;
+
+        if (!$user->isAdmin()) {
+            $company = $user->getCompany();
+        }
+
+        $form = $this->createForm(new BookingSelectConsultantsDateType($company ? $company->getId() : null, $user->isAdmin()));
+        $paginator = $this->get('knp_paginator');
+        $pagination = null;
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+
+                $selectedConsultants = $data['consultant'];
+
+                if ($selectedConsultants->count() == 0) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'Please select consultants');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
+                }
+
+                if ($selectedConsultants->count() > 10) {
+                    $this->getRequest()->getSession()->setFlash(
+                        'error', 'You can only select 10 consultants at a time');
+                    return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
+                }
+
+
+                //ladybug_dump($data);
+
+                if ($data['chkDisableDate']) {
+                    $date = new \DateTime($data['filterDate']);
+                }
+
+                $consultants = array();
+                foreach ($selectedConsultants as $consultant) {
+                    $consultants[] = $consultant->getId();
+                }
+
+                $session = $this->getRequest()->getSession();
+                $session->set('consultants', $consultants);
+                $session->set('filterDate', $date);
+            } else {
+                $this->getRequest()->getSession()->setFlash(
+                    'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_view'));
+            }
+        }
+        $session = $this->getRequest()->getSession();
+        $pagination = $paginator->paginate(
+            $this->get('booking.manager')->getBookingsForConsultants($session->get('consultants'), $session->get('filterDate')), $this->getRequest()->query->get('page', $page), 10
+        );
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.show.html.twig', array(
+                'pagination' => $pagination,
+            ));
+    }
 
     /**
      * Manage bookings
@@ -66,6 +238,42 @@ class BookingController extends Controller
                 'form' => $form->createView(),
                 'companyId' => $companyId
             ));
+    }
+
+    /**
+     * Reject booking 
+     * 
+     * @param integer $bookingId
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function rejectAction($bookingId)
+    {
+        $this->get('logger')->info('reject a booking');
+
+        try {
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $this->get('booking.manager')->reject($booking);
+
+            if (!$booking->getCustomerPotential()) {
+                //send email
+                $options = array(
+                    'booking' => $booking,
+                    'customerName' => $booking->getCustomer()->getFullName()
+                );
+                //send booking confirmation emails
+                $this->get("notification.manager")->sendBookingRejected($options);
+            }
+
+            $this->getRequest()->getSession()->setFlash(
+                'success', 'Booking was successfully rejected');
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request - ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+        }
+
+        return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
     }
 
     /**
@@ -779,12 +987,11 @@ class BookingController extends Controller
                 $consultantEndTimeSlot = $consultant->getEndTimeslot();
 
                 $endOfDayTime = new \DateTime($date . ' ' . $consultantEndTimeSlot->getSlot());
-                
-                if($bookingEndTime > $endOfDayTime){
-                  $isValid = false;
-                  $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
+
+                if ($bookingEndTime > $endOfDayTime) {
+                    $isValid = false;
+                    $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
                 }
-                
             }
 
             if (!$isValid) {
@@ -1074,6 +1281,39 @@ class BookingController extends Controller
     }
 
     /**
+     * Confirm  booking
+     * 
+     * @param integer $bookingId
+     * @return type
+     */
+    public function confirmAction($bookingId)
+    {
+        $this->get('logger')->info('confirm booking id:' . $bookingId);
+
+        try {
+
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $booking->setIsConfirmed(true);
+            $this->get('booking.manager')->save($booking);
+
+            $options = array(
+                'booking' => $booking,
+                'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+            );
+            //send booking confirmation emails
+            $this->get("notification.manager")->confirmationBooking($options);
+            $this->getRequest()->getSession()->setFlash(
+                'success', 'Booking was successfully confirmed');
+        } catch (\Exception $e) {
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request - ' . $e->getMessage());
+            return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+        }
+
+        return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+    }
+
+    /**
      * Edit booking
      *
      * @param integer $bookingId
@@ -1099,6 +1339,34 @@ class BookingController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Booking cancellation successfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list_bookings', array('id' => $customer->getId())));
+    }
+
+    /**
+     * Edit booking
+     *
+     * @param integer $bookingId
+     * @return Response
+     */
+    public function cancelAction($bookingId)
+    {
+        $this->get('logger')->info('cancel booking id:' . $bookingId);
+
+        try {
+
+            $booking = $this->get('booking.manager')->getById($bookingId);
+            $customer = $booking->getCustomer();
+            $this->get('booking.manager')->cancelBooking($booking);
+
+            //send cofirmation emails
+            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+        } catch (\Exception $e) {
+            $this->get('logger')->err("booking id:$bookingId invalid");
+            $this->createNotFoundException($e->getMessage());
+        }
+
+        $this->getRequest()->getSession()->setFlash(
+            'success', 'Booking cancellation successfully');
+        return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
     }
 
     public function messagesAction()

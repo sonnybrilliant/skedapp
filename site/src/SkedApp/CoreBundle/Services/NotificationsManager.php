@@ -198,6 +198,18 @@ final class NotificationsManager
          $this->container->get('email.manager')-> bookingCancellationConsultant($params);
          return;
     }
+    
+    /**
+     * Send booking cancellation
+     *
+     * @param type $params
+     * @return type
+     */
+    public function sendBookingRejected($params)
+    {
+         $this->container->get('email.manager')->bookingRejectCustomer($params);
+         return;
+    }
 
     /**
      * Send booking reminders to customers

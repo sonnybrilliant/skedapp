@@ -107,6 +107,42 @@ final class BookingManager
      * @param SkedAppCoreBundle:Booking $booking
      * @return void
      */
+    public function update($booking)
+    {
+        $this->logger->info("update booking");
+
+        $this->em->persist($booking);
+        $this->em->flush();
+        return;
+    }
+
+    /**
+     * Reject booking 
+     *
+     * @param SkedAppCoreBundle:Booking $booking
+     * @return void
+     */
+    public function reject($booking)
+    {
+        $this->logger->info("reject booking booking");
+
+        $booking->setIsDeleted(true);
+        $booking->setIsRejected(true);
+        $booking->setIsClosed(true);
+        $booking->setIsCancelled(true);
+        $booking->setIsActive(false);
+
+        $this->em->persist($booking);
+        $this->em->flush();
+        return;
+    }
+
+    /**
+     * Save booking object
+     *
+     * @param SkedAppCoreBundle:Booking $booking
+     * @return void
+     */
     public function save($booking)
     {
         $this->logger->info("save booking");
@@ -252,7 +288,7 @@ final class BookingManager
         return false;
     }
 
-    public function isBookingAvailable($consultant, $startTime , $endTime)
+    public function isBookingAvailable($consultant, $startTime, $endTime)
     {
         $this->logger->info("check if booking is available");
 
@@ -269,15 +305,15 @@ final class BookingManager
             $currentDate = new \DateTime($startTime->format('Y-m-d'));
             $interval = date_diff($booking->getAppointmentDate(), $currentDate);
             if (0 == $interval->format('%d')) {
-                
-                if($endTime > $booking->getHiddenAppointmentStartTime() && $endTime < $booking->getHiddenAppointmentEndTime()){
-                   echo '=================';
-                    return false; 
+
+                if ($endTime > $booking->getHiddenAppointmentStartTime() && $endTime < $booking->getHiddenAppointmentEndTime()) {
+                    echo '=================';
+                    return false;
                 }
-                
-                if(($startTime > $booking->getHiddenAppointmentStartTime() && $startTime  < $booking->getHiddenAppointmentEndTime())){
-                  echo '++++++++++';
-                    return false;   
+
+                if (($startTime > $booking->getHiddenAppointmentStartTime() && $startTime < $booking->getHiddenAppointmentEndTime())) {
+                    echo '++++++++++';
+                    return false;
                 }
             }
         }
@@ -378,8 +414,9 @@ final class BookingManager
         $this->logger->info("cancel booking");
 
         $booking->setIsDeleted(true);
-        $booking->setIsActive(false);
+        $booking->setIsClosed(true);
         $booking->setIsCancelled(true);
+        $booking->setIsActive(false);
 
         $this->em->persist($booking);
         $this->em->flush();
@@ -399,6 +436,15 @@ final class BookingManager
 
         $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
             ->getBookingSlotsForConsultantSearch($consultant, $date);
+        return $output;
+    }
+
+    public function getBookingsForConsultants($consultants, $date)
+    {
+        $this->logger->info('Get consultants bookings');
+
+        $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
+            ->getBookingByConsultans($consultants, $date);
         return $output;
     }
 

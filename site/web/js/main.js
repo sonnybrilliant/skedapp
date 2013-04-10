@@ -24,7 +24,7 @@ function updateConsultantServices(consultantSelect) {
 }
 
 $(document).ready(function() {
-
+    $('a.lightbox').lightBox();
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
     
@@ -98,6 +98,42 @@ $(document).ready(function() {
             }
         });
     });
+    
+    //update consultants
+    $('#Booking_Consultants_company').change(function(){
+        var companyId = this.value;
+        
+        $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_company', {
+            companyId: companyId
+        }, true),function(response){
+            if(response.results){
+
+                var el = $('#Booking_Consultants_consultant');
+                el.empty();
+                el.removeAttr("disabled");
+                $.each(response.results, function(key,value) {
+
+                    selectedService = false;
+
+                    //Check if service should be selected
+                    if (response.selectedServices) {
+                        $.each(response.selectedServices, function(count,serviceId) {
+                            if (serviceId == value.id) {
+                                selectedService = true;
+                            }
+                        });
+                    }
+
+                    el.append($("<option></option>")
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
+
+                });
+            }
+        });
+    });
+    
+    
+    
 
     //update services
     $('#Booking_consultant').change(function(){

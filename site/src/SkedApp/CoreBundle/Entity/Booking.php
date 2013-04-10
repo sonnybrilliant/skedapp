@@ -126,6 +126,20 @@ class Booking
      * @ORM\Column(name="is_cancelled", type="boolean")
      */
     protected $isCancelled;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_closed", type="boolean")
+     */
+    protected $isClosed;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_rejected", type="boolean")
+     */
+    protected $isRejected;
 
     /**
      * @var boolean
@@ -187,6 +201,8 @@ class Booking
 
     public function __construct()
     {
+        $this->isRejected = false;
+        $this->isClosed = false;
         $this->isDeleted = false;
         $this->isLeave = false;
         $this->isActive = true;
@@ -808,5 +824,51 @@ class Booking
         }
 
         return '';
+    }
+
+    /**
+     * Set isClosed
+     *
+     * @param boolean $isClosed
+     * @return Booking
+     */
+    public function setIsClosed($isClosed)
+    {
+        $this->isClosed = $isClosed;
+    
+        return $this;
+    }
+
+    /**
+     * Get isClosed
+     *
+     * @return boolean 
+     */
+    public function getIsClosed()
+    {
+        return $this->isClosed;
+    }
+
+    /**
+     * Set isRejected
+     *
+     * @param boolean $isRejected
+     * @return Booking
+     */
+    public function setIsRejected($isRejected)
+    {
+        $this->isRejected = $isRejected;
+    
+        return $this;
+    }
+
+    /**
+     * Get isRejected
+     *
+     * @return boolean 
+     */
+    public function getIsRejected()
+    {
+        return $this->isRejected;
     }
 }
