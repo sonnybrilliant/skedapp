@@ -120,6 +120,13 @@
           <span class="help-inline">{{form_errors(form.service)}}</span>
         </div>
       </div>
+      <div class="control-group {% if form_errors(form.bookingStatus) %} error {% endif %}">
+        <label class="control-label" for="booking_status">{{ form_label(form.bookingStatus) }}</label>
+        <div class="controls">
+          {{ form_widget(form.bookingStatus) }}
+          <span class="help-inline">{{form_errors(form.bookingStatus)}}</span>
+        </div>
+      </div>
       <div class="control-group {% if form_errors(form.isLeave) %} error {% endif %}">
         <label class="control-label" for="leave">{{ form_label(form.isLeave) }}</label>
         <div class="controls">

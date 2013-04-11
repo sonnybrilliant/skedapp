@@ -527,7 +527,7 @@ class BookingController extends Controller
                             $this->get("notification.manager")->confirmationBooking($options);
                         }
 
-                        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                        return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
                     } //if customer and potential is null
                 } else {
                     $this->getRequest()->getSession()->setFlash(

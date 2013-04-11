@@ -153,6 +153,12 @@ class BookingUpdateType extends AbstractType
                 'multiple' => false,
                 'required' => false,
                 'attr' => array('class' => 'span12'),
+            ))
+            ->add('bookingStatus', 'entity', array(
+                'class' => 'SkedAppCoreBundle:BookingStatus',
+                'label' => 'Status:',
+                'required' => false,
+                'attr' => array('class' => 'span12'),
             ));
     }
 
