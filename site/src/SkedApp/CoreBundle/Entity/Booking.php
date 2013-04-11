@@ -186,6 +186,16 @@ class Booking
     protected $hiddenAppointmentEndTime;
 
     /**
+     * @var BookingStatus
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\BookingStatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="booking_status_id", referencedColumnName="id")
+     * })
+     */
+    protected $bookingStatus;    
+    
+    /**
      * @var datetime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -870,5 +880,28 @@ class Booking
     public function getIsRejected()
     {
         return $this->isRejected;
+    }
+
+    /**
+     * Set bookingStatus
+     *
+     * @param \SkedApp\CoreBundle\Entity\BookingStatus $bookingStatus
+     * @return Booking
+     */
+    public function setBookingStatus(\SkedApp\CoreBundle\Entity\BookingStatus $bookingStatus = null)
+    {
+        $this->bookingStatus = $bookingStatus;
+    
+        return $this;
+    }
+
+    /**
+     * Get bookingStatus
+     *
+     * @return \SkedApp\CoreBundle\Entity\BookingStatus 
+     */
+    public function getBookingStatus()
+    {
+        return $this->bookingStatus;
     }
 }

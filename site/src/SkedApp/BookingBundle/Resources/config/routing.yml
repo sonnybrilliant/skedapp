@@ -27,16 +27,22 @@ sked_app_booking_manage_show:
         _format:  html        
     
 sked_app_booking_manager:
-    pattern:  /booking/manage
-    defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking }
-
+    pattern:  /booking/manage.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html 
+        
 sked_app_booking_new:
-    pattern:  /booking/new
-    defaults: { _controller: SkedAppBookingBundle:Booking:new }
-
+    pattern:  /booking/new.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:new , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html 
+        
 sked_app_booking_create:
-    pattern:  /booking/create
-    defaults: { _controller: SkedAppBookingBundle:Booking:create }
+    pattern:  /booking/create.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:create , _format: html}
     requirements:
         _method:  GET|POST
         _format:  html    
