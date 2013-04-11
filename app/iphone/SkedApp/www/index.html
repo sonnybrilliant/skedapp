@@ -116,8 +116,14 @@
             <div class="spacer1"></div>
             <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
             <div class="spacer1"></div>
-            <a id="btn-registration" data-role="button" data-theme="a" href="#">Register</a>
-            <a class="orange-buttons" id="btn-cancel" data-role="button" href="#login">Cancel</a>
+            <fieldset class="ui-grid-a">
+            <div class="ui-block-a">
+              <div><a id="btn-registration" data-role="button" data-theme="a" href="#">Register</a></div>
+            </div>
+            <div class="ui-block-b">
+              <div><a href="#login" class="orange-buttons" id="btn-cancel" data-role="button">Cancel</a></div>
+            </div>
+          </fieldset>
           </form>
         </div>
         <img alt="shadow" class="shadow" src="img/shadow.png"/>
@@ -514,8 +520,9 @@
       </div>
       <div class="spacer2"></div>
       <form action="">
-        <a data-role="button" href="#page6">Call Skedapp</a>
-        <a data-role="button" href="#page6">Email Skedapp</a>
+        <a href="#page6" data-theme="a" data-role="button" class="button-shadow">Call Skedapp</a>
+        <div class="spacer1"></div>
+        <a class="orange-buttons" data-role="button" href="#page6">Email Skedapp</a>
       </form>
     </div>
     <div class="center-aligned">
