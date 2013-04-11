@@ -26,9 +26,10 @@
         {% endblock %}
 
         <div style="width: 29.718%;" class="span6 pull-right">
-            <a href="{{ path('sked_app_booking_new') }}.html" class="btn btn-warning pull-right"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
-            &nbsp;
-            <a href="#" id="messenger" class="btn btn-warning pull-right"><i class="icon-white icon-envelope"></i>&nbsp;<strong>Send message</strong></a>
+            <div class="btn-toolbar pull-right">
+                <a href="#" id="messenger" class="btn btn-warning"><i class="icon-white icon-envelope"></i>&nbsp;<strong>Send message</strong></a>
+                <a href="{{ path('sked_app_booking_new') }}.html" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
+            </div>
         </div>
         <div class="clearfix"></div>
         <div class="tabbable"> <!-- Only required for left/right tabs -->
