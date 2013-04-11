@@ -43,21 +43,23 @@
             <div id="gallery" class="bs-docs-example bs-docs-example-images">
                 {% for photo in company.companyPhotos %}
                     {% if photo.isDeleted != "true" %}
-                    <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom" title="{{photo.caption}}"></a>   
+                    <div class="img-polaroid image-dimensions80 space-right7">
+                        <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" title="{{photo.caption}}"></a>
+                    </div>
                     {% endif %}
-                {% else %}
-                    <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
-                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                {% endfor %} 
+                    {% else %}
+                    <div class="pull-left img-polaroid image-dimensions80 space-right7 space-right-bottom">
+                        <img src="{{ asset('/img/photo-gallery.png') }}">
+                    </div>
+                    {% endfor %}
                 <div class="clearfix"></div>    
             </div>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="spacer1"></div>
-                <a href="{{ path('sked_app_service_provider_photo_list', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="pull-right btn btn-primary">Manage Photos</a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="pull-right btn btn-warning">Add photo</a>
-                &nbsp;&nbsp;&nbsp;
+                <div class="btn-toolbar pull-right">
+                    <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="btn btn-warning">Add photo</a>
+                    <a href="{{ path('sked_app_service_provider_photo_list', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="btn btn-primary">Manage Photos</a>                
+                </div>
             {% endif %}
     </div>
     <div class="span6">

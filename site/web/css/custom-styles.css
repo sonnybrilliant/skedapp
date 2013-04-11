@@ -49,9 +49,22 @@ Styles for alert boxes
 /*******************
 Styles for images
 *******************/
+.polaroid-width80 {
+    width: 80px;
+}
+.image-dimensions80 {
+    width: 80px !important;
+    height: 80px !important;
+    overflow: hidden;
+}
 .polaroid-width120 {
     width: 120px;
     height: 120px;
+}
+.image-dimensions120 {
+    width: 120px !important;
+    max-height: 120px !important;
+    overflow: hidden;
 }
 .polaroid-width180 {
     width: 180px;
@@ -59,12 +72,6 @@ Styles for images
 .image-dimensions180 {
     width: 180px !important;
     height: 180px !important;
-    overflow: hidden;
-}
-
-.image-dimensions120 {
-    width: 120px !important;
-    max-height: 120px !important;
     overflow: hidden;
 }
 .image-shadow {
@@ -667,7 +674,7 @@ select.span12{
     -webkit-border-radius: 7px;
     border-radius: 7px;
     -webkit-appearance: none;
-    -moz-appearance: window !important;
+    -moz-appearance: textfield !important;
     appearance: search !important;
     background-image: url('../img/chev-down.png');
     background-repeat: no-repeat;
