@@ -25,6 +25,12 @@ function updateConsultantServices(consultantSelect) {
 
 $(document).ready(function() {
     $('a.lightbox').lightBox();
+    $('a.lightbox1').lightBox();
+    $('a.lightbox2').lightBox();
+    $('a.lightbox3').lightBox();
+    $('a.lightbox4').lightBox();
+    $('a.lightbox5').lightBox();
+    
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
     
