@@ -36,9 +36,7 @@
             <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
             <td>{{booking.appointmentDateString}}</td>
             <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
-            {% if is_granted('ROLE_ADMIN') %}
             <td><a href="{{ path('sked_app_consultant_show',{'slug': booking.consultant.slug })}}" title="View consultant">{{booking.consultantString}}</a></td>
-            {% endif %}
             <td><span class="label label-info">{{booking.service.name}}</span></td>
             <td>{{booking.isConfirmedString}}</td>
             <td>
