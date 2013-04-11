@@ -43,7 +43,7 @@
             <div id="gallery" class="bs-docs-example bs-docs-example-images">
                 {% for photo in company.companyPhotos %}
                     {% if photo.isDeleted != "true" %}
-                    <div class="img-polaroid image-dimensions80 space-right7">
+                    <div class="pull-left img-polaroid image-dimensions80 space-right7 space-right-bottom">
                         <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" title="{{photo.caption}}"></a>
                     </div>
                     {% endif %}

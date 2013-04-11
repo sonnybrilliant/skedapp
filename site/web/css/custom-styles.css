@@ -49,9 +49,6 @@ Styles for alert boxes
 /*******************
 Styles for images
 *******************/
-.polaroid-width80 {
-    width: 80px;
-}
 .image-dimensions80 {
     width: 80px !important;
     height: 80px !important;
