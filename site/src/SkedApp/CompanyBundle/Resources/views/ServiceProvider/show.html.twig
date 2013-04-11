@@ -44,8 +44,10 @@
                 {% for photo in company.companyPhotos %}
                     {% if photo.isDeleted != "true" %}
                     <div class="pull-left space-right7 space-right-bottom">
-                        <div class="img-polaroid image-dimensions80">
-                            <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" title="{{photo.caption}}"></a>
+                        <div class="img-polaroid polaroid-width80">
+                            <div class="image-dimensions80">
+                                <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" title="{{photo.caption}}"></a>
+                            </div>
                         </div>
                     </div>
                     {% endif %}

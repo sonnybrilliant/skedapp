@@ -54,6 +54,9 @@ Styles for images
     height: 80px !important;
     overflow: hidden;
 }
+.polaroid-width80 {
+    width: 80px;
+}
 .polaroid-width120 {
     width: 120px;
     height: 120px;
