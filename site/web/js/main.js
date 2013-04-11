@@ -39,6 +39,7 @@ $(document).ready(function() {
        $(this).val("");
     });
     
+    
     $('.hiddenTimeSlots').hide(); 
     $('.showHiddenSlots').click(function(e){
         var className = $(this).attr('class');

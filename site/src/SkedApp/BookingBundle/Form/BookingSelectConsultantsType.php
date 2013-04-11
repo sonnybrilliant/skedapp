@@ -57,7 +57,7 @@ class BookingSelectConsultantsType extends AbstractType
         if ($isAdmin) {
             $attr = array('class' => 'span4', 'disabled' => true);
         } else {
-            $attr = array('class' => 'span4 chosen');
+            $attr = array('class' => 'span4');
         }
 
         

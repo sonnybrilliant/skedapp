@@ -18,6 +18,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookingMessageType extends AbstractType
 {
+    /**
+     * A hypen delimted string with booking ids
+     * 
+     * @var string 
+     */
+    private $bookings = null;
+
+    public function __construct($bookings)
+    {
+       $this->bookings = $bookings ;
+    }
 
     /**
      * Build Form
@@ -28,8 +39,16 @@ class BookingMessageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        
         $builder
-            ->add('messageText', 'textarea', array('required' => false, 'label' => 'Type a short message to be sent to each selected booking\'s customer'));
+            ->add('message', 'textarea', array(
+                'required' => false,
+                'label' => 'Type a short message to be sent to each selected booking\'s customer',
+                'attr' => array('class' => 'span4','rows'=> '5' ),
+            ))
+            ->add('bookings', 'hidden', array(
+                'attr' => array('value' => $this->bookings),
+            ));
     }
 
     /**
@@ -40,4 +59,5 @@ class BookingMessageType extends AbstractType
     {
         return 'BookingMessage';
     }
+
 }

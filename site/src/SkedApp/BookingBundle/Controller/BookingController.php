@@ -70,8 +70,8 @@ class BookingController extends Controller
         $company = null;
         $consultants = null;
         $consultantsString = null;
-        
-        
+
+
         if (!$user->isAdmin()) {
             $company = $user->getCompany();
         }
@@ -102,11 +102,11 @@ class BookingController extends Controller
                 return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
             }
         }
-        
-        foreach($consultants as $consultant){
-          $consultantsString .= $consultant->getId().'-';  
+
+        foreach ($consultants as $consultant) {
+            $consultantsString .= $consultant->getId() . '-';
         }
-        
+
         return $this->render('SkedAppBookingBundle:Booking:manage.calender.show.html.twig', array(
                 'consultants' => $consultants,
                 'consultanstString' => $consultantsString
@@ -635,17 +635,17 @@ class BookingController extends Controller
         $company = null;
         $consultantsIntergerArray = array();
 
-        
-        $tmp = explode("-",$str);
-        for($x = 0; $x < sizeof($tmp);$x++){
-            if(is_numeric($tmp[$x])){
+
+        $tmp = explode("-", $str);
+        for ($x = 0; $x < sizeof($tmp); $x++) {
+            if (is_numeric($tmp[$x])) {
                 $consultantsIntergerArray[] = $tmp[$x];
             }
         }
-        
 
 
-        $bookings = $this->get('booking.manager')->getBookingsForConsultants($consultantsIntergerArray,null);
+
+        $bookings = $this->get('booking.manager')->getBookingsForConsultants($consultantsIntergerArray, null);
 
         if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) >= (60 * 60 * 24 * 28)) {
             $isMonth = true;
@@ -731,11 +731,11 @@ class BookingController extends Controller
         if ((!is_null($start)) && (!is_null($end))) {
             //Adding empty slots
             $consultants = array();
-            
-            for($y = 0; $y < sizeof($consultantsIntergerArray); $y++){
-                $consultants[] = $this->get('consultant.manager')->getById($consultantsIntergerArray[$y]); 
+
+            for ($y = 0; $y < sizeof($consultantsIntergerArray); $y++) {
+                $consultants[] = $this->get('consultant.manager')->getById($consultantsIntergerArray[$y]);
             }
-            
+
             foreach ($consultants as $consultant) {
 
                 $startSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $start));
@@ -1384,6 +1384,79 @@ class BookingController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Booking cancellation successfully');
         return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+    }
+
+    /**
+     * Send message to customers
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function sendMessageAction($str)
+    {
+        $this->get('logger')->info('Send message/s to booking customers');
+
+        $form = $this->createForm(new BookingMessageType($str));
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.send.message.html.twig', array(
+                'form' => $form->createView(),
+                'str' => $str
+            ));
+    }
+
+    /**
+     * Send message to customers
+     *
+     * @Secure(roles="ROLE_CONSULTANT_ADMIN,ROLE_ADMIN")
+     */
+    public function sendBookingMessageAction($str)
+    {
+        $this->get('logger')->info('Send message/s to booking customers');
+
+        $form = $this->createForm(new BookingMessageType($str));
+
+
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+            $form->bindRequest($this->getRequest());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+                $str = $data['bookings'];
+                $tmp = array();
+                if (is_numeric($str)) {
+                    $tmp[] = $str;
+                } else {
+                    $tmp = explode('-', $str);
+                }
+
+                //get bookings and send message
+                for ($x = 0; $x < sizeof($tmp); $x++) {
+                    $booking = $this->get('booking.manager')->getById($tmp[$x]);
+
+                    $options = array(
+                        'booking' => $booking,
+                        'messageText' => strip_tags($data['message']),
+                        'link' => $this->generateUrl("sked_app_customer_list_bookings", array('id' => $booking->getCustomer()->getId()), true)
+                    );
+
+                    //send booking message notification emails
+                    $this->get("notification.manager")->messageBooking($options);
+                }
+                
+                
+                $this->getRequest()->getSession()->setFlash(
+                    'success', sizeof($tmp).' messages were successfully sent.');
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+                
+            } else {
+                    $this->getRequest()->getSession()->setFlash(
+                    'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
+            }
+        }
+
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.send.message.html.twig', array(
+                'form' => $form->createView(),
+            ));
     }
 
     public function messagesAction()

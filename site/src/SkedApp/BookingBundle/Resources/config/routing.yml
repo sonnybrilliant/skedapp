@@ -125,6 +125,18 @@ sked_app_booking_made:
     pattern:  /booking/made
     defaults: { _controller: SkedAppBookingBundle:Booking:made }
 
-sked_app_booking_messages:
-    pattern:  /booking/messages
-    defaults: { _controller: SkedAppBookingBundle:Booking:messages }
+sked_app_booking_send_messages:
+    pattern:  /booking/send/messages/{str}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:sendMessage ,_format: html }
+    requirements:
+        _method:  GET
+        _format:  html   
+    options:
+        expose: true
+
+sked_app_booking_send_customer_messages:
+    pattern:  /booking/send/messages/customers/{str}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:sendBookingMessage ,_format: html }
+    requirements:
+        _method:  GET|POST
+        _format:  html       

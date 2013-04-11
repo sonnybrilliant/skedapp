@@ -24,11 +24,9 @@
         {% block alert %}
             {% include "::alert.html.twig" %}
         {% endblock %}
-
+        
         <div style="width: 29.718%;" class="span6 pull-right">
             <a href="{{ path('sked_app_booking_new') }}.html" class="btn btn-warning pull-right"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
-            &nbsp;
-            <a href="#" id="messenger" class="btn btn-warning pull-right"><i class="icon-white icon-envelope"></i>&nbsp;<strong>Send message</strong></a>
         </div>
         <div class="clearfix"></div>
         <div class="tabbable"> <!-- Only required for left/right tabs -->
@@ -42,29 +40,9 @@
                 </div>
             </div>
         </div>
-        {% include "SkedAppBookingBundle:Booking:list.manage.booking.show.html.twig" %}  
+        {% include 'SkedAppBookingBundle:Booking:form.manage.booking.send.message.html.twig' %}
+        
+        <div id="bookingList"></div>
     </div> <!-- Dashboard Content -->
 </div>
-<script type='text/javascript'>
-
-    $(document).ready(function() {
-    $('#messenger').click(function(e){
-          var bookings = new Array();
-          $("input:checkbox[name=type]:checked").each(function()
-            {
-               bookings.push($(this).val()); 
-               
-            });
-            
-            if(bookings.length > 0){
-                var str = bookings.join('-');
-                var url = Routing.generate('sked_app_booking_send_messages', { "str": str})
-                window.location = url;
-            }else{     
-                alert("Please select bookings, before sending message.");
-            } 
-          return false;
-      });
- });
-    </script>
 {% endblock body %}
