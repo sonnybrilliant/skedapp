@@ -4,6 +4,10 @@
 .gray-text{
   color: #333;
 }
+.nameTags{
+  font-weight:bold;
+  font-size: 13px;
+}
 .blockWrapper{
 	background-color: #FFF;
   border: 1px solid #666;

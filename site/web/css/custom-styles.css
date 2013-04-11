@@ -132,6 +132,9 @@ end of Styles for images
 #push {
     height: 80px;
 }
+.spacer5-left{
+  margin-left: 5px;
+}
 
 /* Removed by Otto on 28 Deb 2013
 .map-box {

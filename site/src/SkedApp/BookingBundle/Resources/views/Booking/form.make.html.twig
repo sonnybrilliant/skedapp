@@ -100,10 +100,18 @@
                     {{ form_widget(form.description) }}
                     <span class="whiteText"><span class="asterisk">*</span><strong>HINT :</strong> Please add notes if you have additional things you want your consultant to be aware of.</span>
                     <div class="spacer1"></div>
+                    <div class="btn-toolbar pull-right">
                     <div class="submitButton">
                         {% if isValid == true %}
-                        <button type="submit" name="submit" class="btn pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
-                        {% endif %}
+                        <div class="btn-group">  
+                        <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Make Booking &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                        </div>                    
+                        <div class="btn-group">
+                        <a href="{{ path('_welcome') }}" class="btn pull-right">Cancel</a>
+                        </div>
+                        
+                    {% endif %}
+                    </div>
                     </div>
                     <div class="spacer1"></div>
                     {{ form_rest(form) }}
