@@ -666,6 +666,13 @@ select.span12{
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     border-radius: 7px;
+    -webkit-appearance: none;
+    -moz-appearance: window !important;
+    appearance: search !important;
+    background-image: url('../img/chev-down.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    line-height: 1.1em;
 }
 .booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
