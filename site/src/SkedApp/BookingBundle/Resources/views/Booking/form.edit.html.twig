@@ -1,6 +1,30 @@
 <div class="spacer2"></div>
 <form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id, 'page': page }) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
+      {% if customer.fullName != ""%}
+      <div class="control-group">
+        <label class="control-label" for="consultants">Customer Name:</label>
+        <div class="controls">
+          {{ customer.fullName }}
+        </div>
+      </div>
+      {% endif %}
+      {% if customer.mobileNumber != ""%}    
+      <div class="control-group">
+        <label class="control-label" for="consultants">Customer Mobile Number:</label>
+        <div class="controls">
+          {{ customer.mobileNumber }}
+        </div>
+      </div>
+      {% endif %} 
+      {% if customer.email != ""%}    
+      <div class="control-group">
+        <label class="control-label" for="consultants">Customer E-Mail:</label>
+        <div class="controls">
+          <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
+        </div>
+      </div>
+      {% endif %}    
       <div class="control-group">
         <label class="control-label" for="time_slots">Date and time:</label>
         <div class="controls">

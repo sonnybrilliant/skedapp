@@ -117,7 +117,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
                 'empty_value' => 'Select an off-line customer',
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')

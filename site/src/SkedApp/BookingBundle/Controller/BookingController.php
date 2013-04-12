@@ -485,9 +485,12 @@ class BookingController extends Controller
 
         $customer = new Customer();
 
-        if (is_object($booking->getCustomer()))
+        if (is_object($booking->getCustomer())){
             $customer = $booking->getCustomer();
-
+        }else{
+            $customer =$booking->getCustomerPotential();
+        }
+        
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
                 'id' => $booking->getId(),
