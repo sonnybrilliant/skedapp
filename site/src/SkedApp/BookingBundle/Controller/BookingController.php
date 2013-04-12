@@ -70,6 +70,7 @@ class BookingController extends Controller
         $company = null;
         $consultants = null;
         $consultantsString = null;
+        $consultantsInteger = array();
 
 
         if (!$user->isAdmin()) {
@@ -83,19 +84,27 @@ class BookingController extends Controller
 
             if ($form->isValid()) {
                 $data = $form->getData();
-                $consultants = $data['consultant'];
+                $selectedConsultants = $data['consultant'];
 
-                if ($consultants->count() == 0) {
+                if ($selectedConsultants->count() == 0) {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'Please select consultants');
                     return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
                 }
 
-                if ($consultants->count() > 10) {
+                if ($selectedConsultants->count() > 10) {
                     $this->getRequest()->getSession()->setFlash(
                         'error', 'You can only select 10 consultants at a time');
                     return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
                 }
+
+
+                foreach ($selectedConsultants as $consultant) {
+                    $consultantsInteger[] = $consultant->getId();
+                }
+
+                $session = $this->getRequest()->getSession();
+                $session->set('consultants', $consultantsInteger);
             } else {
                 $this->getRequest()->getSession()->setFlash(
                     'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
@@ -103,9 +112,19 @@ class BookingController extends Controller
             }
         }
 
-        foreach ($consultants as $consultant) {
-            $consultantsString .= $consultant->getId() . '-';
+        $session = $this->getRequest()->getSession();
+        $consultantsInteger = $session->get('consultants');
+
+        if (!is_array($consultantsInteger)) {
+            return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
         }
+
+        for ($x = 0; $x < sizeof($consultantsInteger); $x++) {
+            $consultant = $this->get('consultant.manager')->getById($consultantsInteger[$x]);
+            $consultantsString .= $consultant->getId() . '-';
+            $consultants[] = $consultant;
+        }
+
 
         return $this->render('SkedAppBookingBundle:Booking:manage.calender.show.html.twig', array(
                 'consultants' => $consultants,
@@ -289,7 +308,7 @@ class BookingController extends Controller
      * @param type $agency
      * @return Reponse
      */
-    public function newAction()
+    public function newAction($type = 1)
     {
         $this->get('logger')->info('add a new booking');
 
@@ -322,6 +341,7 @@ class BookingController extends Controller
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
                 'formCustomerPotential' => $formCustomerPotential->createView(),
+                'type' => $type
             ));
     }
 
@@ -331,7 +351,7 @@ class BookingController extends Controller
      * @param type $agency
      * @return Reponse
      */
-    public function createAction($agency = 1)
+    public function createAction($type = 1)
     {
         $this->get('logger')->info('add a new booking');
 
@@ -390,7 +410,7 @@ class BookingController extends Controller
                             'success', 'Created booking successfully');
                         $options = array(
                             'booking' => $booking,
-                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true).".html"
                         );
 
                         if (is_object($booking->getCustomer())) {
@@ -403,7 +423,11 @@ class BookingController extends Controller
                             }
                         }
 
-                        return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+                        if (1 == $type) {
+                            return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_show').".html");
+                        } else {
+                            return $this->redirect($this->generateUrl('sked_app_booking_manage_show').".html");
+                        }
                     } //if customer and potential is null
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -421,6 +445,7 @@ class BookingController extends Controller
         return $this->render('SkedAppBookingBundle:Booking:add.html.twig', array(
                 'form' => $form->createView(),
                 'formCustomerPotential' => $formCustomerPotential->createView(),
+                'type' => $type
             ));
     }
 
@@ -428,9 +453,10 @@ class BookingController extends Controller
      * Edit booking
      *
      * @param integer $bookingId
+     * @param string $page
      * @return Response
      */
-    public function editAction($bookingId)
+    public function editAction($bookingId, $page)
     {
         $this->get('logger')->info('edit booking id:' . $bookingId);
 
@@ -466,6 +492,7 @@ class BookingController extends Controller
                 'id' => $booking->getId(),
                 'customer' => $customer,
                 'formCustomerPotential' => $formCustomerPotential->createView(),
+                'page' => $page
             ));
     }
 
@@ -473,9 +500,11 @@ class BookingController extends Controller
      * update booking
      *
      * @param integer $bookingId
+     * @param string $page
+     * 
      * @return Response
      */
-    public function updateAction($bookingId)
+    public function updateAction($bookingId, $page)
     {
         $this->get('logger')->info('update booking id:' . $bookingId);
 
@@ -527,7 +556,11 @@ class BookingController extends Controller
                             $this->get("notification.manager")->confirmationBooking($options);
                         }
 
-                        return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_view'));
+                        if ("calender" == $page) {
+                            return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_show'));
+                        } else {
+                            return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+                        }
                     } //if customer and potential is null
                 } else {
                     $this->getRequest()->getSession()->setFlash(
@@ -716,7 +749,7 @@ class BookingController extends Controller
                     'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
                     //'start' => "2012-11-29",
                     'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
-                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId" => $booking->getId())),
+                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId" => $booking->getId(), "page" => 'calender')) . ".html",
                     'description' => $bookingTooltip,
                     //'color' => 'pink',
                     //'textColor' => 'black'
@@ -819,6 +852,7 @@ class BookingController extends Controller
                                 'end' => $endSlot->format("c"),
                                 'resourceId' => 'resource-' . $consultant->getId(),
                                 'url' => $this->generateUrl("sked_app_booking_new", array(
+                                    'type'=> 1, 
                                     'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
                                     'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
                                     'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
@@ -1191,7 +1225,7 @@ class BookingController extends Controller
 
                         $options = array(
                             'booking' => $booking,
-                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true)
+                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true) . ".html"
                         );
 
                         try {
@@ -1442,14 +1476,13 @@ class BookingController extends Controller
                     //send booking message notification emails
                     $this->get("notification.manager")->messageBooking($options);
                 }
-                
-                
+
+
                 $this->getRequest()->getSession()->setFlash(
-                    'success', sizeof($tmp).' messages were successfully sent.');
+                    'success', sizeof($tmp) . ' messages were successfully sent.');
                 return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
-                
             } else {
-                    $this->getRequest()->getSession()->setFlash(
+                $this->getRequest()->getSession()->setFlash(
                     'error', 'Form errors while creating booking - ' . $form->getErrorsAsString());
             }
         }
