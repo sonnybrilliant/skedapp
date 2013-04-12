@@ -147,10 +147,10 @@ class BookingCreateType extends AbstractType
                 'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
                 'required' => false
             ))
-            ->add('isLeave', 'checkbox', array(
-                'label' => 'Blocked out:',
-                'required' => false,
-            ))
+//            ->add('isLeave', 'checkbox', array(
+//                'label' => 'Blocked out:',
+//                'required' => false,
+//            ))
             ->add('isConfirmed', 'checkbox', array(
                 'label' => 'Is confirmed:',
                 'required' => false,

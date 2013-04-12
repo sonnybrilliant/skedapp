@@ -375,13 +375,13 @@ class BookingController extends Controller
                 $isValid = true;
                 $errMsg = "";
 
-                if (!$booking->getIsLeave()) {
-                    //service must be seletced
-                    if (!$booking->getService()) {
-                        $errMsg = "Please select a service";
-                        $isValid = false;
-                    }
-                }
+//                if (!$booking->getIsLeave()) {
+//                    //service must be seletced
+//                    if (!$booking->getService()) {
+//                        $errMsg = "Please select a service";
+//                        $isValid = false;
+//                    }
+//                }
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
