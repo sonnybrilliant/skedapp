@@ -285,7 +285,8 @@ class BookingController extends Controller
                 //send email
                 $options = array(
                     'booking' => $booking,
-                    'customerName' => $booking->getCustomer()->getFullName()
+                    'customerName' => $booking->getCustomer()->getFullName(),
+                    'consultant' => $booking->getConsultant()->getFullName()
                 );
                 //send booking confirmation emails
                 $this->get("notification.manager")->sendBookingRejected($options);
@@ -746,7 +747,15 @@ class BookingController extends Controller
                 $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
 
                 $bookingTooltip .= '</div>';
-
+                
+                $backgroundColor = "blue";
+                $textColor = "white";
+                
+                if(!$booking->getIsConfirmed()){
+                   $backgroundColor = "red";
+                   
+                }
+                
                 $results[] = array(
                     'allDay' => $allDay,
                     'title' => $bookingName,
@@ -756,8 +765,8 @@ class BookingController extends Controller
                     'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
                     'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId" => $booking->getId(), "page" => 'calender')) . ".html",
                     'description' => $bookingTooltip,
-                    //'color' => 'pink',
-                    //'textColor' => 'black'
+                    'color' => $backgroundColor,
+                    'textColor' => $textColor
                 );
             } //foreach booking found
         } //if bookings found

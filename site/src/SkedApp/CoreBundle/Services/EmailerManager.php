@@ -672,7 +672,8 @@ final class EmailerManager
 
         $tmp = array(
             'fullName' => $params['customerName'],
-            'company' => $booking->getConsultant()->getCompany()->getName(),            
+            'company' => $booking->getConsultant()->getCompany()->getName(),  
+            'consultant' => $params['consultant']
         );
 
 
