@@ -95,32 +95,50 @@ final class NotificationsManager
         $objStartDate = $params['booking']->getHiddenAppointmentStartTime();
         $objEndDate = $params['booking']->getHiddenAppointmentEndTime();
 
-        $engine = $this->container->get('templating');
-        $icalText = $engine->render(
-                'SkedAppCoreBundle:EmailTemplates:booking.ics.twig',
-                array(
-                    'booking' => $params['booking'],
-                    'customer' => $params['booking']->getCustomer(),
-                    'date_year_month_day' => $objCurrentDate->format('Ymd'),
-                    'date_hour_minute_second' => $objCurrentDate->format('His'),
-                    'date_start_year_month_day' => $objStartDate->format('Ymd'),
-                    'date_start_hour_minute_second' => $objStartDate->format('His'),
-                    'date_end_year_month_day' => $objEndDate->format('Ymd'),
-                    'date_end_hour_minute_second' => $objEndDate->format('His'),
-                    'summary' => 'Appointment at ' . $params['booking']->getConsultant()->getCompany()->getName()
-                            . ' with ' . $params['booking']->getConsultant()->getFullName() . ' for ' . $params['booking']->getService()->getCategory()->getName()
-                            . ' - ' . $params['booking']->getService()->getName(),
-                    'description' => 'Address: ' . $params['booking']->getConsultant()->getCompany()->getAddress() . '; GPS: '
-                            . $params['booking']->getConsultant()->getCompany()->getCompleteGPS() . '; Contact Number: '
-                            . $params['booking']->getConsultant()->getCompany()->getContactNumber()
-                    )
-                );
+        $customer = null;
+        $customerName = null;
+        $customerEmail = null;
 
-        $this->container->get('email.manager')->bookingConfirmationConsultant($params);
+        if ($params['booking']->getCustomer()) {
+            $customer = $params['booking']->getCustomer();
+            $customerName = $customer->getFullName();
+            $customerEmail = $customer->getEmail();
+        } else {
+            $customer = $params['booking']->getCustomerPotential();
+            $customerName = $customer->getFullName();
+            $customerEmail = $customer->getEmail();
+        }
 
-        $params['attachments_data'][] = array('file_data' => $icalText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
+        if ($customerEmail != "") {
+            $engine = $this->container->get('templating');
+            $icalText = $engine->render(
+                'SkedAppCoreBundle:EmailTemplates:booking.ics.twig', array(
+                'booking' => $params['booking'],
+                'customerName' => $customerName,
+                'customerEmail' => $customerEmail,
+                'date_year_month_day' => $objCurrentDate->format('Ymd'),
+                'date_hour_minute_second' => $objCurrentDate->format('His'),
+                'date_start_year_month_day' => $objStartDate->format('Ymd'),
+                'date_start_hour_minute_second' => $objStartDate->format('His'),
+                'date_end_year_month_day' => $objEndDate->format('Ymd'),
+                'date_end_hour_minute_second' => $objEndDate->format('His'),
+                'summary' => 'Appointment at ' . $params['booking']->getConsultant()->getCompany()->getName()
+                . ' with ' . $params['booking']->getConsultant()->getFullName() . ' for ' . $params['booking']->getService()->getCategory()->getName()
+                . ' - ' . $params['booking']->getService()->getName(),
+                'description' => 'Address: ' . $params['booking']->getConsultant()->getCompany()->getAddress() . '; GPS: '
+                . $params['booking']->getConsultant()->getCompany()->getCompleteGPS() . '; Contact Number: '
+                . $params['booking']->getConsultant()->getCompany()->getContactNumber()
+                )
+            );
 
-        $this->container->get('email.manager')->bookingConfirmationCustomer($params);
+            $this->container->get('email.manager')->bookingConfirmationConsultant($params);
+
+            $params['attachments_data'][] = array('file_data' => $icalText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
+
+            $this->container->get('email.manager')->bookingConfirmationCustomer($params);
+        }
+
+
         return;
     }
 
@@ -144,7 +162,7 @@ final class NotificationsManager
      * @param Array $params
      * @return void
      */
-    public function messageBooking ($params)
+    public function messageBooking($params)
     {
         $this->container->get('email.manager')->bookingMessageFromCompany($params);
     }
@@ -155,10 +173,10 @@ final class NotificationsManager
      * @param Array $params
      * @return void
      */
-    public function messageAndCancelBooking ($params)
+    public function messageAndCancelBooking($params)
     {
         $this->container->get('email.manager')->bookingMessageCancelFromCompany($params);
-        $this->container->get('email.manager')-> bookingCancellationConsultant($params);
+        $this->container->get('email.manager')->bookingCancellationConsultant($params);
     }
 
     /**
@@ -193,12 +211,12 @@ final class NotificationsManager
      */
     public function sendBookingCancellation($params)
     {
-         $this->container->get('email.manager')->bookingCancellationCustomer($params);
-         $this->container->get('email.manager')->bookingCancellationCompany($params);
-         $this->container->get('email.manager')-> bookingCancellationConsultant($params);
-         return;
+        $this->container->get('email.manager')->bookingCancellationCustomer($params);
+        $this->container->get('email.manager')->bookingCancellationCompany($params);
+        $this->container->get('email.manager')->bookingCancellationConsultant($params);
+        return;
     }
-    
+
     /**
      * Send booking cancellation
      *
@@ -207,8 +225,8 @@ final class NotificationsManager
      */
     public function sendBookingRejected($params)
     {
-         $this->container->get('email.manager')->bookingRejectCustomer($params);
-         return;
+        $this->container->get('email.manager')->bookingRejectCustomer($params);
+        return;
     }
 
     /**
@@ -221,7 +239,7 @@ final class NotificationsManager
         $this->logger->info("send booking reminders");
         $bookings = $this->container->get("booking.manager")->getTodayBookings();
 
-        foreach($bookings as $booking){
+        foreach ($bookings as $booking) {
             echo 'processing booking ' . $booking->getId() . "\n";
             $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));
 
@@ -244,8 +262,8 @@ final class NotificationsManager
         $this->logger->info("send booking reminders");
         $bookings = $this->container->get("booking.manager")->getTodayHourBookings();
 
-        foreach($bookings as $booking){
-            echo 'processing booking'.$booking->getId();
+        foreach ($bookings as $booking) {
+            echo 'processing booking' . $booking->getId();
             $this->container->get('email.manager')->bookingReminderCustomer(array('booking' => $booking));
 
             //update booking

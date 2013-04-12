@@ -4,7 +4,7 @@ PRODID:-//hacksw/handcal//NONSGML v1.0//EN
 BEGIN:VEVENT
 UID:SkedAppBooking{{ booking.id }}
 DTSTAMP:{{ date_year_month_day }}T{{ date_hour_minute_second }}Z
-ORGANIZER;CN={{ customer.fullName }}:MAILTO:{{ customer.email }}
+ORGANIZER;CN={{ customerName }}:MAILTO:{{ customerEmail }}
 DTSTART:{{ date_start_year_month_day }}T{{ date_start_hour_minute_second }}Z
 DTEND:{{ date_end_year_month_day }}T{{ date_end_hour_minute_second }}Z
 SUMMARY:{{ summary|raw }}
