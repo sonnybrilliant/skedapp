@@ -410,7 +410,7 @@ class BookingController extends Controller
                             'success', 'Created booking successfully');
                         $options = array(
                             'booking' => $booking,
-                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true).".html"
+                            'link' => $this->generateUrl("sked_app_booking_edit", array('bookingId' => $booking->getId()), true) . ".html"
                         );
 
                         if (is_object($booking->getCustomer())) {
@@ -424,9 +424,9 @@ class BookingController extends Controller
                         }
 
                         if (1 == $type) {
-                            return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_show').".html");
+                            return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_show') . ".html");
                         } else {
-                            return $this->redirect($this->generateUrl('sked_app_booking_manage_show').".html");
+                            return $this->redirect($this->generateUrl('sked_app_booking_manage_show') . ".html");
                         }
                     } //if customer and potential is null
                 } else {
@@ -591,7 +591,7 @@ class BookingController extends Controller
      * @param integer $bookingId
      * @return Response
      */
-    public function deleteAction($bookingId)
+    public function deleteAction($bookingId, $page)
     {
         $this->get('logger')->info('delete booking id:' . $bookingId);
 
@@ -600,7 +600,12 @@ class BookingController extends Controller
             $this->get('booking.manager')->delete($bookingId);
             $this->getRequest()->getSession()->setFlash(
                 'success', 'Deleted booking successfully');
-            return $this->redirect($this->generateUrl('sked_app_booking_manager'));
+
+            if ("calender" == $page) {
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_calender_show'));
+            } else {
+                return $this->redirect($this->generateUrl('sked_app_booking_manage_show'));
+            }
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$booking invalid");
             $this->createNotFoundException($e->getMessage());
@@ -852,7 +857,7 @@ class BookingController extends Controller
                                 'end' => $endSlot->format("c"),
                                 'resourceId' => 'resource-' . $consultant->getId(),
                                 'url' => $this->generateUrl("sked_app_booking_new", array(
-                                    'type'=> 1, 
+                                    'type' => 1,
                                     'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
                                     'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
                                     'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
@@ -904,6 +909,7 @@ class BookingController extends Controller
 //                        'end' => $endSlot->format("c"),
                         //'start' => "2012-11-29",
                         'url' => $this->generateUrl("sked_app_booking_new", array(
+                            'type' => 1,
                             'Booking[appointmentDate]' => $startSlot->format("Y-m-d")
                         )),
                         'description' => $bookingTooltip,

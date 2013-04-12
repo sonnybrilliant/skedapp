@@ -80,8 +80,8 @@ sked_app_booking_update:
         _format:  html    
 
 sked_app_booking_delete:
-    pattern:  /booking/delete/{bookingId}.{_format}
-    defaults: { _controller: SkedAppBookingBundle:Booking:delete , _format: html}
+    pattern:  /booking/delete/{page}/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:delete ,page: "calender" , _format: html}
     requirements:
         bookingId:  \d+
         _method:  GET|POST

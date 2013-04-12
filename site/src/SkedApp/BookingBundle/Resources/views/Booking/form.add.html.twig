@@ -125,7 +125,12 @@
       </div>
       <div class="btn-toolbar pull-right">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn btn-small">Cancel</a>
+                    &nbsp;&nbsp;
+          {% if type == 1 %}
+                    <a href="{{ path('sked_app_booking_manage_calender_show') }}" class="btn">Cancel</a>
+          {% else %} 
+                    <a href="{{ path('sked_app_booking_manage_show') }}" class="btn">Cancel</a>
+          {% endif %}           
       </div>
       {{ form_rest(form) }}
   </fieldset>
