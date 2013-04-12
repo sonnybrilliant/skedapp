@@ -116,7 +116,7 @@ class BookingCreateType extends AbstractType
             ->add('customerPotential', 'entity', array(
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
-                'empty_value' => 'Select an offline customer',
+                'empty_value' => 'Select an off-line customer',
                 'attr' => array('class' => 'span12 chosen'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
@@ -126,7 +126,7 @@ class BookingCreateType extends AbstractType
                         ->andWhere('c.isActive  = :isActive')
                         ->setParameters(array(
                             'status' => false,
-                            'enabled' => true,
+                            'enabled' => false,
                             'isActive' => true
                         ));
                 },

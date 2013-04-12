@@ -746,8 +746,11 @@ class Booking
      */
     public function getCustomerString()
     {
-        if (is_object($this->customer))
+        if (is_object($this->customer)){
           return $this->customer->getFullName();
+        }elseif(is_object($this->customerPotential)){
+          return $this->customerPotential->getFullName();  
+        }  
         return '';
     }
 
@@ -758,8 +761,11 @@ class Booking
      */
     public function getCustomerNumberString()
     {
-        if (is_object($this->customer))
+        if (is_object($this->customer)){
           return $this->customer->getMobileNumber();
+        }elseif(is_object($this->customerPotential)){
+          return $this->customerPotential->getMobileNumber();  
+        }
         return '';
     }
 

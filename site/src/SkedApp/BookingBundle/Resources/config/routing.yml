@@ -34,22 +34,22 @@ sked_app_booking_manager:
         _format:  html 
         
 sked_app_booking_new:
-    pattern:  /booking/new.{_format}
-    defaults: { _controller: SkedAppBookingBundle:Booking:new , _format: html}
+    pattern:  /booking/new/{type}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:new ,  _format: html}
     requirements:
-        _method:  GET|POST
+        _method:  GET
         _format:  html 
         
 sked_app_booking_create:
-    pattern:  /booking/create.{_format}
+    pattern:  /booking/create/{type}.{_format}
     defaults: { _controller: SkedAppBookingBundle:Booking:create , _format: html}
     requirements:
         _method:  GET|POST
         _format:  html    
 
 sked_app_booking_edit:
-    pattern:  /booking/edit/{bookingId}.{_format}
-    defaults: { _controller: SkedAppBookingBundle:Booking:edit , _format: html}
+    pattern:  /booking/edit/{page}/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:edit ,page: "calender" , _format: html}
     requirements:
         bookingId:  \d+
         _method:  GET|POST
@@ -72,8 +72,8 @@ sked_app_booking_confirm:
         _format:  html    
 
 sked_app_booking_update:
-    pattern:  /booking/update/{bookingId}.{_format}
-    defaults: { _controller: SkedAppBookingBundle:Booking:update , _format: html}
+    pattern:  /booking/update/{page}/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:update , page: "calender" , _format: html}
     requirements:
         bookingId:  \d+
         _method:  GET|POST

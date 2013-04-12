@@ -1,5 +1,5 @@
 <div class="spacer2"></div>
-<form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id }) }}" method="POST" {{ form_enctype(form) }}>
+<form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id, 'page': page }) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
       <div class="control-group">
         <label class="control-label" for="consultants">Customer Name:</label>
