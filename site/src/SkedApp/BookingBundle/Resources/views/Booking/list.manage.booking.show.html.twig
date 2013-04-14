@@ -31,6 +31,7 @@
    </thead>
    <tbody>
           {% for booking in pagination %}
+          {% if booking.service is defined %} 
           <tr>
             <td><input type="checkbox" class="chkBookings" name="type" value="{{booking.id}}" /></td>  
             <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
@@ -54,6 +55,7 @@
             
             </td>
           </tr>
+          {% endif %}
           {% endfor %}
     </tbody>
  </table>

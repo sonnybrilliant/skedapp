@@ -742,9 +742,15 @@ class BookingController extends Controller
 
                     $bookingName = $booking->getCustomer()->getFullName() . $bookingName;
                 }
-
-                $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
-                $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
+                
+                if(is_object($booking->getHiddenAppointmentStartTime())){
+                    $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
+                }
+                
+                if(is_object($booking->getHiddenAppointmentEndTime())){
+                    $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
+                }
+                
                 $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
 
                 if (is_object($booking->getConsultant())) {
