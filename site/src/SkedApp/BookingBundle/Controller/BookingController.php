@@ -375,6 +375,15 @@ class BookingController extends Controller
                 $isValid = true;
                 $errMsg = "";
 
+                $bookingEndTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getStartTimeslot()->getSlot());
+                $serviceDuration = $booking->getService()->getAppointmentDuration()->getDuration();
+                $serviceDurationInterval = new \DateInterval("PT" . $serviceDuration . "M");
+                $bookingEndTime = $bookingEndTime->add($serviceDurationInterval);
+
+
+                $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
+
+
 //                if (!$booking->getIsLeave()) {
 //                    //service must be seletced
 //                    if (!$booking->getService()) {
@@ -674,7 +683,6 @@ class BookingController extends Controller
         $earliestStart = new \Datetime($startSlotsDateTime->format('Y-m-d H:i:00'));
         $latestEnd = new \Datetime($endSlotsDateTime->format('Y-m-d H:i:00'));
         $isSingleDay = false;
-        $company = null;
         $consultantsIntergerArray = array();
 
 
@@ -1515,10 +1523,10 @@ class BookingController extends Controller
 
         $session = $this->getRequest()->getSession();
         $bookings = $this->get('booking.manager')->getBookingsForConsultants($session->get('consultants'), $session->get('filterDate'));
-        
+
         return $this->render('SkedAppBookingBundle:Booking:manage.booking.print.html.twig', array(
-            'bookings' => $bookings
-        ));    
+                'bookings' => $bookings
+            ));
     }
 
     public function messagesAction()
