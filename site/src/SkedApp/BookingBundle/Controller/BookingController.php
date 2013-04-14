@@ -717,7 +717,7 @@ class BookingController extends Controller
                         if (is_object($booking->getService()))
                             $bookingName = $booking->getService()->getName();
                         else
-                            $bookingName = 'Unknown Service';
+                            $bookingName = 'Booked out';
                     }
                 }
 
@@ -765,10 +765,14 @@ class BookingController extends Controller
                 if (!$booking->getIsConfirmed()) {
                     $backgroundColor = "red";
                 }
+                
+                if(!is_object($booking->getService())){
+                    $backgroundColor = "black";
+                }
 
                 $results[] = array(
-                    'allDay' => $allDay,
-                    'title' => $bookingName,
+                    'allDay' => $booking->getIsLeave() ? true : false,
+                    'title' => $booking->getIsLeave() ? "On leave" : $bookingName,
                     'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
                     'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
                     //'start' => "2012-11-29",

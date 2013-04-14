@@ -197,6 +197,16 @@ $(document).ready(function() {
         });
     }
 
+    if (jQuery.ui) {
+        $( ".datePicker" ).datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            minDate: 0,
+            //maxDate: "+1M +10D",
+            dateFormat: 'dd-mm-yy'
+        });
+    }
+
 });
 
 function sendInviteEMail() {

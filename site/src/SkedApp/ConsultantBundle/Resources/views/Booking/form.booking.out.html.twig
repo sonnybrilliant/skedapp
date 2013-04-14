@@ -1,0 +1,42 @@
+<form action="{{ path('sked_app_consultant_book_out',{'slug':slug}) }}" method="POST" {{ form_enctype(form) }}>
+  <fieldset>
+      <div class="control-group {% if form_errors(form.start_date) %} error {% endif %}">
+          <div class="control-label" for="start_date">{{ form_label(form.start_date) }}</div>
+          <div class="controls">
+              {{ form_widget(form.start_date) }} 
+              <span class="help-inline">{{form_errors(form.start_date)}}</span>
+          </div>
+      </div>      
+      <div class="control-group {% if form_errors(form.startTimeslot) %} error {% endif %}">
+          <div class="control-label" for="start_time">{{ form_label(form.startTimeslot) }}</div>
+          <div class="controls">
+              {{ form_widget(form.startTimeslot) }} 
+              <span class="help-inline">{{form_errors(form.startTimeslot)}}</span>
+          </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.end_date) %} error {% endif %}">
+          <div class="control-label" for="end_date">{{ form_label(form.end_date) }}</div>
+          <div class="controls">
+              {{ form_widget(form.end_date) }} 
+              <span class="help-inline">{{form_errors(form.end_date)}}</span>
+          </div>
+      </div> 
+      <div class="control-group {% if form_errors(form.endTimeslot) %} error {% endif %}">
+          <div class="control-label" for="end_time">{{ form_label(form.endTimeslot) }}</div>
+          <div class="controls">
+              {{ form_widget(form.endTimeslot) }} 
+              <span class="help-inline">{{form_errors(form.endTimeslot)}}</span>
+          </div>
+      </div>           
+      <div class="btn-toolbar">
+            <div class="btn-group">
+                <button type="submit" name="submit" class="btn btn-warning">Update <i class="icon-white icon-circle-arrow-right"></i></button>
+            </div>
+            <div class="btn-group">
+                <a href="{{ path('sked_app_consultant_list') }}.html" class="btn btn-small">Cancel</a>
+            </div>
+        </div>  
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+{{ tinymce_init() }}

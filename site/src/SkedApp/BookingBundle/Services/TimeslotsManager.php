@@ -327,6 +327,12 @@ final class TimeslotsManager
                             continue;
                         }
                     }
+                    
+                    if($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] < $booking->getHiddenAppointmentEndTime()){
+                        if($booking->getHiddenAppointmentEndTime() > $slot['endTime']){
+                               unset($timeSlots[$key]); 
+                        }  
+                    }
                 }
             }
         }

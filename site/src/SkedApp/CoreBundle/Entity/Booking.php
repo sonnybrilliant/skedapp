@@ -225,8 +225,6 @@ class Booking
     /**
      * Create appointment date with time
      *
-     * @ORM\PreUpdate()
-     * @ORM\PrePersist()
      */
     public function createAppointmentStartTime()
     {
@@ -240,8 +238,6 @@ class Booking
     /**
      * Create appointment date with time
      *
-     * @ORM\PreUpdate()
-     * @ORM\PrePersist()
      */
     public function createAppointmentEndTime()
     {
