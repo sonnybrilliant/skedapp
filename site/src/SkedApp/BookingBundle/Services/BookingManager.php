@@ -259,43 +259,39 @@ final class BookingManager
             $bookingEndDate = $booking->getHiddenAppointmentEndTime();
         }
 
-        $results = $this->em->getRepository("SkedAppCoreBundle:Booking")
-            ->isConsultantAvailable($booking->getConsultant(), $bookingStartDate, $bookingEndDate);
 
-        if (is_null($results)) {
-            return false;
-        }
-        /*
-         * confirm if the new appointment start time is equal to the
-         * already booked appointment end time
-         */
+        $options = array(
+            'searchText' => '',
+            'sort' => 'b.hiddenAppointmentStartTime',
+            'direction' => 'desc',
+            'consultantId' => $booking->getConsultant()->getId()
+        );
+        
+        $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
 
-        if (sizeof($results) == 1) {
+        if ($bookings) {
 
-            //Caused problems when checking availability on the calendar
-            $oldBooking = $results[0];
+            foreach ($bookings as $oldBooking) {
 
-            if ($bookingStartDate >= $oldBooking->getHiddenAppointmentStartTime() && $bookingStartDate <= $oldBooking->getHiddenAppointmentEndTime()) {
-                if ($booking->getHiddenAppointmentStartTime() > $oldBooking->getHiddenAppointmentStartTime() && $booking->getHiddenAppointmentEndTime() < $oldBooking->getHiddenAppointmentEndTime()) {
-                    return false;
+                if ($bookingStartDate >= $oldBooking->getHiddenAppointmentStartTime() && $bookingStartDate <= $oldBooking->getHiddenAppointmentEndTime()) {
+                    if ($booking->getHiddenAppointmentStartTime() > $oldBooking->getHiddenAppointmentStartTime() && $booking->getHiddenAppointmentEndTime() < $oldBooking->getHiddenAppointmentEndTime()) {
+                        return false;
+                    }
+                    
+                    if($bookingStartDate > $oldBooking->getHiddenAppointmentStartTime() && $bookingStartDate < $oldBooking->getHiddenAppointmentEndTime()){
+                        return false;
+                    }
+                    
+                    
+                    if($bookingEndDate > $oldBooking->getHiddenAppointmentStartTime() && $bookingEndDate < $oldBooking->getHiddenAppointmentEndTime()){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                } else {
+                    return true;
                 }
-
-                if ($oldBooking->getHiddenAppointmentEndTime() != $bookingStartDate) {
-                    return false;
-                }
-            } else {
-                return true;
             }
-
-//            if ($oldBooking->getHiddenAppointmentEndTime()->getTimestamp() == $bookingStartDate->getTimestamp()) {
-//                return true;
-//            } elseif ($oldBooking->getHiddenAppointmentStartTime()->getTimestamp() == $bookingEndDate->getTimestamp()) {
-//                return true;
-//            }
-        } else if (sizeof($results) > 1) {
-            return false;
-        } else if (sizeof($results) == 0) {
-            return true;
         }
 
         return false;
