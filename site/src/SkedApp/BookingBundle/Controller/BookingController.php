@@ -485,12 +485,12 @@ class BookingController extends Controller
 
         $customer = new Customer();
 
-        if (is_object($booking->getCustomer())){
+        if (is_object($booking->getCustomer())) {
             $customer = $booking->getCustomer();
-        }else{
-            $customer =$booking->getCustomerPotential();
+        } else {
+            $customer = $booking->getCustomerPotential();
         }
-        
+
         return $this->render('SkedAppBookingBundle:Booking:edit.html.twig', array(
                 'form' => $form->createView(),
                 'id' => $booking->getId(),
@@ -750,15 +750,14 @@ class BookingController extends Controller
                 $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
 
                 $bookingTooltip .= '</div>';
-                
+
                 $backgroundColor = "blue";
                 $textColor = "white";
-                
-                if(!$booking->getIsConfirmed()){
-                   $backgroundColor = "red";
-                   
+
+                if (!$booking->getIsConfirmed()) {
+                    $backgroundColor = "red";
                 }
-                
+
                 $results[] = array(
                     'allDay' => $allDay,
                     'title' => $bookingName,
@@ -1508,6 +1507,18 @@ class BookingController extends Controller
         return $this->render('SkedAppBookingBundle:Booking:manage.booking.send.message.html.twig', array(
                 'form' => $form->createView(),
             ));
+    }
+
+    public function printAction()
+    {
+        $this->get('logger')->info('print bookings');
+
+        $session = $this->getRequest()->getSession();
+        $bookings = $this->get('booking.manager')->getBookingsForConsultants($session->get('consultants'), $session->get('filterDate'));
+        
+        return $this->render('SkedAppBookingBundle:Booking:manage.booking.print.html.twig', array(
+            'bookings' => $bookings
+        ));    
     }
 
     public function messagesAction()

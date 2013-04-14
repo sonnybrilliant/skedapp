@@ -145,4 +145,11 @@ sked_app_booking_send_customer_messages:
     defaults: { _controller: SkedAppBookingBundle:Booking:sendBookingMessage ,_format: html }
     requirements:
         _method:  GET|POST
+        _format:  html      
+        
+sked_app_booking_print:
+    pattern:  /booking/print.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:print ,_format: html }
+    requirements:
+        _method:  GET
         _format:  html       

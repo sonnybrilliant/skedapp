@@ -1,0 +1,19 @@
+{% extends "SkedAppConsultantBundle::layout.print.html.twig" %}
+
+{% block title %}Print booking details{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block jquery_ui %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock jquery_ui %}
+
+{% block body %}
+<div style="margin-left: 30px">
+        <h3>Print bookings</h3>
+        {% include "SkedAppBookingBundle:Booking:manage.bookng.print.list.html.twig" %}
+</div>
+{% endblock body %}

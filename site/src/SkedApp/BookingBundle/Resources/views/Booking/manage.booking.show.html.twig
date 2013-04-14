@@ -25,11 +25,12 @@
             {% include "::alert.html.twig" %}
         {% endblock %}
 
-        <div style="width: 29.718%;" class="span6 pull-right">
+        <div style="width: 35.718%;" class="span6 pull-right">
 
             <div class="btn-toolbar pull-right">
                 <a href="#" id="messenger" class="btn btn-warning"><i class="icon-white icon-envelope"></i>&nbsp;<strong>Send message</strong></a>
                 <a href="{{ path('sked_app_booking_new',{'type':2}) }}.html" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
+                <a href="{{ path('sked_app_booking_print') }}.html" class="btn btn-warning" target="_blank"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Print</strong></a>
             </div>
 
         </div>
