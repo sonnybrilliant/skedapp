@@ -31,14 +31,22 @@
    </thead>
    <tbody>
           {% for booking in pagination %}
-          {% if booking.service is defined %} 
+          
           <tr>
-            <td><input type="checkbox" class="chkBookings" name="type" value="{{booking.id}}" /></td>  
-            <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+            <td><input type="checkbox" class="chkBookings" name="type" value="{{booking.id}}" /></td> 
+            {% if booking.isLeave == "true" %} 
+                <td>Not available</td> 
+            {% else %}  
+                <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+            {% endif %}
             <td>{{booking.appointmentDateString}}</td>
             <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
             <td><a href="{{ path('sked_app_consultant_show',{'slug': booking.consultant.slug })}}" title="View consultant">{{booking.consultantString}}</a></td>
+            {% if booking.service.name is defined %} 
             <td><span class="label label-info">{{booking.service.name}}</span></td>
+            {% else %}
+            <td></td>
+            {% endif %}
             <td>{{booking.isConfirmedString}}</td>
             <td>
             {% if booking.isRejected != "true"%}
@@ -55,7 +63,7 @@
             
             </td>
           </tr>
-          {% endif %}
+          
           {% endfor %}
     </tbody>
  </table>

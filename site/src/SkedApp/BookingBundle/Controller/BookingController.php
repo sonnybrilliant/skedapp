@@ -711,8 +711,8 @@ class BookingController extends Controller
 
                 if (!$isMonth) {
                     if (true == $booking->getIsLeave()) {
-                        $allDay = true;
-                        $bookingName = "On leave";
+                        //$allDay = true;
+                        $bookingName = "Not Available";
                     } else {
                         if (is_object($booking->getService()))
                             $bookingName = $booking->getService()->getName();
@@ -777,8 +777,8 @@ class BookingController extends Controller
                 }
 
                 $results[] = array(
-                    'allDay' => $booking->getIsLeave() ? true : false,
-                    'title' => $booking->getIsLeave() ? "On leave" : $bookingName,
+                    'allDay' => $allDay,
+                    'title' => $bookingName,
                     'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
                     'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
                     //'start' => "2012-11-29",

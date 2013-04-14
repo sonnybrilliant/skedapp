@@ -137,7 +137,7 @@ class BookingController extends Controller
                         $booking = new Booking();
                         $booking->setConsultant($consultant);
                         $booking->setAppointmentDate($startDateObject);
-                        //$booking->setIsLeave(true);
+                        $booking->setIsLeave(true);
                         $booking->setStartTimeslot($data['startTimeslot']);
                         $booking->setEndTimeslot($data['endTimeslot']);
                         $booking->setHiddenAppointmentStartTime($startDateObject);
