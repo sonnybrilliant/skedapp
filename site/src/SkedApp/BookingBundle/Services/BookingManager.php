@@ -259,6 +259,17 @@ final class BookingManager
             $bookingEndDate = $booking->getHiddenAppointmentEndTime();
         }
 
+        $consultant = $booking->getConsultant();
+        
+        $consultantEndTime = $consultant->getEndTimeslot()->getSlot();
+        $timeEndTime = explode(":", $consultantEndTime);
+        $endTimeObj = new \DateTime();
+        $endTimeObj->setTimestamp(mktime($timeEndTime[0], $timeEndTime[1], 00, $bookingStartDate->format('m'), $bookingStartDate->format('d'), $bookingStartDate->format('Y')));
+        
+        if($bookingStartDate >= $endTimeObj){
+           return false; 
+        }
+        
 
         $options = array(
             'searchText' => '',
@@ -266,6 +277,7 @@ final class BookingManager
             'direction' => 'desc',
             'consultantId' => $booking->getConsultant()->getId()
         );
+        
         
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
 
@@ -294,7 +306,7 @@ final class BookingManager
             }
         }
 
-        return false;
+        return true;
     }
 
     public function isBookingAvailable($consultant, $startTime, $endTime)
@@ -316,12 +328,10 @@ final class BookingManager
             if (0 == $interval->format('%d')) {
 
                 if ($endTime > $booking->getHiddenAppointmentStartTime() && $endTime < $booking->getHiddenAppointmentEndTime()) {
-                    echo '=================';
                     return false;
                 }
 
                 if (($startTime > $booking->getHiddenAppointmentStartTime() && $startTime < $booking->getHiddenAppointmentEndTime())) {
-                    echo '++++++++++';
                     return false;
                 }
             }
