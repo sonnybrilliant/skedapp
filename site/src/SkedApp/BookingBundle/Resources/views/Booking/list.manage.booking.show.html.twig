@@ -34,7 +34,7 @@
           
           <tr>
             <td><input type="checkbox" class="chkBookings" name="type" value="{{booking.id}}" /></td> 
-            {% if booking.isLeave == "true" || booking.customerString == ""%} 
+            {% if booking.isLeave == "true"%} 
                 <td>NOT AVAILABLE</td> 
             {% else %}  
                 <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
