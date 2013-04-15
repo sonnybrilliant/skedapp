@@ -7,8 +7,8 @@
               <tr>
                 <th class="table-heading-blue">#</th>
                 <th class="table-heading-blue">Customer</th>
-                <th class="table-heading-blue">Date</th>
-                <th class="table-heading-blue">Time</th>
+                <th class="table-heading-blue">Start date</th>
+                <th class="table-heading-blue">End date</th>
                 <th class="table-heading-blue">Consultant</th>
                 <th class="table-heading-blue">Service</th>
                 <th class="table-heading-blue">Confirmed</th>
@@ -19,11 +19,19 @@
               {% for booking in bookings %}
               <tr>
                 <td>{{booking.id}}</td>
+                {% if booking.isLeave == "true"%} 
+                <td>NOT AVAILABLE</td> 
+                {% else %}  
                 <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
-                <td>{{booking.appointmentDateString}}</td>
-                <td>{{booking.startTimeslotString}}</td>
+                {% endif %}
+                <td>{{booking.hiddenAppointmentStartTime|date("Y-m-d H:i")}}</td>
+                <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d H:i")}}</td>
                 <td>{{booking.consultantString}}</td>
+                 {% if booking.service.name is defined %} 
                 <td>{{booking.service.name}}</td>
+                 {% else %}
+                <td>N/A</td> 
+                {% endif %}
                 <td>{{booking.isConfirmedString}}</td>
                 <td>{{booking.createdAt|date('M jS Y')}}</td>
               </tr>
