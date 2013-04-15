@@ -348,7 +348,7 @@ final class TimeslotsManager
      * 
      * @return array
      */
-    public function generateTimeSlots($consultant,$searchDate,$numberOfDays)
+    public function generateTimeSlots($consultant,$searchDate,$numberOfDays = 7)
     {
         $this->logger->info('generate timeslots for consultant:' . $consultant->getFullName());
 
