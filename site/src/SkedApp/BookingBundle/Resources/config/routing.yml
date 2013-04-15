@@ -116,6 +116,15 @@ sked_app_booking_ajax_get_bookings:
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
     options:
         expose: true
+        
+sked_app_booking_ajax_get_bookings_calender:
+    pattern:  /booking/manage/calender/ajaxGetBookingsCalender/{str}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookingsCalender ,_format: html }
+    options:
+        expose: true
+    requirements:
+        _method:  GET
+        _format:  html   
 
 sked_app_booking_ajax_bookings_list:
     pattern:  /booking/ajaxGetBookingsList

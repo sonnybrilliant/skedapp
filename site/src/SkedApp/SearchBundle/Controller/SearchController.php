@@ -328,7 +328,7 @@ class SearchController extends Controller
         foreach ($paginator as $consultant) {
             //$consultants[] = $consultant;
 
-            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $searchDate);
+            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $searchDate,7);
             $data[] = array(
                 'consultant' => $consultant,
                 'slots' => $slots

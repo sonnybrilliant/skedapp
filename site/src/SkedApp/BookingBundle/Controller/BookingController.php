@@ -376,10 +376,13 @@ class BookingController extends Controller
                 $errMsg = "";
 
                 $bookingEndTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getStartTimeslot()->getSlot());
+                $bookingStartTime = new \DateTime();
+                $bookingStartTime->setTimestamp($bookingEndTime->getTimestamp());
+                $booking->setHiddenAppointmentStartTime($bookingStartTime);
                 $serviceDuration = $booking->getService()->getAppointmentDuration()->getDuration();
                 $serviceDurationInterval = new \DateInterval("PT" . $serviceDuration . "M");
                 $bookingEndTime = $bookingEndTime->add($serviceDurationInterval);
-
+                $booking->setHiddenAppointmentEndTime($bookingEndTime);
 
                 $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
 
@@ -665,27 +668,22 @@ class BookingController extends Controller
     }
 
     /**
-     *  Get active bookings
-     *
+     * Get ajax booking list for calender view
+     * 
+     * @param string $str
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxGetBookingsAction($str)
+    public function ajaxGetBookingsCalenderAction($str)
     {
-        $this->get('logger')->info('get bookings');
+        $this->get('logger')->info('get bookings for calender display');
         $results = array();
 
-        $start = $this->getRequest()->get('start', null);
-        $end = $this->getRequest()->get('end', null);
+        $startTimestamp = $this->getRequest()->get('start', null);
+        $endTimestamp = $this->getRequest()->get('end', null);
 
-        //Test if its a day or month view
-        $startSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $start));
-        $endSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $end));
-        $earliestStart = new \Datetime($startSlotsDateTime->format('Y-m-d H:i:00'));
-        $latestEnd = new \Datetime($endSlotsDateTime->format('Y-m-d H:i:00'));
-        $isSingleDay = false;
         $consultantsIntergerArray = array();
 
-
+        //get list of consultant from string with - delimer
         $tmp = explode("-", $str);
         for ($x = 0; $x < sizeof($tmp); $x++) {
             if (is_numeric($tmp[$x])) {
@@ -693,266 +691,73 @@ class BookingController extends Controller
             }
         }
 
-
-
+        //get all bookings for selected consultants
         $bookings = $this->get('booking.manager')->getBookingsForConsultants($consultantsIntergerArray, null);
 
-        if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) >= (60 * 60 * 24 * 28)) {
-            $isMonth = true;
-        } else {
-            $isMonth = false;
-        }
-
         if ($bookings) {
-            foreach ($bookings as $booking) {
-                $allDay = false;
+            $results = $this->get('booking.manager')->getCalenderOccupiedSlots($bookings);
+        }//if bookings is array
+        $startDate = new \DateTime(date('Y-m-d H:i:00', $startTimestamp));
+        $endDate = new \DateTime(date('Y-m-d H:i:00', $endTimestamp));
 
-                $bookingName = '';
+        ///do not gennerate timeslots for days older than today
+        $timeStampToday = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        $todayDate = new \DateTime();
+        $todayDate->setTimestamp($timeStampToday);
 
-                if (!$isMonth) {
-                    if (true == $booking->getIsLeave()) {
-                        //$allDay = true;
-                        $bookingName = "Not Available";
-                    } else {
-                        if (is_object($booking->getService()))
-                            $bookingName = $booking->getService()->getName();
-                        else
-                            $bookingName = 'Booked out';
+
+        if ($startDate >= $todayDate) {
+            $interval = date_diff($startDate, $endDate);
+            
+            if (1 == $interval->format('%d')) {
+                $consultants = array();
+                $tmp = array();
+
+                for ($y = 0; $y < sizeof($consultantsIntergerArray); $y++) {
+                    $consultants[] = $this->get('consultant.manager')->getById($consultantsIntergerArray[$y]);
+                }
+
+                foreach ($consultants as $consultant) {
+                    $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $startDate, 1);
+
+                    if (is_array($slots)) {
+                        for ($x = 0; $x < sizeof($slots); $x++) {
+                            $currentDate = new \DateTime($startDate->format('Y-m-d'));
+                            $bookingDate = new \DateTime($slots[$x]['dateObject']->format('Y-m-d'));
+                            //ladybug_dump($currentDate);
+                            //ladybug_dump($bookingDate);
+                            if ($bookingDate == $currentDate) {
+                                foreach ($slots[$x]['timeSlots'] as $timeSlots) {
+                                    $booking = new Booking();
+                                    $booking->setHiddenAppointmentStartTime($timeSlots['startTime']);
+                                    $booking->setHiddenAppointmentEndTime($timeSlots['endTime']);
+                                    $booking->setConsultant($consultant);
+
+                                    $results[] = array(
+                                        'allDay' => false,
+                                        'title' => 'Add  a booking',
+                                        'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
+                                        'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
+                                        'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
+                                        'url' => $this->generateUrl("sked_app_booking_new", array(
+                                            'type' => 1,
+                                            'Booking[appointmentDate]' => $timeSlots['startTime']->format("Y-m-d"),
+                                            'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($timeSlots['startTime']->format('H:i'))->getId(),
+                                            'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($timeSlots['endTime']->format('H:i'))->getId(),
+                                            'Booking[consultant]' => $consultant->getId(),
+                                        )),
+                                        'description' => 'Add a new booking',
+                                        'color' => 'green',
+                                        'textColor' => 'white'
+                                    );
+                                }
+                            }
+                        }
                     }
-                }
-
-                $bookingTooltip = '<div class="divBookingTooltip">';
-
-                if (is_object($booking->getConsultant())) {
-
-                    if ((isset($bookingName)) && (strlen($bookingName) > 0))
-                        $bookingName = ' - ' . $bookingName;
-
-                    $bookingName = $booking->getConsultant()->getFullName() . $bookingName;
-                }
-
-                if (is_object($booking->getCustomer())) {
-
-                    $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
-                    $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
-                    $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
-
-                    if ((isset($bookingName)) && (strlen($bookingName) > 0))
-                        $bookingName = ' - ' . $bookingName;
-
-                    $bookingName = $booking->getCustomer()->getFullName() . $bookingName;
-                }
-                
-                if(is_object($booking->getHiddenAppointmentStartTime())){
-                    $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
-                }
-                
-                if(is_object($booking->getHiddenAppointmentEndTime())){
-                    $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
-                }
-                
-                $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
-
-                if (is_object($booking->getConsultant())) {
-                    $bookingTooltip .= '<strong>Consultant:</strong> ' . $booking->getConsultant()->getFullName() . "<br />";
-                    $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $booking->getConsultant()->getEmail() . "<br />";
-                }
-
-                if (is_object($booking->getService()))
-                    $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
-
-                $bookingTooltip .= '<strong>Notes:</strong> ' . $booking->getDescription() . "<br />";
-
-                $bookingTooltip .= '</div>';
-
-                $backgroundColor = "blue";
-                $textColor = "white";
-
-                if (!$booking->getIsConfirmed()) {
-                    $backgroundColor = "red";
-                }
-                
-                if(!is_object($booking->getService())){
-                    $backgroundColor = "black";
-                }
-
-                $results[] = array(
-                    'allDay' => $allDay,
-                    'title' => $bookingName,
-                    'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
-                    'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
-                    //'start' => "2012-11-29",
-                    'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
-                    'url' => $this->generateUrl("sked_app_booking_edit", array("bookingId" => $booking->getId(), "page" => 'calender')) . ".html",
-                    'description' => $bookingTooltip,
-                    'color' => $backgroundColor,
-                    'textColor' => $textColor
-                );
-            } //foreach booking found
-        } //if bookings found
-
-        if (($endSlotsDateTime->getTimeStamp() - $startSlotsDateTime->getTimestamp()) <= (60 * 60 * 24)) {
-            $isSingleDay = true;
-        }
-
-        if ((!is_null($start)) && (!is_null($end))) {
-            //Adding empty slots
-            $consultants = array();
-
-            for ($y = 0; $y < sizeof($consultantsIntergerArray); $y++) {
-                $consultants[] = $this->get('consultant.manager')->getById($consultantsIntergerArray[$y]);
-            }
-
-            foreach ($consultants as $consultant) {
-
-                $startSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $start));
-                $endSlotsDateTime = new \Datetime(date('Y-m-d H:i:00', $end));
-
-                $startSlot = $consultant->getStartTimeslot()->getSlot();
-                $startSlot = explode(':', $startSlot);
-
-                $endSlot = $consultant->getEndTimeslot()->getSlot();
-                $endSlot = explode(':', $endSlot);
-
-                $startSlotsDateTime->setTime($startSlot[0], $startSlot[1], 0);
-                $endSlotsDateTime->setTime($endSlot[0], $endSlot[1], 0);
-
-                //Check which consultant starts the earliest and which ends the latest
-                if ($earliestStart->getTimestamp() > $startSlotsDateTime->getTimestamp()) {
-                    $earliestStart = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
-                }
-
-                if ($latestEnd->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
-                    $latestEnd = new \DateTime($endSlotsDateTime->format('Y-m-d H:i:00'));
-                }
-
-                if (($isSingleDay) && ($endSlotsDateTime->getTimestamp() > time())) {
-                    //If its a single day, add empty slots for each resource
-                    //Make sure start time slot is in the future
-                    while ($startSlotsDateTime->getTimestamp() < time()) {
-
-                        $durationInterval = new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M');
-                        $startSlotsDateTime->add($durationInterval);
-                    }
-
-                    while ($startSlotsDateTime->getTimestamp() < $endSlotsDateTime->getTimestamp()) {
-                        //Loop through the timeslots for each day and check if the consultant is available
-
-                        $durationInterval = new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M');
-
-                        $startSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
-                        $endSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
-                        $endSlot->add($durationInterval);
-                        $appointmentDate = new \DateTime($startSlotsDateTime->format('Y-m-d 00:00:00'));
-
-                        $booking = new Booking();
-
-                        $booking->setConsultant($consultant);
-                        $booking->setAppointmentDate($appointmentDate);
-                        $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($startSlot->format('H:i')));
-                        $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($endSlot->format('H:i')));
-                        $booking->setHiddenAppointmentStartTime($startSlot);
-                        $booking->setHiddenAppointmentEndTime($endSlot);
-
-                        $isAvailable = $this->get('booking.manager')->isBookingDateAvailable($booking);
-
-                        unset($booking);
-
-                        if ($isAvailable) {
-
-                            $bookingTooltip = '<div class="divBookingTooltip">';
-
-                            $bookingTooltip .= '<strong>Start Time:</strong> ' . $startSlot->format("H:i") . "<br />";
-                            $bookingTooltip .= '<strong>End Time:</strong> ' . $endSlot->format("H:i") . "<br />";
-
-                            $bookingTooltip .= '<strong>Consultant:</strong> ' . $consultant->getFullName() . "<br />";
-                            $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $consultant->getEmail() . "<br />";
-
-                            $services = $consultant->getConsultantServices();
-
-                            $bookingTooltip .= '<strong>Service(s): </strong>';
-
-                            foreach ($services as $service)
-                                $bookingTooltip .= $service->getName() . " ";
-
-                            $bookingTooltip .= "<br />";
-
-                            $bookingTooltip .= '</div>';
-
-                            $results[] = array(
-                                'allDay' => false,
-                                'title' => 'Add Booking',
-                                'start' => $startSlot->format("c"),
-                                'end' => $endSlot->format("c"),
-                                'resourceId' => 'resource-' . $consultant->getId(),
-                                'url' => $this->generateUrl("sked_app_booking_new", array(
-                                    'type' => 1,
-                                    'Booking[appointmentDate]' => $startSlot->format("Y-m-d"),
-                                    'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($startSlot->format('H:i'))->getId(),
-                                    'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($endSlot->format('H:i'))->getId(),
-                                    'Booking[consultant]' => $consultant->getId(),
-                                )),
-                                'description' => $bookingTooltip,
-                                'className' => 'addBookingTimeSlot'
-                            );
-                        } //if slot is available
-
-                        $startSlotsDateTime->add($durationInterval);
-
-                        unset($startSlot);
-                        unset($endSlot);
-                    } //while
-                } //if is a single day
-            } //foreach consultant
-
-            if ((!$isSingleDay) && ($latestEnd->getTimestamp() > time())) {
-
-                //Make sure start time slot is more than 2 hours in the future
-                while ($earliestStart->getTimestamp() < (time() + (60 * 60 * 2))) {
-
-                    $durationInterval = new \DateInterval('PT15M');
-                    $earliestStart->add($durationInterval);
-                }
-
-                while ($earliestStart->getTimestamp() < $latestEnd->getTimestamp()) {
-                    //Loop through the timeslots for each day and check if the consultant is available
-
-                    $durationInterval = new \DateInterval('PT15M');
-
-                    $startSlot = new \DateTime($earliestStart->format('Y-m-d 06:00:00'));
-                    $endSlot = new \DateTime($startSlotsDateTime->format('Y-m-d H:i:00'));
-                    $endSlot->add($durationInterval);
-
-                    $durationInterval = new \DateInterval('P1D');
-
-                    $bookingTooltip = '<div class="divBookingTooltip">';
-
-                    $bookingTooltip .= "Click to Add a booking<br />";
-
-                    $bookingTooltip .= '</div>';
-
-                    $results[] = array(
-                        'allDay' => true,
-                        'title' => 'Add Booking',
-                        'start' => $startSlot->format("c"),
-//                        'end' => $endSlot->format("c"),
-                        //'start' => "2012-11-29",
-                        'url' => $this->generateUrl("sked_app_booking_new", array(
-                            'type' => 1,
-                            'Booking[appointmentDate]' => $startSlot->format("Y-m-d")
-                        )),
-                        'description' => $bookingTooltip,
-                        'className' => 'addBookingTimeSlot'
-                    );
-
-                    $earliestStart->add($durationInterval);
-
-                    unset($startSlot);
-                    unset($endSlot);
-                } //while
-            } //Single day
-        } //Dates are set
-
+                }//end consultants foreach
+            }//if interval is day...
+        }//end if date older than today
+        
         $response = new Response(json_encode($results));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -1224,10 +1029,13 @@ class BookingController extends Controller
 
                     //calculate endtime by factoring service duration
                     $bookingEndTime = new \DateTime($values['appointmentDate'] . ' ' . $values['startTimeslot']);
+                    $bookingStartTime = new \DateTime();
+                    $bookingStartTime->setTimestamp($bookingEndTime->getTimestamp());
+                    $booking->setHiddenAppointmentStartTime($bookingStartTime);
                     $serviceDuration = $service->getAppointmentDuration()->getDuration();
                     $serviceDurationInterval = new \DateInterval("PT" . $serviceDuration . "M");
                     $bookingEndTime = $bookingEndTime->add($serviceDurationInterval);
-
+                    $booking->setHiddenAppointmentEndTime($bookingEndTime);
 
                     $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
 

@@ -166,13 +166,13 @@ final class TimeslotsManager
      * 
      * @return array
      */
-    public function buildWeekDays($searchDate)
+    public function buildWeekDays($searchDate, $numberOfDays = 7)
     {
         $dates = array();
 
         //build an array of 30 days starting today
         
-        for ($x = 0; $x < 7; $x++) {
+        for ($x = 0; $x < $numberOfDays; $x++) {
             $epoch = '';
 
             if ($x == 0) {
@@ -199,12 +199,12 @@ final class TimeslotsManager
      * @param array $ConsultantDaysOfWeek
      * @return array
      */
-    private function buildDaysSlots($ConsultantDaysOfWeek,$searchDate)
+    private function buildDaysSlots($ConsultantDaysOfWeek,$searchDate,$numberOfDays = 7)
     {
         $dates = array();
 
         //build an array of 30 days starting today
-        for ($x = 0; $x < 7; $x++) {
+        for ($x = 0; $x < $numberOfDays; $x++) {
             $epoch = '';
 
             if ($x == 0) {
@@ -348,7 +348,7 @@ final class TimeslotsManager
      * 
      * @return array
      */
-    public function generateTimeSlots($consultant,$searchDate)
+    public function generateTimeSlots($consultant,$searchDate,$numberOfDays)
     {
         $this->logger->info('generate timeslots for consultant:' . $consultant->getFullName());
 

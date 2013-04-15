@@ -39,13 +39,20 @@
             {% else %}  
                 <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
             {% endif %}
-            <td>{{booking.appointmentDateString}}</td>
-            <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
+            {% if booking.isLeave == "true"%} 
+               <td>{{booking.hiddenAppointmentStartTime|date("Y-m-d H:i")}}</td>
+               <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d H:i")}}</td>
+            {% else %} 
+               <td>{{booking.appointmentDateString}}</td>
+               <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
+            {% endif %}    
+            
+            
             <td><a href="{{ path('sked_app_consultant_show',{'slug': booking.consultant.slug })}}" title="View consultant">{{booking.consultantString}}</a></td>
             {% if booking.service.name is defined %} 
             <td><span class="label label-info">{{booking.service.name}}</span></td>
             {% else %}
-            <td></td>
+            <td>N/A</td> 
             {% endif %}
             <td>{{booking.isConfirmedString}}</td>
             <td>

@@ -28,6 +28,12 @@ final class BookingManager
      * @var object
      */
     private $logger = null;
+    
+    /**
+     * Router
+     * @var object
+     */
+    private $router = null;
 
     /**
      * Entity manager
@@ -40,14 +46,16 @@ final class BookingManager
      *
      * @param  ContainerInterface $container
      * @param  Logger             $logger
+     * @param                     $router
      * @return void
      */
     public function __construct(
-    ContainerInterface $container, Logger $logger)
+    ContainerInterface $container, Logger $logger, $router)
     {
         $this->setContainer($container);
         $this->setLogger($logger);
         $this->setEm($container->get('doctrine')->getEntityManager('default'));
+        $this->setRouter($router);
 
         return;
     }
@@ -81,7 +89,17 @@ final class BookingManager
     {
         $this->em = $em;
     }
+    
+    public function getRouter()
+    {
+        return $this->router;
+    }
 
+    public function setRouter($router)
+    {
+        $this->router = $router;
+    }
+    
     /**
      * Get consultant by id
      * @param integer $id
@@ -260,16 +278,16 @@ final class BookingManager
         }
 
         $consultant = $booking->getConsultant();
-        
+
         $consultantEndTime = $consultant->getEndTimeslot()->getSlot();
         $timeEndTime = explode(":", $consultantEndTime);
         $endTimeObj = new \DateTime();
         $endTimeObj->setTimestamp(mktime($timeEndTime[0], $timeEndTime[1], 00, $bookingStartDate->format('m'), $bookingStartDate->format('d'), $bookingStartDate->format('Y')));
-        
-        if($bookingStartDate >= $endTimeObj){
-           return false; 
+
+        if ($bookingStartDate >= $endTimeObj) {
+            return false;
         }
-        
+
 
         $options = array(
             'searchText' => '',
@@ -277,8 +295,8 @@ final class BookingManager
             'direction' => 'desc',
             'consultantId' => $booking->getConsultant()->getId()
         );
-        
-        
+
+
         $bookings = $this->em->getRepository("SkedAppCoreBundle:Booking")->getAllConsultantBookings($options);
 
         if ($bookings) {
@@ -289,15 +307,15 @@ final class BookingManager
                     if ($booking->getHiddenAppointmentStartTime() > $oldBooking->getHiddenAppointmentStartTime() && $booking->getHiddenAppointmentEndTime() < $oldBooking->getHiddenAppointmentEndTime()) {
                         return false;
                     }
-                    
-                    if($bookingStartDate > $oldBooking->getHiddenAppointmentStartTime() && $bookingStartDate < $oldBooking->getHiddenAppointmentEndTime()){
+
+                    if ($bookingStartDate > $oldBooking->getHiddenAppointmentStartTime() && $bookingStartDate < $oldBooking->getHiddenAppointmentEndTime()) {
                         return false;
                     }
-                    
-                    
-                    if($bookingEndDate > $oldBooking->getHiddenAppointmentStartTime() && $bookingEndDate < $oldBooking->getHiddenAppointmentEndTime()){
+
+
+                    if ($bookingEndDate > $oldBooking->getHiddenAppointmentStartTime() && $bookingEndDate < $oldBooking->getHiddenAppointmentEndTime()) {
                         return false;
-                    }else{
+                    } else {
                         return true;
                     }
                 } else {
@@ -465,6 +483,79 @@ final class BookingManager
         $output = $this->em->getRepository('SkedAppCoreBundle:Booking')
             ->getBookingByConsultans($consultants, $date);
         return $output;
+    }
+    
+    /**
+     * Get occupied slots on the calender
+     * 
+     * @param array $bookings
+     * @return array
+     */
+    public function getCalenderOccupiedSlots($bookings)
+    {
+        $this->logger->info('calender occupied slots');
+
+        $results = array();
+
+        foreach ($bookings as $booking) {
+
+            $bookingTitle = '';
+            $backgroundColor = "blue";
+            $textColor = "white";
+
+            if (!$booking->getIsConfirmed()) {
+                $backgroundColor = "red";
+            }
+
+            if ($booking->getIsLeave()) {
+                $bookingTitle = "Not Available";
+                $backgroundColor = "black";
+            }
+
+            // set booking details
+            $bookingTooltip = '<div class="divBookingTooltip">';
+
+            $bookingTooltip .= '<strong>Start Time:</strong> ' . $booking->getHiddenAppointmentStartTime()->format("H:i") . "<br />";
+            $bookingTooltip .= '<strong>End Time:</strong> ' . $booking->getHiddenAppointmentEndTime()->format("H:i") . "<br />";
+            $bookingTooltip .= '<strong>Confirmed:</strong> ' . $booking->getIsConfirmedString() . "<br />";
+
+
+            if (is_object($booking->getConsultant())) {
+                $bookingTitle = $booking->getConsultant()->getFullName() . " - " . $bookingTitle;
+                $bookingTooltip .= '<strong>Consultant:</strong> ' . $booking->getConsultant()->getFullName() . "<br />";
+                $bookingTooltip .= '<strong>Consultant E-Mail:</strong> ' . $booking->getConsultant()->getEmail() . "<br />";
+            }
+
+            if (is_object($booking->getCustomer())) {
+                $bookingTooltip .= '<strong>Customer:</strong> ' . $booking->getCustomer()->getFullName() . "<br />";
+                $bookingTooltip .= '<strong>Customer Contact Number:</strong> ' . $booking->getCustomer()->getMobileNumber() . "<br />";
+                $bookingTooltip .= '<strong>Customer E-Mail:</strong> ' . $booking->getCustomer()->getEmail() . "<br />";
+                $bookingTitle = $booking->getCustomer()->getFullName() . " - " . $bookingTitle;
+            }
+
+            if (is_object($booking->getService())) {
+                $bookingTooltip .= '<strong>Service:</strong> ' . $booking->getService()->getName() . "<br />";
+                $bookingTitle = $bookingTitle . $booking->getService()->getName();
+            } else {
+                $backgroundColor = "black";
+            }
+
+            $bookingTooltip .= '</div>';
+            
+            $results[] = array(
+                'allDay' => false,
+                'title' => $bookingTitle,
+                'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
+                'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
+                'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
+                'url' => $this->router->generate("sked_app_booking_edit", array("bookingId" => $booking->getId(), "page" => 'calender')) . ".html",
+                'description' => $bookingTooltip,
+                'color' => $backgroundColor,
+                'textColor' => $textColor
+            );
+        }//end foreach
+        
+        return $results;
     }
 
 }
