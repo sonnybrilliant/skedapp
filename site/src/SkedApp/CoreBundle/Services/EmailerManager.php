@@ -199,7 +199,7 @@ final class EmailerManager
             'service' => $booking->getService(),
             'bookingDate' => $booking->getHiddenAppointmentStartTime(),
             'company' => $booking->getConsultant()->getCompany(),
-            'url' => $this->router->generate("_security_login").".html"
+            'url' => $this->router->generate("_security_login",array(),true).".html"
         );
 
         $emailBodyHtml = $this->template->render(
@@ -329,7 +329,7 @@ final class EmailerManager
             'consultant' => $booking->getConsultant(),
             'bookingDate' => $booking->getHiddenAppointmentStartTime(),
             'company' => $booking->getConsultant()->getCompany(),
-            'url' => $this->router->generate("_security_login").".html"
+            'url' => $this->router->generate("_security_login",array(),true).".html"
         );
 
         $emailBodyHtml = $this->template->render(
@@ -513,7 +513,7 @@ final class EmailerManager
             'consultant' => $booking->getConsultant(),
             'bookingDate' => $booking->getHiddenAppointmentStartTime(),
             'company' => $booking->getConsultant()->getCompany(),
-            'url' => $this->router->generate("sked_app_contact_us").".html"
+            'url' => $this->router->generate("sked_app_contact_us",array(),true).".html"
         );
 
         
