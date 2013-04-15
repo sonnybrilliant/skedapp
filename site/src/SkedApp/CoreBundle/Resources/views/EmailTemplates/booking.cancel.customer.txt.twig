@@ -1,7 +1,10 @@
 SkedApp
 ------------
-Hi {{ user.firstName }}! This appointment has been cancelled at your request. If this was an error, please contact us at {{url}}.
-
+{%if isAdmin == true %}
+Hi {{ user.firstName }}! This appointment has been cancelled by the offices of {{ company.name }}. Please contact them or reschedule an appointment by logging on to {{urlLogin}} .
+{% else %}
+Hi {{ user.firstName }}! This appointment has been cancelled at your request. If this was an error, please contact us at {{url}}.</p>
+{% endif%}
 If this time no longer suits you, please cancel this appointment and reschedule by loggin on to {{url}} .
 
 Your Appointment Details:

@@ -1223,7 +1223,7 @@ class BookingController extends Controller
             $customer = $booking->getCustomer();
             $this->get('booking.manager')->cancelBooking($booking);
 
-            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking,'admin'=>false));
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
@@ -1251,7 +1251,7 @@ class BookingController extends Controller
             $this->get('booking.manager')->cancelBooking($booking);
             //send cofirmation emails
             if(!is_null($customer)){
-                $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+                $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking,'admin'=>true));
             }
                      
         } catch (\Exception $e) {

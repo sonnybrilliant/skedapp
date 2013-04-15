@@ -7,7 +7,11 @@
             </td>
         </tr>
     </table><br /><br />
-    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }}! This appointment has been cancelled at your request. If this was an error, please <a href="{{url}}" title="Contact Us">contact us</a>.</p>
+    {%if isAdmin == true %}
+      <p style="margin-bottom: 6pt;">Hi {{ user.firstName }}! This appointment has been cancelled by the offices of {{ company.name }}. Please contact them or reschedule an appointment by logging on to <a href="{{urlLogin}}" title="Login">Login</a>.</p>
+    {% else %}
+      <p style="margin-bottom: 6pt;">Hi {{ user.firstName }}! This appointment has been cancelled at your request. If this was an error, please <a href="{{url}}" title="Contact Us">contact us</a>.</p>
+    {% endif%}
     <p style="margin-bottom: 6pt;"><u>Your Appointment Details:</u></p>
     <p style="margin-bottom: 6pt;text-decoration:line-through"><strong>{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}}</strong> with <strong>{{ consultant.fullName }}</strong></p>
     <p style="margin-bottom: 6pt;">{{ company.address }}<br />{{ company.contactNumber }}</p>

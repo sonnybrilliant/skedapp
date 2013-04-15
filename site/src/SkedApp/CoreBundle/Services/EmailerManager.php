@@ -507,13 +507,20 @@ final class EmailerManager
         $options['subject'] = "Your SkedApp booking cancellation confirmed";
 
         $booking = $params['booking'];
-
+        $isAdminCancellation = false;
+        
+        if(isset($params['admin'])){
+          $isAdminCancellation = $params['admin']; 
+        }
+       
         $tmp = array(
             'user' => $booking->getCustomer(),
             'consultant' => $booking->getConsultant(),
             'bookingDate' => $booking->getHiddenAppointmentStartTime(),
             'company' => $booking->getConsultant()->getCompany(),
-            'url' => $this->router->generate("sked_app_contact_us",array(),true).".html"
+            'url' => $this->router->generate("sked_app_contact_us",array(),true).".html",
+            'isAdmin' => $isAdminCancellation,
+            'urlLogin' => $this->router->generate("_security_login",array(),true).".html"
         );
 
         
