@@ -708,7 +708,7 @@ class BookingController extends Controller
 
         if ($startDate >= $todayDate) {
             $interval = date_diff($startDate, $endDate);
-            
+
             if (1 == $interval->format('%d')) {
                 $consultants = array();
                 $tmp = array();
@@ -757,7 +757,7 @@ class BookingController extends Controller
                 }//end consultants foreach
             }//if interval is day...
         }//end if date older than today
-        
+
         $response = new Response(json_encode($results));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
@@ -1223,7 +1223,6 @@ class BookingController extends Controller
             $customer = $booking->getCustomer();
             $this->get('booking.manager')->cancelBooking($booking);
 
-            //send cofirmation emails
             $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
@@ -1250,9 +1249,10 @@ class BookingController extends Controller
             $booking = $this->get('booking.manager')->getById($bookingId);
             $customer = $booking->getCustomer();
             $this->get('booking.manager')->cancelBooking($booking);
-
             //send cofirmation emails
-            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+            if(!is_null($customer)){
+                $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
+            }            
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
