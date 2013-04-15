@@ -19,10 +19,13 @@ sked_app_customer_list_bookings:
     defaults: { _controller: SkedAppCustomerBundle:Bookings:list }
 
 sked_app_customer_booking_details:
-    pattern:  /customer/booking/detail/{id}
-    defaults: { _controller: SkedAppCustomerBundle:Bookings:details }
+    pattern:  /customer/booking/detail/{id}.{_format}
+    defaults: { _controller: SkedAppCustomerBundle:Bookings:details , _format: html}
     requirements:
-        id:  \d+    
+        id:  \d+  
+        _method:  GET
+        _format:  html      
+        
 
 sked_app_customer_register:
     pattern:  /customer/register
