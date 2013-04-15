@@ -127,7 +127,7 @@
 
         {% block footer %}
            <div id="footer">
-               <p>SkedApp &copy; {{ date().format('Y') }}  |  <a href="{{ path('_welcome')}}">Make a Booking</a>  |  Contact Us  |  <a href="{{ path('_site_privacy_policy')}}.html" title="Privacy Policy">Privacy Policy</a>  |  <a href="{{ path('_site_terms_of_use')}}.html" title="Terms & Conditions">Terms & Conditions</a></p>
+               <p>SkedApp &copy; {{ date().format('Y') }}  |  <a href="{{ path('_welcome')}}">Make a Booking</a>  |  <a href="{{ path("sked_app_contact_us")}}.html" title="Contact Us">Contact Us</a>  |  <a href="{{ path("sked_app_about_us")}}.html" title="About Us">About Us</a>   |  <a href="{{ path('_site_privacy_policy')}}.html" title="Privacy Policy">Privacy Policy</a>  |  <a href="{{ path('_site_terms_of_use')}}.html" title="Terms & Conditions">Terms & Conditions</a></p>
            </div> <!-- End footer -->
         {% endblock %}
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>

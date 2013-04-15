@@ -288,5 +288,12 @@ final class NotificationsManager
         $this->container->get('email.manager')->inviteFriendConsultant($params);
         return;
     }
+    
+    public function sendContactUs($params)
+    {
+        $this->logger->info("send contact us");
+        $this->container->get('email.manager')->contactUsBroadcast($params);
+        return;
+    }
 
 }

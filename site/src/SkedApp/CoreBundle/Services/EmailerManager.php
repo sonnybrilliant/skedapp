@@ -692,6 +692,43 @@ final class EmailerManager
 
         $this->sendMail($options);
         return;
+    }
+    
+    /**
+     * Send booking rejection to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function contactUsBroadcast($params)
+    {
+        $this->logger->info("send contact us broadcast");
+        $options['subject'] = "SkedApp ContactUs Broadcast";
+
+        
+
+        $tmp = array(
+            'fullName' => $params['fullName'],
+            'message' => $params['message'],  
+            'email' => $params['fromEmail']
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:general.contactus.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:general.contactus.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $params['toEmail'];
+        $options['fullName'] = $params['toName'];
+
+        $this->sendMail($options);
+        return;
     }    
     
     /**

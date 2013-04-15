@@ -7,23 +7,16 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * SkedApp\CoreBundle\Form\InviteFriendsType
+ * SkedApp\CoreBundle\Form\ContactUsType
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
  * @package SkedAppCoreBundle
  * @subpackage Form
  * @version 0.0.1
  */
-class InviteFriendsType extends AbstractType
+class ContactUsType extends AbstractType
 {
 
-    private $isAuthenticated = false;
-    
-    public function __construct($isAuthenticated = true)
-    {
-        $this->isAuthenticated = $isAuthenticated;
-    }
-    
     /**
      * Build Form
      *
@@ -35,13 +28,19 @@ class InviteFriendsType extends AbstractType
     {
 
         $builder
-            ->add('friendName', 'text', array(
-                'label' => "Friend's name:",
-                'attr' => array('class' => 'span12')
+            ->add('fullName', 'text', array(
+                'label' => "Full name:",
+                'required' => true,
+                'attr' => array('class' => 'span4')
             ))
-            ->add('email', 'email', array(
-                'label' => "Friend's email address:",
-                'attr' => array('class' => 'span12'),
+            ->add('emailaddress', 'text', array(
+                'label' => "Email address:",
+                'required' => true,
+                'attr' => array('class' => 'span4')
+            ))
+            ->add('message', 'textarea', array(
+                'label' => "Message:",
+                'attr' => array('class'=>'tinymce span4', 'data-theme' => 'simple'),
             ));
         
     }
@@ -52,7 +51,7 @@ class InviteFriendsType extends AbstractType
      */
     public function getName()
     {
-        return 'InviteFriend';
+        return 'ContactUs';
     }
 
 }
