@@ -7,9 +7,9 @@
             </td>
         </tr>
     </table><br /><br />
-    <p style="margin-bottom: 6pt;">Hi {{ fullName }},</p>
-    <p style="margin-bottom: 6pt;">This email confirms your booking cancellation.</p>
-    <p style="margin-bottom: 6pt;"></p>
-    <p style="margin-bottom: 6pt;">Your booking details are as follows:</p>
-    <p style="margin-bottom: 6pt;"><strong>Consultant</strong>: {{ consultant }} <br/> <strong>Service to be tendered </strong>: {{ service }} <br /><strong>Date</strong>: {{ date }}</p>
+    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }}! This appointment has been cancelled at your request. If this was an error, please <a href="{{url}}" title="Contact Us">contact us</a>.</p>
+    <p style="margin-bottom: 6pt;"><u>Your Appointment Details:</u></p>
+    <p style="margin-bottom: 6pt;text-decoration:line-through"><strong>{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}}</strong> with <strong>{{ consultant.fullName }}</strong></p>
+    <p style="margin-bottom: 6pt;">{{ company.address }}<br />{{ company.contactNumber }}</p>
+    <p style="margin-bottom: 6pt;">GPS:{{ company.completeGPS }}</p>
 {% endblock body %}

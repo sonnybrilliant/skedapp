@@ -1252,7 +1252,8 @@ class BookingController extends Controller
             //send cofirmation emails
             if(!is_null($customer)){
                 $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking));
-            }            
+            }
+                     
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());

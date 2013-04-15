@@ -211,9 +211,12 @@ final class NotificationsManager
      */
     public function sendBookingCancellation($params)
     {
+        echo "++++++++++++++++++++++++++++++++";
         $this->container->get('email.manager')->bookingCancellationCustomer($params);
+        echo "________________________________";
         $this->container->get('email.manager')->bookingCancellationCompany($params);
         $this->container->get('email.manager')->bookingCancellationConsultant($params);
+        exit();
         return;
     }
 

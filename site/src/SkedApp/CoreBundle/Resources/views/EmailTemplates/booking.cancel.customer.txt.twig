@@ -1,17 +1,20 @@
 SkedApp
 ------------
-Hi {{ fullName }},
+Hi {{ user.firstName }}! This appointment has been cancelled at your request. If this was an error, please contact us at {{url}}.
 
-This email confirms your booking cancellation.
+If this time no longer suits you, please cancel this appointment and reschedule by loggin on to {{url}} .
 
-Your booking details are as follows:
+Your Appointment Details:
 
-Consultant: {{ consultant }}
-Service to be rendered: {{ service }}
-Date: {{ date }}
+{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}} with {{ consultant.fullName }}
+
+{{ company.address }}
+{{ company.contactNumber }}
+
+GPS:{{ company.completeGPS }}
 
 Thank you,
 The SkedApp Team
 
 ---
-(c) 2012, SkedApp. Pretoria , Gauteng , South Africa
+(c) 2013, SkedApp. Pretoria , Gauteng , South Africa

@@ -502,19 +502,21 @@ final class EmailerManager
      */
     public function bookingCancellationCustomer($params)
     {
+        
         $this->logger->info("send booking cancellation confimation to customer");
         $options['subject'] = "Your SkedApp booking cancellation confirmed";
 
         $booking = $params['booking'];
 
         $tmp = array(
-            'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
-            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
-            'service' => $booking->getService()->getName(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+            'user' => $booking->getCustomer(),
+            'consultant' => $booking->getConsultant(),
+            'bookingDate' => $booking->getHiddenAppointmentStartTime(),
+            'company' => $booking->getConsultant()->getCompany(),
+            'url' => $this->router->generate("sked_app_contact_us").".html"
         );
 
-
+        
         $emailBodyHtml = $this->template->render(
             'SkedAppCoreBundle:EmailTemplates:booking.cancel.customer.html.twig', $tmp
         );
@@ -522,13 +524,13 @@ final class EmailerManager
         $emailBodyTxt = $this->template->render(
             'SkedAppCoreBundle:EmailTemplates:booking.cancel.customer.txt.twig', $tmp
         );
-
+        
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getCustomer()->getEmail();
-        $options['fullName'] = $tmp['fullName'];
-
+        $options['fullName'] = $tmp['user']->getFullName();
         $this->sendMail($options);
+
         return;
     }
 
