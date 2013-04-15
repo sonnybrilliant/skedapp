@@ -8,10 +8,10 @@
                  Customer
              </th>
             <th scope="col" class="table-heading-blue">
-                 Date
+                 Start Date
              </th>
             <th scope="col" class="table-heading-blue">
-                 Time
+                 End Date
              </th>
             <th scope="col" class="table-heading-blue">
                 Consultant
@@ -22,9 +22,6 @@
              </th>
             <th scope="col" class="table-heading-blue">
                 Confirmed
-             </th>
-            <th scope="col" class="table-heading-blue">
-                Rejected
              </th>
              <th  scope="col" class="table-heading-blue"></th>
           </tr>
@@ -39,13 +36,9 @@
             {% else %}  
                 <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
             {% endif %}
-            {% if booking.isLeave == "true"%} 
-               <td>{{booking.hiddenAppointmentStartTime|date("Y-m-d H:i")}}</td>
-               <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d H:i")}}</td>
-            {% else %} 
-               <td>{{booking.appointmentDateString}}</td>
-               <td>{{booking.startTimeslotString}} - {{booking.endTimeslotString}}</td>
-            {% endif %}    
+
+             <td>{{booking.hiddenAppointmentStartTime|date("Y-m-d H:i")}}</td>
+             <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d H:i")}}</td>
             
             
             <td><a href="{{ path('sked_app_consultant_show',{'slug': booking.consultant.slug })}}" title="View consultant">{{booking.consultantString}}</a></td>
@@ -55,13 +48,6 @@
             <td>N/A</td> 
             {% endif %}
             <td>{{booking.isConfirmedString}}</td>
-            <td>
-            {% if booking.isRejected != "true"%}
-             No
-            {% else %}
-             Yes
-            {% endif %}
-            </td>
             <td>
                 {% if booking.isLeave == "true"%}
                     <a href='{{ path('sked_app_booking_admin_cancel',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to cancel" class="btn btn-small btn-inverse"><i class="icon-white icon-ban-circle"></i>&nbsp;Cancel</a>
