@@ -33,7 +33,7 @@
                 <td>N/A</td> 
                 {% endif %}
                 <td>{{booking.isConfirmedString}}</td>
-                <td>{{booking.createdAt|date('M jS Y')}}</td>
+                <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d")}}</td>
               </tr>
               {% endfor %}
             </tbody>
