@@ -63,10 +63,15 @@
             {% endif %}
             </td>
             <td>
-                <a href='{{ path('sked_app_booking_edit',{'bookingId':booking.id, page:'listing'})}}.html' rel="tooltip" title="click to edit" class="btn btn-small btn-info"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>
-                <a href='{{ path('sked_app_booking_confirm',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to confirm" class="btn btn-small btn-warning"><i class="icon-white icon-ok"></i>&nbsp;Confirm</a>
-                <a href='{{ path('sked_app_booking_admin_cancel',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to cancel" class="btn btn-small btn-inverse"><i class="icon-white icon-ban-circle"></i>&nbsp;Cancel</a>
-                <a href='{{ path('sked_app_booking_reject',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to reject" class="btn btn-small btn-danger"><i class="icon-white icon-trash"></i>&nbsp;Reject</a>
+                {% if booking.isLeave == "true"%}
+                    <a href='{{ path('sked_app_booking_admin_cancel',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to cancel" class="btn btn-small btn-inverse"><i class="icon-white icon-ban-circle"></i>&nbsp;Cancel</a>
+                {% else %} 
+                    <a href='{{ path('sked_app_booking_edit',{'bookingId':booking.id, page:'listing'})}}.html' rel="tooltip" title="click to edit" class="btn btn-small btn-info"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>
+                    <a href='{{ path('sked_app_booking_confirm',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to confirm" class="btn btn-small btn-warning"><i class="icon-white icon-ok"></i>&nbsp;Confirm</a>
+                    <a href='{{ path('sked_app_booking_admin_cancel',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to cancel" class="btn btn-small btn-inverse"><i class="icon-white icon-ban-circle"></i>&nbsp;Cancel</a>
+                    <a href='{{ path('sked_app_booking_reject',{'bookingId':booking.id})}}.html' rel="tooltip" title="click to reject" class="btn btn-small btn-danger"><i class="icon-white icon-trash"></i>&nbsp;Reject</a>
+                {% endif %}    
+                
             
             </td>
           </tr>
