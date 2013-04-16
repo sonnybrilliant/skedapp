@@ -1034,6 +1034,9 @@ Fix re-Captcha label issue
     background-repeat: no-repeat;
     background-position: bottom;
     width: 1170px;
-    height: 230px;
+    height: 232px;
     float: left;
+}
+.map-shadow #map_canvas {
+    border: 1px solid #454545;
 }
