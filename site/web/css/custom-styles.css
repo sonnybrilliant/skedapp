@@ -1029,3 +1029,11 @@ Fix re-Captcha label issue
     float: right;
     margin-top: 2px;
 }
+.map-shadow {
+    background-image: url('../img/map-shadow.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 1170px;
+    height: 230px;
+    float: left;
+}
