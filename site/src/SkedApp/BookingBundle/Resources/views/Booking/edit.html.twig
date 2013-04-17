@@ -23,10 +23,6 @@
         <h3>Edit booking</h3>
 
         <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id , 'page': page }) }}.html" class="btn btn-warning pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
-
-        <div style="margin-left: 0px;" class="span5">{% set vars = {'action': 'Edit booking'} %}
-           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
-        </div>
         <div class="clearfix"></div>
         <div class="spacer2"></div>
         <div style="margin-left: 0px;" class="span5">

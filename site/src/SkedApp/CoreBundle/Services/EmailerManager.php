@@ -235,16 +235,15 @@ final class EmailerManager
 
         $booking = $params['booking'];
 
+        
         if ($admins) {
             foreach ($admins as $user) {
                 $tmp = array(
                     'user' => $user,
                     'consultant' => $booking->getConsultant(),
                     'link' => $params['link'],
-                    'service' => $booking->getService(),
-                    'customer' => $booking->getCustomer(),
                     'fullName' => $booking->getCustomer()->getFullName(),
-                    'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
+                    'bookingDate' => $booking->getHiddenAppointmentStartTime()
                 );
 
 
