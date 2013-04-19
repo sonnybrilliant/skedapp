@@ -113,6 +113,31 @@ Media Queries for screens with a width smaller than 1024
 /*******************
 end of Styles for images
 *******************/
+/*******************
+Image Styles for IE8
+*******************/
+.image-dimensions120 {
+    width: 90px\9 !important;
+    max-height: 90px\9 !important;
+    overflow: hidden\9;
+}
+.polaroid-width120 {
+    width: 90px\9;
+    height: 90px\9;
+}
+.image-shadow {
+    width: 100px\9;
+    height: 106px\9;
+    background-image: url('../img/image-shadow100.png')\9;
+    background-position: bottom\9;
+    background-repeat: no-repeat\9;
+}
+.med-gray-text {
+	font-size: 0.9em\9;
+}
+/*******************
+End of Image Styles for IE8
+*******************/
 #wrap {
     min-height: 100%;
     height: auto !important;
