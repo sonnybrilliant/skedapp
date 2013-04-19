@@ -1040,3 +1040,14 @@ Fix re-Captcha label issue
 .map-shadow #map_canvas {
     border: 1px solid #454545;
 }
+.about-us-shadow {
+    background-image: url('../img/map-shadow.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 1170px;
+    height: 472px;
+    float: left;
+}
+.about-us-shadow-banner {
+    border: 1px solid #454545;
+}

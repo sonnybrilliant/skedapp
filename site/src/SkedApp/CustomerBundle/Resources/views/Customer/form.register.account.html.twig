@@ -6,7 +6,7 @@
 {% endblock %}
 <form class="display helpers form-horizontal" action="{{ path('sked_app_customer_register_account') }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <legend><span class="label label-info">Info</span> <small class="whiteText">Register a new account, all fields required.</small></legend>
+      <legend><span class="label label-warning">Info</span> <small class="whiteText">All fields required.</small></legend>
       <div class="{% if form_errors(form.firstName) %} error {% endif %}">
         <div for="first_name">{{ form_label(form.firstName) }}</div>
         <div>
@@ -110,7 +110,6 @@
         </div>
       </div>
       <div class="{% if form_errors(form.captcha) %} error {% endif %}">
-        <div for="form.captcha">{{ form_label(form.captcha) }}</div>
         <div class="">
           {{ form_widget(form.captcha) }}
            <span class="help-inline">{{form_errors(form.captcha)}}</span>
@@ -120,7 +119,7 @@
         <div>
             <table width="408px">
                 <tr>
-                    <td><input type="checkbox" name=""/>
+                    <td><input type="checkbox" name="terms" id="terms" value="1"/>
                     <p class="terms-conditions">I agree to skedapp <a href="{{ path('_site_terms_of_use')}}.html" target="_blank" title="Terms & Conditions" class="terms-conditions-links"><strong>Terms & Conditions</strong></a> and <a href="{{ path('_site_privacy_policy')}}.html" title="Privacy Policy" class="terms-conditions-links" target="_blank"><strong>Privacy Policy</strong></a></p></td>
                 </tr>
            </table>
@@ -128,7 +127,7 @@
       </div>
       <div class="btn-toolbar pull-right">
           
-          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Register &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+          <button type="submit" name="submit" class="btn btn-warning" id="block" data-toggle="button">Register &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
                     &nbsp;&nbsp;<a href="{{ path('_welcome') }}" class="btn">Cancel</a>
       </div>
       {{ form_rest(form) }}
