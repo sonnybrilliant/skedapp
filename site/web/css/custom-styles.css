@@ -89,7 +89,7 @@ Styles for images
 /*******************
 Media Queries for screens with a width smaller than 1024
 *******************/
-@media only screen and (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
     .image-dimensions120 {
         width: 90px !important;
         max-height: 90px !important;

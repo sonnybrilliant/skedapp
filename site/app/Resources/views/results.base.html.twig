@@ -13,6 +13,13 @@
          <!-- Custom Styles for Bootstrap -->
         <link href="{{ asset('/css/custom-styles.css') }}" rel="stylesheet">
         <link href="{{ asset('/css/jquery.lightbox-0.5.css') }}" rel="stylesheet">
+        
+        <!--[if IE 8]>
+            <link href="{{ asset('/css/ie7-8.css') }}" rel="stylesheet">
+	<![endif]-->
+        <!--[if IE 7]>
+            <link href="{{ asset('/css/ie7-8.css') }}" rel="stylesheet">
+	<![endif]-->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -33,7 +40,6 @@
         </script>
         <!-- load jquery ui -->
         {% block jquery_ui %}{% endblock jquery_ui %}
-    </head>
     <body>
         <!-- Set variable for logo display -->
         {% set displayLogo = 'other_pages' %}
