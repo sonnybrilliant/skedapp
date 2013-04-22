@@ -76,7 +76,7 @@ class ConsultantController extends Controller
         $this->get('logger')->info('create a new consultant');
 
         $consultant = new Consultant();
-        $form = $this->createForm(new ConsultantCreateType(), $consultant);
+        $form = $this->createForm(new ConsultantCreateType($this->container), $consultant);
 
         return $this->render('SkedAppConsultantBundle:Consultant:create.html.twig', array('form' => $form->createView()));
     }
@@ -96,12 +96,17 @@ class ConsultantController extends Controller
         $consultant = new Consultant();
         $password = $this->get('utility.manager')->generatePassword(16);
         $consultant->setPassword($password);
-        $form = $this->createForm(new ConsultantCreateType(), $consultant);
+        $form = $this->createForm(new ConsultantCreateType($this->container), $consultant);
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
+                if(!$this->get('member.manager')->isAdmin()){
+                   $user = $this->get('member.manager')->getLoggedInUser();
+                   $consultant->setCompany($user->getCompany());
+                }
+                
                 $this->get('consultant.manager')->createNewConsultant($consultant);
 
                 $params = array(

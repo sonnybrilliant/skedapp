@@ -7,9 +7,7 @@
             </td>
         </tr>
     </table><br /><br />
-    <p style="margin-bottom: 6pt;">Hi {{ fullName }},</p>
-    <p style="margin-bottom: 6pt;">This email confirms your customer booking cancellation.</p>
-    <p style="margin-bottom: 6pt;"></p>
-    <p style="margin-bottom: 6pt;">Booking details are as follows:</p>
-    <p style="margin-bottom: 6pt;"><strong>Service to be tendered </strong>: {{ service }} <br /><strong>Date</strong>: {{ date }}</p>
+    <p style="margin-bottom: 6pt;">Hi {{ fullName }}! This email confirms your customer booking cancellation.</p>
+    <p style="margin-bottom: 6pt;">Booking Details:</p>
+    <p style="margin-bottom: 6pt;"><strong>{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}}</strong> with <strong>{{ fullName }}</strong></p>
 {% endblock body %}

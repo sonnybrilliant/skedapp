@@ -110,6 +110,7 @@ class BookingController extends Controller
 
                 if ($form->isValid()) {
                     $data = $form->getData();
+                    $reason = strip_tags($data['reason']);
                     $startTimeSlot = explode(':',$data['startTimeslot']->getSlot());
                     $startDate = explode('-',$data['start_date']);
                     $starTimestamp = mktime($startTimeSlot[0], $startTimeSlot[1],0, $startDate[1], $startDate[0], $startDate[2]);
@@ -142,6 +143,7 @@ class BookingController extends Controller
                         $booking->setEndTimeslot($data['endTimeslot']);
                         $booking->setHiddenAppointmentStartTime($startDateObject);
                         $booking->setHiddenAppointmentEndTime($endDateObject);
+                        $booking->setDescription($reason);
                         
                         $this->get('booking.manager')->save($booking);
 

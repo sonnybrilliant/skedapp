@@ -54,6 +54,12 @@ class ConsultantBookOutType extends AbstractType
                 'attr' => array('class' => 'span12 datePicker'),
 
             ))
+            ->add('reason', 'textarea', array(
+                'label' => 'Reason:',
+                'required' => false,
+                'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
+                'required' => false
+            ))            
         ;
     }
 

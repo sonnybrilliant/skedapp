@@ -508,7 +508,12 @@ final class BookingManager
             }
 
             if ($booking->getIsLeave()) {
-                $bookingTitle = "Not Available";
+                if($booking->getDescription() != ""){
+                   $bookingTitle = $booking->getDescription(); 
+                }else{
+                   $bookingTitle = "Not Available"; 
+                }
+                
                 $backgroundColor = "black";
             }
 
