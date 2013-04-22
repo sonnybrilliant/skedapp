@@ -28,6 +28,13 @@
               <span class="help-inline">{{form_errors(form.endTimeslot)}}</span>
           </div>
       </div>           
+      <div class="control-group {% if form_errors(form.reason) %} error {% endif %}">
+          <div class="control-label" for="reason">{{ form_label(form.reason) }}</div>
+          <div class="controls">
+              {{ form_widget(form.reason) }} 
+              <span class="help-inline">{{form_errors(form.reason)}}</span>
+          </div>
+      </div>           
       <div class="btn-toolbar">
             <div class="btn-group">
                 <button type="submit" name="submit" class="btn btn-warning">Update <i class="icon-white icon-circle-arrow-right"></i></button>

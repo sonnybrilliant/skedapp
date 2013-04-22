@@ -38,11 +38,6 @@ class ConsultantUpdateType extends AbstractType
                 'label' => 'Last name:',
                 'attr' => array('class' => 'span12')
             ))
-            ->add('company', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Company',
-                'label' => 'Company:',
-                'attr' => array('class' => 'span12 chosen')
-            ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:gender',
                 'label' => 'Gender:',

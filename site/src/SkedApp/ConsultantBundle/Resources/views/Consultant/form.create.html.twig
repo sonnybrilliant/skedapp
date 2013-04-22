@@ -1,5 +1,6 @@
 <form action="{{ path('sked_app_consultant_create') }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
+      {% if form.company is defined %}
       <div class="control-group {% if form_errors(form.company) %} error {% endif %}">
           <div class="control-label" for="company">{{ form_label(form.company) }}</div>
           <div class="controls">
@@ -7,6 +8,7 @@
               <span class="help-inline">{{form_errors(form.company)}}</span>
           </div>
       </div>
+      {% endif %}    
       <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
           <div class="control-label" for="first_name">{{ form_label(form.firstName) }}</div>
           <div class="controls">
