@@ -1051,3 +1051,11 @@ Fix re-Captcha label issue
 .about-us-shadow-banner {
     border: 1px solid #454545;
 }
+
+/*******************
+Code for Beta button *** TO BE REMOVED ***
+*******************/
+.beta-btn {
+    position: relative;
+    margin: 7px;
+}
