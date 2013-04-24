@@ -319,23 +319,29 @@ class BookingController extends Controller
         $customerPotential = new CustomerPotential(false);
 
         $bookingValues = $this->getRequest()->get('Booking');
+        
 
-        if (!isset($bookingValues['appointmentDate']))
+        if (!isset($bookingValues['appointmentDate'])){
             $bookingValues['appointmentDate'] = date('Y-m-d');
+        }    
 
-        if (isset($bookingValues['startTimeslot']))
+        if (isset($bookingValues['startTimeslot'])){
             $booking->setStartTimeslot($this->get('timeslots.manager')->getById($bookingValues['startTimeslot']));
-
-        if (isset($bookingValues['endTimeslot']))
+        }    
+            
+        if (isset($bookingValues['endTimeslot'])){
             $booking->setEndTimeslot($this->get('timeslots.manager')->getById($bookingValues['endTimeslot']));
+        }
 
-        if (isset($bookingValues['consultant']))
+        if (isset($bookingValues['consultant'])){
             $booking->setConsultant($this->get('consultant.manager')->getById($bookingValues['consultant']));
-
+        }
+        
         $form = $this->createForm(new BookingCreateType(
                 $user->getCompany()->getId(),
                 $this->get('member.manager')->isAdmin(),
-                new \DateTime($bookingValues['appointmentDate'])
+                new \DateTime($bookingValues['appointmentDate']),
+                $booking->getConsultant() 
             ), $booking);
         $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
 
@@ -365,7 +371,6 @@ class BookingController extends Controller
                 $this->get('member.manager')->isAdmin()
             ), $booking);
         $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
-
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());

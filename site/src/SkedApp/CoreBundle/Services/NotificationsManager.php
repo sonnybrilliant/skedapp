@@ -131,10 +131,9 @@ final class NotificationsManager
                 )
             );
             
-            $this->container->get('email.manager')->bookingConfirmationConsultant($params);
-
             $params['attachments_data'][] = array('file_data' => $icalText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
 
+            $this->container->get('email.manager')->bookingConfirmationConsultant($params);
             $this->container->get('email.manager')->bookingConfirmationCustomer($params);
         }
 

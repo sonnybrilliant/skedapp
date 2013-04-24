@@ -1,5 +1,6 @@
 <?php
-namespace SkedApp\CoreBundle\Entity ;
+
+namespace SkedApp\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,29 +26,29 @@ class Service
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @var integer
      */
-    protected $id ;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=50)
      */
-    protected $name ;
-    
+    protected $name;
+
     /**
      * @var string $speciality
      * 
      * @ORM\Column(name="description", type="text", length=500, nullable=true)
      */
-    protected $description;    
-    
+    protected $description;
+
     /**
      * @var boolean
      *
      * @ORM\Column(name="is_deleted", type="boolean")
      */
-    protected $isDeleted;    
-    
+    protected $isDeleted;
+
     /**
      * @var SkedApp\CoreBundle\Entity\Category
      * 
@@ -55,8 +56,8 @@ class Service
      * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Category", inversedBy="services")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    protected $category; 
-    
+    protected $category;
+
     /**
      * @var AppointmentDuration
      *
@@ -65,8 +66,13 @@ class Service
      *   @ORM\JoinColumn(name="appointment_duration_id", referencedColumnName="id")
      * })
      */
-    protected $appointmentDuration;    
-    
+    protected $appointmentDuration;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="SkedApp\CoreBundle\Entity\Consultant", mappedBy="consultantServices")
+     */
+    protected $consultants;
+
     /**
      * @var datetime $createdAt
      *
@@ -79,11 +85,11 @@ class Service
      *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    protected $updatedAt;    
-    
-    public function __construct( $name = null )
+    protected $updatedAt;
+
+    public function __construct($name = null)
     {
-        $this->name = $name ;
+        $this->name = $name;
         $this->isDeleted = false;
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
@@ -91,7 +97,7 @@ class Service
 
     public function __toString()
     {
-        return $this->name ;
+        return $this->name;
     }
 
     /**
@@ -101,7 +107,7 @@ class Service
      */
     public function getId()
     {
-        return $this->id ;
+        return $this->id;
     }
 
     /**
@@ -113,7 +119,7 @@ class Service
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
@@ -136,7 +142,7 @@ class Service
     public function setIsDeleted($isDeleted)
     {
         $this->isDeleted = $isDeleted;
-    
+
         return $this;
     }
 
@@ -159,7 +165,7 @@ class Service
     public function setCategory(\SkedApp\CoreBundle\Entity\Category $category = null)
     {
         $this->category = $category;
-    
+
         return $this;
     }
 
@@ -182,7 +188,7 @@ class Service
     public function setAppointmentDuration(\SkedApp\CoreBundle\Entity\AppointmentDuration $appointmentDuration = null)
     {
         $this->appointmentDuration = $appointmentDuration;
-    
+
         return $this;
     }
 
@@ -205,7 +211,7 @@ class Service
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
@@ -228,7 +234,7 @@ class Service
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
@@ -251,7 +257,7 @@ class Service
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
@@ -263,5 +269,39 @@ class Service
     public function getDescription()
     {
         return $this->description;
+    }
+
+
+    /**
+     * Add consultants
+     *
+     * @param \SkedApp\CoreBundle\Entity\Consultant $consultants
+     * @return Service
+     */
+    public function addConsultant(\SkedApp\CoreBundle\Entity\Consultant $consultants)
+    {
+        $this->consultants[] = $consultants;
+    
+        return $this;
+    }
+
+    /**
+     * Remove consultants
+     *
+     * @param \SkedApp\CoreBundle\Entity\Consultant $consultants
+     */
+    public function removeConsultant(\SkedApp\CoreBundle\Entity\Consultant $consultants)
+    {
+        $this->consultants->removeElement($consultants);
+    }
+
+    /**
+     * Get consultants
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConsultants()
+    {
+        return $this->consultants;
     }
 }

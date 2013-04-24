@@ -304,7 +304,11 @@ final class EmailerManager
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getConsultant()->getEmail();
         $options['fullName'] = $booking->getConsultant()->getFullName();
-
+        
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0)){
+            $options['attachments_data'] = $params['attachments_data'];
+        }
+        
         $this->sendMail($options);
 
         return;
@@ -344,9 +348,10 @@ final class EmailerManager
         $options['email'] = $booking->getCustomer()->getEmail();
         $options['fullName'] = $tmp['user']->getFullName();
 
-        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0))
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0)){
             $options['attachments_data'] = $params['attachments_data'];
-
+        }
+        
         $this->sendMail($options);
         return;
     }
