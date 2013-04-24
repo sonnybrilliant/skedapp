@@ -48,6 +48,10 @@ class ConsultantUpdateType extends AbstractType
                 'required' => false,
                 'attr' => array('class' => 'span12')
             ))
+            ->add('email', 'email', array(
+                'label' => 'Email address:',
+                'attr' => array('class' => 'span12')                
+            ))            
              ->add('category', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Category',
                 'label' => 'Category:',

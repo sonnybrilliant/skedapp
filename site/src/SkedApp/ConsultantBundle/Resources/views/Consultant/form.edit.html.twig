@@ -21,6 +21,13 @@
               <span class="help-inline">{{form_errors(form.gender)}}</span>
           </div>
       </div>
+      <div class="control-group {% if form_errors(form.email) %} error {% endif %}">
+          <div class="control-label" for="email">{{ form_label(form.email) }}</div>
+          <div class="controls">
+              {{ form_widget(form.email) }} 
+              <span class="help-inline">{{form_errors(form.email)}}</span>
+          </div>
+      </div>
       <div class="control-group {% if form_errors(form.picture) %} error {% endif %}">
           <div class="control-label" for="pictures">{{ form_label(form.picture) }}</div>
           <div class="controls">

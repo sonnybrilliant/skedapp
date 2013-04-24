@@ -212,7 +212,7 @@ class ConsultantController extends Controller
 
         try {
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
-
+            $emailAddress = $consultant->getEmail();
             $path = $consultant->getPath();
 
             $form = $this->createForm(new ConsultantUpdateType(), $consultant);
@@ -221,6 +221,10 @@ class ConsultantController extends Controller
                 $form->bindRequest($this->getRequest());
 
                 if ($form->isValid()) {
+                    if($emailAddress != $consultant->getEmail()){
+                        $consultant->setUsername($consultant->getEmail());
+                    }
+                    
                     $this->get('consultant.manager')->update($consultant);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Updated consultant successfully');
