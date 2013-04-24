@@ -366,34 +366,42 @@ class BookingController extends Controller
             ), $booking);
         $formCustomerPotential = $this->createForm(new CustomerPotentialType(), $customerPotential);
 
+
         if ($this->getRequest()->getMethod() == 'POST') {
             $form->bindRequest($this->getRequest());
             $formCustomerPotential->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
+                $data = $form->getData('override');
+                //ladybug_dump($form);
 
                 $isValid = true;
                 $errMsg = "";
 
-                $bookingEndTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getStartTimeslot()->getSlot());
-                $bookingStartTime = new \DateTime();
-                $bookingStartTime->setTimestamp($bookingEndTime->getTimestamp());
-                $booking->setHiddenAppointmentStartTime($bookingStartTime);
-                $serviceDuration = $booking->getService()->getAppointmentDuration()->getDuration();
-                $serviceDurationInterval = new \DateInterval("PT" . $serviceDuration . "M");
-                $bookingEndTime = $bookingEndTime->add($serviceDurationInterval);
-                $booking->setHiddenAppointmentEndTime($bookingEndTime);
+                $booking->setAppointmentDate(new \DateTime($booking->getAppointmentDate()));
 
-                $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
+                if (1 == $booking->getEndTimeslot()->getId()) {
+                    $startTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getStartTimeslot()->getSlot());
+                    $bookingStartTime = new \DateTime();
+                    $bookingStartTime->setTimestamp($startTime->getTimestamp());
+                    $booking->setHiddenAppointmentStartTime($bookingStartTime);
+                    $serviceDuration = $booking->getService()->getAppointmentDuration()->getDuration();
+                    $serviceDurationInterval = new \DateInterval("PT" . $serviceDuration . "M");
+                    $bookingEndTime = $startTime->add($serviceDurationInterval);
+                    $booking->setHiddenAppointmentEndTime($bookingEndTime);
 
+                    $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
+                } else {
 
-//                if (!$booking->getIsLeave()) {
-//                    //service must be seletced
-//                    if (!$booking->getService()) {
-//                        $errMsg = "Please select a service";
-//                        $isValid = false;
-//                    }
-//                }
+                    $startTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getStartTimeslot()->getSlot());
+                    $bookingStartTime = new \DateTime();
+                    $bookingStartTime->setTimestamp($startTime->getTimestamp());
+                    $booking->setHiddenAppointmentStartTime($bookingStartTime);
+
+                    $bookingEndTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getEndTimeslot()->getSlot());
+                    $booking->setHiddenAppointmentEndTime($bookingEndTime);
+                }
+
 
                 if (!$this->get('booking.manager')->isTimeValid($booking)) {
                     $errMsg = "End time must be greater than start time";
@@ -558,6 +566,14 @@ class BookingController extends Controller
                         $this->getRequest()->getSession()->setFlash(
                             'error', 'Please select a customer, or complete the details of an offline customer');
                     } else {
+
+                        $startTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getStartTimeslot()->getSlot());
+                        $bookingStartTime = new \DateTime();
+                        $bookingStartTime->setTimestamp($startTime->getTimestamp());
+                        $booking->setHiddenAppointmentStartTime($bookingStartTime);
+
+                        $bookingEndTime = new \DateTime($booking->getAppointmentDate()->format('Y-m-d') . ' ' . $booking->getEndTimeslot()->getSlot());
+                        $booking->setHiddenAppointmentEndTime($bookingEndTime);
 
                         $this->get('booking.manager')->save($booking);
                         $this->getRequest()->getSession()->setFlash(
@@ -1223,7 +1239,7 @@ class BookingController extends Controller
             $customer = $booking->getCustomer();
             $this->get('booking.manager')->cancelBooking($booking);
 
-            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking,'admin'=>false));
+            $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking, 'admin' => false));
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());
@@ -1250,10 +1266,9 @@ class BookingController extends Controller
             $customer = $booking->getCustomer();
             $this->get('booking.manager')->cancelBooking($booking);
             //send cofirmation emails
-            if(!is_null($customer)){
-                $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking,'admin'=>true));
+            if (!is_null($customer)) {
+                $this->get('notification.manager')->sendBookingCancellation(array('booking' => $booking, 'admin' => true));
             }
-                     
         } catch (\Exception $e) {
             $this->get('logger')->err("booking id:$bookingId invalid");
             $this->createNotFoundException($e->getMessage());

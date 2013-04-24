@@ -1,23 +1,32 @@
-<div class="spacer2"></div>
-<form class="form-horizontal" action="{{ path('sked_app_booking_create',{'type':type}) }}.html" method="POST" {{ form_enctype(form) }}>
+<form action="{{ path('sked_app_booking_create',{'type':type}) }}.html" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <div class="control-group">
-        <label class="control-label" for="time_slots">Date and time</label>
+      <div class="control-group {% if form_errors(form.appointmentDate) %} error {% endif %}">
+        <label class="control-label" for="appointment_date">{{ form_label(form.appointmentDate) }}</label>
         <div class="controls">
-            <div class="date-time">
-                <div class="date-container time-slots">
-                    Date:&nbsp;{{ form_widget(form.appointmentDate) }}
-                </div>
-                <div class="start-time-container time-slots pull-left">
-                    Start time:{{ form_widget(form.startTimeslot) }}
-                </div>
-                <div class="time-slots">
-                    End time:{{ form_widget(form.endTimeslot) }}
-                </div>
-            </div>
-       </div>
+          {{ form_widget(form.appointmentDate) }}
+          <span class="help-inline">{{form_errors(form.appointmentDate)}}</span>
+        </div>
       </div>
-
+      <div class="control-group {% if form_errors(form.startTimeslot) %} error {% endif %}">
+        <label class="control-label" for="start_timeslot">{{ form_label(form.startTimeslot) }}</label>
+        <div class="controls">
+          {{ form_widget(form.startTimeslot) }}
+          <span class="help-inline">{{form_errors(form.startTimeslot)}}</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="start_timeslot">Override end time:</label>
+        <div class="controls">
+            <input type="checkbox" name="override" id="override" value="" /> 
+        </div>
+      </div>
+          <div style="display: none" class="endtime control-group {% if form_errors(form.endTimeslot) %} error {% endif %}">
+        <label class="control-label" for="end_timeslot">{{ form_label(form.endTimeslot) }}</label>
+        <div class="controls">
+          {{ form_widget(form.endTimeslot) }}
+          <span class="help-inline">{{form_errors(form.endTimeslot)}}</span>
+        </div>
+      </div>
       <div class="control-group {% if form_errors(form.customerOrNot) %} error {% endif %}">
         <label class="control-label" for="customer">{{ form_label(form.customerOrNot) }}</label>
         <div class="controls">
