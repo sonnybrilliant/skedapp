@@ -280,24 +280,28 @@ final class EmailerManager
         $options['subject'] = "New Booking Created";
 
         $booking = $params['booking'];
-
+        $customerName = null;
+        
+        if($booking->getCustomer()){
+           $customerName = $booking->getCustomer()->getFullName(); 
+        }else{
+           $customerName = $booking->getCustomerPotential()->getFullName(); 
+        }
+        
+        
         $tmp = array(
             'user' => $booking->getConsultant(),
-            'consultant' => $booking->getConsultant(),
-            'link' => $params['link'],
-            'service' => $booking->getService(),
-            'customer' => $booking->getCustomer(),
-            'fullName' => $booking->getCustomer()->getFullName(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
+            'CustomerName' => $customerName,
+            'bookingDate' => $booking->getHiddenAppointmentStartTime()
         );
 
 
         $emailBodyHtml = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.consultant.html.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.consultant.html.twig', $tmp
         );
 
         $emailBodyTxt = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.consultant.txt.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.consultant.txt.twig', $tmp
         );
 
         $options['bodyHTML'] = $emailBodyHtml;

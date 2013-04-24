@@ -111,7 +111,8 @@ final class NotificationsManager
 
         if ($customerEmail != "") {
             $engine = $this->container->get('templating');
-            $icalText = $engine->render(
+            
+            $icalCustomerText = $engine->render(
                 'SkedAppCoreBundle:EmailTemplates:booking.ics.twig', array(
                 'booking' => $params['booking'],
                 'customerName' => $customerName,
@@ -131,10 +132,34 @@ final class NotificationsManager
                 )
             );
             
-            $params['attachments_data'][] = array('file_data' => $icalText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
+            $params['attachments_data'][0] = array('file_data' => $icalCustomerText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
+
+            $this->container->get('email.manager')->bookingConfirmationCustomer($params);
+            
+            $icalConsultantText = $engine->render(
+                'SkedAppCoreBundle:EmailTemplates:booking.ics.twig', array(
+                'booking' => $params['booking'],
+                'customerName' => $customerName,
+                'customerEmail' => $customerEmail,
+                'date_year_month_day' => $objCurrentDate->format('Ymd'),
+                'date_hour_minute_second' => $objCurrentDate->format('His'),
+                'date_start_year_month_day' => $objStartDate->format('Ymd'),
+                'date_start_hour_minute_second' => $objStartDate->format('His'),
+                'date_end_year_month_day' => $objEndDate->format('Ymd'),
+                'date_end_hour_minute_second' => $objEndDate->format('His'),
+                'summary' => 'Appointment at ' . $params['booking']->getConsultant()->getCompany()->getName()
+                . ' with ' . $customerName . ' for ' . $params['booking']->getService()->getCategory()->getName()
+                . ' - ' . $params['booking']->getService()->getName(),
+                'description' => 'Address: ' . $params['booking']->getConsultant()->getCompany()->getAddress() . '; GPS: '
+                . $params['booking']->getConsultant()->getCompany()->getCompleteGPS() . '; Contact Number: '
+                . $params['booking']->getConsultant()->getCompany()->getContactNumber()
+                )
+            );
+            
+            $params['attachments_data'][0] = array('file_data' => $icalConsultantText, 'file_mime' => 'text/calendar', 'file_name' => 'SkedApp-Booking-' . $params['booking']->getId() . '.ics');
 
             $this->container->get('email.manager')->bookingConfirmationConsultant($params);
-            $this->container->get('email.manager')->bookingConfirmationCustomer($params);
+            
         }
 
 
