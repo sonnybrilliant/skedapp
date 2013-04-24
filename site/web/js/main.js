@@ -147,7 +147,7 @@ $(document).ready(function() {
         updateConsultantServices($('#Booking_consultant'));
     });
 
-    updateConsultantServices($('#Booking_consultant'));
+    //updateConsultantServices($('#Booking_consultant'));
 
     //Run the ajax call to show only selected services
     var categoryId = 0;

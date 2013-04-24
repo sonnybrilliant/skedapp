@@ -62,16 +62,26 @@ class BookingCreateType extends AbstractType
         $isAdmin = $this->isAdmin;
 
         $builder
-            ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span7 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
+            ->add('appointmentDate', 'text', array(
+                'attr' => array('class' => 'span12 datePicker', 'value' => $this->appointmentDate->format('Y-m-d')),
+                'label' => 'Date:',                
             ))
+            ->add('startTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'Start time:',
+                'attr' => array('class' => 'span12')
+            ))
+            ->add('endTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'End time:',
+                'attr' => array('class' => 'span12')
+            ))            
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
+                'required' => true,
                 'empty_value' => 'Select a consultant',
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
@@ -90,7 +100,7 @@ class BookingCreateType extends AbstractType
                 },
             ))
             ->add('customerOrNot', 'choice', array(
-                'label' => 'Please select:',
+                'label' => 'Please select customer type:',
                 'required' => true,
                 'expanded' => true,
                 'choices' => array(true => 'Link an existing customer', false => 'Add customer details'),
@@ -131,16 +141,7 @@ class BookingCreateType extends AbstractType
                         ));
                 },
             ))
-            ->add('startTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Time from:',
-                'attr' => array('class' => 'span5')
-            ))
-            ->add('endTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Time to:',
-                'attr' => array('class' => 'span3')
-            ))
+
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
                 'required' => false,
@@ -155,7 +156,7 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => false,
-                'required' => false,
+                'required' => true,
                 'attr' => array('class' => 'span12' , 'disabled' => 'disabled'),
             ))
 
