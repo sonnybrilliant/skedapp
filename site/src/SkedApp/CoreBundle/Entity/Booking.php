@@ -126,6 +126,20 @@ class Booking
      * @ORM\Column(name="is_cancelled", type="boolean")
      */
     protected $isCancelled;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_closed", type="boolean")
+     */
+    protected $isClosed;
+    
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_rejected", type="boolean")
+     */
+    protected $isRejected;
 
     /**
      * @var boolean
@@ -172,6 +186,16 @@ class Booking
     protected $hiddenAppointmentEndTime;
 
     /**
+     * @var BookingStatus
+     *
+     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\BookingStatus")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="booking_status_id", referencedColumnName="id")
+     * })
+     */
+    protected $bookingStatus;    
+    
+    /**
      * @var datetime
      *
      * @ORM\Column(name="created_at", type="datetime")
@@ -187,6 +211,8 @@ class Booking
 
     public function __construct()
     {
+        $this->isRejected = false;
+        $this->isClosed = false;
         $this->isDeleted = false;
         $this->isLeave = false;
         $this->isActive = true;
@@ -199,8 +225,6 @@ class Booking
     /**
      * Create appointment date with time
      *
-     * @ORM\PreUpdate()
-     * @ORM\PrePersist()
      */
     public function createAppointmentStartTime()
     {
@@ -214,8 +238,6 @@ class Booking
     /**
      * Create appointment date with time
      *
-     * @ORM\PreUpdate()
-     * @ORM\PrePersist()
      */
     public function createAppointmentEndTime()
     {
@@ -720,8 +742,11 @@ class Booking
      */
     public function getCustomerString()
     {
-        if (is_object($this->customer))
+        if (is_object($this->customer)){
           return $this->customer->getFullName();
+        }elseif(is_object($this->customerPotential)){
+          return $this->customerPotential->getFullName();  
+        }  
         return '';
     }
 
@@ -732,8 +757,11 @@ class Booking
      */
     public function getCustomerNumberString()
     {
-        if (is_object($this->customer))
+        if (is_object($this->customer)){
           return $this->customer->getMobileNumber();
+        }elseif(is_object($this->customerPotential)){
+          return $this->customerPotential->getMobileNumber();  
+        }
         return '';
     }
 
@@ -808,5 +836,74 @@ class Booking
         }
 
         return '';
+    }
+
+    /**
+     * Set isClosed
+     *
+     * @param boolean $isClosed
+     * @return Booking
+     */
+    public function setIsClosed($isClosed)
+    {
+        $this->isClosed = $isClosed;
+    
+        return $this;
+    }
+
+    /**
+     * Get isClosed
+     *
+     * @return boolean 
+     */
+    public function getIsClosed()
+    {
+        return $this->isClosed;
+    }
+
+    /**
+     * Set isRejected
+     *
+     * @param boolean $isRejected
+     * @return Booking
+     */
+    public function setIsRejected($isRejected)
+    {
+        $this->isRejected = $isRejected;
+    
+        return $this;
+    }
+
+    /**
+     * Get isRejected
+     *
+     * @return boolean 
+     */
+    public function getIsRejected()
+    {
+        return $this->isRejected;
+    }
+
+    /**
+     * Set bookingStatus
+     *
+     * @param \SkedApp\CoreBundle\Entity\BookingStatus $bookingStatus
+     * @return Booking
+     */
+    public function setBookingStatus(\SkedApp\CoreBundle\Entity\BookingStatus $bookingStatus = null)
+    {
+        $this->bookingStatus = $bookingStatus;
+    
+        return $this;
+    }
+
+    /**
+     * Get bookingStatus
+     *
+     * @return \SkedApp\CoreBundle\Entity\BookingStatus 
+     */
+    public function getBookingStatus()
+    {
+        return $this->bookingStatus;
     }
 }

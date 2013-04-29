@@ -116,8 +116,14 @@
             <div class="spacer1"></div>
             <input name="text-confirm-email-address" id="text-confirm-email-address" placeholder="Confirm email address" value="" type="email" class="required" />
             <div class="spacer1"></div>
-            <a id="btn-registration" data-role="button" data-theme="a" href="#">Register</a>
-            <a class="orange-buttons" id="btn-cancel" data-role="button" href="#login">Cancel</a>
+            <fieldset class="ui-grid-a">
+            <div class="ui-block-a">
+              <div><a id="btn-registration" data-role="button" data-theme="a" href="#">Register</a></div>
+            </div>
+            <div class="ui-block-b">
+              <div><a href="#login" class="orange-buttons" id="btn-cancel" data-role="button">Cancel</a></div>
+            </div>
+          </fieldset>
           </form>
         </div>
         <img alt="shadow" class="shadow" src="img/shadow.png"/>
@@ -286,7 +292,7 @@
               <a id="link-home" href="#search" data-role="button" data-transition="none">Start Now</a>
             </li>
             <li>
-              <a id="link-settings" href="#settings"  data-role="button" data-transition="none">Settings</a>
+              <a id="link-settings" href="#page15"  data-role="button" data-transition="none">Settings</a>
             </li>
         </div>
       </div>
@@ -316,7 +322,7 @@
             <a id="link-home" href="#search" data-role="button" data-transition="none">Book Now</a>
           </li>
           <li>
-            <a id="link-settings" href="#settings"  data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#page15"  data-role="button" data-transition="none">Settings</a>
           </li>
         </ul>
       </div>
@@ -370,7 +376,7 @@
           </li>
 
           <li>
-            <a id="link-settings" href="#page3" data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#page15" data-role="button" data-transition="none">Settings</a>
           </li>
       </div>
     </div>
@@ -393,7 +399,6 @@
       <div class="spacer2"></div>
       <div data-role="content" class="-box-blue-wrapper rounded-all">
         <h2>Records: <span id="span-results-count">0</span> found.</h2>
-
         <div id="div-search-results"></div>
       </div>
       <img alt="shadow" class="shadow" src="img/shadow.png"/>
@@ -409,10 +414,10 @@
       <div data-role="navbar">
         <ul>
           <li>
-            <a id="link-home" href="#login" data-role="button" data-transition="none">Login</a>
+            <a id="link-home" href="#profile" data-role="button" data-transition="none">Profile</a>
           </li>
           <li>
-            <a id="link-settings" href="#page6" data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#page15" data-role="button" data-transition="none">Settings</a>
           </li>
         </ul>
       </div>
@@ -457,7 +462,7 @@
             <a class="link-profile" href="#profile" data-role="button" data-transition="none">Profile</a>
           </li>
           <li>
-            <a id="link-settings" href="#page6" data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#page15" data-role="button" data-transition="none">Settings</a>
           </li>
         </ul>
       </div>
@@ -495,7 +500,7 @@
             <a class="link-profile" href="#profile" data-role="button" data-transition="none">Profile</a>
           </li>
           <li>
-            <a id="link-settings" href="#page6" data-role="button" data-transition="none">Settings</a>
+            <a id="link-settings" href="#page15" data-role="button" data-transition="none">Settings</a>
           </li>
         </ul>
       </div>
@@ -507,22 +512,27 @@
   <div data-role="page" id="page15">
     <div data-role="header">
       <h1>Settings</h1>
+      <a data-role="button" href="#search" data-icon="arrow-l" class="ui-btn-right">Back</a>
     </div>
     <div data-role="content">
       <div class="skedappLogo">
         <img class="image-handler" src="img/skedapp-logo.png"/>
       </div>
-      <div class="spacer1"></div>
+      <div class="spacer2"></div>
+      <div data-role="content" class="body-secondary">
       <form action="">
-        <a data-role="button" href="#page6">Call Skedapp</a>
-        <a data-role="button" href="#page6">Email Skedapp</a>
+        <a href="#page6" data-theme="a" data-role="button" class="button-shadow">Call Skedapp</a>
+        <div class="spacer1"></div>
+        <a class="orange-buttons" data-role="button" href="#page6">Email Skedapp</a>
       </form>
+    </div>
     </div>
     <div class="center-aligned">
       <p><strong>Find us on Facebook or Twitter</strong></p>
       <a href="http://www.facebook.com/pages/Skedapp/420977264645890" rel="external"><img src="img/facebook.png" title="facebook"/></a>
       <a href="https://twitter.com/skedapp" rel="external"><img src="img/twitter.png" title="twitter"/></a>
     </div>
+    <div class="spacer2"></div>
     <div data-role="footer" data-position="fixed">
       <div data-role="navbar">
         <ul>

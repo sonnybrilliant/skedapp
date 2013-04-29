@@ -1,0 +1,26 @@
+
+<form class="form-horizontal" action="{{ path('sked_app_booking_manage_calender_show')}}.html" method="POST" {{ form_enctype(form) }}>
+  <legend>Please select consultants</legend>  
+  <fieldset>
+      {% if form.company is defined %}
+      <div class="control-group">
+        <label class="control-label" for="service_provider">Service provider:</label>
+        <div class="controls">
+          {{ form_widget(form.company) }}
+        </div>
+      </div>
+      {% endif %}    
+      <div class="control-group">
+        <label class="control-label" for="consultants">Consultants:</label>
+        <div class="controls">
+            {{ form_widget(form.consultant) }}
+            <i>Hold down CTRL to select multiple consultants.</i> 
+        </div>
+      </div>
+      <div class="btn-toolbar">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Proceed &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manage_calender_view') }}" class="btn">Cancel</a>
+      </div>
+      {{ form_rest(form) }}
+  </fieldset>
+</form>

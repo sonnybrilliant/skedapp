@@ -1,32 +1,20 @@
 SkedApp
 ------------
-Hi {{ user.firstName }} {{ user.lastName }},
+Hi {{ user.firstName }}! Your appointment has been confirmed by the office of {{company.name}}.
 
-Your booking with {{ consultant.fullName }} on {{ date }} has been confirmed.
+If this time no longer suits you, please cancel this appointment and reschedule by loggin on to {{url}} .
 
-Your confirmed booking details are as follows:
+Your Appointment Details:
 
-Consultant: {{ consultant.firstName }} {{ consultant.lastName }}
-Service to be rendered: {{ service.name }}
-Contact number: {{ company.contactNumber }}
-Date: {{ date }}
-Location: {{ company.name }}, {{ company.address }}
-Location GPS co-ordinates: {{ company.completeGPS }}
+{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}} with {{ consultant.fullName }}
 
-Business contact details:
-{{ provider.name }}
+{{ company.address }}
+{{ company.contactNumber }}
 
-{{ provider.contactNumber }}
-{{ provider.address }}
-{{ provider.locality }}
-
-GPS cordinates:
-lattidude: {{ provider.lat }}
-longitude: {{ provider.lng }}
-
+GPS:{{ company.completeGPS }}
 
 Thank you,
 The SkedApp Team
 
 ---
-(c) 2012, SkedApp. Pretoria , Gauteng , South Africa
+(c) 2013, SkedApp. Pretoria , Gauteng , South Africa

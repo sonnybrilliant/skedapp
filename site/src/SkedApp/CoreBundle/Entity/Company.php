@@ -46,7 +46,7 @@ class Company
     /**
      * @var string $accountNumber
      *
-     * @ORM\Column(name="description", type="string", length=254, nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
 

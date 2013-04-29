@@ -41,19 +41,27 @@ final class EmailerManager
     private $template;
 
     /**
+     * Router
+     * @var object
+     */
+    private $router = null;
+
+    /**
      * Class construct
      *
      * @param ContainerInterface $container
      * @param Logger $logger
+     * @param        $router
      * @return void
      */
     public function __construct(
-    ContainerInterface $container, Logger $logger)
+    ContainerInterface $container, Logger $logger, $router)
     {
         $this->setContainer($container);
         $this->setLogger($logger);
         $this->setEm($container->get('doctrine')->getEntityManager('default'));
         $this->setTemplate($container->get('templating'));
+        $this->setRouter($router);
         return;
     }
 
@@ -97,6 +105,16 @@ final class EmailerManager
         $this->template = $template;
     }
 
+    public function getRouter()
+    {
+        return $this->router;
+    }
+
+    public function setRouter($router)
+    {
+        $this->router = $router;
+    }
+
     /**
      * Send simple email
      *
@@ -122,12 +140,12 @@ final class EmailerManager
 
         ;
 
-        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) ) {
-          //Need to attach files using data
-          foreach ($params['attachments_data'] as $file) {
-            $attachment = \Swift_Attachment::newInstance($file['file_data'], $file['file_name'], $file['file_mime']);
-            $message->attach($attachment);
-          }
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0)) {
+            //Need to attach files using data
+            foreach ($params['attachments_data'] as $file) {
+                $attachment = \Swift_Attachment::newInstance($file['file_data'], $file['file_name'], $file['file_mime']);
+                $message->attach($attachment);
+            }
         }
 
         $this->container->get('mailer')->send($message);
@@ -178,10 +196,10 @@ final class EmailerManager
         $tmp = array(
             'user' => $booking->getCustomer(),
             'consultant' => $booking->getConsultant(),
-            'provider' => $booking->getConsultant()->getCompany(),
             'service' => $booking->getService(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
-            'company' => $booking->getConsultant()->getCompany()
+            'bookingDate' => $booking->getHiddenAppointmentStartTime(),
+            'company' => $booking->getConsultant()->getCompany(),
+            'url' => $this->router->generate("_security_login",array(),true).".html"
         );
 
         $emailBodyHtml = $this->template->render(
@@ -217,16 +235,15 @@ final class EmailerManager
 
         $booking = $params['booking'];
 
+        
         if ($admins) {
             foreach ($admins as $user) {
                 $tmp = array(
                     'user' => $user,
                     'consultant' => $booking->getConsultant(),
                     'link' => $params['link'],
-                    'service' => $booking->getService(),
-                    'customer' => $booking->getCustomer(),
                     'fullName' => $booking->getCustomer()->getFullName(),
-                    'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
+                    'bookingDate' => $booking->getHiddenAppointmentStartTime()
                 );
 
 
@@ -263,31 +280,39 @@ final class EmailerManager
         $options['subject'] = "New Booking Created";
 
         $booking = $params['booking'];
-
+        $customerName = null;
+        
+        if($booking->getCustomer()){
+           $customerName = $booking->getCustomer()->getFullName(); 
+        }else{
+           $customerName = $booking->getCustomerPotential()->getFullName(); 
+        }
+        
+        
         $tmp = array(
             'user' => $booking->getConsultant(),
-            'consultant' => $booking->getConsultant(),
-            'link' => $params['link'],
-            'service' => $booking->getService(),
-            'customer' => $booking->getCustomer(),
-            'fullName' => $booking->getCustomer()->getFullName(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i")
+            'CustomerName' => $customerName,
+            'bookingDate' => $booking->getHiddenAppointmentStartTime()
         );
 
 
         $emailBodyHtml = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.consultant.html.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.consultant.html.twig', $tmp
         );
 
         $emailBodyTxt = $this->template->render(
-            'SkedAppCoreBundle:EmailTemplates:booking.created.consultant.txt.twig', $tmp
+            'SkedAppCoreBundle:EmailTemplates:booking.confirmed.consultant.txt.twig', $tmp
         );
 
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getConsultant()->getEmail();
         $options['fullName'] = $booking->getConsultant()->getFullName();
-
+        
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0)){
+            $options['attachments_data'] = $params['attachments_data'];
+        }
+        
         $this->sendMail($options);
 
         return;
@@ -309,10 +334,9 @@ final class EmailerManager
         $tmp = array(
             'user' => $booking->getCustomer(),
             'consultant' => $booking->getConsultant(),
-            'provider' => $booking->getConsultant()->getCompany(),
-            'service' => $booking->getService(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("Y-m-d H:i"),
-            'company' => $booking->getConsultant()->getCompany()
+            'bookingDate' => $booking->getHiddenAppointmentStartTime(),
+            'company' => $booking->getConsultant()->getCompany(),
+            'url' => $this->router->generate("_security_login",array(),true).".html"
         );
 
         $emailBodyHtml = $this->template->render(
@@ -328,9 +352,10 @@ final class EmailerManager
         $options['email'] = $booking->getCustomer()->getEmail();
         $options['fullName'] = $tmp['user']->getFullName();
 
-        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
-          $options['attachments_data'] = $params['attachments_data'];
-
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0)){
+            $options['attachments_data'] = $params['attachments_data'];
+        }
+        
         $this->sendMail($options);
         return;
     }
@@ -348,10 +373,10 @@ final class EmailerManager
 
         $booking = $params['booking'];
 
-        if (!isset ($params['messageText']))
+        if (!isset($params['messageText']))
             $params['messageText'] = '';
 
-        if (strlen ($params['messageText']) > 0)
+        if (strlen($params['messageText']) > 0)
             $params['messageText'] = 'This is the message from ' . $booking->getConsultant()->getCompany()->getName() . ': ' . $params['messageText'];
         else
             $params['messageText'] = 'Please take note of your booking details.';
@@ -379,8 +404,8 @@ final class EmailerManager
         $options['email'] = $booking->getCustomer()->getEmail();
         $options['fullName'] = $tmp['user']->getFullName();
 
-        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
-          $options['attachments_data'] = $params['attachments_data'];
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0))
+            $options['attachments_data'] = $params['attachments_data'];
 
         $this->sendMail($options);
         return;
@@ -399,10 +424,10 @@ final class EmailerManager
 
         $booking = $params['booking'];
 
-        if (!isset ($params['messageText']))
+        if (!isset($params['messageText']))
             $params['messageText'] = '';
 
-        if (strlen ($params['messageText']) > 0)
+        if (strlen($params['messageText']) > 0)
             $params['messageText'] = 'This is the message from ' . $booking->getConsultant()->getCompany()->getName() . ': ' . $params['messageText'];
         else
             $params['messageText'] = 'Please take note of your cancelled booking.';
@@ -431,8 +456,8 @@ final class EmailerManager
         $options['email'] = $booking->getCustomerEmail();
         $options['fullName'] = $booking->getCustomerFullName();
 
-        if ( (isset($params['attachments_data'])) && (count($params['attachments_data']) > 0) )
-          $options['attachments_data'] = $params['attachments_data'];
+        if ((isset($params['attachments_data'])) && (count($params['attachments_data']) > 0))
+            $options['attachments_data'] = $params['attachments_data'];
 
         $this->sendMail($options);
         return;
@@ -485,19 +510,28 @@ final class EmailerManager
      */
     public function bookingCancellationCustomer($params)
     {
+        
         $this->logger->info("send booking cancellation confimation to customer");
         $options['subject'] = "Your SkedApp booking cancellation confirmed";
 
         $booking = $params['booking'];
-
+        $isAdminCancellation = false;
+        
+        if(isset($params['admin'])){
+          $isAdminCancellation = $params['admin']; 
+        }
+       
         $tmp = array(
-            'fullName' => $booking->getCustomer()->getFirstName() . ' ' . $booking->getCustomer()->getLastName(),
-            'consultant' => $booking->getConsultant()->getFirstName() . ' ' . $booking->getConsultant()->getLastName(),
-            'service' => $booking->getService()->getName(),
-            'date' => $booking->getHiddenAppointmentStartTime()->format("r"),
+            'user' => $booking->getCustomer(),
+            'consultant' => $booking->getConsultant(),
+            'bookingDate' => $booking->getHiddenAppointmentStartTime(),
+            'company' => $booking->getConsultant()->getCompany(),
+            'url' => $this->router->generate("sked_app_contact_us",array(),true).".html",
+            'isAdmin' => $isAdminCancellation,
+            'urlLogin' => $this->router->generate("_security_login",array(),true).".html"
         );
 
-
+        
         $emailBodyHtml = $this->template->render(
             'SkedAppCoreBundle:EmailTemplates:booking.cancel.customer.html.twig', $tmp
         );
@@ -505,17 +539,17 @@ final class EmailerManager
         $emailBodyTxt = $this->template->render(
             'SkedAppCoreBundle:EmailTemplates:booking.cancel.customer.txt.twig', $tmp
         );
-
+        
         $options['bodyHTML'] = $emailBodyHtml;
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $booking->getCustomer()->getEmail();
-        $options['fullName'] = $tmp['fullName'];
-
+        $options['fullName'] = $tmp['user']->getFullName();
         $this->sendMail($options);
+
         return;
     }
 
-     /**
+    /**
      * Send booking created e-mail to company
      *
      * @param array $params
@@ -561,7 +595,7 @@ final class EmailerManager
         return;
     }
 
-     /**
+    /**
      * Send booking cancellation to customers
      *
      * @param array $params
@@ -652,6 +686,80 @@ final class EmailerManager
         $options['bodyTEXT'] = $emailBodyTxt;
         $options['email'] = $params['email'];
         $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Send booking rejection to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function bookingRejectCustomer($params)
+    {
+        $this->logger->info("send booking rejection to customer");
+        $options['subject'] = "Your SkedApp booking was rejected by service provider";
+
+        $booking = $params['booking'];
+
+        $tmp = array(
+            'fullName' => $params['customerName'],
+            'company' => $booking->getConsultant()->getCompany()->getName(),
+            'consultant' => $params['consultant']
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.reject.customer.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:booking.reject.customer.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $booking->getConsultant()->getEmail();
+        $options['fullName'] = $tmp['fullName'];
+
+        $this->sendMail($options);
+        return;
+    }
+
+    /**
+     * Send booking rejection to customers
+     *
+     * @param array $params
+     * @return void
+     */
+    public function contactUsBroadcast($params)
+    {
+        $this->logger->info("send contact us broadcast");
+        $options['subject'] = "SkedApp ContactUs Broadcast";
+
+
+
+        $tmp = array(
+            'fullName' => $params['fullName'],
+            'message' => $params['message'],
+            'email' => $params['fromEmail']
+        );
+
+
+        $emailBodyHtml = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:general.contactus.html.twig', $tmp
+        );
+
+        $emailBodyTxt = $this->template->render(
+            'SkedAppCoreBundle:EmailTemplates:general.contactus.txt.twig', $tmp
+        );
+
+        $options['bodyHTML'] = $emailBodyHtml;
+        $options['bodyTEXT'] = $emailBodyTxt;
+        $options['email'] = $params['toEmail'];
+        $options['fullName'] = $params['toName'];
 
         $this->sendMail($options);
         return;

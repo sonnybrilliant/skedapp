@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * SkedApp\CoreBundle\Form\InviteFriendsType
  *
  * @author Ronald Conco <ronald.conco@gmail.com>
- * @package SkedAppConsultantBundle
+ * @package SkedAppCoreBundle
  * @subpackage Form
  * @version 0.0.1
  */

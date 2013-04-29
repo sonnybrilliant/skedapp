@@ -28,9 +28,10 @@
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service> 
-        <service id="email.manager" class="%email_manager.class%">
+        <service id="email.manager" class="%email_manager.class%" scope="request">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
+            <argument type="service" id="router" />
         </service>                    
         <service id="notification.manager" class="%notification_manager.class%">
             <argument type="service" id="service_container" />

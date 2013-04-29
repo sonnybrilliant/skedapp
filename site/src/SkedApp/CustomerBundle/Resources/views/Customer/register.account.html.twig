@@ -1,30 +1,42 @@
 
 
-{% extends "SkedAppCustomerBundle::layout.html.twig" %}
+{% extends "SkedAppCustomerBundle::layout.customer.html.twig" %}
 
-{% block title %}Register account{% endblock %}
+{% block title %}SkedApp | Register Account{% endblock %}
 {% block body %}
 <div class="row-fluid body-main rounded-all">
-<div class="span5">
-        {% block alert %}
-            {% include "::alert.html.twig" %}
-        {% endblock %}
+    <div class="span7">
+            {% block alert %}
+                {% include "::alert.html.twig" %}
+            {% endblock %}
 
-        {% include "SkedAppCustomerBundle:Customer:form.register.account.html.twig" %}
+            {% include "SkedAppCustomerBundle:Customer:form.register.account.html.twig" %}
     </div>
-<div class="span6">
-        <div class="hint-box">
-            <h3><span class="asterisk">*</span>Hints</h3>
-            <br />
-            <p class="pull-right">
-                    <ol>
-                        <li>Provide email address.</li>
-                        <br />
-                        <li>Fill in recaptcha field or reload it if you cannot read the cryptic text.</li>
-                    </ol>
+    <div class="span4">
+            <div class="hint-box">
+                <h3><span class="asterisk">*</span>Hints</h3>
+                <br />
+                <p class="pull-right">
+                        <ol>
+                            <li>Provide email address.</li>
+                            <br />
+                            <li>Fill in recaptcha field or reload it if you cannot read the cryptic text.</li>
+                        </ol>
 
-            </p>
-        </div>
+                </p>
+            </div>
+    </div>
 </div>
-</div>
+<script type='text/javascript'>
+
+    $(document).ready(function() {
+    $('#block').click(function(e){
+        if("checked" == $('#terms').attr('checked')){
+            return true
+        } 
+        alert("Please accept our terms and conditions to proceed.");
+        return false;
+      });
+ });
+ </script>
 {% endblock body %}

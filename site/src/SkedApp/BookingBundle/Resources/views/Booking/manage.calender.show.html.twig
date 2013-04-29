@@ -1,0 +1,118 @@
+{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% block title %}SkedApp | Manage bookings{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/custom-full-calendar.css') }}" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block jquery_ui %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock jquery_ui %}
+
+{% block javascripts %}
+<script src="{{ asset('/js/fullcalendar.min.js') }}"></script>
+<script src="{{ asset('/js/jquery.qtip-1.0.0-rc3.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <h3>Manage bookings</h3>
+
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+        
+        <div style="width: 29.718%;" class="span6 pull-right">
+            <a href="{{ path('sked_app_booking_new',{'type':1}) }}.html" class="btn btn-warning pull-right"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
+        </div>
+        <div class="clearfix"></div>
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="{{ path('sked_app_booking_manage_calender_view')}}.html">Booking Calendars</a></li>
+                <li><a href="{{ path('sked_app_booking_manage_view') }}.html" >List Bookings</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        <div id="calendar"></div>
+    </div> <!-- Dashboard Content -->
+</div>
+<script type='text/javascript'>
+
+    $(document).ready(function() {
+
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'resourceDay,month,basicWeek,basicDay'
+            },
+            titleFormat: 'ddd, MMM dd, yyyy',
+            defaultView: 'resourceDay',
+            slotMinutes: 15,
+            minTime: 6,
+            maxTime: 22,
+            selectable: false,
+            selectHelper: true,
+            select: function(start, end, allDay, event, resourceId) {
+                var title = prompt('Event Title:');
+                if (title) {
+                    console.log("@@ adding event " + title + ", start " + start + ", end " + end + ", allDay " + allDay + ", resource " + resourceId);
+                    calendar.fullCalendar('renderEvent',
+                    {
+                        title: title,
+                        start: start,
+                        end: end,
+                        allDay: allDay,
+                        resourceId: resourceId
+                    },
+                    true // make the event "stick"
+                );
+                }
+                calendar.fullCalendar('unselect');
+            },
+            eventResize: function(event, dayDelta, minuteDelta) {
+                console.log("@@ resize event " + event.title + ", start " + event.start + ", end " + event.end + ", resource " + event.resourceId);
+            },
+
+            editable: false,
+            lazyFetching: false,
+            resources: [
+                {% for consultant in consultants %}
+                    {
+                        name: "{{consultant.firstName}} {{consultant.lastName}}",
+                        id:   "resource-{{consultant.id}}",
+                    },
+                {% endfor%}
+            ],
+            events: "ajaxGetBookingsCalender/{{consultanstString}}.html",
+            eventRender: function(event, element) {
+                element.qtip({
+                    content: event.description,
+                    position: {
+                        corner: {
+                            tooltip: 'bottomMiddle',
+                            target:  'topMiddle'
+                        }
+                    }
+                });
+            },
+            timeFormat: 'H:mm'
+        });
+
+       
+    });
+
+</script>
+{% endblock body %}

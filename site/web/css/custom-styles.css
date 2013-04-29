@@ -49,9 +49,22 @@ Styles for alert boxes
 /*******************
 Styles for images
 *******************/
+.image-dimensions80 {
+    width: 80px !important;
+    height: 80px !important;
+    overflow: hidden;
+}
+.polaroid-width80 {
+    width: 80px;
+}
 .polaroid-width120 {
     width: 120px;
     height: 120px;
+}
+.image-dimensions120 {
+    width: 120px !important;
+    max-height: 120px !important;
+    overflow: hidden;
 }
 .polaroid-width180 {
     width: 180px;
@@ -59,12 +72,6 @@ Styles for images
 .image-dimensions180 {
     width: 180px !important;
     height: 180px !important;
-    overflow: hidden;
-}
-
-.image-dimensions120 {
-    width: 120px !important;
-    max-height: 120px !important;
     overflow: hidden;
 }
 .image-shadow {
@@ -82,7 +89,7 @@ Styles for images
 /*******************
 Media Queries for screens with a width smaller than 1024
 *******************/
-@media only screen and (max-width: 1024px) {
+@media screen and (max-width: 1024px) {
     .image-dimensions120 {
         width: 90px !important;
         max-height: 90px !important;
@@ -124,6 +131,9 @@ end of Styles for images
 }
 #push {
     height: 80px;
+}
+.spacer5-left{
+  margin-left: 5px;
 }
 
 /* Removed by Otto on 28 Deb 2013
@@ -587,6 +597,14 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
+.forms-background .help-inline li {
+    color: #DA1921;
+    font-weight: bold;
+    list-style: none;
+    padding-top: 10px;
+    padding-left: 0px;
+    text-shadow: 1px 1px 0px #dddddd;
+}
 .consultant-background {
 	margin: -1px 0 -1px -1px;
 	padding: 0;
@@ -658,6 +676,13 @@ select.span12{
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     border-radius: 7px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield !important;
+    appearance: search !important;
+    background-image: url('../img/chev-down.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    line-height: 1.1em;
 }
 .booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
@@ -685,6 +710,11 @@ input.span12{
 	-webkit-border-radius: 7px;
 	border-radius: 7px;
 }
+.input-prepend .add-on,.input-prepend input {
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+}
 /*********************
 Button Styles by Arno Hattingh
 *********************/
@@ -699,28 +729,38 @@ Button Styles by Arno Hattingh
     border: none;
 }
 .btn-danger {
-    -moz-box-shadow: none;
+    /*-moz-box-shadow: none;
     -webkit-box-shadow: none;
-    box-shadow: none;
+    box-shadow: none;*/
     background-image: none;
 }
 .btn-info {
-    -moz-box-shadow: none;
+    /*-moz-box-shadow: none;
     -webkit-box-shadow: none;
-    box-shadow: none;
+    box-shadow: none;*/
     background-image: none;
 }
 .btn-primary {
-    -moz-box-shadow: none;
+    /*-moz-box-shadow: none;
     -webkit-box-shadow: none;
-    box-shadow: none;
+    box-shadow: none;*/
     background-image: none;
 }
 .btn-warning {
-    -moz-box-shadow: none;
+    /*-moz-box-shadow: none;
     -webkit-box-shadow: none;
-    box-shadow: none;
+    box-shadow: none;*/
     background-image: none;
+}
+input .btn-warning {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+input .btn {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
 .forms-background .btn-warning {
     -moz-box-shadow: 0px 2px 2px #555;
@@ -980,4 +1020,42 @@ Fix re-Captcha label issue
 
 .hide-div{
     display: none;
+}
+
+.terms-conditions-links{
+  color: #fff;
+}
+.terms-conditions {
+    float: right;
+    margin-top: 2px;
+}
+.map-shadow {
+    background-image: url('../img/map-shadow.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 1170px;
+    height: 232px;
+    float: left;
+}
+.map-shadow #map_canvas {
+    border: 1px solid #454545;
+}
+.about-us-shadow {
+    background-image: url('../img/map-shadow.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 1170px;
+    height: 472px;
+    float: left;
+}
+.about-us-shadow-banner {
+    border: 1px solid #454545;
+}
+
+/*******************
+Code for Beta button *** TO BE REMOVED ***
+*******************/
+.beta-btn {
+    position: relative;
+    margin: 7px;
 }

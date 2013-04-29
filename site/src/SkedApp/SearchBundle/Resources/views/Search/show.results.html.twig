@@ -56,12 +56,12 @@ var currentServiceId = {{ options.service.id }};
                     <div class="img-polaroid polaroid-width120">
                         <div class="image-dimensions120">
                         {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                            <a href="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="lightbox{{ loop.index }}"><img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" /></a>
                         {% else %}
                         {% if consultant.gender.name == "Male" %}
-                            <img src="{{ asset('/img/male.jpg') }}" />
+                            <a href="{{ asset('/img/male.jpg') }}" class="lightbox{{ loop.index }}"><img src="{{ asset('/img/male.jpg') }}" /></a>
                         {% else %}
-                            <img src="{{ asset('/img/female.jpg') }}" />
+                            <a href="{{ asset('/img/female.jpg') }}" class="lightbox{{ loop.index }}"><img src="{{ asset('/img/female.jpg') }}" /></a>
                         {% endif %}
                         {% endif %}
                         </div>
@@ -79,7 +79,7 @@ var currentServiceId = {{ options.service.id }};
                                 <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
                             {% else %}
                             {% endfor %}
-                        <li>{{ consultant.company.name }}</li>
+                        <li><a href="{{ path('sked_app_service_provider_show',{'id':consultant.company.id})}}.html" title="View service provider profile">{{ consultant.company.name }}</a></li>
                         <li>{{ consultant.company.address }}</li>
                         <li>{{consultant.distanceFromPositionString (options.lat, options.lng)}}</li>
                     </ul>

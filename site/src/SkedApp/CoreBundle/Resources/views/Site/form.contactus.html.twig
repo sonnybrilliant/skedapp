@@ -1,0 +1,35 @@
+<form action="{{ path('sked_app_contact_us') }}" method="POST" {{ form_enctype(form) }}>
+    <fieldset>
+        <div class="control-group {% if form_errors(form.fullName) %} error {% endif %}">
+            <div class="control-label" for="fullName">{{ form_label(form.fullName) }}</div>
+            <div class="controls">
+                {{ form_widget(form.fullName) }} 
+                <span class="help-inline">{{form_errors(form.fullName)}}</span>
+            </div>
+        </div>
+        <div class="control-group {% if form_errors(form.emailaddress) %} error {% endif %}">
+            <div class="control-label" for="email">{{ form_label(form.emailaddress) }}</div>
+            <div class="controls">
+                {{ form_widget(form.emailaddress) }}
+                <span class="help-inline">{{form_errors(form.emailaddress)}}</span>
+            </div>
+        </div>
+        <div class="control-group {% if form_errors(form.message) %} error {% endif %}">
+            <div class="control-label" for="message">{{ form_label(form.message) }}</div>
+            <div class="controls">
+                {{ form_widget(form.message) }}
+                <span class="help-inline">{{form_errors(form.message)}}</span>
+            </div>
+        </div>
+        <div class="btn-toolbar">
+            <div class="btn-group">
+                <button type="submit" name="submit" class="btn btn-warning">Submit <i class="icon-white icon-circle-arrow-right"></i></button>
+            </div>
+            <div class="btn-group">
+                <a href="{{ path('_welcome') }}" class="btn btn-small">Cancel</a>
+            </div>
+        </div>
+    </fieldset>
+    {{ form_rest(form) }} 
+</form>
+{{ tinymce_init() }}

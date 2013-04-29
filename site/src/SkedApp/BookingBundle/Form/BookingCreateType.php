@@ -38,15 +38,22 @@ class BookingCreateType extends AbstractType
      */
     private $appointmentDate = null;
 
-    public function __construct($companyId, $isAdmin = false, $appointmentDate = null)
+    /**
+     *
+     * @var SkedAppCoreBundle/Entity/Consultant
+     */
+    private $consultant = null;
+
+    public function __construct($companyId, $isAdmin = false, $appointmentDate = null, $consultant = null)
     {
         $this->companyId = $companyId;
         $this->isAdmin = $isAdmin;
         $this->appointmentDate = $appointmentDate;
+        $this->consultant = $consultant;
 
-        if (!is_object($this->appointmentDate))
-                $this->appointmentDate = new \DateTime();
-
+        if (!is_object($this->appointmentDate)) {
+            $this->appointmentDate = new \DateTime();
+        }
     }
 
     /**
@@ -60,24 +67,47 @@ class BookingCreateType extends AbstractType
     {
         $companyId = $this->companyId;
         $isAdmin = $this->isAdmin;
-
+        $consultant = $this->consultant;
+        $attrServices = array();
+        
+        if($consultant){
+          $attrServices = array(
+             'class' => 'span12',
+          );
+        }else{
+          $attrServices = array(
+             'class' => 'span12',
+             'disabled' => 'disabled' 
+          );  
+        }
+        
         $builder
-            ->add('appointmentDate', 'date', array(
-                'attr' => array('class' => 'span7 datepicker', 'value' => $this->appointmentDate->format('Y-m-d')),
-                'widget' => 'single_text',
-                'format' => 'yyyy-MM-dd',
+            ->add('appointmentDate', 'text', array(
+                'attr' => array('class' => 'span12 datePicker', 'value' => $this->appointmentDate->format('Y-m-d')),
+                'label' => 'Date:',
+            ))
+            ->add('startTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'Start time:',
+                'attr' => array('class' => 'span12')
+            ))
+            ->add('endTimeslot', 'entity', array(
+                'class' => 'SkedAppCoreBundle:Timeslots',
+                'label' => 'End time:',
+                'attr' => array('class' => 'span12')
             ))
             ->add('consultant', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Consultant',
                 'label' => 'Consultant:',
+                'required' => true,
                 'empty_value' => 'Select a consultant',
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
                 'query_builder' => function(EntityRepository $er) use ($companyId, $isAdmin) {
 
                     if ($isAdmin) {
                         return $er->createQueryBuilder('c')
-                        ->where('c.isDeleted = :status')
-                        ->setParameter('status',false);
+                            ->where('c.isDeleted = :status')
+                            ->setParameter('status', false);
                     } else {
                         return $er->createQueryBuilder('c')
                             ->where('c.isDeleted = :status')
@@ -90,7 +120,7 @@ class BookingCreateType extends AbstractType
                 },
             ))
             ->add('customerOrNot', 'choice', array(
-                'label' => 'Please select:',
+                'label' => 'Please select customer type:',
                 'required' => true,
                 'expanded' => true,
                 'choices' => array(true => 'Link an existing customer', false => 'Add customer details'),
@@ -102,7 +132,7 @@ class BookingCreateType extends AbstractType
                 'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
-                     return $er->createQueryBuilder('c')
+                    return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
                         ->andWhere('c.enabled  = :enabled')
                         ->andWhere('c.isActive  = :isActive')
@@ -116,40 +146,26 @@ class BookingCreateType extends AbstractType
             ->add('customerPotential', 'entity', array(
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
-                'empty_value' => 'Select an offline customer',
-                'attr' => array('class' => 'span12 chosen'),
+                'empty_value' => 'Select an off-line customer',
+                'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
-                     return $er->createQueryBuilder('c')
+                    return $er->createQueryBuilder('c')
                         ->where('c.isDeleted = :status')
                         ->andWhere('c.enabled  = :enabled')
                         ->andWhere('c.isActive  = :isActive')
                         ->setParameters(array(
                             'status' => false,
-                            'enabled' => true,
+                            'enabled' => false,
                             'isActive' => true
                         ));
                 },
-            ))
-            ->add('startTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Time from:',
-                'attr' => array('class' => 'span5')
-            ))
-            ->add('endTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Time to:',
-                'attr' => array('class' => 'span3')
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Description:',
                 'required' => false,
                 'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
                 'required' => false
-            ))
-            ->add('isLeave', 'checkbox', array(
-                'label' => 'Blocked out:',
-                'required' => false,
             ))
             ->add('isConfirmed', 'checkbox', array(
                 'label' => 'Is confirmed:',
@@ -159,8 +175,25 @@ class BookingCreateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => false,
-                'required' => false,
-                'attr' => array('class' => 'span12' , 'disabled' => 'disabled'),
+                'required' => true,
+                'attr' => $attrServices,
+                'query_builder' => function(EntityRepository $er) use ($consultant) {
+
+                    if (is_null($consultant)) {
+                        return $er->createQueryBuilder('s')
+                            ->where('s.isDeleted = :status')
+                            ->setParameter('status', false);
+                    } else {
+                        return $er->createQueryBuilder('s')
+                            ->innerJoin('s.consultants', 'c')
+                            ->where('s.isDeleted = :status')
+                            ->andWhere('c.id = :consultant')
+                            ->setParameters(array(
+                                'status' => false,
+                                'consultant' => $consultant
+                            ));
+                    }
+                },
             ))
 
         ;

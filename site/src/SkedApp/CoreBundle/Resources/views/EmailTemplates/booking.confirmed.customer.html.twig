@@ -1,17 +1,16 @@
 {% extends "SkedAppCoreBundle::base.mail.html.twig" %}
 {% block body %}
-    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }} {{ user.lastName }},</p>
-    <p style="margin-bottom: 6pt;">Your booking with {{ consultant.fullName }} on {{ date }} has been confirmed.</p>
-    <p style="margin-bottom: 6pt;"></p>
-    <p style="margin-bottom: 6pt;">Your confirmed booking details are as follows:</p>
-    <p style="margin-bottom: 6pt;">
-        <strong>Consultant</strong>: {{ consultant.fullName }} <br/>
-        <strong>Service to be tendered </strong>: {{ service.name }}  <br />
-        <strong>Contact number </strong>: {{ company.contactNumber }}  <br />
-        <strong>Location </strong>: {{ company.name }}, {{ company.address }}  <br />
-        <strong>Location GPS co-ordinates </strong>: {{ company.completeGPS }}  <br />
-        <strong>Date</strong>: {{ date }}<br />
-    </p>
-    <p style="margin-bottom: 6pt;">Business contact details: <br/> {{ provider.name }} <br /><br /> {{ provider.contactNumber }} <br> {{ provider.address }} <br />{{ provider.locality }} <br /></p>
-    <p style="margin-bottom: 6pt;">GPS cordinates: <br /> lattidude: {{ provider.lat }} <br /> longitude: {{ provider.lng }}</p>
+    <table width="100%">
+        <tr>
+            <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#FFF;padding-left:15px;padding-right:15px;padding-top:10px;padding-bottom:10px;text-align:center; background-color:#9DAE06;border:1px solid #777;">
+                <font size="+2">Appointment Confirmed</font>
+            </td>
+        </tr>
+    </table><br /><br />
+    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }}! Your appointment has been confirmed by the office of {{company.name}}.</p>
+    <p style="margin-bottom: 6pt;">If this time no longer suits you, please cancel this appointment and reschedule by loggin on to {{url}} .</p><br/>
+    <p style="margin-bottom: 6pt;"><u>Your Appointment Details:</u></p>
+    <p style="margin-bottom: 6pt;"><strong>{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}}</strong> with <strong>{{ consultant.fullName }}</strong></p>
+    <p style="margin-bottom: 6pt;">{{ company.address }}<br />{{ company.contactNumber }}</p>
+    <p style="margin-bottom: 6pt;">GPS:{{ company.completeGPS }}</p>    
 {% endblock body %}

@@ -90,6 +90,7 @@
                 <small>
                     <a href='{{path('sked_app_consultant_show', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to view" class="btn btn-primary btn-small"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;
                     <a href='{{path('sked_app_consultant_edit', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;
+                    <a href='{{path('sked_app_consultant_book_out', {'slug': consultant.slug }) }}.html' rel="tooltip" title="click to book consultant out/ leave days" class="btn btn-small btn-inverse"><i class="icon-white icon-ban-circle"></i>&nbsp;Book Out</a>&nbsp;
                     <a href='{{path('sked_app_consultant_delete', {'slug': consultant.slug }) }}.html' onclick="if(confirm('You are about to delete consultant {{consultant.firstName}} {{consultant.lastName}}, click ok to confirm action.')) return true; else return false; " rel="tooltip" title="click to delete" class="btn btn-danger btn-small"><i class="icon-white icon-trash"></i>&nbsp;Delete</a>
                 </small>
             </td>

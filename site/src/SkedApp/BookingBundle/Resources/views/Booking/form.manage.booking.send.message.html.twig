@@ -1,0 +1,18 @@
+
+<form class="form-horizontal" action="{{ path('sked_app_booking_send_customer_messages',{'str':str})}}.html" method="POST" {{ form_enctype(form) }}>
+  <legend>Send message to your selected customers.</legend>  
+  <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="message">Message:</label>
+        <div class="controls">
+            {{ form_widget(form.message) }}
+        </div>
+      </div>
+      <div class="btn-toolbar">
+          <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Proceed &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
+                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manage_show') }}" class="btn">Cancel</a>
+      </div>          
+      {{ form_rest(form) }}
+  </fieldset>
+</form>
+{{ tinymce_init() }}

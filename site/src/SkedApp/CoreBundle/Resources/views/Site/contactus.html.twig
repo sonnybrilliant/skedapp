@@ -1,0 +1,36 @@
+{% extends "SkedAppCoreBundle::layout.html.twig" %}
+{% block title %}SkedApp | Contact Us{% endblock %}
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}
+
+{% block body %}
+
+<div class="row-fluid">
+    <div class="span12">
+        <div class="map-shadow">
+            {{ google_map_container(map) }}
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span9">
+            <h3>Contact Us</h3>
+            {% include "SkedAppCoreBundle:Site:form.contactus.html.twig" %}
+        </div>
+        <div class="span3">
+            <h1><small>Contact</small></h1>
+            <p>368/4 Cormallen Hill Estate<br>Achilles Road<br>Olympus<br/>South Africa<br>0081</p>
+            <p>
+            <strong>Tel :</strong> +27 83 644 1126<br>
+            <strong>Email :</strong> <a href="">info[at]skedapp.co.za</a>
+            </p>
+        </div>
+        <div class="clearfix"></div>
+        <div class="spacer1"></div>      
+        <div class="spacer1"></div>
+    </div>
+</div>
+
+{{ google_map_js(map) }}
+{% endblock %}

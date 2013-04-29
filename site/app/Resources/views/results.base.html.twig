@@ -12,6 +12,14 @@
         <link href="{{ asset('/css/chosen.css') }}" rel="stylesheet">
          <!-- Custom Styles for Bootstrap -->
         <link href="{{ asset('/css/custom-styles.css') }}" rel="stylesheet">
+        <link href="{{ asset('/css/jquery.lightbox-0.5.css') }}" rel="stylesheet">
+        
+        <!--[if IE 8]>
+            <link href="{{ asset('/css/ie7-8.css') }}" rel="stylesheet">
+	<![endif]-->
+        <!--[if IE 7]>
+            <link href="{{ asset('/css/ie7-8.css') }}" rel="stylesheet">
+	<![endif]-->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -32,7 +40,6 @@
         </script>
         <!-- load jquery ui -->
         {% block jquery_ui %}{% endblock jquery_ui %}
-    </head>
     <body>
         <!-- Set variable for logo display -->
         {% set displayLogo = 'other_pages' %}
@@ -40,6 +47,7 @@
         {% block navigation %}
              <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
+                    <button class="btn-mini btn-danger beta-btn pull-right">BETA</button>
                             <div class="container">
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <span class="brand"><small>Welcome, {{app.user.firstName}} {{app.user.lastName}}.</small></span>
@@ -126,11 +134,12 @@
 
         {% block footer %}
            <div id="footer">
-                <p>SkedApp &copy; {{ date().format('Y') }}  |  <a href="{{ path('_welcome')}}">Make a Booking</a>  |  Contact Us  |  Privacy Statement  |  Terms & Conditions</p>
+               <p>SkedApp &copy; {{ date().format('Y') }}  |  <a href="{{ path('_welcome')}}">Make a Booking</a>  |  <a href="{{ path("sked_app_contact_us")}}.html" title="Contact Us">Contact Us</a>  |  <a href="{{ path("sked_app_about_us")}}.html" title="About Us">About Us</a>   |  <a href="{{ path('_site_privacy_policy')}}.html" title="Privacy Policy">Privacy Policy</a>  |  <a href="{{ path('_site_terms_of_use')}}.html" title="Terms & Conditions">Terms & Conditions</a></p>
            </div> <!-- End footer -->
         {% endblock %}
             <script src="{{ asset('js/bootstrap.min.js') }}"></script>
             <script src="{{ asset('/js/chosen.jquery.min.js') }}"></script>
+            <script src="{{ asset('/js/jquery.lightbox-0.5.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
             <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
             <script src="{{ asset('/js/main.js') }}"></script>

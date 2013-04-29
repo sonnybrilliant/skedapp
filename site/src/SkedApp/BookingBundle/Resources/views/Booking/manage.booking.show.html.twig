@@ -1,0 +1,74 @@
+{% extends "SkedAppBookingBundle::layout.html.twig" %}
+{% block title %}SkedApp | Manage bookings{% endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('/css/fullcalendar.css') }}" rel="stylesheet">
+<link href="{{ asset('/css/custom-full-calendar.css') }}" rel="stylesheet">
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block jquery_ui %}
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+{% endblock jquery_ui %}
+
+{% block javascripts %}
+<script src="{{ asset('/js/fullcalendar.min.js') }}"></script>
+<script src="{{ asset('/js/jquery.qtip-1.0.0-rc3.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <h3>Manage bookings</h3>
+
+        {% block alert %}
+            {% include "::alert.html.twig" %}
+        {% endblock %}
+
+        <div style="width: 35.718%;" class="span6 pull-right">
+
+            <div class="btn-toolbar pull-right">
+                <a href="#" id="messenger" class="btn btn-warning"><i class="icon-white icon-envelope"></i>&nbsp;<strong>Send message</strong></a>
+                <a href="{{ path('sked_app_booking_new',{'type':2}) }}.html" class="btn btn-warning"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Add booking</strong></a>
+                <a href="{{ path('sked_app_booking_print') }}.html" class="btn btn-warning" target="_blank"><i class="icon-white icon-plus-sign"></i>&nbsp;<strong>Print</strong></a>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li><a href="{{ path('sked_app_booking_manage_calender_view')}}.html">Booking Calendars</a></li>
+                <li class="active"><a href="{{ path('sked_app_booking_manage_view') }}.html" >List Bookings</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    &nbsp;
+                </div>
+            </div>
+        </div>
+        {% include "SkedAppBookingBundle:Booking:list.manage.booking.show.html.twig" %}  
+    </div> <!-- Dashboard Content -->
+</div>
+<script type='text/javascript'>
+
+    $(document).ready(function() {
+    $('#messenger').click(function(e){
+          var bookings = new Array();
+          $("input:checkbox[name=type]:checked").each(function()
+            {
+               bookings.push($(this).val()); 
+               
+            });
+            
+            if(bookings.length > 0){
+                var str = bookings.join('-');
+                var url = Routing.generate('sked_app_booking_send_messages', { "str": str})
+                window.location = url;
+            }else{     
+                alert("Please select bookings, before sending message.");
+            } 
+          return false;
+      });
+ });
+    </script>
+{% endblock body %}

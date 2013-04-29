@@ -15,7 +15,7 @@
                 <div class="image-shadow pull-left space-right20">
                     <div class="img-polaroid polaroid-width120">
                         <div class="image-dimensions120">
-                            <img src="{{ asset('/uploads/companies/'~company.id~'.'~company.path) }}" />
+                            <a href="{{ asset('/uploads/companies/'~company.id~'.'~company.path) }}" class="lightbox"><img src="{{ asset('/uploads/companies/'~company.id~'.'~company.path) }}" /></a>
                         </div>
                     </div>
                 </div>
@@ -40,24 +40,37 @@
             </div>
             <div class="spacer1"></div>
             <h3>Photos</h3>
-            <div class="bs-docs-example bs-docs-example-images">
+            <div id="gallery" class="bs-docs-example bs-docs-example-images">
                 {% for photo in company.companyPhotos %}
-                   <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">   
-                {% else %}
-                    <img src="{{ asset('/img/gallery.png') }}"  class="img-polaroid space-right7 space-right-bottom">
-                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                    <img src="{{ asset('/img/gallery.png') }}" class="img-polaroid space-right7 space-right-bottom">
-                {% endfor %}    
-                <div class="clearfix"></div>
+                    {% if photo.isDeleted != "true" %}
+                    <div class="pull-left space-right7 space-right-bottom">
+                        <div class="img-polaroid polaroid-width80">
+                            <div class="image-dimensions80">
+                                <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" title="{{photo.caption}}"></a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div class="pull-left space-right7 space-right-bottom">
+                        <div class="img-polaroid image-dimensions80">
+                            <img src="{{ asset('/img/photo-gallery.png') }}">
+                        </div>
+                    </div>
+                    {% endfor %}
+                <div class="clearfix"></div>    
+            </div>
+            {% if is_granted('ROLE_ADMIN') %}
                 <div class="spacer1"></div>
-                <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="pull-right btn btn-warning">Add photo</a>
+                <div class="btn-toolbar pull-right">
+                    <a href="{{ path('sked_app_service_provider_add_photo', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="btn btn-warning">Add photo</a>
+                    <a href="{{ path('sked_app_service_provider_photo_list', {'serviceProviderId': company.id }) }}.html" title="Add a photo" class="btn btn-primary">Manage Photos</a>                
                 </div>
-        
+            {% endif %}
     </div>
     <div class="span6">
         {% render url('sked_app_service_provider_show_map', { 'id': company.id }) %}
     </div>
     </div>
 </div> <!-- End .row-fluid -->
-
 {% endblock body %}

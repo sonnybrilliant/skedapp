@@ -197,7 +197,7 @@ class Consultant implements AdvancedUserInterface, \Serializable
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="SkedApp\CoreBundle\Entity\Service")
+     * @ORM\ManyToMany(targetEntity="SkedApp\CoreBundle\Entity\Service" , inversedBy="consultants")
      * @ORM\JoinTable(name="consultant_service_map",
      *     joinColumns={@ORM\JoinColumn(name="consultant_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="service_id", referencedColumnName="id")}

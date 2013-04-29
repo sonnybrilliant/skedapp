@@ -13,51 +13,82 @@
                 <div class="tab-pane active">
                     <div class="span6">
                         <h3>Consultant Profile</h3>
-                        <div class="white-bg">
-                            <table>
-                                <tr>
-                                    <td><strong>Fullname:</strong></td>
-                                    <td>{{ consultant.fullName }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Services:</strong></td>
-                                    <td>
-                                        {% for service in consultant.consultantServices %}
-                                          <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
-                                        {% else %}
-                                         No listed services.
-                                        {% endfor %}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Service Provider:</strong></td>
-                                    <td>{{ consultant.company.name }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Contact Number:</strong></td>
-                                    <td>{{ consultant.company.contactNumber }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Contact E-Mail:</strong></td>
-                                    <td>{{ consultant.email }}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Login name:</strong></td>
-                                    <td>{{ consultant.username }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><strong>Professional Statement:</strong></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">{{ consultant.professionalStatement|raw }}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><strong>Professional Speciality:</strong></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">{{ consultant.speciality|raw }}</td>
-                                </tr>
-                            </table>
+                        <div class="row-fluid white-bg">
+                            <div class="span3">
+                                {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                {% if consultant.gender.name == "Male" %}
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120>
+                                            <img src="{{ asset('/img/male.jpg') }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="image-shadow">
+                                    <div class="img-polaroid polaroid-width120">
+                                        <div class="image-dimensions120">
+                                            <img src="{{ asset('/img/female.jpg') }}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                            <div class="span9">
+                                <table>
+                                    <tr>
+                                        <td><strong>Fullname:</strong></td>
+                                        <td>{{ consultant.fullName }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Services:</strong></td>
+                                        <td>
+                                            {% for service in consultant.consultantServices %}
+                                              <span class="label {{ cycle(['label-info', 'label-warning'], service.id) }}">{{ service.name }}</span>
+                                            {% else %}
+                                             No listed services.
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Service Provider:</strong></td>
+                                        <td><a href="{{ path('sked_app_service_provider_show',{'id':consultant.company.id})}}.html" title="View service provider profile">{{ consultant.company.name }}</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Contact Number:</strong></td>
+                                        <td>{{ consultant.company.contactNumber }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Contact E-Mail:</strong></td>
+                                        <td>{{ consultant.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Login name:</strong></td>
+                                        <td>{{ consultant.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><strong>Professional Statement:</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">{{ consultant.professionalStatement|raw }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><strong>Professional Speciality:</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">{{ consultant.speciality|raw }}</td>
+                                    </tr>
+                                </table>
+                            </div>
                             <div class="clearfix"></div>
                             <div class="spacer2"></div>
 

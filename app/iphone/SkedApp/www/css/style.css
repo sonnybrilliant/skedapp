@@ -4,6 +4,13 @@
 .gray-text{
   color: #333;
 }
+.nameTags{
+  font-weight:bold;
+  font-size: 13px;
+}
+.button-shadow{
+  box-shadow: 0 2px 2px #555555;
+}
 .blockWrapper{
 	background-color: #FFF;
   border: 1px solid #666;
@@ -80,7 +87,7 @@
 }
 .orange-buttons{
   background: #FAA732;
-  border: 1px solid #FAA732;
+  border: 1px solid #FF9933;
   box-shadow: 0 2px 2px #555555;
 }
 .pull-right {

@@ -54,7 +54,7 @@ class CompanyCreateType extends AbstractType
                 'read_only'      => true,
                 'attr' => array('class' => 'span12')
             ))
-            ->add('country', null, array(
+            ->add('country', 'hidden', array(
                 'required'      => false,
                 'read_only'      => true,
                 'attr' => array('class' => 'span12')
@@ -63,12 +63,12 @@ class CompanyCreateType extends AbstractType
                 'label' => 'Contact number:',
                 'attr' => array('class' => 'span12')
             ))
-            ->add('lat', null, array(
+            ->add('lat', 'hidden', array(
                 'required'      => false,
                 'read_only'      => true,
                 'attr' => array('class' => 'span12', 'value' => '-25.73134')
             ))
-            ->add('lng', null, array(
+            ->add('lng','hidden', array(
                 'required'      => false,
                 'read_only'      => true,
                 'attr' => array('class' => 'span12' , 'value' => '28.21837000000005')

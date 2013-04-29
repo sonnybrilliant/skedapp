@@ -125,16 +125,16 @@ class BookingRepository extends EntityRepository
             ->andWhere("b.hiddenAppointmentStartTime >= :start")
             ->andWhere("b.hiddenAppointmentEndTime <= :end")
             ->setParameters(array(
-                'delete' => false,
-                'active' => true,
-                'cancelled' => false,
-                'start' => $objStartDate->format('Y-m-d H:i:s'),
-                'end' => $objEndDate->format('Y-m-d H:i:s')
+            'delete' => false,
+            'active' => true,
+            'cancelled' => false,
+            'start' => $objStartDate->format('Y-m-d H:i:s'),
+            'end' => $objEndDate->format('Y-m-d H:i:s')
             ));
 
         if (is_object($company)) {
             $qb->join('SkedApp\CoreBundle\Entity\Consultant', 'c')
-                    ->andWhere('c.company = :company')->setParameter('company', $company);
+                ->andWhere('c.company = :company')->setParameter('company', $company);
         }
 
         return $qb->getQuery()->execute();
@@ -479,6 +479,48 @@ class BookingRepository extends EntityRepository
         }
 
         return $arrOut;
+    }
+
+    /**
+     * Get Booking By Consultants
+     * 
+     * @param arrayCollection $consultants
+     * @param \DateTime $date
+     * @return array
+     */
+    public function getBookingByConsultans($consultants, $date)
+    {
+        $dql = null;
+        $bookings = array();
+
+        if (!is_null($date)) {
+            $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.isDeleted = ?1 AND b.isActive = ?2
+                AND b.isCancelled = ?3 AND b.appointmentDate = ?4
+                AND b.consultant IN (?5)";
+            $bookings = $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => $date->format("Y-m-d"),
+                    5 => $consultants
+                ))
+                ->getResult();
+        } else {
+            $dql = "SELECT b FROM SkedAppCoreBundle:Booking b
+                WHERE b.isDeleted = ?1 AND b.isActive = ?2
+                AND b.isCancelled = ?3 AND b.consultant IN (?4)";
+            $bookings = $this->getEntityManager()->createQuery($dql)
+                ->setParameters(array(
+                    1 => false,
+                    2 => true,
+                    3 => false,
+                    4 => $consultants
+                ))
+                ->getResult();
+        }
+        return $bookings;
     }
 
 }
