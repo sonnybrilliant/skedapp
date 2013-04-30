@@ -1059,3 +1059,7 @@ Code for Beta button *** TO BE REMOVED ***
     position: relative;
     margin: 7px;
 }
+
+.font-reg label {
+    font-size: 14px !important;
+}
