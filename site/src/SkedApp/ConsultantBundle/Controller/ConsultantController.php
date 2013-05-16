@@ -220,7 +220,7 @@ class ConsultantController extends Controller
 
             $consultantTimeSlot = $this->get('consultant.timeslots.manager')->getAll($consultant);
         } catch (\Exception $e) {
-            ladybug_dump($e);
+            ladybug_dump($e->getMessage());
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
             //return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');

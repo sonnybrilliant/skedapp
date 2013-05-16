@@ -165,6 +165,90 @@ final class ConsultantTimeslotsManager
             }
         }
 
+        $tuesday = $this->container->get('days_of_the_week_manager.manager')->tuesday();
+        $tuesdayDaySlot = $this->getConsultantDaySlotByDay($consultant, $tuesday);
+        //check monday
+        if ($consultant->getTuesday()) {
+            if (!is_object($tuesdayDaySlot)) {
+                //create a day slot for tuesday
+                $this->addDayOfTimeSlot($consultant, $tuesday);
+            }
+        } else {
+            if (is_object($tuesdayDaySlot)) {
+                $this->removeDayOfTimeSlot($tuesdayDaySlot);
+            }
+        }
+        
+        $wednesday = $this->container->get('days_of_the_week_manager.manager')->wednesday();
+        $wednesdayDaySlot = $this->getConsultantDaySlotByDay($consultant, $wednesday);
+        //check monday
+        if ($consultant->getWednesday()) {
+            if (!is_object($wednesdayDaySlot)) {
+                //create a day slot for wednesday
+                $this->addDayOfTimeSlot($consultant, $wednesday);
+            }
+        } else {
+            if (is_object($wednesdayDaySlot)) {
+                $this->removeDayOfTimeSlot($wednesdayDaySlot);
+            }
+        }
+        
+        $thursday = $this->container->get('days_of_the_week_manager.manager')->thursday();
+        $thursdayDaySlot = $this->getConsultantDaySlotByDay($consultant, $thursday);
+        //check monday
+        if ($consultant->getThursday()) {
+            if (!is_object($thursdayDaySlot)) {
+                //create a day slot for thursday
+                $this->addDayOfTimeSlot($consultant, $thursday);
+            }
+        } else {
+            if (is_object($thursdayDaySlot)) {
+                $this->removeDayOfTimeSlot($thursdayDaySlot);
+            }
+        }
+        
+        $friday = $this->container->get('days_of_the_week_manager.manager')->friday();
+        $fridayDaySlot = $this->getConsultantDaySlotByDay($consultant, $friday);
+        //check monday
+        if ($consultant->getFriday()) {
+            if (!is_object($fridayDaySlot)) {
+                //create a day slot for firday
+                $this->addDayOfTimeSlot($consultant, $friday);
+            }
+        } else {
+            if (is_object($fridayDaySlot)) {
+                $this->removeDayOfTimeSlot($fridayDaySlot);
+            }
+        }
+        
+        $saturday = $this->container->get('days_of_the_week_manager.manager')->saturday();
+        $saturdayDaySlot = $this->getConsultantDaySlotByDay($consultant, $saturday);
+        //check monday
+        if ($consultant->getSaturday()) {
+            if (!is_object($saturdayDaySlot)) {
+                //create a day slot for saturday
+                $this->addDayOfTimeSlot($consultant, $saturday);
+            }
+        } else {
+            if (is_object($saturdayDaySlot)) {
+                $this->removeDayOfTimeSlot($saturdayDaySlot);
+            }
+        }
+        
+        $sunday = $this->container->get('days_of_the_week_manager.manager')->sunday();
+        $sundayDaySlot = $this->getConsultantDaySlotByDay($consultant, $sunday);
+        //check monday
+        if ($consultant->getSunday()) {
+            if (!is_object($sundayDaySlot)) {
+                //create a day slot for sunday
+                $this->addDayOfTimeSlot($consultant, $sunday);
+            }
+        } else {
+            if (is_object($sundayDaySlot)) {
+                $this->removeDayOfTimeSlot($sundayDaySlot);
+            }
+        }
+
 
         return;
     }
