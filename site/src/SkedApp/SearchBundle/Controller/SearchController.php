@@ -149,11 +149,11 @@ class SearchController extends Controller
             $paginationParams['Search[' . $strKey . ']'] = $strValue;
         }
 
-        foreach ($pagination as $consultant) {
-            $date = new \DateTime($options['date']);
-            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
-            $consultant->setAvailableBookingSlots($slots);
-        }
+//        foreach ($pagination as $consultant) {
+//            $date = new \DateTime($options['date']);
+//            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
+//            $consultant->setAvailableBookingSlots($slots);
+//        }
 
         return $this->render('SkedAppSearchBundle:Search:search.html.twig', array(
                 'form' => $form->createView(),

@@ -172,6 +172,35 @@ final class DaysOfTheWeekManager
     {
         $this->logger->info('get day of the week sunday ');
         return $this->getDayByName('Sunday');
-    }    
+    }  
+    
+    /**
+     * Get day by id
+     * 
+     * @param integer $dayId
+     * @return SkedAppCoreBundle:DaysOfTheWeek|boolean
+     */
+    public function getById($dayId)
+    {
+        $this->logger->info('get day of the week by id:'.$dayId);
+        
+        if(1 == $dayId)
+        {
+            return $this->monday();
+        }else if(2 == $dayId){
+            return $this->tuesday();
+        }else if(3 == $dayId){
+            return $this->wednesday();
+        }else if(4 == $dayId){
+            return $this->thursday();
+        }else if(5 == $dayId){
+            return $this->friday();
+        }else if(6 == $dayId){
+            return $this->saturday();
+        }else if(7 == $dayId){
+            return $this->sunday();
+        }
+        return false;
+    }
     
 }
