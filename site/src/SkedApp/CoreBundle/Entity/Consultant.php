@@ -285,26 +285,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
     protected $sunday;
 
     /**
-     * @var Timeslot
-     *
-     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Timeslots")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="start_time_slot_id", referencedColumnName="id")
-     * })
-     */
-    protected $startTimeslot;
-
-    /**
-     * @var Timeslot
-     *
-     * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\Timeslots")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="end_time_slot_id", referencedColumnName="id")
-     * })
-     */
-    protected $endTimeslot;
-
-    /**
      * @var AppointmentDuration
      *
      * @ORM\ManyToOne(targetEntity="SkedApp\CoreBundle\Entity\AppointmentDuration")
@@ -993,52 +973,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
     }
 
     /**
-     * Set startTimeslot
-     *
-     * @param \SkedApp\CoreBundle\Entity\Timeslots $startTimeslot
-     * @return Consultant
-     */
-    public function setStartTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $startTimeslot = null)
-    {
-        $this->startTimeslot = $startTimeslot;
-
-        return $this;
-    }
-
-    /**
-     * Get startTimeslot
-     *
-     * @return \SkedApp\CoreBundle\Entity\Timeslots
-     */
-    public function getStartTimeslot()
-    {
-        return $this->startTimeslot;
-    }
-
-    /**
-     * Set endTimeslot
-     *
-     * @param \SkedApp\CoreBundle\Entity\Timeslots $endTimeslot
-     * @return Consultant
-     */
-    public function setEndTimeslot(\SkedApp\CoreBundle\Entity\Timeslots $endTimeslot = null)
-    {
-        $this->endTimeslot = $endTimeslot;
-
-        return $this;
-    }
-
-    /**
-     * Get endTimeslot
-     *
-     * @return \SkedApp\CoreBundle\Entity\Timeslots
-     */
-    public function getEndTimeslot()
-    {
-        return $this->endTimeslot;
-    }
-
-    /**
      * Set appointmentDuration
      *
      * @param \SkedApp\CoreBundle\Entity\AppointmentDuration $appointmentDuration
@@ -1436,8 +1370,8 @@ class Consultant implements AdvancedUserInterface, \Serializable
             'id' => $this->getId(),
             'gender' => $this->getGender()->getName(),
             'company' => $this->getCompany()->getObjectAsArray(),
-            'start_time_slot' => $this->getStartTimeslot()->getSlot(),
-            'end_time_slot' => $this->getEndTimeslot()->getSlot(),
+            //'start_time_slot' => $this->getStartTimeslot()->getSlot(),
+            //'end_time_slot' => $this->getEndTimeslot()->getSlot(),
             'appointment_duration' => $this->getAppointmentDuration()->getDuration(),
             'first_name' => $this->getFirstName(),
             'last_name' => $this->getLastName(),
@@ -1527,20 +1461,6 @@ class Consultant implements AdvancedUserInterface, \Serializable
     public function getCurrentId()
     {
         return $this->id;
-    }
-
-    /**
-     * Check if consultant has proper times set up
-     *
-     * @return boolean
-     */
-    public function getTimeSlotsSetUp()
-    {
-
-        if ($this->getStartTimeslot()->getSlot() == $this->getEndTimeslot()->getSlot())
-            return false;
-        else
-            return true;
-    }
+    }    
 
 }

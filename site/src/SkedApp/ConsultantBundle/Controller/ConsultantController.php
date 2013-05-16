@@ -4,8 +4,10 @@ namespace SkedApp\ConsultantBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use SkedApp\CoreBundle\Entity\Consultant;
+use SkedApp\CoreBundle\Entity\Slots;
 use SkedApp\ConsultantBundle\Form\ConsultantCreateType;
 use SkedApp\ConsultantBundle\Form\ConsultantUpdateType;
+use SkedApp\ConsultantBundle\Form\ConsultantTimeSlotsType;
 use SkedApp\BookingBundle\Form\BookingListFilterType;
 use SkedApp\SearchBundle\Form\SearchType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -102,11 +104,11 @@ class ConsultantController extends Controller
             $form->bindRequest($this->getRequest());
 
             if ($form->isValid()) {
-                if(!$this->get('member.manager')->isAdmin()){
-                   $user = $this->get('member.manager')->getLoggedInUser();
-                   $consultant->setCompany($user->getCompany());
+                if (!$this->get('member.manager')->isAdmin()) {
+                    $user = $this->get('member.manager')->getLoggedInUser();
+                    $consultant->setCompany($user->getCompany());
                 }
-                
+
                 $this->get('consultant.manager')->createNewConsultant($consultant);
 
                 $params = array(
@@ -200,6 +202,154 @@ class ConsultantController extends Controller
     }
 
     /**
+     * Manage consultant timeslots
+     *
+     * @param String $slug
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function manageTimeslotsAction($slug)
+    {
+        $this->get('logger')->info('manage consultant timeslot:' . $slug);
+
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+
+            //create timeslots if they do not exist
+            $this->get('consultant.timeslots.manager')->createTimeSlots($consultant);
+
+            $consultantTimeSlot = $this->get('consultant.timeslots.manager')->getAll($consultant);
+        } catch (\Exception $e) {
+            ladybug_dump($e);
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            //return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+        }
+
+        return $this->render('SkedAppConsultantBundle:Consultant:manage.timeslots.html.twig', array(
+                'consultant' => $consultant,
+                'consultantTimeSlot' => $consultantTimeSlot
+            ));
+    }
+
+    /**
+     * edit consultant timeslots
+     *
+     * @param String $slug
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function editTimeslotsAction($slug, $slot)
+    {
+        $this->get('logger')->info('edit consultant timeslot');
+
+
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+            $consultantTimeSlot = $this->get('consultant.timeslots.manager')->getById($slot);
+
+            $slots = $consultantTimeSlot->getSlots();
+
+            if (0 == $slots->count()) {
+
+                $slot1 = new Slots();
+                $slot1->setStartTimeslot($this->get('timeslots.manager')->getByTime('07:00'));
+                $slot1->setEndTimeslot($this->get('timeslots.manager')->getByTime('12:00'));
+                $consultantTimeSlot->addSlot($slot1);
+
+                $slot2 = new Slots();
+                $slot2->setStartTimeslot($this->get('timeslots.manager')->getByTime('13:00'));
+                $slot2->setEndTimeslot($this->get('timeslots.manager')->getByTime('17:00'));
+                $consultantTimeSlot->addSlot($slot2);
+            }
+        } catch (\Exception $e) {
+            ladybug_dump($e);
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+            //return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+        }
+
+        $form = $this->createForm(new ConsultantTimeSlotsType(), $consultantTimeSlot);
+
+        return $this->render('SkedAppConsultantBundle:Consultant:edit.timeslots.html.twig', array(
+                'consultant' => $consultant,
+                'form' => $form->createView(),
+                'consultantTimeSlot' => $consultantTimeSlot
+            ));
+    }
+
+    /**
+     * edit consultant timeslots
+     *
+     * @param String $slug
+     *
+     * @Secure(roles="ROLE_ADMIN,ROLE_CONSULTANT_ADMIN,ROLE_CONSULTANT_USER")
+     */
+    public function updateTimeslotsAction($slug, $slot)
+    {
+        $this->get('logger')->info('edit consultant timeslot');
+
+
+        try {
+            $consultant = $this->get('consultant.manager')->getBySlug($slug);
+            $consultantTimeSlot = $this->get('consultant.timeslots.manager')->getById($slot);
+
+            $form = $this->createForm(new ConsultantTimeSlotsType(), $consultantTimeSlot);
+
+            if ($this->getRequest()->getMethod() == 'POST') {
+                $form->bindRequest($this->getRequest());
+                if ($form->isValid()) {
+                   
+                    $oldSlots = $this->get('slots.manager')->getCurrentConsultantTimeSlots($consultantTimeSlot);
+                    $this->get('consultant.timeslots.manager')->save($consultantTimeSlot);
+                    $newSlots = $consultantTimeSlot->getSlots();
+
+                    $matchedSlots = array();
+                    $em = $this->getDoctrine()->getEntityManager();
+                    foreach($newSlots as $slot){
+                        foreach($oldSlots as $slotOld){
+                            if($slot->getId() == $slotOld->getId() ){
+                                $matchedSlots [] = $slotOld; 
+                            }
+                        }
+                        
+                        $slot->setConsultantTimeSlot($consultantTimeSlot);
+                        $em->persist($slot);
+                    }
+                    
+                    foreach($matchedSlots as $matchSlot){
+                        foreach($oldSlots as $slot){
+                            if($slot->getId() != $matchSlot->getId() ){
+                                $em->remove($matchSlot);
+                            }
+                        }
+                    }
+                                        
+                    $em->flush();
+                    
+                }else{
+                    ladybug_dump($form->getErrors());
+                }
+
+                return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
+            }
+        } catch (\Exception $e) {
+            ladybug_dump($e);
+            $this->getRequest()->getSession()->setFlash(
+                'error', 'Invalid request: ' . $e->getMessage());
+                return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
+        }
+
+
+
+        return $this->render('SkedAppConsultantBundle:Consultant:edit.timeslots.html.twig', array(
+                'consultant' => $consultant,
+                'form' => $form->createView(),
+                'consultantTimeSlot' => $consultantTimeSlot
+            ));
+    }
+
+    /**
      * Update consultant
      *
      * @param String $slug
@@ -221,10 +371,10 @@ class ConsultantController extends Controller
                 $form->bindRequest($this->getRequest());
 
                 if ($form->isValid()) {
-                    if($emailAddress != $consultant->getEmail()){
+                    if ($emailAddress != $consultant->getEmail()) {
                         $consultant->setUsername($consultant->getEmail());
                     }
-                    
+
                     $this->get('consultant.manager')->update($consultant);
                     $this->getRequest()->getSession()->setFlash(
                         'success', 'Updated consultant successfully');
@@ -513,39 +663,39 @@ class ConsultantController extends Controller
     public function ajaxGetByCompanyAction($companyId)
     {
         //if ($this->getRequest()->isXmlHttpRequest()) {
-            $this->get('logger')->info('get consultants by company');
-            $results = array();
+        $this->get('logger')->info('get consultants by company');
+        $results = array();
 
-            try {
-                $em = $this->getDoctrine()->getEntityManager();
-                $company = $em->getRepository('SkedAppCoreBundle:Company')->find($companyId);
+        try {
+            $em = $this->getDoctrine()->getEntityManager();
+            $company = $em->getRepository('SkedAppCoreBundle:Company')->find($companyId);
 
-                if ($company) {
-                    $consultants = $this->get('consultant.manager')->getAllByCompany($company);
+            if ($company) {
+                $consultants = $this->get('consultant.manager')->getAllByCompany($company);
 
-                    if ($consultants) {
-                        foreach ($consultants as $consultant) {
-                            $results[] = array(
-                                'id' => $consultant->getId(),
-                                'name' => $consultant->getFullName()
-                            );
-                        }
+                if ($consultants) {
+                    foreach ($consultants as $consultant) {
+                        $results[] = array(
+                            'id' => $consultant->getId(),
+                            'name' => $consultant->getFullName()
+                        );
                     }
                 }
-
-                $return = new \stdClass();
-                $return->status = 'success';
-                $return->count = sizeof($results);
-                $return->results = $results;
-
-                $response = new Response(json_encode($return));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
-            } catch (\Exception $e) {
-                $response = new Response(json_encode($e->getMessage()));
-                $response->headers->set('Content-Type', 'application/json');
-                return $response;
             }
+
+            $return = new \stdClass();
+            $return->status = 'success';
+            $return->count = sizeof($results);
+            $return->results = $results;
+
+            $response = new Response(json_encode($return));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        } catch (\Exception $e) {
+            $response = new Response(json_encode($e->getMessage()));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
         //}
     }
 

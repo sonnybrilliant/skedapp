@@ -167,8 +167,6 @@ final class ConsultantManager
         $consultant = new Consultant();
         $consultant->setGender($params['gender']);
         $consultant->setCompany($params['company']);
-        $consultant->setStartTimeSlot($params['startTimeSlot']);
-        $consultant->setEndTimeSlot($params['endTimeSlot']);
         $consultant->setAppointmentDuration($params['appointmentDuration']);
         $consultant->setFirstName($params['firstName']);
         $consultant->setLastName($params['lastName']);

@@ -7,14 +7,24 @@
     <parameters>
         <parameter key="consultant_manager.class">SkedApp\ConsultantBundle\Services\ConsultantManager</parameter>
         <parameter key="consultant_user_provider.class">SkedApp\ConsultantBundle\Security\User\ConsultantUserProvder</parameter>
+        <parameter key="consultant_timeslots.class">SkedApp\ConsultantBundle\Services\ConsultantTimeslotsManager</parameter>
+        <parameter key="slots.class">SkedApp\ConsultantBundle\Services\SlotsManager</parameter>
     </parameters>
     <services>
         <service id="consultant.manager" class="%consultant_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>        
+        <service id="consultant.timeslots.manager" class="%consultant_timeslots.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>        
         <service id="consultant.user.provider" class="%consultant_user_provider.class%">
             <argument type="service" id="doctrine" />
+            <argument type="service" id="logger" />
+        </service>        
+        <service id="slots.manager" class="%slots.class%">
+            <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>        
     </services>
