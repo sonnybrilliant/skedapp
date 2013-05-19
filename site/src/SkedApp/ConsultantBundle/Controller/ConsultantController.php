@@ -110,7 +110,7 @@ class ConsultantController extends Controller
                 }
 
                 $this->get('consultant.manager')->createNewConsultant($consultant);
-
+                $this->get('consultant.timeslots.manager')->createTimeSlots($consultant);
                 $params = array(
                     'fullName' => $consultant->getFirstName() . ' ' . $consultant->getLastName(),
                     'email' => $consultant->getEmail(),
@@ -160,9 +160,6 @@ class ConsultantController extends Controller
 
         try {
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
-
-            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, new \DateTime());
-            $consultant->setAvailableBookingSlots($slots);
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
@@ -266,7 +263,7 @@ class ConsultantController extends Controller
             ladybug_dump($e);
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-            //return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
+            return $this->redirect($this->generateUrl('sked_app_consultant_list') . '.html');
         }
 
         $form = $this->createForm(new ConsultantTimeSlotsType(), $consultantTimeSlot);
@@ -299,35 +296,34 @@ class ConsultantController extends Controller
             if ($this->getRequest()->getMethod() == 'POST') {
                 $form->bindRequest($this->getRequest());
                 if ($form->isValid()) {
-                   
+
                     $oldSlots = $this->get('slots.manager')->getCurrentConsultantTimeSlots($consultantTimeSlot);
                     $this->get('consultant.timeslots.manager')->save($consultantTimeSlot);
                     $newSlots = $consultantTimeSlot->getSlots();
 
                     $matchedSlots = array();
                     $em = $this->getDoctrine()->getEntityManager();
-                    foreach($newSlots as $slot){
-                        foreach($oldSlots as $slotOld){
-                            if($slot->getId() == $slotOld->getId() ){
-                                $matchedSlots [] = $slotOld; 
+                    foreach ($newSlots as $slot) {
+                        foreach ($oldSlots as $slotOld) {
+                            if ($slot->getId() == $slotOld->getId()) {
+                                $matchedSlots [] = $slotOld;
                             }
                         }
-                        
+
                         $slot->setConsultantTimeSlot($consultantTimeSlot);
                         $em->persist($slot);
                     }
-                    
-                    foreach($matchedSlots as $matchSlot){
-                        foreach($oldSlots as $slot){
-                            if($slot->getId() != $matchSlot->getId() ){
+
+                    foreach ($matchedSlots as $matchSlot) {
+                        foreach ($oldSlots as $slot) {
+                            if ($slot->getId() != $matchSlot->getId()) {
                                 $em->remove($matchSlot);
                             }
                         }
                     }
-                                        
+
                     $em->flush();
-                    
-                }else{
+                } else {
                     ladybug_dump($form->getErrors());
                 }
 
@@ -337,7 +333,7 @@ class ConsultantController extends Controller
             ladybug_dump($e);
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
-                return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
+            return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
         }
 
 
@@ -431,6 +427,7 @@ class ConsultantController extends Controller
         $this->get('logger')->info('view consultant slug:' . $slug);
 
         $options = array();
+        $slots = array();
 
         try {
             if ($this->getRequest()->get('id') != null) {
@@ -453,8 +450,19 @@ class ConsultantController extends Controller
                 $date = new \DateTime(date('Y-m-d'));
             }
 
-            $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
-            $consultant->setAvailableBookingSlots($slots);
+            $searchDate = new \DateTime(date('Y-m-d'));
+            $searchDate->add(new \DateInterval('P1D'));
+            //$slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
+            //$consultant->setAvailableBookingSlots($slots);
+            $tmpSlots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $searchDate, 30);
+            
+            if($tmpSlots){
+               for($x =0; $x < sizeof($tmpSlots); $x++){
+                  if(sizeof($tmpSlots[$x]['timeSlots']) > 0){
+                      $slots = $tmpSlots[$x]['timeSlots'];
+                  } 
+               } 
+            }
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
@@ -463,7 +471,8 @@ class ConsultantController extends Controller
 
         return $this->render('SkedAppConsultantBundle:Consultant:public.profile.html.twig', array(
                 'consultant' => $consultant,
-                'options' => $options
+                'options' => $options,
+                'slots' => $slots
             ));
     }
 

@@ -391,7 +391,7 @@ final class TimeslotsManager
             $day['available'] = $isAvailable;
         }
 
-        $dates = $this->buildTimeSlots($consultant, $this->buildDaysSlots($ConsultantDaysOfWeek, $searchDate));
+        $dates = $this->buildTimeSlots($consultant, $this->buildDaysSlots($ConsultantDaysOfWeek, $searchDate, $numberOfDays));
 
         $options = array(
             'searchText' => '',

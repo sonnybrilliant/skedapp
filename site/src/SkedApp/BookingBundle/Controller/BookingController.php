@@ -891,20 +891,20 @@ class BookingController extends Controller
 
 
 
-            if (!$isValid) {
-                $errMsg = "Booking not available,some services take longer than other - please choose another time.";
-            } else {
-                //check if booking does not conflict with consultant log oof time
-                $consultantLogOffTime = null;
-                $consultantEndTimeSlot = $consultant->getEndTimeslot();
-
-                $endOfDayTime = new \DateTime($date . ' ' . $consultantEndTimeSlot->getSlot());
-
-                if ($bookingEndTime > $endOfDayTime) {
-                    $isValid = false;
-                    $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
-                }
-            }
+//            if (!$isValid) {
+//                $errMsg = "Booking not available,some services take longer than other - please choose another time.";
+//            } else {
+//                //check if booking does not conflict with consultant log oof time
+//                $consultantLogOffTime = null;
+//                $consultantEndTimeSlot = $consultant->getEndTimeslot();
+//
+//                $endOfDayTime = new \DateTime($date . ' ' . $consultantEndTimeSlot->getSlot());
+//
+//                if ($bookingEndTime > $endOfDayTime) {
+//                    $isValid = false;
+//                    $errMsg = "Booking not available, the service you have chosen violates consultant's closing hours - please choose another time.";
+//                }
+//            }
 
             if (!$isValid) {
 
@@ -1061,15 +1061,15 @@ class BookingController extends Controller
                     $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
 
 
-                    if (!$this->get('booking.manager')->isTimeValid($booking)) {
-                        $errMsg = "End time must be greater than start time";
-                        $isValid = false;
-                    }
-
-                    if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
-                        $errMsg = "Booking not available, please choose another time.";
-                        $isValid = false;
-                    }
+//                    if (!$this->get('booking.manager')->isTimeValid($booking)) {
+//                        $errMsg = "End time must be greater than start time";
+//                        $isValid = false;
+//                    }
+//
+//                    if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+//                        $errMsg = "Booking not available, please choose another time.";
+//                        $isValid = false;
+//                    }
 
                     if (!$user instanceOf Customer) {
                         $errMsg = "Please register on the site and log in to create a booking.";

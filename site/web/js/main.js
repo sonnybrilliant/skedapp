@@ -61,7 +61,7 @@ $(document).ready(function() {
             $('.li_consultant_'+consultant_id).addClass("CollapseTimeSlots");
         }else{
             $('.a_consultant_'+consultant_id).text("more");
-            $('.CollapseTimeSlots').hide();
+            $('.CollapseTimeSlots').show();
             
             
         }

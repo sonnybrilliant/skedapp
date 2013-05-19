@@ -35,7 +35,7 @@
                 <button type="submit" name="submit" class="btn btn-warning">Update <i class="icon-white icon-circle-arrow-right"></i></button>
             </div>
             <div class="btn-group">
-                <a href="{{ path('sked_app_consultant_list') }}.html" class="btn btn-small">Cancel</a>
+                <a href="{{ path('sked_app_consultant_manage_timeslots',{'slug':consultant.slug}) }}.html" class="btn btn-small">Cancel</a>
             </div>
         </div>  
       {{ form_rest(form) }}
