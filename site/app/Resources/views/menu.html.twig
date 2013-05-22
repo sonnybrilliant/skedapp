@@ -38,6 +38,12 @@
                 {% else %}
                     <li><a href="{{ path('sked_app_booking_manage_calender_view')}}.html" title="manage bookings">Bookings</a></li>
                 {% endif %}
+                    
+                {% if controller == 'customers'%}
+                    <li class="active"><a href="{{ path('sked_app_customer_list')}}.html" title="manage customers">Customers</a></li>
+                {% else %}
+                    <li><a href="{{ path('sked_app_customer_list')}}.html" title="manage customers">Customers</a></li>
+                {% endif %}
 
             <li><a href="#" title="manage customers">Customers</a></li>
             {% elseif is_granted('ROLE_CONSULTANT_ADMIN')  %}
@@ -52,10 +58,7 @@
                 {% else %}
                     <li><a href="{{ path('sked_app_booking_manage_calender_view')}}.html" title="manage bookings">Bookings</a></li>
                 {% endif %}
-
-                <li><a href="#" title="manage customers">Customers</a></li>
             {% endif%}
-
         </ul>
     </div> <!-- End .row-fluid -->
     <div class="row-fluid nav-active"><!-- This is just a spacer to show which page is active --></div>
