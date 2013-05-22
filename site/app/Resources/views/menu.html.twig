@@ -45,7 +45,6 @@
                     <li><a href="{{ path('sked_app_customer_list')}}.html" title="manage customers">Customers</a></li>
                 {% endif %}
 
-            <li><a href="#" title="manage customers">Customers</a></li>
             {% elseif is_granted('ROLE_CONSULTANT_ADMIN')  %}
                {% if controller == 'consultants'%}
                     <li class="active"><a href="{{ path('sked_app_consultant_list')}}.html" title="manage consultants">Consultants</a></li>
