@@ -265,67 +265,72 @@ final class TimeslotsManager
             //get conultant timeslots
             $dayOfTheWeak = $this->container->get('days_of_the_week_manager.manager')->getById($day['id']);
             $consultantTimeslots = $this->container->get('consultant.timeslots.manager')->getConsultantDaySlotByDay($consultant, $dayOfTheWeak);
-            $slots = $consultantTimeslots->getSlots();            
+
             $timeSlots = array();
-            
-            foreach ($slots as $slot) {
 
-                $consultantStartTime = $slot->getStartTimeslot()->getSlot();
-                $consultantEndTime = $slot->getEndTimeslot()->getSlot();
-                
-                $tmpDate = explode("-", $day['date']);
-                $timeStartTime = explode(":", $consultantStartTime);
-                $timeEndTime = explode(":", $consultantEndTime);
+            if ($consultantTimeslots) {
+                $slots = $consultantTimeslots->getSlots();
+                foreach ($slots as $slot) {
 
-                $startTimeObj = new \DateTime();
-                $startTimeObj->setTimestamp(mktime($timeStartTime[0], $timeStartTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
+                    $consultantStartTime = $slot->getStartTimeslot()->getSlot();
+                    $consultantEndTime = $slot->getEndTimeslot()->getSlot();
 
-                $endTimeObj = new \DateTime();
-                $endTimeObj->setTimestamp(mktime($timeEndTime[0], $timeEndTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
+                    $tmpDate = explode("-", $day['date']);
+                    $timeStartTime = explode(":", $consultantStartTime);
+                    $timeEndTime = explode(":", $consultantEndTime);
 
-                $isValid = true;
-                
-                $currentTimeObject = $startTimeObj;
+                    $startTimeObj = new \DateTime();
+                    $startTimeObj->setTimestamp(mktime($timeStartTime[0], $timeStartTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
 
-                while ($isValid) {
-                    
-                    //todays dates
-                    if ($currentTimeObject->getTimestamp() < $endTimeObj->getTimestamp()) {
-                        $doSlot = false;
-                        $endTimeSlotEpoch = strtotime("+$consultantSessionDuration Minutes", $currentTimeObject->getTimestamp());
+                    $endTimeObj = new \DateTime();
+                    $endTimeObj->setTimestamp(mktime($timeEndTime[0], $timeEndTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
 
-                        $endTimeSlotObject = new \DateTime();
-                        $endTimeSlotObject->setTimestamp($endTimeSlotEpoch);
+                    $isValid = true;
 
-                        $date = date('d/m/Y', strtotime("now"));
-                        if ($date == date('d/m/Y', $currentTimeObject->getTimestamp())) {
-                            if ((($currentTimeObject->getTimestamp() - strtotime("now")) / 3600) > 2) {
-                                $doSlot = true;
+                    $currentTimeObject = $startTimeObj;
+
+                    while ($isValid) {
+
+                        //todays dates
+                        if ($currentTimeObject->getTimestamp() < $endTimeObj->getTimestamp()) {
+                            $doSlot = false;
+                            $endTimeSlotEpoch = strtotime("+$consultantSessionDuration Minutes", $currentTimeObject->getTimestamp());
+
+                            $endTimeSlotObject = new \DateTime();
+                            $endTimeSlotObject->setTimestamp($endTimeSlotEpoch);
+
+                            $date = date('d/m/Y', strtotime("now"));
+                            if ($date == date('d/m/Y', $currentTimeObject->getTimestamp())) {
+                                if ((($currentTimeObject->getTimestamp() - strtotime("now")) / 3600) > 2) {
+                                    $doSlot = true;
+                                } else {
+                                    $doSlot = false;
+                                }
                             } else {
-                                $doSlot = false;
+                                $doSlot = true;
                             }
+
+                            if ($doSlot) {
+                                $timeSlots[] = array(
+                                    'startTime' => $currentTimeObject,
+                                    'formatedStartTime' => $currentTimeObject->format('Y-m-d H:i:s'),
+                                    'endTime' => $endTimeSlotObject,
+                                    'formatedEndTime' => $endTimeSlotObject->format('Y-m-d H:i:s'),
+                                    'code' => uniqid(),
+                                );
+                            }
+
+                            $currentTimeObject = $endTimeSlotObject;
                         } else {
-                            $doSlot = true;
+                            $isValid = false;
                         }
-
-                        if ($doSlot) {
-                             $timeSlots[] = array(
-                                'startTime' => $currentTimeObject,
-                                'formatedStartTime' => $currentTimeObject->format('Y-m-d H:i:s'),
-                                'endTime' => $endTimeSlotObject,
-                                'formatedEndTime' => $endTimeSlotObject->format('Y-m-d H:i:s'),
-                                'code' => uniqid(),
-                            );
-                            
-                        }
-
-                        $currentTimeObject = $endTimeSlotObject;
-                    } else {
-                        $isValid = false;
                     }
                 }
             }
-            $day['timeSlots'] = $timeSlots;
+
+            if ($timeSlots) {
+                $day['timeSlots'] = $timeSlots;
+            }
         }
         return $dates;
     }
