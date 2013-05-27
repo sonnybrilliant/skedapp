@@ -218,6 +218,7 @@ class SearchController extends Controller
                 'slots' => $slots
             );
         }
+        
         return $this->render('SkedAppSearchBundle:Search:show.results.html.twig', array(
                 'weekDays' => $weekDays,
                 'data' => $data,

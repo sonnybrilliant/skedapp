@@ -285,7 +285,7 @@ class ConsultantController extends Controller
     public function updateTimeslotsAction($slug, $slot)
     {
         $this->get('logger')->info('edit consultant timeslot');
-
+        $flag = true;
 
         try {
             $consultant = $this->get('consultant.manager')->getBySlug($slug);
@@ -298,9 +298,22 @@ class ConsultantController extends Controller
                 if ($form->isValid()) {
 
                     $oldSlots = $this->get('slots.manager')->getCurrentConsultantTimeSlots($consultantTimeSlot);
-                    $this->get('consultant.timeslots.manager')->save($consultantTimeSlot);
-                    $newSlots = $consultantTimeSlot->getSlots();
 
+                    $newSlots = $consultantTimeSlot->getSlots();
+                    $this->get('consultant.timeslots.manager')->save($consultantTimeSlot);
+                    //check if slots do not overlap
+                    $slots = array();
+                    foreach ($oldSlots as $slotOld) {
+                        $slots[] = $slotOld;
+                    }
+
+                    foreach ($newSlots as $slotNew) {
+                        $slots[] = $slotNew;
+                    }
+
+                    $flag = $this->get('consultant.manager')->checkTimeSlotsOverlapping($slots);
+
+                    $this->get('consultant.timeslots.manager')->save($consultantTimeSlot);
                     $matchedSlots = array();
                     $em = $this->getDoctrine()->getEntityManager();
                     foreach ($newSlots as $slot) {
@@ -310,8 +323,12 @@ class ConsultantController extends Controller
                             }
                         }
 
-                        $slot->setConsultantTimeSlot($consultantTimeSlot);
-                        $em->persist($slot);
+                        if ($flag) {
+                            $slot->setConsultantTimeSlot($consultantTimeSlot);
+                            $em->persist($slot);
+                        } else {
+                            $em->remove($slot);
+                        }
                     }
 
                     foreach ($matchedSlots as $matchSlot) {
@@ -323,14 +340,19 @@ class ConsultantController extends Controller
                     }
 
                     $em->flush();
+                    if ($flag) {
+                        return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
+                    }else{
+                        $this->getRequest()->getSession()->setFlash(
+                        'error', "Your time slots over lap");
+                    }
+                    
                 } else {
-                    ladybug_dump($form->getErrors());
+                    $this->getRequest()->getSession()->setFlash(
+                        'error',$form->getErrors());
                 }
-
-                return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
             }
         } catch (\Exception $e) {
-            ladybug_dump($e);
             $this->getRequest()->getSession()->setFlash(
                 'error', 'Invalid request: ' . $e->getMessage());
             return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
@@ -455,13 +477,13 @@ class ConsultantController extends Controller
             //$slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, $date);
             //$consultant->setAvailableBookingSlots($slots);
             $tmpSlots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $searchDate, 30);
-            
-            if($tmpSlots){
-               for($x =0; $x < sizeof($tmpSlots); $x++){
-                  if(sizeof($tmpSlots[$x]['timeSlots']) > 0){
-                      $slots = $tmpSlots[$x]['timeSlots'];
-                  } 
-               } 
+
+            if ($tmpSlots) {
+                for ($x = 0; $x < sizeof($tmpSlots); $x++) {
+                    if (sizeof($tmpSlots[$x]['timeSlots']) > 0) {
+                        $slots = $tmpSlots[$x]['timeSlots'];
+                    }
+                }
             }
         } catch (\Exception $e) {
             $this->getRequest()->getSession()->setFlash(

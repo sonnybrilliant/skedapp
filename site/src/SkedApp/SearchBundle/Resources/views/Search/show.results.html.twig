@@ -91,13 +91,15 @@ var currentServiceId = {{ options.service.id }};
                      {% for slotDay in slots %}
                         {% if attribute(slotDay, 'dateObject')|date('Y-m-d') == day.dateObject|date('Y-m-d') %}
                            <ul class="unstyled">
-                           {% set slotCouter = 0%}    
-                           {% for slot in attribute(slotDay,'timeSlots') %}
-                           {% set slotCouter = loop.index %}        
-                                <li class="{{ (loop.index > 5) ? 'hiddenTimeSlots li_consultant_'~consultant.id : '' }}">
-                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': attribute(slot,'startTime')|date('Y-m-d'), 'timeSlotStart': attribute(slot,'startTime')|date('H:i'), 'serviceIds': options.service.id}) }}">{{ attribute(slot,'startTime')|date('H:i') }}</a>
-                                </li>                                
-                           {% endfor %}  
+                           {% set slotCouter = 0%}   
+                              {% if attribute(slotDay,'timeSlots')is defined %}    
+                                {% for slot in attribute(slotDay,'timeSlots') %}
+                                    {% set slotCouter = loop.index %}        
+                                     <li class="{{ (loop.index > 5) ? 'hiddenTimeSlots li_consultant_'~consultant.id : '' }}">
+                                       <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': attribute(slot,'startTime')|date('Y-m-d'), 'timeSlotStart': attribute(slot,'startTime')|date('H:i'), 'serviceIds': options.service.id}) }}">{{ attribute(slot,'startTime')|date('H:i') }}</a>
+                                     </li>                                
+                                {% endfor %} 
+                              {% endif %}       
                            {% if slotCouter > 5%}
                                 <li  class="slot-expander"><a href="#" class="a_consultant_{{consultant.id}} showHiddenSlots" title="View more" >more</a></li>
                            {% endif %}
