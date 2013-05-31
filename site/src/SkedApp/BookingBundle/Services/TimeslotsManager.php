@@ -347,22 +347,24 @@ final class TimeslotsManager
         foreach ($slots as &$daySlot) {
             foreach ($bookings as $booking) {
                 $timeSlots = &$daySlot['timeSlots'];
-                foreach ($timeSlots as $key => $slot) {
-                    $currentDate = new \DateTime($slot['startTime']->format('Y-m-d'));
-                    $interval = date_diff($booking->getAppointmentDate(), $currentDate);
-                    if (0 == $interval->format('%d')) {
-                        if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] <= $booking->getHiddenAppointmentEndTime()) {
-                            if ($booking->getHiddenAppointmentEndTime() != $slot['startTime']) {
+                if ($timeSlots) {
+                    foreach ($timeSlots as $key => $slot) {
+                        $currentDate = new \DateTime($slot['startTime']->format('Y-m-d'));
+                        $interval = date_diff($booking->getAppointmentDate(), $currentDate);
+                        if (0 == $interval->format('%d')) {
+                            if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] <= $booking->getHiddenAppointmentEndTime()) {
+                                if ($booking->getHiddenAppointmentEndTime() != $slot['startTime']) {
+                                    unset($timeSlots[$key]);
+                                }
+                            } else {
+                                continue;
+                            }
+                        }
+
+                        if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] < $booking->getHiddenAppointmentEndTime()) {
+                            if ($booking->getHiddenAppointmentEndTime() > $slot['endTime']) {
                                 unset($timeSlots[$key]);
                             }
-                        } else {
-                            continue;
-                        }
-                    }
-
-                    if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] < $booking->getHiddenAppointmentEndTime()) {
-                        if ($booking->getHiddenAppointmentEndTime() > $slot['endTime']) {
-                            unset($timeSlots[$key]);
                         }
                     }
                 }

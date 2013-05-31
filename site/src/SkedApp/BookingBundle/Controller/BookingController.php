@@ -319,29 +319,29 @@ class BookingController extends Controller
         $customerPotential = new CustomerPotential(false);
 
         $bookingValues = $this->getRequest()->get('Booking');
-        
 
-        if (!isset($bookingValues['appointmentDate'])){
+
+        if (!isset($bookingValues['appointmentDate'])) {
             $bookingValues['appointmentDate'] = date('Y-m-d');
-        }    
+        }
 
-        if (isset($bookingValues['startTimeslot'])){
+        if (isset($bookingValues['startTimeslot'])) {
             $booking->setStartTimeslot($this->get('timeslots.manager')->getById($bookingValues['startTimeslot']));
-        }    
-            
-        if (isset($bookingValues['endTimeslot'])){
+        }
+
+        if (isset($bookingValues['endTimeslot'])) {
             $booking->setEndTimeslot($this->get('timeslots.manager')->getById($bookingValues['endTimeslot']));
         }
 
-        if (isset($bookingValues['consultant'])){
+        if (isset($bookingValues['consultant'])) {
             $booking->setConsultant($this->get('consultant.manager')->getById($bookingValues['consultant']));
         }
-        
+
         $form = $this->createForm(new BookingCreateType(
                 $user->getCompany()->getId(),
                 $this->get('member.manager')->isAdmin(),
                 new \DateTime($bookingValues['appointmentDate']),
-                $booking->getConsultant() 
+                $booking->getConsultant()
             ), $booking);
         $formCustomerPotential = $this->createForm(new CustomerPotentialType(false), $customerPotential);
 
@@ -412,11 +412,10 @@ class BookingController extends Controller
                     $errMsg = "End time must be greater than start time";
                     $isValid = false;
                 }
-
-                if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
-                    $errMsg = "Booking not available, please choose another time.";
-                    $isValid = false;
-                }
+//                if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
+//                    $errMsg = "Booking not available, please choose another time.";
+//                    $isValid = false;
+//                }
 
                 if ($isValid) {
 
@@ -738,9 +737,10 @@ class BookingController extends Controller
                     $consultants[] = $this->get('consultant.manager')->getById($consultantsIntergerArray[$y]);
                 }
 
-                foreach ($consultants as $consultant) {
-                    $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $startDate, 1);
 
+
+                foreach ($consultants as $consultant) {
+                    $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $startDate, 7);
                     if (is_array($slots)) {
                         for ($x = 0; $x < sizeof($slots); $x++) {
                             $currentDate = new \DateTime($startDate->format('Y-m-d'));
@@ -748,29 +748,31 @@ class BookingController extends Controller
                             //ladybug_dump($currentDate);
                             //ladybug_dump($bookingDate);
                             if ($bookingDate == $currentDate) {
-                                foreach ($slots[$x]['timeSlots'] as $timeSlots) {
-                                    $booking = new Booking();
-                                    $booking->setHiddenAppointmentStartTime($timeSlots['startTime']);
-                                    $booking->setHiddenAppointmentEndTime($timeSlots['endTime']);
-                                    $booking->setConsultant($consultant);
+                                if($slots[$x]['timeSlots']) {
+                                    foreach ($slots[$x]['timeSlots'] as $timeSlots) {
+                                        $booking = new Booking();
+                                        $booking->setHiddenAppointmentStartTime($timeSlots['startTime']);
+                                        $booking->setHiddenAppointmentEndTime($timeSlots['endTime']);
+                                        $booking->setConsultant($consultant);
 
-                                    $results[] = array(
-                                        'allDay' => false,
-                                        'title' => 'Add  a booking',
-                                        'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
-                                        'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
-                                        'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
-                                        'url' => $this->generateUrl("sked_app_booking_new", array(
-                                            'type' => 1,
-                                            'Booking[appointmentDate]' => $timeSlots['startTime']->format("Y-m-d"),
-                                            'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($timeSlots['startTime']->format('H:i'))->getId(),
-                                            'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($timeSlots['endTime']->format('H:i'))->getId(),
-                                            'Booking[consultant]' => $consultant->getId(),
-                                        )),
-                                        'description' => 'Add a new booking',
-                                        'color' => 'green',
-                                        'textColor' => 'white'
-                                    );
+                                        $results[] = array(
+                                            'allDay' => false,
+                                            'title' => 'Add  a booking',
+                                            'start' => $booking->getHiddenAppointmentStartTime()->format("c"),
+                                            'end' => $booking->getHiddenAppointmentEndTime()->format("c"),
+                                            'resourceId' => 'resource-' . $booking->getConsultant()->getId(),
+                                            'url' => $this->generateUrl("sked_app_booking_new", array(
+                                                'type' => 1,
+                                                'Booking[appointmentDate]' => $timeSlots['startTime']->format("Y-m-d"),
+                                                'Booking[startTimeslot]' => $this->get('timeslots.manager')->getByTime($timeSlots['startTime']->format('H:i'))->getId(),
+                                                'Booking[endTimeslot]' => $this->get('timeslots.manager')->getByTime($timeSlots['endTime']->format('H:i'))->getId(),
+                                                'Booking[consultant]' => $consultant->getId(),
+                                            )),
+                                            'description' => 'Add a new booking',
+                                            'color' => 'green',
+                                            'textColor' => 'white'
+                                        );
+                                    }
                                 }
                             }
                         }
