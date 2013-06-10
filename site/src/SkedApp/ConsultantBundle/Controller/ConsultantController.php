@@ -318,8 +318,8 @@ class ConsultantController extends Controller
                     $em = $this->getDoctrine()->getEntityManager();
                     foreach ($newSlots as $slot) {
                         foreach ($oldSlots as $slotOld) {
-                            if ($slot->getId() == $slotOld->getId()) {
-                                $matchedSlots [] = $slotOld;
+                            if ($slot->getId() != $slotOld->getId()) {
+                                $matchedSlots [] = $slot;
                             }
                         }
 
@@ -331,25 +331,17 @@ class ConsultantController extends Controller
                         }
                     }
 
-                    foreach ($matchedSlots as $matchSlot) {
-                        foreach ($oldSlots as $slot) {
-                            if ($slot->getId() != $matchSlot->getId()) {
-                                $em->remove($matchSlot);
-                            }
-                        }
-                    }
 
                     $em->flush();
                     if ($flag) {
                         return $this->redirect($this->generateUrl('sked_app_consultant_manage_timeslots', array('slug' => $consultant->getSlug())) . '.html');
-                    }else{
+                    } else {
                         $this->getRequest()->getSession()->setFlash(
-                        'error', "Your time slots over lap");
+                            'error', "Your time slots over lap");
                     }
-                    
                 } else {
                     $this->getRequest()->getSession()->setFlash(
-                        'error',$form->getErrors());
+                        'error', $form->getErrors());
                 }
             }
         } catch (\Exception $e) {
@@ -365,6 +357,25 @@ class ConsultantController extends Controller
                 'form' => $form->createView(),
                 'consultantTimeSlot' => $consultantTimeSlot
             ));
+    }
+
+    public function ajaxRemoveSlotsAction($slot, $startTime)
+    {
+        $consultantTimeSlot = $this->get('consultant.timeslots.manager')->getById($slot);
+
+        $oldSlots = $this->get('slots.manager')->getCurrentConsultantTimeSlots($consultantTimeSlot);
+
+        $em = $this->getDoctrine()->getEntityManager();
+        foreach ($oldSlots as $slotOld) {
+            if($slotOld->getStartTimeslot()->getSlot() == $startTime){
+              $em->remove($slotOld); 
+              $em->flush();
+            }
+        }
+        
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**

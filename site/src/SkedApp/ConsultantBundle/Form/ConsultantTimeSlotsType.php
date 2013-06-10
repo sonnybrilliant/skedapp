@@ -35,12 +35,14 @@ class ConsultantTimeSlotsType extends AbstractType
                 'class' => 'SkedAppCoreBundle:DaysOfTheWeek',
                 'attr' => array('style'=>'display:none')
             ))
+            ->add('tokenDeletedSlot', 'hidden')
             ->add('slots', 'collection', array(
                 'type' => new SlotsType(),
                 'by_reference' => false,
                 'allow_delete' => true,
                 'allow_add' => true,
             ));
+        
 
     }
 

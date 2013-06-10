@@ -69,6 +69,11 @@ class ConsultantTimeSlots
      * @ORM\Column(name="updated_at", type="datetime")
      */
     protected $updatedAt;
+    
+    /**
+     * @var string
+     */
+    protected $tokenDeletedSlot;
 
     public function __construct()
     {
@@ -212,5 +217,15 @@ class ConsultantTimeSlots
     public function getSlots()
     {
         return $this->slots;
+    }
+    
+    public function getTokenDeletedSlot()
+    {
+        return $this->tokenDeletedSlot;
+    }
+    
+    public function setTokenDeletedSlot($token)
+    {
+        return $this->tokenDeletedSlot = $token;
     }
 }

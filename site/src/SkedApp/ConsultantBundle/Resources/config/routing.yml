@@ -134,6 +134,14 @@ sked_app_consultant_ajax_get_all_bookings:
         _format:  html
     options:
         expose: true
+        
+sked_app_consultant_ajax_delete_timeslot:
+    pattern:  /consultant/ajax/timeslot/{slot}/{startTime}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxRemoveSlots }
+    requirements:
+        _method:  GET|POST
+    options:
+        expose: true
 
 sked_app_consultant_view:
     pattern:  /consultant/profile

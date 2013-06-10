@@ -85,7 +85,20 @@ jQuery(document).ready(function() {
     //remove table row
     $('.deleteTableRow').click(function(){
         var grandParent = $(this).parent().parent();
-        grandParent.remove();    
+        var select = $(grandParent).find('select');
+        var selectName = $(select).attr('id');
+
+        var token_value = $('#consultant_time_slots_tokenDeletedSlot').val();
+        if(token_value == ''){
+           token_value = $('#'+selectName+' :selected').text() 
+        }  
+        
+        $('#consultant_time_slots_tokenDeletedSlot').val(token_value);
+       
+        var jqxhr = $.get(Routing.generate('sked_app_consultant_ajax_delete_timeslot', { slot: {{consultantTimeSlot.id}}, startTime:token_value }), function(data) {
+        })
+        .done(function() { grandParent.remove(); alert("Slot removed successfully"); })
+        .fail(function() { alert("Error occured while deleting slot,please consult admin"); })
         return false;
     });
         
