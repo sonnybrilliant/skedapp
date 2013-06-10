@@ -20,7 +20,11 @@
               <tr>
                 <td>{{booking.id}}</td>
                 {% if booking.isLeave == "true"%} 
-                <td>NOT AVAILABLE</td> 
+                   {% if booking.description != "" %}
+                     <td>{{booking.description}}</td> 
+                   {% else %}
+                     <td>NOT AVAILABLE</td> 
+                   {% endif %}                
                 {% else %}  
                 <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
                 {% endif %}
