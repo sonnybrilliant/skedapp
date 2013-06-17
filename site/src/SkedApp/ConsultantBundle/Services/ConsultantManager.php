@@ -167,8 +167,6 @@ final class ConsultantManager
         $consultant = new Consultant();
         $consultant->setGender($params['gender']);
         $consultant->setCompany($params['company']);
-        $consultant->setStartTimeSlot($params['startTimeSlot']);
-        $consultant->setEndTimeSlot($params['endTimeSlot']);
         $consultant->setAppointmentDuration($params['appointmentDuration']);
         $consultant->setFirstName($params['firstName']);
         $consultant->setLastName($params['lastName']);
@@ -284,7 +282,7 @@ final class ConsultantManager
                 ->getRepository('SkedAppCoreBundle:Consultant')
                 ->getAllActiveConsultantsByCompanyQuery($company, $options);
     }
-    
+
     /**
      * Get all consultants by Company
      * 
@@ -295,9 +293,9 @@ final class ConsultantManager
     {
         return $this->em
                 ->getRepository('SkedAppCoreBundle:Consultant')
-                ->getAllActiveQuery(array('company'=>$company));
+                ->getAllActiveQuery(array('company' => $company));
     }
-    
+
     /**
      * Get consultant active bookings
      *
@@ -322,8 +320,9 @@ final class ConsultantManager
     {
         $this->logger->info("Search for consultants");
 
-        if (!isset($options['radius']))
+        if (!isset($options['radius'])) {
             $options['radius'] = 20;
+        }
 
         $output = array(
             'results' => array(),
@@ -346,7 +345,7 @@ final class ConsultantManager
             $output['radius'] = $options['radius'];
             $options['radius'] += 5;
         } //while
-
+        $this->sortConsultantByRadius($output['results'], $options['lat'], $options['lng']);
         return $output;
     }
 
@@ -360,6 +359,70 @@ final class ConsultantManager
         $securityContext = $this->container->get('security.context');
         $consultant = $securityContext->getToken()->getUser();
         return $consultant;
+    }
+
+    public function sortConsultantByRadius(&$arr, $lat, $long)
+    {
+        $size = count($arr);
+        for ($i = 0; $i < $size; $i++) {
+            for ($j = 0; $j < $size - 1 - $i; $j++) {
+                if ($arr[$j + 1]->getDistanceFromPosition($lat, $long) < $arr[$j]->getDistanceFromPosition($lat, $long)) {
+                    $this->swap($arr, $j, $j + 1);
+                }
+            }
+        }
+        return $arr;
+    }
+
+    public function swap(&$arr, $a, $b)
+    {
+        $tmp = $arr[$a];
+        $arr[$a] = $arr[$b];
+        $arr[$b] = $tmp;
+    }
+
+    public function checkTimeSlotsOverlapping($slots)
+    {
+
+        for ($x = 0; $x < sizeof($slots); $x++) {
+            if (!$this->validateSlots($slots[$x], $slots)) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    public function validateSlots($slot, $slots)
+    {
+        foreach ($slots as $checkSlot) {
+            if ($slot->getId() == $checkSlot->getId()) {
+                return true;
+            } else {
+                $startTimeSlot = explode(":", $slot->getStartTimeslot()->getSlot());
+                $endTimeSlot = explode(":", $slot->getEndTimeslot()->getSlot());
+
+                $checkStartTimeSlot = explode(":", $checkSlot->getStartTimeslot()->getSlot());
+                $checkEndTimeSlot = explode(":", $checkSlot->getEndTimeslot()->getSlot());
+
+                $currentSlotStartTime = mktime($startTimeSlot[0], $startTimeSlot[1], 0, date("n"), date("j"), date("Y"));
+                $checkStartSlotStartTime = mktime($checkStartTimeSlot[0], $checkStartTimeSlot[1], 0, date("n"), date("j"), date("Y"));
+
+
+                $currentSlotEndTime = mktime($endTimeSlot[0], $endTimeSlot[1], 0, date("n"), date("j"), date("Y"));
+                $checkSlotEndTime = mktime($checkEndTimeSlot[0], $checkEndTimeSlot[1], 0, date("n"), date("j"), date("Y"));
+
+                if (($currentSlotStartTime <= $checkStartSlotStartTime) && ($currentSlotEndTime >= $checkStartSlotStartTime )) {
+                    return false;
+                }
+
+                if (($currentSlotStartTime <= $checkSlotEndTime) && ($currentSlotEndTime >= $checkSlotEndTime )) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 }

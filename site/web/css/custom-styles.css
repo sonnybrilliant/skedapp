@@ -692,7 +692,7 @@ select.span12{
 	-webkit-border-radius: 7px;
 	border-radius: 7px;
 }
-input.span12{
+input.span12 , input.span5{
 	border: none;
 	-moz-box-shadow: 0px 2px 2px #555;
 	-webkit-box-shadow: 0px 2px 2px #555;
@@ -1058,4 +1058,8 @@ Code for Beta button *** TO BE REMOVED ***
 .beta-btn {
     position: relative;
     margin: 7px;
+}
+
+.font-reg label {
+    font-size: 14px !important;
 }

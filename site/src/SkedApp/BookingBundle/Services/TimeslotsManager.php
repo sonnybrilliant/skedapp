@@ -171,14 +171,14 @@ final class TimeslotsManager
         $dates = array();
 
         //build an array of 30 days starting today
-        
+
         for ($x = 0; $x < $numberOfDays; $x++) {
             $epoch = '';
 
             if ($x == 0) {
                 $epoch = $searchDate->getTimestamp();
             } else {
-                $epoch = strtotime("+$x day",$searchDate->getTimestamp());
+                $epoch = strtotime("+$x day", $searchDate->getTimestamp());
             }
             $date = new \DateTime('@' . $epoch);
 
@@ -199,7 +199,7 @@ final class TimeslotsManager
      * @param array $ConsultantDaysOfWeek
      * @return array
      */
-    private function buildDaysSlots($ConsultantDaysOfWeek,$searchDate,$numberOfDays = 7)
+    private function buildDaysSlots($ConsultantDaysOfWeek, $searchDate, $numberOfDays = 7)
     {
         $dates = array();
 
@@ -210,17 +210,35 @@ final class TimeslotsManager
             if ($x == 0) {
                 $epoch = $searchDate->getTimestamp();
             } else {
-                $epoch = strtotime("+$x day",$searchDate->getTimestamp());
+                $epoch = strtotime("+$x day", $searchDate->getTimestamp());
             }
             $date = new \DateTime('@' . $epoch);
 
             foreach ($ConsultantDaysOfWeek as $day) {
                 if ($date->format("l") == $day['day']) {
                     if ($day['available']) {
+                        $dayId = 0;
+                        if ($date->format("l") == "Monday") {
+                            $dayId = 1;
+                        } else if ($date->format("l") == "Tuesday") {
+                            $dayId = 2;
+                        } else if ($date->format("l") == "Wednesday") {
+                            $dayId = 3;
+                        } else if ($date->format("l") == "Thursday") {
+                            $dayId = 4;
+                        } else if ($date->format("l") == "Friday") {
+                            $dayId = 5;
+                        } else if ($date->format("l") == "Saturday") {
+                            $dayId = 6;
+                        } else if ($date->format("l") == "Sunday") {
+                            $dayId = 7;
+                        }
+
                         $tmp = array(
                             'date' => $date->format("Y-m-d"),
                             'dateObject' => $date,
-                            'dayOfWeek' => $date->format("l")
+                            'dayOfWeek' => $date->format("l"),
+                            'id' => $dayId
                         );
 
                         $dates[] = $tmp;
@@ -241,64 +259,79 @@ final class TimeslotsManager
      */
     private function buildTimeSlots($consultant, $dates)
     {
-        $consultantStartTime = $consultant->getStartTimeslot()->getSlot();
-        $consultantEndTime = $consultant->getEndTimeslot()->getSlot();
         $consultantSessionDuration = $consultant->getAppointmentDuration()->getDuration();
 
         foreach ($dates as &$day) {
-            $tmpDate = explode("-", $day['date']);
-            $timeStartTime = explode(":", $consultantStartTime);
-            $timeEndTime = explode(":", $consultantEndTime);
+            //get conultant timeslots
+            $dayOfTheWeak = $this->container->get('days_of_the_week_manager.manager')->getById($day['id']);
+            $consultantTimeslots = $this->container->get('consultant.timeslots.manager')->getConsultantDaySlotByDay($consultant, $dayOfTheWeak);
 
-            $startTimeObj = new \DateTime();
-            $startTimeObj->setTimestamp(mktime($timeStartTime[0], $timeStartTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
-
-            $endTimeObj = new \DateTime();
-            $endTimeObj->setTimestamp(mktime($timeEndTime[0], $timeEndTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
-
-            $isValid = true;
             $timeSlots = array();
-            $currentTimeObject = $startTimeObj;
 
-            while ($isValid) {
-                //todays dates
-                if ($currentTimeObject->getTimestamp() < $endTimeObj->getTimestamp()) {
-                    $doSlot = false;
-                    $endTimeSlotEpoch = strtotime("+$consultantSessionDuration Minutes", $currentTimeObject->getTimestamp());
+            if ($consultantTimeslots) {
+                $slots = $consultantTimeslots->getSlots();
+                foreach ($slots as $slot) {
 
-                    $endTimeSlotObject = new \DateTime();
-                    $endTimeSlotObject->setTimestamp($endTimeSlotEpoch);
+                    $consultantStartTime = $slot->getStartTimeslot()->getSlot();
+                    $consultantEndTime = $slot->getEndTimeslot()->getSlot();
 
-                    $date = date('d/m/Y', strtotime("now"));
-                    if ($date == date('d/m/Y', $currentTimeObject->getTimestamp())) {
-                        if ((($currentTimeObject->getTimestamp() - strtotime("now")) / 3600) > 2) {
-                            $doSlot = true;
-                        } else {
+                    $tmpDate = explode("-", $day['date']);
+                    $timeStartTime = explode(":", $consultantStartTime);
+                    $timeEndTime = explode(":", $consultantEndTime);
+
+                    $startTimeObj = new \DateTime();
+                    $startTimeObj->setTimestamp(mktime($timeStartTime[0], $timeStartTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
+
+                    $endTimeObj = new \DateTime();
+                    $endTimeObj->setTimestamp(mktime($timeEndTime[0], $timeEndTime[1], 00, $tmpDate[1], $tmpDate[2], $tmpDate[0]));
+
+                    $isValid = true;
+
+                    $currentTimeObject = $startTimeObj;
+
+                    while ($isValid) {
+
+                        //todays dates
+                        if ($currentTimeObject->getTimestamp() < $endTimeObj->getTimestamp()) {
                             $doSlot = false;
+                            $endTimeSlotEpoch = strtotime("+$consultantSessionDuration Minutes", $currentTimeObject->getTimestamp());
+
+                            $endTimeSlotObject = new \DateTime();
+                            $endTimeSlotObject->setTimestamp($endTimeSlotEpoch);
+
+                            $date = date('d/m/Y', strtotime("now"));
+                            if ($date == date('d/m/Y', $currentTimeObject->getTimestamp())) {
+                                if ((($currentTimeObject->getTimestamp() - strtotime("now")) / 3600) > 2) {
+                                    $doSlot = true;
+                                } else {
+                                    $doSlot = false;
+                                }
+                            } else {
+                                $doSlot = true;
+                            }
+
+                            if ($doSlot) {
+                                $timeSlots[] = array(
+                                    'startTime' => $currentTimeObject,
+                                    'formatedStartTime' => $currentTimeObject->format('Y-m-d H:i:s'),
+                                    'endTime' => $endTimeSlotObject,
+                                    'formatedEndTime' => $endTimeSlotObject->format('Y-m-d H:i:s'),
+                                    'code' => uniqid(),
+                                );
+                            }
+
+                            $currentTimeObject = $endTimeSlotObject;
+                        } else {
+                            $isValid = false;
                         }
-                    } else {
-                        $doSlot = true;
                     }
-
-                    if ($doSlot) {
-                        $timeSlots[] = array(
-                            'startTime' => $currentTimeObject,
-                            'formatedStartTime' => $currentTimeObject->format('Y-m-d H:i:s'),
-                            'endTime' => $endTimeSlotObject,
-                            'formatedEndTime' => $endTimeSlotObject->format('Y-m-d H:i:s'),
-                            'code' => uniqid(),
-                        );
-                    }
-
-                    $currentTimeObject = $endTimeSlotObject;
-                } else {
-                    $isValid = false;
                 }
             }
 
-            $day['timeSlots'] = $timeSlots;
+            if ($timeSlots) {
+                $day['timeSlots'] = $timeSlots;
+            }
         }
-
         return $dates;
     }
 
@@ -314,24 +347,25 @@ final class TimeslotsManager
         foreach ($slots as &$daySlot) {
             foreach ($bookings as $booking) {
                 $timeSlots = &$daySlot['timeSlots'];
-                foreach ($timeSlots as $key => $slot) {
-                    $currentDate = new \DateTime($slot['startTime']->format('Y-m-d'));
-                    $interval = date_diff($booking->getAppointmentDate(), $currentDate);
-                    if (0 == $interval->format('%d')) {
-                        if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] <= $booking->getHiddenAppointmentEndTime()) {
-                            if($booking->getHiddenAppointmentEndTime() != $slot['startTime']){
-                               unset($timeSlots[$key]); 
-                            }                           
-                            
-                        } else {
-                            continue;
+                if ($timeSlots) {
+                    foreach ($timeSlots as $key => $slot) {
+                        $currentDate = new \DateTime($slot['startTime']->format('Y-m-d'));
+                        $interval = date_diff($booking->getAppointmentDate(), $currentDate);
+                        if (0 == $interval->format('%d')) {
+                            if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] <= $booking->getHiddenAppointmentEndTime()) {
+                                if ($booking->getHiddenAppointmentEndTime() != $slot['startTime']) {
+                                    unset($timeSlots[$key]);
+                                }
+                            } else {
+                                continue;
+                            }
                         }
-                    }
-                    
-                    if($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] < $booking->getHiddenAppointmentEndTime()){
-                        if($booking->getHiddenAppointmentEndTime() > $slot['endTime']){
-                               unset($timeSlots[$key]); 
-                        }  
+
+                        if ($slot['startTime'] >= $booking->getHiddenAppointmentStartTime() && $slot['startTime'] < $booking->getHiddenAppointmentEndTime()) {
+                            if ($booking->getHiddenAppointmentEndTime() > $slot['endTime']) {
+                                unset($timeSlots[$key]);
+                            }
+                        }
                     }
                 }
             }
@@ -339,7 +373,7 @@ final class TimeslotsManager
 
         return $slots;
     }
-    
+
     /**
      * Generate timeslots
      * 
@@ -348,7 +382,7 @@ final class TimeslotsManager
      * 
      * @return array
      */
-    public function generateTimeSlots($consultant,$searchDate,$numberOfDays = 7)
+    public function generateTimeSlots($consultant, $searchDate, $numberOfDays = 7)
     {
         $this->logger->info('generate timeslots for consultant:' . $consultant->getFullName());
 
@@ -364,7 +398,7 @@ final class TimeslotsManager
             $day['available'] = $isAvailable;
         }
 
-        $dates = $this->buildTimeSlots($consultant, $this->buildDaysSlots($ConsultantDaysOfWeek,$searchDate));
+        $dates = $this->buildTimeSlots($consultant, $this->buildDaysSlots($ConsultantDaysOfWeek, $searchDate, $numberOfDays));
 
         $options = array(
             'searchText' => '',

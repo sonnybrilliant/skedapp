@@ -87,23 +87,20 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                          {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                            {% for time_slot in arrSlots.time_slots %}
-                            <td class="dark-gray-text">
-                                {% if options|length > 0 %}
-                                <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                <strong>
-                                    {{ time_slot.start_time }}
-                                </strong>
-                                </a>
-                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em>
-                                {% else %}
-                                <strong>
-                                    {{ time_slot.start_time }}
-                                </strong>
-                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em>
-                                {% endif %}
-                           </td>
+                            {% set slotCouter = 0%}    
+                            {% for slot in slots %}
+                            {% set slotCouter = loop.index %} 
+                              {% if loop.index < 6%}  
+                                
+                              <td class="dark-gray-text">
+                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': attribute(slot,'startTime')|date('Y-m-d'), 'timeSlotStart': attribute(slot,'startTime')|date('H:i'), 'serviceIds': options.service.id}) }}"><strong>{{ attribute(slot,'startTime')|date('H:i') }}</strong></a>    
+                                  <br>
+                                  <em>
+                                      <small>{{ attribute(slot,'startTime')|date('d M Y') }}</small>
+                                  </em>
+                              </td>  
+                              {% endif %}  
+                              
                             {% endfor %}
                         </tr>
                     </tbody>

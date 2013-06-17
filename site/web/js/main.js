@@ -53,13 +53,16 @@ $(document).ready(function() {
         var link_text = $(this).text();
         
         if(link_text == "more"){
+            console.log('more...');
             $('.CollapseTimeSlots').hide();
             $('.CollapseTimeSlots').siblings(".slot-expander").children(".showHiddenSlots").text("more");            
             $('.CollapseTimeSlots').removeClass("CollapseTimeSlots");
             
             $('.a_consultant_'+consultant_id).text("less");
             $('.li_consultant_'+consultant_id).addClass("CollapseTimeSlots");
+            $('.CollapseTimeSlots').show();
         }else{
+            console.log('less...');
             $('.a_consultant_'+consultant_id).text("more");
             $('.CollapseTimeSlots').hide();
             

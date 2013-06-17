@@ -41,8 +41,6 @@ class LoadConsultant extends AbstractFixture implements OrderedFixtureInterface 
         $arrConsultant = array(
                 'gender' => $this->getReference('gender-female'),
                 'company' => $this->getReference('company-sonny'),
-                'startTimeSlot' => $this->getReference('time-slot-8-00'),
-                'endTimeSlot' => $this->getReference('time-slot-17-00'),
                 'appointmentDuration' => $this->getReference('service-30'),
                 'firstName' => 'Lisa',
                 'lastName' => 'Joy',

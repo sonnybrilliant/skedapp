@@ -26,6 +26,30 @@ sked_app_consultant_edit:
         id:  \d+
         _method:  GET
         _format:  html
+        
+sked_app_consultant_manage_timeslots:
+    pattern:  /consultant/manage/timeslots/{slug}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:manageTimeslots , _format: html }
+    requirements:
+        id:  \d+
+        _method:  GET
+        _format:  html
+        
+sked_app_consultant_edit_timeslots:
+    pattern:  /consultant/edit/timeslots/{slug}/{slot}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:editTimeslots , _format: html }
+    requirements:
+        id:  \d+
+        _method:  GET
+        _format:  html
+        
+sked_app_consultant_update_timeslots:
+    pattern:  /consultant/update/timeslots/{slug}/{slot}.{_format}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:updateTimeslots , _format: html }
+    requirements:
+        id:  \d+
+        _method:  GET|POST
+        _format:  html
 
 sked_app_consultant_update:
     pattern:  /consultant/update/{slug}.{_format}
@@ -108,6 +132,14 @@ sked_app_consultant_ajax_get_all_bookings:
         consultantId:  \d+
         _method:  GET
         _format:  html
+    options:
+        expose: true
+        
+sked_app_consultant_ajax_delete_timeslot:
+    pattern:  /consultant/ajax/timeslot/{slot}/{startTime}
+    defaults: { _controller: SkedAppConsultantBundle:Consultant:ajaxRemoveSlots }
+    requirements:
+        _method:  GET|POST
     options:
         expose: true
 

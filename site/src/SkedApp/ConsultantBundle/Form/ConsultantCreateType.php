@@ -62,16 +62,6 @@ class ConsultantCreateType extends AbstractType
                 'second_options' => array('label' => 'Confirm Email address:'),
                 'invalid_message' => 'Email addresses do not match',
             ))
-//            ->add('company', 'entity', array(
-//                'class' => 'SkedAppCoreBundle:Company',
-//                'label' => 'Company:',
-//                'attr' => array('class' => 'span12 chosen'),
-//                'query_builder' => function(EntityRepository $er) {
-//                    return $er->createQueryBuilder('c')
-//                        ->where('c.isDeleted = :status')
-//                        ->setParameter('status', false);
-//                },
-//            ))
             ->add('gender', 'entity', array(
                 'class' => 'SkedAppCoreBundle:Gender',
                 'label' => 'Gender:',
@@ -136,16 +126,6 @@ class ConsultantCreateType extends AbstractType
             ->add('sunday', 'checkbox', array(
                 'label' => 'S',
                 'required' => false,
-            ))
-            ->add('startTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Time from:',
-                'attr' => array('class' => 'span6')
-            ))
-            ->add('endTimeslot', 'entity', array(
-                'class' => 'SkedAppCoreBundle:Timeslots',
-                'label' => 'Time to:',
-                'attr' => array('class' => 'span3')
             ))
             ->add('appointmentDuration', 'entity', array(
                 'class' => 'SkedAppCoreBundle:AppointmentDuration',

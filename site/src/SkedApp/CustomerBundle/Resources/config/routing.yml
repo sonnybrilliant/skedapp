@@ -1,6 +1,9 @@
 sked_app_customer_list:
-    pattern:  /customer/list
-    defaults: { _controller: SkedAppCustomerBundle:Customer:list }
+    pattern:  /customer/list.{_format}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:list , _format: html }
+    requirements:
+        _method:  GET
+        _format:  html     
 
 sked_app_customer_show:
     pattern:  /customer/show/{id}
@@ -13,6 +16,13 @@ sked_app_customer_delete:
     defaults: { _controller: SkedAppCustomerBundle:Customer:delete }
     requirements:
         id:  \d+
+        
+sked_app_customer_download_csv:
+    pattern:  /customer/download/csv.{_format}
+    defaults: { _controller: SkedAppCustomerBundle:Customer:csv , _format: html }
+    requirements:
+        _method:  GET
+        _format:  html  
 
 sked_app_customer_list_bookings:
     pattern:  /customer/bookings/list/

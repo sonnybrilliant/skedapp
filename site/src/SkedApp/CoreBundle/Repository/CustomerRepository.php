@@ -23,13 +23,15 @@ class CustomerRepository extends EntityRepository
     {
 
         $defaultOptions = array(
+            'searchText' => '',
             'sort' => 'c.id',
             'direction' => 'asc'
         );
 
         foreach ($options as $key => $values) {
-            if (!$values)
+            if (!$values){
                 $options[$key] = $defaultOptions[$key];
+            }    
         }
 
         $qb = $this->createQueryBuilder('c')->select('c');
