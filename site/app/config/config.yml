@@ -8,8 +8,8 @@ parameters:
     mailer_from_name: "SkedApp"
     web_path: %kernel.root_dir%/../web
     site_url: %site_path%
-    mono_log_subject: "Test:Error"
-    mono_log_email: "dev@creativecloud.co.za"
+    mono_log_subject: %mono_email_subject%
+    mono_log_email: %mono_email_address%
 
 framework:
     #esi:             ~
@@ -32,6 +32,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         web_path: %web_path%
+        site_path: "%site_path%"
 
 # Assetic Configuration
 assetic:
@@ -71,7 +72,10 @@ swiftmailer:
     auth_mode:  login
     encryption: tls
     port:  587
-    logging:  "%kernel.debug%"
+    logging:  "%kernel.debug%"    
+#    spool:     
+#       type: file
+#       path: "%kernel.root_dir%/spool"
 
 monolog:
     handlers:
@@ -127,7 +131,7 @@ stfalcon_tinymce:
             theme_advanced_buttons3: ""
             theme_advanced_toolbar_location: "top"
             theme_advanced_toolbar_align: "left"
-            theme_advanced_path: false 
+            theme_advanced_path: false
             theme_advanced_statusbar_location: "none"
             plugins: "fullscreen"
             theme_advanced_buttons1_add: "fullscreen"

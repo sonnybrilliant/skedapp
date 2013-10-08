@@ -6,3 +6,8 @@ site/nbproject/
 site/src/SkedApp/CoreBundle/Entity/*.php~
 site/web/bundles/
 /app/skedapp/nbproject/private/
+/site/app/config/parameters.yml.old
+/site/app/config/config.yml
+
+/site/app/config/config.yml.arno
+/site/app/config/config.yml.original

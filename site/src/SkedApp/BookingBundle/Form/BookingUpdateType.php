@@ -92,7 +92,7 @@ class BookingUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Customer',
                 'label' => 'Customer:',
                 'empty_value' => 'Select a customer',
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -110,7 +110,7 @@ class BookingUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:CustomerPotential',
                 'label' => 'Offline Customer:',
                 'empty_value' => 'Select an offline customer',
-                'attr' => array('class' => 'span12 chosen'),
+                'attr' => array('class' => 'span12'),
                 'required' => false,
                 'query_builder' => function(EntityRepository $er) {
                      return $er->createQueryBuilder('c')
@@ -119,7 +119,7 @@ class BookingUpdateType extends AbstractType
                         ->andWhere('c.isActive  = :isActive')
                         ->setParameters(array(
                             'status' => false,
-                            'enabled' => true,
+                            'enabled' => false,
                             'isActive' => true
                         ));
                 },
@@ -139,10 +139,10 @@ class BookingUpdateType extends AbstractType
                 'attr' => array('class' => 'tinymce span12', 'data-theme' => 'simple'),
                 'required' => false
             ))
-            ->add('isLeave', 'checkbox', array(
-                'label' => 'Blocked out:',
-                'required' => false,
-            ))
+//            ->add('isLeave', 'checkbox', array(
+//                'label' => 'Blocked out:',
+//                'required' => false,
+//            ))
             ->add('isConfirmed', 'checkbox', array(
                 'label' => 'Is confirmed:',
                 'required' => false,
@@ -151,6 +151,12 @@ class BookingUpdateType extends AbstractType
                 'class' => 'SkedAppCoreBundle:Service',
                 'label' => 'Services:',
                 'multiple' => false,
+                'required' => false,
+                'attr' => array('class' => 'span12'),
+            ))
+            ->add('bookingStatus', 'entity', array(
+                'class' => 'SkedAppCoreBundle:BookingStatus',
+                'label' => 'Status:',
                 'required' => false,
                 'attr' => array('class' => 'span12'),
             ));

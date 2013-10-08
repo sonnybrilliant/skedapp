@@ -16,7 +16,7 @@ DIR=`php -r "echo dirname(dirname(realpath('$0')));"`
 
 echo "Clearing cache on app/cache app/logs"
 echo "==========================================="
-sudo rm -Rf app/cache/* app/logs/*
+sudo rm -Rf app/cache/* app/logs/* app/spool/*
 
 sudo php app/console doctrine:schema:update --force
 
@@ -26,8 +26,8 @@ sudo php app/console cache:warmup
 
 echo "Setting Permissions on app/cache app/logs "
 echo "==========================================="
-sudo chmod 0777 -R app/cache/ app/logs/ web/uploads/
-sudo chmod 0777 -R app/cache/* app/logs/* web/uploads/*
+sudo chmod 0777 -R app/cache/ app/logs/ web/uploads/ app/spool/
+sudo chmod 0777 -R app/cache/* app/logs/* web/uploads/* app/spool/*
 
 echo "Installing assets "
 sudo php app/console assets:install --symlink web

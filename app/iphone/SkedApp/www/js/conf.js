@@ -11,7 +11,6 @@ var Conf =
         //_url: "http://skedapp.kaizania.co.za/app_dev.php/api/get/"
         _baseUrl: "http://skedapp.kaizania.co.za/app_dev.php",
         _url:"http://skedapp.kaizania.co.za"
-      
     },
     methods:
     {

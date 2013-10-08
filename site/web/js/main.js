@@ -24,12 +24,55 @@ function updateConsultantServices(consultantSelect) {
 }
 
 $(document).ready(function() {
-
+    $('a.lightbox').lightBox();
+    $('a.lightbox1').lightBox();
+    $('a.lightbox2').lightBox();
+    $('a.lightbox3').lightBox();
+    $('a.lightbox4').lightBox();
+    $('a.lightbox5').lightBox();
+    
     $('select.chosen').chosen();
     $('span.chosen select').chosen();
-
+    
+     
     $('.inputHelper').click(function() {
        $(this).val("");
+    });
+    
+    
+    $('.hiddenTimeSlots').hide(); 
+    $('.showHiddenSlots').click(function(e){
+        var className = $(this).attr('class');
+        var tmp = className.split(' ');
+        var str  = tmp[0];
+        
+        tmp = str.split('_');
+        var consultant_id = tmp[2];
+        $('.li_consultant_'+consultant_id).toggle();
+        
+        var link_text = $(this).text();
+        
+        if(link_text == "more"){
+            console.log('more...');
+            $('.CollapseTimeSlots').hide();
+            $('.CollapseTimeSlots').siblings(".slot-expander").children(".showHiddenSlots").text("more");            
+            $('.CollapseTimeSlots').removeClass("CollapseTimeSlots");
+            
+            $('.a_consultant_'+consultant_id).text("less");
+            $('.li_consultant_'+consultant_id).addClass("CollapseTimeSlots");
+            $('.CollapseTimeSlots').show();
+        }else{
+            console.log('less...');
+            $('.a_consultant_'+consultant_id).text("more");
+            $('.CollapseTimeSlots').hide();
+            
+            
+        }
+
+        //var link_parent = this.parent();
+        //$(this).parent().siblpings().show();
+        //link_parent.sublings('.hiddenTimeSlots').show();
+        return false;
     });
 
     //update services
@@ -65,13 +108,49 @@ $(document).ready(function() {
             }
         });
     });
+    
+    //update consultants
+    $('#Booking_Consultants_company').change(function(){
+        var companyId = this.value;
+        
+        $.getJSON(Routing.generate('sked_app_consultant_ajax_get_by_company', {
+            companyId: companyId
+        }, true),function(response){
+            if(response.results){
+
+                var el = $('#Booking_Consultants_consultant');
+                el.empty();
+                el.removeAttr("disabled");
+                $.each(response.results, function(key,value) {
+
+                    selectedService = false;
+
+                    //Check if service should be selected
+                    if (response.selectedServices) {
+                        $.each(response.selectedServices, function(count,serviceId) {
+                            if (serviceId == value.id) {
+                                selectedService = true;
+                            }
+                        });
+                    }
+
+                    el.append($("<option></option>")
+                        .attr("value", value.id).text(value.name).attr('selected', selectedService));
+
+                });
+            }
+        });
+    });
+    
+    
+    
 
     //update services
     $('#Booking_consultant').change(function(){
         updateConsultantServices($('#Booking_consultant'));
     });
 
-    updateConsultantServices($('#Booking_consultant'));
+    //updateConsultantServices($('#Booking_consultant'));
 
     //Run the ajax call to show only selected services
     var categoryId = 0;
@@ -118,6 +197,16 @@ $(document).ready(function() {
     if (navigator.userAgent.indexOf('Chrome/2') != -1) {
         $('input[type=date]').on('click', function(event) {
             event.preventDefault();
+        });
+    }
+
+    if (jQuery.ui) {
+        $( ".datePicker" ).datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            minDate: 0,
+            //maxDate: "+1M +10D",
+            dateFormat: 'dd-mm-yy'
         });
     }
 

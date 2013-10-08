@@ -1,26 +1,35 @@
-<div class="spacer2"></div>
-<form class="form-horizontal" action="{{ path('sked_app_booking_create') }}" method="POST" {{ form_enctype(form) }}>
+<form action="{{ path('sked_app_booking_create',{'type':type}) }}.html" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <div class="control-group">
-        <label class="control-label" for="time_slots">Date and time</label>
+      <div class="control-group {% if form_errors(form.appointmentDate) %} error {% endif %}">
+        <span class="control-label" for="appointment_date">{{ form_label(form.appointmentDate) }}</span>
         <div class="controls">
-            <div class="date-time">
-                <div class="date-container time-slots">
-                    Date:&nbsp;{{ form_widget(form.appointmentDate) }}
-                </div>
-                <div class="start-time-container time-slots pull-left">
-                    Start time:{{ form_widget(form.startTimeslot) }}
-                </div>
-                <div class="time-slots">
-                    End time:{{ form_widget(form.endTimeslot) }}
-                </div>
-            </div>
-       </div>
+          {{ form_widget(form.appointmentDate) }}
+          <span class="help-inline">{{form_errors(form.appointmentDate)}}</span>
+        </div>
       </div>
-
-      <div class="control-group {% if form_errors(form.customerOrNot) %} error {% endif %}">
-        <label class="control-label" for="customer">{{ form_label(form.customerOrNot) }}</label>
+      <div class="control-group {% if form_errors(form.startTimeslot) %} error {% endif %}">
+        <span class="control-label" for="start_timeslot">{{ form_label(form.startTimeslot) }}</span>
         <div class="controls">
+          {{ form_widget(form.startTimeslot) }}
+          <span class="help-inline">{{form_errors(form.startTimeslot)}}</span>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="start_timeslot">Override end time:</label>
+        <div class="controls">
+            <input type="checkbox" name="override" id="override" value="" />
+        </div>
+      </div>
+          <div style="display: none" class="endtime control-group {% if form_errors(form.endTimeslot) %} error {% endif %}">
+        <span class="control-label" for="end_timeslot">{{ form_label(form.endTimeslot) }}</span>
+        <div class="controls">
+          {{ form_widget(form.endTimeslot) }}
+          <span class="help-inline">{{form_errors(form.endTimeslot)}}</span>
+        </div>
+      </div>
+      <div class="control-group {% if form_errors(form.customerOrNot) %} error {% endif %}">
+        <span class="control-label" for="customer">{{ form_label(form.customerOrNot) }}</span>
+        <div class="controls font-reg">
           {{ form_widget(form.customerOrNot) }}
           <span class="help-inline">{{form_errors(form.customerOrNot)}}</span>
         </div>
@@ -28,7 +37,7 @@
 
       <div id="divCustomerSelect">
           <div class="control-group {% if form_errors(form.customer) %} error {% endif %}">
-            <label class="control-label" for="customer">{{ form_label(form.customer) }}</label>
+            <span class="control-label" for="customer">{{ form_label(form.customer) }}</span>
             <div class="controls">
               {{ form_widget(form.customer) }}
               <span class="help-inline">{{form_errors(form.customer)}}</span>
@@ -39,7 +48,7 @@
       <div id="divCustomerPotentialSelect">
 
           <div class="control-group {% if form_errors(form.customerPotential) %} error {% endif %}">
-            <label class="control-label" for="customer_potential">{{ form_label(form.customerPotential) }}</label>
+            <span class="control-label" for="customer_potential">{{ form_label(form.customerPotential) }}</span>
             <div class="controls">
               {{ form_widget(form.customerPotential) }}
               <span class="help-inline">{{form_errors(form.customerPotential)}}</span>
@@ -48,7 +57,7 @@
 
           <div id="divCustomerPotentialCreate">
               <div class="control-group {% if form_errors(formCustomerPotential.firstName) %} error {% endif %}">
-                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.firstName) }}</label>
+                <span class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.firstName) }}</span>
                 <div class="controls">
                   {{ form_widget(formCustomerPotential.firstName) }}
                   <span class="help-inline">{{form_errors(formCustomerPotential.firstName)}}</span>
@@ -58,7 +67,7 @@
 
           <div id="divCustomerPotentialCreate">
               <div class="control-group {% if form_errors(formCustomerPotential.lastName) %} error {% endif %}">
-                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.lastName) }}</label>
+                <span class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.lastName) }}</span>
                 <div class="controls">
                   {{ form_widget(formCustomerPotential.lastName) }}
                   <span class="help-inline">{{form_errors(formCustomerPotential.lastName)}}</span>
@@ -68,7 +77,7 @@
 
           <div id="divCustomerPotentialCreate">
               <div class="control-group {% if form_errors(formCustomerPotential.email) %} error {% endif %}">
-                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.email) }}</label>
+                <span class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.email) }}</span>
                 <div class="controls">
                   {{ form_widget(formCustomerPotential.email) }}
                   <span class="help-inline">{{form_errors(formCustomerPotential.email)}}</span>
@@ -78,7 +87,7 @@
 
           <div id="divCustomerPotentialCreate">
               <div class="control-group {% if form_errors(formCustomerPotential.mobileNumber) %} error {% endif %}">
-                <label class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.mobileNumber) }}</label>
+                <span class="control-label" for="customer_potential">{{ form_label(formCustomerPotential.mobileNumber) }}</span>
                 <div class="controls">
                   {{ form_widget(formCustomerPotential.mobileNumber) }}
                   <span class="help-inline">{{form_errors(formCustomerPotential.mobileNumber)}}</span>
@@ -89,35 +98,28 @@
       </div>
 
       <div class="control-group {% if form_errors(form.consultant) %} error {% endif %}">
-        <label class="control-label" for="consultants">{{ form_label(form.consultant) }}</label>
+        <span class="control-label" for="consultants">{{ form_label(form.consultant) }}</span>
         <div class="controls">
           {{ form_widget(form.consultant) }}
           <span class="help-inline">{{form_errors(form.consultant)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.isConfirmed) %} error {% endif %}">
-        <label class="control-label" for="leave">{{ form_label(form.isConfirmed) }}</label>
+        <span class="control-label" for="leave">{{ form_label(form.isConfirmed) }}</span>
         <div class="controls">
           {{ form_widget(form.isConfirmed) }}
           <span class="help-inline">{{form_errors(form.isConfirmed)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.service) %} error {% endif %}">
-        <label class="control-label" for="consultant_services">{{ form_label(form.service) }}</label>
+        <span class="control-label" for="consultant_services">{{ form_label(form.service) }}</span>
         <div class="controls">
           {{ form_widget(form.service) }}
           <span class="help-inline">{{form_errors(form.service)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.isLeave) %} error {% endif %}">
-        <label class="control-label" for="leave">{{ form_label(form.isLeave) }}</label>
-        <div class="controls">
-          {{ form_widget(form.isLeave) }}
-          <span class="help-inline">{{form_errors(form.isLeave)}}</span>
-        </div>
-      </div>
       <div class="control-group {% if form_errors(form.description) %} error {% endif %}">
-        <label class="control-label" for="description">{{ form_label(form.description) }}</label>
+        <span class="control-label" for="description">{{ form_label(form.description) }}</span>
         <div class="controls">
           {{ form_widget(form.description) }}
           <span class="help-inline">{{form_errors(form.description)}}</span>
@@ -125,10 +127,14 @@
       </div>
       <div class="btn-toolbar pull-right">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Create &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn btn-small">Cancel</a>
+                    &nbsp;&nbsp;
+          {% if type == 1 %}
+                    <a href="{{ path('sked_app_booking_manage_calender_show') }}" class="btn">Cancel</a>
+          {% else %} 
+                    <a href="{{ path('sked_app_booking_manage_show') }}" class="btn">Cancel</a>
+          {% endif %}           
       </div>
       {{ form_rest(form) }}
   </fieldset>
 </form>
 {{ tinymce_init() }}
-

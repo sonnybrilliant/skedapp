@@ -65,7 +65,7 @@
                                     <div class="span2">
                                       <p><strong>Full name</strong>: {{ consultant.firstName }} {{ consultant.lastName }}</p>
                                       <p><strong>Gender</strong>: {{ consultant.gender.name }}</p>
-                                      <p><strong>Employer</strong>: {{ consultant.company.name }}</p>
+                                      <p><strong>Employer</strong>: <a href="{{ path('sked_app_service_provider_show',{'id':consultant.company.id})}}.html" title="View service provider profile">{{ consultant.company.name }}</a></p>
                                       <p><strong>Speciality</strong>: <br /> {{ consultant.speciality|raw }}</p>
                                       <p><strong>Professional Statement</strong>: <br /> {{ consultant.professionalStatement|raw }}</p>
 

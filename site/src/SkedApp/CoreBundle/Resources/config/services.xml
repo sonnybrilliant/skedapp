@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="kernel_listener_login_redirect_class">SkedApp\CoreBundle\EventListener\SecurityListener</parameter>
         <parameter key="status_manager.class">SkedApp\CoreBundle\Services\StatusManager</parameter>   
+        <parameter key="days_of_the_week_manager.class">SkedApp\CoreBundle\Services\DaysOfTheWeekManager</parameter>   
         <parameter key="utility_manager.class">SkedApp\CoreBundle\Services\UtilityManager</parameter> 
         <parameter key="email_manager.class">SkedApp\CoreBundle\Services\EmailerManager</parameter>  
         <parameter key="notification_manager.class">SkedApp\CoreBundle\Services\NotificationsManager</parameter>  
@@ -24,13 +25,18 @@
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service>         
+        <service id="days_of_the_week_manager.manager" class="%days_of_the_week_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="logger" />
+        </service>         
         <service id="utility.manager" class="%utility_manager.class%">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
         </service> 
-        <service id="email.manager" class="%email_manager.class%">
+        <service id="email.manager" class="%email_manager.class%" scope="request">
             <argument type="service" id="service_container" />
             <argument type="service" id="logger" />
+            <argument type="service" id="router" />
         </service>                    
         <service id="notification.manager" class="%notification_manager.class%">
             <argument type="service" id="service_container" />

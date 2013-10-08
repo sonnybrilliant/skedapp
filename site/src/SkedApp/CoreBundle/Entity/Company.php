@@ -46,7 +46,7 @@ class Company
     /**
      * @var string $accountNumber
      *
-     * @ORM\Column(name="description", type="string", length=254, nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     protected $description;
 
@@ -121,8 +121,8 @@ class Company
      * @Assert\File(
      * maxSize="1M",
      * maxSizeMessage= "The file is too large ({{ size }}). Allowed maximum size is {{ limit }}",
-     * mimeTypes = {"image/jpeg", "image/jpg"},
-     * mimeTypesMessage = "Please upload a valid image file, we current only support jpeg.",
+     * mimeTypes = {"image/jpeg", "image/jpg" , "image/png"},
+     * mimeTypesMessage = "Please upload a valid image file, we only support jpeg and png.",
      * uploadErrorMessage = "The file could not be uploaded"
      * )
      */

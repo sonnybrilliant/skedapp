@@ -1,6 +1,8 @@
 sked_app_search_query:
-    pattern:  /search/results
-    defaults: { _controller: SkedAppSearchBundle:Search:results }
+    pattern:  /search/results.{_format}
+    defaults: { _controller: SkedAppSearchBundle:Search:results , _format: html}
+    requirements:    
+        _format:  html      
 
 sked_app_search_ajax_get_services_by_category:
     pattern:  /search/ajaxGetServicesByCategory/{categoryId}
@@ -9,3 +11,8 @@ sked_app_search_ajax_get_services_by_category:
         categoryId:  \d+
     options:
         expose: true
+
+
+sked_app_search_consultant_timeslots:
+    pattern:  /search/showResults/{paginator}/{serviceId}/{options}
+    defaults: { _controller: SkedAppSearchBundle:Search:showResults }

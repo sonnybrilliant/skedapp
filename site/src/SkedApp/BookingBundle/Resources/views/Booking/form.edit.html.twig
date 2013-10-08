@@ -1,24 +1,30 @@
 <div class="spacer2"></div>
-<form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id }) }}" method="POST" {{ form_enctype(form) }}>
+<form class="form-horizontal" action="{{ path('sked_app_booking_update' , {'bookingId':id, 'page': page }) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
+      {% if customer.fullName != ""%}
       <div class="control-group">
         <label class="control-label" for="consultants">Customer Name:</label>
         <div class="controls">
           {{ customer.fullName }}
         </div>
       </div>
+      {% endif %}
+      {% if customer.mobileNumber != ""%}    
       <div class="control-group">
         <label class="control-label" for="consultants">Customer Mobile Number:</label>
         <div class="controls">
           {{ customer.mobileNumber }}
         </div>
       </div>
+      {% endif %} 
+      {% if customer.email != ""%}    
       <div class="control-group">
         <label class="control-label" for="consultants">Customer E-Mail:</label>
         <div class="controls">
           <a href="mailto:{{ customer.email }}">{{ customer.email }}</a>
         </div>
       </div>
+      {% endif %}    
       <div class="control-group">
         <label class="control-label" for="time_slots">Date and time:</label>
         <div class="controls">
@@ -120,11 +126,11 @@
           <span class="help-inline">{{form_errors(form.service)}}</span>
         </div>
       </div>
-      <div class="control-group {% if form_errors(form.isLeave) %} error {% endif %}">
-        <label class="control-label" for="leave">{{ form_label(form.isLeave) }}</label>
+      <div class="control-group {% if form_errors(form.bookingStatus) %} error {% endif %}">
+        <label class="control-label" for="booking_status">{{ form_label(form.bookingStatus) }}</label>
         <div class="controls">
-          {{ form_widget(form.isLeave) }}
-          <span class="help-inline">{{form_errors(form.isLeave)}}</span>
+          {{ form_widget(form.bookingStatus) }}
+          <span class="help-inline">{{form_errors(form.bookingStatus)}}</span>
         </div>
       </div>
       <div class="control-group {% if form_errors(form.isConfirmed) %} error {% endif %}">
@@ -143,7 +149,12 @@
       </div>
       <div class="btn-toolbar pull-right">
           <button type="submit" name="submit" class="btn btn-warning" data-toggle="button">Update &nbsp;&nbsp;<i class="icon-white icon-circle-arrow-right"></i></button>
-                    &nbsp;&nbsp;<a href="{{ path('sked_app_booking_manager') }}" class="btn">Cancel</a>
+                    &nbsp;&nbsp;
+          {% if page == "calender" %}
+                    <a href="{{ path('sked_app_booking_manage_calender_show') }}" class="btn">Cancel</a>
+          {% else %} 
+                    <a href="{{ path('sked_app_booking_manage_show') }}" class="btn">Cancel</a>
+          {% endif %}          
       </div>
       {{ form_rest(form) }}
   </fieldset>

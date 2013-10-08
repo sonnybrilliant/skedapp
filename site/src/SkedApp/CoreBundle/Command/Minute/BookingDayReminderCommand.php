@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * SkedApp\CoreBundle\Command\Minute\BookingDayReminderCommand
- * 
+ *
  * Send booking reminder  on the day 07:00 am
  *
  * @author Ronald Conco <ronald.conco@gmail.com>

@@ -28,7 +28,8 @@
         "friendsofsymfony/jsrouting-bundle": "1.0.*",
         "egeloen/google-map-bundle": "*",
         "kriswallsmith/buzz": "*",
-        "willdurand/geocoder": "*"
+        "willdurand/geocoder": "*",
+        "ee/dataexporter-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

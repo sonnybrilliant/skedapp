@@ -10,6 +10,20 @@ _security_check:
 _security_logout:
     pattern:  /logout    
 
+_site_privacy_policy:
+    pattern: /privacy-policy.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Site:privacy , _format: html }
+    requirements:
+        _method: GET
+        _format:  html 
+        
+_site_terms_of_use:
+    pattern: /terms-of-use.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Site:terms , _format: html }
+    requirements:
+        _method: GET
+        _format:  html     
+
 sked_app_invite_friends_loggedin:
     pattern: /invite/friend.{_format}
     defaults: { _controller: SkedAppCoreBundle:Invite:inviteLoggedIn , _format: html }
@@ -22,4 +36,30 @@ sked_app_invite_friends_consultant:
     defaults: { _controller: SkedAppCoreBundle:Invite:inviteConsultant , _format: html }
     requirements:
         _method: GET|POST 
-        _format:  html        
+        _format:  html   
+
+_security_access_denied:
+    pattern:  /accessdenied  
+    defaults: { _controller: SkedAppCoreBundle:Security:accessDenied , _format: html }  
+    
+_test_internal_error:
+    pattern:  /test500  
+    defaults: { _controller: SkedAppCoreBundle:Security:test500 , _format: html } 
+    
+_test_time_slots:
+    pattern:  /testtime  
+    defaults: { _controller: SkedAppCoreBundle:Security:test , _format: html }
+    
+sked_app_contact_us:
+    pattern: /contactUs.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Site:contactUs , _format: html }
+    requirements:
+        _method: GET|POST 
+        _format:  html   
+        
+sked_app_about_us:
+    pattern: /aboutUs.{_format}
+    defaults: { _controller: SkedAppCoreBundle:Site:aboutUs , _format: html }
+    requirements:
+        _method: GET 
+        _format:  html       

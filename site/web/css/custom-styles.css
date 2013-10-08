@@ -5,7 +5,6 @@ html, body {
 	/*padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar (navigation) */
 	height: 100%;
 }
-
 #Booking_customerOrNot_0{
   float: left;
   margin-right: 5px;
@@ -19,39 +18,122 @@ html, body {
 .height100 {
   height:100%;
 }
-
-.image-dimensions180 {
-    width: 180px !important;
-    height: 100% !important;
+/*******************
+Styles for alert boxes
+*******************/
+.alert-error {
+    background-color: #da1921 !important;
+    border-color: #AC131A;
+    color: #FFFFFF;
+    text-shadow: none;
 }
-
+.alert-error h4 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.close {
+    color: #FFFFFF;
+    opacity: 0.9;
+    text-shadow: none;
+}
+.alert-success {
+    background-color: #a6c630;
+    border-color: #849C26;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+.alert-success h4 {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+/*******************
+Styles for images
+*******************/
+.image-dimensions80 {
+    width: 80px !important;
+    height: 80px !important;
+    overflow: hidden;
+}
+.polaroid-width80 {
+    width: 80px;
+}
+.polaroid-width120 {
+    width: 120px;
+    height: 120px;
+}
 .image-dimensions120 {
     width: 120px !important;
-    height: 100% !important;
+    max-height: 120px !important;
+    overflow: hidden;
 }
-
+.polaroid-width180 {
+    width: 180px;
+}
+.image-dimensions180 {
+    width: 180px !important;
+    height: 180px !important;
+    overflow: hidden;
+}
+.image-shadow {
+    width: 130px;
+    height: 137px;
+    background-image: url('../img/image-shadow.png');
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+.image-404{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/*******************
+Media Queries for screens with a width smaller than 1024
+*******************/
+@media screen and (max-width: 1024px) {
+    .image-dimensions120 {
+        width: 90px !important;
+        max-height: 90px !important;
+        overflow: hidden;
+    }
+    .polaroid-width120 {
+        width: 90px;
+        height: 90px;
+    }
+    .image-shadow {
+        width: 100px;
+        height: 106px;
+        background-image: url('../img/image-shadow100.png');
+        background-position: bottom;
+        background-repeat: no-repeat;
+    }
+    .med-gray-text {
+	font-size: 0.9em;
+    }
+}
+/*******************
+end of Styles for images
+*******************/
 #wrap {
-	min-height: 100%;
-	height: auto !important;
-	/*height: 100%;*/
-	margin: 0 auto -61px;
+    min-height: 100%;
+    height: auto !important;
+    /*height: 100%;*/
+    margin: 0 auto -61px;
 }
-
 .text-top{
-  vertical-align: text-top;
-  margin-left: 3px;
+    vertical-align: text-top;
+    margin-left: 3px;
 }
-
 .tab-content{
-  overflow:auto;
+    overflow:auto;
 }
-
 #nav-push {
- height: 60px;
+    height: 60px;
 }
-
 #push {
-	height: 80px;
+    height: 80px;
+}
+.spacer5-left{
+  margin-left: 5px;
 }
 
 /* Removed by Otto on 28 Deb 2013
@@ -126,11 +208,29 @@ html, body {
 	position: relative;
 	z-index: 2;
 }
-
+.message-background {
+	background-color: #959595;
+	border: 1px solid #959595;
+	-moz-box-shadow: inset 0px 0px 1px #ffffff;
+	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
+	box-shadow: inset 0px 0px 1px #ffffff;
+	margin-top: -1px;
+	position: relative;
+	z-index: 2;
+}
+.message-devider {
+        color: #FFFFFF;
+        font-weight: bold;
+}
 .white-bg {
 	background-color: #FFFFFF;
         border: 1px solid #ddd;
         padding: 10px;
+}
+.error-text-404 {
+  font-family: inherit;
+  color: #333;
+  text-align: center;
 }
 .whiteText{
     color: #ffffff;
@@ -184,36 +284,36 @@ html, body {
     padding-right: 20px !important;
 }
 .space-right7 {
-	margin-right: 7px;
+    margin-right: 7px;
 }
 
 .service-add-buttons{
-  width: 350px;
+    width: 350px;
 }
 .member-add-buttons{
-  width: 355px;
+    width: 355px;
 }
 .consultant-add-buttons{
-  width: 371px
+    width: 371px
 }
 .booking-add-buttons{
-  width: 372px
+    width: 372px
 }
 .category-add-buttons{
-  width: 358px;
+    width: 358px;
 }
 .service-provider-add-buttons{
-  width: 416px;
+    width: 416px;
 }
 
 .whiteBackground{
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 10px 0 0 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px 0 0 0;
 }
 
 .dark-gray-text{
-  color: #333;
+    color: #333;
 }
 .image-dimensions20 {
     width: 20px !important;
@@ -224,7 +324,7 @@ html, body {
     height: auto;
 }
 .asterisk {
-	color: #F00;
+    color: #F00;
 }
 /*********************
 Custom Styles
@@ -295,6 +395,19 @@ Generic Styles
 	-moz-border-radius-bottomleft: 10px;
 	border-bottom-left-radius: 10px;
 }
+.rounded-cross {
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-right-radius: 10px;
+}
+.rounded-top-right {
+    -webkit-border-top-right-radius: 10px;
+    -moz-border-radius-topright: 10px;
+    border-top-right-radius: 10px;
+}
 .body-secondary {
 	color: #333333;
 	background-color: #eeeeee;
@@ -307,48 +420,48 @@ Generic Styles
 Page Styles
 *********************/
 .logo {
-	padding-left: 1.25em;
+    padding-left: 1.25em;
 }
 
 .logo-other {
-  display: block;
-  margin-top: 0.1em;
-  padding-left: 3.75em;
-  padding-bottom: 2em;
-  padding-top: 1.1em;
-  width: auto;
+    display: block;
+    margin-top: 0.1em;
+    padding-left: 3.75em;
+    padding-bottom: 2em;
+    padding-top: 1.1em;
+    width: auto;
 }
 
-.date-time{
+.date-time {
   border: 1px solid #ccc;
   padding: 10px;
   width: 389px;
 }
-.start-time-container{
+.start-time-container {
   width: 198px;
 }
-.date-container{
+.date-container {
   width: 240px;
 }
 .time-slots {
   margin: 8px 8px 0 0;
   padding-top: 5px;
 }
-.space-right-bottom{
+.space-right-bottom {
   margin-bottom: 10px;
 }
 
-.space-right-bottom25{
+.space-right-bottom25 {
   margin-bottom: 25px;
 }
 
-#BookingMessage_messageText{
+#BookingMessage_messageText {
   width: 78%;
 }
-.bookingDetails{
+.bookingDetails {
   width: 100%;
 }
-.paddingBottom5px{
+.paddingBottom5px {
   margin-bottom: 5px;
 }
 .row-fluid.body-main .span5 {
@@ -375,12 +488,13 @@ Page Styles
 	padding: 0;
 	background-color: #ffffff;
 	border: 1px solid #025b99;
-	-webkit-border-bottom-left-radius: 10px;
+	/*-webkit-border-bottom-left-radius: 10px;
 	-moz-border-radius-bottomleft: 10px;
 	border-bottom-left-radius: 10px;
 	-webkit-border-top-right-radius: 10px;
 	-moz-border-radius-topright: 10px;
-	border-top-right-radius: 10px;
+	border-top-right-radius: 10px;*/
+        /**** Removed corner styles and created .rounded-cross - Arno Hattingh ****/
 	-moz-box-shadow: inset 0px 0px 1px #ffffff;
 	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
 	box-shadow: inset 0px 0px 1px #ffffff;
@@ -428,18 +542,11 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
-
 .confirm-background {
 	margin: 0 0 -1px -1px;
 	padding: 0;
 	background-color: #ffffff;
 	border: 1px solid #9dae01;
-	-webkit-border-bottom-left-radius: 10px;
-	-moz-border-radius-bottomleft: 10px;
-	border-bottom-left-radius: 10px;
-	-webkit-border-top-right-radius: 10px;
-	-moz-border-radius-topright: 10px;
-	border-top-right-radius: 10px;
 	-moz-box-shadow: inset 0px 0px 1px #ffffff;
 	-webkit-box-shadow: inset 0px 0px 1px #ffffff;
 	box-shadow: inset 0px 0px 1px #ffffff;
@@ -458,7 +565,6 @@ Page Styles
 	padding: 1.25em;
 	z-index: 3;
 }
-
 .dash-forms-background {
 	padding: 1.25em 1.25em 0 1.25em;
 }
@@ -490,6 +596,14 @@ Page Styles
 	position:relative;
 	padding: 1.25em;
 	z-index: 3;
+}
+.forms-background .help-inline li {
+    color: #DA1921;
+    font-weight: bold;
+    list-style: none;
+    padding-top: 10px;
+    padding-left: 0px;
+    text-shadow: 1px 1px 0px #dddddd;
 }
 .consultant-background {
 	margin: -1px 0 -1px -1px;
@@ -555,40 +669,112 @@ Page Styles
   width: 100%;
 }
 select.span12{
-	border: 1px solid #bbb;
-	-moz-box-shadow: 0px 0px 0px #333333;
-	-webkit-box-shadow: 0px 0px 0px #333333;
-	box-shadow: 0px 0px 0px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+    border: none;
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    -webkit-appearance: none;
+    -moz-appearance: textfield !important;
+    appearance: search !important;
+    background-image: url('../img/chev-down.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    line-height: 1.1em;
 }
 .booking-background select.span12:active, .booking-background select.span12:focus, .forms-background select.span12:active, .forms-background select.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
 	-webkit-box-shadow: 0px 0px 5px #333333;
 	box-shadow: 0px 0px 5px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 }
-input.span12{
-	border: 1px solid #bbb;
-	-moz-box-shadow: 0px 0px 0px #333333;
-	-webkit-box-shadow: 0px 0px 0px #333333;
-	box-shadow: 0px 0px 0px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+input.span12 , input.span5{
+	border: none;
+	-moz-box-shadow: 0px 2px 2px #555;
+	-webkit-box-shadow: 0px 2px 2px #555;
+	box-shadow: 0px 2px 2px #555;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 	background-color:#FFFFFF;
 }
 .booking-background input.span12:active, .booking-background input.span12:focus, .forms-background input.span12:active, .forms-background input.span12:focus {
 	-moz-box-shadow: 0px 0px 5px #333333;
 	-webkit-box-shadow: 0px 0px 5px #333333;
 	box-shadow: 0px 0px 5px #333333;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	border-radius: 7px;
 }
+.input-prepend .add-on,.input-prepend input {
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+}
+/*********************
+Button Styles by Arno Hattingh
+*********************/
+.btn {
+    background-image: none !important;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    border-radius: 7px;
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+    border: none;
+}
+.btn-danger {
+    /*-moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;*/
+    background-image: none;
+}
+.btn-info {
+    /*-moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;*/
+    background-image: none;
+}
+.btn-primary {
+    /*-moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;*/
+    background-image: none;
+}
+.btn-warning {
+    /*-moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;*/
+    background-image: none;
+}
+input .btn-warning {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+input .btn {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+.forms-background .btn-warning {
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+}
+.consultant-background .btn-warning {
+    -moz-box-shadow: 0px 2px 2px #555;
+    -webkit-box-shadow: 0px 2px 2px #555;
+    box-shadow: 0px 2px 2px #555;
+}
+/*********************
+End of Button Styles
+*********************/
 
 /* Removed bby Otto on 28 Feb 2013
 .span7 .map-box {
@@ -604,16 +790,16 @@ input.span12{
 */
 
 .social-box {
-	padding: 0.5em;
+    padding: 0.5em;
     padding-right: 2.2em;
-	text-align: right;
+    text-align: right;
 }
 
 .facebook{
-  background-image:url('../img/fb.png');
-  height: 32px;
-  width: 32px;
-  position: absolute;
+    background-image:url('../img/fb.png');
+    height: 32px;
+    width: 32px;
+    position: absolute;
 }
 
 .twitter{
@@ -654,11 +840,11 @@ Dashboard Navigation
     border-width: 1px;
     color: #FFFFFF;
     cursor: default;
-	position: relative;
-	z-index: 4;
-	-moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-	-webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
-	box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+    position: relative;
+    z-index: 4;
+    -moz-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+    -webkit-box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
+    box-shadow: inset 0px 1px #02b2e9, inset 1px 0px #02b2e9, inset -1px 0px #02b2e9;
 }
 .nav-tabs > li > a:hover,
 .nav-tabs > li > a:focus {
@@ -697,14 +883,54 @@ Dashboard Navigation
 .table-heading-blue {
 	color: #FFFFFF;
 	background-color: #0394c8 !important;
-
+}
+.body-secondary .table-bordered {
+    border-top: none;
+    border-right: none;
+}
+.no-rounded-corner {
+    -webkit-border-top-right-radius: 0px !important;
+    -moz-border-radius-topright: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+.body-secondary tr td:last-of-type {
+    border-right: 1px solid #DDDDDD;
+}
+.white-bg tr td:last-of-type {
+    border-right: none;
 }
 .table-heading-orange {
-	color: #FFFFFF;
-	background-color: #ff9c05 !important;
+    color: #FFFFFF;
+    background-color: #ff9c05 !important;
+}
+.table-heading-blue {
+    color: #FFFFFF;
+    background-color: #0393c6 !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa');
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr = '#02b2e9', endColorstr = '#0379aa')";
+    background-image: -moz-linear-gradient(top, #02aee4, #0379aa);
+    background-image: -ms-linear-gradient(top, #02aee4, #0379aa);
+    background-image: -o-linear-gradient(top, #02aee4, #0379aa);
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#02aee4), to(#0379aa));
+    background-image: -webkit-linear-gradient(top, #02aee4, #0379aa);
+    background-image: linear-gradient(top, #02aee4, #0379aa);
+}
+.header-cutout-1 {
+    background-image: url('../img/header-sliced-1.png');
+    background-color: #EEEEEE !important;
+    color: #FFFFFF;
+    background-position: left;
+    background-repeat: no-repeat;
+}
+.header-cutout-2 {
+    background-image: url('../img/header-sliced-2.png');
+    background-color: #EEEEEE !important;
+    color: #FFFFFF;
+    background-position: left;
+    background-repeat: no-repeat;
 }
 .table-heading-orange a{
-  color: #fff;
+    color: #fff;
 }
 .table-valign {
 	vertical-align: middle !important;
@@ -736,22 +962,24 @@ Footer Styles
 }
 
 .map-container {
-	background-color: #ffffff;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    background-color: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     margin-right: 1.7em;
     padding: 1em;
 }
-
+.map-margin-fix {
+    margin-right: 0px !important;
+}
 .map-box #map_canvas {
     border: none;
     background-color: #FFFFFF;
     border-radius: 5px;
     height: 320px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .map-box-instructions {
@@ -788,4 +1016,50 @@ Fix re-Captcha label issue
 .recaptcha_input_area_text {
     line-height: normal !important;
     font-size: inherit !important;
+}
+
+.hide-div{
+    display: none;
+}
+
+.terms-conditions-links{
+  color: #fff;
+}
+.terms-conditions {
+    float: right;
+    margin-top: 2px;
+}
+.map-shadow {
+    background-image: url('../img/map-shadow.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 1170px;
+    height: 232px;
+    float: left;
+}
+.map-shadow #map_canvas {
+    border: 1px solid #454545;
+}
+.about-us-shadow {
+    background-image: url('../img/map-shadow.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 1170px;
+    height: 472px;
+    float: left;
+}
+.about-us-shadow-banner {
+    border: 1px solid #454545;
+}
+
+/*******************
+Code for Beta button *** TO BE REMOVED ***
+*******************/
+.beta-btn {
+    position: relative;
+    margin: 7px;
+}
+
+.font-reg label {
+    font-size: 14px !important;
 }

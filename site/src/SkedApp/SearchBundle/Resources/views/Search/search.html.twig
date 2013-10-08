@@ -1,25 +1,21 @@
 {% extends "SkedAppSearchBundle::layout.html.twig" %}
-{% block title %}Search Results{% endblock %}
+{% block title %}SkedApp | Search Results{% endblock %}
+
+{% block stylesheets %}
+<link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
+    <script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
+    <script src="{{ asset('/js/search-results.js') }}"></script>
+{% endblock javascripts %}
 
 {% block body %}
     {% include "SkedAppSearchBundle:Search:form.search.results.html.twig" with {'search_results': true} %}
     <div class="row-fluid content-devider"><!-- This is just a visual devider to seperate the content from the navigation --></div>
-
     {% if pagination is defined %}
         {% include "SkedAppSearchBundle:Search:search.results.display.html.twig" %}
     {% endif %}
-
-    {% block stylesheets %}
-    <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet">
-    {% endblock %}
-
-    {% block jquery_ui %}
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js'></script>
-        <script type='text/javascript' src='{{ asset('/js/jquery.ui.addresspicker.js') }}'></script>
-    {% endblock jquery_ui %}
-
-    {% block javascripts %}
-        <script src="{{ asset('/js/search-results.js') }}"></script>
-    {% endblock javascripts %}
 {% endblock %}

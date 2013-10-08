@@ -68,8 +68,8 @@
                {% endif %}
            </td>
            <td>{{ booking.isConfirmedString }}</td>
-           <td>{{ booking.hiddenAppointmentStartTime|date('M jS Y') }}</td>
-           <td>{{ booking.hiddenAppointmentStartTime|date('G:s a') }}</td>
+           <td>{{ booking.hiddenAppointmentStartTime|date('Y-m-d') }}</td>
+           <td>{{ booking.hiddenAppointmentStartTime|date('H:i') }}</td>
            <td>
                 <small>
                     <a href="{{ path('sked_app_customer_booking_details', {'id' : booking.id}) }}" rel="tooltip" title="click to view" class="btn btn-small btn-primary"><i class="icon-white icon-eye-open"></i>&nbsp;View</a>&nbsp;

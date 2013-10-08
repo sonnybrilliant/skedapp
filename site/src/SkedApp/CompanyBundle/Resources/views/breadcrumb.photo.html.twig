@@ -1,0 +1,14 @@
+
+<ul class="breadcrumb">
+    <li>
+        <a href="{{ path('_welcome')}}">Home</a> <span class="divider">/</span>
+    </li>
+    <li>
+        <a href="{{ path('sked_app_service_provider_list')}}">Service providers</a> <span class="divider">/</span>
+    </li>
+    <li>
+        <a href="{{ path('sked_app_service_provider_show',{'id': serviceProvider})}}.html">Service provider</a> <span class="divider">/</span>
+    </li>
+    <li class="active">{{ action }}</li>
+</ul>
+

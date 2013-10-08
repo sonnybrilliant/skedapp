@@ -1,12 +1,5 @@
 <form action="{{ path('sked_app_consultant_update',{'slug':consultant.slug}) }}" method="POST" {{ form_enctype(form) }}>
   <fieldset>
-      <div class="control-group {% if form_errors(form.company) %} error {% endif %}">
-          <div class="control-label" for="company">{{ form_label(form.company) }}</div>
-          <div class="controls">
-              {{ form_widget(form.company) }} 
-              <span class="help-inline">{{form_errors(form.company)}}</span>
-          </div>
-      </div>
       <div class="control-group {% if form_errors(form.firstName) %} error {% endif %}">
           <div class="control-label" for="first_name">{{ form_label(form.firstName) }}</div>
           <div class="controls">
@@ -26,6 +19,13 @@
           <div class="controls">
               {{ form_widget(form.gender) }} 
               <span class="help-inline">{{form_errors(form.gender)}}</span>
+          </div>
+      </div>
+      <div class="control-group {% if form_errors(form.email) %} error {% endif %}">
+          <div class="control-label" for="email">{{ form_label(form.email) }}</div>
+          <div class="controls">
+              {{ form_widget(form.email) }} 
+              <span class="help-inline">{{form_errors(form.email)}}</span>
           </div>
       </div>
       <div class="control-group {% if form_errors(form.picture) %} error {% endif %}">
@@ -65,10 +65,9 @@
       </div>
 
       <div class="control-group">
-         <label class="control-label" for="time_slots">Default time slots</label> 
-        <div class="controls">
-            <div style="border: 1px solid #ccc; padding: 5px;width: 96%;">
-                <table>
+          <div class="control-label" for="email_address"><label>Working days:</label></div>
+          <div class="controls">
+              <table>
                     <tr>
                         <td>Days:<td>
                         <td>&nbsp;{{ form_widget(form.monday) }}<strong class="text-top">M</strong>&nbsp;<td>
@@ -80,20 +79,14 @@
                         <td>&nbsp;{{ form_widget(form.sunday) }}<strong class="text-top">S</strong>&nbsp;</td>
                     </tr>
                 </table>
-                <div class="time-slots pull-left start-time-container">
-                    Time from:{{ form_widget(form.startTimeslot) }} 
-                </div>
-                <div class="time-slots">
-                    Time to:{{ form_widget(form.endTimeslot) }} 
-                </div>
-                <div class="space-top">
-                     Session length: {{ form_widget(form.appointmentDuration) }} 
-                </div>
-
-            </div>
-
-        </div>
-      </div>    
+          </div>
+      </div>
+      <div class="control-group">
+          <div class="control-label" for="consultant_session_length"><label>Session length</label></div>
+          <div class="controls">
+              {{ form_widget(form.appointmentDuration) }}
+          </div>
+      </div>   
       <div class="btn-toolbar pull-right">
             <div class="btn-group">
                 <button type="submit" name="submit" class="btn btn-warning">Update <i class="icon-white icon-circle-arrow-right"></i></button>

@@ -30,12 +30,14 @@ class ConsultantRepository extends EntityRepository
             'company' => null,
         );
 
-        if (!isset($options['searchText']))
+        if (!isset($options['searchText'])){
             $options['searchText'] = '';
-
-        if (!isset($options['company']))
+        }    
+            
+        if (!isset($options['company'])){
             $options['company'] = null;
-
+        }    
+            
         foreach ($options as $key => $values) {
             if (!$values) {
                 $options[$key] = $defaultOptions[$key];
@@ -78,8 +80,9 @@ class ConsultantRepository extends EntityRepository
         );
 
         foreach ($options as $key => $values) {
-            if (!$values)
+            if (!$values){
                 $options[$key] = $defaultOptions[$key];
+            }    
         }
 
         $qb = $this->createQueryBuilder('c')->select('c');

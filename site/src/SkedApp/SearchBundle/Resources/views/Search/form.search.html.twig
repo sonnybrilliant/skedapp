@@ -2,8 +2,8 @@
 var blnAddress = true;
 </script>
 <div class="clearfix"></div>
-<div class="booking-background" id='tab1'>
-    <form  class="formSearch formBackground" action="{{ path('sked_app_search_query') }}" method="POST" {{ form_enctype(form) }}>
+<div class="booking-background rounded-cross" id='tab1'>
+    <form  class="formSearch formBackground" action="{{ path('sked_app_search_query') }}.html#search_results" method="POST" {{ form_enctype(form) }}>
       <fieldset>
         <div class="{% if form_errors(form.category) %} error {% endif %}">
             <div class="pull-left" for="company">{{ form_label(form.category) }}</div>
@@ -42,7 +42,7 @@ var blnAddress = true;
 
         </div>
         <div class="submitButton">
-            <button type="submit" name="submit" class="btn btn-warning pull-right" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-white icon-black icon-circle-arrow-right"></i></button>
+            <button type="submit" name="submit" class="btn pull-right" data-toggle="button" data-loading-text="Searching...">Search &nbsp;&nbsp;<i class="icon-black icon-circle-arrow-right"></i></button>
         </div>
         {{ form_rest(form) }}
     </fieldset>

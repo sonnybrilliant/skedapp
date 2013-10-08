@@ -35,7 +35,7 @@ class ServiceRepository extends EntityRepository
         }
 
         $qb = $this->createQueryBuilder('s')->select('s');
-
+        $qb->where('s.isDeleted =  :status')->setParameter('status', false);
                 // search
         if ($options['searchText']) {
             if ($options['searchText'] != "search..") {

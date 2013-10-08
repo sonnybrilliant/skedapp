@@ -1,5 +1,5 @@
 {% extends "SkedAppBookingBundle::layout.html.twig" %}
-{% block title %}Edit booking{% endblock %}
+{% block title %}SkedApp | Edit booking{% endblock %}
 
 {% block stylesheets %}
 <link href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" />
@@ -22,11 +22,7 @@
     <div class="span12">
         <h3>Edit booking</h3>
 
-        <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id}) }}" class="btn btn-warning pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
-
-        <div style="margin-left: 0px;" class="span5">{% set vars = {'action': 'Edit booking'} %}
-           {% include 'SkedAppBookingBundle::breadcrumb.html.twig' with vars  %}
-        </div>
+        <span><a href="{{ path('sked_app_booking_delete',{'bookingId':id , 'page': page }) }}.html" class="btn btn-warning pull-right"><i class="icon-white icon-trash"></i> Delete</a></span>
         <div class="clearfix"></div>
         <div class="spacer2"></div>
         <div style="margin-left: 0px;" class="span5">
@@ -64,11 +60,19 @@ $(document).ready(function() {
     if ($('#Booking_customerOrNot_1').attr('checked')) {
         $('#divCustomerPotentialSelect').show();
         $('#divCustomerSelect').hide();
+        $('#CustomerPotential_firstName').attr("required", "true");
+        $('#CustomerPotential_lastName').attr("required", "true");
+        $('#CustomerPotential_email').attr("required", "true");
+        $('#CustomerPotential_mobileNumber').attr("required", "true");
     }
 
     if ($('#Booking_customerOrNot_0').attr('checked')) {
         $('#divCustomerPotentialSelect').hide();
         $('#divCustomerSelect').show();
+        $('#CustomerPotential_firstName').removeAttr("required");
+        $('#CustomerPotential_lastName').removeAttr("required");
+        $('#CustomerPotential_email').removeAttr("required");
+        $('#CustomerPotential_mobileNumber').removeAttr("required");        
     }
 
 });

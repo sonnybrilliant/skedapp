@@ -1,0 +1,47 @@
+    <section>
+        <table id="sortable" class="table table-striped table-condensed tablesorter">
+            <thead>
+              <tr>
+                <th colspan="5">Bookings</th>
+              </tr>
+              <tr>
+                <th class="table-heading-blue">#</th>
+                <th class="table-heading-blue">Customer</th>
+                <th class="table-heading-blue">Start date</th>
+                <th class="table-heading-blue">End date</th>
+                <th class="table-heading-blue">Consultant</th>
+                <th class="table-heading-blue">Service</th>
+                <th class="table-heading-blue">Confirmed</th>
+                <th class="table-heading-blue">Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for booking in bookings %}
+              <tr>
+                <td>{{booking.id}}</td>
+                {% if booking.isLeave == "true"%} 
+                   {% if booking.description != "" %}
+                     <td>{{booking.description}}</td> 
+                   {% else %}
+                     <td>NOT AVAILABLE</td> 
+                   {% endif %}                
+                {% else %}  
+                <td>{{booking.customerString}} - {{booking.customerNumberString}}</td>
+                {% endif %}
+                <td>{{booking.hiddenAppointmentStartTime|date("Y-m-d H:i")}}</td>
+                <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d H:i")}}</td>
+                <td>{{booking.consultantString}}</td>
+                 {% if booking.service.name is defined %} 
+                <td>{{booking.service.name}}</td>
+                 {% else %}
+                <td>N/A</td> 
+                {% endif %}
+                <td>{{booking.isConfirmedString}}</td>
+                <td>{{booking.hiddenAppointmentEndTime|date("Y-m-d")}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+         </table>
+    </section>
+
+

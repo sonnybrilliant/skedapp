@@ -3,6 +3,7 @@ jms_security_extra:
     expressions: true
 
 security:
+    access_denied_url:    /accessdenied  
     encoders:
         SkedApp\CoreBundle\Entity\Member:
             algorithm: sha512

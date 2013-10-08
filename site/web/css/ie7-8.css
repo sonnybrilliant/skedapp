@@ -1,0 +1,9 @@
+@charset "utf-8";
+/* CSS Document */
+
+.container {
+    width: 1170px;
+}
+.navbar .container {
+    width: 1170px;
+}

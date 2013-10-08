@@ -18,3 +18,6 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     site_path:        'http://skedapp.net/'
+
+    mono_email_address: "john.smith@example.com"
+    mono_email_subject: "Test: Error on skedapp"

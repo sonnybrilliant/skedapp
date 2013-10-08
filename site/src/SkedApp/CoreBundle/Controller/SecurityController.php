@@ -67,5 +67,17 @@ class SecurityController extends Controller
     {
         return $this->render('SkedAppCoreBundle:Security:permission.html.twig');
     }
-
+    
+    public function testAction()
+    {
+        $consultant = $this->get('consultant.manager')->getById(1);
+        //$this->get('timeslots.manager')->generateTimeSlots($consultant);
+        //throw new \Exception('hello');
+        //exit('hello');
+    }
+    
+    public function test500Action()
+    {
+        throw new \Exception('oops');
+    }
 }

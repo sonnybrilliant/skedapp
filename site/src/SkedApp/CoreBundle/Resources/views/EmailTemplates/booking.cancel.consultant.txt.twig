@@ -1,13 +1,10 @@
 SkedApp
 ------------
-Hi {{ fullName }},
+Hi {{ user.firstName }}! This email confirms your customer booking cancellation.
 
-This email confirms your customer booking cancellation.
+Booking details:
 
-Booking details are as follows:
-
-Service to be rendered: {{ service }}
-Date: {{ date }}
+{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}} with <strong>{{ fullName }}
 
 Thank you,
 The SkedApp Team

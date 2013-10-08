@@ -1,16 +1,14 @@
 {% extends "SkedAppCoreBundle::base.mail.html.twig" %}
 {% block body %}
-    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }} {{ user.lastName }},</p>
-    <p style="margin-bottom: 6pt;">Your consultant, {{ consultant.firstName }} {{ consultant.lastName }} has a new booking on SkedApp.</p>
-    <p style="margin-bottom: 6pt;">Confirmation of this booking is required.</p>
-    <p style="margin-bottom: 6pt;"></p>
-    <p style="margin-bottom: 6pt;">Booking details are as follows:</p>
-    <p style="margin-bottom: 6pt;">
-        <strong>Booking date</strong>: {{ date }} <br/>
-        <strong>Consultant</strong>: {{ consultant.fullName }} <br/>
-        <strong>Service</strong>: {{ service.name }} <br />
-        <strong>Customer name</strong>: {{ customer.fullName }} <br />
-        <strong>Customer contact</strong>: Tel {{ customer.mobileNumber }} Email {{ customer.email }}
-    </p>
-    <p style="margin-bottom: 6pt;">To confirm the booking, please follow the link <br /><a style="color: #006699;" href="{{ link }}">{{ link }}</a></p>
+    <table width="100%">
+        <tr>
+            <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#FFF;padding-left:15px;padding-right:15px;padding-top:10px;padding-bottom:10px;text-align:center; background-color:#176ACE;border:1px solid #777;">
+                <font size="+2">Pending Appointment</font>
+            </td>
+        </tr>
+    </table><br /><br />        
+    <p style="margin-bottom: 6pt;">Hi {{ user.firstName }}! Your consultant, {{ consultant.firstName }} {{ consultant.lastName }} has a new booking.</p>
+    <p style="margin-bottom: 6pt;"><u>Booking Details:</u></p>
+    <p style="margin-bottom: 6pt;"><strong>{{bookingDate|date('Y-m-d')}} @ {{bookingDate|date('H:i')}}</strong> with <strong>{{ fullName }}</strong></p>
+    <p style="margin-bottom: 6pt;">To confirm the booking, please follow the link: <br /><a style="color: #006699;" href="{{ link }}">{{ link }}</a></p>
 {% endblock body %}

@@ -1,39 +1,108 @@
+sked_app_booking_manage_calender_view:
+    pattern:  /booking/manage/calender/view.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderView , _format: html}
+    requirements:
+        _method:  GET
+        _format:  html      
+
+sked_app_booking_manage_calender_show:
+    pattern:  /booking/manage/calender/show.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageCalenderShow , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html      
+
+sked_app_booking_manage_view:
+    pattern:  /booking/manage/view.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBookView , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html        
+
+sked_app_booking_manage_show:
+    pattern:  /booking/manage/show.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBookShow , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html        
+    
 sked_app_booking_manager:
-    pattern:  /booking/manage
-    defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking }
-
+    pattern:  /booking/manage.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:manageBooking , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html 
+        
 sked_app_booking_new:
-    pattern:  /booking/new
-    defaults: { _controller: SkedAppBookingBundle:Booking:new }
-
+    pattern:  /booking/new/{type}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:new ,  _format: html}
+    requirements:
+        _method:  GET
+        _format:  html 
+        
 sked_app_booking_create:
-    pattern:  /booking/create
-    defaults: { _controller: SkedAppBookingBundle:Booking:create }
+    pattern:  /booking/create/{type}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:create , _format: html}
+    requirements:
+        _method:  GET|POST
+        _format:  html    
 
 sked_app_booking_edit:
-    pattern:  /booking/edit/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:edit }
+    pattern:  /booking/edit/{page}/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:edit ,page: "calender" , _format: html}
     requirements:
         bookingId:  \d+
+        _method:  GET|POST
+        _format:  html    
+        
+sked_app_booking_reject:
+    pattern:  /booking/reject/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:reject , _format: html}
+    requirements:
+        bookingId:  \d+
+        _method:  GET
+        _format:  html   
+        
+sked_app_booking_confirm:
+    pattern:  /booking/confirm/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:confirm , _format: html}
+    requirements:
+        bookingId:  \d+
+        _method:  GET
+        _format:  html    
 
 sked_app_booking_update:
-    pattern:  /booking/update/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:update }
+    pattern:  /booking/update/{page}/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:update , page: "calender" , _format: html}
     requirements:
         bookingId:  \d+
+        _method:  GET|POST
+        _format:  html    
 
 sked_app_booking_delete:
-    pattern:  /booking/delete/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:delete }
+    pattern:  /booking/delete/{page}/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:delete ,page: "calender" , _format: html}
     requirements:
         bookingId:  \d+
+        _method:  GET|POST
+        _format:  html    
 
 sked_app_booking_cancel:
-    pattern:  /booking/cancel/{bookingId}
-    defaults: { _controller: SkedAppBookingBundle:Booking:cancelBooking }
+    pattern:  /booking/cancel/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:cancelBooking ,_format: html  }
     requirements:
         bookingId:  \d+
-
+        _method:  GET
+        _format:  html 
+        
+sked_app_booking_admin_cancel:
+    pattern:  /booking/admin/cancel/{bookingId}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:cancel ,_format: html  }
+    requirements:
+        bookingId:  \d+
+        _method:  GET
+        _format:  html   
+        
 sked_app_booking_ajax_get_by_consultant:
     pattern:  /booking/ajaxGetByConsultant/{consultantId}
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetByConsultant }
@@ -43,10 +112,19 @@ sked_app_booking_ajax_get_by_consultant:
         expose: true
 
 sked_app_booking_ajax_get_bookings:
-    pattern:  /booking/ajaxGetBookings
+    pattern:  /booking/manage/calender/ajaxGetBookings/{str}
     defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookings }
     options:
         expose: true
+        
+sked_app_booking_ajax_get_bookings_calender:
+    pattern:  /booking/manage/calender/ajaxGetBookingsCalender/{str}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:ajaxGetBookingsCalender ,_format: html }
+    options:
+        expose: true
+    requirements:
+        _method:  GET
+        _format:  html   
 
 sked_app_booking_ajax_bookings_list:
     pattern:  /booking/ajaxGetBookingsList
@@ -62,6 +140,25 @@ sked_app_booking_made:
     pattern:  /booking/made
     defaults: { _controller: SkedAppBookingBundle:Booking:made }
 
-sked_app_booking_messages:
-    pattern:  /booking/messages
-    defaults: { _controller: SkedAppBookingBundle:Booking:messages }
+sked_app_booking_send_messages:
+    pattern:  /booking/send/messages/{str}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:sendMessage ,_format: html }
+    requirements:
+        _method:  GET
+        _format:  html   
+    options:
+        expose: true
+
+sked_app_booking_send_customer_messages:
+    pattern:  /booking/send/messages/customers/{str}.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:sendBookingMessage ,_format: html }
+    requirements:
+        _method:  GET|POST
+        _format:  html      
+        
+sked_app_booking_print:
+    pattern:  /booking/print.{_format}
+    defaults: { _controller: SkedAppBookingBundle:Booking:print ,_format: html }
+    requirements:
+        _method:  GET
+        _format:  html       

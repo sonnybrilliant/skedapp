@@ -1,6 +1,6 @@
-{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% extends "SkedAppConsultantBundle::layout.customer.html.twig" %}
 
-{% block title %}Consultant Profile{% endblock %}
+{% block title %}SkedApp | Consultant Profile{% endblock %}
 
 {% block menu %}
       {% set vars = {'controller': 'no_menu'} %}
@@ -18,19 +18,31 @@
         <h3>Consultant Profile</h3>
             <div class="white-bg">
                 {% if file_exists(web_path~asset('uploads/consultants/'~consultant.id~'.'~consultant.path)) %}
-                        <div class="image-dimensions120 pull-left space-right20">
-                            <img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" width="140" height="140" class="img-polaroid"/>
+                    <div class="image-shadow pull-left space-right20">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <a href="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" class="lightbox1"><img src="{{ asset('uploads/consultants/'~consultant.id~'.'~consultant.path) }}" /></a>
+                            </div>
                         </div>
+                    </div>
                 {% else %}
-                        {% if consultant.gender.name == "Male" %}
-                        <div class="image-dimensions120 pull-left space-right20">
-                            <img src="{{ asset('/img/male.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                {% if consultant.gender.name == "Male" %}
+                    <div class="image-shadow pull-left space-right20">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <a href="{{ asset('/img/male.jpg') }}" class="lightbox1"><img src="{{ asset('/img/male.jpg') }}" /></a>
+                            </div>
                         </div>
-                        {% else %}
-                        <div class="image-dimensions120 pull-left space-right20">
-                            <img src="{{ asset('/img/female.jpg') }}" width="140" height="140" class="img-polaroid"/>
+                    </div>
+                {% else %}
+                    <div class="image-shadow pull-left space-right20">
+                        <div class="img-polaroid polaroid-width120">
+                            <div class="image-dimensions120">
+                                <a href="{{ asset('/img/female.jpg') }}" class="lightbox1"><img src="{{ asset('/img/female.jpg') }}" /></a>
+                            </div>
                         </div>
-                        {% endif %}
+                    </div>
+                    {% endif %}
 
                 {% endif %}
                     <table class="gray-text">
@@ -44,7 +56,7 @@
                         </tr>
                         <tr>
                             <td><strong>Employer: </strong></td>
-                            <td>{{ consultant.company.name }}</td>
+                            <td><a href="{{ path('sked_app_service_provider_show',{'id':consultant.company.id})}}.html" title="View service provider profile">{{ consultant.company.name }}</a></td>
                         </tr>
                         <tr>
                             <td><strong>Services: </strong></td>
@@ -75,23 +87,20 @@
                 <table class="table table-bordered">
                     <tbody>
                         <tr>
-                          {% set arrSlots = consultant.getAvailableBookingSlots() %}
-                            {% for time_slot in arrSlots.time_slots %}
-                            <td class="dark-gray-text">
-                                {% if options|length > 0 %}
-                                <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': time_slot.date_form, 'timeSlotStart': time_slot.start_time, 'serviceIds': options.service.id}) }}">
-                                <strong>
-                                    {{ time_slot.start_time }}
-                                </strong>
-                                </a>
-                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em>
-                                {% else %}
-                                <strong>
-                                    {{ time_slot.start_time }}
-                                </strong>
-                                <br /><em><small>{{ time_slot.date }} {{ time_slot.year }}</small></em>
-                                {% endif %}
-                           </td>
+                            {% set slotCouter = 0%}    
+                            {% for slot in slots %}
+                            {% set slotCouter = loop.index %} 
+                              {% if loop.index < 6%}  
+                                
+                              <td class="dark-gray-text">
+                                  <a href="{{path('sked_app_booking_make', {'companyId': consultant.company.id, 'consultantId': consultant.id, 'date': attribute(slot,'startTime')|date('Y-m-d'), 'timeSlotStart': attribute(slot,'startTime')|date('H:i'), 'serviceIds': options.service.id}) }}"><strong>{{ attribute(slot,'startTime')|date('H:i') }}</strong></a>    
+                                  <br>
+                                  <em>
+                                      <small>{{ attribute(slot,'startTime')|date('d M Y') }}</small>
+                                  </em>
+                              </td>  
+                              {% endif %}  
+                              
                             {% endfor %}
                         </tr>
                     </tbody>
@@ -104,7 +113,9 @@
             <h4>Service Provider Pictures</h4>
             <div class="bs-docs-example bs-docs-example-images">
               {% for photo in consultant.company.companyPhotos %}
-                         <img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom">
+                    {% if photo.isDeleted != "true" %}
+                         <a href="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" class="lightbox"><img src="{{ asset('/uploads/company_photos/'~photo.id~'.'~photo.path) }}" style="width:80px; height:80px" class="img-polaroid space-right7 space-right-bottom"></a>
+                    {% endif %}
               {% endfor %}
               <div class="clearfix"></div>
               <div class="spacer1"></div>
@@ -120,12 +131,11 @@
             <div class="spacer2"></div>
             <div class="spacer2"></div>
             {% if options|length > 0 %}
-                <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn btn-warning pull-right">Back to Search <i class="icon-white icon-circle-arrow-right"></i></a>
+                <a href="{{ path('sked_app_search_query',{ 'date' : options.date , 'serviceId' : options.service.id ,'lat': options.lat ,'lng': options.lng, 'categoryId': options.categoryId})}}"  class="btn pull-right">Back to Search <i class="icon-black icon-circle-arrow-right"></i></a>
             {% endif %}
             <div class="clearfix"></div>
 
          {% endif %}
-        <div class="spacer2"></div>
         </div>
     </div>
     <div class="span7">

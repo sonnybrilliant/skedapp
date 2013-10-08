@@ -1,0 +1,32 @@
+<div>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-striped table-bordered table-condensed">
+    <thead>
+          <tr>
+              <th scope="col" width="30%" class="table-heading-blue">
+                  Day of week
+              </th>             
+              <th scope="col" width="50%" class="table-heading-blue">
+                  Slots
+              </th>             
+              <th scope="col" width="10%" class="table-heading-blue">
+                  &nbsp;
+              </th>             
+            </tr>
+        </thead>
+        <tbody>
+        {% for timeSlots in consultantTimeSlot%} 
+        <tr>
+            <td>{{timeSlots.daysOfTheWeek.name}}</td>
+            <td>
+                <ul>
+                    {% for slot in timeSlots.slots %}
+                        <li>{{slot.startTimeslot.slot}} - {{slot.endTimeslot.slot}}</li>
+                    {% endfor%}    
+                </ul>
+           </td>
+           <td><a href="{{path('sked_app_consultant_edit_timeslots',{'slug':consultant.slug,'slot':timeSlots.id})}}" rel="tooltip" title="click to edit" class="btn btn-info btn-small"><i class="icon-white icon-edit"></i>&nbsp;Edit</a>&nbsp;</td>
+        </tr>                
+        {% endfor%}  
+        </tbody>
+    </table>
+</div>

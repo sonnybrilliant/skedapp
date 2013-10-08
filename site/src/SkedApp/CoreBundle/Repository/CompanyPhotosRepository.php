@@ -19,25 +19,27 @@ class CompanyPhotosRepository extends EntityRepository
      * @author Otto Saayman <otto.saayman@kaizania.co.za>
      * @return Resultset
      */
-    public function  getAllActiveCompanyPhotosQuery ($options)
+    public function getAllActiveCompanyPhotosQuery($options)
     {
 
         $defaultOptions = array(
+            'searchText' => '',
             'sort' => 'c.id',
             'direction' => 'asc'
         );
 
         foreach ($options as $key => $values) {
-            if (!$values)
+            if (!$values){
                 $options[$key] = $defaultOptions[$key];
+            }    
         }
 
-        $objQueuryBuilder = $this->createQueryBuilder('c')->select('c');
-        $objQueuryBuilder->where('c.isDeleted =  :status')
-                ->andWhere('c.company =  :company_id')
-                ->setParameters(array ('status' => false, 'company_id' => $options['company_id']));
-        $objQueuryBuilder->orderBy($options['sort'], $options['direction']);
-        return $objQueuryBuilder->getQuery()->execute();
+        $qb = $this->createQueryBuilder('c')->select('c');
+        $qb->where('c.isDeleted =  :status')
+            ->andWhere('c.company =  :companyId')
+            ->setParameters(array('status' => false, 'companyId' => $options['companyId']));
+        $qb->orderBy($options['sort'], $options['direction']);
+        return $qb->getQuery()->execute();
     }
 
 }

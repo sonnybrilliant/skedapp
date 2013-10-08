@@ -1,0 +1,29 @@
+{% extends "SkedAppConsultantBundle::layout.html.twig" %}
+{% block title %}Edit consultant{% endblock %}
+
+{% block alert %}
+    {% include "::alert.html.twig" %}
+{% endblock %}  
+
+{% block body %}
+<div class="row-fluid body-secondary">
+    <div class="span12">
+        <div class="dash-forms-background">
+        <h3>Edit consultant timeslots</h3>
+
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+               <li><a href="{{ path('sked_app_consultant_edit',{'slug':consultant.slug})}}.html">Personal details</a></li>
+                <li class="active"><a href="{{ path('sked_app_consultant_manage_timeslots',{'slug':consultant.slug}) }}.html" >Manage timeslots</a></li>
+             </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    &nbsp;
+                </div>
+            </div>
+        </div> 
+        {% include "SkedAppConsultantBundle:Consultant:list.manage.timeslots.html.twig" %}
+        </div>
+    </div>
+</div>  
+{% endblock body %}

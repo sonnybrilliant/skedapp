@@ -1,79 +1,124 @@
 
 {% extends "SkedAppCustomerBundle::layout.customer.html.twig" %}
-{% block title %}My bookings{% endblock %}
+{% block title %}SkedApp | My Booking Details{% endblock %}
 
 {% block alert %}
     {% include "::alert.html.twig" %}
 {% endblock %}
 
 {% block body %}
-<div class="row-fluid body-secondary rounded-bottom">
-    <div class="span12">
-        <div class="row-fluid">
-            <div class="span5">
-                <div class="confirm-background">
-                    <h3>Booking details</h3>
-                    <ul class="unstyled space-left pull-left bookingDetails">
-                        <li>
-                            <div class="divPrompt">Service Provider:</div>
-                            <div class="divValue">
-                                {% if file_exists(web_path~asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path)) %}
-                                 <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/companies/'~booking.consultant.company.id~'.'~booking.consultant.company.path) }}" width="180" class="space-right"/>
-                                 </div>
-                                  {% endif %}
-                                <span class="gray-text"><strong>{{ booking.consultant.company.name }}</strong></span>
+<div class="row-fluid body-main rounded-all">
+    <div class="span5">
+        <div class="consultant-background rounded-left">
+            <h3>My Booking Details</h3>
+            <div class="white-bg">
+                <div class="row-fluid">
+                    <div class="span4">
+                        {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
+                        <div class="image-shadow">
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="120" class="space-right"/>
+                                </div>
                             </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Consultant:</div>
-                            <div class="divValue">
-                                {% if file_exists(web_path~asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path)) %}
-                                 <div class="image-dimensions180 img-polaroid">
-                                     <img src="{{ asset('uploads/consultants/'~booking.consultant.id~'.'~booking.consultant.path) }}" width="180" class="height100 space-right"/>
-                                 </div>
-                                 {% else %}
-                                      {% if booking.consultant.gender.name == "Male" %}
-                                     <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/male.jpg') }}" width="180" class="height100 space-right"/>
-                                     </div>
-                                      {% else %}
-                                     <div class="image-dimensions180 img-polaroid">
-                                         <img src="{{ asset('/img/female.jpg') }}" width="180" class="height100 space-right"/>
-                                     </div>
-                                      {% endif %}
-                                  {% endif %}
-                                <span class="gray-text"><strong>{{ booking.consultant.getFullName() }}</strong></span>
+                        </div>
+                        {% else %}
+                        {% if booking.consultant.gender.name == "Male" %}
+                        <div class="image-shadow">
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('/img/male.jpg') }}" width="120" class="space-right"/>
+                                </div>
                             </div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li>
-                            <div class="divPrompt">Location:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.consultant.company.address }}</strong></span></div>
-                            <div class="clearfix"></div>
-                            <div class="divPrompt">Contact Number:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.consultant.company.contactNumber }}</strong></span></div>
-                            <div class="clearfix"></div>
-                        </li>
-                        <li><div class="divPrompt">Service:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.service.name }}</strong></span></div></li>
-                        <li><div class="divPrompt">Appointment Date:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.appointmentDateString }}</strong></span></div></li>
-                        <div class="clearfix"></div>
-                        <li><div class="divPrompt">Appointment Time:</div> <div class="divValue"><span class="gray-text"><strong>{{ booking.startTimeSlot.slot }} - {{ booking.endTimeSlot.slot }}</strong></span></div></li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="span7">
-                <div class="map-box">
-                    <div><span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.</div>
-                    <div class="spacer1"></div>
-                     <div class="map-container">
-                        {{ google_map_container(map) }}
+                        </div>
+                        {% else %}
+                        <div class="image-shadow">
+                            <div class="img-polaroid polaroid-width120">
+                                <div class="image-dimensions120">
+                                    <img src="{{ asset('/img/female.jpg') }}" width="120" class="space-right"/>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endif %}
+                        <strong>{{ booking.consultant.getFullName() }}</strong>
+                    </div>
+                    <div class="span8">
+                        <table class="gray-text">
+                            <tr>
+                                <td width="35%" valign="top">Consultant:</td>
+                                <td width="65%" valign="bottom"><strong>{{ booking.consultant.getFullName() }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    Service:
+                                </td>
+                                <td valign="bottom">
+                                    <strong>{{ booking.service.name }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    Appointment Date:
+                                </td>
+                                <td valign="bottom">
+                                    <strong>{{ booking.appointmentDateString }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    Appointment Time:
+                                </td>
+                                <td valign="bottom">
+                                    <strong>{{ booking.startTimeSlot.slot }} - {{ booking.endTimeSlot.slot }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><hr /></td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    Service Provider:
+                                </td>
+                                <td valign="bottom">
+                                    <strong><a href="{{ path('sked_app_service_provider_show',{'id':booking.consultant.company.id})}}.html" title="View service provider profile">{{ booking.consultant.company.name }}</a></strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    Location:
+                                </td>
+                                <td valign="bottom">
+                                    <strong>{{ booking.consultant.company.address }}</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    <div class="divPrompt">Contact Number:</div>
+                                </td>
+                                <td valign="bottom">
+                                    <strong>{{ booking.consultant.company.contactNumber }}</strong>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
-            <div class="clearfix"></div>
+            <div class="spacer5"></div>
+            <div class="spacer5"></div>
+            <div class="spacer3"></div>
         </div>
-    </div> <!-- Dashboard Content -->
+    </div>
+    <div class="span7">
+        <h3>Location Details</h3>
+        <div class="map-box pad-right20">
+            <div class="map-container map-margin-fix">
+                {{ google_map_container(map) }}
+            </div>
+            <span class="asterisk">*</span><strong>HINT :</strong> For more information on the location of the appointment, please see the map.
+        </div>
+    </div>
+    <div class="clearfix"></div>
 </div>
 {{ google_map_js(map) }}
 {% endblock body %}

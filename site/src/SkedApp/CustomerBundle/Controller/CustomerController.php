@@ -53,8 +53,8 @@ class CustomerController extends Controller
 
         return $this->render('SkedAppCustomerBundle:Customer:list.html.twig', array(
                 'pagination' => $pagination,
-                'sort_img' => '/img/sort_' . $direction . '.png',
-                'sort' => $direction,
+                'direction' => $direction,
+                'isDirectionSet' => $isDirectionSet
             ));
     }
 
@@ -276,6 +276,46 @@ class CustomerController extends Controller
         $this->getRequest()->getSession()->setFlash(
             'success', 'Deleted customer successfully');
         return $this->redirect($this->generateUrl('sked_app_customer_list'));
+    }
+
+    /**
+     * Delete customer
+     *
+     * @return View
+     * 
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function csvAction()
+    {
+        $this->get('logger')->info('Download  csv document of customers');
+
+        $options = array('searchText' => '',
+            'sort' => 'c.id',
+            'direction' => 'asc',
+        );
+
+        $customers = $this->container->get('customer.manager')->listAll($options);
+        
+        $exporter = $this->get('ee.dataexporter');
+        $exporter->setOptions('csv', array('fileName' => 'customer_list_'.date('Y_m_d').'.csv', 'separator' => ';'));
+        $exporter->setColumns(array('[FirstName]', '[LastName]', '[EmailAddress]' , '[MobileNumber]','[Bookings]', '[CreatedAt]'));
+        
+        $data = array();
+        foreach ($customers as $customer){
+            $data[] = array(
+               'FirstName' => $customer->getFirstName(),
+               'LastName' => $customer->getLastName(),
+               'EmailAddress' => $customer->getEmail(),
+               'MobileNumber' => $customer->getMobileNumber(),
+               'Bookings' => $customer->getBookings()->count(),
+               'CreatedAt' => $customer->getCreatedAt()->format('Y-m-d'), 
+            ); 
+        }
+        
+        
+        $exporter->setData($data);
+
+        return $exporter->render();
     }
 
 }
