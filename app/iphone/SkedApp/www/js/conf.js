@@ -9,8 +9,8 @@ var Conf =
     site:
     {
         //_url: "http://skedapp.kaizania.co.za/app_dev.php/api/get/"
-        _baseUrl: "http://www.skedapp.co.za/app_dev.php",
-        _url:"http://www.skedapp.co.za"
+        _baseUrl: "http://skedapp.kaizania.co.za/app_dev.php",
+        _url:"http://skedapp.kaizania.co.za"
       
     },
     methods:
@@ -119,9 +119,9 @@ var Conf =
     {
         console.log('system init');
         //phone testing
-        //Conf.bindEvents();
+        Conf.bindEvents();
         //site testing
-        Conf.receivedEvent();
+        //Conf.receivedEvent();
     }
 
 
