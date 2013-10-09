@@ -214,6 +214,10 @@ class ApiController extends Controller
             //$this->validateSession($session);
 
             $customer = $this->get("customer.manager")->getByEmail($email);
+            if(!$customer){
+               $customer = $this->get("member.manager")->getByEmail($email); 
+            }
+            
 
             if ($customer) {
                 $salt = $customer->getSalt();
@@ -224,19 +228,13 @@ class ApiController extends Controller
                     //invalid password
                     $code = 3;
                 } else {
-                    if (!$customer->getIsActive()) {
-                        //account not active
-                        $code = 4;
-                    } elseif (!$customer->IsEnabled()) {
-                        //account not enabled 
-                        $code = 5;
-                    } else {
+                    if(get_class($customer) == 'SkedApp\CoreBundle\Entity\Member'){
                         $member['firstName'] = $customer->getFirstName();
                         $member['lastName'] = $customer->getLastName();
                         $member['email'] = $customer->getEmail();
                         $member['mobile'] = $customer->getMobileNumber();
                         $member['id'] = $customer->getId();
-                        $member['type'] = 'customer';
+                        $member['type'] = 'admin';
 
                         $session = $this->get('mobile.session.manager')->getBySession($session);
 
@@ -244,7 +242,31 @@ class ApiController extends Controller
                             $session->setCustomer($customer);
                             $session = $this->get('mobile.session.manager')->updateSession($session);
                         }
+                    }else{
+                        if (!$customer->getIsActive()) {
+                            //account not active
+                            $code = 4;
+                        } elseif (!$customer->IsEnabled()) {
+                            //account not enabled 
+                            $code = 5;
+                        } else {
+                            $member['firstName'] = $customer->getFirstName();
+                            $member['lastName'] = $customer->getLastName();
+                            $member['email'] = $customer->getEmail();
+                            $member['mobile'] = $customer->getMobileNumber();
+                            $member['id'] = $customer->getId();
+                            $member['type'] = 'customer';
+
+                            $session = $this->get('mobile.session.manager')->getBySession($session);
+
+                            if ($session) {
+                                $session->setCustomer($customer);
+                                $session = $this->get('mobile.session.manager')->updateSession($session);
+                            }
+                        }
                     }
+                    
+
                 }
             } else {
                 //email account not found
@@ -389,37 +411,122 @@ class ApiController extends Controller
                 'direction' => $direction
             );
 
+            $service = $this->get('service.manager')->getById($service);
+            $category = $this->get('category.manager')->getById($category);
+
             $options['lat'] = $lat;
             $options['lng'] = $lng;
             $options['radius'] = 20;
             $options['category'] = $category;
-            $options['service'] = $this->get('service.manager')->getById($service);
-
-            $consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
-
-            foreach ($consultants['results'] as $consultant) {
-                $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, new \DateTime($date));
-                $strdate = new \DateTime($date);
-
+            $options['radius'] = 20;
+            $options['categoryId'] = $category->getId();
+            $options['service'] = $service;
+            $options['serviceId'] = $service->getId();
+            //$strdate = new \DateTime($date);
+            $options['date'] = $date ;
 
 
-                $tmp = array(
-                    'id' => $consultant->getId(),
-                    'slug' => $consultant->getSlug(),
-                    'fullName' => $consultant->getFullName(),
-                    'gender' => $consultant->getGender()->getName(),
-                    'address' => $consultant->getCompany()->getAddress(),
-                    'servicesProvider' => $consultant->getCompany()->getName(),
-                    'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
-                    'distance' => round($consultant->getDistanceFromPosition($lat, $lng)),
-                    'date' => $strdate->format('l') . ', ' . $strdate->format('j') . ' ' . $strdate->format('M'),
-                    'slots' => $slots
-                );
+            $searchResults = $this->container
+            ->get('consultant.manager')
+            ->listAllWithinRadius($options);
 
-                if ($slots['time_slots']) {
-                    $consultantsList[] = $tmp;
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $searchResults['results'], $this->getRequest()->query->get('page', $page), 5
+            );
+
+
+                    $searchDate = new \DateTime($options['date']);
+        $searchDate->add(new \DateInterval('P1D'));
+
+        $data = array();
+        $weekDays = $this->get('timeslots.manager')->buildWeekDays($searchDate);
+        foreach ($pagination as $consultant) {
+            //$consultants[] = $consultant;
+
+            $slots = $this->get('timeslots.manager')->generateTimeSlots($consultant, $searchDate,7);
+            
+            if(is_array($slots )){
+                foreach($slots as $slot){
+                   $strSearchDate = $searchDate->format('d-m-Y');
+                   $strSlotDate = $slot['dateObject']->format('d-m-Y');
+                   if($strSearchDate == $strSlotDate){
+                       if(!is_null($slot['timeSlots'])){
+                             $data[] = array(
+                                 'consultant' => $consultant,
+                                 'slots' => $slot['timeSlots']
+                             );                            
+                       }                       
+                   }                   
                 }
             }
+
+        }
+
+        $strdate = new \DateTime($date);
+
+        for($x = 0 ; $x < sizeof($data); $x++){
+            $consultant = $data[$x]['consultant'];
+            
+            $image = null;
+            if($consultant->getPath() == ""){
+                if($consultant->getGender()->getName() == "Female"){
+                    $image = "/img/female.jpg";
+                }else{
+                     $image = "/img/male.jpg";
+                }
+            }else{
+                $image = '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath();
+            }
+
+
+            $tmp = array(
+                     'id' => $consultant->getId(),
+                     'slug' => $consultant->getSlug(),
+                     'fullName' => $consultant->getFullName(),
+                     'gender' => $consultant->getGender()->getName(),
+                     'address' => $consultant->getCompany()->getAddress(),
+                     'servicesProvider' => $consultant->getCompany()->getName(),
+                     'image' => $image,
+                     'distance' => round($consultant->getDistanceFromPosition($lat, $lng)),
+                     'date' => $strdate->format('l') . ', ' . $strdate->format('j') . ' ' . $strdate->format('M'),
+                     'slots' => $data[$x]['slots']
+             );
+
+            $consultantsList[] = $tmp;
+
+
+        }
+
+
+        //ladybug_dump($data);
+
+
+            //$consultants = $this->container->get('consultant.manager')->listAllWithinRadius($options);
+
+            // foreach ($consultants['results'] as $consultant) {
+            //     $slots = $this->get('booking.manager')->getBookingSlotsForConsultantSearch($consultant, new \DateTime($date));
+            //     $strdate = new \DateTime($date);
+
+
+
+            //     $tmp = array(
+            //         'id' => $consultant->getId(),
+            //         'slug' => $consultant->getSlug(),
+            //         'fullName' => $consultant->getFullName(),
+            //         'gender' => $consultant->getGender()->getName(),
+            //         'address' => $consultant->getCompany()->getAddress(),
+            //         'servicesProvider' => $consultant->getCompany()->getName(),
+            //         'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
+            //         'distance' => round($consultant->getDistanceFromPosition($lat, $lng)),
+            //         'date' => $strdate->format('l') . ', ' . $strdate->format('j') . ' ' . $strdate->format('M'),
+            //         'slots' => $slots
+            //     );
+
+            //     if ($slots['time_slots']) {
+            //         $consultantsList[] = $tmp;
+            //     }
+            // }
         } catch (\Exception $e) {
             $isValid = false;
             $error = $e->getMessage();
@@ -470,6 +577,16 @@ class ApiController extends Controller
                 $consultantService[] = $tmp;
             }
 
+            $image = null;
+            if($consultant->getPath() == ""){
+                if($consultant->getGender()->getName() == "Female"){
+                    $image = "/img/female.jpg";
+                }else{
+                     $image = "/img/male.jpg";
+                }
+            }else{
+                $image = '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath();
+            }
 
             $results = array(
                 'id' => $consultant->getId(),
@@ -477,7 +594,7 @@ class ApiController extends Controller
                 'fullName' => $consultant->getFullName(),
                 'gender' => $consultant->getGender()->getName(),
                 'address' => $consultant->getCompany()->getAddress(),
-                'image' => '/uploads/consultants/' . $consultant->getId() . '.' . $consultant->getPath(),
+                'image' => $image,
                 'services' => $consultantService,
                 'servicesProvider' => $consultant->getCompany()->getName(),
                 'contact' => $consultant->getCompany()->getContactNumber(),
@@ -515,43 +632,34 @@ class ApiController extends Controller
         try {
             //$this->validateSession($session);
 
-            $bookingStartDateTime = new \DateTime($date);
-
-            //Instantiate a mock booking entity to check availability
+            //Format the date correctly
+            $bookingStartTime = new \DateTime($date . ' ' . $timeslot);
+            $date = $bookingStartTime->format('d-m-Y');
 
             $consultant = $this->get('consultant.manager')->getBySlug($consultant);
             $service = $this->get('service.manager')->getById($service);
             $customer = $this->get('customer.manager')->getById($user);
-            $startTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
-            $bookingEndDateTime = $bookingStartDateTime->add(new \DateInterval('PT' . $consultant->getAppointmentDuration()->getDuration() . 'M'));
-            $endTimeSlot = $this->get('timeslots.manager')->getByTime($bookingStartDateTime->format('H:i'));
-
+           
             $booking = new Booking();
-
+            
             $booking->setConsultant($consultant);
             $booking->setService($service);
-            $booking->setAppointmentDate($bookingStartDateTime);
-            $booking->setStartTimeslot($startTimeSlot);
-            $booking->setEndTimeslot($endTimeSlot);
-            $booking->setHiddenAppointmentStartTime($bookingStartDateTime->format('Y-m-d H:i'));
-            $booking->setHiddenAppointmentEndTime($bookingEndDateTime->format('Y-m-d H:i'));
-            $booking->setCustomer($customer);
+            $booking->setAppointmentDate($bookingStartTime);
+            
+
+            //calculate endtime by factoring service duration
+            $bookingEndTime = new \DateTime($date . ' ' . $timeslot);
+            $serviceDuration = $service->getAppointmentDuration()->getDuration();
+            $serviceDurationInterval = new \DateInterval("PT" . $serviceDuration . "M");
+            $bookingEndTime = $bookingEndTime->add($serviceDurationInterval);
+            
+            $booking->setStartTimeslot($this->get('timeslots.manager')->getByTime($bookingStartTime->format('H:i')));
+            $booking->setEndTimeslot($this->get('timeslots.manager')->getByTime($bookingEndTime->format('H:i')));
+
+            $booking->setHiddenAppointmentStartTime($bookingStartTime);
+            $booking->setHiddenAppointmentEndTime($bookingEndTime);
             $booking->setIsConfirmed(false);
-            $booking->setIsLeave(false);
-
-
-            if (!$this->get('booking.manager')->isTimeValid($booking)) {
-                $error = "End time must be greater than start time";
-                $isValid = false;
-            }
-
-//            if (!$this->get('booking.manager')->isBookingDateAvailable($booking)) {
-//                $error = "Booking not available, please choose another time.";
-//                $isValid = false;
-//            }
-
-
-
+            $booking->setCustomer($customer);
             $this->get('booking.manager')->save($booking);
 
             $options = array(

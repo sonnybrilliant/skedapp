@@ -155,13 +155,17 @@ var Search =
                    str +="         <tbody>";
                    str +="             <tr>";
                    
-                   for(var y=0; y < consultant.slots.time_slots.length; y++){
+                   console.log('outside');
+                   console.log('length:'+consultant.slots);
+                   $.each(consultant.slots, function(index, slot){
+                     str +="     <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#' class='timeslot'>"+ $.format.date( new Date( slot.startTime.date ), 'H:m' ) +"</a></span></td>";
+                   });
                    
-                   var slots = consultant.slots.time_slots[y];
-                   
-                   console.log('loop inside'+y);
-                     str +="                 <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#' class='timeslot'>"+slots.start_time+"</a></span></td>";
-                   }
+                   // for(var y=0; y < consultant.slots.length; y++){
+                   //          console.log('hello');
+                   //          //str +="     <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#' class='timeslot'>"+ $.format.date( new Date( consultant.slots[y].startTime.date ), 'H:m' ) +"</a></span></td>";
+                   //   //str +="                 <td class='tableDetails'><span class='"+consultant.slug+"'><a href='#' class='timeslot'>"+slots.start_time+"</a></span></td>";
+                   // }
                    
                    str +="             </tr>";
                    str +="         </tbody>";
