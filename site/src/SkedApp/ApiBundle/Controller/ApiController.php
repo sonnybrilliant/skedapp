@@ -239,8 +239,8 @@ class ApiController extends Controller
                         $session = $this->get('mobile.session.manager')->getBySession($session);
 
                         if ($session) {
-                            $session->setCustomer($customer);
-                            $session = $this->get('mobile.session.manager')->updateSession($session);
+                            //$session->setCustomer($customer);
+                            //$session = $this->get('mobile.session.manager')->updateSession($session);
                         }
                     }else{
                         if (!$customer->getIsActive()) {

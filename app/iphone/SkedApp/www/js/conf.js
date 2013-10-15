@@ -9,8 +9,8 @@ var Conf =
     site:
     {
         //_url: "http://skedapp.kaizania.co.za/app_dev.php/api/get/"
-        _baseUrl: "http://www.skedapp.net/app_dev.php",
-        _url:"http://www.skedapp.net"
+        _baseUrl: "http://www.skedapp.co.za",
+        _url:"http://www.skedapp.co.za"
     },
     methods:
     {
