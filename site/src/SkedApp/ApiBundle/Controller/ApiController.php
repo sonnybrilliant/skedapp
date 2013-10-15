@@ -125,7 +125,9 @@ class ApiController extends Controller
 
             if ($categories) {
                 foreach ($categories as $category) {
-                    $results[] = array('id' => $category->getId(), 'name' => $category->getName());
+                    if(!$category->getIsDeleted()){
+                       $results[] = array('id' => $category->getId(), 'name' => $category->getName()); 
+                    }                    
                 }
             }
         } catch (\Exception $e) {
@@ -170,7 +172,9 @@ class ApiController extends Controller
 
             if ($services) {
                 foreach ($services as $service) {
-                    $results[] = array('id' => $service->getId(), 'name' => $service->getName());
+                    if(!$service->getIsDeleted()){
+                        $results[] = array('id' => $service->getId(), 'name' => $service->getName());
+                    }                    
                 }
             }
         } catch (\Exception $e) {
